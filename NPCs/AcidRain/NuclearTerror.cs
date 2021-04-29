@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.AcidRain
                     {
                         JumpTimer = 0f;
                         npc.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - npc.Center.Y) / 12.5f, 8f, 18f);
-                        npc.velocity.X = npc.DirectionTo(Target.Center).X * 18f;
+                        npc.velocity.X = npc.SafeDirectionTo(Target.Center).X * 18f;
                         npc.netUpdate = true;
                     }
                     else
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.AcidRain
                         // Otherwise walk towards the target if they're not super close.
                         else if (Math.Abs(Target.Center.X - npc.Center.X) > 125f)
                         {
-                            npc.velocity.X += Math.Sign(npc.DirectionTo(Target.Center).X) * 3f;
+                            npc.velocity.X += Math.Sign(npc.SafeDirectionTo(Target.Center).X) * 3f;
                             npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -28f, 28f);
                         }
 

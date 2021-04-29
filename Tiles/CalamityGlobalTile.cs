@@ -194,7 +194,7 @@ namespace CalamityMod.Tiles
 						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
 					}
 				}
-				else if (type == TileID.DemonAltar)
+				else if (type == TileID.DemonAltar && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 				{
 					int quantity = 6;
 					Vector2 pos = new Vector2(i, j) * 16;

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skullmasher");
-            Tooltip.SetDefault("Sniper shotgun, because why not?\n" +
-                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets");
+            Tooltip.SetDefault("Makes their brain hurt\n" +
+                "Fires a spread of 4 high velocity bullets that split into additional bullets upon hitting an enemy");
         }
 
         public override void SetDefaults()
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 5; ++index)
-            {
-				if (type == ProjectileID.Bullet)
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
-				else
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 1.3), knockBack, player.whoAmI);
+			for (int index = 0; index < 4; ++index)
+			{
+				float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+				Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI, type, 1f);
 			}
+
             return false;
         }
     }

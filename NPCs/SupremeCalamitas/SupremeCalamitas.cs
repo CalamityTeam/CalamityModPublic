@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
             else
@@ -791,7 +791,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
                 else
@@ -859,7 +859,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
                 else
@@ -938,7 +938,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                    Mod calamityModMusic = CalamityMod.Instance.musicMod;
                     if (calamityModMusic != null)
                         music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
                     else
@@ -2637,8 +2637,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
 
-            // Materials
-            int essenceMin = Main.expertMode ? 30 : 20;
+			// Legendary drop for SCal
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
+
+			// Materials
+			int essenceMin = Main.expertMode ? 30 : 20;
             int essenceMax = Main.expertMode ? 40 : 30;
             DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 

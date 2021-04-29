@@ -110,14 +110,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.ai[0] == 1f)
-			{
-				return false;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => projectile.ai[0] != 1f;
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
     }

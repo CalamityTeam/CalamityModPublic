@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.Perforator
 							Main.npc[lol].localAI[3] = 1f;
 						}
 						Main.npc[lol].realLife = npc.whoAmI;
-						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[3] = npc.whoAmI;
 						Main.npc[lol].ai[1] = Previous;
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);

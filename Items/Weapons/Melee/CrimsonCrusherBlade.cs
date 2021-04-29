@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 38;
+            item.damage = 40;
             item.melee = true;
             item.width = 70;
             item.height = 80;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(BuffID.Ichor, 300);
             if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 target.damage = target.defDamage - 5;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Majestic Guard");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 10 when striking them\n" +
+            Tooltip.SetDefault("Has a 20% chance to lower enemy defense by 10 when striking them\n" +
                 "If enemy defense is 0 or below your attacks will heal you");
         }
 
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 98;
 			item.height = 98;
 			item.scale = 1.5f;
-			item.damage = 60;
+			item.damage = 120;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;

@@ -23,12 +23,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
-            projectile.Calamity().rogue = true;
+			projectile.Calamity().rogue = true;
 			projectile.extraUpdates = 1;
 			projectile.alpha = 150;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -41,15 +41,30 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.frame >= Main.projFrames[projectile.type])
                 projectile.frame = 0;
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
+            Lighting.AddLight(projectile.Center, 0.25f, 0.25f, 0.25f);
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
 			if (projectile.ai[0] != 1f && projectile.timeLeft < 210)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+		// Reduce damage of Nanotech projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (!projectile.Calamity().rogue)
+			{
+				int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+				if (projectileCount > 5)
+				{
+					damage -= (int)(damage * ((projectileCount - 5) * 0.05));
+					if (damage < 1)
+						damage = 1;
+				}
+			}
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int j = 0; j <= 10; j++)
             {
@@ -61,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

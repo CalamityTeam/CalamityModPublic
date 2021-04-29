@@ -295,7 +295,7 @@ namespace CalamityMod.Projectiles
                 // If the needle is not colliding with the target, attempt to move towards it while falling.
                 if (!projectile.WithinRange(npcToHeal.Center, initialSpeed) && !projectile.Hitbox.Intersects(npcToHeal.Hitbox))
                 {
-                    Vector2 flySpeed = projectile.DirectionTo(npcToHeal.Center) * initialSpeed;
+                    Vector2 flySpeed = projectile.SafeDirectionTo(npcToHeal.Center) * initialSpeed;
 
                     // Prevent the needle from ever violating its gravity.
                     if (flySpeed.Y < projectile.velocity.Y)
@@ -362,10 +362,13 @@ namespace CalamityMod.Projectiles
 					if (defDamage == 0)
 					{
 						// Reduce mech boss projectile damage depending on the new ore progression changes
-						if (!NPC.downedMechBossAny)
-							projectile.damage = (int)(projectile.damage * 0.8);
-						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-							projectile.damage = (int)(projectile.damage * 0.9);
+						if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						{
+							if (!NPC.downedMechBossAny)
+								projectile.damage = (int)(projectile.damage * 0.8);
+							else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+								projectile.damage = (int)(projectile.damage * 0.9);
+						}
 
 						defDamage = projectile.damage;
 					}
@@ -959,39 +962,62 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (defDamage == 0 && projectile.hostile)
+			if (defDamage == 0)
 			{
-				// Reduce Nail damage from Nailheads because they're stupid
-				if (projectile.type == ProjectileID.Nail && Main.expertMode)
-					projectile.damage /= 2;
-
-				if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
+				if (projectile.hostile)
 				{
-					projectile.damage = (int)(projectile.damage * 0.65);
-				}
+					// Reduce Nail damage from Nailheads because they're stupid
+					if (projectile.type == ProjectileID.Nail && Main.expertMode)
+						projectile.damage /= 2;
 
-				// Reduce mech boss projectile damage depending on the new ore progression changes
-				if (!NPC.downedMechBossAny)
-				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
+					if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
 					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.8);
+						projectile.damage = (int)(projectile.damage * 0.65);
+					}
+
+					// Reduce mech boss projectile damage depending on the new ore progression changes
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						if (!NPC.downedMechBossAny)
+						{
+							if (MechBossProjectileIDs.Contains(projectile.type))
+							{
+								if (CalamityUtils.AnyBossNPCS(true))
+									projectile.damage = (int)(projectile.damage * 0.8);
+							}
+						}
+						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+						{
+							if (MechBossProjectileIDs.Contains(projectile.type))
+							{
+								if (CalamityUtils.AnyBossNPCS(true))
+									projectile.damage = (int)(projectile.damage * 0.9);
+							}
+						}
 					}
 				}
-				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+				else
 				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
-					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.9);
-					}
+					if (modPlayer.camper && !player.StandingStill())
+						projectile.damage = (int)(projectile.damage * 0.1);
 				}
 
 				defDamage = projectile.damage;
 			}
 
-            if (NPC.downedMoonlord)
+			// Setting this in SetDefaults didn't work
+			switch (projectile.type)
+			{
+				case ProjectileID.Bee:
+				case ProjectileID.Wasp:
+				case ProjectileID.TinyEater:
+				case ProjectileID.GiantBee:
+				case ProjectileID.Bat:
+					projectile.extraUpdates = 1;
+					break;
+			}
+
+			if (NPC.downedMoonlord)
             {
                 if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
                 {
@@ -1158,11 +1184,8 @@ namespace CalamityMod.Projectiles
 
                 if (homeIn)
                 {
-                    Vector2 homeInVector = projectile.DirectionTo(center);
-                    if (homeInVector.HasNaNs())
-                        homeInVector = Vector2.UnitY;
-
-                    projectile.velocity = (projectile.velocity * 20f + homeInVector * 15f) / 21f;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 20f + moveDirection * 15f) / 21f;
                 }
             }
 
@@ -1172,7 +1195,7 @@ namespace CalamityMod.Projectiles
                 {
                     if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
                     {
-                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
+                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 15)
                         {
                             //Note: these don't count as true melee anymore but its useful code to keep around
                             if (projectile.type == ProjectileType<NebulashFlail>() || projectile.type == ProjectileType<CosmicDischargeFlail>() ||
@@ -1189,13 +1212,11 @@ namespace CalamityMod.Projectiles
                                 }
                                 vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
                                 Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
-                                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-									(int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(newCenter, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                             else
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
-                                    (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                         }
                     }
@@ -1203,37 +1224,40 @@ namespace CalamityMod.Projectiles
 
                 if (rogue)
                 {
-                    if (modPlayer.nanotech && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    if (modPlayer.nanotech)
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
-                    // Moon Crown gets overridden by Nanotech
-                    else if (modPlayer.moonCrown && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    else if (modPlayer.moonCrown)
                     {
-						if (Main.player[projectile.owner].miscCounter % 300 == 0 && projectile.FinalExtraUpdate())
+						if (Main.player[projectile.owner].miscCounter % 120 == 0 && projectile.FinalExtraUpdate())
 						{
-							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 15)
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
 							{
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+								int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
+								if (proj.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj].Calamity().forceTypeless = true;
 							}
 						}
                     }
-                    if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+
+                    if (modPlayer.dragonScales)
                     {
                         if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                // Spawn a dust that does 1/5th of the original damage
-                                Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                    (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
-                            }
+                                int proj = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
+									(int)(80 * player.RogueDamage()), 0f, projectile.owner);
+								if (proj.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj].Calamity().forceTypeless = true;
+							}
                         }
                     }
 
@@ -1253,7 +1277,8 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     }
-                    //will always be friendly and rogue if it has this boost
+
+                    // Will always be friendly and rogue if it has this boost
                     if (modPlayer.momentumCapacitor && momentumCapacitatorBoost)
                     {
                         if (projectile.velocity.Length() < 26f)
@@ -1609,129 +1634,46 @@ namespace CalamityMod.Projectiles
             }
             return true;
         }
-
-        public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int typeOneDistanceMultiplier = 1, Texture2D texture = null, bool drawCentered = true)
-        {
-            if (texture is null)
-                texture = Main.projectileTexture[projectile.type];
-
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            float scale = projectile.scale;
-            float rotation = projectile.rotation;
-
-            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
-            Vector2 origin = rectangle.Size() / 2f;
-
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
-			bool failedToDrawAfterimages = false;
-
-            if (CalamityConfig.Instance.Afterimages)
-            {
-                Vector2 centerOffset = drawCentered ? projectile.Size / 2f : Vector2.Zero;
-                switch (trailingMode)
-                {
-                    // Standard afterimages. No customizable features other than total afterimage count.
-                    // Type 0 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
-                    case 0:
-                        for (int i = 0; i < projectile.oldPos.Length; i++)
-                        {
-                            Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
-                        }
-                        break;
-
-                    // Paladin's Hammer style afterimages. Can be optionally spaced out further by using the typeOneDistanceMultiplier variable.
-                    // Type 1 afterimages linearly scale down from 66% to 0% opacity. They otherwise do not differ from type 0.
-                    case 1:
-                        Color drawColor = projectile.GetAlpha(lightColor);
-                        int afterimageCount = ProjectileID.Sets.TrailCacheLength[projectile.type];
-                        int k = 0;
-                        while (k < afterimageCount)
-                        {
-                            Vector2 drawPos = projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS EITHER.
-							if (k > 0)
-							{
-								float colorMult = (float)(afterimageCount - k);
-								drawColor *= colorMult / ((float)afterimageCount * 1.5f);
-							}
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
-                            k += typeOneDistanceMultiplier;
-                        }
-                        break;
-
-                    // Standard afterimages with rotation. No customizable features other than total afterimage count.
-                    // Type 2 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
-                    case 2:
-                        for (int i = 0; i < projectile.oldPos.Length; i++)
-                        {
-                            float afterimageRot = projectile.oldRot[i];
-                            SpriteEffects sfxForThisAfterimage = projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-                            Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, afterimageRot, origin, scale, sfxForThisAfterimage, 0f);
-                        }
-                        break;
-
-                    default:
-						failedToDrawAfterimages = true;
-                        break;
-                }
-            }
-
-            // Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
-            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0 || failedToDrawAfterimages)
-            {
-                Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
-                Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
-            }
-        }
         #endregion
 
         #region Kill
         public override void Kill(Projectile projectile, int timeLeft)
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+			Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
                 if (rogue)
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 10)
+                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
-                        }
+							if (soul.WithinBounds(Main.maxProjectiles))
+								Main.projectile[soul].Calamity().forceTypeless = true;
+						}
                     }
+
                     if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
                     {
-                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner);
+                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
-                    }
+						if (spike.WithinBounds(Main.maxProjectiles))
+							Main.projectile[spike].Calamity().forceTypeless = true;
+					}
                 }
 
                 if (projectile.type == ProjectileID.UnholyWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 1f);
-                }
+
                 if (projectile.type == ProjectileID.BloodWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 2f);
-                }
+
                 if (projectile.type == ProjectileID.HolyWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
-                }
             }
         }
         #endregion
@@ -1780,6 +1722,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        // TODO -- this entire region needs to go to Projectile Utilities
         #region AI Shortcuts
         public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
@@ -1949,7 +1892,6 @@ namespace CalamityMod.Projectiles
                 }
             }
         }
-
         public static void ExpandHitboxBy(Projectile projectile, int width, int height)
         {
             projectile.position = projectile.Center;

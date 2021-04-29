@@ -16,9 +16,9 @@ namespace CalamityMod.Buffs.StatBuffs
             longerExpertDebuff = false;
         }
 
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().sPower = true;
-        }
-    }
+		public override void Update(Player player, ref int buffIndex)
+		{
+			player.minionDamage += 0.1f;
+		}
+	}
 }

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             else if (potentialTarget != null)
             {
                 // This looks quite stupid but the weapon is going to be useless otherwise and I'm not reworking this thing a 3rd time.
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(potentialTarget.Center) * 18f, 0.18f);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * 18f, 0.18f);
             }
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             projectile.alpha = Utils.Clamp(projectile.alpha - 22, 0, 255);

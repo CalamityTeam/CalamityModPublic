@@ -46,9 +46,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
             NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetDistance);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.DirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
-            }
+                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
+
             projectile.rotation = projectile.velocity.ToRotation();
             if (!Main.dedServ)
             {

@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(startingVelocityRotation) +
                 new Vector2(startingVelocitySpeed + TravelSpeed + 40f, 0f).RotatedBy(startingVelocityRotation);
 
-            Vector2 directionTowardsEnd = player.DirectionTo(destination);
+            Vector2 directionTowardsEnd = player.SafeDirectionTo(destination, Vector2.UnitX * player.direction);
             Vector2 initalVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY);
 
             float dustCount = 2f;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             while (i < dustCount)
             {
                 Dust dust = Dust.NewDustDirect(projectile.Center, 14, 14, 60, 0f, 0f, 110, default, 1f);
-                dust.velocity = player.DirectionTo(dust.position) * 2f;
+                dust.velocity = player.SafeDirectionTo(dust.position) * 2f;
                 dust.position = projectile.Center + 
                     initalVelocity.RotatedBy(completionAsAngle * 2f + i / dustCount * MathHelper.TwoPi) * 10f;
                 dust.scale = 1f + Main.rand.NextFloat(0.6f);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             if (Main.rand.NextBool(3))
             {
                 Dust dust = Dust.NewDustDirect(projectile.Center, 20, 20, 60, 0f, 0f, 110, default, 1f);
-                dust.velocity = player.DirectionTo(dust.position) * 2f;
+                dust.velocity = player.SafeDirectionTo(dust.position) * 2f;
                 dust.position = projectile.Center + directionTowardsEnd * -110f;
                 dust.scale = 0.45f + Main.rand.NextFloat(0.4f);
                 dust.fadeIn = 0.7f + Main.rand.NextFloat(0.4f);

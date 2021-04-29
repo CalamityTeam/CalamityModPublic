@@ -1,5 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo.FiniteUse;
+using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -319,10 +320,10 @@ namespace CalamityMod
         /// Drops the correct number of boss bags for Armageddon.
         /// </summary>
         /// <param name="theBoss">The NPC to drop boss bags for.</param>
-        /// <returns>The number of boss bags dropped.</returns>
+        /// <returns>The number of boss bags dropped. No bags are dropped if the boss has been downed already.</returns>
         public static int DropArmageddonBags(NPC theBoss)
         {
-            if (!CalamityWorld.armageddon)
+            if (!CalamityWorld.armageddon || CalamityGlobalNPC.GetDownedBossVariable(theBoss.type))
                 return 0;
 
             for (int i = 0; i < ArmageddonExtraBags; ++i)

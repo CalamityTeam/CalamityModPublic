@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public NPC target;
         public Vector2 rotationVector = Vector2.UnitY * -13f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -20,17 +21,18 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             projectile.width = 64;
-            projectile.height = 66;
-            projectile.scale = 1f;
+            projectile.height = 64;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
-        }
+			projectile.Calamity().rogue = true;
+		}
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 380 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             target = projectile.Center.ClosestNPCAt(1200f);
             if (projectile.localAI[0] == 0f)
@@ -38,6 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = Utils.SelectRandom(Main.rand, -1f, 1f);
                 projectile.localAI[0] = 1f;
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -45,27 +48,38 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
-            {
                 projectile.frame = 0;
-            }
-            if (projectile.timeLeft >= 380)
-            {
-                projectile.velocity *= 1.07f;
-            }
-            else if (target != null)
-            {
-                projectile.velocity = (projectile.velocity * 23f + projectile.DirectionTo(target.Center) * 14.975f) / 24f;
-            }
-            else
-            {
-                projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
-                projectile.alpha += 17;
-                projectile.velocity = rotationVector;
-                rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
-            }
+
+			if (projectile.timeLeft >= 380)
+			{
+				projectile.velocity *= 1.07f;
+			}
+			else if (target != null)
+			{
+				projectile.velocity = (projectile.velocity * 23f + projectile.SafeDirectionTo(target.Center) * 14.975f) / 24f;
+			}
+			else
+			{
+				projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
+				projectile.alpha += 17;
+				projectile.velocity = rotationVector;
+				rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
+			}
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+		// Reduce damage of Nanotech projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			if (projectileCount > 5)
+			{
+				damage -= (int)(damage * ((projectileCount - 5) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -75,6 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
             Main.spriteBatch.Draw(projectileTexture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
@@ -86,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[idx].scale = 0.5f;
-                    Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int d = 0; d < 8; d++)
@@ -98,9 +113,6 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[idx].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
         }
     }
 }

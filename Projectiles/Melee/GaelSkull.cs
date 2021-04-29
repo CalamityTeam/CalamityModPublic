@@ -39,14 +39,16 @@ namespace CalamityMod.Projectiles.Melee
             {
                 NPC target = projectile.Center.ClosestNPCAt(GaelsGreatsword.SearchDistance);
                 projectile.tileCollide = target != null; //Go through walls if we're hunting an NPC
+
                 if (target != null)
                 {
-                    float velocityMagnitude = projectile.velocity.Length();
-                    Vector2 distanceNorm = projectile.DirectionTo(target.Center) * velocityMagnitude * (projectile.Distance(target.Center) < 220f ? 1.3f : 1f);
-                    float inverseTurnSpeed = (projectile.Distance(target.Center) < 240f ? 4f : 13f);
-                    projectile.velocity = (projectile.velocity * inverseTurnSpeed + distanceNorm) / (inverseTurnSpeed + 0.4f);
+                    float homingSpeed = projectile.velocity.Length() * (projectile.Distance(target.Center) < 220f ? 1.3f : 1f);
+                    Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center) * homingSpeed;
+
+                    float inertia = projectile.Distance(target.Center) < 240f ? 4f : 13f;
+                    projectile.velocity = (projectile.velocity * inertia + idealVelocity) / (inertia + 0.4f);
                     projectile.velocity.Normalize();
-                    projectile.velocity *= velocityMagnitude;
+                    projectile.velocity *= homingSpeed;
                 }
             }
 
@@ -123,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

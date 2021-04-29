@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
             else if (projectile.ai[1] > 20f && projectile.ai[1] <= 39f)
             {
                 projectile.velocity *= 1.25f;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 10f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 10f, 20f);
             }
             else if (projectile.ai[1] == 40f)
             {
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

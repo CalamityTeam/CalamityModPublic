@@ -11,15 +11,15 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Bullet");
+            DisplayName.SetDefault("Acid Round");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -31,14 +31,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            if (Main.rand.NextBool(2))
-            {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
-            }
+            Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool(2))
+				{
+					int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
+					Main.dust[num137].alpha = projectile.alpha;
+					Main.dust[num137].velocity *= 0f;
+					Main.dust[num137].noGravity = true;
+				}
+			}
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -50,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 

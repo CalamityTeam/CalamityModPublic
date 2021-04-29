@@ -151,13 +151,11 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			if (homeIn)
 			{
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
-                float homingRatio = 15f;
+                float homingInertia = 15f;
                 float homingVelocity = 30f;
-				projectile.velocity = (projectile.velocity * homingRatio + homeInVector * homingVelocity) / (homingRatio + 1f);
+				projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
 			}
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
@@ -210,7 +208,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

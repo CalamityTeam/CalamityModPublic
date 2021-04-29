@@ -23,7 +23,7 @@ namespace CalamityMod.World
             IList<int> avoid = new List<int>(16);
 
             // Mod of Redemption's labs use modded blocks, but must still be avoided.
-            Mod mor = ModLoader.GetMod("Redemption");
+            Mod mor = CalamityMod.Instance.redemption;
             if (mor != null)
             {
                 // Thanks to Hallam to providing these tile names.
@@ -534,7 +534,7 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
 
-            Mod thorium = ModLoader.GetMod("ThoriumMod");
+            Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
                 contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
 

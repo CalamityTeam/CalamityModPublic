@@ -123,10 +123,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.velocity = projectile.velocity.ToRotation().AngleTowards(angleToTargetCoords, angularTurnSpeed).ToRotationVector2() * projectile.velocity.Length();
 
             // If not super close to the target but the target is very much in the line of sight of the summon, charge.
-            if (!projectile.WithinRange(target.Center, 75f) && Vector2.Dot(projectile.DirectionTo(target.Center), projectile.velocity.SafeNormalize(Vector2.Zero)) > 0.85f)
+            if (!projectile.WithinRange(target.Center, 75f) && Vector2.Dot(projectile.SafeDirectionTo(target.Center), projectile.velocity.SafeNormalize(Vector2.Zero)) > 0.85f)
             {
-                projectile.velocity = projectile.DirectionTo(target.Center) * 36f;
+                projectile.velocity = projectile.SafeDirectionTo(target.Center) * 36f;
                 AttackDelay = 15f;
+
                 projectile.netUpdate = true;
             }
 

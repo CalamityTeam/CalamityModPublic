@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.Pi : 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 10f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 10f, 20f);
         }
     }
 }

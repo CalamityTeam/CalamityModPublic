@@ -143,7 +143,8 @@ namespace CalamityMod.Projectiles.Summon
 
             Vector2 spawnPosition = projectile.Center;
             float shootSpeed = MathHelper.Lerp(8f, 20f, Utils.InverseLerp(90f, 850f, target.Distance(spawnPosition), true));
-            Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, projectile.DirectionTo(target.Center));
+            Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, projectile.SafeDirectionTo(target.Center));
+
             float fireAngle = shootVelocity.ToRotation();
 
             // Direction affecting.
@@ -162,7 +163,7 @@ namespace CalamityMod.Projectiles.Summon
             if (distanceFromTarget > 7f)
             {
                 float flySpeed = MathHelper.Lerp(2f, 17f, Utils.InverseLerp(10f, 70f, distanceFromTarget, true));
-                projectile.velocity = (projectile.velocity * 9f + projectile.DirectionTo(returnPosition) * flySpeed) / 10f;
+                projectile.velocity = (projectile.velocity * 9f + projectile.SafeDirectionTo(returnPosition) * flySpeed) / 10f;
             }
 
             int totalHeads = CalamityUtils.CountProjectiles(projectile.type);

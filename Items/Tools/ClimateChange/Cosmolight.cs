@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmolight");
-            Tooltip.SetDefault("Changes night to day and vice versa");
+            Tooltip.SetDefault("Changes night to day and vice versa\n" +
+				"Does not work while a boss is alive");
         }
 
         public override void SetDefaults()

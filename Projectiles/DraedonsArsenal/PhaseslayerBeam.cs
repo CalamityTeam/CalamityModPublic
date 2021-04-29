@@ -36,9 +36,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             NPC potentialTarget = projectile.Center.ClosestNPCAt(1000f);
             if (potentialTarget != null && projectile.Distance(potentialTarget.Center) > 40f && projectile.timeLeft > Lifetime - 60)
-            {
-                projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(potentialTarget.Center) * 24f) / 8f;
-            }
+                projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(potentialTarget.Center, -Vector2.UnitY) * 24f) / 8f;
+
             projectile.frameCounter++;
         }
 

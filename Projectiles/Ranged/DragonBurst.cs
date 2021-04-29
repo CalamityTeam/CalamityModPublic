@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.friendly = true;
             projectile.extraUpdates = 10;
             projectile.penetrate = 1;
@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Ranged
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) +MathHelper.ToRadians(90) * projectile.direction;
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-
                 float num93 = projectile.velocity.X / 3f;
                 float num94 = projectile.velocity.Y / 3f;
                 int num95 = 4;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

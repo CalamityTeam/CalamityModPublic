@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

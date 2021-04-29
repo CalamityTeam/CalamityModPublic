@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class RealmRavagerBullet : ModProjectile
@@ -9,7 +11,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosive Bullet");
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void SetDefaults()
         {
@@ -26,7 +30,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 90;
         }
 
-        public override void Kill(int timeLeft)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;

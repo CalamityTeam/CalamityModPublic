@@ -69,9 +69,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
 			bool flag = false;

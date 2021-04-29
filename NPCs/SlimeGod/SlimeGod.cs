@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.alpha = 55;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
@@ -141,12 +141,17 @@ namespace CalamityMod.NPCs.SlimeGod
                     flag100 = true;
                 }
             }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active || malice)
+            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
 				npc.localAI[1] = 0f;
 				flag100 = false;
 				hyperMode = true;
             }
+			if (malice)
+			{
+				flag100 = false;
+				hyperMode = true;
+			}
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

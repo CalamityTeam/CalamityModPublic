@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public void PlayerMovement(Player player)
         {
             Vector2 destination = player.Center + Vector2.UnitY.RotatedBy(Time / 16f + AngularOffset + (!North).ToInt() * MathHelper.Pi) * 180f;
-            projectile.velocity = (projectile.velocity * 4f + projectile.DirectionTo(destination) * 10f) / 5f;
+            projectile.velocity = (projectile.velocity * 4f + projectile.SafeDirectionTo(destination) * 10f) / 5f;
             projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float offsetAngle = AngularOffset * 0.5f + (!North).ToInt() * MathHelper.Pi;
                 Vector2 destination = npc.Center + Vector2.UnitY.RotatedBy(offsetAngle) * 180f;
-                projectile.velocity = (projectile.velocity * 4f + projectile.DirectionTo(destination) * 10f) / 5f;
+                projectile.velocity = (projectile.velocity * 4f + projectile.SafeDirectionTo(destination) * 10f) / 5f;
                 projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 25f;
                 projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else if (Time % 60f == 35f)
             {
-                projectile.velocity = projectile.DirectionTo(npc.Center) * 29f;
+                projectile.velocity = projectile.SafeDirectionTo(npc.Center, -Vector2.UnitY) * 29f;
                 projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
         }
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, 1, 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, 1, lightColor, 2);
             return false;
         }
     }

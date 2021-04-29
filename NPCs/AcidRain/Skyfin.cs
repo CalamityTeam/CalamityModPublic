@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.AcidRain
                         chargeSpeed = 14f;
                     if (CalamityWorld.downedPolterghast)
                         chargeSpeed = 18f;
-                    npc.velocity = npc.DirectionTo(Target.Center) * chargeSpeed;
+                    npc.velocity = npc.SafeDirectionTo(Target.Center, Vector2.UnitY) * chargeSpeed;
                 }
             }
             else
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (Math.Abs(Target.Center.X - npc.Center.X) > 320f)
                     npc.velocity.X = MathHelper.Lerp(npc.velocity.X, (Target.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f, 0.05f);
                 if (Math.Abs(Target.Center.Y - npc.Center.Y) > 50f)
-                    npc.velocity.Y = npc.DirectionTo(Target.Center).Y * 9f;
+                    npc.velocity.Y = npc.SafeDirectionTo(Target.Center).Y * 9f;
             }
         }
 

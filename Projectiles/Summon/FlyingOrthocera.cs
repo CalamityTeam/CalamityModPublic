@@ -68,9 +68,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.ai[0]++ % 30f == 29f)
                 {
                     if (projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), projectile.damage, 4f, projectile.owner);
-                    }
+                        Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), projectile.damage, 4f, projectile.owner);
                 }
             }
             else

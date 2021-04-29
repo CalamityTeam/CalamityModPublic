@@ -129,11 +129,9 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                 {
-                    npc.direction = npc.spriteDirection = (npc.DirectionTo(player.Center).X < 0).ToDirectionInt();
+                    npc.direction = npc.spriteDirection = (npc.SafeDirectionTo(player.Center).X < 0).ToDirectionInt();
                     if (Math.Abs(npc.velocity.X) < 14f && Math.Abs(player.Center.X - npc.Center.X) > 65f)
-                    {
                         npc.velocity.X += npc.spriteDirection * -0.08f;
-                    }
                 }
             }
             else

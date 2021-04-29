@@ -3,8 +3,6 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
@@ -94,7 +92,7 @@ namespace CalamityMod.Items
 				case ItemID.TwinsBossBag:
 				case ItemID.SkeletronPrimeBossBag:
 					// Only drop hallowed bars after all mechs are down.
-					if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 						DropHelper.BlockDrops(ItemID.HallowedBar);
 					break;
 
@@ -207,74 +205,83 @@ namespace CalamityMod.Items
 			switch (itemID)
 			{
 				case ItemID.WoodenCrate:
-					int[] preMechBlockedDrops_WoodenCrate = new int[]
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					{
-						ItemID.MythrilOre,
-						ItemID.OrichalcumOre,
-						ItemID.AdamantiteOre,
-						ItemID.TitaniumOre,
-						ItemID.MythrilBar,
-						ItemID.OrichalcumBar,
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
-					int[] postOneMechBlockedDrops_WoodenCrate = new int[]
-					{
-						ItemID.AdamantiteOre,
-						ItemID.TitaniumOre,
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
+						int[] preMechBlockedDrops_WoodenCrate = new int[]
+						{
+							ItemID.MythrilOre,
+							ItemID.OrichalcumOre,
+							ItemID.AdamantiteOre,
+							ItemID.TitaniumOre,
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_WoodenCrate = new int[]
+						{
+							ItemID.AdamantiteOre,
+							ItemID.TitaniumOre,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
 
-					if (!NPC.downedMechBossAny)
-						DropHelper.BlockDrops(preMechBlockedDrops_WoodenCrate);
-					else if (!twoMechsDowned)
-						DropHelper.BlockDrops(postOneMechBlockedDrops_WoodenCrate);
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_WoodenCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_WoodenCrate);
+					}
 
 					DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
 					break;
 
 				case ItemID.IronCrate:
-					int[] preMechBlockedDrops_IronCrate = new int[]
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					{
-						ItemID.MythrilBar,
-						ItemID.OrichalcumBar,
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
-					int[] postOneMechBlockedDrops_IronCrate = new int[]
-					{
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
+						int[] preMechBlockedDrops_IronCrate = new int[]
+						{
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_IronCrate = new int[]
+						{
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
 
-					if (!NPC.downedMechBossAny)
-						DropHelper.BlockDrops(preMechBlockedDrops_IronCrate);
-					else if (!twoMechsDowned)
-						DropHelper.BlockDrops(postOneMechBlockedDrops_IronCrate);
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_IronCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_IronCrate);
+					}
 
 					DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
 					DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
 					break;
 
 				case ItemID.GoldenCrate:
-					int[] preMechBlockedDrops_GoldenCrate = new int[]
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					{
-						ItemID.MythrilBar,
-						ItemID.OrichalcumBar,
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
-					int[] postOneMechBlockedDrops_GoldenCrate = new int[]
-					{
-						ItemID.AdamantiteBar,
-						ItemID.TitaniumBar,
-					};
+						int[] preMechBlockedDrops_GoldenCrate = new int[]
+						{
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_GoldenCrate = new int[]
+						{
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
 
-					if (!NPC.downedMechBossAny)
-						DropHelper.BlockDrops(preMechBlockedDrops_GoldenCrate);
-					else if (!twoMechsDowned)
-						DropHelper.BlockDrops(postOneMechBlockedDrops_GoldenCrate);
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_GoldenCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_GoldenCrate);
+					}
 					break;
 
 				case ItemID.CorruptFishingCrate:

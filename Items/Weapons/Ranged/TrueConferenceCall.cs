@@ -78,6 +78,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				return false;
 
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			int extraBulletDamage = (int)(damage * 0.7);
 
             for (int j = 0; j < targetArrayIndex; j++)
             {
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 				Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * item.shootSpeed;
 
-				int proj = Projectile.NewProjectile(vector2, velocity2, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
 				Main.projectile[proj].tileCollide = false;
 				Main.projectile[proj].timeLeft /= 2;
@@ -96,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			if (targetArrayIndex == 12)
 				return false;
 
-			// Fire bullets at the same targets if 
+			// Fire bullets at the same targets if 12 unique targets aren't found
 			for (int k = 0; k < maxTargets - targetArrayIndex; k++)
 			{
 				int randomTarget = Main.rand.Next(targetArrayIndex);
@@ -107,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 				Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
 
-				int proj = Projectile.NewProjectile(vector2, velocity2, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
 				Main.projectile[proj].extraUpdates += 2;
 				Main.projectile[proj].tileCollide = false;
 				Main.projectile[proj].timeLeft /= 2;

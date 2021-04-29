@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             npc.lifeMax = 25000;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
