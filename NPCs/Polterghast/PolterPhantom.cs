@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Polterghast
 			float chargeAcceleration = 0.6f;
 			float chargeDistance = 480f;
 
-			bool speedBoost = malice;
+			bool speedBoost = false;
             bool despawnBoost = false;
 
             if (npc.timeLeft < 1500)
@@ -152,8 +152,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
-			if (speedBoost)
-				npc.damage *= 2;
 
 			if (!chargePhase)
 			{
@@ -188,8 +186,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 				float maxDistanceFromHooks = expertMode ? 650f : 500f;
-				if (speedBoost)
-					maxDistanceFromHooks += 500f;
+				if (speedBoost || malice)
+					maxDistanceFromHooks += 250f;
 				if (death)
 					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
 

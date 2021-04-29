@@ -386,6 +386,11 @@ namespace CalamityMod
 				case "death mode":
 					return CalamityWorld.death;
 
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice;
+
 				case "br":
 				case "bossrush":
 				case "boss rush":
@@ -431,6 +436,11 @@ namespace CalamityMod
 				case "deathmode":
 				case "death mode":
 					return CalamityWorld.death = enabled;
+
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice = enabled;
 
 				case "br":
 				case "bossrush":

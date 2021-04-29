@@ -74,12 +74,16 @@ namespace CalamityMod.NPCs.Ravager
         {
             writer.Write(npc.dontTakeDamage);
 			writer.Write(velocityY);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
 			velocityY = reader.ReadSingle();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
         public override void FindFrame(int frameHeight)

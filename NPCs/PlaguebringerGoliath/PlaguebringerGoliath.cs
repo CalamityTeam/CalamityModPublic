@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             writer.Write(despawnTimer);
             writer.Write(chargeDistance);
             writer.Write(charging);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             despawnTimer = reader.ReadInt32();
             chargeDistance = reader.ReadInt32();
             charging = reader.ReadBoolean();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
@@ -195,10 +195,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			// Enrage
 			float enrageScale = death ? 0.25f : 0f;
 			if (!player.ZoneJungle || malice)
-				enrageScale += 1f;
+				enrageScale += 2f;
 
-			if (enrageScale > 1f)
-				enrageScale = 1f;
+			if (enrageScale > 2f)
+				enrageScale = 2f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
@@ -715,7 +715,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
-						projectileSpeed += 5f * enrageScale;
+						projectileSpeed += 2f * enrageScale;
 
 						if (calamityGlobalNPC.enraged > 0)
                             projectileSpeed += 10f;
@@ -818,7 +818,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float speed = BossRushEvent.BossRushActive ? 12f : revenge ? 6f : 5f;
-								speed += 5f * enrageScale;
+								speed += 2f * enrageScale;
 
 								int type = ModContent.ProjectileType<HiveBombGoliath>();
 								int damage = npc.GetProjectileDamage(type);

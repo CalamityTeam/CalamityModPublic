@@ -18,14 +18,18 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.Calamity().canBreakPlayerDefense = true;
 			projectile.width = 30;
             projectile.height = 30;
+			projectile.scale = 0.5f;
             projectile.hostile = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
-        public override void AI()
-        {
-            projectile.velocity *= 0.99f;
+		public override bool CanHitPlayer(Player target) => projectile.ai[0] >= 120f;
+
+		public override void AI()
+		{
+			projectile.velocity *= 0.99f;
 
 			if (projectile.localAI[0] == 0f)
 			{
@@ -47,6 +51,36 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.alpha = 255;
 				}
 			}
+
+			if (projectile.ai[0] < 120f)
+			{
+				projectile.ai[0] += 1f;
+				if (projectile.ai[0] == 120f)
+				{
+					for (int num621 = 0; num621 < 8; num621++)
+					{
+						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 2f);
+						Main.dust[num622].velocity *= 3f;
+						if (Main.rand.NextBool(2))
+						{
+							Main.dust[num622].scale = 0.5f;
+							Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+						}
+					}
+					for (int num623 = 0; num623 < 14; num623++)
+					{
+						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 3f);
+						Main.dust[num624].noGravity = true;
+						Main.dust[num624].velocity *= 5f;
+						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 2f);
+						Main.dust[num624].velocity *= 2f;
+					}
+
+					projectile.scale = 1f;
+					projectile.width = projectile.height = (int)(30f * projectile.scale);
+					Main.PlaySound(SoundID.Item30, projectile.Center);
+				}
+			}
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -56,33 +90,36 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
         {
-            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
             Main.PlaySound(SoundID.Item27, projectile.position);
+
             float spread = 60f * 0.0174f;
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
             int i;
+			float velocity = 7f;
             if (projectile.owner == Main.myPlayer)
             {
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
                 }
             }
+
             for (int k = 0; k < 10; k++)
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 120, true);
-            target.AddBuff(BuffID.Chilled, 90, true);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+			if (projectile.ai[0] >= 120f)
+			{
+				target.AddBuff(BuffID.Frostburn, 120, true);
+				target.AddBuff(BuffID.Chilled, 90, true);
+				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+			}
         }
     }
 }

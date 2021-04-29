@@ -66,7 +66,8 @@ namespace CalamityMod.NPCs.Leviathan
 			writer.Write(npc.localAI[3]);
 			writer.Write(frameUsed);
             writer.Write(npc.dontTakeDamage);
-        }
+			writer.Write(npc.Calamity().newAI[0]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -77,7 +78,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.localAI[3] = reader.ReadSingle();
 			frameUsed = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
-        }
+			npc.Calamity().newAI[0] = reader.ReadSingle();
+		}
 
 		public override void AI()
         {

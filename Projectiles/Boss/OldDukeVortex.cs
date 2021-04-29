@@ -133,14 +133,7 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
-		public override bool CanHitPlayer(Player target)
-		{
-			if (projectile.timeLeft > 1680 || projectile.timeLeft <= 85)
-			{
-				return false;
-			}
-			return true;
-		}
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 1680 && projectile.timeLeft > 85;
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
@@ -162,7 +155,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
+			if (projectile.timeLeft <= 1680 && projectile.timeLeft > 85)
+				target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

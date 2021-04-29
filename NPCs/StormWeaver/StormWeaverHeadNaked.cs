@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.netAlways = true;
             bossBag = ModContent.ItemType<StormWeaverBag>();
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -84,7 +84,9 @@ namespace CalamityMod.NPCs.StormWeaver
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
-        }
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -92,7 +94,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
-        }
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -531,7 +535,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					Color color38 = lightColor;
 
-					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 					color38 = Color.Lerp(color38, color36, amount9);
@@ -549,7 +553,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);

@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {

@@ -72,6 +72,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
 			writer.Write(buffedSlime);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,6 +84,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
 			buffedSlime = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -133,7 +137,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool phase2 = lifeRatio < 0.4f;
+			bool phase2 = lifeRatio < 0.4f || malice;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;

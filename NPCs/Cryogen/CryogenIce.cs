@@ -111,12 +111,12 @@ namespace CalamityMod.NPCs.Cryogen
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
-					float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
+					float velocity = BossRushEvent.BossRushActive ? 12f : 9f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage2, 0f, Main.myPlayer, 0f, 0f);
+						int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage2, 0f, Main.myPlayer);
 						Main.projectile[proj].timeLeft = 300;
 					}
 				}
@@ -126,10 +126,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     randomSpread = Main.rand.Next(-200, 200) / 100;
                     for (int x = 0; x < 4; x++)
-                    {
                         Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoShieldGore" + x), 1f);
-                    }
-                    
                 }
             }
         }

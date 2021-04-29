@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs
                 return false;
 
             // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
-            if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+            if ((CalamityWorld.revenge || CalamityWorld.malice) && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
                 NPCLoader.blockLoot.Add(ItemID.Heart);
 
             //

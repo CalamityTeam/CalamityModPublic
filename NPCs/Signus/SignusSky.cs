@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Signus
                 }
 
 				float maxIntensity = 0.1f;
-				if (CalamityWorld.revenge)
+				if (CalamityWorld.revenge || CalamityWorld.malice)
 				{
 					maxIntensity = 1f - (float)Main.npc[this.SignusIndex].life / (float)Main.npc[this.SignusIndex].lifeMax;
 				}

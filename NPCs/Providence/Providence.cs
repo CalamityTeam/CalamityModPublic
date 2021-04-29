@@ -271,8 +271,8 @@ namespace CalamityMod.NPCs.Providence
 
 			// Inflict Holy Inferno if target is too far away
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = CalamityWorld.death ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-			float shorterSpearCocoonDistance = CalamityWorld.death ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)
