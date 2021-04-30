@@ -1567,6 +1567,26 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.newAI[3] = 0f;
 					npc.alpha = 0;
 					npc.netUpdate = true;
+
+					for (int x = 0; x < Main.maxProjectiles; x++)
+					{
+						Projectile projectile = Main.projectile[x];
+						if (projectile.active)
+						{
+							if (projectile.type == ModContent.ProjectileType<BrimstoneHellblast2>() || projectile.type == ModContent.ProjectileType<BrimstoneBarrage>())
+							{
+								if (projectile.timeLeft > 60)
+									projectile.timeLeft = 60;
+							}
+							else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>())
+							{
+								projectile.ai[1] = 1f;
+
+								if (projectile.timeLeft > 60)
+									projectile.timeLeft = 60;
+							}
+						}
+					}
 				}
 
 				return;
