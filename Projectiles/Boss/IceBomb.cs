@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 					}
 
 					projectile.scale = 1f;
-					projectile.width = projectile.height = (int)(30f * projectile.scale);
+					CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(30f * projectile.scale));
 					Main.PlaySound(SoundID.Item30, projectile.Center);
 				}
 			}
