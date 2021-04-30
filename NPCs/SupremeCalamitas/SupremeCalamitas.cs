@@ -433,20 +433,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
-						if (bulletHellCounter2 < 300) //blasts from above
+						if (bulletHellCounter2 < 300) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else if (bulletHellCounter2 < 600) //blasts from left and right
+                        else if (bulletHellCounter2 < 600) // Blasts from left and right
                         {
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else //blasts from above, left, and right
+                        else // Blasts from above, left, and right
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
                         }
                     }
                 }
@@ -501,17 +501,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (bulletHellCounter2 < 1200)
                     {
-                        if (bulletHellCounter2 % 180 == 0) //blasts from top
+                        if (bulletHellCounter2 % 180 == 0) // Blasts from top
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     else if (bulletHellCounter2 < 1500 && bulletHellCounter2 > 1200)
                     {
-                        if (bulletHellCounter2 % 180 == 0) //blasts from right
+                        if (bulletHellCounter2 % 180 == 0) // Blasts from right
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     else if (bulletHellCounter2 > 1500)
                     {
-                        if (bulletHellCounter2 % 180 == 0) //blasts from top
+                        if (bulletHellCounter2 % 180 == 0) // Blasts from top
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
@@ -523,15 +523,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 						}
-						if (bulletHellCounter2 < 1200) //blasts from below
+						if (bulletHellCounter2 < 1200) // Blasts from below
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else if (bulletHellCounter2 < 1500) //blasts from left
+                        else if (bulletHellCounter2 < 1500) // Blasts from left
                         {
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else //blasts from left and right
+                        else // Blasts from left and right
                         {
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
@@ -567,10 +567,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (bulletHellCounter2 % 180 == 0) //blasts from top
+                    if (bulletHellCounter2 % 180 == 0) // Blasts from top
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
 
-                    if (bulletHellCounter2 % 240 == 0) //fireblasts from above
+                    if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     bulletHellCounter += 1;
@@ -582,15 +582,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 						}
-						if (bulletHellCounter2 < 2100) //blasts from above
+						if (bulletHellCounter2 < 2100) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else if (bulletHellCounter2 < 2400) //blasts from right
+                        else if (bulletHellCounter2 < 2400) // Blasts from right
                         {
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else //blasts from left and right
+                        else // Blasts from left and right
                         {
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
@@ -629,16 +629,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient) //more clustered attack
+                if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
-                    if (bulletHellCounter2 % 180 == 0) //blasts from top
+                    if (bulletHellCounter2 % 180 == 0) // Blasts from top
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
 
-                    if (bulletHellCounter2 % 240 == 0) //fireblasts from above
+                    if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
 					int divisor = revenge ? 225 : expertMode ? 450 : 675;
-                    if (bulletHellCounter2 % divisor == 0 && expertMode) //giant homing fireballs
+                    if (bulletHellCounter2 % divisor == 0 && expertMode) // Giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), monsterDamage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;
@@ -653,15 +653,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 						}
-						if (bulletHellCounter2 < 3000) //blasts from below
+						if (bulletHellCounter2 < 3000) // Blasts from below
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else if (bulletHellCounter2 < 3300) //blasts from left
+                        else if (bulletHellCounter2 < 3300) // Blasts from left
                         {
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else //blasts from left and right
+                        else // Blasts from left and right
                         {
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
@@ -702,13 +702,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (bulletHellCounter2 % 240 == 0) //blasts from top
+                    if (bulletHellCounter2 % 240 == 0) // Blasts from top
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
 
-                    if (bulletHellCounter2 % 360 == 0) //fireblasts from above
+                    if (bulletHellCounter2 % 360 == 0) // Fireblasts from above
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
-                    if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
+                    if (bulletHellCounter2 % 30 == 0) // rojectiles that move in wave pattern
                     {
 						int random = Main.rand.Next(-500, 501);
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);

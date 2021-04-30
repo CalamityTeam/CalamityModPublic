@@ -1510,49 +1510,52 @@ namespace CalamityMod.NPCs
 						{
 							int type = ModContent.ProjectileType<BrimstoneGigaBlast>();
 							int damage = npc.GetProjectileDamage(type);
+							float gigaBlastFrequency = (expertMode ? 180f : 240f) - enrageScale * 15f;
+							float projSpeed = malice ? 6.25f : 5f;
 							if (calamityGlobalNPC.newAI[3] <= 300f)
 							{
-								if (calamityGlobalNPC.newAI[3] % 180f == 0f) // Blasts from top
-									Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f, type, damage, 0f, Main.myPlayer);
+								if (calamityGlobalNPC.newAI[3] % gigaBlastFrequency == 0f) // Blasts from top
+									Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer);
 							}
 							else if (calamityGlobalNPC.newAI[3] <= 600f && calamityGlobalNPC.newAI[3] > 300f)
 							{
-								if (calamityGlobalNPC.newAI[3] % 180f == 0f) // Blasts from right
-									Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -5f, 0f, type, damage, 0f, Main.myPlayer);
+								if (calamityGlobalNPC.newAI[3] % gigaBlastFrequency == 0f) // Blasts from right
+									Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -projSpeed, 0f, type, damage, 0f, Main.myPlayer);
 							}
 							else if (calamityGlobalNPC.newAI[3] > 600f)
 							{
-								if (calamityGlobalNPC.newAI[3] % 180f == 0f) // Blasts from top
-									Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f, type, damage, 0f, Main.myPlayer);
+								if (calamityGlobalNPC.newAI[3] % gigaBlastFrequency == 0f) // Blasts from top
+									Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer);
 							}
 						}
 
 						npc.ai[0] += 1f;
-						float hellblastGateValue = 12f;
+						float hellblastGateValue = (expertMode ? 12f : 16f) - enrageScale;
 						if (npc.ai[0] > hellblastGateValue)
 						{
 							npc.ai[0] = 0f;
 							int type = ModContent.ProjectileType<BrimstoneHellblast2>();
 							int damage = npc.GetProjectileDamage(type);
+							float projSpeed = malice ? 5f : 4f;
 							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 5f) == 0f)
 							{
-								Projectile.NewProjectile(player.position.X - 1000, player.position.Y, 0f, 4f, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X + 1000, player.position.Y, 0f, 4f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X - 1000, player.position.Y, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + 1000, player.position.Y, 0f, -projSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 							if (calamityGlobalNPC.newAI[3] < 300f) // Blasts from above
 							{
-								Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 							else if (calamityGlobalNPC.newAI[3] < 600f) // Blasts from left and right
 							{
-								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 0.5f), 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 0.5f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 							else // Blasts from above, left, and right
 							{
-								Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, projSpeed - 1f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -(projSpeed - 1f), 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), projSpeed - 1f, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 						}
 					}

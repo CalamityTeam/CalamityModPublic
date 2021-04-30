@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Cryogen
 			bool phase4 = lifeRatio < (revenge ? 0.55f : 0.4f);
 			bool phase5 = lifeRatio < (revenge ? 0.4f : 0.2f);
 			bool phase6 = lifeRatio < 0.25f && revenge;
-			bool phase7 = lifeRatio < 0.1f && revenge;
+			bool phase7 = lifeRatio < 0.15f && revenge;
 
 			if ((int)npc.ai[0] + 1 > currentPhase)
                 HandlePhaseTransition((int)npc.ai[0] + 1);

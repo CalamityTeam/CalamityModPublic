@@ -444,9 +444,15 @@ namespace CalamityMod.Items
 			// Rebalances to vanilla item stats
 			#region Vanilla Item Rebalance Tooltips
 
+			// Reduce DD2 armor piece bonuses because they're overpowered
+			if (item.type == ItemID.MonkBrows || item.type == ItemID.MonkAltShirt)
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace("20%", "10%"));
+			if (item.type == ItemID.HuntressAltShirt)
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace("25%", "15%"));
+
 			// Worm Scarf only gives 10% DR instead of 17%
 			if (item.type == ItemID.WormScarf)
-				EditTooltipByNum(0, (line) => line.text = line.text = line.text.Replace("17%", "10%"));
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace("17%", "10%"));
 
 			if (item.type == ItemID.TitanGlove)
 				EditTooltipByNum(0, (line) => line.text += "\n10% increased true melee damage");
