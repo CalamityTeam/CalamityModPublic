@@ -269,7 +269,7 @@ namespace CalamityMod.CalPlayer
 
         #region Rogue
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
-        private static readonly double StealthDamageConstant = 0.5;
+        public static double StealthDamageConstant = 0.5;
 
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
