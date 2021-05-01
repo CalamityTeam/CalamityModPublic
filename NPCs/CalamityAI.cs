@@ -1539,8 +1539,8 @@ namespace CalamityMod.NPCs
 							float projSpeed = malice ? 5f : 4f;
 							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 5f) == 0f)
 							{
-								Projectile.NewProjectile(player.position.X - 1000, player.position.Y, 0f, projSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X + 1000, player.position.Y, 0f, -projSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, projSpeed, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -projSpeed, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 							if (calamityGlobalNPC.newAI[3] < 300f) // Blasts from above
 							{
