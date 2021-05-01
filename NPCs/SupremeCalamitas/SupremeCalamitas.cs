@@ -708,7 +708,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter2 % 360 == 0) // Fireblasts from above
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
-                    if (bulletHellCounter2 % 30 == 0) // rojectiles that move in wave pattern
+                    if (bulletHellCounter2 % 30 == 0) // Projectiles that move in wave pattern
                     {
 						int random = Main.rand.Next(-500, 501);
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer);
@@ -724,20 +724,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
 						}
-						if (bulletHellCounter2 < 3900) //blasts from above
+						if (bulletHellCounter2 < 3900) // Blasts from above
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else if (bulletHellCounter2 < 4200) //blasts from left and right
+                        else if (bulletHellCounter2 < 4200) // Blasts from left and right
                         {
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
-                        else //blasts from above, left, and right
+                        else // Blasts from above, left, and right
                         {
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                     }
                 }

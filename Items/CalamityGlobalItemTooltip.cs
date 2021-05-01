@@ -445,10 +445,13 @@ namespace CalamityMod.Items
 			#region Vanilla Item Rebalance Tooltips
 
 			// Reduce DD2 armor piece bonuses because they're overpowered
-			if (item.type == ItemID.MonkBrows || item.type == ItemID.MonkAltShirt)
-				EditTooltipByNum(0, (line) => line.text = line.text.Replace("20%", "10%"));
+			if (item.type == ItemID.MonkBrows)
+				EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 1 and increases melee attack speed by 10%");
+			if (item.type == ItemID.MonkAltShirt)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee speed\n" +
+					"5% increased melee critical strike chance");
 			if (item.type == ItemID.HuntressAltShirt)
-				EditTooltipByNum(0, (line) => line.text = line.text.Replace("25%", "15%"));
+				EditTooltipByNum(0, (line) => line.text = "15% increased minion & ranged damage and 20% chance to not consume ammo");
 
 			// Worm Scarf only gives 10% DR instead of 17%
 			if (item.type == ItemID.WormScarf)

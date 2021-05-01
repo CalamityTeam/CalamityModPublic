@@ -5545,7 +5545,7 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
-				enrageScale += 1.5f;
+				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
@@ -6296,7 +6296,7 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
-				enrageScale += 1.5f;
+				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
@@ -7285,7 +7285,7 @@ namespace CalamityMod.NPCs
                             value19.Normalize();
                             value19 *= num502;
                             int numProj = 2;
-							float rotation = MathHelper.ToRadians(3);
+							float rotation = MathHelper.ToRadians(5);
 							if (malice)
 							{
 								for (int i = 0; i < numProj; i++)
@@ -8224,7 +8224,7 @@ namespace CalamityMod.NPCs
                         value19.Normalize();
                         value19 *= num502;
                         int numProj = 2;
-                        float rotation = MathHelper.ToRadians(3);
+                        float rotation = MathHelper.ToRadians(5);
 						if (malice)
 						{
 							for (int i = 0; i < numProj; i++)
@@ -9814,16 +9814,23 @@ namespace CalamityMod.NPCs
             }
 
             // Enrage if the target isn't inside the temple
+			// Turbo enrage if target isn't inside the temple and it's malice mode
             bool enrage = true;
-            if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
-            {
-                int num = (int)Main.player[npc.target].Center.X / 16;
-                int num2 = (int)Main.player[npc.target].Center.Y / 16;
+			bool turboEnrage = false;
+			if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+			{
+				int num = (int)Main.player[npc.target].Center.X / 16;
+				int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
-                Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
-                    enrage = false;
-            }
+				Tile tile = Framing.GetTileSafely(num, num2);
+				if (tile.wall == WallID.LihzahrdBrickUnsafe)
+					enrage = false;
+				else
+					turboEnrage = malice;
+			}
+			else
+				turboEnrage = malice;
+
             if (malice)
                 enrage = true;
 
@@ -9898,7 +9905,7 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Laser fire when head is dead
-                    if (Main.netMode != NetmodeID.MultiplayerClient && !flag40)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage))
                     {
                         npc.localAI[1] += 1f;
 
@@ -9977,14 +9984,14 @@ namespace CalamityMod.NPCs
 						float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
 						float speedMult = 1f;
 
-						if (distanceBelowTarget > 0f && !flag43 && !flag40)
+						if (distanceBelowTarget > 0f && ((!flag43 && !flag40) || turboEnrage))
 							speedMult += distanceBelowTarget * 0.001f;
 						
 						if (speedMult > 2f)
 							speedMult = 2f;
 
 						if (Main.player[npc.target].position.Y < npc.Bottom.Y)
-                            npc.velocity.Y = (((!flag43 && !flag40) ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
+                            npc.velocity.Y = (((!flag43 && !flag40) || turboEnrage ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
                         else
                             npc.velocity.Y = 1f;
 
@@ -10025,7 +10032,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Fireball explosion when head is dead
-                    if (Main.netMode != NetmodeID.MultiplayerClient && !flag40)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && (!flag40 || turboEnrage))
                     {
                         for (int num621 = 0; num621 < 10; num621++)
                         {
@@ -10215,15 +10222,21 @@ namespace CalamityMod.NPCs
 
             // Enrage if the target isn't inside the temple
             bool enrage = true;
-            if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
-            {
-                int num = (int)Main.player[npc.target].Center.X / 16;
-                int num2 = (int)Main.player[npc.target].Center.Y / 16;
+			bool turboEnrage = false;
+			if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+			{
+				int num = (int)Main.player[npc.target].Center.X / 16;
+				int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
-                Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
-                    enrage = false;
-            }
+				Tile tile = Framing.GetTileSafely(num, num2);
+				if (tile.wall == WallID.LihzahrdBrickUnsafe)
+					enrage = false;
+				else
+					turboEnrage = malice;
+			}
+			else
+				turboEnrage = malice;
+
             if (malice)
                 enrage = true;
 
@@ -10440,29 +10453,37 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.4f || golemLifeRatio < 0.55f;
 
+			// Enrage if the target isn't inside the temple
+			bool enrage = true;
+			bool turboEnrage = false;
+			if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+			{
+				int num = (int)Main.player[npc.target].Center.X / 16;
+				int num2 = (int)Main.player[npc.target].Center.Y / 16;
+
+				Tile tile = Framing.GetTileSafely(num, num2);
+				if (tile.wall == WallID.LihzahrdBrickUnsafe)
+					enrage = false;
+				else
+					turboEnrage = malice;
+			}
+			else
+				turboEnrage = malice;
+
+			if (malice)
+				enrage = true;
+
+			npc.defense = turboEnrage ? (npc.defDefense * 50) : npc.defDefense;
+
 			// Float through tiles or not
 			bool flag44 = false;
-			if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3)
+			if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3 || turboEnrage)
 			{
 				npc.noTileCollide = true;
 				flag44 = true;
 			}
 			else
 				npc.noTileCollide = false;
-
-			// Enrage if the target isn't inside the temple
-			bool enrage = true;
-            if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
-            {
-                int num = (int)Main.player[npc.target].Center.X / 16;
-                int num2 = (int)Main.player[npc.target].Center.Y / 16;
-
-                Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
-                    enrage = false;
-            }
-            if (malice)
-                enrage = true;
 
             // Move to new location
             if (npc.ai[3] <= 0f)
@@ -10474,7 +10495,7 @@ namespace CalamityMod.NPCs
                 float maxDistance = 300f;
 
                 // Four corners around target
-                if (phase3)
+                if (phase3 || turboEnrage)
                 {
                     if (calamityGlobalNPC.newAI[1] == -maxDistance)
                     {
@@ -10536,17 +10557,17 @@ namespace CalamityMod.NPCs
 			}
 
             npc.ai[3] -= 1f +
-                (phase2 ? 1f : 0f) +
-                (phase3 ? 1f : 0f) +
-                (phase4 ? 2f : 0f);
+                ((phase2 || turboEnrage) ? 1f : 0f) +
+                ((phase3 || turboEnrage) ? 1f : 0f) +
+                ((phase4 || turboEnrage) ? 2f : 0f);
 
             float offsetX = calamityGlobalNPC.newAI[0];
             float offsetY = calamityGlobalNPC.newAI[1];
 
             // Velocity and acceleration
             float num700 = 7f +
-                (phase2 ? 4f : 0f) +
-                (phase3 ? 14f : 0f);
+                ((phase2 || turboEnrage) ? 4f : 0f) +
+                ((phase3 || turboEnrage) ? 14f : 0f);
 
             Vector2 vector87 = new Vector2(npc.Center.X, npc.Center.Y);
             float num702 = Main.player[npc.target].Center.X - vector87.X + offsetX;
@@ -10554,7 +10575,7 @@ namespace CalamityMod.NPCs
             float num704 = (float)Math.Sqrt(num702 * num702 + num703 * num703);
 
             // Static movement
-            if (phase3)
+            if (phase3 || turboEnrage)
             {
                 if (enrage)
                     num700 = 25f;

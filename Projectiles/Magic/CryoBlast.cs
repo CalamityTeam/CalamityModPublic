@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 3;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 180;
 			projectile.coldDamage = true;
 			projectile.alpha = 255;
         }

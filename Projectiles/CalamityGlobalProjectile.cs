@@ -165,6 +165,7 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.Spike:
 				case ProjectileID.Sharknado:
 				case ProjectileID.Cthulunado:
+				case ProjectileID.PhantasmalSphere:
 				case ProjectileID.PhantasmalDeathray:
 					canBreakPlayerDefense = true;
 					break;
@@ -196,7 +197,6 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.CultistBossFireBall:
 				case ProjectileID.CultistBossFireBallClone:
 				case ProjectileID.CultistBossIceMist:
-				case ProjectileID.PhantasmalSphere:
 					canBreakPlayerDefense = affectedByMaliceModeVelocityMultiplier = true;
 					break;
 
