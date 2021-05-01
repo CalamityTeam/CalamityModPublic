@@ -41,6 +41,10 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
+			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
+			// tooltip list.
+			EnchantmentTooltips(item, tooltips);
+
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
 				return;
@@ -215,6 +219,19 @@ namespace CalamityMod.Items
 				overrideColor = lineColor
 			};
 			tooltips.Add(line);
+		}
+		#endregion
+
+		#region Enchantment Tooltips
+		private void EnchantmentTooltips(Item item, IList<TooltipLine> tooltips)
+		{
+			if (!item.IsAir && AppliedEnchantment.HasValue)
+			{
+				tooltips[0].text = $"{AppliedEnchantment.Value.Name} {tooltips[0].text}";
+
+				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
+				tooltips.Add(descriptionLine);
+			}
 		}
 		#endregion
 

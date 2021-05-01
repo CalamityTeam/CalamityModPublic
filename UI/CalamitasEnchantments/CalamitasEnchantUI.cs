@@ -232,13 +232,13 @@ namespace CalamityMod.UI.CalamitasEnchants
 				itemScale = 36f / MathHelper.Max(itemFrame.Width, itemFrame.Height);
 
 			itemScale *= inventoryScale * baseScale;
-			drawPosition += itemFrame.Size() * itemScale * new Vector2(0.65f, 0.6f);
+			drawPosition += Vector2.One * 23f * baseScale;
 
 			// Draw the item.
 			if (ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
 			{
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, Vector2.Zero, itemScale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, Vector2.Zero, itemScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
 			}
 		}
 

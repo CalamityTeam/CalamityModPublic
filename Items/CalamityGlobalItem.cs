@@ -5,6 +5,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Magic;
@@ -14,6 +15,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -49,10 +51,14 @@ namespace CalamityMod.Items
 				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
 			}
 		}
-        #endregion
+		#endregion
 
-        // Miscellaneous stuff
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		#region Enchantment Variables
+		public Enchantment? AppliedEnchantment = null;
+		#endregion
+
+		// Miscellaneous stuff
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
         public int reforgeTier = 0;
         public bool donorItem = false;
@@ -221,6 +227,7 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			CalamityPlayer modPlayer = player.Calamity();
+
             if (rogue)
             {
                 speedX *= modPlayer.throwingVelocity;
@@ -457,8 +464,9 @@ namespace CalamityMod.Items
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
-				["reforgeTier"] = reforgeTier
-            };
+				["reforgeTier"] = reforgeTier,
+				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0
+			};
         }
 
         public override void Load(Item item, TagCompound tag)
@@ -474,7 +482,15 @@ namespace CalamityMod.Items
                 Charge = tag.GetFloat("charge");
 
 			reforgeTier = tag.GetInt("reforgeTimer");
-        }
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				if (hasCreationEffect)
+					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+			}
+		}
 
         public override void LoadLegacy(Item item, BinaryReader reader)
         {
@@ -505,7 +521,8 @@ namespace CalamityMod.Items
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
-        }
+			writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+		}
 
         public override void NetReceive(Item item, BinaryReader reader)
         {
@@ -516,7 +533,16 @@ namespace CalamityMod.Items
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
-        }
+
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				if (hasCreationEffect)
+					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+			}
+		}
         #endregion
 
         #region Pickup Item Changes
@@ -560,7 +586,7 @@ namespace CalamityMod.Items
 				NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
 			}
 
-            return base.UseItem(item, player);
+			return base.UseItem(item, player);
         }
 
         public override bool AltFunctionUse(Item item, Player player)
@@ -669,7 +695,14 @@ namespace CalamityMod.Items
             if (PopupGUIManager.AnyGUIsActive)
                 return false;
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+			if (player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+			{
+				Point spawnPosition = Main.MouseWorld.ToPoint();
+				NPC.NewNPC(spawnPosition.X, spawnPosition.Y, ModContent.NPCType<CalamitasEnchantDemon>(), Target: player.whoAmI);
+				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+			}
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
                 return false; // Don't use weapons if you're charging with a spear

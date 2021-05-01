@@ -995,7 +995,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Calamitas Enchant Effects
-        public bool sacrificeEnchant = false;
+        public bool cursedSummonsEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1363,8 +1363,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.9);
-            if (sacrificeEnchant)
-                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
             if (regenator)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.5);
 
@@ -1986,7 +1984,7 @@ namespace CalamityMod.CalPlayer
             RageDuration = DefaultRageDuration;
             RageDamageBoost = DefaultRageDamageBoost;
 
-            sacrificeEnchant = false;
+            cursedSummonsEnchant = false;
 
             lastProjectileHit = null;
         }
