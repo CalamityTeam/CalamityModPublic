@@ -16,10 +16,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.hostile = true;
             projectile.penetrate = -1;
+			projectile.timeLeft = 300;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -36,12 +37,32 @@ namespace CalamityMod.Projectiles.Boss
         {
             Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
-			if (projectile.ai[0] != 2f)
-				projectile.aiStyle = 1;
-
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.velocity.Y += 0.2f;
+				if (projectile.velocity.Length() < projectile.ai[1])
+					projectile.velocity *= 1.01f;
+
+				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+				for (int num322 = 0; num322 < 2; num322++)
+				{
+					int num323 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, projectile.velocity.X, projectile.velocity.Y, 50, default, 0.6f);
+					Main.dust[num323].noGravity = true;
+					Dust dust = Main.dust[num323];
+					dust.velocity *= 0.3f;
+				}
+			}
+			else if (projectile.ai[0] == 1f)
+			{
+				projectile.aiStyle = 1;
+
+				for (int num322 = 0; num322 < 2; num322++)
+				{
+					int num323 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, projectile.velocity.X, projectile.velocity.Y, 50, default, 0.6f);
+					Main.dust[num323].noGravity = true;
+					Dust dust = Main.dust[num323];
+					dust.velocity *= 0.3f;
+				}
 			}
 			else if (projectile.ai[0] == 2f)
 			{
@@ -54,26 +75,26 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 50;
-                if (projectile.alpha <= 0)
-                {
-                    projectile.localAI[0] = 1f;
-                    projectile.alpha = 0;
-                }
-            }
-            else
-            {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 50;
-                if (projectile.alpha >= 255)
-                {
-                    projectile.localAI[0] = 0f;
-                    projectile.alpha = 255;
-                }
-            }
-        }
+			{
+				projectile.scale += 0.01f;
+				projectile.alpha -= 50;
+				if (projectile.alpha <= 0)
+				{
+					projectile.localAI[0] = 1f;
+					projectile.alpha = 0;
+				}
+			}
+			else
+			{
+				projectile.scale -= 0.01f;
+				projectile.alpha += 50;
+				if (projectile.alpha >= 255)
+				{
+					projectile.localAI[0] = 0f;
+					projectile.alpha = 255;
+				}
+			}
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

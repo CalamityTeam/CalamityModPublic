@@ -176,6 +176,14 @@ namespace CalamityMod.ILEditing
 			IL.Terraria.Player.Update += (il) =>
 			{
 				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR8(1.6)); // Movement speed cap (removed in 1.4).
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R8, 3D); // Increase it to some higher amount.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.6f)); // Movement speed cap (removed in 1.4).
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 3f); // Increase it to some higher amount.
+
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)); // The max run speed multiplier for Asphalt.
 				cursor.Remove();
 				cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.

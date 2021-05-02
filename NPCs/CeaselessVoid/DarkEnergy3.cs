@@ -158,8 +158,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			}
 
 			double mult = 0.5 +
-                (CalamityWorld.revenge ? 0.2 : 0.0) +
-                (CalamityWorld.death ? 0.2 : 0.0);
+                ((CalamityWorld.revenge || CalamityWorld.malice) ? 0.2 : 0.0) +
+                ((CalamityWorld.death || CalamityWorld.malice) ? 0.2 : 0.0);
 
             if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
                 npc.knockBackResist = 0f;
@@ -231,9 +231,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.timeLeft = 1800;
 
             float num1372 = (expertMode ? 10f : 8f) * tileEnrageMult;
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
                 num1372 += 2f;
-            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+            if (CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive)
                 num1372 += 2f;
 
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);

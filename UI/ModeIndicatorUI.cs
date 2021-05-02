@@ -39,8 +39,8 @@ namespace CalamityMod.UI
 			if (CalamityWorld.armageddon)
 				spriteBatch.Draw(armageddonIconTexture, drawCenter + ArmageddonIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
 
-			if (false)
-				spriteBatch.Draw(defiledRuneIconTexture, drawCenter + DefiledRuneIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+			/*if (false)
+				spriteBatch.Draw(defiledRuneIconTexture, drawCenter + DefiledRuneIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);*/
 		}
 	}
 }

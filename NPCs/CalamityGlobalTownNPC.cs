@@ -78,6 +78,7 @@ namespace CalamityMod.NPCs
 			"Lilly",
 			"Daawn", // <@!206162323541458944> (Daawnily#3859)
 			"Robin", // <@!654737510030639112> (Altzeus#8687)
+			"Curly", // <@!673092101780668416> (Curly~Brace#4830)
 		};
 		private const int MerchantVanillaNames = 23;
 		private static readonly string[] MerchantNames = null;

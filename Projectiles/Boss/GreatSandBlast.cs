@@ -80,8 +80,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.velocity.X *= 0.5f;
-            target.velocity.Y *= 0.5f;
+            target.velocity *= 0.5f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

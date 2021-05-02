@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
 
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.PureGreen;
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().challengeDrop = true;
 		}

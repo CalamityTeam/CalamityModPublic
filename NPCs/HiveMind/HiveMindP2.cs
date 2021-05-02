@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftSpeed = 2f;
                 driftBoost = 2f;
             }
-            if (CalamityWorld.death || CalamityWorld.malice)
+            if (CalamityWorld.death)
             {
                 lungeRots = 0.4;
                 minimumDriftTime = 60;
@@ -118,6 +118,15 @@ namespace CalamityMod.NPCs.HiveMind
                 driftSpeed = 3f;
                 driftBoost = 1f;
             }
+			if (CalamityWorld.malice)
+			{
+				lungeRots = 0.4;
+				minimumDriftTime = 30;
+				reelbackFade = 12;
+				lungeTime = 15;
+				driftSpeed = 8f;
+				driftBoost = 1f;
+			}
             if (BossRushEvent.BossRushActive)
             {
                 lungeRots = 0.4;

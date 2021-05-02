@@ -123,6 +123,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(laserWallType);
 			writer.Write(teleportTimer);
             writer.Write(npc.alpha);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -140,6 +142,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			laserWallType = reader.ReadInt32();
 			teleportTimer = reader.ReadInt32();
             npc.alpha = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
         public override void BossHeadRotation(ref float rotation)
@@ -1079,7 +1083,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
 
-			teleportTimer = BossRushEvent.BossRushActive ? 100 : CalamityWorld.death ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+			teleportTimer = BossRushEvent.BossRushActive ? 100 : (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 		}
 
 		private void Teleport(Player player, bool death, bool revenge, bool expertMode)

@@ -961,15 +961,31 @@ namespace CalamityMod.Items
         public override void UpdateEquip(Item item, Player player)
         {
 			#region Head
-			if (item.type == ItemID.SpectreHood)
+			if (item.type == ItemID.SquireGreatHelm)
+				player.lifeRegen -= 3;
+			else if (item.type == ItemID.MonkBrows)
+				player.meleeSpeed -= 0.1f;
+			else if (item.type == ItemID.SpectreHood)
 				player.magicDamage += 0.2f;
 			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
 				player.Calamity().throwingDamage += 0.03f;
-            #endregion
+			#endregion
 
-            #region Body
-            if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-                player.Calamity().throwingCrit += 3;
+			#region Body
+			if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
+				player.Calamity().throwingCrit += 3;
+			else if (item.type == ItemID.SquireAltShirt)
+				player.lifeRegen -= 6;
+			else if (item.type == ItemID.MonkAltShirt)
+			{
+				player.minionDamage -= 0.1f;
+				player.meleeSpeed -= 0.1f;
+			}
+			else if (item.type == ItemID.HuntressAltShirt)
+			{
+				player.minionDamage -= 0.1f;
+				player.rangedDamage -= 0.1f;
+			}
 			else if (item.type == ItemID.StardustBreastplate)
 				player.maxMinions--;
 			#endregion
@@ -1473,9 +1489,7 @@ namespace CalamityMod.Items
 		public override void PostUpdate(Item item)
 		{
 			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
-			{
 				CalamityUtils.ForceItemIntoWorld(item);
-			}
 		}
 		#endregion
 

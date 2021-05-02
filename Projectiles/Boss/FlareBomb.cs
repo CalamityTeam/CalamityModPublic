@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 50;
             projectile.timeLeft = 180;
             cooldownSlot = 1;
-        }
+		}
 
         public override void AI()
         {

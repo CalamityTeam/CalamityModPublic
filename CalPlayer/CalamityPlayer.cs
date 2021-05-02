@@ -23,6 +23,7 @@ using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
@@ -271,7 +272,7 @@ namespace CalamityMod.CalPlayer
 
         #region Rogue
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
-        private static readonly double StealthDamageConstant = 0.5;
+        public static double StealthDamageConstant = 0.5;
 
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
@@ -306,7 +307,7 @@ namespace CalamityMod.CalPlayer
 
 		#region Pet
 		public bool thirdSage = false;
-        public bool thirdSageH = true; // Third sage healing
+        public bool thirdSageH = true;
         public bool perfmini = false;
         public bool akato = false;
         public bool leviPet = false;
@@ -1406,8 +1407,6 @@ namespace CalamityMod.CalPlayer
             noLifeRegen = false;
 
             thirdSage = false;
-			thirdSageH = false;
-
             perfmini = false;
             akato = false;
             leviPet = false;
@@ -5580,7 +5579,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int newDamage = damage;
 
-                    double defenseStatDamageMult = CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
+                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
@@ -6027,7 +6026,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int newDamage = damage;
 
-                    double defenseStatDamageMult = CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
+                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
@@ -6299,10 +6298,10 @@ namespace CalamityMod.CalPlayer
                         if (bannerNPCType == ModContent.NPCType<Trilobite>())
                             reduceDamage = true;
                     }
-                    else if (proj.type == ModContent.ProjectileType<BrimstoneLaser>() || proj.type == ModContent.ProjectileType<BrimstoneLaserSplit>())
+                    else if (proj.type == ModContent.ProjectileType<BrimstoneBarrage>())
                     {
                         if (bannerNPCType == ModContent.NPCType<SoulSlurper>())
-                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<Calamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
+                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneElemental>());
                     }
                     else if (proj.type == ModContent.ProjectileType<GreatSandBlast>())
                     {
@@ -6342,7 +6341,7 @@ namespace CalamityMod.CalPlayer
                     else if (proj.type == ProjectileID.SaucerScrap)
                     {
                         if (bannerNPCType == ModContent.NPCType<ArmoredDiggerHead>())
-                            reduceDamage = Main.invasionType != InvasionID.MartianMadness && (!NPC.AnyNPCs(NPCID.TheDestroyer) || !CalamityWorld.revenge);
+                            reduceDamage = Main.invasionType != InvasionID.MartianMadness;
                     }
                     else
                     {
@@ -6734,7 +6733,7 @@ namespace CalamityMod.CalPlayer
             if (sulfurSet)
                 npc.AddBuff(BuffID.Poisoned, 120);
 
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge || CalamityWorld.malice)
             {
                 if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
                 {
@@ -6784,7 +6783,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (CalamityWorld.revenge && proj.hostile)
+            if ((CalamityWorld.revenge || CalamityWorld.malice) && proj.hostile)
             {
                 if (proj.type == ProjectileID.Explosives)
                 {

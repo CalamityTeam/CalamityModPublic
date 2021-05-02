@@ -154,8 +154,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
 			float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-			float num188 = CalamityWorld.revenge ? 16f : 14f;
-			float num189 = CalamityWorld.revenge ? 0.15f : 0.13f;
+			float num188 = CalamityWorld.malice ? 18f : CalamityWorld.revenge ? 16f : 14f;
+			float num189 = CalamityWorld.malice ? 0.17f : CalamityWorld.revenge ? 0.15f : 0.13f;
 
 			if (increaseSpeedMore)
 			{

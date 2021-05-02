@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.Polterghast
 			// Variables
 			Vector2 vector = npc.Center;
 			bool malice = CalamityWorld.malice;
-			bool speedBoost = malice;
+			bool speedBoost = false;
             bool despawnBoost = false;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
@@ -311,6 +311,9 @@ namespace CalamityMod.NPCs.Polterghast
 			if (nearbyActiveTiles < 1000)
 				tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
+			if (malice)
+				tileEnrageMult = 1.75f;
+
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
 
@@ -323,12 +326,7 @@ namespace CalamityMod.NPCs.Polterghast
 			int baseProjectileSpread = (int)(45f * tileEnrageMult);
 			float baseProjectileVelocity = (BossRushEvent.BossRushActive ? 7f : 5f) * tileEnrageMult;
 			if (speedBoost || calamityGlobalNPC.enraged > 0)
-				baseProjectileVelocity *= 2f;
-
-			// Increase damage of projectiles and contact damage based on number of nearby active tiles
-			int damageIncrease = 0;
-			if (nearbyActiveTiles < 1000)
-				damageIncrease += (1000 - nearbyActiveTiles) / 50; // Ranges from 0 to 20
+				baseProjectileVelocity *= 1.25f;
 
 			// Look at target
 			float num740 = player.Center.X - vector.X;
@@ -371,7 +369,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 				float maxDistanceFromHooks = expertMode ? 650f : 500f;
-				if (speedBoost)
+				if (speedBoost || malice)
 					maxDistanceFromHooks += 250f;
 				if (death)
 					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
@@ -572,20 +570,14 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (!phase2 && !phase3)
             {
-                npc.damage = npc.defDamage + damageIncrease * 4;
+                npc.damage = npc.defDamage;
                 npc.defense = npc.defDefense;
-
-                if (speedBoost)
-                {
-                    npc.defense *= 2;
-                    npc.damage *= 2;
-                }
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost)
-                        npc.localAI[1] += 3f;
+                        npc.localAI[1] += 2f;
 
                     if (npc.localAI[1] >= 90f * projectileFireRateMultiplier)
                     {
@@ -607,9 +599,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 type = ModContent.ProjectileType<PhantomBlast>();
                             }
 
-							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-                            if (speedBoost || calamityGlobalNPC.enraged > 0)
-                                damage *= 2;
+							int damage = npc.GetProjectileDamage(type);
 
 							Vector2 vector93 = vector;
 							float num743 = player.Center.X - vector93.X;
@@ -637,9 +627,7 @@ namespace CalamityMod.NPCs.Polterghast
                         else
                         {
 							int type = ModContent.ProjectileType<PhantomBlast>();
-							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0)
-								damage *= 2;
+							int damage = npc.GetProjectileDamage(type);
 
 							Vector2 vector93 = vector;
 							float num743 = player.Center.X - vector93.X;
@@ -711,20 +699,14 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.GivenName = "Necroghast";
 
-                npc.damage = (int)(npc.defDamage * 1.2f) + damageIncrease * 4;
+                npc.damage = (int)(npc.defDamage * 1.2f);
                 npc.defense = (int)(npc.defDefense * 0.8f);
-
-                if (speedBoost || calamityGlobalNPC.enraged > 0)
-                {
-                    npc.defense *= 2;
-                    npc.damage *= 2;
-                }
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost)
-                        npc.localAI[1] += 3f;
+                        npc.localAI[1] += 2f;
 
                     if (npc.localAI[1] >= 150f * projectileFireRateMultiplier)
                     {
@@ -746,9 +728,7 @@ namespace CalamityMod.NPCs.Polterghast
 								type = ModContent.ProjectileType<PhantomBlast2>();
 							}
 
-							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0)
-								damage *= 2;
+							int damage = npc.GetProjectileDamage(type);
 
 							Vector2 vector93 = vector;
 							float num743 = player.Center.X - vector93.X;
@@ -777,9 +757,7 @@ namespace CalamityMod.NPCs.Polterghast
                         else
                         {
 							int type = ModContent.ProjectileType<PhantomBlast2>();
-							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0)
-								damage *= 2;
+							int damage = npc.GetProjectileDamage(type);
 
 							Vector2 vector93 = vector;
 							float num743 = player.Center.X - vector93.X;
@@ -869,14 +847,8 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.GivenName = "Necroplasm";
 
-                npc.damage = (int)(npc.defDamage * 1.4f) + damageIncrease * 4;
+                npc.damage = (int)(npc.defDamage * 1.4f);
                 npc.defense = (int)(npc.defDefense * 0.5f);
-
-                if (speedBoost || calamityGlobalNPC.enraged > 0)
-                {
-                    npc.defense *= 2;
-                    npc.damage *= 2;
-                }
 
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] >= 210f * projectileFireRateMultiplier && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -903,9 +875,7 @@ namespace CalamityMod.NPCs.Polterghast
 						double offsetAngle;
 
 						int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
-						int damage = npc.GetProjectileDamage(type) + damageIncrease;
-						if (speedBoost || calamityGlobalNPC.enraged > 0)
-							damage *= 2;
+						int damage = npc.GetProjectileDamage(type);
 
 						for (int i = 0; i < numProj; i++)
 						{
@@ -1084,9 +1054,9 @@ namespace CalamityMod.NPCs.Polterghast
 		public override void FindFrame(int frameHeight)
         {
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
 			bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
             npc.frameCounter += 1D;

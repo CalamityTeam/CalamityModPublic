@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
 
+			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Violet;
 			item.Calamity().challengeDrop = true;

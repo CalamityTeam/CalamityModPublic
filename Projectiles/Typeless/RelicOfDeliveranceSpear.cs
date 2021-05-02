@@ -94,7 +94,8 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.ai[0] >= WaitTimeRequiredForCharge)
                 {
                     // Begin the lunge
-                    if (Main.mouseLeft && !Main.blockMouse && !player.mouseInterface)
+                    bool noObstaclesInWay = Collision.CanHitLine(projectile.Center, 1, 1, projectile.Center + projectile.SafeDirectionTo(Main.MouseWorld) * 25f, 1, 1);
+                    if (Main.myPlayer == projectile.owner && Main.mouseLeft && !Main.blockMouse && !player.mouseInterface && noObstaclesInWay)
                     {
                         float chargeSpeed = MathHelper.Lerp(MinChargeSpeed, MaxChargeSpeed, (projectile.ai[0] - WaitTimeRequiredForCharge) / WaitTimeRequiredForMaximumCharge);
                         if (chargeSpeed > MaxChargeSpeed)
@@ -209,8 +210,34 @@ namespace CalamityMod.Projectiles.Typeless
             // Don't die when colliding with tiles unless the spear is lunging (and after a bit of time has passed).
             projectile.tileCollide = projectile.velocity != Vector2.Zero && projectile.ai[0] >= WaitTimeRequiredForCharge + 10f;
 
+            // Die immediately if the owner of this projectile is clipping into tiles because of its movement.
+            if (Collision.SolidCollision(player.position, player.width, player.height) && projectile.velocity != Vector2.Zero)
+            {
+                player.velocity.Y = 0f;
+                DoDeathDust(projectile.oldVelocity);
+
+                projectile.Kill();
+            }
+
             Lighting.AddLight(projectile.Center, Color.LightGoldenrodYellow.ToVector3());
         }
+        public void DoDeathDust(Vector2 oldVelocity)
+        {
+            if (Main.dedServ)
+                return;
+
+            for (int i = 0; i < 60; i++)
+            {
+                Vector2 spawnOffset = (projectile.Size / 2f).RotatedBy(projectile.rotation);
+                spawnOffset += Utils.NextVector2Circular(Main.rand, 10f, 10f);
+                Dust dust = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.ProfanedFire);
+                dust.velocity = Utils.NextVector2Circular(Main.rand, 5f, 5f) + oldVelocity;
+                dust.noGravity = true;
+                dust.fadeIn = 1.9f;
+            }
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+        }
+
 
         public override bool CanDamage() => projectile.velocity != Vector2.Zero;
 
@@ -226,16 +253,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 60; i++)
-            {
-                Vector2 spawnOffset = (projectile.Size / 2f).RotatedBy(projectile.rotation);
-                spawnOffset += Utils.NextVector2Circular(Main.rand, 10f, 10f);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.ProfanedFire);
-                dust.velocity = Utils.NextVector2Circular(Main.rand, 5f, 5f) + oldVelocity;
-                dust.noGravity = true;
-                dust.fadeIn = 1.9f;
-            }
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            DoDeathDust(oldVelocity);
             return base.OnTileCollide(oldVelocity);
         }
     }

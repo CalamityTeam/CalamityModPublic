@@ -2,6 +2,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
@@ -105,6 +106,10 @@ namespace CalamityMod.Projectiles
 			ProjectileType<ScavengerLaser>()
 		};
 
+		// Boss projectile velocity multiplier in Malice Mode
+		public bool affectedByMaliceModeVelocityMultiplier = false;
+		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
+
 		#region SetDefaults
 		public override void SetDefaults(Projectile projectile)
         {
@@ -148,14 +153,9 @@ namespace CalamityMod.Projectiles
 
 				case ProjectileID.DD2BetsyFireball:
 				case ProjectileID.DD2BetsyFlameBreath:
-				case ProjectileID.CultistBossIceMist:
-				case ProjectileID.CultistBossFireBallClone:
-				case ProjectileID.CultistBossFireBall:
 				case ProjectileID.CultistBossLightningOrbArc:
 				case ProjectileID.InfernoHostileBlast:
 				case ProjectileID.RocketSkeleton:
-				case ProjectileID.DemonSickle:
-				case ProjectileID.Skull:
 				case ProjectileID.SniperBullet:
 				case ProjectileID.RuneBlast:
 				case ProjectileID.UnholyTridentHostile:
@@ -164,12 +164,9 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.Present:
 				case ProjectileID.FlamingScythe:
 				case ProjectileID.SaucerDeathray:
-				case ProjectileID.SaucerMissile:
 				case ProjectileID.CannonballHostile:
 				case ProjectileID.PaladinsHammerHostile:
 				case ProjectileID.Spike:
-				case ProjectileID.ThornBall:
-				case ProjectileID.BombSkeletronPrime:
 				case ProjectileID.Sharknado:
 				case ProjectileID.Cthulunado:
 				case ProjectileID.PhantasmalSphere:
@@ -177,7 +174,37 @@ namespace CalamityMod.Projectiles
 					canBreakPlayerDefense = true;
 					break;
 
-                default:
+				case ProjectileID.Stinger:
+				case ProjectileID.Shadowflames:
+				case ProjectileID.DeathLaser:
+				case ProjectileID.PinkLaser:
+				case ProjectileID.CursedFlameHostile:
+				case ProjectileID.EyeFire:
+				case ProjectileID.EyeLaser:
+				case ProjectileID.PoisonSeedPlantera:
+				case ProjectileID.SeedPlantera:
+				case ProjectileID.Fireball:
+				case ProjectileID.EyeBeam:
+				case ProjectileID.InfernoHostileBolt:
+				case ProjectileID.CultistBossLightningOrb:
+				case ProjectileID.AncientDoomProjectile:
+				case ProjectileID.PhantasmalBolt:
+				case ProjectileID.PhantasmalEye:
+					affectedByMaliceModeVelocityMultiplier = true;
+					break;
+
+				case ProjectileID.DemonSickle:
+				case ProjectileID.BombSkeletronPrime:
+				case ProjectileID.Skull:
+				case ProjectileID.SaucerMissile:
+				case ProjectileID.ThornBall:
+				case ProjectileID.CultistBossFireBall:
+				case ProjectileID.CultistBossFireBallClone:
+				case ProjectileID.CultistBossIceMist:
+					canBreakPlayerDefense = affectedByMaliceModeVelocityMultiplier = true;
+					break;
+
+				default:
                     break;
             }
 
@@ -336,7 +363,7 @@ namespace CalamityMod.Projectiles
                 return false;
 			}
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
                 {
@@ -729,7 +756,7 @@ namespace CalamityMod.Projectiles
                             return false;
                         }
 
-                        float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
+                        float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
                         if (projectile.velocity.Length() < velocityLimit)
                             projectile.velocity *= 1.01f;
                     }
@@ -745,7 +772,7 @@ namespace CalamityMod.Projectiles
                 // Moon Lord big eye spheres
                 else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
                 {
-                    float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
+                    float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 14f : 12f;
                     if (projectile.velocity.Length() < velocityLimit)
                         projectile.velocity *= 1.0075f;
 
@@ -970,6 +997,9 @@ namespace CalamityMod.Projectiles
 			{
 				if (projectile.hostile)
 				{
+					if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier)
+						projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
+
 					// Reduce Nail damage from Nailheads because they're stupid
 					if (projectile.type == ProjectileID.Nail && Main.expertMode)
 						projectile.damage /= 2;

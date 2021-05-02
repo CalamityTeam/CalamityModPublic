@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 3;
-        }
+		}
 
         public override void AI()
         {

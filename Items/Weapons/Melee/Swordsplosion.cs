@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 15f;
+            item.knockBack = 7f;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.height = 84;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
 			item.Calamity().challengeDrop = true;
 		}

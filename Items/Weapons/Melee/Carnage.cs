@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useTurn = true;
             item.height = 60;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+			item.rare = ItemRarityID.Orange;
 			item.Calamity().challengeDrop = true;
 		}
 

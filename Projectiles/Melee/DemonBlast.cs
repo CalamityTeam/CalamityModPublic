@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.melee = true;
 			projectile.alpha = 180;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 10;
 			projectile.timeLeft = 300;
         }
 
