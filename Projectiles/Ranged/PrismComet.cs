@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
             return false;
         }
 

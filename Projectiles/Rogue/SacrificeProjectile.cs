@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
             return false;
         }
 

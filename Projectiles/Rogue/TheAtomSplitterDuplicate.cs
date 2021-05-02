@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Color drawColor = CalamityUtils.MulticolorLerp((Time / 35f + projectile.identity / 4f) % 1f, CalamityGlobalItem.ExoPalette);
             drawColor.A = 0;
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, drawColor, ProjectileID.Sets.TrailingMode[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], drawColor);
             return false;
         }
     }
