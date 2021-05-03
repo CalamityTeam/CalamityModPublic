@@ -42,6 +42,9 @@ namespace CalamityMod
 		public MiscShaderData SpecialShader;
 		public TrailPointRetrievalFunction TrailPointFunction;
 
+		public DynamicIndexBuffer IndexBuffer = null;
+		public DynamicVertexBuffer VertexBuffer = null;
+
 		public delegate List<Vector2> TrailPointRetrievalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null);
 
 		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, TrailPointRetrievalFunction pointFunction = null, MiscShaderData specialShader = null)
@@ -173,7 +176,7 @@ namespace CalamityMod
 
 		public VertexPosition2DColor[] GetVerticesFromTrailPoints(List<Vector2> trailPoints)
 		{
-			List<VertexPosition2DColor> vertices = new List<VertexPosition2DColor>();
+			VertexPosition2DColor[] vertices = new VertexPosition2DColor[trailPoints.Count * 2 - 2];
 			for (int i = 0; i < trailPoints.Count - 1; i++)
 			{
 				float completionRatio = i / (float)trailPoints.Count;
@@ -194,9 +197,13 @@ namespace CalamityMod
 				// What this is doing, at its core, is defining a rectangle based on two triangles.
 				// These triangles are defined based on the width of the strip at that point.
 				// The resulting rectangles combined are what make the trail itself.
-				vertices.Add(new VertexPosition2DColor(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord));
-				vertices.Add(new VertexPosition2DColor(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord));
+				vertices[i * 2] = new VertexPosition2DColor(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord);
+				vertices[i * 2 + 1] = new VertexPosition2DColor(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord);
 			}
+
+			if (VertexBuffer is null || vertices.Length != VertexBuffer.VertexCount)
+				VertexBuffer = new DynamicVertexBuffer(Main.instance.GraphicsDevice, typeof(VertexPosition2DColor), vertices.Length, BufferUsage.WriteOnly);
+			VertexBuffer.SetData(vertices);
 
 			return vertices.ToArray();
 		}
@@ -222,6 +229,10 @@ namespace CalamityMod
 				indices[startingTriangleIndex + 4] = (short)(connectToIndex + 1);
 				indices[startingTriangleIndex + 5] = (short)(connectToIndex + 3);
 			}
+
+			if (IndexBuffer is null || indices.Length != IndexBuffer.IndexCount)
+				IndexBuffer = new DynamicIndexBuffer(Main.instance.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
+			IndexBuffer.SetData(indices);
 
 			return indices;
 		}
@@ -257,7 +268,9 @@ namespace CalamityMod
 			else
 				BaseEffect.CurrentTechnique.Passes[0].Apply();
 
-			Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, triangleIndices, 0, triangleIndices.Length / 3);
+			Main.instance.GraphicsDevice.Indices = IndexBuffer;
+			Main.instance.GraphicsDevice.SetVertexBuffer(VertexBuffer);
+			Main.instance.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.Length, 0, triangleIndices.Length / 3);
 
 			Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 		}
