@@ -131,24 +131,42 @@ namespace CalamityMod
 			return controlPoints.Count <= 1 ? controlPoints : bezierCurve.GetPoints(totalTrailPoints);
 		}
 
-		public static List<Vector2> SmoothCatmullRomPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations)
+		// Using this method requires oldRot be supplied to the Draw method for the sake of determining how many points need to be made at a given time step.
+		// Furthermore, since the point count is dynamic, the point count int parameter has no purpose. It can be supplied simply with zero.
+		public static List<Vector2> SmoothCatmullRomPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int _, IEnumerable<float> originalRotations)
 		{
 			List<Vector2> smoothenedPoints = new List<Vector2>();
 			for (int i = 0; i < originalPositions.Count() - 1; i++)
 			{
-				if (originalPositions.ElementAt(i) == Vector2.Zero || originalPositions.ElementAt(i + 1) == Vector2.Zero)
+				Vector2 currentPosition = originalPositions.ElementAt(i);
+				Vector2 aheadPosition = originalPositions.ElementAt(i + 1);
+
+				// Don't incorporate points that are zeroed out.
+				// They are almost certainly a result of incomplete oldPos arrays.
+				if (currentPosition == Vector2.Zero || aheadPosition == Vector2.Zero)
 					continue;
 
 				float currentRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i));
 				float aheadRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i + 1));
-				int pointsToAdd = (int)(Math.Abs(aheadRotation - currentRotation) * 50f / MathHelper.Pi) + 4;
 
-				float segmentLength = Vector2.Distance(originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1));
+				// Determine the amount of extra points to draw based on the rotational offset between the two time steps.
+				int pointsToAdd = (int)Math.Round(Math.Abs(MathHelper.WrapAngle(aheadRotation - currentRotation)) * 8f / MathHelper.Pi);
+
+				// Add a base point.
+				smoothenedPoints.Add(currentPosition + generalOffset);
+
+				// If no new points are needed, skip this.
+				if (pointsToAdd == 0)
+					continue;
+
+				float segmentLength = Vector2.Distance(currentPosition, aheadPosition);
 				float increment = 1f / (pointsToAdd + 2);
-				Vector2 end = originalPositions.ElementAt(i) + currentRotation.ToRotationVector2() * segmentLength;
-				Vector2 front = originalPositions.ElementAt(i + 1) + aheadRotation.ToRotationVector2() * -segmentLength;
+				Vector2 backEnd = currentPosition + currentRotation.ToRotationVector2() * segmentLength;
+				Vector2 frontEnd = aheadPosition + aheadRotation.ToRotationVector2() * -segmentLength;
+
+				// Create smoothened points based on a Catmull-Rom spline.
 				for (float j = increment; j < 1f; j += increment)
-					smoothenedPoints.Add(Vector2.CatmullRom(end, originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1), front, j) + generalOffset);
+					smoothenedPoints.Add(Vector2.CatmullRom(backEnd, currentPosition, aheadPosition, frontEnd, j) + generalOffset);
 			}
 			return smoothenedPoints;
 		}
