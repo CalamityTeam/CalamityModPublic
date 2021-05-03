@@ -70,9 +70,9 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.SmoothCatmullRomPointRetreivalFunction, GameShaders.Misc["CalamityMod:FabstaffRay"]);
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.SmoothCatmullRomPointRetreivalFunction, GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:FabstaffRay"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/FabstaffStreak"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/FabstaffStreak"));
             TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 0, projectile.oldRot);
             return false;
         }
