@@ -70,25 +70,25 @@ namespace CalamityMod
 
 		public void UpdateBaseEffect(out Matrix effectProjection, out Matrix effectView)
 		{
-			// The screen width and height.
-			int width = Main.instance.GraphicsDevice.Viewport.Width;
+			// Screen bounds.
 			int height = Main.instance.GraphicsDevice.Viewport.Height;
 
 			Vector2 zoom = Main.GameViewMatrix.Zoom;
+			Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 
 			// Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
 			effectView = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up);
 
 			// Offset the matrix to the appropriate position.
-			effectView *= Matrix.CreateTranslation(width / 2, height / -2, 0f);
+			effectView *= Matrix.CreateTranslation(0f, -height, 0f);
 
 			// Flip the matrix around 180 degrees.
 			effectView *= Matrix.CreateRotationZ(MathHelper.Pi);
 
 			// And account for the current zoom.
-			effectView *= Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+			effectView *= zoomScaleMatrix;
 
-			effectProjection = Matrix.CreateOrthographic(width, height, 0f, 1000f);
+			effectProjection = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
 			BaseEffect.View = effectView;
 			BaseEffect.Projection = effectProjection;
 		}
