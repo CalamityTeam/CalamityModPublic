@@ -209,7 +209,7 @@ namespace CalamityMod.Items
 				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
 			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop";
+			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
 			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
 			{
 				overrideColor = lineColor
