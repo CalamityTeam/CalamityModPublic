@@ -146,16 +146,7 @@ namespace CalamityMod.Projectiles.Melee
 		 */
 		private void SetLaserPosition(Player player)
 		{
-			Vector2 maxLength = Main.MouseWorld - Main.player[projectile.owner].Center;
-			for (Distance = MOVE_DISTANCE; Distance <= maxLength.Length(); Distance += 5f)
-			{
-				var start = player.Center + projectile.velocity * Distance;
-				if (!Collision.CanHit(player.Center, 1, 1, start, 1, 1))
-				{
-					Distance -= 5f;
-					break;
-				}
-			}
+			Distance = MathHelper.Max(Main.player[projectile.owner].Distance(Main.MouseWorld) - 20f, MOVE_DISTANCE + 5f);
 		}
 
 		private void ChargeLaser(Player player)
