@@ -592,19 +592,11 @@ namespace CalamityMod.NPCs.Ravager
 			void CustomGravity()
 			{
 				float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
-				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
-				if (npc.wet)
+				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
+				if (malice)
 				{
-					if (npc.honeyWet)
-					{
-						gravity *= 0.33f;
-						maxFallSpeed *= 0.4f;
-					}
-					else
-					{
-						gravity *= 0.66f;
-						maxFallSpeed *= 0.7f;
-					}
+					gravity *= 2f;
+					maxFallSpeed *= 1.25f;
 				}
 
 				if (calamityGlobalNPC.newAI[1] > 1f)

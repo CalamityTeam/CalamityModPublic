@@ -111,8 +111,8 @@ namespace CalamityMod.NPCs.Signus
 			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
-			float inertia = malice ? 6f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
-			float chargeVelocity = malice ? 18f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+			float inertia = malice ? 8f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
+			float chargeVelocity = malice ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
 			bool phase2 = lifeRatio < 0.75f && expertMode;
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
@@ -520,7 +520,7 @@ namespace CalamityMod.NPCs.Signus
 
                 if (calamityGlobalNPC.newAI[0] == 0f) // Line up the charge
                 {
-                    float velocity = malice ? 22f : revenge ? 16f : expertMode ? 15f : 14f;
+                    float velocity = malice ? 19f : revenge ? 16f : expertMode ? 15f : 14f;
 					if (expertMode)
 						velocity += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 

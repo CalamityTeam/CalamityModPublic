@@ -29,11 +29,13 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.timeLeft = 200;
-			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
         {
+			if (projectile.ai[0] == 0f && CalamityWorld.malice)
+				projectile.velocity *= 1.25f;
+
             if (projectile.ai[0] < 240f)
             {
                 projectile.ai[0] += 1f;

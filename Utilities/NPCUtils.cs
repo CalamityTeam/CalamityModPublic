@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -320,6 +319,7 @@ namespace CalamityMod
 			}
 			return closestTarget;
 		}
+
 		/// <summary>
 		/// Detects nearby hostile NPCs from a given point with minion support
 		/// </summary>

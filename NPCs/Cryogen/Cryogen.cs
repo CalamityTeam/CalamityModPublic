@@ -204,7 +204,10 @@ namespace CalamityMod.NPCs.Cryogen
 					int type = ModContent.ProjectileType<IceBomb>();
 					int damage = npc.GetProjectileDamage(type);
 					float velocity = BossRushEvent.BossRushActive ? 12f : 4f;
-					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+					double angleA = radians * 0.5;
+					double angleB = MathHelper.ToRadians(90f) - angleA;
+					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+					Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -231,8 +234,8 @@ namespace CalamityMod.NPCs.Cryogen
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
-							float velocity = BossRushEvent.BossRushActive ? 12f : 9f;
-							Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+							float velocity = (BossRushEvent.BossRushActive ? 12f : 9f) + enrageScale;
+							Vector2 spinningPoint = new Vector2(0f, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -288,8 +291,8 @@ namespace CalamityMod.NPCs.Cryogen
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity2 = BossRushEvent.BossRushActive ? 12f : 9f;
-								Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity2) : Vector2.Normalize(new Vector2(-velocity2, -velocity2)) * velocity2;
+								float velocity2 = (BossRushEvent.BossRushActive ? 12f : 9f) + enrageScale;
+								Vector2 spinningPoint = new Vector2(0f, -velocity2);
 								for (int k = 0; k < totalProjectiles; k++)
 								{
 									Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -378,13 +381,16 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
-								for (int i = 0; i < 3; i++)
+								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								for (int i = 0; i < 2; i++)
 								{
-									int totalProjectiles = 10 - i;
+									int totalProjectiles = 10;
 									float radians = MathHelper.TwoPi / totalProjectiles;
-									float newVelocity = velocity / (i + 1);
-									Vector2 spinningPoint = new Vector2(0f, -newVelocity);
+									float newVelocity = velocity - (velocity * 0.5f * i);
+									double angleA = radians * 0.5;
+									double angleB = MathHelper.ToRadians(90f) - angleA;
+									float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+									Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
 									for (int k = 0; k < totalProjectiles; k++)
 									{
 										Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -447,8 +453,8 @@ namespace CalamityMod.NPCs.Cryogen
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
-								Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								Vector2 spinningPoint = new Vector2(0f, -velocity);
 								for (int k = 0; k < totalProjectiles; k++)
 								{
 									Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -501,13 +507,16 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
+								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
 								for (int i = 0; i < 3; i++)
 								{
-									int totalProjectiles = 8 - i;
+									int totalProjectiles = 8;
 									float radians = MathHelper.TwoPi / totalProjectiles;
-									float newVelocity = velocity / (i + 1);
-									Vector2 spinningPoint = new Vector2(0f, -newVelocity);
+									float newVelocity = velocity - (velocity * 0.33f * i);
+									double angleA = radians * 0.5;
+									double angleB = MathHelper.ToRadians(90f) - angleA;
+									float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+									Vector2 spinningPoint = i == 1 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
 									for (int k = 0; k < totalProjectiles; k++)
 									{
 										Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -570,8 +579,8 @@ namespace CalamityMod.NPCs.Cryogen
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
-							float velocity = BossRushEvent.BossRushActive ? 15f : 10f;
-							Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+							float velocity = (BossRushEvent.BossRushActive ? 15f : 10f) + enrageScale;
+							Vector2 spinningPoint = new Vector2(0f, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -672,13 +681,20 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
+								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
 								for (int i = 0; i < 3; i++)
 								{
-									int totalProjectiles = 6 - i;
+									int totalProjectiles = 6;
 									float radians = MathHelper.TwoPi / totalProjectiles;
-									float newVelocity = velocity / (i + 1);
-									Vector2 spinningPoint = new Vector2(0f, -newVelocity);
+									float newVelocity = velocity - (velocity * 0.33f * i);
+									float velocityX = 0f;
+									if (i > 0)
+									{
+										double angleA = radians * 0.33 * (3 - i);
+										double angleB = MathHelper.ToRadians(90f) - angleA;
+										velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+									}
+									Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
 									for (int k = 0; k < totalProjectiles; k++)
 									{
 										Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -747,13 +763,20 @@ namespace CalamityMod.NPCs.Cryogen
 									Main.PlaySound(SoundID.Item28, npc.Center);
 									int type = ModContent.ProjectileType<IceRain>();
 									int damage = npc.GetProjectileDamage(type);
-									float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
-									for (int i = 0; i < 3; i++)
+									float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+									for (int i = 0; i < 4; i++)
 									{
-										int totalProjectiles = 4 - i;
+										int totalProjectiles = 4;
 										float radians = MathHelper.TwoPi / totalProjectiles;
-										float newVelocity = velocity / (i + 1);
-										Vector2 spinningPoint = new Vector2(0f, -newVelocity);
+										float newVelocity = velocity - (velocity * 0.25f * i);
+										float velocityX = 0f;
+										if (i > 0)
+										{
+											double angleA = radians * 0.25 * (4 - i);
+											double angleB = MathHelper.ToRadians(90f) - angleA;
+											velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+										}
+										Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
 										for (int k = 0; k < totalProjectiles; k++)
 										{
 											Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
@@ -846,7 +869,10 @@ namespace CalamityMod.NPCs.Cryogen
 					int type = ModContent.ProjectileType<IceBomb>();
 					int damage = npc.GetProjectileDamage(type);
 					float velocity2 = BossRushEvent.BossRushActive ? 16f : 6f;
-					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity2) : Vector2.Normalize(new Vector2(-velocity2, -velocity2)) * velocity2;
+					double angleA = radians * 0.5;
+					double angleB = MathHelper.ToRadians(90f) - angleA;
+					float velocityX = (float)(velocity2 * Math.Sin(angleA) / Math.Sin(angleB));
+					Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity2) : new Vector2(velocityX, -velocity2);
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);

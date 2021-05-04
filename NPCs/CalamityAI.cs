@@ -1015,7 +1015,7 @@ namespace CalamityMod.NPCs
 						for (int j = 0; j < totalProjectiles; j++)
 						{
 							float radians = j - (totalProjectiles - 1f) / 2f;
-							Vector2 offset = velocity.RotatedBy(offsetAngle * radians, default);
+							Vector2 offset = velocity.RotatedBy(offsetAngle * radians);
 							int proj = Projectile.NewProjectile(npc.Center + offset, vectorCenter, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 							Main.projectile[proj].timeLeft = 300;
 							Main.projectile[proj].tileCollide = false;
@@ -1025,11 +1025,17 @@ namespace CalamityMod.NPCs
 						float radians2 = MathHelper.TwoPi / totalProjectiles;
 						type = ModContent.ProjectileType<BrimstoneBarrage>();
 						damage = npc.GetProjectileDamage(type);
+						double angleA = radians2 * 0.5;
+						double angleB = MathHelper.ToRadians(90f) - angleA;
+						float velocityX = (float)(projectileSpeed * Math.Sin(angleA) / Math.Sin(angleB));
+						Vector2 spinningPoint = npc.localAI[2] % 2f == 0f ? new Vector2(0f, -projectileSpeed) : new Vector2(-velocityX, -projectileSpeed);
 						for (int k = 0; k < totalProjectiles; k++)
 						{
-							Vector2 vector255 = new Vector2(0f, -projectileSpeed).RotatedBy(radians2 * k);
+							Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
 							Projectile.NewProjectile(npc.Center, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 						}
+
+						npc.localAI[2] += 1f;
 					}
 				}
 
@@ -1537,10 +1543,11 @@ namespace CalamityMod.NPCs
 							int type = ModContent.ProjectileType<BrimstoneHellblast2>();
 							int damage = npc.GetProjectileDamage(type);
 							float projSpeed = malice ? 5f : 4f;
-							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 5f) == 0f)
+							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 3f) == 0f)
 							{
-								Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, projSpeed, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
-								Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -projSpeed, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
+								float distance = Main.rand.NextBool() ? -1000f : 1000f;
+								float velocity = distance == -1000f ? projSpeed : -projSpeed;
+								Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, type, damage, 0f, Main.myPlayer, 1f, 0f);
 							}
 							if (calamityGlobalNPC.newAI[3] < 300f) // Blasts from above
 							{
@@ -2242,7 +2249,7 @@ namespace CalamityMod.NPCs
 						{
 							npc.localAI[1] = 0f;
 							float num867 = BossRushEvent.BossRushActive ? 9f : NPC.AnyNPCs(ModContent.NPCType<CalamitasRun2>()) ? 4f : 6f;
-							num867 += 1f * enrageScale;
+							num867 += enrageScale;
 							int type = ModContent.ProjectileType<BrimstoneFire>();
 							int damage = npc.GetProjectileDamage(type);
 							vector86 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -2740,7 +2747,7 @@ namespace CalamityMod.NPCs
 							int damage = npc.GetProjectileDamage(type);
 							if (NPC.downedMoonlord && revenge && !BossRushEvent.BossRushActive)
 								damage *= 2;
-							float spreadLimit = phase3 ? 100f : 50f;
+							float spreadLimit = (phase3 ? 100f : 50f) + enrageScale * 50f;
 							float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
 							Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
 							Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
@@ -2966,8 +2973,8 @@ namespace CalamityMod.NPCs
 							if (distanceBelowTarget > 0f)
 								calamityGlobalNPC.newAI[0] = 1f + distanceBelowTarget * 0.001f;
 
-							if (calamityGlobalNPC.newAI[0] > 1.5f)
-								calamityGlobalNPC.newAI[0] = 1.5f;
+							if (calamityGlobalNPC.newAI[0] > 2f)
+								calamityGlobalNPC.newAI[0] = 2f;
 						}
 
 						if (expertMode)
@@ -3255,21 +3262,8 @@ namespace CalamityMod.NPCs
 
 			void CustomGravity()
 			{
-				float gravity = 0.3f;
-				float maxFallSpeed = 10f;
-				if (npc.wet)
-				{
-					if (npc.honeyWet)
-					{
-						gravity *= 0.33f;
-						maxFallSpeed *= 0.4f;
-					}
-					else
-					{
-						gravity *= 0.66f;
-						maxFallSpeed *= 0.7f;
-					}
-				}
+				float gravity = 0.3f + 0.15f * enrageScale;
+				float maxFallSpeed = 10f + 2.5f * enrageScale;
 
 				if (calamityGlobalNPC.newAI[0] > 1f)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
@@ -3914,7 +3908,7 @@ namespace CalamityMod.NPCs
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
-								float num941 = BossRushEvent.BossRushActive ? 24f : death ? 16f : revenge ? 14f : 13f;
+								float num941 = (BossRushEvent.BossRushActive ? 24f : death ? 16f : revenge ? 14f : 13f) + enrageScale * 3f;
 								if (targetFloatingUp)
 								{
 									num941 *= 2f;
@@ -3941,7 +3935,7 @@ namespace CalamityMod.NPCs
 						{
 							int type = ModContent.ProjectileType<DeusMine>();
 							int damage = npc.GetProjectileDamage(type);
-							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
+							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
 						}
 					}
 				}
@@ -4362,7 +4356,6 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
 						npc.netUpdate = true;
 					}
 
@@ -4428,7 +4421,6 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
 					}
 				}
 				else
@@ -4452,7 +4444,6 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
 					}
 				}
 
@@ -4524,7 +4515,6 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
 				}
 				else if (value51.Length() > 240f)
 				{
@@ -4545,7 +4535,6 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
 					npc.netUpdate = true;
 					while (npc.ai[0] == 0f)
 					{
@@ -4559,6 +4548,10 @@ namespace CalamityMod.NPCs
 							npc.TargetClosest();
 							npc.ai[0] = 5f;
 							npc.localAI[0] = 0f;
+
+							// Decrease the feather variable, feathers can be used again if it's at 0
+							if (npc.ai[3] > 0f)
+								npc.ai[3] -= 1f;
 
 							// Decrease enraged attacks by 1
 							if (npc.localAI[2] > 0f)
@@ -4578,28 +4571,14 @@ namespace CalamityMod.NPCs
 							int type = ModContent.ProjectileType<RedLightningFeather>();
 							int damage = npc.GetProjectileDamage(type);
 
-							// Count feathers and prevent spawning more if the limit is reached.
-							bool spawnFeathers = true;
-							int featherLimit = 20;
-							int featherAmt = 0;
-							for (int j = 0; j < Main.maxProjectiles; j++)
-							{
-								Projectile projectile = Main.projectile[j];
-
-								if (projectile.type == type && projectile.active && projectile.hostile)
-									featherAmt++;
-
-								if (featherAmt >= featherLimit)
-								{
-									spawnFeathers = false;
-									break;
-								}
-							}
-
 							if (num1307 == 0 && canHit && npc.localAI[3] == 0f)
 							{
 								npc.TargetClosest();
 								npc.ai[0] = 2f;
+
+								// Decrease the feather variable, feathers can be used again if it's at 0
+								if (npc.ai[3] > 0f)
+									npc.ai[3] -= 1f;
 
 								// Decrease enraged attacks by 1
 								if (npc.localAI[2] > 0f)
@@ -4621,8 +4600,9 @@ namespace CalamityMod.NPCs
 								if (npc.localAI[3] > 0f)
 									npc.localAI[3] -= 1f;
 
-								if (phase2 && spawnFeathers)
+								if (phase2 && npc.ai[3] == 0f)
 								{
+									npc.ai[3] = 3f;
 									Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
 									int totalProjectiles = 40;
 									float radians = MathHelper.TwoPi / totalProjectiles;
@@ -4632,7 +4612,7 @@ namespace CalamityMod.NPCs
 									{
 										if (spawnRight)
 										{
-											if (i >= (int)Math.Floor(totalProjectiles * 0.125) && i <= (int)Math.Ceiling(totalProjectiles * 0.375))
+											if (i >= (int)(totalProjectiles * 0.125) && i <= (int)(totalProjectiles * 0.375))
 											{
 												Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
 												Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
@@ -4641,7 +4621,7 @@ namespace CalamityMod.NPCs
 										}
 										else
 										{
-											if (i >= (int)Math.Floor(totalProjectiles * 0.625) && i <= (int)Math.Ceiling(totalProjectiles * 0.875))
+											if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
 											{
 												Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
 												Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
@@ -4649,6 +4629,12 @@ namespace CalamityMod.NPCs
 											}
 										}
 									}
+								}
+								else
+								{
+									// Decrease the feather variable, feathers can be used again if it's at 0
+									if (npc.ai[3] > 0f)
+										npc.ai[3] -= 1f;
 								}
 							}
 							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && npc.localAI[3] == 0f)
@@ -4663,8 +4649,9 @@ namespace CalamityMod.NPCs
 								if (npc.localAI[2] > 0f)
 									npc.localAI[2] -= 1f;
 
-								if (spawnFeathers)
+								if (npc.ai[3] == 0f)
 								{
+									npc.ai[3] = 3f;
 									Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
 									int totalProjectiles = phase2 ? 40 : 48;
 									float radians = MathHelper.TwoPi / totalProjectiles;
@@ -4691,6 +4678,12 @@ namespace CalamityMod.NPCs
 											}
 										}
 									}
+								}
+								else
+								{
+									// Decrease the feather variable, feathers can be used again if it's at 0
+									if (npc.ai[3] > 0f)
+										npc.ai[3] -= 1f;
 								}
 							}
 						}
@@ -4720,7 +4713,6 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
 				}
 
 				float velocity = 14f + (enrageScale - 1f) * 4f;
@@ -4745,7 +4737,6 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
 				}
 
 				if (player.Center.X - 10f < npc.Center.X)
@@ -4793,7 +4784,6 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
 				}
 			}
 
@@ -4889,7 +4879,6 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
 					}
 					else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
 					{
@@ -4897,7 +4886,6 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
 					}
 				}
 

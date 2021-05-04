@@ -532,7 +532,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
 					float projectileVelocity = expertMode ? 3f : 2f;
-					projectileVelocity += 2f * enrageScale;
+					projectileVelocity += enrageScale;
 					if (!leviAlive || phase4)
 						projectileVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
@@ -611,7 +611,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     // Velocity and rotation
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
-					chargeVelocity += 14f * enrageScale;
+					chargeVelocity += 8f * enrageScale;
 
 					if (revenge)
 						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));

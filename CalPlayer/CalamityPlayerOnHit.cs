@@ -542,7 +542,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.featherCrown && modProj.stealthStrike && modPlayer.featherCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					float speedX = (position.X - source.X) / 30f;
@@ -557,7 +557,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.moonCrown && modProj.stealthStrike && modPlayer.moonCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 10f;
@@ -570,7 +570,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.nanotech && modProj.stealthStrike && modPlayer.nanoFlareCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 40f;

@@ -121,10 +121,10 @@ namespace CalamityMod.NPCs.HiveMind
 			if (CalamityWorld.malice)
 			{
 				lungeRots = 0.4;
-				minimumDriftTime = 30;
-				reelbackFade = 12;
-				lungeTime = 15;
-				driftSpeed = 8f;
+				minimumDriftTime = 40;
+				reelbackFade = 10;
+				lungeTime = 16;
+				driftSpeed = 6f;
 				driftBoost = 1f;
 			}
             if (BossRushEvent.BossRushActive)

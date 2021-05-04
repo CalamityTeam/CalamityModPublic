@@ -195,10 +195,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			// Enrage
 			float enrageScale = death ? 0.25f : 0f;
 			if (!player.ZoneJungle || malice)
-				enrageScale += 2f;
+				enrageScale += 1.75f;
 
-			if (enrageScale > 2f)
-				enrageScale = 2f;
+			if (enrageScale > 1.75f)
+				enrageScale = 1.75f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;

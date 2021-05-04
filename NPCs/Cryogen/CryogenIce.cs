@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -108,11 +109,14 @@ namespace CalamityMod.NPCs.Cryogen
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int totalProjectiles = 4;
-					float radians = MathHelper.TwoPi / totalProjectiles;
+					double radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
 					float velocity = BossRushEvent.BossRushActive ? 12f : 9f;
-					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+					double angleA = radians * 0.5;
+					double angleB = MathHelper.ToRadians(90f) - angleA;
+					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+					Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);

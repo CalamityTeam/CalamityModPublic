@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Leviathan
 								if (expertMode)
                                     speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
 
-								speed += 8f * enrageScale;
+								speed += 3f * enrageScale;
 
                                 if (npc.Calamity().enraged > 0)
                                     speed = 22f;
@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.ai[2] = 0f;
 
                             float num1044 = revenge ? 20f : 18f;
-							num1044 += 8f * enrageScale;
+							num1044 += 4f * enrageScale;
 
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);

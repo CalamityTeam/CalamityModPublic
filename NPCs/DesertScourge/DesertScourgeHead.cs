@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num954 = (npc.Calamity().enraged > 0) ? 500 : 1000;
 				if (enrageScale > 0f)
-					num954 = 200;
+					num954 = 100;
 				if (BossRushEvent.BossRushActive)
 					num954 /= 2;
 

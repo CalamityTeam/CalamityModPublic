@@ -50,14 +50,26 @@ namespace CalamityMod.Projectiles.Summon
             homing = reader.ReadBoolean();
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            //Avoid touching things that you probably aren't meant to damage
-            if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
-                return;
-            int cap = (int)(damage * 1.05f); //capped at 5% dr ignoring
-            damage = Math.Min((int)(damage * (1 / (1 - target.Calamity().DR))), cap);
-        }
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			// Avoid touching things that you probably aren't meant to damage
+			if (target.defense > 999 || target.Calamity().DR >= 0.95f || target.Calamity().unbreakableDR)
+				return;
+
+			int cap = (int)(damage * 1.05f); // Capped at 5% dr ignoring
+			damage = Math.Min((int)(damage * (1 / (1 - target.Calamity().DR))), cap);
+
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap2 = 3;
+			int oldDamage = damage;
+			if (projectileCount > cap2)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap2) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

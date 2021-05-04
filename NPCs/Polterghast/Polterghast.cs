@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Polterghast
     public class Polterghast : ModNPC
     {
         private int despawnTimer = 600;
-		private int chargeTelegraphTimer = 15;
+		private int chargeTelegraphTimer = 10;
 		private bool reachedChargingPoint = false;
 
         public override void SetStaticDefaults()

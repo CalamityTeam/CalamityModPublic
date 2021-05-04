@@ -428,10 +428,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					if (bulletHellCounter > (enraged ? 4 : 6))
 					{
 						bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 300) // Blasts from above
                         {
@@ -518,10 +519,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 7 : 9))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 1200) // Blasts from below
                         {
@@ -577,10 +579,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 9 : 11))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 2100) // Blasts from above
                         {
@@ -648,10 +651,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 10 : 12))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 3000) // Blasts from below
                         {
@@ -719,10 +723,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 12 : 14))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 3900) // Blasts from above
                         {
