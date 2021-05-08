@@ -114,6 +114,11 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+
+        public bool disableVoodooSpawns = false;
+        public bool disablePerfCystSpawns = false;
+        public bool disableHiveCystSpawns = false;
+        public bool disableAnahitaSpawns = false;
         #endregion
 
         #region Tile Entity Trackers
@@ -1940,6 +1945,11 @@ namespace CalamityMod.CalPlayer
             plaguebringerPatronSummon = false;
             howlTrio = false;
             mountedScanner = false;
+
+            disableVoodooSpawns = false;
+            disablePerfCystSpawns = false;
+            disableHiveCystSpawns = false;
+            disableAnahitaSpawns = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

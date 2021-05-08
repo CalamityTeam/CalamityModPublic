@@ -4295,6 +4295,9 @@ namespace CalamityMod.NPCs
 				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
 					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
 			}
+
+			if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+				pool.Remove(NPCID.VoodooDemon);
 		}
         #endregion
 
