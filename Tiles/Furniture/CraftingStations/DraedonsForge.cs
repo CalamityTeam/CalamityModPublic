@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    public class DraedonsForge : ModTile //Legacy names used to avoid fucking over people's placed forges
+    public class DraedonsForge : ModTile //Legacy names used to avoid fucking over people's placed forges and ensure they are converted properly.
     {
 
         public override void SetDefaults() 
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2); //Changed from 3x2 to 4x2 due to sprite, this likely will be a breaking change.
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2); //Changed from 3x2 to 4x2 due to sprite.
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.addTile(Type);
