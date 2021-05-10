@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					int numUpdates = reachedChargingPoint ? 4 : 1;
+					int numUpdates = reachedChargingPoint ? 5 : 1;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)

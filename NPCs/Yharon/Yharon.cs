@@ -3009,9 +3009,16 @@ namespace CalamityMod.NPCs.Yharon
 
 			if (chargeTelegraph)
 			{
+				// Percent life remaining
+				float lifeRatio = npc.life / (float)npc.lifeMax;
+
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > npc.Calamity().killTimeRatio_IncreasedAggression)
+					lifeRatio = npc.Calamity().killTimeRatio_IncreasedAggression;
+
 				bool doTelegraphFlightAnimation = npc.localAI[1] < fastChargeTelegraphTime * 0.5f || npc.localAI[1] > fastChargeTelegraphTime - (fastChargeTelegraphTime / 6f);
 				bool doTelegraphRoarAnimation = npc.localAI[1] > fastChargeTelegraphTime - fastChargeTelegraphTime * 0.4f && npc.localAI[1] < fastChargeTelegraphTime - fastChargeTelegraphTime * 0.2f;
-				bool phase4 = startSecondAI && npc.life <= npc.lifeMax * ((CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 0.165f : 0.11f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
+				bool phase4 = startSecondAI && lifeRatio <= ((CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 0.165f : 0.11f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice);
 				if (doTelegraphFlightAnimation)
 				{
 					npc.frameCounter += phase4 ? 2D : 1D;

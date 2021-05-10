@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					// Loop velocity code multiple times per frame if charge location is reached
 					// This effectively quadruples the velocity and acceleration while maintaining smooth movement
-					int numUpdates = reachedChargingPoint ? 4 : 1;
+					int numUpdates = reachedChargingPoint ? 5 : 1;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						// Line up a charge
@@ -1057,7 +1057,13 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override void FindFrame(int frameHeight)
         {
+			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > npc.Calamity().killTimeRatio_IncreasedAggression)
+				lifeRatio = npc.Calamity().killTimeRatio_IncreasedAggression;
+
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
