@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,12 +15,13 @@ namespace CalamityMod.Items.Accessories
                                 "Sparks do extra damage in Hardmode\n" +
                                 "Immunity to Electrified and you resist all electrical projectile and enemy damage\n" +
                                 "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 16));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
+            item.width = 42;
+            item.height = 56;
             item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.rare = ItemRarityID.Green;
             item.accessory = true;
