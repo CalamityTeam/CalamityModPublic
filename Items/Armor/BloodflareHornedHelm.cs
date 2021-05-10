@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareRanged = true;
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Greatly increases life regen\n" +
-                "Enemies below 50% life have a chance to drop hearts when struck\n" +
-                "Enemies above 50% life have a chance to drop mana stars when struck\n" +
+                "Enemies below 50% life drop a heart when struck\n" +
+				"This effect has a 5 second cooldown\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Press " + hotkey + " to unleash the lost souls of polterghast to destroy your enemies\n" +
                 "This effect has a 30 second cooldown\n" +

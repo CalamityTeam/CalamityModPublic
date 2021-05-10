@@ -100,8 +100,11 @@ namespace CalamityMod
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
 
+		// Life steal cap
+		public const int lifeStealCap = 10;
+
         internal static CalamityMod Instance;
-        internal Mod musicMod = null; // this is Calamity's official music mod, CalamityModMusic
+        internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod census = null;

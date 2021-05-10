@@ -47,15 +47,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 75);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 75);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (!target.canGhostHeal || player.moonLeech)
                 return;
+
             player.statLife += 5;
             player.HealEffect(5);
         }
@@ -64,6 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
 			if (player.moonLeech)
 				return;
+
             player.statLife += 5;
             player.HealEffect(5);
         }

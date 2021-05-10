@@ -7,11 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SporeGasPlantera : ModProjectile
+    public class IchorSporeCloud : ModProjectile
     {
-        public override void SetStaticDefaults()
+		public override string Texture => "CalamityMod/Projectiles/Boss/SporeGasPlantera";
+
+		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spore Gas");
+            DisplayName.SetDefault("Ichor Spore Gas");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -41,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 1800f)
+            if (projectile.ai[1] > 900f)
 			{
                 projectile.localAI[0] += 10f;
 				projectile.damage = 0;
@@ -53,23 +55,23 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.localAI[0] = 255f;
             }
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.16f / 255f, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.04f / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.16f / 255f, (255 - projectile.alpha) * 0.04f / 255f);
 
             projectile.alpha = (int)(100.0 + projectile.localAI[0] * 0.7);
             projectile.rotation += projectile.velocity.X * 0.02f;
             projectile.rotation += projectile.direction * 0.002f;
 
             if (projectile.velocity.Length() > 0.5f)
-                projectile.velocity *= 0.98f;
+                projectile.velocity *= 0.99f;
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.ai[1] <= 1800f && projectile.ai[1] > 120f;
+		public override bool CanHitPlayer(Player target) => projectile.ai[1] <= 900f && projectile.ai[1] > 120f;
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			if (projectile.ai[1] > 1800f)
+			if (projectile.ai[1] > 900f)
 			{
-				byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
+				byte b2 = (byte)((26f - (projectile.ai[1] - 900f)) * 10f);
 				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
 				return new Color(b2, b2, b2, a2);
 			}
@@ -83,13 +85,13 @@ namespace CalamityMod.Projectiles.Boss
             switch ((int)projectile.ai[0])
             {
                 case 0:
-                    break;
+					break;
                 case 1:
-                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera2");
-                    break;
+					texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera2");
+					break;
                 case 2:
-                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera3");
-                    break;
+					texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera3");
+					break;
                 default:
                     break;
             }
@@ -99,11 +101,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.ai[1] <= 1800f && projectile.ai[1] > 120f)
-			{
-				target.AddBuff(BuffID.Poisoned, 240);
-				target.AddBuff(BuffID.Venom, 120);
-			}
+			if (projectile.ai[1] <= 900f && projectile.ai[1] > 120f)
+				target.AddBuff(BuffID.Ichor, 240);
         }
     }
 }

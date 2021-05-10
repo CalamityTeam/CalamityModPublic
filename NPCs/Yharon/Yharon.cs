@@ -2928,7 +2928,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Other
 			// DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
-			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedYharon, 6, 3, 2);
 
 			// If Yharon has not been killed yet, notify players of Auric Ore
 			if (!CalamityWorld.downedYharon)

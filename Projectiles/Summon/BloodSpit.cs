@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Summon
     public class BloodSpit : ModProjectile
     {
         public const int OnDeathHealValue = 1;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spit");
@@ -37,6 +38,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frameCounter = 0;
             }
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 15; i++)
@@ -45,12 +47,11 @@ namespace CalamityMod.Projectiles.Summon
                 dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 2f);
                 dust.noGravity = true;
             }
+
             Main.player[projectile.owner].HealEffect(OnDeathHealValue, false);
             Main.player[projectile.owner].statLife += OnDeathHealValue;
             if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
-            {
                 Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
-            }
         }
     }
 }

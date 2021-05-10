@@ -2603,12 +2603,12 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = death ? 0.25f : 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 0.6f;
+				enrageScale += 0.5f;
 			if (!Main.player[npc.target].ZoneJungle || malice)
-				enrageScale += 0.6f;
+				enrageScale += 0.5f;
 
-			if (enrageScale > 1.2f)
-				enrageScale = 1.2f;
+			if (enrageScale > 1f)
+				enrageScale = 1f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
@@ -2619,6 +2619,12 @@ namespace CalamityMod.NPCs
 			// Increase aggression if player is taking a long time to kill the boss
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
+			bool phase4 = lifeRatio < 0.25f;
+			bool phase5 = lifeRatio < 0.1f;
 
 			// Boost defense as health decreases
 			int statBoost = (int)(10f * (1f - lifeRatio));
@@ -2699,7 +2705,7 @@ namespace CalamityMod.NPCs
 			{
 				// Number of charges
 				int chargeAmt = (int)Math.Ceiling(2f + enrageScale);
-				if (lifeRatio < 0.33f)
+				if (phase4)
 					chargeAmt++;
 
 				// Switch to a random phase if chargeAmt has been exceeded
@@ -2718,15 +2724,15 @@ namespace CalamityMod.NPCs
 					speed += 12f;
 				else
 				{
-					if (lifeRatio < 0.75f)
+					if (phase2)
 						speed += 2f;
-					if (lifeRatio < 0.5f)
+					if (phase3)
 						speed += 2f;
-					if (lifeRatio < 0.25f)
+					if (phase4)
+						speed += 2f;
+					if (phase5)
 						speed += 2f;
 				}
-				if (lifeRatio < 0.1f)
-					speed += 2f;
 
 				speed += 8f * enrageScale;
 
@@ -2753,7 +2759,10 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y = num600 * num601;
 
 						// Face the correct direction and play charge sound
+						float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
 						npc.spriteDirection = npc.direction;
+
 						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 						return false;
 					}
@@ -2762,25 +2771,25 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = 0f;
 					float num602 = 12f;
 					float num603 = 0.15f;
-					if (lifeRatio < 0.75f)
+					if (phase2)
 					{
-						num602 += 1f;
-						num603 += 0.05f;
+						num602 += 1.5f;
+						num603 += 0.0625f;
 					}
-					if (lifeRatio < 0.5f)
+					if (phase3)
 					{
-						num602 += 1f;
-						num603 += 0.05f;
+						num602 += 1.5f;
+						num603 += 0.0625f;
 					}
-					if (lifeRatio < 0.25f)
+					if (phase4)
 					{
-						num602 += 2f;
-						num603 += 0.05f;
+						num602 += 1.5f;
+						num603 += 0.0625f;
 					}
-					if (lifeRatio < 0.1f)
+					if (phase5)
 					{
-						num602 += 2f;
-						num603 += 0.1f;
+						num602 += 1.5f;
+						num603 += 0.0625f;
 					}
 					num602 += 3f * enrageScale;
 					num603 += 0.5f * enrageScale;
@@ -2810,6 +2819,8 @@ namespace CalamityMod.NPCs
 						npc.velocity.X = num602;
 
 					// Face the correct direction
+					float playerLocation2 = npc.Center.X - Main.player[npc.target].Center.X;
+					npc.direction = playerLocation2 < 0 ? 1 : -1;
 					npc.spriteDirection = npc.direction;
 
 					npc.netUpdate = true;
@@ -2824,14 +2835,15 @@ namespace CalamityMod.NPCs
 						npc.direction = -1;
 					else
 						npc.direction = 1;
+
 					npc.spriteDirection = npc.direction;
 
 					// Charging distance from player
-					int num604 = 500;
-					if (lifeRatio < 0.33f)
-						num604 = 300;
-					else if (lifeRatio < 0.66f)
-						num604 = 450;
+					int num604 = 450;
+					if (phase4)
+						num604 = 350;
+					else if (phase2)
+						num604 = 400;
 					num604 -= (int)(100f * enrageScale);
 
 					// Get which side of the player the boss is on
@@ -2870,22 +2882,21 @@ namespace CalamityMod.NPCs
 					}
 
 					// Slow down
-					npc.spriteDirection = npc.direction;
 					npc.localAI[0] = 0f;
 					npc.velocity *= 0.9f;
 
 					float num606 = 0.1f;
-					if (lifeRatio < 0.5f)
+					if (phase3)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
 					}
-					if (lifeRatio < 0.33f)
+					if (phase4)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
 					}
-					if (lifeRatio < 0.2f)
+					if (phase5)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
@@ -2910,6 +2921,8 @@ namespace CalamityMod.NPCs
 			// Fly above target before bee spawning phase
 			else if (npc.ai[0] == 2f)
 			{
+				float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+				npc.direction = playerLocation < 0 ? 1 : -1;
 				npc.spriteDirection = npc.direction;
 
 				// Get target location
@@ -2978,13 +2991,13 @@ namespace CalamityMod.NPCs
 						num638++;
 				}
 				npc.ai[1] += num638 / 2;
-				if (lifeRatio < 0.75f)
+				if (phase2)
 					npc.ai[1] += 0.25f;
-				if (lifeRatio < 0.5f)
+				if (phase3)
 					npc.ai[1] += 0.25f;
-				if (lifeRatio < 0.25f)
+				if (phase4)
 					npc.ai[1] += 0.25f;
-				if (lifeRatio < 0.1f)
+				if (phase5)
 					npc.ai[1] += 0.25f;
 
 				bool spawnBee = false;
@@ -3003,7 +3016,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int spawnType = Main.rand.Next(210, 212);
-						if (lifeRatio < 0.33f)
+						if (phase3)
 							spawnType = NPCID.Bee;
 
 						int spawn = NPC.NewNPC((int)vector76.X, (int)vector76.Y, spawnType);
@@ -3055,6 +3068,8 @@ namespace CalamityMod.NPCs
 					npc.velocity *= 0.9f;
 
 				// Face the correct direction
+				float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+				npc.direction = playerLocation < 0 ? 1 : -1;
 				npc.spriteDirection = npc.direction;
 
 				// Go to a random phase
@@ -3078,7 +3093,7 @@ namespace CalamityMod.NPCs
 				float num623 = (float)Math.Sqrt(num621 * num621 + num622 * num622);
 
 				npc.ai[1] += 1f;
-				int num650 = (lifeRatio < 0.25f) ? 15 : ((lifeRatio < 0.5f) ? 20 : ((lifeRatio < 0.75f) ? 25 : 30));
+				int num650 = phase4 ? 15 : phase3 ? 20 : phase2 ? 25 : 30;
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				// Fire stingers
@@ -3088,7 +3103,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num624 = BossRushEvent.BossRushActive ? 16f : 12f;
-						if (lifeRatio < 0.33f)
+						if (phase3)
 							num624 += 3f;
 						num624 += 3f * enrageScale;
 
@@ -3144,7 +3159,10 @@ namespace CalamityMod.NPCs
 				}
 				else if (num623 > 100f)
 				{
+					float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+					npc.direction = playerLocation < 0 ? 1 : -1;
 					npc.spriteDirection = npc.direction;
+
 					if (npc.velocity.X < num621)
 					{
 						npc.velocity.X += num620;
@@ -3997,7 +4015,7 @@ namespace CalamityMod.NPCs
 						Vector2 projectileSpawn = npc.Center + projectileVelocity * 5f;
 
 						int damage = npc.GetProjectileDamage(ProjectileID.DemonSickle);
-						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer);
+						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer, 0f, projectileVelocity.Length() * 3f);
 						Main.projectile[proj].timeLeft = 600;
 						Main.projectile[proj].tileCollide = false;
 					}
@@ -5960,7 +5978,7 @@ namespace CalamityMod.NPCs
                             {
                                 npc.localAI[1] = 0f;
                                 float num404 = BossRushEvent.BossRushActive ? 12f : 10f;
-								num404 += 3f * enrageScale;
+								num404 += enrageScale;
 								int type = ProjectileID.DeathLaser;
 								int damage = npc.GetProjectileDamage(type);
 
@@ -9994,11 +10012,13 @@ namespace CalamityMod.NPCs
 						float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
 						float speedMult = 1f;
 
-						if (distanceBelowTarget > 0f && ((!flag43 && !flag40) || turboEnrage))
-							speedMult += distanceBelowTarget * 0.001f;
-						
-						if (speedMult > 2f)
-							speedMult = 2f;
+						float multiplier = turboEnrage ? 0.003f : enrage ? 0.002f : 0.0015f;
+						if (distanceBelowTarget > 0f && ((!flag41 && !flag42) || turboEnrage))
+							speedMult += distanceBelowTarget * multiplier;
+
+						float speedMultLimit = turboEnrage ? 4f : enrage ? 3f : 2.5f;
+						if (speedMult > speedMultLimit)
+							speedMult = speedMultLimit;
 
 						if (Main.player[npc.target].position.Y < npc.Bottom.Y)
                             npc.velocity.Y = (((!flag43 && !flag40) || turboEnrage ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
@@ -10134,8 +10154,8 @@ namespace CalamityMod.NPCs
 
 			void CustomGravity()
 			{
-				float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : 0.3f;
-				float maxFallSpeed = turboEnrage ? 30f : enrage ? 20f : 10f;
+				float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
+				float maxFallSpeed = turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
 				if (calamityGlobalNPC.newAI[0] > 1f)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
@@ -10176,7 +10196,7 @@ namespace CalamityMod.NPCs
 			// Die if body is gone
 			if (NPC.golemBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
+                npc.StrikeNPCNoInteraction(9999, 0f, 0);
                 return false;
             }
 
@@ -10196,7 +10216,7 @@ namespace CalamityMod.NPCs
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            float num650 = 28f;
+            float num650 = 40f;
             Vector2 vector80 = npc.Center;
             float num651 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
             float num652 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
@@ -10251,7 +10271,7 @@ namespace CalamityMod.NPCs
             if (npc.ai[0] == 0f)
             {
                 npc.ai[1] += 1f;
-                int num654 = 180;
+                int num654 = 150;
                 if (npc.ai[1] < 20f || npc.ai[1] > (num654 - 20))
                     npc.localAI[0] = 1f;
                 else
@@ -10434,7 +10454,7 @@ namespace CalamityMod.NPCs
 			// Die if body is gone
 			if (NPC.golemBoss < 0)
             {
-                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
+                npc.StrikeNPCNoInteraction(9999, 0f, 0);
                 return false;
             }
 
@@ -12556,23 +12576,6 @@ namespace CalamityMod.NPCs
                             int num45 = Math.Sign(player.Center.X - center6.X);
                             if (num45 != 0)
                                 nPC6.direction = nPC6.spriteDirection = num45;
-
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                vec4 = Vector2.Normalize(player.Center - center6 + player.velocity * 20f);
-                                if (vec4.HasNaNs())
-                                    vec4 = new Vector2(npc.direction, 0f);
-
-                                Vector2 vector16 = center6 + new Vector2(npc.direction * 30, 12f);
-                                int num46 = 0;
-                                while (num46 < 5f)
-                                {
-                                    Vector2 vector17 = vec4 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
-                                    vector17 = vector17.RotatedByRandom(1.2566370964050293);
-                                    Projectile.NewProjectile(vector16, vector17, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
-                                    num46++;
-                                }
-                            }
                         }
                     }
 

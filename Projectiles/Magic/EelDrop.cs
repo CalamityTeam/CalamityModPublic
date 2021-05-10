@@ -28,10 +28,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = false;
             projectile.timeLeft = 240;
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Water drip

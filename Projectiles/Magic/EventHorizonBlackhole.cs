@@ -19,15 +19,17 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 40;
             projectile.height = 40;
             projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.penetrate = 3;
+            projectile.timeLeft = 90;
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 12;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 60;
+
+		public override void AI()
         {
 			if (projectile.frame == 8)
 				return;

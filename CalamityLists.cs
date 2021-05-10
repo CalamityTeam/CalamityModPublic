@@ -1269,7 +1269,6 @@ namespace CalamityMod
                 ItemID.ChristmasTreeSword,
                 ItemID.MonkStaffT1,
                 ItemID.InfernoFork,
-                ItemID.VenomStaff,
                 ItemID.Frostbrand,
                 ItemID.BloodButcherer
             };
@@ -1305,7 +1304,8 @@ namespace CalamityMod
                 ItemID.ClingerStaff,
                 ItemID.ChargedBlasterCannon,
                 ItemID.NettleBurst,
-                ItemID.AmberStaff,
+				ItemID.VenomStaff,
+				ItemID.AmberStaff,
                 ItemID.VampireKnives,
                 ItemID.Cascade,
                 ItemID.TrueExcalibur,

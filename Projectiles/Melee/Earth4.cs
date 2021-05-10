@@ -96,16 +96,18 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(SoundID.Item4, (int)projectile.position.X, (int)projectile.position.Y);
-            float healAmt = (float)damage * 0.075f;
+
+            float healAmt = damage * 0.075f;
             if ((int)healAmt == 0)
-            {
                 return;
-            }
+
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-            {
                 return;
-            }
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<EarthHealOrb>(), 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<EarthHealOrb>(), 1200f, 3f);
         }
     }
 }

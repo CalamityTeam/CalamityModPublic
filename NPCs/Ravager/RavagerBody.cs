@@ -353,11 +353,13 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (revenge)
 						{
+							float multiplier = malice ? 0.003f : 0.0015f;
 							if (distanceBelowTarget > 0f)
-								calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * 0.001f;
+								calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * multiplier;
 
-							if (calamityGlobalNPC.newAI[1] > 2f)
-								calamityGlobalNPC.newAI[1] = 2f;
+							float speedMultLimit = malice ? 4f : 3f;
+							if (calamityGlobalNPC.newAI[1] > speedMultLimit)
+								calamityGlobalNPC.newAI[1] = speedMultLimit;
 
 							if (calamityGlobalNPC.newAI[1] > 1f)
 								velocityY *= calamityGlobalNPC.newAI[1];
@@ -591,7 +593,7 @@ namespace CalamityMod.NPCs.Ravager
 
 			void CustomGravity()
 			{
-				float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
+				float gravity = npc.ai[0] == 2f ? 0f : 0.45f;
 				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
 				if (malice)
 				{
@@ -706,7 +708,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
 

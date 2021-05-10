@@ -57,17 +57,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.life <= 0)
-            {
 				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
-            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             if (target.statLife <= 0)
-            {
 				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
-            }
         }
 
         public override void Kill(int timeLeft)

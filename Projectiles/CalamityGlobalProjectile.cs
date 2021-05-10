@@ -334,7 +334,35 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
-                if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
+				if (projectile.type == ProjectileID.DemonSickle && CalamityPlayer.areThereAnyDamnBosses)
+				{
+					if (projectile.ai[0] == 0f)
+						Main.PlaySound(SoundID.Item8, projectile.position);
+
+					projectile.rotation += projectile.direction * 0.8f;
+
+					projectile.ai[0] += 1f;
+					if (projectile.velocity.Length() < projectile.ai[1])
+					{
+						if (!(projectile.ai[0] < 30f))
+						{
+							if (projectile.ai[0] < 100f)
+								projectile.velocity *= 1.06f;
+							else
+								projectile.ai[0] = 200f;
+						}
+					}
+
+					for (int i = 0; i < 2; i++)
+					{
+						int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100);
+						Main.dust[dust].noGravity = true;
+					}
+
+					return false;
+				}
+
+                else if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
                 {
                     projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
@@ -1860,7 +1888,7 @@ namespace CalamityMod.Projectiles
 		#endregion
 
 		#region LifeSteal
-		public static bool CanSpawnLifeStealProjectile(Projectile projectile, float healMultiplier, float healAmount)
+		public static bool CanSpawnLifeStealProjectile(float healMultiplier, float healAmount)
         {
             if (healMultiplier <= 0f || (int)healAmount <= 0)
                 return false;
@@ -1872,7 +1900,9 @@ namespace CalamityMod.Projectiles
         {
             if (Main.player[Main.myPlayer].moonLeech)
                 return;
+
             Main.player[Main.myPlayer].lifeSteal -= healAmount * cooldownMultiplier;
+
             float lowestHealthCheck = 0f;
             int healTarget = projectile.owner;
             for (int i = 0; i < Main.maxPlayers; i++)
@@ -1888,6 +1918,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
+
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, healProjectileType, 0, 0f, projectile.owner, healTarget, healAmount);
         }
         #endregion

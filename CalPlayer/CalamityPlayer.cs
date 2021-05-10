@@ -201,8 +201,7 @@ namespace CalamityMod.CalPlayer
         public int navyRodAuraTimer = 0;
         public int brimLoreInfernoTimer = 0;
         public int tarraLifeAuraTimer = 0;
-        public int bloodflareHeartTimer = 180;
-        public int bloodflareManaTimer = 180;
+        public int bloodflareHeartTimer = 300;
         public int polarisBoostCounter = 0;
         public int dragonRageHits = 0;
         public float modStealth = 1f;
@@ -4086,79 +4085,79 @@ namespace CalamityMod.CalPlayer
                         dust.noGravity = true;
                         dust.scale = Main.rand.NextFloat(1.2f, 1.35f);
                     }
+
                     for (int i = 0; i < 3; i++)
-                    {
                         Utils.PoofOfSmoke(player.Center + Utils.NextVector2Circular(Main.rand, 20f, 30f));
-                    }
                 }
             }
+
             if (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
             {
                 if (player.statLife <= 0)
-                {
                     player.statLife = 1;
-                }
+
                 return false;
             }
+
             if (hInferno)
             {
                 for (int x = 0; x < Main.maxNPCs; x++)
                 {
                     if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<Providence>())
-                    {
                         Main.npc[x].active = false;
-                    }
                 }
             }
+
             if (nCore && Main.rand.NextBool(10))
             {
                 Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+
                 for (int j = 0; j < 25; j++)
                 {
                     int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
                     Dust dust = Main.dust[num];
-                    dust.position.X += (float)Main.rand.Next(-20, 21);
-                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.position.X += Main.rand.Next(-20, 21);
+                    dust.position.Y += Main.rand.Next(-20, 21);
                     dust.velocity *= 0.9f;
-                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
-                    {
-                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    }
+                        dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
+
                 player.statLife += 100;
                 player.HealEffect(100);
+
                 if (player.statLife > player.statLifeMax2)
-                {
                     player.statLife = player.statLifeMax2;
-                }
+
                 return false;
             }
+
             if (godSlayer && !godSlayerCooldown)
             {
                 Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+
                 for (int j = 0; j < 50; j++)
                 {
                     int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
                     Dust dust = Main.dust[num];
-                    dust.position.X += (float)Main.rand.Next(-20, 21);
-                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.position.X += Main.rand.Next(-20, 21);
+                    dust.position.Y += Main.rand.Next(-20, 21);
                     dust.velocity *= 0.9f;
-                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
-                    {
-                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    }
+                        dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
+
                 int heal = draconicSurge && !draconicSurgeCooldown ? (player.statLifeMax2 / 2) : 150;
                 player.statLife += heal;
                 player.HealEffect(heal);
+
                 if (player.statLife > player.statLifeMax2)
-                {
                     player.statLife = player.statLifeMax2;
-                }
+
                 if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                 {
                     player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
@@ -4171,12 +4170,16 @@ namespace CalamityMod.CalPlayer
                         if (player.buffType[i] == BuffID.PotionSickness)
                             additionalTime = player.buffTime[i];
                     }
+
                     float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
                     player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
                 }
+
                 player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(45f));
+
                 return false;
             }
+
             if (silvaSet && silvaCountdown > 0)
             {
                 if (hasSilvaEffect)
@@ -4185,15 +4188,17 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
+
                     player.AddBuff(ModContent.BuffType<SilvaRevival>(), auricSet ? 300 : 600);
+
                     if (draconicSurge && !draconicSurgeCooldown)
                     {
                         player.statLife += player.statLifeMax2 / 2;
                         player.HealEffect(player.statLifeMax2 / 2);
+
                         if (player.statLife > player.statLifeMax2)
-                        {
                             player.statLife = player.statLifeMax2;
-                        }
+
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
@@ -4206,6 +4211,7 @@ namespace CalamityMod.CalPlayer
                                 if (player.buffType[i] == BuffID.PotionSickness)
                                     additionalTime = player.buffTime[i];
                             }
+
                             float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
                             player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
                         }
@@ -4214,35 +4220,40 @@ namespace CalamityMod.CalPlayer
                     {
                         player.statLife += player.statLifeMax2 / 2;
                         player.HealEffect(player.statLifeMax2 / 2);
+
                         if (player.statLife > player.statLifeMax2)
-                        {
                             player.statLife = player.statLifeMax2;
-                        }
                     }
                 }
+
                 hasSilvaEffect = true;
+
                 if (player.statLife < 1)
-                {
                     player.statLife = 1;
-                }
+
                 return false;
             }
+
             if (permafrostsConcoction && player.FindBuffIndex(ModContent.BuffType<ConcoctionCooldown>()) == -1)
             {
                 player.AddBuff(ModContent.BuffType<ConcoctionCooldown>(), CalamityUtils.SecondsToFrames(180f));
                 player.AddBuff(ModContent.BuffType<Encased>(), CalamityUtils.SecondsToFrames(3f));
+
                 player.statLife = player.statLifeMax2 * 3 / 10;
+
                 Main.PlaySound(SoundID.Item92, player.position);
+
                 for (int i = 0; i < 60; i++)
                 {
                     int d = Dust.NewDust(player.position, player.width, player.height, 88, 0f, 0f, 0, default, 2.5f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].velocity *= 5f;
                 }
+
                 return false;
             }
 
-            //Custom Death Messages
+            // Custom Death Messages
 
             if (damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -7246,29 +7257,6 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
             }
 
-            // TODO -- these should REALLY be moved to Hurt since that occurs immediately before you actually take the damage
-            // This is important because that contains the final damage number (after factoring in DR and other mods)
-            #region Healing When Hit Effects
-            if (revivify)
-            {
-                int healAmt = damage / 15;
-                player.statLife += healAmt;
-                player.HealEffect(healAmt);
-            }
-            if (daedalusAbsorb && Main.rand.NextBool(10))
-            {
-                int healAmt = damage / 2;
-                player.statLife += healAmt;
-                player.HealEffect(healAmt);
-            }
-            if (absorber)
-            {
-                int healAmt = damage / 20;
-                player.statLife += healAmt;
-                player.HealEffect(healAmt);
-            }
-            #endregion
-
             return true;
         }
         #endregion
@@ -7284,24 +7272,46 @@ namespace CalamityMod.CalPlayer
 
             if (player.whoAmI == Main.myPlayer)
             {
-                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+				if (revivify)
+				{
+					int healAmt = (int)(damage / 15D);
+					player.statLife += healAmt;
+					player.HealEffect(healAmt);
+				}
+
+				if (daedalusAbsorb && Main.rand.NextBool(10))
+				{
+					int healAmt = (int)(damage / 2D);
+					player.statLife += healAmt;
+					player.HealEffect(healAmt);
+				}
+
+				if (absorber)
+				{
+					int healAmt = (int)(damage / 20D);
+					player.statLife += healAmt;
+					player.HealEffect(healAmt);
+				}
+
+				if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
                 {
-                    if (!adrenalineModeActive && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
+                    if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
                         adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
                         if (adrenaline < 0)
                             adrenaline = 0;
                     }
                 }
+
                 if (amidiasBlessing)
                 {
                     player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 96);
                 }
+
                 if ((gShell || fabledTortoise) && !player.panic)
-                {
                     player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
-                }
+
                 if (abyssalDivingSuitPlates && damage > 50)
                 {
                     if (abyssalDivingSuitPlateHits < 3)
@@ -7318,7 +7328,7 @@ namespace CalamityMod.CalPlayer
                             if (Main.rand.NextBool(2))
                             {
                                 Main.dust[dust].scale = 0.5f;
-                                Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
                         }
                         for (int d = 0; d < 35; d++)
@@ -7332,6 +7342,7 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ExplosionGores(player.Center, 3);
                     }
                 }
+
                 if (sirenIce)
                 {
                     Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
@@ -7355,12 +7366,11 @@ namespace CalamityMod.CalPlayer
                         Main.dust[ice].velocity *= 2f;
                     }
                 }
+
                 if (tarraMelee)
                 {
                     if (Main.rand.NextBool(4))
-                    {
                         player.AddBuff(ModContent.BuffType<TarraLifeRegen>(), 120);
-                    }
                 }
                 else if (xerocSet)
                 {
@@ -7372,6 +7382,7 @@ namespace CalamityMod.CalPlayer
                     if (Main.rand.NextBool(4))
                         player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
                 }
+
                 if (fBarrier || (sirenBoobs && NPC.downedBoss3))
                 {
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
@@ -7380,27 +7391,24 @@ namespace CalamityMod.CalPlayer
                         NPC npc = Main.npc[m];
                         if (!npc.active || npc.friendly || npc.dontTakeDamage)
                             continue;
+
                         float npcDist = (npc.Center - player.Center).Length();
-                        float freezeDist = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+                        float freezeDist = Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
                         if (freezeDist > 500f)
-                        {
                             freezeDist = 500f + (freezeDist - 500f) * 0.75f;
-                        }
                         if (freezeDist > 700f)
-                        {
                             freezeDist = 700f + (freezeDist - 700f) * 0.5f;
-                        }
                         if (freezeDist > 900f)
-                        {
                             freezeDist = 900f + (freezeDist - 900f) * 0.25f;
-                        }
+
                         if (npcDist < freezeDist)
                         {
-                            float duration = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
+                            float duration = Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }
                 }
+
                 if (aBrain || amalgam)
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
@@ -7408,36 +7416,34 @@ namespace CalamityMod.CalPlayer
                         NPC npc = Main.npc[m];
                         if (!npc.active || npc.friendly || npc.dontTakeDamage)
                             continue;
+
                         float npcDist = (npc.Center - player.Center).Length();
-                        float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+                        float range = Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
                         if (range > 500f)
-                        {
                             range = 500f + (range - 500f) * 0.75f;
-                        }
                         if (range > 700f)
-                        {
                             range = 700f + (range - 700f) * 0.5f;
-                        }
                         if (range > 900f)
-                        {
                             range = 900f + (range - 900f) * 0.25f;
-                        }
+
                         if (npcDist < range)
                         {
-                            float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+                            float duration = Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
                             npc.AddBuff(BuffID.Confused, (int)duration, false);
                             if (amalgam)
                             {
-                                npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
-                                npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
-                                npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
-                                npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
+                                npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration);
+                                npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration);
+                                npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration);
+                                npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration);
                             }
                         }
                     }
-                    //Spawn the harmless brain images that are actually projectiles
-                    Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI, 0f, 0f);
+
+                    // Spawn the harmless brain images that are actually projectiles
+                    Projectile.NewProjectile(player.Center.X + Main.rand.Next(-40, 40), player.Center.Y - Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI);
                 }
+
                 if (polarisBoost)
                 {
                     polarisBoostCounter = 0;
@@ -7445,9 +7451,10 @@ namespace CalamityMod.CalPlayer
                     polarisBoostTwo = false;
                     polarisBoostThree = false;
                     if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
-                    { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
+						player.ClearBuff(ModContent.BuffType<PolarisBuff>());
                 }
             }
+
             if (player.ownedProjectileCounts[ModContent.ProjectileType<DrataliornusBow>()] != 0)
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)
@@ -7458,6 +7465,7 @@ namespace CalamityMod.CalPlayer
                         break;
                     }
                 }
+
                 if (player.wingTime > player.wingTimeMax / 2)
                     player.wingTime = player.wingTimeMax / 2;
             }

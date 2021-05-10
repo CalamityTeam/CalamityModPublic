@@ -1922,8 +1922,8 @@ namespace CalamityMod.NPCs
 			{
 				npc.rotation = num803;
 
-				float chargeVelocity = BossRushEvent.BossRushActive ? 40f : (25f + (death ? 4f * (1f - lifeRatio) : 0f));
-				chargeVelocity += 10f * enrageScale;
+				float chargeVelocity = BossRushEvent.BossRushActive ? 40f : phase5 ? 30f : (25f + (death ? 4f * (1f - lifeRatio) : 0f));
+				chargeVelocity += 5f * enrageScale;
 
 				if (provy)
 					chargeVelocity *= 1.25f;
@@ -1938,7 +1938,7 @@ namespace CalamityMod.NPCs
 			{
 				npc.ai[2] += 1f;
 
-				float chargeTime = BossRushEvent.BossRushActive ? 36f : (45f - (death ? 6f * (1f - lifeRatio) : 0f));
+				float chargeTime = BossRushEvent.BossRushActive ? 30f : phase5 ? 35f : (45f - (death ? 6f * (1f - lifeRatio) : 0f));
 				if (npc.ai[2] >= chargeTime)
 				{
 					npc.velocity *= 0.9f;
@@ -1973,7 +1973,7 @@ namespace CalamityMod.NPCs
 			}
 			else
 			{
-				int num62 = 400;
+				int num62 = phase5 ? 300 : 400;
 				float num63 = (calamityGlobalNPC.enraged > 0) ? 20f : 14f;
 				float num64 = (calamityGlobalNPC.enraged > 0) ? 0.5f : 0.35f;
 
@@ -2034,7 +2034,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[2] += 1f;
-				if (npc.ai[2] >= 30f)
+				if (npc.ai[2] >= (phase5 ? 15f : 30f))
 				{
 					npc.TargetClosest();
 					npc.ai[1] = 2f;
@@ -2276,7 +2276,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = num842;
 
 					float num870 = 14f + (death ? 4f * (1f - lifeRatio) : 0f);
-					num870 += 6f * enrageScale;
+					num870 += 3f * enrageScale;
 					if (expertMode)
 						num870 += 2f;
 					if (revenge)
@@ -2573,7 +2573,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = num842;
 
 					float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
-					num870 += 8f * enrageScale;
+					num870 += 4f * enrageScale;
 					if (expertMode)
 						num870 += 2f;
 					if (revenge)
@@ -2970,11 +2970,13 @@ namespace CalamityMod.NPCs
 
 						if (revenge)
 						{
+							float multiplier = 0.001f + 0.0005f * enrageScale;
 							if (distanceBelowTarget > 0f)
-								calamityGlobalNPC.newAI[0] = 1f + distanceBelowTarget * 0.001f;
+								calamityGlobalNPC.newAI[0] = 1f + distanceBelowTarget * multiplier;
 
-							if (calamityGlobalNPC.newAI[0] > 2f)
-								calamityGlobalNPC.newAI[0] = 2f;
+							float speedMultLimit = 2f + 1f * enrageScale;
+							if (calamityGlobalNPC.newAI[0] > speedMultLimit)
+								calamityGlobalNPC.newAI[0] = speedMultLimit;
 						}
 
 						if (expertMode)
@@ -3263,7 +3265,7 @@ namespace CalamityMod.NPCs
 			void CustomGravity()
 			{
 				float gravity = 0.3f + 0.15f * enrageScale;
-				float maxFallSpeed = 10f + 2.5f * enrageScale;
+				float maxFallSpeed = 10f + 5f * enrageScale;
 
 				if (calamityGlobalNPC.newAI[0] > 1f)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
@@ -3291,7 +3293,7 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
-				enrageScale += 2f;
+				enrageScale += 1.5f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
@@ -3908,7 +3910,7 @@ namespace CalamityMod.NPCs
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
-								float num941 = (BossRushEvent.BossRushActive ? 24f : death ? 16f : revenge ? 14f : 13f) + enrageScale * 3f;
+								float num941 = (BossRushEvent.BossRushActive ? 24f : death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
 								if (targetFloatingUp)
 								{
 									num941 *= 2f;
