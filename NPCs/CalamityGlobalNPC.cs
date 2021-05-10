@@ -4624,7 +4624,10 @@ namespace CalamityMod.NPCs
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
                 return new Color(51, 197, 108, npc.alpha);
 
-            return null;
+			if (npc.type == NPCID.AncientDoom)
+				return new Color(255, 255, 255, npc.alpha);
+
+			return null;
         }
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)

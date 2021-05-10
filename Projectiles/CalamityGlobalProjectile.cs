@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
@@ -1774,7 +1773,9 @@ namespace CalamityMod.Projectiles
                 return Color.Transparent;
             }
 
-            if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera || projectile.type == ProjectileID.ThornBall)
+            if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera ||
+				projectile.type == ProjectileID.ThornBall || projectile.type == ProjectileID.CultistBossFireBallClone ||
+				projectile.type == ProjectileID.AncientDoomProjectile)
             {
                 if (projectile.timeLeft < 85)
                 {
