@@ -37,17 +37,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (target.life <= 0)
-            {
 				OnHitEffects(player, target.Center, knockback);
-            }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (target.statLife <= 0)
-            {
 				OnHitEffects(player, target.Center, item.knockBack);
-			}
 		}
 
 		private void OnHitEffects(Player player, Vector2 targetPos, float kBack)
@@ -55,8 +51,9 @@ namespace CalamityMod.Items.Weapons.Melee
 			int boom = Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 			if (boom.WithinBounds(Main.maxProjectiles))
 				Main.projectile[boom].Calamity().forceMelee = true;
-			float randomSpeedX = (float)Main.rand.Next(5);
-			float randomSpeedY = (float)Main.rand.Next(3, 7);
+
+			float randomSpeedX = Main.rand.Next(5);
+			float randomSpeedY = Main.rand.Next(3, 7);
 			Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI);
 			Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI);
         }
@@ -64,9 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 244);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 244);
         }
 
         public override void AddRecipes()

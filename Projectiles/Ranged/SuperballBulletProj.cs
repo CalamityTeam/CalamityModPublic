@@ -10,15 +10,15 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
+            DisplayName.SetDefault("Superball Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -30,13 +30,17 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (Main.rand.NextBool(3))
-            {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 87, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
-            }
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool(3))
+				{
+					int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 87, 0f, 0f, 0, default, 0.5f);
+					Main.dust[num137].alpha = projectile.alpha;
+					Main.dust[num137].velocity *= 0f;
+					Main.dust[num137].noGravity = true;
+				}
+			}
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -48,16 +52,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
-                {
                     projectile.velocity.X = -oldVelocity.X;
-                }
                 if (projectile.velocity.Y != oldVelocity.Y)
-                {
                     projectile.velocity.Y = -oldVelocity.Y;
-                }
-                projectile.velocity *= 1.5f;
+
+				if (projectile.extraUpdates < 5)
+					projectile.extraUpdates++;
+
                 Main.PlaySound(SoundID.Item10, projectile.position);
             }
             return false;
@@ -65,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 

@@ -72,6 +72,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
 			writer.Write(buffedSlime);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,6 +84,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
 			buffedSlime = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -133,7 +137,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool phase2 = lifeRatio < 0.4f;
+			bool phase2 = lifeRatio < 0.4f || malice;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -263,7 +267,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					// Reduce velocity to 0 to avoid spastic movement when inside big slime.
 					if (Vector2.Distance(npc.Center, goToVector) < 24f)
+					{
 						npc.velocity = Vector2.Zero;
+
+						if (npc.alpha < 255)
+							npc.alpha += 5;
+					}
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
@@ -301,6 +310,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					return;
 				}
+
+				if (npc.alpha > 55)
+					npc.alpha -= 5;
 
 				buffedSlime = 0;
 			}
@@ -650,7 +662,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad, ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
 

@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.ai[0] == 1)
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
                 return false;
             }
             return true;

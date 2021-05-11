@@ -257,20 +257,36 @@ namespace CalamityMod.Items
 
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    if (item.melee)
-                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
-
-                    else if (rogue)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
-
-                    else if (item.ranged)
-                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
-
-                    else if (item.magic)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
-
-                    else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+					if (item.melee)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (rogue)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.ranged)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.magic)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
+					{
+						int projectile = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
@@ -310,8 +326,10 @@ namespace CalamityMod.Items
                         num84 = item.shootSpeed / num84;
                         hardar *= num84;
                         hordor *= num84;
-                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
-                    }
+                        int projectile = Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
@@ -379,8 +397,10 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
-                    }
+                        int projectile = Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.prismaticRegalia)
@@ -555,17 +575,13 @@ namespace CalamityMod.Items
                 {
                     player.statLife -= boostedHeart ? 5 : 10;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(boostedHeart ? -5 : -10, true);
-                    }
                 }
                 else if (boostedHeart)
                 {
                     player.statLife += 5;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(5, true);
-                    }
                 }
             }
             return true;
@@ -951,6 +967,80 @@ namespace CalamityMod.Items
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
+			else if (set == "MonkTier2")
+			{
+				player.minionDamage += 0.15f;
+				player.meleeDamage += 0.1f;
+				player.meleeSpeed += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Lightning Aura can now crit and strikes faster\n" +
+							"10% increased melee speed, minion and melee damage";
+			}
+			else if (set == "SquireTier2")
+			{
+				player.lifeRegen += 3;
+				player.minionDamage += 0.15f;
+				player.meleeCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Ballista pierces more targets and panics when you take damage\n" +
+							"Increases your life regeneration\n" +
+							"15% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier2")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Explosive Traps recharge faster and oil enemies\n" +
+							"Set oiled enemies on fire for extra damage\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier2")
+			{
+				player.minionDamage += 0.05f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Flameburst field of view and range are dramatically increased\n" +
+							"5% increased minion damage and 15% increased magic critical strike chance";
+			}
+			else if (set == "MonkTier3")
+			{
+				player.minionDamage += 0.3f;
+				player.meleeSpeed += 0.1f;
+				player.meleeDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Lightning Aura effectiveness\n" +
+							"10% increased melee damage, melee critical strike chance and melee speed\n" +
+							"30% increased minion damage";
+			}
+			else if (set == "SquireTier3")
+			{
+				player.lifeRegen += 6;
+				player.minionDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Ballista effectiveness\n" +
+							"Massively increased life regeneration\n" +
+							"10% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Explosive Traps effectiveness\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Flameburst effectiveness\n" +
+							"10% increased minion damage and 15% increased magic critical strike chance";
+			}
 			else if (set == "Stardust")
 			{
 				player.maxMinions += 2;
@@ -961,26 +1051,95 @@ namespace CalamityMod.Items
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-			#region Head
-			if (item.type == ItemID.SpectreHood)
-				player.magicDamage += 0.2f;
-			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-				player.Calamity().throwingDamage += 0.03f;
-            #endregion
+			switch (item.type)
+			{
+				case ItemID.GladiatorHelmet:
+				case ItemID.ObsidianHelm:
+					player.Calamity().throwingDamage += 0.03f;
+					break;
+				case ItemID.GladiatorBreastplate:
+				case ItemID.ObsidianShirt:
+					player.Calamity().throwingCrit += 3;
+					break;
+				case ItemID.GladiatorLeggings:
+				case ItemID.ObsidianPants:
+					player.Calamity().throwingVelocity += 0.03f;
+					break;
 
-            #region Body
-            if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-                player.Calamity().throwingCrit += 3;
-			else if (item.type == ItemID.StardustBreastplate)
-				player.maxMinions--;
-			#endregion
+				case ItemID.SpectreHood:
+					player.magicDamage += 0.2f;
+					break;
 
-			#region Legs
-			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-                player.Calamity().throwingVelocity += 0.03f;
-			else if (item.type == ItemID.StardustLeggings)
-				player.maxMinions--;
-			#endregion
+				case ItemID.SquireGreatHelm:
+					player.lifeRegen -= 7;
+					break;
+				case ItemID.SquirePlating:
+					player.minionDamage -= 0.05f;
+					player.meleeDamage -= 0.05f;
+					break;
+				case ItemID.SquireGreaves:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkBrows:
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkPants:
+					player.minionDamage -= 0.05f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressJerkin:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeTrousers:
+					player.minionDamage -= 0.05f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.SquireAltShirt:
+					player.lifeRegen -= 14;
+					break;
+				case ItemID.SquireAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkAltHead:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkAltShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressAltShirt:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeAltPants:
+					player.minionDamage -= 0.1f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.StardustBreastplate:
+				case ItemID.StardustLeggings:
+					player.maxMinions--;
+					break;
+			}
 		}
         #endregion
 
@@ -1474,9 +1633,7 @@ namespace CalamityMod.Items
 		public override void PostUpdate(Item item)
 		{
 			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
-			{
 				CalamityUtils.ForceItemIntoWorld(item);
-			}
 		}
 		#endregion
 

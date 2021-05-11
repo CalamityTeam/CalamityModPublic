@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.localAI[0] >= 100)
 			{
 				Vector2 center = projectile.Center;
-				float homingRange = 800f;
+				float homingRange = 200f;
 				bool homeIn = false;
 				float inertia = 30f;
 				float homingVelocity = 20f;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC target = null;
-        public const float maxDistanceToTarget = 900f;
+        public const float maxDistanceToTarget = 300f;
         public bool initialized = false;
         public float startingVelocityY = 0f;
         public float randomAngleDelta = 0f;

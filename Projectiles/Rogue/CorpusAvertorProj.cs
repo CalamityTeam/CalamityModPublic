@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -80,10 +80,14 @@ namespace CalamityMod.Projectiles.Rogue
 			float heal = damage * 0.05f;
 			if ((int)heal == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
+			if (heal > CalamityMod.lifeStealCap)
+				heal = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
@@ -91,10 +95,14 @@ namespace CalamityMod.Projectiles.Rogue
 			float heal = damage * 0.05f;
 			if ((int)heal == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
+			if (heal > CalamityMod.lifeStealCap)
+				heal = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 	}
 }

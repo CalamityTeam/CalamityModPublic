@@ -62,9 +62,9 @@ namespace CalamityMod.NPCs.Polterghast
             // Bools
             bool speedBoost = false;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			// Despawn if Polter is gone
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
@@ -86,6 +86,10 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Percent life remaining, Polter
 			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression)
+				lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression;
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];

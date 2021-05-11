@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AstralArcanumUIHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
                 {
                     line2.text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
                 }

@@ -7,29 +7,35 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Arbalest : ModItem
     {
+		private int totalProjectiles = 1;
+		private float arrowScale = 0.5f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arbalest");
-            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows");
+            Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
+				"Arrows start off small and grow in size with continuous fire\n" +
+				"Arrow damage, spread and knockback scale with arrow size");
         }
 
         public override void SetDefaults()
         {
             item.damage = 32;
             item.ranged = true;
-            item.width = 58;
-            item.height = 22;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.width = 82;
+            item.height = 34;
+            item.useTime = 7;
+			item.reuseDelay = 30;
+            item.useAnimation = 28;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item5;
+            item.UseSound = null;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 10f;
+            item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
 			item.Calamity().challengeDrop = true;
 		}
@@ -39,15 +45,34 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
-                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].extraUpdates += i;
-                Main.projectile[proj].noDropItem = true;
-            }
-            return false;
+			Main.PlaySound(SoundID.Item5, (int)player.Center.X, (int)player.Center.Y);
+
+			if (totalProjectiles > 4)
+			{
+				totalProjectiles = 1;
+
+				if (arrowScale < 1.5f)
+					arrowScale += 0.05f;
+			}
+
+			float spreadScale = arrowScale * arrowScale;
+			int spread = (int)(30f * spreadScale);
+			for (int i = 0; i < totalProjectiles; i++)
+			{
+				float SpeedX = speedX + Main.rand.Next(-spread, spread + 1) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-spread, spread + 1) * 0.05f;
+				int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * arrowScale), knockBack * arrowScale, player.whoAmI);
+				Main.projectile[proj].scale = arrowScale;
+				Main.projectile[proj].extraUpdates += 1;
+				Main.projectile[proj].noDropItem = true;
+			}
+
+			totalProjectiles++;
+
+			if (arrowScale >= 1.5f)
+				arrowScale = 0.5f;
+
+			return false;
         }
     }
 }

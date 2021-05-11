@@ -16,14 +16,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = 10;
+            projectile.penetrate = 2;
             projectile.ignoreWater = true;
             projectile.timeLeft = 250;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().rogue = true;
-        }
+			projectile.Calamity().rogue = true;
+		}
 
         public override void AI()
         {
@@ -42,7 +41,21 @@ namespace CalamityMod.Projectiles.Rogue
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 8f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap = 5;
+			int oldDamage = damage;
+			if (projectileCount > cap)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override void Kill(int timeLeft)
         {
             float dustSp = 0.2f;
             int dustD = 0;

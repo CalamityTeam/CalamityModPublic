@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int p = 0; p < 3; p++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.5), 0f, projectile.owner);
                 }
             }
             for (int num621 = 0; num621 < 3; num621++)

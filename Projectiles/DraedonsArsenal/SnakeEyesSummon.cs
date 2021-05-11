@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, 0, ProjectileID.Sets.TrailCacheLength[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, 0, Color.White, ProjectileID.Sets.TrailCacheLength[projectile.type]);
             Texture2D eyeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/SnakeEye");
             Vector2 offsetVector = Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
             spriteBatch.Draw(eyeTexture,

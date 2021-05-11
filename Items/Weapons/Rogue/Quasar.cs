@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 48;
-            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;

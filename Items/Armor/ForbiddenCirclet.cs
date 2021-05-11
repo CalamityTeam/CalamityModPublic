@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.defense = 1; //21
+            item.defense = 1;
             // This item has the same rarity and sell price as Forbidden Mask
             item.value = Item.buyPrice(gold: 25);
             item.rare = ItemRarityID.Pink;

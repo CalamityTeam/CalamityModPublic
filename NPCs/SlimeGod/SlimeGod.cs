@@ -141,12 +141,17 @@ namespace CalamityMod.NPCs.SlimeGod
                     flag100 = true;
                 }
             }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active || malice)
+            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
 				npc.localAI[1] = 0f;
 				flag100 = false;
 				hyperMode = true;
             }
+			if (malice)
+			{
+				flag100 = false;
+				hyperMode = true;
+			}
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

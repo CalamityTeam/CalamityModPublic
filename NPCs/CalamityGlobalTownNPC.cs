@@ -1,5 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
@@ -11,6 +12,7 @@ using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Typeless.FiniteUse;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -78,6 +80,7 @@ namespace CalamityMod.NPCs
 			"Lilly",
 			"Daawn", // <@!206162323541458944> (Daawnily#3859)
 			"Robin", // <@!654737510030639112> (Altzeus#8687)
+			"Curly", // <@!673092101780668416> (Curly~Brace#4830)
 		};
 		private const int MerchantVanillaNames = 23;
 		private static readonly string[] MerchantNames = null;
@@ -752,11 +755,6 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Wizard:
-					if (Main.rand.NextBool(10) && permadong != -1)
-					{
-						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
-					}
-
 					if (Main.rand.NextBool(10) && Main.hardMode)
 					{
 						chat = "Space just got way too close for comfort.";
@@ -1195,10 +1193,15 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.ArmsDealer)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
+				bool hasMagnum = Main.LocalPlayer.HasItem(ItemType<Magnum>()) || Main.LocalPlayer.HasItem(ItemType<LightningHawk>()) || Main.LocalPlayer.HasItem(ItemType<ElephantKiller>());
+				SetShopItem(ref shop, ref nextSlot, ItemType<MagnumRounds>(), hasMagnum, Item.buyPrice(0, 3 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemType<GrenadeRounds>(), Main.LocalPlayer.HasItem(ItemType<Bazooka>()), Item.buyPrice(0, 5 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
 				SetShopItem(ref shop, ref nextSlot, ItemID.AmmoReservationPotion, true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.HunterPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.BattlePotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
-				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));

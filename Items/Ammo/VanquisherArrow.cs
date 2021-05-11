@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Ammo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 333);
+            recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }
     }

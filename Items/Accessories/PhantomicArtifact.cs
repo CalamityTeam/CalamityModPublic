@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Materials;
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 48;
             item.height = 62;
             item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.rare = ItemRarityID.Red; 
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.accessory = true;
         }

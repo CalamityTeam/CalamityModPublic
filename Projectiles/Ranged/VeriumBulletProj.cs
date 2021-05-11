@@ -1,54 +1,58 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class VeriumBulletProj : ModProjectile
-    {
+	public class VeriumBulletProj : ModProjectile
+	{
 		private float speed = 0f;
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Verium Bullet");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 4;
+			projectile.height = 4;
+			projectile.aiStyle = 1;
+			projectile.friendly = true;
+			projectile.ranged = true;
+			projectile.penetrate = 2;
+			projectile.timeLeft = 600;
+			projectile.extraUpdates = 1;
+			aiType = ProjectileID.Bullet;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+			return false;
+		}
 
-        public override bool PreAI()
-        {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            projectile.spriteDirection = projectile.direction;
-            if (Main.rand.NextBool(2))
-            {
-                int purple = Dust.NewDust(projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
-                Main.dust[purple].alpha = projectile.alpha;
-                Main.dust[purple].velocity *= 0f;
-                Main.dust[purple].noGravity = true;
-            }
+		public override bool PreAI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+			projectile.spriteDirection = projectile.direction;
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool(2))
+				{
+					int purple = Dust.NewDust(projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
+					Main.dust[purple].alpha = projectile.alpha;
+					Main.dust[purple].velocity *= 0f;
+					Main.dust[purple].noGravity = true;
+				}
+			}
 
 			if (projectile.ai[0] > 0f)
 				projectile.ai[0]--;
@@ -114,24 +118,24 @@ namespace CalamityMod.Projectiles.Ranged
 				return false;
 			}
 			return true;
-        }
+		}
 
 		public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f;
 
-        public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
+		public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
 			projectile.ai[0] = 10f;
-            projectile.damage /= 2;
+			projectile.damage /= 2;
 			if (target.life > 0)
 				projectile.ai[1] = target.whoAmI;
-        }
+		}
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
 			projectile.ai[0] = 10f;
-            projectile.damage /= 2;
-        }
-    }
+			projectile.damage /= 2;
+		}
+	}
 }

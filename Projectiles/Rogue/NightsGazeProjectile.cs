@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
-        private int SplitProjDamage => (int)(projectile.damage * (projectile.Calamity().stealthStrike ? 1f : 0.75f));
+        private int SplitProjDamage => (int)(projectile.damage * (projectile.Calamity().stealthStrike ? 0.4f : 0.15f));
 
         public override void AI()
         {
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

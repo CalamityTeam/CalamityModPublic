@@ -19,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 84;
+            item.width = 88;
             item.damage = 60;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 15f;
+            item.knockBack = 7f;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.height = 84;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+            item.height = 90;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
 			item.Calamity().challengeDrop = true;
 		}
@@ -42,16 +42,16 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
+                    type = ModContent.ProjectileType<SwordsplosionBlue>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
+                    type = ModContent.ProjectileType<SwordsplosionGreen>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<EonBeamV3>();
+                    type = ModContent.ProjectileType<SwordsplosionPurple>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<EonBeamV4>();
+                    type = ModContent.ProjectileType<SwordsplosionRed>();
                     break;
             }
             float num72 = Main.rand.Next(22, 30);
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-360, 361) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 2f, 0f);
             }
             return false;
         }

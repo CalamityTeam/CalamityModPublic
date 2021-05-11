@@ -101,8 +101,11 @@ namespace CalamityMod
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
 
+		// Life steal cap
+		public const int lifeStealCap = 10;
+
         internal static CalamityMod Instance;
-        internal Mod musicMod = null; // this is Calamity's official music mod, CalamityModMusic
+        internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod census = null;
@@ -1400,8 +1403,8 @@ namespace CalamityMod
                         float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
 
                         float baseDistance = 2800f;
-                        float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-                        float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+                        float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+                        float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
                         float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
                         bool guardianAlive = false;
@@ -1439,7 +1442,7 @@ namespace CalamityMod
             else if (CalamityWorld.death)
                 scale += MaxCaveDarkness * darkRatio;
 
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge || CalamityWorld.malice)
             {
                 if (CalamityGlobalNPC.signus != -1)
                 {
@@ -1473,7 +1476,7 @@ namespace CalamityMod
                             }
 
                             // Increased darkness in Death Mode
-                            if (CalamityWorld.death)
+                            if (CalamityWorld.death || CalamityWorld.malice)
                                 multiplier += (1f - multiplier) * 0.1f;
 
                             // Total darkness

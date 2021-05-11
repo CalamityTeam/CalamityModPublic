@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.chaseable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
@@ -160,7 +160,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 

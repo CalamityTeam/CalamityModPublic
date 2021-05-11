@@ -73,14 +73,16 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
-            for (int i = 0; i < 2; i++)
+			writer.Write(npc.dontTakeDamage);
+			for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
-            for (int i = 0; i < 2; i++)
+			npc.dontTakeDamage = reader.ReadBoolean();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
@@ -161,7 +163,6 @@ namespace CalamityMod.NPCs.Calamitas
 			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 

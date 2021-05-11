@@ -71,15 +71,17 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
             writer.Write(playRoarSound);
-        }
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
             playRoarSound = reader.ReadBoolean();
-        }
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -139,8 +141,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (lungeUpward)
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.5f;
+				turnSpeed *= 1.5f;
 			}
 
 			if (npc.Calamity().enraged > 0)
@@ -179,8 +181,8 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTail>(), npc.whoAmI);
                         }
-                        Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[3] = npc.whoAmI;
+						Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[1] = Previous;
                         Main.npc[Previous].ai[0] = lol;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
@@ -230,7 +232,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num954 = (npc.Calamity().enraged > 0) ? 500 : 1000;
 				if (enrageScale > 0f)
-					num954 = 200;
+					num954 = 100;
 				if (BossRushEvent.BossRushActive)
 					num954 /= 2;
 
@@ -545,7 +547,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
 

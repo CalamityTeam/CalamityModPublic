@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -264,7 +263,7 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 12f;
                 if (npc.Calamity().enraged > 0)
                     num823 = 16f;
-				num823 += 2f * enrageScale;
+				num823 += 4f * enrageScale;
 
 				bool flag51 = false;
 				if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
@@ -274,9 +273,7 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     npc.velocity.X *= 0.9f;
                     if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-                    {
                         npc.velocity.X = 0f;
-                    }
                 }
                 else
                 {
@@ -372,8 +369,6 @@ namespace CalamityMod.NPCs.Crabulon
 								case 0:
 									break;
 								case 1:
-									npc.ai[1] += 1f;
-									break;
 								case 2:
 									npc.ai[1] += 3f;
 									break;
@@ -385,16 +380,13 @@ namespace CalamityMod.NPCs.Crabulon
 							}
 						}
                         if (phase2)
-                        {
                             npc.ai[1] += !revenge ? 4f : 1f;
-                        }
                         if (phase3)
-                        {
                             npc.ai[1] += !revenge ? 4f : 1f;
-                        }
                     }
 
-                    if (npc.ai[1] >= 300f)
+					float jumpGateValue = 300f / (enrageScale + 1f);
+                    if (npc.ai[1] >= jumpGateValue)
                     {
                         npc.ai[1] = -20f;
                     }
@@ -446,6 +438,9 @@ namespace CalamityMod.NPCs.Crabulon
 						}
 						else
 							npc.velocity.Y = velocityY;
+
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
 
 						npc.velocity.X = velocityX * npc.direction;
 
@@ -503,9 +498,13 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     else
                     {
-                        npc.ai[0] = 3f;
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
+
+						npc.ai[0] = 3f;
 						if (revenge)
 							npc.ai[3] += 1f;
+
                         npc.netUpdate = true;
                     }
 
@@ -680,7 +679,6 @@ namespace CalamityMod.NPCs.Crabulon
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedCrabulon);
 

@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -100,9 +100,9 @@ namespace CalamityMod.NPCs.StormWeaver
 
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
 
             bool flag = false;
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					Color color38 = lightColor;
 
-					if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+					if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 					color38 = Color.Lerp(color38, color36, amount9);
@@ -215,7 +215,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);

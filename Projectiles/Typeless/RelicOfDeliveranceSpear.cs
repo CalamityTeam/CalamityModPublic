@@ -94,7 +94,8 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.ai[0] >= WaitTimeRequiredForCharge)
                 {
                     // Begin the lunge
-                    if (Main.mouseLeft && !Main.blockMouse && !player.mouseInterface)
+                    bool noObstaclesInWay = Collision.CanHitLine(projectile.Center, 1, 1, projectile.Center + projectile.SafeDirectionTo(Main.MouseWorld) * 25f, 1, 1);
+                    if (Main.myPlayer == projectile.owner && Main.mouseLeft && !Main.blockMouse && !player.mouseInterface && noObstaclesInWay)
                     {
                         float chargeSpeed = MathHelper.Lerp(MinChargeSpeed, MaxChargeSpeed, (projectile.ai[0] - WaitTimeRequiredForCharge) / WaitTimeRequiredForMaximumCharge);
                         if (chargeSpeed > MaxChargeSpeed)
@@ -209,23 +210,22 @@ namespace CalamityMod.Projectiles.Typeless
             // Don't die when colliding with tiles unless the spear is lunging (and after a bit of time has passed).
             projectile.tileCollide = projectile.velocity != Vector2.Zero && projectile.ai[0] >= WaitTimeRequiredForCharge + 10f;
 
+            // Die immediately if the owner of this projectile is clipping into tiles because of its movement.
+            if (Collision.SolidCollision(player.position, player.width, player.height) && projectile.velocity != Vector2.Zero)
+            {
+                player.velocity.Y = 0f;
+                DoDeathDust(projectile.oldVelocity);
+
+                projectile.Kill();
+            }
+
             Lighting.AddLight(projectile.Center, Color.LightGoldenrodYellow.ToVector3());
         }
-
-        public override bool CanDamage() => projectile.velocity != Vector2.Zero;
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public void DoDeathDust(Vector2 oldVelocity)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
-        // Force the spear to have "priority" when drawing so that it draws over the player.
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, 
-                                                   List<int> drawCacheProjsBehindNPCs,
-                                                   List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsOverWiresUI.Add(index);
+            if (Main.dedServ)
+                return;
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
             for (int i = 0; i < 60; i++)
             {
                 Vector2 spawnOffset = (projectile.Size / 2f).RotatedBy(projectile.rotation);
@@ -236,6 +236,24 @@ namespace CalamityMod.Projectiles.Typeless
                 dust.fadeIn = 1.9f;
             }
             Main.PlaySound(SoundID.Item14, projectile.Center);
+        }
+
+
+        public override bool CanDamage() => projectile.velocity != Vector2.Zero;
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            return false;
+        }
+        // Force the spear to have "priority" when drawing so that it draws over the player.
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, 
+                                                   List<int> drawCacheProjsBehindNPCs,
+                                                   List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsOverWiresUI.Add(index);
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            DoDeathDust(oldVelocity);
             return base.OnTileCollide(oldVelocity);
         }
     }

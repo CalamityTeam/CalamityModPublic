@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.harpyRing = true;
+            modPlayer.angelTreads = true;
             player.accRunSpeed = 7.5f;
             player.rocketBoots = 3;
             player.moveSpeed += 0.12f;

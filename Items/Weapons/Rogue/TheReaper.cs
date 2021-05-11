@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 80;
+            item.width = 106;
             item.damage = 90;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -27,12 +27,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 64;
+            item.height = 104;
             item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
 
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.rare = ItemRarityID.Purple;
 			item.Calamity().challengeDrop = true;
 		}
 

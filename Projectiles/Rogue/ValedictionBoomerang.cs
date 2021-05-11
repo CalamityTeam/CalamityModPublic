@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Rogue
 		private void OnHitEffects()
 		{
 			int typhoonAmt = 3;
-			int typhoonDamage = (int)(projectile.damage * 1.6f);
+			int typhoonDamage = (int)(projectile.damage * 0.6f);
 			if (projectile.owner == Main.myPlayer && projectile.numHits < 1 && projectile.Calamity().stealthStrike)
 			{
 				Main.PlaySound(SoundID.Item84, projectile.position);

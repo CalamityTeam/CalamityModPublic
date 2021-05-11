@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Magic
                 // Undocumented, unrefactored homing. Will not home through walls.
                 // Apparently has two different homing distances.
                 Vector2 vector145 = projectile.Center;
-                float num1015 = 800f;
+                float num1015 = 500f;
                 bool flag59 = false;
                 int num1016 = 0;
                 if (projectile.ai[1] == 0f)
@@ -231,7 +231,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

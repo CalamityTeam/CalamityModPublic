@@ -29,7 +29,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 300;
             projectile.Opacity = 0f;
 			projectile.coldDamage = true;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -116,7 +117,7 @@ namespace CalamityMod.Projectiles.Boss
 			lightColor.R = (byte)(255 * projectile.Opacity);
 			lightColor.G = (byte)(255 * projectile.Opacity);
 			lightColor.B = (byte)(255 * projectile.Opacity);
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 

@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
 
+			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
 			item.Calamity().challengeDrop = true;

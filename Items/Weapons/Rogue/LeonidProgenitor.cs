@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leonid Progenitor");

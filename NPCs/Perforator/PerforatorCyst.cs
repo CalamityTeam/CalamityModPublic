@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Perforator
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			bool crimson = TileID.Sets.Crimson[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Crimtane && spawnInfo.player.ZoneCrimson;
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || !crimson)
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || !crimson || NPC.LunarApocalypseIsUp)
             {
                 return 0f;
             }

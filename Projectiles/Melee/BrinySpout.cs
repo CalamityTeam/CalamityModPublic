@@ -23,10 +23,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 2;
             projectile.alpha = 255;
-            projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-        }
+            projectile.timeLeft = 90;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 8;
+		}
 
         public override void AI()
         {

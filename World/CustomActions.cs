@@ -95,6 +95,7 @@ namespace CalamityMod.World
                 return _actions[index].Apply(origin, x, y, args);
             }
         }
+
         public class DistanceFromOrigin : GenAction
         {
             private float _distance;

@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
 			//Home in
-			float maxDistance = 1600f;
+			float maxDistance = 500f;
 			int targetIndex = -1;
 			int i;
 			for (i = 0; i < Main.maxNPCs; i++)
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

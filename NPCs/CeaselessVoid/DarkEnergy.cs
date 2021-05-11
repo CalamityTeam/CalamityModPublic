@@ -164,8 +164,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             Player player = Main.player[npc.target];
 
             double mult = 0.5 +
-                (CalamityWorld.revenge ? 0.2 : 0.0) +
-                (CalamityWorld.death ? 0.2 : 0.0);
+                ((CalamityWorld.revenge || CalamityWorld.malice) ? 0.2 : 0.0) +
+                ((CalamityWorld.death || CalamityWorld.malice) ? 0.2 : 0.0);
 
             if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
                 npc.knockBackResist = 0f;
