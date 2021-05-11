@@ -1,24 +1,16 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Tools;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+
 using static Terraria.ModLoader.ModContent;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
 	[AutoloadHead]
