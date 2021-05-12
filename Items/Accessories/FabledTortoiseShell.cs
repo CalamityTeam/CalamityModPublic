@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fabled Tortoise Shell");
+            DisplayName.SetDefault("Flame-Licked Shell");
             Tooltip.SetDefault("50% reduced movement speed\n" +
                                 "Enemies take damage when they hit you\n" +
                                 "You move faster and lose 18 defense for 3 seconds if you take damage");
@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetDefaults()
         {
             item.defense = 36;
-            item.width = 20;
-            item.height = 24;
+            item.width = 36;
+            item.height = 42;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.accessory = true;
