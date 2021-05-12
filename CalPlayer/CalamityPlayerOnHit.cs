@@ -1072,8 +1072,8 @@ namespace CalamityMod.CalPlayer
 				// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 				if (player.ghostHeal)
 				{
-					float cooldownMult = 0.1f;
-					cooldownMult -= proj.numHits * 0.025f;
+					float cooldownMult = 0.2f;
+					cooldownMult -= proj.numHits * 0.05f;
 					if (cooldownMult < 0f)
 						cooldownMult = 0f;
 
