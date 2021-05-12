@@ -23,7 +23,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static bool CurrentlyViewing = false;
 
-		public static readonly Vector2 ReforgeUITopLeft = new Vector2(28f, 270f);
+		public static readonly Vector2 ReforgeUITopLeft = new Vector2(28f, 245f);
 		public static readonly float ResolutionRatio = Main.screenHeight / 1440f;
 
 		public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
@@ -83,7 +83,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			Main.npcChatText = string.Empty;
 
 			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
-			Vector2 backgroundScale = Vector2.One * MathHelper.Clamp(ResolutionRatio * 1.25f, 0.67f, 1f);
+			Vector2 backgroundScale = Vector2.One;
 
 			// Draw the background.
 			spriteBatch.Draw(backgroundTexture, ReforgeUITopLeft, null, Color.White, 0f, Vector2.Zero, backgroundScale, SpriteEffects.None, 0f);
@@ -102,7 +102,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			int cost = 0;
 			if (SelectedEnchantment.HasValue)
 			{
-				Point costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(50f, 84f) * backgroundScale).ToPoint();
+				Point costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(50f, 78f) * backgroundScale).ToPoint();
 				cost = DrawEnchantmentCost(spriteBatch, costDrawPositionTopLeft);
 				Point descriptionDrawPositionTopLeft = costDrawPositionTopLeft;
 				descriptionDrawPositionTopLeft.Y += 90;
@@ -171,7 +171,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
-			Vector2 scale = new Vector2(0.67f, 0.7f);
+			Vector2 scale = new Vector2(0.67f, 0.7f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f);
 			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 10, out _))
 			{
 				if (string.IsNullOrEmpty(line))
