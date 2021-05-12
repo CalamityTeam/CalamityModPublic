@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
@@ -1723,6 +1724,11 @@ namespace CalamityMod.Projectiles
                     organicEnemyHitEffect?.Invoke(target);
                 }
             }
+            
+            // NOTE - At the time of writing this vulnerability hex is basically useless against
+            // enemies. However, on the weapons branch it is extremely powerful and is used by the Calamity expert accessory.
+            if (modPlayer.flamingItemEnchant && !projectile.minion)
+                target.AddBuff(BuffType<VulnerabilityHex>(), 420);
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;

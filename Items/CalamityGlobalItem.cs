@@ -507,8 +507,7 @@ namespace CalamityMod.Items
 			{
 				AppliedEnchantment = savedEnchantment.Value;
 				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
-				if (hasCreationEffect)
-					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+				item.Calamity().AppliedEnchantment.Value.CreationEffect?.Invoke(item);
 			}
 		}
 

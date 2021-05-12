@@ -708,6 +708,7 @@ namespace CalamityMod.CalPlayer
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
+        public bool weakBrimstoneFlames = false;
         public bool aFlames = false;
         public bool gsInferno = false;
         public bool astralInfection = false;
@@ -995,6 +996,7 @@ namespace CalamityMod.CalPlayer
 
         #region Calamitas Enchant Effects
         public bool cursedSummonsEnchant = false;
+        public bool flamingItemEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1731,6 +1733,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -1973,8 +1976,10 @@ namespace CalamityMod.CalPlayer
             RageDamageBoost = DefaultRageDamageBoost;
 
             cursedSummonsEnchant = false;
+            flamingItemEnchant = false;
 
             lastProjectileHit = null;
+            CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
         #endregion
 
@@ -2075,6 +2080,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -4325,7 +4331,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
                 }
-                if (bFlames || aFlames)
+                if (bFlames || aFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
                 }

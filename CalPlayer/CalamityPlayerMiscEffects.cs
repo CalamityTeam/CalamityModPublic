@@ -84,9 +84,6 @@ namespace CalamityMod.CalPlayer
 			// Misc effects, because I don't know what else to call it
 			MiscEffects(player, modPlayer, mod);
 
-			// Calamitas enchant held effects
-			EnchantHeldItemEffects(player, modPlayer, player.ActiveItem());
-
 			// Max life and mana effects
 			MaxLifeAndManaEffects(player, modPlayer, mod);
 
@@ -2020,6 +2017,10 @@ namespace CalamityMod.CalPlayer
 				return;
 
 			heldItem.Calamity().AppliedEnchantment.Value.HoldEffect(player);
+
+			// Weak brimstone flame hold curse effect.
+			if (modPlayer.flamingItemEnchant)
+				player.AddBuff(ModContent.BuffType<WeakBrimstoneFlames>(), 10);
 		}
 		#endregion
 

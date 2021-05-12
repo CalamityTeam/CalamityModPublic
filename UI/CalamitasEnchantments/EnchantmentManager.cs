@@ -13,7 +13,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static IEnumerable<Enchantment> GetValidEnchantmentsForItem(Item item)
 		{
 			// Do nothing if the item cannot be enchanted.
-			if (item is null || !item.CanBeEnchantedBySomething())
+			if (item is null || item.IsAir || !item.CanBeEnchantedBySomething())
 				yield break;
 
 			// Only give the option to clear if the item already has an enchantment.
@@ -51,7 +51,13 @@ namespace CalamityMod.UI.CalamitasEnchants
 					100,
 					item => item.damage = (int)(item.damage * 1.1),
 					player => player.Calamity().cursedSummonsEnchant = true,
-					item => item.damage > 0 && item.maxStack == 1 && item.summon)
+					item => item.damage > 0 && item.maxStack == 1 && item.summon),
+
+				new Enchantment("Aflame", "Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.",
+					200,
+					null,
+					player => player.Calamity().flamingItemEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
