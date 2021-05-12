@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;

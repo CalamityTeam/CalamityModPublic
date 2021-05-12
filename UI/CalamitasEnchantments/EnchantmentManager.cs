@@ -43,13 +43,89 @@ namespace CalamityMod.UI.CalamitasEnchants
 			return null;
 		}
 
+		public static void ConstructFromModcall(IEnumerable<object> parameters)
+		{
+			int secondaryArgumentCount = parameters.Count();
+			if (secondaryArgumentCount < 4)
+				throw new ArgumentNullException("ERROR: A minimum of 4 arguments must be supplied to this command; a name, a description, an id, and a requirement predicate.");
+			if (secondaryArgumentCount > 6)
+				throw new ArgumentNullException("ERROR: A maximum of 6 arguments can be supplied to this command.");
+
+			string name = string.Empty;
+			string description = string.Empty;
+			int id = -1;
+			Predicate<Item> requirement = null;
+			Action<Item> creationEffect = null;
+			Action<Player> holdEffect = null;
+
+			// First element - the name.
+			if (parameters.ElementAt(0) is string nameElement)
+				name = nameElement;
+			else
+				throw new ArgumentException("The first argument to this command must be a string.");
+
+			// Second element - the description.
+			if (parameters.ElementAt(1) is string descriptionElement)
+				description = descriptionElement;
+			else
+				throw new ArgumentException("The second argument to this command must be a string.");
+
+			// Third element - the ID.
+			if (parameters.ElementAt(2) is int idElement)
+				id = idElement;
+			else
+				throw new ArgumentException("The third argument to this command must be an int.");
+
+			// Fourth element - the requirement predicate. This determines if an item can be enchanted by said enchant or not.
+			if (parameters.ElementAt(3) is Predicate<Item> requirementElement)
+				requirement = requirementElement;
+			else
+				throw new ArgumentException("The fourth argument to this command must be an Item Predicate.");
+
+			// Optional elements - creation and hold effects.
+			switch (secondaryArgumentCount)
+			{
+				case 5:
+					object fifthElement = parameters.ElementAt(4);
+					if (fifthElement is Action<Item> creationElement)
+						creationEffect = creationElement;
+					else if (fifthElement is Action<Player> holdElement)
+						holdEffect = holdElement;
+					else
+						throw new ArgumentException("The fifth argument to this command must be an Item or Player Action.");
+					break;
+				case 6:
+					fifthElement = parameters.ElementAt(4);
+					object sixthElement = parameters.ElementAt(5);
+					if (fifthElement is Action<Item> creationElement2)
+					{
+						creationEffect = creationElement2;
+						holdEffect = sixthElement as Action<Player>;
+					}
+					else if (fifthElement is Action<Player> holdElement2)
+					{
+						creationEffect = sixthElement as Action<Item>;
+						holdEffect = holdElement2;
+					}
+					else
+						throw new ArgumentException("The fifth argument to this command must be an Item or Player Action and the sixth must be the other action type.");
+					break;
+			}
+
+			// Ensure the enchantment's ID is not already claimed.
+			if (EnchantmentList.Any(enchant => enchant.ID == id) || id == ClearEnchantmentID)
+				throw new ArgumentException("An enchantment with this ID already exists. Another one must be specified.");
+
+			EnchantmentList.Add(new Enchantment(name, description, id, creationEffect, holdEffect, requirement));
+		}
+
 		public static void LoadAllEnchantments()
 		{
 			EnchantmentList = new List<Enchantment>
 			{
 				new Enchantment("Cursed", "Summons demons that harm you but drop healing items on death on item usage.", 
 					100,
-					item => item.damage = (int)(item.damage * 1.1),
+					null,
 					player => player.Calamity().cursedSummonsEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.summon),
 
@@ -58,6 +134,16 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player => player.Calamity().flamingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
+
+				new Enchantment("Oblatory", "Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.",
+					300,
+					item =>
+					{
+						item.damage = (int)(item.damage * 1.5);
+						item.mana = (int)Math.Ceiling(item.mana * 0.6);
+					},
+					player => player.Calamity().lifeManaEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.

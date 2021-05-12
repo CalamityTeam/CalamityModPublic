@@ -997,6 +997,7 @@ namespace CalamityMod.CalPlayer
         #region Calamitas Enchant Effects
         public bool cursedSummonsEnchant = false;
         public bool flamingItemEnchant = false;
+        public bool lifeManaEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1977,6 +1978,7 @@ namespace CalamityMod.CalPlayer
 
             cursedSummonsEnchant = false;
             flamingItemEnchant = false;
+            lifeManaEnchant = false;
 
             lastProjectileHit = null;
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
@@ -10238,6 +10240,33 @@ namespace CalamityMod.CalPlayer
             return light;
         }
 
+        #endregion
+
+        #region Mana Consumption Effects
+        public override void OnConsumeMana(Item item, int manaConsumed)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            if (Main.rand.NextBool(4) && modPlayer.lifeManaEnchant)
+            {
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.HealEffect(-5);
+                    player.statLife -= 5;
+                    if (player.statLife <= 0)
+                        player.KillMe(PlayerDeathReason.ByCustomReason($"{player.name} converted all of their life to mana."), 1000, -1);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Dust life = Dust.NewDustPerfect(player.Top + Main.rand.NextVector2Circular(player.width * 0.5f, 6f), 267);
+                    life.color = Color.Red;
+                    life.velocity = -Vector2.UnitY.RotatedByRandom(0.48f) * Main.rand.NextFloat(3f, 4.4f);
+                    life.scale = Main.rand.NextFloat(1.5f, 1.72f);
+                    life.fadeIn = 0.7f;
+                    life.noGravity = true;
+                }
+            }
+        }
         #endregion
     }
 }
