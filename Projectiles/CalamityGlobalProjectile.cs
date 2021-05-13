@@ -1725,10 +1725,22 @@ namespace CalamityMod.Projectiles
                 }
             }
             
-            // NOTE - At the time of writing this vulnerability hex is basically useless against
-            // enemies. However, on the weapons branch it is extremely powerful and is used by the Calamity expert accessory.
             if (modPlayer.flamingItemEnchant && !projectile.minion)
                 target.AddBuff(BuffType<VulnerabilityHex>(), 420);
+
+            if (modPlayer.farProximityRewardEnchant)
+			{
+                float proximityDamageInterpolant = Utils.InverseLerp(250f, 2400f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.7f, 1.45f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+            }
+
+            if (modPlayer.closeProximityRewardEnchant)
+            {
+                float proximityDamageInterpolant = Utils.InverseLerp(400f, 175f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+            }
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;

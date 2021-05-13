@@ -217,7 +217,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 			float inventoryScale = Main.inventoryScale;
 			Texture2D itemTexture = Main.itemTexture[CurrentlyHeldItem.type];
 			Rectangle itemFrame = itemTexture.Frame(1, 1, 0, 0);
-			if (Main.itemAnimations[CurrentlyHeldItem.type] != null)
+			bool hasMultipleFrames = Main.itemAnimations[CurrentlyHeldItem.type] != null;
+			if (hasMultipleFrames)
 				itemFrame = Main.itemAnimations[CurrentlyHeldItem.type].GetFrame(itemTexture);
 
 			float baseScale = 1f;
@@ -235,7 +236,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			drawPosition += Vector2.One * 23f * baseScale;
 
 			// Draw the item.
-			if (ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
+			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
 			{
 				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
 				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);

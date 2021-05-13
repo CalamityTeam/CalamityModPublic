@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
@@ -144,12 +145,24 @@ namespace CalamityMod.UI.CalamitasEnchants
 					},
 					player => player.Calamity().lifeManaEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
+
+				new Enchantment("Resentful", "Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.",
+					400,
+					null,
+					player => player.Calamity().farProximityRewardEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
+
+				new Enchantment("Bloodthirsty", "Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.",
+					500,
+					null,
+					player => player.Calamity().closeProximityRewardEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
 			ClearEnchantment = new Enchantment("Disenchant", string.Empty, ClearEnchantmentID,
 				item => item.Calamity().AppliedEnchantment = null,
-				item => item.maxStack == 1);
+				item => item.maxStack == 1 && item.shoot >= ProjectileID.None);
 		}
 
 		public static void UnloadAllEnchantments() => EnchantmentList = null;

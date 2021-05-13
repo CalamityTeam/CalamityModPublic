@@ -12,8 +12,6 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public int ID { get; internal set; }
 
-		internal static readonly Random EnchantmentIDDecider = new Random(0xCA17A3);
-
 		// This is internal because CanBeAppliedTo should be used over this field directly.
 		// Using that has the benefit of null checks and is objectively superior to using the raw delegate.
 		internal Predicate<Item> ApplyRequirement;

@@ -1703,7 +1703,7 @@ namespace CalamityMod
 				case "CreateEnchantment":
 				case "RegisterEnchantment":
 					EnchantmentManager.ConstructFromModcall(args.Skip(1));
-					break;
+					return null;
 
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");

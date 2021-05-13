@@ -998,6 +998,8 @@ namespace CalamityMod.CalPlayer
         public bool cursedSummonsEnchant = false;
         public bool flamingItemEnchant = false;
         public bool lifeManaEnchant = false;
+        public bool farProximityRewardEnchant = false;
+        public bool closeProximityRewardEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1979,8 +1981,11 @@ namespace CalamityMod.CalPlayer
             cursedSummonsEnchant = false;
             flamingItemEnchant = false;
             lifeManaEnchant = false;
+            farProximityRewardEnchant = false;
+            closeProximityRewardEnchant = false;
 
             lastProjectileHit = null;
+
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
         #endregion
