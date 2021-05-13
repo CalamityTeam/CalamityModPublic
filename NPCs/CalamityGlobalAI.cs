@@ -2881,6 +2881,10 @@ namespace CalamityMod.NPCs
 						return false;
 					}
 
+					float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+					npc.direction = playerLocation < 0 ? 1 : -1;
+					npc.spriteDirection = npc.direction;
+
 					// Slow down
 					npc.localAI[0] = 0f;
 					npc.velocity *= 0.9f;

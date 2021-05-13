@@ -4,6 +4,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
@@ -565,6 +566,12 @@ namespace CalamityMod.Items
         #region Use Item Changes
         public override bool UseItem(Item item, Player player)
         {
+			if (player.Calamity().evilSmasherBoost > 0)
+			{
+				if (item.type != ModContent.ItemType<EvilSmasher>())
+					player.Calamity().evilSmasherBoost = 0;
+			}
+
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
