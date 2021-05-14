@@ -55,6 +55,18 @@ namespace CalamityMod.Items
 
 		#region Enchantment Variables
 		public Enchantment? AppliedEnchantment = null;
+		public float DischargeEnchantExhaustion = 0;
+		public float DischargeExhaustionRatio
+		{
+			get
+			{
+				float ratio = DischargeEnchantExhaustion / DischargeEnchantExhaustionCap;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+		public const float DischargeEnchantExhaustionCap = 1600f;
+		public const float DischargeEnchantMinDamageFactor = 0.77f;
+		public const float DischargeEnchantMaxDamageFactor = 1.26f;
 		#endregion
 
 		// Miscellaneous stuff
@@ -76,6 +88,7 @@ namespace CalamityMod.Items
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 			myClone.StealthGenBonus = StealthGenBonus;
+			myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 			myClone.Charge = Charge;
 			return myClone;
 		}
@@ -485,7 +498,8 @@ namespace CalamityMod.Items
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
 				["reforgeTier"] = reforgeTier,
-				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0
+				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
+				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion
 			};
         }
 
@@ -501,6 +515,7 @@ namespace CalamityMod.Items
             else
                 Charge = tag.GetFloat("charge");
 
+			DischargeEnchantExhaustion = tag.GetFloat("DischargeEnchantExhaustion");
 			reforgeTier = tag.GetInt("reforgeTimer");
 			Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
 			if (savedEnchantment.HasValue)
@@ -541,6 +556,7 @@ namespace CalamityMod.Items
             writer.Write(Charge);
 			writer.Write(reforgeTier);
 			writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+			writer.Write(DischargeEnchantExhaustion);
 		}
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -561,6 +577,7 @@ namespace CalamityMod.Items
 				if (hasCreationEffect)
 					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
 			}
+			DischargeEnchantExhaustion = reader.ReadSingle();
 		}
         #endregion
 
@@ -739,6 +756,15 @@ namespace CalamityMod.Items
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 
+			// Exhaust the weapon if it has the necessary enchant.
+			if (!item.IsAir && modPlayer.dischargingItemEnchant)
+			{
+				float exhaustionCost = item.useTime * 2.25f;
+				if (exhaustionCost < 10f)
+					exhaustionCost = 10f;
+				DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+			}
+
             // Check for sufficient charge if this item uses charge.
             if (item.type >= ItemID.Count && modItem.UsesCharge)
             {
@@ -840,7 +866,11 @@ namespace CalamityMod.Items
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
             CalamityGlobalItem modItem = item.Calamity();
-            if (!item.summon && (modItem?.UsesCharge ?? false))
+
+			if (!item.summon && modItem.DischargeEnchantExhaustion > 0f)
+				mult *= DischargeEnchantmentDamageFormula();
+
+			if (!item.summon && (modItem?.UsesCharge ?? false))
             {
                 // At exactly zero charge, do not perform any multiplication.
                 // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
@@ -850,9 +880,20 @@ namespace CalamityMod.Items
             }
         }
 
-        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
-        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
-        internal float ChargeDamageFormula()
+		internal float DischargeEnchantmentDamageFormula()
+		{
+			// This exponential has the properties of beginning at 0 and ending at 1, yet also has their signature rising curve.
+			// It is therefore perfect for a potential interpolant.
+			float interpolant = (float)Math.Pow(2D, DischargeExhaustionRatio) - 1f;
+
+			// No further smoothening is required in the form of a Smoothstep remap.
+			// A linear interpolation works fine; the exponential already has the desired curve shape.
+			return MathHelper.Lerp(DischargeEnchantMinDamageFactor, DischargeEnchantMaxDamageFactor, interpolant);
+		}
+
+		// This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+		// Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+		internal float ChargeDamageFormula()
         {
             float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
             float y = 1.087f - 0.08f / (x + 0.07f);

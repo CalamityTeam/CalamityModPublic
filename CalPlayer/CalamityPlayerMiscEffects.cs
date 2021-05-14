@@ -7,6 +7,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
@@ -2012,6 +2013,26 @@ namespace CalamityMod.CalPlayer
 		{
 			if (heldItem.IsAir)
 				return;
+
+			// Exhaustion recharge effects.
+			foreach (Item item in player.inventory)
+			{
+				if (item.IsAir)
+					continue;
+
+				if (item.Calamity().AppliedEnchantment.HasValue && item.Calamity().AppliedEnchantment.Value.ID == 600)
+				{
+					// Initialize the exhaustion if it is currently not defined.
+					if (item.Calamity().DischargeEnchantExhaustion <= 0f)
+						item.Calamity().DischargeEnchantExhaustion = CalamityGlobalItem.DischargeEnchantExhaustionCap;
+
+					// Slowly recharge the weapon over time. This is depleted when the item is actaully used.
+					else if (item.Calamity().DischargeEnchantExhaustion < CalamityGlobalItem.DischargeEnchantExhaustionCap)
+						item.Calamity().DischargeEnchantExhaustion++;
+				}
+				else
+					item.Calamity().DischargeEnchantExhaustion = 0f;
+			}
 
 			if (!heldItem.Calamity().AppliedEnchantment.HasValue || heldItem.Calamity().AppliedEnchantment.Value.HoldEffect is null)
 				return;

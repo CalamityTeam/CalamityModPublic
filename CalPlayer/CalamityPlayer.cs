@@ -1000,6 +1000,7 @@ namespace CalamityMod.CalPlayer
         public bool lifeManaEnchant = false;
         public bool farProximityRewardEnchant = false;
         public bool closeProximityRewardEnchant = false;
+        public bool dischargingItemEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1983,6 +1984,7 @@ namespace CalamityMod.CalPlayer
             lifeManaEnchant = false;
             farProximityRewardEnchant = false;
             closeProximityRewardEnchant = false;
+            dischargingItemEnchant = false;
 
             lastProjectileHit = null;
 
@@ -4472,44 +4474,29 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-            if (item.type == ModContent.ItemType<GaelsGreatsword>())
-            {
-				mult += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-            }
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-            {
 				mult += hoverboardBoost ? 0.35f : 0.25f;
-            }
+
             if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-            {
 				mult += 0.15f;
-            }
+
             if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
-            {
 				mult += 0.15f;
-            }
+
             if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
+
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
 
             if (item.ranged)
-            {
                 acidRoundMultiplier = item.useTime / 20D;
-            }
             else
-            {
                 acidRoundMultiplier = 1D;
-            }
-            //Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
+
+            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-            {
                 flat += 1f;
-            }
         }
 
         public override void GetWeaponKnockback(Item item, ref float knockback)

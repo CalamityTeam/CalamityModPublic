@@ -157,6 +157,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player => player.Calamity().closeProximityRewardEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
+
+				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used.",
+					600,
+					null,
+					player => player.Calamity().dischargingItemEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
