@@ -1001,6 +1001,7 @@ namespace CalamityMod.CalPlayer
         public bool farProximityRewardEnchant = false;
         public bool closeProximityRewardEnchant = false;
         public bool dischargingItemEnchant = false;
+        public bool explosiveMinionsEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1985,6 +1986,7 @@ namespace CalamityMod.CalPlayer
             farProximityRewardEnchant = false;
             closeProximityRewardEnchant = false;
             dischargingItemEnchant = false;
+            explosiveMinionsEnchant = false;
 
             lastProjectileHit = null;
 

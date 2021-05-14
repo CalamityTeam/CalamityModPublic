@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -106,8 +107,12 @@ namespace CalamityMod.Projectiles
 		public bool affectedByMaliceModeVelocityMultiplier = false;
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
 
-		#region SetDefaults
-		public override void SetDefaults(Projectile projectile)
+        // Enchantment variables.
+        public int ExplosiveEnchantCountdown = 0;
+        public const int ExplosiveEnchantTime = 600;
+
+        #region SetDefaults
+        public override void SetDefaults(Projectile projectile)
         {
             if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
                 trueMelee = true;
@@ -219,6 +224,38 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+            if (projectile.minion && ExplosiveEnchantCountdown > 0)
+			{
+                ExplosiveEnchantCountdown--;
+
+                // Make fizzle sounds and fire dust to indicate the impending explosion.
+                if (ExplosiveEnchantCountdown <= 300)
+				{
+                    if (Main.rand.NextBool(24))
+                        Main.PlaySound(SoundID.DD2_BetsyFireballShot, projectile.Center);
+
+                    Dust fire = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(projectile.width, projectile.height) * 0.42f, 267);
+                    fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.45f, 1f));
+                    fire.scale = Main.rand.NextFloat(1.4f, 1.65f);
+                    fire.fadeIn = 0.5f;
+                    fire.noGravity = true;
+				}
+
+                if (ExplosiveEnchantCountdown <= 0)
+				{
+                    Main.PlaySound(SoundID.DD2_KoboldExplosion, projectile.Center);
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        if (projectile.minionSlots > 0f)
+                        {
+                            int damage = (int)(Main.player[projectile.owner].MinionDamage() * 6000);
+                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
+                        }
+                        projectile.Kill();
+                    }
+				}
+            }
+
             if (RequiresManualResurrection)
             {
                 // Reactivate the projectile the instant it's created. This is dirty as fuck, but

@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
+using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -69,6 +70,7 @@ namespace CalamityMod.ILEditing
 			DisableDemonAltarGeneration();
 			DisableTeleportersDuringBossFights();
             FixSplittingWormBannerDrops();
+            IncorporateMinionExplodingCountdown();
         }
 
         /// <summary>
@@ -397,10 +399,29 @@ namespace CalamityMod.ILEditing
             };
         }
 
-        #endregion
+        private static void IncorporateMinionExplodingCountdown()
+		{
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += (orig, x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1) =>
+            {
+                // This is unfortunately not something that can be done via SetDefaults since owner is set
+                // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
+                int proj = orig(x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
+                Projectile projectile = Main.projectile[proj];
+                if (projectile.minion)
+                {
+                    Player player = Main.player[projectile.owner];
+                    CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+                    if (player.Calamity().explosiveMinionsEnchant)
+                        projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
+                }
+                return proj;
+            };
+		}
 
-        #region IL Editing Injected/Hooked Functions
-        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+		#endregion
+
+		#region IL Editing Injected/Hooked Functions
+		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)

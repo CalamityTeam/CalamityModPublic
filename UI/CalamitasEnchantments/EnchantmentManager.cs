@@ -1,8 +1,10 @@
+using CalamityMod.Items.Weapons.Summon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
@@ -163,6 +165,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player => player.Calamity().dischargingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
+
+				new Enchantment("Damned", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. The explosion can hurt both you and enemies. Minions do more damage to compensate.",
+					700,
+					item => item.damage = (int)(item.damage * 1.5),
+					player => player.Calamity().explosiveMinionsEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.summon),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
