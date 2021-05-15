@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.Signus
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += malice ? 2f : 1f;
+                    npc.localAI[1] += malice ? 1.5f : 1f;
 
 					if (expertMode)
 						npc.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
@@ -297,7 +297,7 @@ namespace CalamityMod.NPCs.Signus
                     Main.dust[dust].fadeIn = 1f;
                 }
 
-                npc.alpha += malice ? 4 : 2;
+                npc.alpha += malice ? 3 : 2;
 				if (expertMode)
 					npc.alpha += death ? (int)Math.Round(4.5D * (1D - lifeRatio)) : (int)Math.Round(3D * (1D - lifeRatio));
 
