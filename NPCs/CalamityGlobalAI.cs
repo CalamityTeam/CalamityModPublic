@@ -10098,7 +10098,7 @@ namespace CalamityMod.NPCs
 								velocity *= 1.5f;
 
                             if (enrage)
-                                velocity *= 2f;
+                                velocity *= 1.5f;
 
 							int type = ProjectileID.Fireball;
 							int damage = npc.GetProjectileDamage(type);
@@ -10288,7 +10288,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
 
                     Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y + 10f);
-                    float num655 = enrage ? 16f : 8f;
+                    float num655 = turboEnrage ? 16f : enrage ? 12f : 8f;
                     float num656 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector81.X;
                     float num657 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector81.Y;
                     float num658 = (float)Math.Sqrt(num656 * num656 + num657 * num657);
@@ -10338,7 +10338,7 @@ namespace CalamityMod.NPCs
 
                     npc.ai[1] = 0f;
 
-                    float num663 = enrage ? 18f : 12f;
+                    float num663 = turboEnrage ? 18f : enrage ? 15f : 12f;
                     float num664 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector82.X;
                     float num665 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector82.Y;
                     float num666 = (float)Math.Sqrt(num664 * num664 + num665 * num665);
@@ -10683,7 +10683,7 @@ namespace CalamityMod.NPCs
                 npc.ai[1] = 0f;
 
                 Vector2 vector88 = new Vector2(npc.Center.X, npc.Center.Y - 10f);
-                float num706 = enrage ? 10f : 5f;
+                float num706 = turboEnrage ? 10f : enrage ? 7.5f : 5f;
                 float num709 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector88.X;
                 float num710 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector88.Y;
                 float num711 = (float)Math.Sqrt(num709 * num709 + num710 * num710);

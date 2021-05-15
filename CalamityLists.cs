@@ -1695,10 +1695,6 @@ namespace CalamityMod
                 NPCID.TheDestroyerTail,
                 NPCID.EaterofWorldsBody,
                 NPCID.EaterofWorldsTail,
-                NPCID.GolemHead,
-                NPCID.GolemHeadFree,
-                NPCID.GolemFistRight,
-                NPCID.GolemFistLeft,
                 NPCID.MoonLordCore
             };
 

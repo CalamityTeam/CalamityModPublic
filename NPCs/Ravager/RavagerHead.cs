@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            float speed = 21f;
+            float speed = 40f;
             float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npc.Center.X;
             float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npc.Center.Y;
             centerY -= 20f;

@@ -3264,8 +3264,8 @@ namespace CalamityMod.NPCs
 
 			void CustomGravity()
 			{
-				float gravity = 0.3f + 0.15f * enrageScale;
-				float maxFallSpeed = 10f + 5f * enrageScale;
+				float gravity = 0.36f + 0.12f * enrageScale;
+				float maxFallSpeed = 12f + 4f * enrageScale;
 
 				if (calamityGlobalNPC.newAI[0] > 1f)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];

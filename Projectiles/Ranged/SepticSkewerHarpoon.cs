@@ -39,13 +39,13 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.alpha = 0;
             }
-            if ((int)projectile.ai[1] % 4 == 0 && projectile.owner == Main.myPlayer && Main.rand.NextBool(5))
+            if (projectile.ai[1] % 8f == 0f && projectile.owner == Main.myPlayer && Main.rand.NextBool(5))
             {
                 Vector2 vector63 = vector62 * -1f;
                 vector63.Normalize();
-                vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
-                vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2, default);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)((double)projectile.damage * 0.4), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                vector63 *= Main.rand.Next(45, 65) * 0.1f;
+                vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
             }
             if (player.dead)
             {

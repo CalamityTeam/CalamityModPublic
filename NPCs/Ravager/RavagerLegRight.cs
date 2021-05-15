@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (npc.ai[0] == 0f)
             {
-                float num659 = 21f;
+                float num659 = 40f;
                 Vector2 vector79 = new Vector2(center.X, center.Y);
                 float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
