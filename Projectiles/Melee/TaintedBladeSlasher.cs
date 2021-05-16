@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 	public class TaintedBladeSlasher : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer = null;
-        public ref float SwordItemID => ref projectile.ai[0];
+        public ref float SwordItemID => ref projectile.ai[1];
         public ref float VerticalOffset => ref projectile.localAI[0];
         public ref float Time => ref projectile.localAI[1];
         public float AttackCompletionRatio => 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
