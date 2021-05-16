@@ -1002,6 +1002,7 @@ namespace CalamityMod.CalPlayer
         public bool closeProximityRewardEnchant = false;
         public bool dischargingItemEnchant = false;
         public bool explosiveMinionsEnchant = false;
+        public bool bladeArmEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1987,6 +1988,7 @@ namespace CalamityMod.CalPlayer
             closeProximityRewardEnchant = false;
             dischargingItemEnchant = false;
             explosiveMinionsEnchant = false;
+            bladeArmEnchant = false;
 
             lastProjectileHit = null;
 
@@ -6854,6 +6856,9 @@ namespace CalamityMod.CalPlayer
         #region Shoot
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (bladeArmEnchant)
+                return false;
+
             if (veneratedLocket)
             {
                 if (item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())

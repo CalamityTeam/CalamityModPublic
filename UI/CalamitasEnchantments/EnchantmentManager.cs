@@ -1,4 +1,5 @@
-using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +127,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			EnchantmentList = new List<Enchantment>
 			{
-				new Enchantment("Cursed", "Summons demons that harm you but drop healing items on death on item usage.", 
+				new Enchantment("Cursed", "Summons demons that harm you but drop healing items on death on item usage.",
 					100,
 					null,
 					player => player.Calamity().cursedSummonsEnchant = true,
@@ -171,6 +172,38 @@ namespace CalamityMod.UI.CalamitasEnchants
 					item => item.damage = (int)(item.damage * 1.5),
 					player => player.Calamity().explosiveMinionsEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.summon),
+
+				new Enchantment("Tainted", "Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.",
+					800,
+					item => item.useTime = item.useAnimation = 25,
+					player =>
+					{
+						player.Calamity().bladeArmEnchant = true;
+						bool armsArePresent = false;
+						int armType = ModContent.ProjectileType<TaintedBladeSlasher>();
+						for (int i = 0; i < Main.maxProjectiles; i++)
+						{
+							if (Main.projectile[i].type != armType || Main.projectile[i].owner != player.whoAmI || !Main.projectile[i].active)
+								continue;
+
+							armsArePresent = true;
+							break;
+						}
+
+						if (Main.myPlayer == player.whoAmI && !armsArePresent)
+						{
+							// Yes, this is a LOT of damage but given the limited range of this thing it needs to be extremely powerful when it does actually hit.
+							int damage = (int)(player.ActiveItem().damage * player.MeleeDamage() * 5);
+							int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1, player.ActiveItem().type);
+							if (Main.projectile.IndexInRange(blade))
+								Main.projectile[blade].localAI[0] = 0f;
+							
+							blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, -1, player.ActiveItem().type);
+							if (Main.projectile.IndexInRange(blade))
+								Main.projectile[blade].localAI[0] = -80f;
+						}
+					},
+					item => item.damage > 0 && item.maxStack == 1 && item.melee && !item.noUseGraphic && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.

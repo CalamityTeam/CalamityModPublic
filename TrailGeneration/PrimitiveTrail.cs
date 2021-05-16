@@ -45,6 +45,9 @@ namespace CalamityMod
 		public DynamicIndexBuffer IndexBuffer = null;
 		public DynamicVertexBuffer VertexBuffer = null;
 
+		public Vector2 OverridingStickPointStart = Vector2.Zero;
+		public Vector2 OverridingStickPointEnd = Vector2.Zero;
+
 		public delegate List<Vector2> TrailPointRetrievalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null);
 
 		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, TrailPointRetrievalFunction pointFunction = null, MiscShaderData specialShader = null)
@@ -194,11 +197,19 @@ namespace CalamityMod
 				// This doesn't use RotatedBy for the sake of performance (there can potentially be a lot of trail points).
 				Vector2 sideDirection = new Vector2(-directionToAhead.Y, directionToAhead.X);
 
+				Vector2 left = currentPosition - sideDirection * widthAtVertex;
+				Vector2 right = currentPosition + sideDirection * widthAtVertex;
+				if (i == 0 && OverridingStickPointStart != Vector2.Zero)
+                {
+					left = OverridingStickPointStart;
+					right = OverridingStickPointEnd;
+				}
+
 				// What this is doing, at its core, is defining a rectangle based on two triangles.
 				// These triangles are defined based on the width of the strip at that point.
 				// The resulting rectangles combined are what make the trail itself.
-				vertices[i * 2] = new VertexPosition2DColor(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord);
-				vertices[i * 2 + 1] = new VertexPosition2DColor(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord);
+				vertices[i * 2] = new VertexPosition2DColor(left, vertexColor, leftCurrentTextureCoord);
+				vertices[i * 2 + 1] = new VertexPosition2DColor(right, vertexColor, rightCurrentTextureCoord);
 			}
 
 			if (VertexBuffer is null || vertices.Length != VertexBuffer.VertexCount)
