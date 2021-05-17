@@ -204,6 +204,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 						}
 					},
 					item => item.damage > 0 && item.maxStack == 1 && item.melee && !item.noUseGraphic && item.shoot > ProjectileID.None),
+
+				new Enchantment("Treacherous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
+					900,
+					null,
+					player => player.Calamity().manaMonsterEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.

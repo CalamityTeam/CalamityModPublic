@@ -1003,6 +1003,7 @@ namespace CalamityMod.CalPlayer
         public bool dischargingItemEnchant = false;
         public bool explosiveMinionsEnchant = false;
         public bool bladeArmEnchant = false;
+        public bool manaMonsterEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -1989,6 +1990,7 @@ namespace CalamityMod.CalPlayer
             dischargingItemEnchant = false;
             explosiveMinionsEnchant = false;
             bladeArmEnchant = false;
+            manaMonsterEnchant = false;
 
             lastProjectileHit = null;
 
