@@ -81,13 +81,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void AI()
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
-			{
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-				if (calamityModMusic != null)
-					music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
-				else
-					music = MusicID.Boss2;
-			}
+                music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 			CalamityAI.AquaticScourgeAI(npc, mod, true);
 		}
 
