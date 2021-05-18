@@ -2792,7 +2792,6 @@ namespace CalamityMod.NPCs
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
-			return;
             switch (BossRushEvent.BossRushStage)
             {
                 case 0:
