@@ -59,6 +59,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -2400,13 +2401,33 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region BiomeStuff
+        internal static readonly FieldInfo EffectsField = typeof(SkyManager).GetField("_effects", BindingFlags.NonPublic | BindingFlags.Instance);
+
         public override void UpdateBiomeVisuals()
         {
             bool useBossRushBackground = BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100;
 
             player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", useBossRushBackground);
             if (useBossRushBackground)
+            {
+                // Clear all other skies, including the vanilla ones.
+                Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
+                bool updateRequired = false;
+                foreach (string skyName in skies.Keys)
+				{
+                    if (skies[skyName].IsActive() && skyName != "CalamityMod:BossRush")
+                    {
+                        skies[skyName].Opacity = 0f;
+                        skies[skyName].Deactivate();
+                        updateRequired = true;
+                    }
+                }
+
+                if (updateRequired)
+                    SkyManager.Instance.Update(new GameTime());
+
                 return;
+            }
 
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
