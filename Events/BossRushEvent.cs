@@ -82,7 +82,7 @@ namespace CalamityMod.Events
         public static int EndTimer;
         public static readonly Color XerocTextColor = Color.LightCoral;
         public const int StartEffectTotalTime = 120;
-        public const int EndVisualEffectTime = 580;
+        public const int EndVisualEffectTime = 340;
         public static int ClosestPlayerToWorldCenter => Player.FindClosest(new Vector2(Main.maxTilesX, Main.maxTilesY) * 16f * 0.5f, 1, 1);
         public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
         public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
@@ -92,7 +92,6 @@ namespace CalamityMod.Events
         {
             Bosses = new List<Boss>()
             {
-                /*
                 new Boss(NPCID.QueenBee),
                 new Boss(NPCID.BrainofCthulhu),
                 new Boss(NPCID.KingSlime),
@@ -239,7 +238,7 @@ namespace CalamityMod.Events
                     }
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
-                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day), */
+                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
                 new Boss(ModContent.NPCType<DevourerofGodsHeadS>(), TimeChangeContext.Day, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
@@ -374,7 +373,9 @@ namespace CalamityMod.Events
                 }
             }
 
-            BossRushSky.CurrentInterestMin = MathHelper.Lerp(0f, 0.75f, (float)Math.Pow(BossRushStage / (float)Bosses.Count, 5D));
+            if (EndTimer > 0)
+                BossRushSky.CurrentInterest = MathHelper.Lerp(0.5f, 0.75f, Utils.InverseLerp(5f, 145f, EndTimer, true));
+            BossRushSky.CurrentInterestMin = MathHelper.Lerp(0f, 0.5f, (float)Math.Pow(BossRushStage / (float)Bosses.Count, 5D));
         }
 
         public static void End()

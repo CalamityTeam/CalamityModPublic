@@ -52,27 +52,27 @@ namespace CalamityMod.Events
             if (maxDepth >= 0 && minDepth < 0 && GetIntensity() > 0f)
                 spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), GeneralColor * GetIntensity() * 0.5f);
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
             // Make the entire background fade to white at the end of the event.
-            if (BossRushEvent.EndTimer >= 90f)
+            if (BossRushEvent.EndTimer >= 100f)
             {
                 Texture2D whiteTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/XerocLight");
                 Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
-                float fadeToWhite = Utils.InverseLerp(90f, 205f, BossRushEvent.EndTimer, true);
-                fadeToWhite *= Utils.InverseLerp(BossRushEvent.EndVisualEffectTime - 20f, BossRushEvent.EndVisualEffectTime - 55f, BossRushEvent.EndTimer, true);
-                float maxScale = Main.screenHeight * 1.1f / whiteTexture.Height;
-                float backScale = MathHelper.Lerp(0.01f, 3.5f, fadeToWhite);
-                Color backFadeColor = Color.White * fadeToWhite * 0.19f;
-                backFadeColor.A = 0;
+                float fadeToWhite = Utils.InverseLerp(110f, 140f, BossRushEvent.EndTimer, true);
+                fadeToWhite *= Utils.InverseLerp(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
+                float backScale = MathHelper.Lerp(0.01f, 8f, fadeToWhite);
+                Color backFadeColor = Color.White * fadeToWhite * 0.64f;
 
-                for (int i = 0; i < 3; i++)
-                {
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / 3f).ToRotationVector2() * backScale * 80f;
-                    spriteBatch.Draw(whiteTexture, screenCenter + drawOffset, null, backFadeColor, 0f, whiteTexture.Size() * 0.5f, backScale, SpriteEffects.None, 0f);
-                }
+                spriteBatch.Draw(whiteTexture, screenCenter, null, backFadeColor, 0f, whiteTexture.Size() * 0.5f, backScale, SpriteEffects.None, 0f);
             }
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
+
             // Draw the Xeroc eye at the back of the background.
-            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue)
+            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && BossRushEvent.EndTimer < BossRushEvent.EndVisualEffectTime - 40f)
             {
                 Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 float scale = MathHelper.Lerp(0.8f, 0.9f, IncrementalInterest) + (float)Math.Sin(IdleTimer) * 0.01f;

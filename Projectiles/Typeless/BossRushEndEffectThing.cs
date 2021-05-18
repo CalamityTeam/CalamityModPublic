@@ -25,16 +25,16 @@ namespace CalamityMod.Projectiles.Typeless
 
 		public override void AI()
 		{
-            if (Time == 125f)
+            if (Time == 25f)
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BossRushEnd"), Main.LocalPlayer.Center);
 
             projectile.Center = Owner.Center;
             BossRushEvent.SyncEndTimer((int)Time);
 
-            float currentShakePower = MathHelper.Lerp(1f, 20f, Utils.InverseLerp(60f, 380f, Time, true) * Utils.InverseLerp(10f, 40f, projectile.timeLeft, true));
+            float currentShakePower = MathHelper.Lerp(1f, 20f, Utils.InverseLerp(140f, 180f, Time, true) * Utils.InverseLerp(10f, 40f, projectile.timeLeft, true));
             Main.LocalPlayer.Calamity().ScreenShakePower = currentShakePower;
 
-            MoonlordDeathDrama.RequestLight(Utils.InverseLerp(440f, 490f, Time, true) * Utils.InverseLerp(10f, 60f, projectile.timeLeft, true), Main.LocalPlayer.Center);
+            MoonlordDeathDrama.RequestLight(Utils.InverseLerp(220f, 265f, Time, true) * Utils.InverseLerp(10f, 30f, projectile.timeLeft, true), Main.LocalPlayer.Center);
 
             Time++;
         }
