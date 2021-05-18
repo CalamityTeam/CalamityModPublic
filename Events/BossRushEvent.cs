@@ -26,6 +26,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -77,7 +78,11 @@ namespace CalamityMod.Events
         public static List<Boss> Bosses = new List<Boss>();
         public static Dictionary<int, int[]> BossIDsAfterDeath = new Dictionary<int, int[]>();
         public static Dictionary<int, Action<NPC>> BossDeathEffects = new Dictionary<int, Action<NPC>>();
+        public static int StartTimer;
+        public static int EndTimer;
         public static readonly Color XerocTextColor = Color.LightCoral;
+        public const int StartEffectTotalTime = 120;
+        public const int EndVisualEffectTime = 580;
         public static int ClosestPlayerToWorldCenter => Player.FindClosest(new Vector2(Main.maxTilesX, Main.maxTilesY) * 16f * 0.5f, 1, 1);
         public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
         public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
@@ -87,6 +92,7 @@ namespace CalamityMod.Events
         {
             Bosses = new List<Boss>()
             {
+                /*
                 new Boss(NPCID.QueenBee),
                 new Boss(NPCID.BrainofCthulhu),
                 new Boss(NPCID.KingSlime),
@@ -233,7 +239,7 @@ namespace CalamityMod.Events
                     }
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
-                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
+                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day), */
                 new Boss(ModContent.NPCType<DevourerofGodsHeadS>(), TimeChangeContext.Day, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
@@ -270,22 +276,11 @@ namespace CalamityMod.Events
                 },
                 [ModContent.NPCType<DevourerofGodsHeadS>()] = npc =>
                 {
-                    DropHelper.DropItem(npc, ModContent.ItemType<Rock>(), true);
-                    BossRushStage = 0;
                     CalamityUtils.KillAllHostileProjectiles();
                     CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    BossRushActive = false;
 
-                    CalamityNetcode.SyncWorld();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = CalamityMod.Instance.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(BossRushStage);
-                        netMessage.Send();
-                    }
-
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", XerocTextColor);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEndEffectThing>(), 0, 0f, Main.myPlayer);
                 }
             };
         }
@@ -296,10 +291,22 @@ namespace CalamityMod.Events
             BossIDsAfterDeath = null;
             BossDeathEffects = null;
         }
-        #endregion
+		#endregion
 
-        #region Updates
-        internal static void MiscUpdateEffects()
+		#region Properties
+        public static int CurrentTier
+		{
+			get
+			{
+                if (BossRushStage > Bosses.FindIndex(boss => boss.EntityID == NPCID.TheDestroyer))
+                    return 2;
+                return 1;
+			}
+		}
+		#endregion Properties
+
+		#region Updates
+		internal static void MiscUpdateEffects()
         {
             if (!BossRushActive)
                 return;
@@ -315,6 +322,7 @@ namespace CalamityMod.Events
             if (!BossRushActive)
             {
                 BossRushSpawnCountdown = 180;
+                BossRushSky.CurrentInterestMin = 0f;
                 if (BossRushStage != 0)
                 {
                     BossRushStage = 0;
@@ -338,7 +346,7 @@ namespace CalamityMod.Events
                     BossRushSpawnCountdown--;
 
                 // Cooldown and boss spawn
-                if (BossRushSpawnCountdown <= 0)
+                if (BossRushSpawnCountdown <= 0 && BossRushStage < Bosses.Count)
                 {
                     // Cooldown before next boss spawns.
                     BossRushSpawnCountdown = 60;
@@ -364,6 +372,45 @@ namespace CalamityMod.Events
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
                 }
+            }
+
+            BossRushSky.CurrentInterestMin = MathHelper.Lerp(0f, 0.75f, (float)Math.Pow(BossRushStage / (float)Bosses.Count, 5D));
+        }
+
+        public static void End()
+		{
+            for (int doom = 0; doom < 200; doom++)
+            {
+                NPC n = Main.npc[doom];
+                if (!n.active)
+                    continue;
+
+                // will also correctly despawn EoW because none of his segments are boss flagged
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                if (shouldDespawn)
+                {
+                    n.active = false;
+                    n.netUpdate = true;
+                }
+            }
+
+            BossRushActive = false;
+            BossRushStage = 0;
+            CalamityUtils.KillAllHostileProjectiles();
+
+            CalamityNetcode.SyncWorld();
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                SyncStartTimer(0);
+                SyncEndTimer(0);
+            }
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = CalamityMod.Instance.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                netMessage.Write(BossRushStage);
+                netMessage.Send();
             }
         }
         #endregion
@@ -453,6 +500,35 @@ namespace CalamityMod.Events
                 netMessage2.Write(CalamityWorld.bossRushHostileProjKillCounter);
                 netMessage2.Send();
             }
+
+            BossRushSky.CurrentInterest = 0.85f;
+        }
+        #endregion
+
+        #region Netcode
+
+        public static void SyncStartTimer(int time)
+        {
+            StartTimer = time;
+            if (Main.netMode != NetmodeID.Server)
+                return;
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.BossRushStartTimer);
+            netMessage.Write(StartTimer);
+            netMessage.Send();
+        }
+
+        public static void SyncEndTimer(int time)
+        {
+            EndTimer = time;
+            if (Main.netMode != NetmodeID.Server)
+                return;
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.BossRushEndTimer);
+            netMessage.Write(EndTimer);
+            netMessage.Send();
         }
         #endregion
     }

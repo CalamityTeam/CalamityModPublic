@@ -115,6 +115,7 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public float ScreenShakePower;
         #endregion
 
         #region Tile Entity Trackers
@@ -1971,6 +1972,12 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
+            if (ScreenShakePower > 0f)
+			{
+                ScreenShakePower = MathHelper.Clamp(ScreenShakePower - 0.2f, 0f, 70f);
+                Main.screenPosition += Main.rand.NextVector2Circular(ScreenShakePower, ScreenShakePower);
+            }
+
             if (CalamityWorld.ScreenShakeSpots.Count > 0)
             {
                 // Fail-safe to ensure that spots don't last forever.
@@ -2395,6 +2402,12 @@ namespace CalamityMod.CalPlayer
         #region BiomeStuff
         public override void UpdateBiomeVisuals()
         {
+            bool useBossRushBackground = BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100;
+
+            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", useBossRushBackground);
+            if (useBossRushBackground)
+                return;
+
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
 
