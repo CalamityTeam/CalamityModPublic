@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
-            npc.LifeMaxNERB(2300, 2650, 16500000);
+            npc.LifeMaxNERB(2600, 3000, 16500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;

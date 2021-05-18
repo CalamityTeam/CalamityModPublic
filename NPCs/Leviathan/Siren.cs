@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Leviathan
 			bool phase4 = lifeRatio < 0.2f;
 
 			// Spawn Leviathan and change music
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (!spawnedLevi)
 				{
@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.dontTakeDamage = true;
 			}
 
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (CalamityGlobalNPC.leviathan != -1)
 				{

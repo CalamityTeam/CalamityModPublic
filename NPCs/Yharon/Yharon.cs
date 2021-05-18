@@ -75,15 +75,6 @@ namespace CalamityMod.NPCs.Yharon
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
 
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);

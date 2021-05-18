@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
@@ -103,7 +105,18 @@ namespace CalamityMod
 		// Life steal cap
 		public const int lifeStealCap = 10;
 
-        internal static CalamityMod Instance;
+		// Debuff immunities, these are used in the NPCDebuffs file
+		public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
+		public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+		public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
+		public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
+		public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
+		public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
+		public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
+		public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
+		public static int[] holyEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
+
+		internal static CalamityMod Instance;
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
@@ -134,7 +147,7 @@ namespace CalamityMod
             thorium = ModLoader.GetMod("ThoriumMod");
             varia = ModLoader.GetMod("Varia");
 
-            // Initialize the BossStats struct as early as it is safe to do so
+            // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
 
             heartOriginal2 = Main.heartTexture;

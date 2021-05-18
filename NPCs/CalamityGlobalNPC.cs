@@ -118,6 +118,10 @@ namespace CalamityMod.NPCs
         // Draedons Remote
         public static bool DraedonMayhem = false;
 
+		// Timer for how long an NPC is immune to certain debuffs
+		public const int slowingDebuffResistanceMin = 1200;
+		public int debuffResistanceTimer = 0;
+
 		// Debuffs
 		public int vaporfied = 0;
         public int timeSlow = 0;
@@ -704,16 +708,12 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.abyssSide)
             {
                 if ((double)(npc.position.X / 16f) < abyssChasmX + 80)
-                {
                     abyssPosX = true;
-                }
             }
             else
             {
                 if ((double)(npc.position.X / 16f) > abyssChasmX - 80)
-                {
                     abyssPosX = true;
-                }
             }
 
             bool inAbyss = (npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX;
@@ -729,22 +729,16 @@ namespace CalamityMod.NPCs
                 !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[BuffType<CrushDepth>()])
             {
                 if (npc.wet)
-                {
                     npc.AddBuff(BuffID.Poisoned, 2);
-                }
 
                 if (Main.raining)
-                {
                     npc.AddBuff(BuffType<Irradiated>(), 2);
-                }
             }
 
             if (npc.venom)
             {
                 if (npc.lifeRegen > 0)
-                {
                     npc.lifeRegen = 0;
-                }
 
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
@@ -762,18 +756,14 @@ namespace CalamityMod.NPCs
                     npc.lifeRegen -= projectileCount * 30;
 
                     if (damage < projectileCount * 6)
-                    {
                         damage = projectileCount * 6;
-                    }
                 }
             }
 
             if (npc.javelined)
             {
                 if (npc.lifeRegen > 0)
-                {
                     npc.lifeRegen = 0;
-                }
 
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
@@ -790,9 +780,7 @@ namespace CalamityMod.NPCs
                     npc.lifeRegen -= projectileCount * 20;
 
                     if (damage < projectileCount * 4)
-                    {
                         damage = projectileCount * 4;
-                    }
                 }
             }
 
@@ -859,33 +847,23 @@ namespace CalamityMod.NPCs
             if (cDepth > 0)
             {
                 if (npc.defense < 0)
-                {
                     npc.defense = 0;
-                }
 
                 int depthDamage = Main.hardMode ? 80 : 12;
                 if (hurtByAbyss)
-                {
                     depthDamage = 300;
-                }
 
                 int calcDepthDamage = depthDamage - npc.defense;
                 if (calcDepthDamage < 0)
-                {
                     calcDepthDamage = 0;
-                }
 
                 if (npc.lifeRegen > 0)
-                {
                     npc.lifeRegen = 0;
-                }
 
                 npc.lifeRegen -= calcDepthDamage * 5;
 
                 if (damage < calcDepthDamage)
-                {
                     damage = calcDepthDamage;
-                }
             }
 
             if (irradiated > 0)
@@ -901,39 +879,36 @@ namespace CalamityMod.NPCs
                 }
 
                 if (projectileCount > 0)
-                {
 					ApplyDPSDebuff(irradiated, projectileCount * 20, projectileCount * 4, ref npc.lifeRegen, ref damage);
-                }
 				else
-				{
 					ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
+            }
+
+			// Exo Freeze, Glacial State and Temporal Sadness don't work on normal/expert Queen Bee.
+			if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
+			{
+				if (npc.type != NPCID.QueenBee || CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
+				{
+					if (eFreeze > 0)
+					{
+						npc.velocity.X *= 0.5f;
+						npc.velocity.Y += 0.1f;
+						if (npc.velocity.Y > 15f)
+							npc.velocity.Y = 15f;
+					}
+					else if (gState > 0)
+					{
+						npc.velocity.X *= 0.5f;
+						npc.velocity.Y += 0.05f;
+						if (npc.velocity.Y > 15f)
+							npc.velocity.Y = 15f;
+					}
+					else if (tSad > 0)
+						npc.velocity *= 0.5f;
 				}
-            }
+			}
 
-            // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
-            if (!npc.boss && !CalamityLists.movementImpairImmuneList.Contains(npc.type))
-            {
-                if (eFreeze > 0 && !BossRushEvent.BossRushActive)
-                {
-                    npc.velocity.X = 0f;
-                    npc.velocity.Y += 0.1f;
-                    if (npc.velocity.Y > 15f)
-                        npc.velocity.Y = 15f;
-                }
-                else if (gState > 0)
-                {
-                    npc.velocity.X = 0f;
-                    npc.velocity.Y += 0.05f;
-                    if (npc.velocity.Y > 15f)
-                        npc.velocity.Y = 15f;
-                }
-                if (tSad > 0)
-                {
-                    npc.velocity /= 2f;
-                }
-            }
-
-			//Oiled debuff makes flame debuffs 25% more effective
+			// Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
 				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
@@ -974,16 +949,12 @@ namespace CalamityMod.NPCs
             if (debuff > 0)
             {
                 if (lifeRegen > 0)
-                {
                     lifeRegen = 0;
-                }
 
                 lifeRegen -= lifeRegenValue;
 
                 if (damage < damageValue)
-                {
                     damage = damageValue;
-                }
             }
         }
         #endregion
@@ -1038,31 +1009,18 @@ namespace CalamityMod.NPCs
 			// Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
 			npc.SetNPCDebuffImmunities();
 
-			// All bosses and several enemies are automatically immune to most of the movement debuffs. Silva Stun and Exo Freeze are excluded, but will not affect a boss if it has the debuff regardless.
+			// All bosses and several enemies are automatically immune to Pearl Aura.
 			if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
-			{
-				npc.buffImmune[BuffType<GlacialState>()] = true;
-				npc.buffImmune[BuffType<TemporalSadness>()] = true;
-				npc.buffImmune[BuffType<TimeSlow>()] = true;
-				npc.buffImmune[BuffType<TeslaFreeze>()] = true;
-				npc.buffImmune[BuffType<Eutrophication>()] = true;
 				npc.buffImmune[BuffType<PearlAura>()] = true;
-				npc.buffImmune[BuffID.Webbed] = true;
-				npc.buffImmune[BuffID.Slow] = true;
-			}
 
 			// All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
 			// Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
 			if (CalamityLists.confusionEnemyList.Contains(npc.type))
-			{
 				npc.buffImmune[BuffID.Confused] = false;
-			}
 
 			// Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
 			if (!npc.buffImmune[BuffID.Venom])
-			{
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
-			}
 
 			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
 			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
@@ -1100,18 +1058,7 @@ namespace CalamityMod.NPCs
             if (!npc.friendly)
             {
 				npc.buffImmune[BuffType<Enraged>()] = false;
-
-				npc.buffImmune[BuffType<GlacialState>()] = true;
-				npc.buffImmune[BuffType<TemporalSadness>()] = true;
-				npc.buffImmune[BuffType<TimeSlow>()] = true;
-				npc.buffImmune[BuffType<TeslaFreeze>()] = true;
-				npc.buffImmune[BuffType<Eutrophication>()] = true;
-				npc.buffImmune[BuffType<TimeSlow>()] = true;
-				npc.buffImmune[BuffType<SilvaStun>()] = true;
-				npc.buffImmune[BuffType<ExoFreeze>()] = true;
 				npc.buffImmune[BuffType<PearlAura>()] = true;
-				npc.buffImmune[BuffID.Webbed] = true;
-				npc.buffImmune[BuffID.Slow] = true;
             }
 
             foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
@@ -1611,7 +1558,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (npc.type < NPCID.Count && NPCStats.BossStats.ContactDamageValues.ContainsKey(npc.type))
+			if (npc.type < NPCID.Count && NPCStats.EnemyStats.ContactDamageValues.ContainsKey(npc.type))
 			{
 				npc.GetNPCDamage();
 				npc.defDamage = npc.damage;
@@ -1779,16 +1726,12 @@ namespace CalamityMod.NPCs
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
 				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
-				{
 					damage *= 0.01;
-				}
 			}
 
 			// Large Deus worm takes reduced damage to last a long enough time
 			if (AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
-			{
 				damage *= 0.8;
-			}
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
@@ -3462,18 +3405,18 @@ namespace CalamityMod.NPCs
 		#region AI
 		public override void AI(NPC npc)
         {
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-			{
-				if (npc.type == NPCID.DungeonGuardian)
-					CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
-			}
+			if (CalamityWorld.revenge && npc.type == NPCID.DungeonGuardian)
+				CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
         }
-        #endregion
+		#endregion
 
-        #region Post AI
-        public override void PostAI(NPC npc)
-        {
-			//Debuff decrements
+		#region Post AI
+		public override void PostAI(NPC npc)
+		{
+			// Debuff decrements
+			if (debuffResistanceTimer > 0)
+				debuffResistanceTimer--;
+
 			if (timeSlow > 0)
 				timeSlow--;
 			if (tesla > 0)
@@ -3490,11 +3433,16 @@ namespace CalamityMod.NPCs
 				eutrophication--;
 			if (webbed > 0)
 				webbed--;
-            if (slowed > 0)
-                slowed--;
-            if (electrified > 0)
-                electrified--;
-            if (yellowCandle > 0)
+			if (slowed > 0)
+				slowed--;
+			if (kamiFlu > 0)
+				kamiFlu--;
+			if (vaporfied > 0)
+				vaporfied--;
+
+			if (electrified > 0)
+				electrified--;
+			if (yellowCandle > 0)
 				yellowCandle--;
 			if (pearlAura > 0)
 				pearlAura--;
@@ -3506,8 +3454,6 @@ namespace CalamityMod.NPCs
 				dFlames--;
 			if (marked > 0)
 				marked--;
-			if (vaporfied > 0)
-				vaporfied--;
 			if (irradiated > 0)
 				irradiated--;
 			if (bFlames > 0)
@@ -3540,47 +3486,43 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
-            if (kamiFlu > 0)
-                kamiFlu--;
-            if (relicOfResilienceCooldown > 0)
-                relicOfResilienceCooldown--;
-            if (relicOfResilienceWeakness > 0)
-                relicOfResilienceWeakness--;
-            if (GaussFluxTimer > 0)
-                GaussFluxTimer--;
-            if (ladHearts > 0)
+			if (relicOfResilienceCooldown > 0)
+				relicOfResilienceCooldown--;
+			if (relicOfResilienceWeakness > 0)
+				relicOfResilienceWeakness--;
+			if (GaussFluxTimer > 0)
+				GaussFluxTimer--;
+			if (ladHearts > 0)
 				ladHearts--;
 
-            // Bosses and any specific other NPCs are completely immune to having their movement impaired.
-            if (npc.boss || CalamityLists.movementImpairImmuneList.Contains(npc.type))
-                return;
+			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
+			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
+				return;
 
-            if (kamiFlu > 0)
-            {
-                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
-            }
+			if (debuffResistanceTimer <= 0 || (debuffResistanceTimer > slowingDebuffResistanceMin))
+			{
+				if (eFreeze <= 0 && gState <= 0 && tSad <= 0)
+				{
+					if (silvaStun > 0 || eutrophication > 0)
+						npc.velocity *= 0.5f;
+					else if (timeSlow > 0 || webbed > 0)
+						npc.velocity *= 0.85f;
+					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
+						npc.velocity *= 0.9f;
+					else if (kamiFlu > 0)
+						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+				}
+			}
 
 			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;
-				if (vaporfied > 0)
-					npc.velocity *= 0.9f;
 			}
 
-            if (!BossRushEvent.BossRushActive)
-            {
-                if (silvaStun > 0 || eutrophication > 0)
-                    npc.velocity = Vector2.Zero;
-                else if (timeSlow > 0 || webbed > 0)
-                    npc.velocity *= 0.85f;
-                else if (slowed > 0 || tesla > 0)
-                    npc.velocity *= 0.9f;
-            }
-
-            if (npc.type == NPCID.DD2EterniaCrystal)
-                CalamityGlobalAI.DD2CrystalExtraAI(npc);
-        }
+			if (npc.type == NPCID.DD2EterniaCrystal)
+				CalamityGlobalAI.DD2CrystalExtraAI(npc);
+		}
         #endregion
 
         #region On Hit Player

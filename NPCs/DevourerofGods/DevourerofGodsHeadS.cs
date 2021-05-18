@@ -1106,16 +1106,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 					{
 						int totalProjectiles = malice ? 18 : 12;
 						float radians = MathHelper.TwoPi / totalProjectiles;
-						float newVelocity = revenge ? (finalVelocity - i * mult) : (finalVelocity - i * mult);
+						float newVelocity = finalVelocity - i * mult;
 						float velocityMult = 1f + ((finalVelocity - newVelocity) / (newVelocity * 2f) / 100f);
 						double angleA = radians * 0.5;
 						double angleB = MathHelper.ToRadians(90f) - angleA;
 						float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
 						Vector2 spinningPoint = i < 3 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
+						float finalVelocityReduction = (float)Math.Pow(1.25, i) - 1f;
 						for (int k = 0; k < totalProjectiles; k++)
 						{
 							Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-							Projectile.NewProjectile(newPosition, vector255, type, damage, 0f, Main.myPlayer, velocityMult, finalVelocity);
+							Projectile.NewProjectile(newPosition, vector255, type, damage, 0f, Main.myPlayer, velocityMult, finalVelocity - finalVelocityReduction);
 						}
 					}
 				}

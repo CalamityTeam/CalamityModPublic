@@ -766,7 +766,7 @@ namespace CalamityMod.CalPlayer
 				}
 
 				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 20);
+					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -918,7 +918,7 @@ namespace CalamityMod.CalPlayer
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
 				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 20);
+					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {

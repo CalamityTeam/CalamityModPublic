@@ -58,21 +58,6 @@ namespace CalamityMod.NPCs.Polterghast
             aiType = -1;
             npc.value = Item.buyPrice(0, 60, 0, 0);
             npc.boss = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;

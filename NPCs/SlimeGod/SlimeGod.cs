@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * 0.005f;
 
-			if (lifeRatio <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
+			if (npc.life / (float)npc.lifeMax <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
                 Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, npc.height / 2f);

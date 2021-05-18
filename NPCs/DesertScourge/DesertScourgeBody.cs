@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 36;
             npc.defense = 6;
 			npc.DR_NERD(0.05f);
-            npc.LifeMaxNERB(2300, 2650, 16500000);
+            npc.LifeMaxNERB(2600, 3000, 16500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;

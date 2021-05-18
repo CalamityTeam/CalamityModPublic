@@ -2847,7 +2847,7 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int damage = (int)(400 * player.RangedDamage());
+                    int damage = (int)(300 * player.RangedDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (int i = 0; i < 8; i++)
@@ -7407,7 +7407,7 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < freezeDist)
                         {
-                            float duration = Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
+                            float duration = Main.rand.Next(30 + (int)damage / 3, 80 + (int)damage / 2);
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }
