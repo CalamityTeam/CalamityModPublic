@@ -737,8 +737,8 @@ namespace CalamityMod.Items
 			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
 			if (player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
 			{
-				int damage = (int)(45000 * player.MagicDamage());
-				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.67f) * Main.rand.NextFloat(4f, 5f);
+				int damage = (int)(165000 * player.MagicDamage());
+				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
 				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), damage, 0f, player.whoAmI);
 			}
 

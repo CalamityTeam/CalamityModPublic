@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public ref float Time => ref projectile.ai[0];
         public Player Target => Main.player[projectile.owner];
-        public const int NPCAttackTime = 150;
+        public const int NPCAttackTime = 50;
         public const int PlayerAttackRedirectTime = 45;
         public override void SetStaticDefaults()
         {
@@ -39,12 +39,9 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Time < NPCAttackTime)
             {
-                projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(1600f);
-                if (potentialTarget != null)
-                    AttackNPCTarget(potentialTarget);
-                else if (projectile.velocity.Length() < 22f)
-                    projectile.velocity *= 1.02f;
+                projectile.Opacity = Utils.InverseLerp(0f, 30f, Time, true);
+                if (projectile.velocity.Length() < 27f)
+                    projectile.velocity *= 1.05f;
             }
             else
             {
@@ -61,11 +58,11 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     float idealMovementDirection = projectile.AngleTo(Target.Center);
                     float angularTurnSpeed = 0.09f;
-                    float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 14f, 0.1f);
+                    float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 22f, 0.1f);
                     projectile.velocity = projectile.velocity.ToRotation().AngleTowards(idealMovementDirection, angularTurnSpeed).ToRotationVector2() * newSpeed;
                 }
-                else if (projectile.velocity.Length() < 34f)
-                    projectile.velocity *= 1.02f;
+                else if (projectile.velocity.Length() < 35f)
+                    projectile.velocity *= 1.04f;
 
                 // Fade out.
                 projectile.Opacity = Utils.InverseLerp(0f, 15f, projectile.timeLeft, true);
@@ -73,17 +70,6 @@ namespace CalamityMod.Projectiles.Magic
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Time++;
-        }
-
-        public void AttackNPCTarget(NPC target)
-        {
-            if (!projectile.WithinRange(target.Center, 60f))
-            {
-                float idealMovementDirection = projectile.AngleTo(target.Center);
-                float angularTurnSpeed = 0.18f;
-                float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 21f, 0.115f);
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(idealMovementDirection, angularTurnSpeed).ToRotationVector2() * newSpeed;
-            }
         }
 
         public void CreateTransitionBurstDust()
@@ -105,7 +91,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             // Ensure damage is not absolutely obscene when hitting players.
-            damage = (int)(damage * 0.0021);
+            damage = Main.rand.Next(150, 225);
         }
 
         public override bool CanDamage() => projectile.Opacity >= 1f;
