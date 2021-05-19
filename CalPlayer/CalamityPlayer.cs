@@ -2367,27 +2367,8 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                if (!CalamityGlobalNPC.AnyLivingPlayers())
-                {
-                    BossRushEvent.BossRushActive = false;
-                    BossRushEvent.BossRushStage = 0;
-                    CalamityNetcode.SyncWorld();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(BossRushEvent.BossRushStage);
-                        netMessage.Send();
-                    }
-                    for (int doom = 0; doom < Main.maxNPCs; doom++)
-                    {
-                        if (Main.npc[doom].active && Main.npc[doom].boss)
-                        {
-                            Main.npc[doom].active = false;
-                            Main.npc[doom].netUpdate = true;
-                        }
-                    }
-                }
+                if (player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
 
 			if (player.respawnTimer > 300)
