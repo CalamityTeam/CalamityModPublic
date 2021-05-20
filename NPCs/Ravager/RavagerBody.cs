@@ -62,11 +62,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
-            else
-                music = MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<RavagerBag>();
         }
 
@@ -353,11 +349,13 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (revenge)
 						{
+							float multiplier = malice ? 0.003f : 0.0015f;
 							if (distanceBelowTarget > 0f)
-								calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * 0.001f;
+								calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * multiplier;
 
-							if (calamityGlobalNPC.newAI[1] > 2f)
-								calamityGlobalNPC.newAI[1] = 2f;
+							float speedMultLimit = malice ? 4f : 3f;
+							if (calamityGlobalNPC.newAI[1] > speedMultLimit)
+								calamityGlobalNPC.newAI[1] = speedMultLimit;
 
 							if (calamityGlobalNPC.newAI[1] > 1f)
 								velocityY *= calamityGlobalNPC.newAI[1];
@@ -591,20 +589,12 @@ namespace CalamityMod.NPCs.Ravager
 
 			void CustomGravity()
 			{
-				float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
-				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
-				if (npc.wet)
+				float gravity = npc.ai[0] == 2f ? 0f : 0.45f;
+				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
+				if (malice)
 				{
-					if (npc.honeyWet)
-					{
-						gravity *= 0.33f;
-						maxFallSpeed *= 0.4f;
-					}
-					else
-					{
-						gravity *= 0.66f;
-						maxFallSpeed *= 0.7f;
-					}
+					gravity *= 2f;
+					maxFallSpeed *= 1.25f;
 				}
 
 				if (calamityGlobalNPC.newAI[1] > 1f)
@@ -714,7 +704,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
 

@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Rogue
 		private void OnHitEffects()
 		{
 			int typhoonAmt = 3;
-			int typhoonDamage = (int)(projectile.damage * 1.6f);
+			int typhoonDamage = (int)(projectile.damage * 0.3f);
 			if (projectile.owner == Main.myPlayer && projectile.numHits < 1 && projectile.Calamity().stealthStrike)
 			{
 				Main.PlaySound(SoundID.Item84, projectile.position);

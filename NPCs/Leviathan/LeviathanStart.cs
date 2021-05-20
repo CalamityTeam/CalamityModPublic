@@ -34,9 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = null;
 			npc.rarity = 2;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SirenLure") ?? -1;
         }
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -111,7 +109,8 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.AnyNPCs(npc.type) ||
                 NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
-                spawnInfo.player.Calamity().ZoneSulphur)
+                spawnInfo.player.Calamity().ZoneSulphur ||
+				NPC.LunarApocalypseIsUp)
             {
                 return 0f;
             }

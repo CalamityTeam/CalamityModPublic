@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC target = null;
-        public const float maxDistanceToTarget = 900f;
+        public const float maxDistanceToTarget = 300f;
         public bool initialized = false;
         public float startingVelocityY = 0f;
         public float randomAngleDelta = 0f;
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
             target.AddBuff(ModContent.BuffType<Plague>(), 360);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);

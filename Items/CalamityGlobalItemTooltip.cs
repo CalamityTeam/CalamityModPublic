@@ -209,7 +209,7 @@ namespace CalamityMod.Items
 				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
 			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop";
+			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
 			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
 			{
 				overrideColor = lineColor
@@ -445,13 +445,58 @@ namespace CalamityMod.Items
 			#region Vanilla Item Rebalance Tooltips
 
 			// Reduce DD2 armor piece bonuses because they're overpowered
+			// Squire armor
+			if (item.type == ItemID.SquirePlating)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+			if (item.type == ItemID.SquireGreaves)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
+				"15% increased movement speed");
+
+			// Monk armor
 			if (item.type == ItemID.MonkBrows)
 				EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 1 and increases melee attack speed by 10%");
+			if (item.type == ItemID.MonkShirt)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+			if (item.type == ItemID.MonkPants)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Huntress armor
+			if (item.type == ItemID.HuntressJerkin)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and ranged damage\n" +
+				"10% chance to not consume ammo");
+
+			// Apprentice armor
+			if (item.type == ItemID.ApprenticeTrousers)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and magic critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Valhalla Knight armor
+			if (item.type == ItemID.SquireAltShirt)
+				EditTooltipByNum(0, (line) => line.text = "30% increased minion damage and increased life regeneration");
+			if (item.type == ItemID.SquireAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Shinobi Infiltrator armor
+			if (item.type == ItemID.MonkAltHead)
+				EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 2\n" +
+				"10% increased melee and minion damage");
 			if (item.type == ItemID.MonkAltShirt)
 				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee speed\n" +
-					"5% increased melee critical strike chance");
+				"5% increased melee critical strike chance");
+			if (item.type == ItemID.MonkAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+				"30% increased movement speed");
+
+			// Red Riding armor
 			if (item.type == ItemID.HuntressAltShirt)
-				EditTooltipByNum(0, (line) => line.text = "15% increased minion & ranged damage and 20% chance to not consume ammo");
+				EditTooltipByNum(0, (line) => line.text = "15% increased minion and ranged damage and 20% chance to not consume ammo");
+
+			// Dark Artist armor
+			if (item.type == ItemID.ApprenticeAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and magic critical strike chance\n" +
+				"20% increased movement speed");
 
 			// Worm Scarf only gives 10% DR instead of 17%
 			if (item.type == ItemID.WormScarf)

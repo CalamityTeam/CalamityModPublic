@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //Changes the texture of the projectile
+            // Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];
             switch ((int)projectile.ai[0])
             {

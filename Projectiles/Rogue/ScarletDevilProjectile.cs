@@ -37,7 +37,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
             Lighting.AddLight(projectile.Center, 0.55f, 0.25f, 0f);
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
 

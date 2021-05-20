@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -320,6 +319,7 @@ namespace CalamityMod
 			}
 			return closestTarget;
 		}
+
 		/// <summary>
 		/// Detects nearby hostile NPCs from a given point with minion support
 		/// </summary>
@@ -449,7 +449,7 @@ namespace CalamityMod
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
 			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<GlacialState>(), (int)(60 * multiplier));
 			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));

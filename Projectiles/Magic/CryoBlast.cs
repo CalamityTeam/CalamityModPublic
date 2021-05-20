@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 3;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 90;
 			projectile.coldDamage = true;
 			projectile.alpha = 255;
         }
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(BuffID.Frostburn, 360);
         }
     }

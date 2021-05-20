@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<SlitheringEelProjectile>();
             item.shootSpeed = 14f;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(0.325f), type, damage, knockBack, player.whoAmI);

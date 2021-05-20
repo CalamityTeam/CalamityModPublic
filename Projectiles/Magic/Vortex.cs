@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float AngularMovementSpeed = 0.1f;
         public const float Acceleration = 0.0025f;
         public const float TargetCheckInterval = 30f;
-        public const float MaximumTargetDistance = 1200f;
+        public const float MaximumTargetDistance = 600f;
 
         public override void SetStaticDefaults()
         {

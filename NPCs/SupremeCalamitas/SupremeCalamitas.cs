@@ -104,11 +104,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
-            else
-                music = MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -428,10 +424,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					if (bulletHellCounter > (enraged ? 4 : 6))
 					{
 						bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 300) // Blasts from above
                         {
@@ -518,10 +515,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 7 : 9))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 1200) // Blasts from below
                         {
@@ -577,10 +575,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 9 : 11))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 2100) // Blasts from above
                         {
@@ -601,11 +600,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
-                else
-                    music = MusicID.Boss3;
+				// Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SCL") ?? MusicID.Boss3;
                 string key = "Mods.CalamityMod.SupremeBossText5";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -648,10 +644,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 10 : 12))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 3000) // Blasts from below
                         {
@@ -672,11 +669,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
-                else
-                    music = MusicID.LunarBoss;
+				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SCE") ?? MusicID.LunarBoss;
                 string key = "Mods.CalamityMod.SupremeBossText7";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -719,10 +713,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter > (enraged ? 12 : 14))
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 5) == 0)
+						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 3) == 0)
 						{
-							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y, 4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y, -4f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+							float distance = Main.rand.NextBool() ? -1000f : 1000f;
+							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
+							Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
 						}
 						if (bulletHellCounter2 < 3900) // Blasts from above
                         {
@@ -757,11 +752,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                    if (calamityModMusic != null)
-                        music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
-                    else
-                        music = MusicID.Eerie;
+					// Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
+					music = CalamityMod.Instance.GetMusicFromMusicMod("SCA") ?? MusicID.Eerie;
                     npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.damage = 0;
@@ -2110,7 +2102,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Other
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
 
             // Mark Supreme Calamitas as dead
             CalamityWorld.downedSCal = true;

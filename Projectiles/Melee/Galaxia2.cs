@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 1200);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
                 player.AddBuff(BuffID.Warmth, 600);
                 Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.IceBolt, projectile.damage, projectile.knockBack, projectile.owner);
             }
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 1200);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 120);
                 player.AddBuff(BuffID.Spelunker, 600);
                 int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity, ProjectileID.Mushroom, projectile.damage, projectile.knockBack, projectile.owner);
 				if (proj.WithinBounds(Main.maxProjectiles))

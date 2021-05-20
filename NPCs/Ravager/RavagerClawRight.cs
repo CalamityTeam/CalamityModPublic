@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
-                float num659 = 21f;
+                float num659 = 40f;
                 if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;

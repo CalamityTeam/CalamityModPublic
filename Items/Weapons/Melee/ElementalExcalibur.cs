@@ -78,6 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
 				item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
 				item.shootSpeed = 12f;
 			}
+
 			return base.CanUseItem(player);
 		}
 
@@ -148,18 +149,18 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
+
             if (!target.canGhostHeal || player.moonLeech)
-            {
                 return;
-            }
-            int healAmount = Main.rand.Next(10) + 10;
+
+            int healAmount = Main.rand.Next(3) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }
@@ -168,16 +169,18 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
+
 			if (player.moonLeech)
 				return;
-            int healAmount = Main.rand.Next(10) + 10;
+
+            int healAmount = Main.rand.Next(3) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }

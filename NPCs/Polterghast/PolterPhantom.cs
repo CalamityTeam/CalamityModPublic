@@ -320,13 +320,6 @@ namespace CalamityMod.NPCs.Polterghast
 					// Do not deal damage during movement to avoid cheap bullshit hits
 					npc.damage = 0;
 
-					// Greatly increase velocity and acceleration in order to stick to a position once one is found
-					if (reachedChargingPoint)
-					{
-						chargeAcceleration *= 4f;
-						chargeVelocity *= 2f;
-					}
-
 					// Charge location
 					Vector2 chargeVector = new Vector2(npc.Calamity().newAI[1], npc.Calamity().newAI[2]);
 					Vector2 chargeLocationVelocity = Vector2.Normalize(chargeVector - vector) * chargeVelocity;
@@ -347,18 +340,22 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+					int numUpdates = reachedChargingPoint ? 5 : 1;
+					for (int i = 0; i < numUpdates; i++)
 					{
-						reachedChargingPoint = true;
+						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+						{
+							reachedChargingPoint = true;
 
-						npc.velocity *= 0.25f;
-					}
-					else
-					{
-						if (Vector2.Distance(vector, chargeVector) > 1200f)
-							npc.velocity = chargeLocationVelocity;
+							npc.velocity *= 0.5f;
+						}
 						else
-							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+						{
+							if (Vector2.Distance(vector, chargeVector) > 1200f)
+								npc.velocity = chargeLocationVelocity;
+							else
+								npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+						}
 					}
 				}
 

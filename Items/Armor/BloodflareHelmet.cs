@@ -58,9 +58,9 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareSummon = true;
             player.setBonus = "55% increased minion damage and +3 max minions\n" +
                 "Greatly increases life regen\n" +
-                "Enemies below 50% life have a chance to drop hearts when struck\n" +
-                "Enemies above 50% life have a chance to drop mana stars when struck\n" +
-                "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+				"Enemies below 50% life drop a heart when struck\n" +
+				"This effect has a 5 second cooldown\n" +
+				"Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Summons polterghast mines to circle you\n" +
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";

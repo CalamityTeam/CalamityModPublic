@@ -23,6 +23,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     [AutoloadBossHead]
@@ -63,36 +64,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             aiType = -1;
             npc.boss = true;
             npc.value = Item.buyPrice(0, 25, 0, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
         }
 
@@ -138,6 +114,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
+			// Phases
+			bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
+			bool phase4 = lifeRatio < 0.25f;
+			bool phase5 = lifeRatio < 0.1f;
+
 			// Mode variables
 			bool malice = CalamityWorld.malice;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
@@ -148,7 +130,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
-            if (!halfLife && lifeRatio < 0.5f && expertMode)
+            if (!halfLife && phase3 && expertMode)
             {
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
@@ -175,9 +157,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             // Defense gain
             if (expertMode)
-            {
                 npc.defense = npc.defDefense + (int)(20f * (1f - lifeRatio));
-            }
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -193,17 +173,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Vector2 distFromPlayer = player.Center - vectorCenter;
 
 			// Enrage
-			float enrageScale = death ? 0.25f : 0f;
+			float enrageScale = death ? 0.5f : 0f;
 			if (!player.ZoneJungle || malice)
-				enrageScale += 2f;
+				enrageScale += 1.5f;
 
-			if (enrageScale > 2f)
-				enrageScale = 2f;
+			if (enrageScale > 1.5f)
+				enrageScale = 1.5f;
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
 
-			bool diagonalDash = revenge && lifeRatio < 0.8f;
+			bool diagonalDash = revenge && phase2;
 
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
 				npc.rotation = npc.velocity.X * 0.02f;
@@ -293,14 +273,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 0f)
             {
 				float num1044 = revenge ? 28f : 26f;
-				if (lifeRatio < 0.66f)
-					num1044 += 2f;
-				if (lifeRatio < 0.33f)
-					num1044 += 2f;
+				if (phase2)
+					num1044 += 1f;
+				if (phase3)
+					num1044 += 1f;
+				if (phase4)
+					num1044 += 1f;
+				if (phase5)
+					num1044 += 1f;
 				if (calamityGlobalNPC.enraged > 0)
 					num1044 += 2f;
 
-				num1044 += 4f * enrageScale;
+				num1044 += 2f * enrageScale;
 
 				int num1043 = (int)Math.Ceiling(2f + enrageScale);
                 if ((npc.ai[1] > (2 * num1043) && npc.ai[1] % 2f == 0f) || distFromPlayer.Length() > 1800f)
@@ -314,6 +298,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     return;
                 }
 
@@ -378,12 +363,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     float num1048 = revenge ? 14f : 12f;
                     float num1049 = revenge ? 0.25f : 0.22f;
-                    if (lifeRatio < 0.66f)
+                    if (phase2)
                     {
                         num1048 += 1f;
                         num1049 += 0.05f;
                     }
-                    if (lifeRatio < 0.33f)
+                    if (phase4)
                     {
                         num1048 += 1f;
                         num1049 += 0.05f;
@@ -420,6 +405,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
+
                     npc.netUpdate = true;
                     npc.netSpam -= 5;
                 }
@@ -439,11 +425,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1050 = 300;
                     else if (BossRushEvent.BossRushActive)
                         num1050 = 400;
-                    else if (lifeRatio < 0.33f)
-                        num1050 = revenge ? 450 : 475;
-                    else if (lifeRatio < 0.66f)
+					else if (phase4)
+						num1050 = revenge ? 450 : 475;
+					else if (phase3)
                         num1050 = revenge ? 475 : 500;
-					num1050 -= (int)(50f * enrageScale);
+                    else if (phase2)
+                        num1050 = revenge ? 500 : 525;
+					num1050 -= (int)(25f * enrageScale);
 
 					int num1051 = 1;
                     if (vectorCenter.X < player.Center.X)
@@ -472,24 +460,26 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						return;
                     }
 
-                    npc.spriteDirection = npc.direction;
+					float playerLocation = vectorCenter.X - player.Center.X;
+					npc.direction = playerLocation < 0 ? 1 : -1;
+					npc.spriteDirection = npc.direction;
 
 					npc.rotation = npc.velocity.X * 0.02f;
 					charging = false;
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
-                    if (lifeRatio < 0.8f)
+                    if (phase2)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.6f)
+                    if (phase3)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.4f)
+                    if (phase4)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
@@ -520,7 +510,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				calamityGlobalNPC.newAI[0] += 1f;
 				if (num1057 < 600f || calamityGlobalNPC.newAI[0] >= 180f)
                 {
-                    npc.ai[0] = lifeRatio < 0.66f ? 5f : 1f;
+                    npc.ai[0] = phase3 ? 5f : 1f;
                     npc.ai[1] = 0f;
 					calamityGlobalNPC.newAI[0] = 0f;
 					npc.netUpdate = true;
@@ -548,10 +538,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.ai[1] += 1f;
                 npc.ai[1] += num1038 / 2;
-                if (lifeRatio < 0.75f)
-                    npc.ai[1] += 0.25f;
-                if (lifeRatio < 0.5f)
-                    npc.ai[1] += 0.25f;
+                if (phase2)
+                    npc.ai[1] += 0.5f;
 
                 bool flag103 = false;
                 if (npc.ai[1] > 40f - 12f * enrageScale)
@@ -574,11 +562,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             randomAmt = ModContent.NPCType<PlagueBeeG>();
 
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
                         {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt, 0, 0f, 0f, 0f, 0f, 255);
+                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt);
 
 							Main.npc[num1062].velocity = player.Center - npc.Center;
 							Main.npc[num1062].velocity.Normalize();
@@ -628,10 +616,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.ai[1] += 1f;
                 npc.ai[1] += num1038 / 2;
                 bool flag103 = false;
-                if (lifeRatio < 0.25f)
-                    npc.ai[1] += 0.25f;
-                if (lifeRatio < 0.1f)
-                    npc.ai[1] += 0.25f;
+                if (phase4)
+                    npc.ai[1] += 0.5f;
+                if (phase5)
+                    npc.ai[1] += 0.5f;
 
                 if (npc.ai[1] % 20f == 19f)
                     npc.netUpdate = true;
@@ -650,9 +638,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
-                        float projectileSpeed = revenge ? 6f : 5f;
+                        float projectileSpeed = (revenge ? 8f : 7f) + enrageScale * 2f;
 						if (BossRushEvent.BossRushActive)
 							projectileSpeed *= 2f;
 
@@ -666,7 +654,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueHomingMissile>()) < 5)
                         {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, 0f, 255);
+                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>());
                             Main.npc[num1062].velocity.X = num1071;
                             Main.npc[num1062].velocity.Y = num1072;
                             Main.npc[num1062].netUpdate = true;
@@ -705,7 +693,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
-				int num650 = (calamityGlobalNPC.enraged > 0) ? 10 : ((lifeRatio < 0.1f) ? 20 : ((lifeRatio < 0.5f) ? 25 : 30));
+				int num650 = (calamityGlobalNPC.enraged > 0) ? 10 : (phase5 ? 20 : (phase3 ? 25 : 30));
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
@@ -935,24 +923,22 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						return;
                     }
 
-                    npc.spriteDirection = npc.direction;
-
 					npc.rotation = npc.velocity.X * 0.02f;
 					charging = false;
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
-                    if (lifeRatio < 0.5f)
+                    if (phase3)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.3f)
+                    if (phase4)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.1f)
+                    if (phase5)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
@@ -1016,6 +1002,27 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         }
 
         public override bool CheckActive() => canDespawn;
+
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 100f;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {
@@ -1165,7 +1172,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedPlaguebringer);
 

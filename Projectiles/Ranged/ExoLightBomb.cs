@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             target.AddBuff(BuffID.CursedInferno, 180);

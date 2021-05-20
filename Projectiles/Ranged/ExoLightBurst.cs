@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public const float MinDistanceFromTarget = 45f;
-        public const float MaxDistanceFromTarget = 1350f;
+        public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Flare");

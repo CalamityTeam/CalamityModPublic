@@ -104,11 +104,7 @@ namespace CalamityMod.NPCs.Providence
             npc.netAlways = true;
             npc.chaseable = true;
             npc.canGhostHeal = false;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
-            else
-                music = MusicID.LunarBoss;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("ProvidenceTheme") ?? MusicID.LunarBoss;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
         }
@@ -869,16 +865,16 @@ namespace CalamityMod.NPCs.Providence
 						{
 							if (npc.ai[3] % divisor == 0f)
 							{
+								Main.PlaySound(SoundID.Item20, npc.Center);
 								bool normalSpread = calamityGlobalNPC.newAI[1] % 2f == 0f;
-								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -cocoonProjVelocity) : Vector2.Normalize(new Vector2(-cocoonProjVelocity, -cocoonProjVelocity));
 								double radians = MathHelper.TwoPi / chains;
-								Main.PlaySound(SoundID.Item20, npc.position);
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(cocoonProjVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -cocoonProjVelocity) : new Vector2(-velocityX, -cocoonProjVelocity);
 								for (int i = 0; i < chains; i++)
 								{
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
-
-									if (!normalSpread)
-										vector2 *= cocoonProjVelocity;
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 									if (Main.rand.NextBool(healingStarChance) && !death)
@@ -904,9 +900,13 @@ namespace CalamityMod.NPCs.Providence
 								calamityGlobalNPC.newAI[1] += 1f;
 								double radians = MathHelper.TwoPi / totalFlameProjectiles;
 								Main.PlaySound(SoundID.Item20, npc.position);
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(cocoonProjVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = npc.ai[3] % (divisor * totalFlameProjectiles * 2f) == 0f ? new Vector2(-velocityX, -cocoonProjVelocity) : new Vector2(0f, -cocoonProjVelocity);
 								for (int i = 0; i < totalFlameProjectiles; i++)
 								{
-									Vector2 vector2 = new Vector2(0f, -cocoonProjVelocity).RotatedBy(radians * i);
+									Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 									if (Main.rand.NextBool(healingStarChance) && !death)
@@ -1140,7 +1140,7 @@ namespace CalamityMod.NPCs.Providence
 								for (int i = 0; i < totalSpearProjectiles; i++)
 								{
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * cocoonProjVelocity;
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
 								}
 
 								if (spearRateIncrease > 1f)
@@ -1305,7 +1305,6 @@ namespace CalamityMod.NPCs.Providence
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 

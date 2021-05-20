@@ -4,6 +4,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
@@ -561,17 +562,13 @@ namespace CalamityMod.Items
                 {
                     player.statLife -= boostedHeart ? 5 : 10;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(boostedHeart ? -5 : -10, true);
-                    }
                 }
                 else if (boostedHeart)
                 {
                     player.statLife += 5;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(5, true);
-                    }
                 }
             }
             return true;
@@ -581,6 +578,12 @@ namespace CalamityMod.Items
         #region Use Item Changes
         public override bool UseItem(Item item, Player player)
         {
+			if (player.Calamity().evilSmasherBoost > 0)
+			{
+				if (item.type != ModContent.ItemType<EvilSmasher>())
+					player.Calamity().evilSmasherBoost = 0;
+			}
+
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
@@ -950,6 +953,80 @@ namespace CalamityMod.Items
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
+			else if (set == "MonkTier2")
+			{
+				player.minionDamage += 0.15f;
+				player.meleeDamage += 0.1f;
+				player.meleeSpeed += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Lightning Aura can now crit and strikes faster\n" +
+							"10% increased melee speed, minion and melee damage";
+			}
+			else if (set == "SquireTier2")
+			{
+				player.lifeRegen += 3;
+				player.minionDamage += 0.15f;
+				player.meleeCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Ballista pierces more targets and panics when you take damage\n" +
+							"Increases your life regeneration\n" +
+							"15% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier2")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Explosive Traps recharge faster and oil enemies\n" +
+							"Set oiled enemies on fire for extra damage\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier2")
+			{
+				player.minionDamage += 0.05f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Flameburst field of view and range are dramatically increased\n" +
+							"5% increased minion damage and 15% increased magic critical strike chance";
+			}
+			else if (set == "MonkTier3")
+			{
+				player.minionDamage += 0.3f;
+				player.meleeSpeed += 0.1f;
+				player.meleeDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Lightning Aura effectiveness\n" +
+							"10% increased melee damage, melee critical strike chance and melee speed\n" +
+							"30% increased minion damage";
+			}
+			else if (set == "SquireTier3")
+			{
+				player.lifeRegen += 6;
+				player.minionDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Ballista effectiveness\n" +
+							"Massively increased life regeneration\n" +
+							"10% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Explosive Traps effectiveness\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Flameburst effectiveness\n" +
+							"10% increased minion damage and 15% increased magic critical strike chance";
+			}
 			else if (set == "Stardust")
 			{
 				player.maxMinions += 2;
@@ -960,42 +1037,95 @@ namespace CalamityMod.Items
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-			#region Head
-			if (item.type == ItemID.SquireGreatHelm)
-				player.lifeRegen -= 3;
-			else if (item.type == ItemID.MonkBrows)
-				player.meleeSpeed -= 0.1f;
-			else if (item.type == ItemID.SpectreHood)
-				player.magicDamage += 0.2f;
-			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-				player.Calamity().throwingDamage += 0.03f;
-			#endregion
-
-			#region Body
-			if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-				player.Calamity().throwingCrit += 3;
-			else if (item.type == ItemID.SquireAltShirt)
-				player.lifeRegen -= 6;
-			else if (item.type == ItemID.MonkAltShirt)
+			switch (item.type)
 			{
-				player.minionDamage -= 0.1f;
-				player.meleeSpeed -= 0.1f;
-			}
-			else if (item.type == ItemID.HuntressAltShirt)
-			{
-				player.minionDamage -= 0.1f;
-				player.rangedDamage -= 0.1f;
-			}
-			else if (item.type == ItemID.StardustBreastplate)
-				player.maxMinions--;
-			#endregion
+				case ItemID.GladiatorHelmet:
+				case ItemID.ObsidianHelm:
+					player.Calamity().throwingDamage += 0.03f;
+					break;
+				case ItemID.GladiatorBreastplate:
+				case ItemID.ObsidianShirt:
+					player.Calamity().throwingCrit += 3;
+					break;
+				case ItemID.GladiatorLeggings:
+				case ItemID.ObsidianPants:
+					player.Calamity().throwingVelocity += 0.03f;
+					break;
 
-			#region Legs
-			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-                player.Calamity().throwingVelocity += 0.03f;
-			else if (item.type == ItemID.StardustLeggings)
-				player.maxMinions--;
-			#endregion
+				case ItemID.SpectreHood:
+					player.magicDamage += 0.2f;
+					break;
+
+				case ItemID.SquireGreatHelm:
+					player.lifeRegen -= 7;
+					break;
+				case ItemID.SquirePlating:
+					player.minionDamage -= 0.05f;
+					player.meleeDamage -= 0.05f;
+					break;
+				case ItemID.SquireGreaves:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkBrows:
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkPants:
+					player.minionDamage -= 0.05f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressJerkin:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeTrousers:
+					player.minionDamage -= 0.05f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.SquireAltShirt:
+					player.lifeRegen -= 14;
+					break;
+				case ItemID.SquireAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkAltHead:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkAltShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressAltShirt:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeAltPants:
+					player.minionDamage -= 0.1f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.StardustBreastplate:
+				case ItemID.StardustLeggings:
+					player.maxMinions--;
+					break;
+			}
 		}
         #endregion
 
