@@ -162,6 +162,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 				return 0;
 
 			int cost = CurrentlyHeldItem.value * 4;
+
+			// Increase the cost of enchanting significantly if doing so would upgrade the item directly.
+			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == "Curse")
+				cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
+
 			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
 
 			return cost;
@@ -233,6 +238,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			itemScale *= inventoryScale * baseScale;
 			drawPosition += Vector2.One * 23f * baseScale;
+
+			if (EnchantmentManager.ItemUpgradeRelationship.ContainsKey(CurrentlyHeldItem.type))
+				drawPosition -= Vector2.One * 12f;
 
 			// Draw the item.
 			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
@@ -326,12 +334,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (CurrentlyHeldItem.IsAir)
 				return;
 
-			// If there is no cost or the player cannot afford it, do nothing.
-			if (cost <= 0L || !Main.LocalPlayer.CanBuyItem(cost))
-				return;
-
 			// If no enchantment has been selected, do nothing.
 			if (!SelectedEnchantment.HasValue)
+				return;
+
+			// If there is no cost or the player cannot afford it, do nothing.
+			if (cost <= 0 || !Main.LocalPlayer.CanBuyItem(cost))
 				return;
 
 			Item originalItem = CurrentlyHeldItem.Clone();
@@ -340,8 +348,16 @@ namespace CalamityMod.UI.CalamitasEnchants
 			CurrentlyHeldItem.Prefix(oldPrefix);
 			CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem);
 
-			CurrentlyHeldItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
-			SelectedEnchantment.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
+			if (SelectedEnchantment.Value.Name == "Curse")
+			{
+				CurrentlyHeldItem.SetDefaults(EnchantmentManager.ItemUpgradeRelationship[CurrentlyHeldItem.type]);
+				CurrentlyHeldItem.Prefix(oldPrefix);
+			}
+			else
+			{
+				CurrentlyHeldItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
+				SelectedEnchantment.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
+			}
 
 			// Update the compare item. This is used check comparisons when showing reforge tooltip bonuses.
 			// Updating it with the same bonuses as what was applied to the real item will negate the incorrect numbers,
@@ -349,8 +365,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (Main.cpItem is null)
 				Main.cpItem = new Item();
 			Main.cpItem.SetDefaults(Main.cpItem.type);
-			Main.cpItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
-			SelectedEnchantment.Value.CreationEffect?.Invoke(Main.cpItem);
+
+			if (SelectedEnchantment.Value.Name != "Curse")
+			{
+				Main.cpItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
+				SelectedEnchantment.Value.CreationEffect?.Invoke(Main.cpItem);
+			}
 
 			// Take away the money for the cost.
 			Main.LocalPlayer.BuyItem(cost);
@@ -359,6 +379,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 			EnchantIndex = 0;
 
 			Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
+
+			if (SelectedEnchantment.Value.Name == "Curse")
+				Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Main.LocalPlayer.Center);
 		}
 	}
 }

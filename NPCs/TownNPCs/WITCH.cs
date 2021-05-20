@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
@@ -132,6 +133,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				Main.LocalPlayer.Calamity().newCalamitasInventory = false;
 				CalamitasEnchantUI.NPCIndex = npc.whoAmI;
 				CalamitasEnchantUI.CurrentlyViewing = true;
+
+				if (!Main.LocalPlayer.Calamity().GivenBrimstoneLocus)
+				{
+					DropHelper.DropItem(npc, ItemType<BrimstoneLocus>());
+					Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
+				}
 
 				shop = false;
 			}

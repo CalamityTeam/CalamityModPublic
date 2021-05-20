@@ -4,10 +4,12 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -18,12 +20,15 @@ using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.UI;
 
 namespace CalamityMod.Items
 {
@@ -82,6 +87,7 @@ namespace CalamityMod.Items
 		public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
+			EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
 		}
 
 		public override GlobalItem Clone(Item item, Item itemClone)
@@ -481,10 +487,10 @@ namespace CalamityMod.Items
 			}
             return true;
         }
-        #endregion
+		#endregion
 
-        #region SavingAndLoading
-        public override bool NeedsSaving(Item item)
+		#region SavingAndLoading
+		public override bool NeedsSaving(Item item)
         {
             return true;
         }
@@ -1682,6 +1688,46 @@ namespace CalamityMod.Items
 		{
 			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
 				CalamityUtils.ForceItemIntoWorld(item);
+		}
+		#endregion
+
+		#region Inventory Drawing
+		internal ChargingEnergyParticleSet EnchantmentEnergyParticles;
+
+		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			void drawItemManually(Color color, float generalScale)
+			{
+				Texture2D itemTexture = Main.itemTexture[item.type];
+				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame(1, 1, 0, 0) : Main.itemAnimations[item.type].GetFrame(itemTexture);
+				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
+			}
+
+			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
+				return true;
+
+			// Create particle positions as necessary.
+			EnchantmentEnergyParticles.Update();
+
+			// Draw all particles.
+			float currentPower = 0f;
+			int calamitasNPCIndex = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			if (calamitasNPCIndex != -1)
+				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
+
+			position += Vector2.One * 14f;
+			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
+			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
+
+			float pulse = Main.GlobalTime * 0.79f % 1f;
+			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
+			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
+			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
+			drawItemManually(pulseColor, pulseScale);
+			drawItemManually(drawColor, 1f);
+
+			return false;
 		}
 		#endregion
 

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float Time => ref projectile.localAI[1];
         public float AttackCompletionRatio => 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
         public Player Owner => Main.player[projectile.owner];
-        public int Variant => projectile.identity % 2;
+        public int Variant => (int)projectile.ai[0] % 2;
 
         public const float ForearmLength = 80f;
         public const float ArmLength = 108f;
@@ -117,11 +117,12 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(Owner, Owner.Calamity(), Owner.ActiveItem());
-            if (!Owner.Calamity().bladeArmEnchant)
+            if (!Owner.Calamity().bladeArmEnchant || Owner.CCed || !Owner.active || Owner.dead)
             {
                 projectile.Kill();
                 return;
             }
+
             float swingOffsetAngle = MathHelper.SmoothStep(-1.87f, 3.79f, AttackCompletionRatio);
 
             // Offset a little bit angularly if the secondary variant to prevent complete overlap.
@@ -173,6 +174,9 @@ namespace CalamityMod.Projectiles.Melee
             // Idly move towards the destination.
             if (projectile.Center != destination)
                 projectile.Center += (destination - projectile.Center).SafeNormalize(Vector2.Zero) * MathHelper.Min(projectile.Distance(destination), 12f + Owner.velocity.Length());
+
+            // Ensure that the position is never too far from the destination.
+            CalamityUtils.DistanceClamp(ref projectile.position, ref destination, 50f);
 
             Time++;
         }

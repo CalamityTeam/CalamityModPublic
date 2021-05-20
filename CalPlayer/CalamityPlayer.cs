@@ -114,6 +114,7 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool GivenBrimstoneLocus = false;
         #endregion
 
         #region Tile Entity Trackers
@@ -1103,6 +1104,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
+            boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             return new TagCompound
             {
@@ -1179,6 +1181,7 @@ namespace CalamityMod.CalPlayer
             newAmidiasInventory = boost.Contains("newAmidiasInventory");
             newBanditInventory = boost.Contains("newBanditInventory");
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
+            GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
             // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
             if (tag.ContainsKey("stress"))

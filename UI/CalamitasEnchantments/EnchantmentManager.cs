@@ -1,3 +1,4 @@
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,11 +14,16 @@ namespace CalamityMod.UI.CalamitasEnchants
 	{
 		internal const int ClearEnchantmentID = -18591774;
 		public static List<Enchantment> EnchantmentList { get; internal set; } = new List<Enchantment>();
+		public static Dictionary<int, int> ItemUpgradeRelationship { get; internal set; } = new Dictionary<int, int>();
 		public static Enchantment ClearEnchantment { get; internal set; }
 		public static IEnumerable<Enchantment> GetValidEnchantmentsForItem(Item item)
 		{
 			// Do nothing if the item cannot be enchanted.
 			if (item is null || item.IsAir || !item.CanBeEnchantedBySomething())
+				yield break;
+
+			// Don't allow any enchantments if the item is an upgrade item.
+			if (ItemUpgradeRelationship.ContainsValue(item.type))
 				yield break;
 
 			// Only give the option to clear if the item already has an enchantment.
@@ -127,6 +133,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			EnchantmentList = new List<Enchantment>
 			{
+				new Enchantment("Curse", "Transforms this item into something significantly better.",
+					1,
+					null,
+					null,
+					item => ItemUpgradeRelationship.ContainsKey(item.type)),
+
 				new Enchantment("Cursed", "Summons demons that harm you but drop healing items on death on item usage.",
 					100,
 					null,
@@ -194,11 +206,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 						{
 							// Yes, this is a LOT of damage but given the limited range of this thing it needs to be extremely powerful when it does actually hit.
 							int damage = (int)(player.ActiveItem().damage * player.MeleeDamage() * 5);
-							int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1, player.ActiveItem().type);
+							int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = 0f;
 							
-							blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, -1, player.ActiveItem().type);
+							blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = -80f;
 						}
@@ -216,8 +228,17 @@ namespace CalamityMod.UI.CalamitasEnchants
 			ClearEnchantment = new Enchantment("Disenchant", string.Empty, ClearEnchantmentID,
 				item => item.Calamity().AppliedEnchantment = null,
 				item => item.maxStack == 1 && item.shoot >= ProjectileID.None);
+
+			ItemUpgradeRelationship = new Dictionary<int, int>()
+			{
+				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<Something>()
+			};
 		}
 
-		public static void UnloadAllEnchantments() => EnchantmentList = null;
+		public static void UnloadAllEnchantments()
+		{
+			EnchantmentList = null;
+			ItemUpgradeRelationship = null;
+		}
 	}
 }
