@@ -103,6 +103,7 @@ namespace CalamityMod.CalPlayer
         public double projectileDamageReduction = 0D;
         public bool brimlashBusterBoost = false;
 		public int evilSmasherBoost = 0;
+		public int hellbornBoost = 0;
         public float animusBoost = 1f;
         public int potionTimer = 0;
         public bool noWings = false;
@@ -2353,6 +2354,7 @@ namespace CalamityMod.CalPlayer
             lastProjectileHit = null;
             brimlashBusterBoost = false;
 			evilSmasherBoost = 0;
+			hellbornBoost = 0;
             animusBoost = 1f;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
@@ -7306,6 +7308,7 @@ namespace CalamityMod.CalPlayer
                 }
 
 				evilSmasherBoost = 0;
+				hellbornBoost = 0;
 
                 if (amidiasBlessing)
                 {

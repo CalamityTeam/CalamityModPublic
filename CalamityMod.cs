@@ -800,7 +800,7 @@ namespace CalamityMod
                             priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
                         }
                     }
-                    if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
+                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG spawns
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
