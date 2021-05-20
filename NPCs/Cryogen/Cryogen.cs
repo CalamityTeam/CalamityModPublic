@@ -59,11 +59,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
-            else
-                music = MusicID.FrostMoon;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
             bossBag = ModContent.ItemType<CryogenBag>();
         }
 

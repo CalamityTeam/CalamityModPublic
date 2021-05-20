@@ -38,19 +38,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             npc.lifeMax = 25000;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+
+            // If fought alone, Ceaseless Void plays its own theme
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Void");
-                else
-                    music = MusicID.Boss3;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             }
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

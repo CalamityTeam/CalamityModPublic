@@ -104,11 +104,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
-            else
-                music = MusicID.Boss2;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -604,11 +600,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
-                else
-                    music = MusicID.Boss3;
+				// Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SCL") ?? MusicID.Boss3;
                 string key = "Mods.CalamityMod.SupremeBossText5";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -676,11 +669,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
-                else
-                    music = MusicID.LunarBoss;
+				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
+				music = CalamityMod.Instance.GetMusicFromMusicMod("SCE") ?? MusicID.LunarBoss;
                 string key = "Mods.CalamityMod.SupremeBossText7";
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
@@ -762,11 +752,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                    if (calamityModMusic != null)
-                        music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
-                    else
-                        music = MusicID.Eerie;
+					// Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
+					music = CalamityMod.Instance.GetMusicFromMusicMod("SCA") ?? MusicID.Eerie;
                     npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.damage = 0;

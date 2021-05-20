@@ -575,7 +575,7 @@ namespace CalamityMod.CalPlayer
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 40f;
 					Projectile.NewProjectile(source, velocity, ProjectileType<NanoFlare>(), (int)(120 * player.RogueDamage()), 3f, proj.owner);
-					modPlayer.nanoFlareCooldown = 15;
+					modPlayer.nanoFlareCooldown = 60;
 				}
 			}
 
