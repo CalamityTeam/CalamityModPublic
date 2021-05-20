@@ -1,3 +1,4 @@
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -49,7 +50,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                     if (Main.projectile[i].ai[0] != 1f)
                         continue;
 
+                    NPC attachedNPC = Main.npc[(int)Main.projectile[i].ai[1]];
                     Main.projectile[i].ai[0] = 2f;
+                    Main.projectile[i].ModProjectile<SacrificeProjectile>().AbleToHealOwner = attachedNPC.type != NPCID.TargetDummy && attachedNPC.type != ModContent.NPCType<SuperDummyNPC>();
                     Main.projectile[i].netUpdate = true;
                 }
                 return false;

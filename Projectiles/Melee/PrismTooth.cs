@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
-		internal float WidthFunction(float completionRatio) => projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true));
+		internal float WidthFunction(float completionRatio) => projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true)) + 1f;
 
 		internal Color ColorFunction(float completionRatio)
 		{

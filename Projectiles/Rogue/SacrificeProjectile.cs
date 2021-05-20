@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         public Player Owner => Main.player[projectile.owner];
         public bool StickingToAnything => projectile.ai[0] == 1f;
         public bool ReturningToOwner => projectile.ai[0] == 2f;
+        public bool AbleToHealOwner = true;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Sacrifice";
         public override void SetStaticDefaults()
         {
@@ -32,6 +33,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = 6;
         }
 
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(AbleToHealOwner);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => AbleToHealOwner = reader.ReadBoolean();
+
+
         public override void AI()
         {
             if (ReturningToOwner)
@@ -43,12 +49,15 @@ namespace CalamityMod.Projectiles.Rogue
                 // Heal the player and disappear when touching them.
                 if (projectile.Hitbox.Intersects(Owner.Hitbox))
                 {
-                    int healAmount = projectile.Calamity().stealthStrike ? 50 : 4;
+                    if (!Owner.moonLeech && AbleToHealOwner)
+                    {
+                        int healAmount = projectile.Calamity().stealthStrike ? 50 : 4;
 
-                    Owner.HealEffect(healAmount);
-                    Owner.statLife += healAmount;
-                    if (Owner.statLife > Owner.statLifeMax2)
-                        Owner.statLife = Owner.statLifeMax2;
+                        Owner.HealEffect(healAmount);
+                        Owner.statLife += healAmount;
+                        if (Owner.statLife > Owner.statLifeMax2)
+                            Owner.statLife = Owner.statLifeMax2;
+                    }
 
                     projectile.Kill();
                 }
