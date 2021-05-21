@@ -87,7 +87,6 @@ namespace CalamityMod.Items
 		public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
-			EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
 		}
 
 		public override GlobalItem Clone(Item item, Item itemClone)
@@ -1692,23 +1691,25 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Inventory Drawing
-		internal ChargingEnergyParticleSet EnchantmentEnergyParticles;
+		internal static ChargingEnergyParticleSet EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
+
+		internal static void UpdateAllParticleSets()
+		{
+			EnchantmentEnergyParticles.Update();
+		}
 
 		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
 			void drawItemManually(Color color, float generalScale)
 			{
 				Texture2D itemTexture = Main.itemTexture[item.type];
-				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame(1, 1, 0, 0) : Main.itemAnimations[item.type].GetFrame(itemTexture);
+				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
 				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
 				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
 			}
 
 			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
 				return true;
-
-			// Create particle positions as necessary.
-			EnchantmentEnergyParticles.Update();
 
 			// Draw all particles.
 			float currentPower = 0f;

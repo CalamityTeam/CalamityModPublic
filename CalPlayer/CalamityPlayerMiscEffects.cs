@@ -112,6 +112,11 @@ namespace CalamityMod.CalPlayer
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
 
+			// Update all particle sets for items.
+			// This must be done here instead of in the item logic because these sets are not properly instanced
+			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
+			CalamityGlobalItem.UpdateAllParticleSets();
+
 			// Regularly sync player stats during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
