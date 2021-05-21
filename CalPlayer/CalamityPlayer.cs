@@ -104,6 +104,7 @@ namespace CalamityMod.CalPlayer
         public double projectileDamageReduction = 0D;
         public bool brimlashBusterBoost = false;
 		public int evilSmasherBoost = 0;
+		public int hellbornBoost = 0;
         public float animusBoost = 1f;
         public int potionTimer = 0;
         public bool noWings = false;
@@ -2361,6 +2362,7 @@ namespace CalamityMod.CalPlayer
             lastProjectileHit = null;
             brimlashBusterBoost = false;
 			evilSmasherBoost = 0;
+			hellbornBoost = 0;
             animusBoost = 1f;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
@@ -2862,7 +2864,7 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int damage = (int)(400 * player.RangedDamage());
+                    int damage = (int)(300 * player.RangedDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (int i = 0; i < 8; i++)
@@ -7321,6 +7323,7 @@ namespace CalamityMod.CalPlayer
                 }
 
 				evilSmasherBoost = 0;
+				hellbornBoost = 0;
 
                 if (amidiasBlessing)
                 {
@@ -7422,7 +7425,7 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < freezeDist)
                         {
-                            float duration = Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
+                            float duration = Main.rand.Next(30 + (int)damage / 3, 80 + (int)damage / 2);
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }

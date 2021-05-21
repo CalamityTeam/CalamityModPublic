@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 22;
             npc.height = 22;
             npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 20000 : 200;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 30000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

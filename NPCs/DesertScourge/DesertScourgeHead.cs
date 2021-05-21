@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
-            npc.LifeMaxNERB(2300, 2650, 16500000);
+            npc.LifeMaxNERB(2600, 3000, 16500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
@@ -55,11 +55,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             bossBag = ModContent.ItemType<DesertScourgeBag>();
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
-            else
-                music = MusicID.Boss1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;

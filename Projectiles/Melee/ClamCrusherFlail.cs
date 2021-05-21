@@ -178,11 +178,11 @@ namespace CalamityMod.Projectiles.Melee
         {
 			if (target.rarity < 2)
 			{
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
 			}
 			else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
 			{
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
 			}
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;

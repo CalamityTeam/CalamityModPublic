@@ -75,15 +75,6 @@ namespace CalamityMod.NPCs.Yharon
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
 
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
@@ -92,11 +83,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noTileCollide = true;
             npc.netAlways = true;
 
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("YHARON") ?? MusicID.Boss3;
 
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
@@ -1554,11 +1541,8 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
-                else
-                    music = MusicID.LunarBoss;
+                // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
+                music = CalamityMod.Instance.GetMusicFromMusicMod("DragonGod") ?? MusicID.LunarBoss;
 
                 moveCloser = true;
 

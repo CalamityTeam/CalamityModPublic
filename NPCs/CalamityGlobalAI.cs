@@ -3256,7 +3256,7 @@ namespace CalamityMod.NPCs
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
-			bool respawnHands = lifeRatio < 0.33f;
+			bool respawnHands = npc.life / (float)npc.lifeMax < 0.33f;
 			bool phase2 = respawnHands || death;
 
 			// Set defense
@@ -5160,7 +5160,8 @@ namespace CalamityMod.NPCs
 			if (npc.justHit)
 				npc.localAI[0] = 0f;
 
-			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 240f)
+			float laserGateValue = malice ? 180f : 240f;
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= laserGateValue)
 			{
 				npc.localAI[0] = 0f;
 				if (targetData.Type != 0 && Collision.CanHit(npc.position, npc.width, npc.height, targetData.Position, targetData.Width, targetData.Height))
@@ -7193,7 +7194,7 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.33f;
 
 			// Kill all arms if Prime Head enters phase 2
-			if (phase2 && !allArmsDead)
+			if (npc.life / (float)npc.lifeMax < 0.66f && !allArmsDead)
 			{
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -21220,7 +21221,7 @@ namespace CalamityMod.NPCs
         #region Bat AI
         public static bool BuffedBatAI(NPC npc, Mod mod)
         {
-            if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat)
+            if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat || npc.type == ModContent.NPCType<SunBat>())
             {
                 int num203 = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                 Main.dust[num203].noGravity = true;
@@ -21330,7 +21331,8 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.IceBat || 
                 npc.type == NPCID.Lavabat || 
                 npc.type == NPCID.GiantFlyingFox || 
-                npc.type == ModContent.NPCType<PlaguedFlyingFox>())
+				npc.type == ModContent.NPCType<SunBat>() ||
+				npc.type == ModContent.NPCType<PlaguedFlyingFox>())
             {
                 maxSpeedX = 6f;
                 maxSpeedY = 2.5f;

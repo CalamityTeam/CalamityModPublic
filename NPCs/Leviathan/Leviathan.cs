@@ -60,11 +60,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.boss = true;
             npc.netAlways = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
@@ -627,7 +623,7 @@ namespace CalamityMod.NPCs.Leviathan
 			// Width = 450, Height = 450
 			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f)), npc.width / 2, npc.height);
 			// Width = 225, Height = 225
-			Rectangle tailHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 2f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+			Rectangle tailHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
 
 			Vector2 mouthHitboxCenter = new Vector2(mouthHitbox.X + (mouthHitbox.Width / 2), mouthHitbox.Y + (mouthHitbox.Height / 2));
 			Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
@@ -648,7 +644,7 @@ namespace CalamityMod.NPCs.Leviathan
 			if (mouthDist4 < minMouthDist)
 				minMouthDist = mouthDist4;
 
-			bool insideMouthHitbox = minMouthDist <= 225f;
+			bool insideMouthHitbox = minMouthDist <= 115f;
 
 			float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
 			float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -663,7 +659,7 @@ namespace CalamityMod.NPCs.Leviathan
 			if (bodyDist4 < minBodyDist)
 				minBodyDist = bodyDist4;
 
-			bool insideBodyHitbox = minBodyDist <= 450f;
+			bool insideBodyHitbox = minBodyDist <= 230f;
 
 			float tailDist1 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopLeft());
 			float tailDist2 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopRight());
@@ -678,7 +674,7 @@ namespace CalamityMod.NPCs.Leviathan
 			if (tailDist4 < minTailDist)
 				minTailDist = tailDist4;
 
-			bool insideTailHitbox = minTailDist <= 225f;
+			bool insideTailHitbox = minTailDist <= 115f;
 
 			return insideMouthHitbox || insideBodyHitbox || insideTailHitbox;
 		}
