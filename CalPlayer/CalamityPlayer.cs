@@ -7985,7 +7985,67 @@ namespace CalamityMod.CalPlayer
         #region Dash Stuff
         public void ModDashMovement()
         {
-            if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Asgardian Aegis
+			if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Ornate Shield
+			{
+				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+					{
+						Rectangle rect = npc.getRect();
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							float num = 50f * player.AverageDamage();
+							float num2 = 3f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							if (player.whoAmI == Main.myPlayer)
+							{
+								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							}
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
+					}
+				}
+			}
+			if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Asgardian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -8047,7 +8107,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 3 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Elysian Aegis
+            if (dashMod == 3 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Elysian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -8108,7 +8168,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 2 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Asgard's Valor
+            if (dashMod == 2 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Asgard's Valor
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -8168,7 +8228,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 8 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //plaguebringer armor
+            if (dashMod == 8 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Plaguebringer Armor
             {
                 Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5f - 4f), (int)(player.position.Y + player.velocity.Y * 0.5f - 4f), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -8227,7 +8287,7 @@ namespace CalamityMod.CalPlayer
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.94f;
                 int delay = 20;
-                if (dashMod == 1) //Counter Scarf
+                if (dashMod == 1) // Counter Scarf
                 {
                     for (int k = 0; k < 2; k++)
                     {
@@ -8245,7 +8305,7 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
                 }
-                else if (dashMod == 2) //Asgard's Valor
+                else if (dashMod == 2) // Asgard's Valor
                 {
                     for (int m = 0; m < 4; m++)
                     {
@@ -8260,7 +8320,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 3) //Elysian Aegis
+                else if (dashMod == 3) // Elysian Aegis
                 {
                     for (int m = 0; m < 12; m++)
                     {
@@ -8274,9 +8334,9 @@ namespace CalamityMod.CalPlayer
                             Main.dust[num14].fadeIn = 0.5f;
                         }
                     }
-                    num7 = 14f; //14
+                    num7 = 14f;
                 }
-                else if (dashMod == 4) //Asgardian Aegis
+                else if (dashMod == 4) // Asgardian Aegis
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -8290,9 +8350,9 @@ namespace CalamityMod.CalPlayer
                             Main.dust[num14].fadeIn = 0.5f;
                         }
                     }
-                    num7 = 16f; //14
+                    num7 = 16f;
                 }
-                else if (dashMod == 5) //Deep Diver
+                else if (dashMod == 5) // Deep Diver
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -8306,9 +8366,25 @@ namespace CalamityMod.CalPlayer
                             Main.dust[num14].fadeIn = 0.5f;
                         }
                     }
-                    num7 = 18f; //14
+                    num7 = 18f;
                 }
-                else if (dashMod == 7) //Statis' Belt of Curses
+				else if (dashMod == 6) // Ornate Shield
+				{
+					for (int m = 0; m < 24; m++)
+					{
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 67, 0f, 0f, 100, default, 1f);
+						Main.dust[num14].velocity *= 0.1f;
+						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+						Main.dust[num14].noGravity = true;
+						if (Main.rand.NextBool(2))
+						{
+							Main.dust[num14].fadeIn = 0.5f;
+						}
+					}
+					num7 = 12.5f;
+				}
+				else if (dashMod == 7) // Statis' Belt of Curses
                 {
                     statisTimer++;
                     for (int k = 0; k < 2; k++)
@@ -8326,7 +8402,7 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                    num7 = 14f; //14
+                    num7 = 14f;
                     if (statisTimer % 5 == 0)
                     {
                         int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(250 * player.AverageDamage()), 5f, player.whoAmI);
@@ -8338,7 +8414,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 8) //Plaguebringer armor
+                else if (dashMod == 8) // Plaguebringer Armor
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -8352,7 +8428,7 @@ namespace CalamityMod.CalPlayer
                             Main.dust[num14].fadeIn = 0.5f;
                         }
                     }
-                    num7 = 12.5f; //14
+                    num7 = 12.5f;
                 }
                 if (dashMod > 0)
                 {
@@ -8382,7 +8458,7 @@ namespace CalamityMod.CalPlayer
             }
             else if (dashMod > 0 && !player.mount.Active)
             {
-                if (dashMod == 1) //Counter and Evasion Scarf
+                if (dashMod == 1) // Counter and Evasion Scarf
                 {
                     if (DoADash(evasionScarf ? 16.3f : 15f))
                     {
@@ -8398,7 +8474,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 2) //Asgard's Valor
+                else if (dashMod == 2) // Asgard's Valor
                 {
                     if (DoADash(16.9f))
                     {
@@ -8416,7 +8492,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 3) //Elysian Aegis
+                else if (dashMod == 3) // Elysian Aegis
                 {
                     if (DoADash(21.5f))
                     {
@@ -8434,7 +8510,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 4) //Asgardian Aegis
+                else if (dashMod == 4) // Asgardian Aegis
                 {
                     if (DoADash(23.3f))
                     {
@@ -8452,7 +8528,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 5) //Deep Diver
+                else if (dashMod == 5) // Deep Diver
                 {
                     if (DoADash(25.9f))
                     {
@@ -8470,7 +8546,25 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 7) //Statis' Belt of Curses
+				else if (dashMod == 6) // Ornate Shield
+				{
+					if (DoADash(16.9f))
+					{
+						for (int d = 0; d < 60; d++)
+						{
+							int idx = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 1.25f);
+							Dust dust = Main.dust[idx];
+							dust.position.X += Main.rand.NextFloat(-5f, 5f);
+							dust.position.Y += Main.rand.NextFloat(-5f, 5f);
+							dust.velocity *= 0.2f;
+							dust.scale *= Main.rand.NextFloat(1f, 1.2f);
+							dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+							dust.noGravity = true;
+							dust.fadeIn = 0.5f;
+						}
+					}
+				}
+				else if (dashMod == 7) // Statis' Belt of Curses
                 {
                     if (DoADash(25.4f))
                     {
@@ -8486,7 +8580,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 8) //Plaguebringer armor
+                else if (dashMod == 8) // Plaguebringer armor
                 {
                     if (DoADash(19f))
                     {
