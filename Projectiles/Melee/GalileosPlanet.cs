@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosPlanet : ModProjectile
     {
-		private int radius = 47;
+		private int radius = 84;
 
         public override void SetStaticDefaults()
         {
