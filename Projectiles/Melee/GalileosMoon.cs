@@ -28,10 +28,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = 12;
-            projectile.timeLeft = 300;
+            projectile.extraUpdates = 1;
+            projectile.timeLeft = 135 * projectile.MaxUpdates;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.extraUpdates = 1;
             projectile.localNPCHitCooldown = projectile.MaxUpdates * 10;
         }
 
