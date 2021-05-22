@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class Hypothermia : RogueWeapon
     {
-		private int counter = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");
@@ -47,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable() && counter == 0) //setting up the stealth strikes
+            if (player.Calamity().StealthStrikeAvailable() && player.itemAnimation == item.useAnimation - 1) //setting up the stealth strikes
 			{
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
@@ -61,9 +59,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 				Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
 			}
 
-			counter++;
-			if (counter >= item.useAnimation / item.useTime)
-				counter = 0;
             return false;
         }
 
