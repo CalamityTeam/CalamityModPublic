@@ -31,8 +31,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
+            projectile.localNPCHitCooldown = projectile.MaxUpdates * 10;
         }
 
         public override void AI()
