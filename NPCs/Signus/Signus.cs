@@ -231,6 +231,8 @@ namespace CalamityMod.NPCs.Signus
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+
+                    npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[0] == 0f)
