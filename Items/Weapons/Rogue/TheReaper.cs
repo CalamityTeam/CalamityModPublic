@@ -42,6 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 0.8);
+
                 int spread = 10;
                 for (int i = 0; i < 4; i++)
                 {

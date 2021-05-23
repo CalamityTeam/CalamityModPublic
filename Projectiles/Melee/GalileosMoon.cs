@@ -27,12 +27,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 10;
-            projectile.timeLeft = 300;
+            projectile.penetrate = 12;
+            projectile.extraUpdates = 1;
+            projectile.timeLeft = 135 * projectile.MaxUpdates;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
+            projectile.localNPCHitCooldown = projectile.MaxUpdates * 10;
         }
 
         public override void AI()
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 			projectile.rotation += projectile.direction * 0.55f;
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 10f, 25f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
