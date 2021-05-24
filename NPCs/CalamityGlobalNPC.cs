@@ -3821,7 +3821,7 @@ namespace CalamityMod.NPCs
 			{
                 // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
-                    damage = (int)(damage * 0.9);
+                    damage = (int)(damage * 0.795);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
