@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ornate Shield");
-            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor");
+            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor\n" +
+				"Grants a frost dash that freezes enemies");
         }
 
         public override void SetDefaults()
@@ -35,7 +36,8 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.08f;
                 player.statLifeMax2 += 20;
             }
-        }
+			player.Calamity().dashMod = 6;
+		}
 
         public override void AddRecipes()
         {

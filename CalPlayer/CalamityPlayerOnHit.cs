@@ -564,7 +564,7 @@ namespace CalamityMod.CalPlayer
 					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, (int)(60 * player.RogueDamage()), 3, proj.owner);
 					if (flare.WithinBounds(Main.maxProjectiles))
 						Main.projectile[flare].Calamity().forceTypeless = true;
-					modPlayer.moonCrownCooldown = 15;
+					modPlayer.moonCrownCooldown = 60;
 				}
 			}
 

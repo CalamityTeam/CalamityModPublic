@@ -65,25 +65,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            float speed = 40f;
-            float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npc.Center.X;
-            float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npc.Center.Y;
-            centerY -= 20f;
-            centerX += 1f;
-            float totalSpeed = (float)Math.Sqrt(centerX * centerX + centerY * centerY);
-            if (totalSpeed < 20f)
-            {
-                npc.rotation = 0f;
-                npc.velocity.X = centerX;
-                npc.velocity.Y = centerY;
-            }
-            else
-            {
-                totalSpeed = speed / totalSpeed;
-                npc.velocity.X = centerX * totalSpeed;
-                npc.velocity.Y = centerY * totalSpeed;
-                npc.rotation = npc.velocity.X * 0.1f;
-            }
+			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);
 
             if (npc.alpha > 0)
             {

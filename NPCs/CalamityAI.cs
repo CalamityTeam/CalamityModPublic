@@ -2753,6 +2753,8 @@ namespace CalamityMod.NPCs
 							Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
 							Projectile.NewProjectile(npc.Center, Vector2.Normalize(destination - npc.Center) * velocity, type, damage, 0f, Main.myPlayer);
 						}
+
+						npc.netUpdate = true;
 					}
 
                     if (npc.localAI[0] >= 180f)
@@ -2778,7 +2780,6 @@ namespace CalamityMod.NPCs
                             float num181 = Math.Abs(num180) * 0.1f;
                             float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
 							float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                            npc.netUpdate = true;
                             num183 = num179 / num183;
                             num180 *= num183;
                             num182 *= num183;
@@ -2802,6 +2803,8 @@ namespace CalamityMod.NPCs
                                 num182 *= num183;
                                 Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer);
                             }
+
+							npc.netUpdate = true;
                         }
                     }
                 }
@@ -2996,6 +2999,8 @@ namespace CalamityMod.NPCs
 
 						npc.ai[0] = 4f;
 						npc.ai[1] = 0f;
+
+						npc.netUpdate = true;
 					}
                 }
 
@@ -3018,6 +3023,7 @@ namespace CalamityMod.NPCs
 					{
 						npc.ai[0] = phase2 ? 5f : 1f;
 						npc.ai[2] = 0f;
+						npc.netUpdate = true;
 					}
 					else
 					{
@@ -3025,6 +3031,7 @@ namespace CalamityMod.NPCs
 						npc.direction = playerLocation < 0 ? 1 : -1;
 
 						npc.ai[0] = 3f;
+						npc.netUpdate = true;
 					}
 
 					calamityGlobalNPC.newAI[0] = 0f;
@@ -3051,7 +3058,6 @@ namespace CalamityMod.NPCs
 						float num181 = Math.Abs(num180) * 0.1f;
 						float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
 						float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-						npc.netUpdate = true;
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
@@ -3073,6 +3079,8 @@ namespace CalamityMod.NPCs
 							num182 *= num183;
 							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
+
+						npc.netUpdate = true;
 					}
                 }
                 else
@@ -4423,6 +4431,8 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						npc.SyncExtraAI();
+						npc.netUpdate = true;
 					}
 				}
 				else
@@ -4446,6 +4456,8 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						npc.SyncExtraAI();
+						npc.netUpdate = true;
 					}
 				}
 
@@ -4455,11 +4467,6 @@ namespace CalamityMod.NPCs
 				value52.Normalize();
 				value52 *= scaleFactor16;
 				npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
-				npc.netSpam = 5;
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-				}
 				return;
 			}
 
@@ -4537,7 +4544,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.netUpdate = true;
+
 					while (npc.ai[0] == 0f)
 					{
 						if (phase2)
@@ -4690,6 +4697,9 @@ namespace CalamityMod.NPCs
 							}
 						}
 					}
+
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 			}
 
@@ -4715,6 +4725,8 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 
 				float velocity = 14f + (enrageScale - 1f) * 4f;
@@ -4723,11 +4735,6 @@ namespace CalamityMod.NPCs
 				value52.Normalize();
 				value52 *= scaleFactor16;
 				npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
-				npc.netSpam = 5;
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-				}
 			}
 
 			// Fly towards target quickly
@@ -4739,6 +4746,8 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 
 				if (player.Center.X - 10f < npc.Center.X)
@@ -4786,6 +4795,8 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 			}
 
@@ -4814,6 +4825,8 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[0] = 3.1f;
 					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 
 				npc.ai[1] += 0.0333333351f;
@@ -4859,6 +4872,8 @@ namespace CalamityMod.NPCs
 
 					npc.ai[0] = 3.2f;
 					npc.ai[1] = npc.direction;
+					npc.netUpdate = true;
+					npc.SyncExtraAI();
 				}
 			}
 
@@ -4881,6 +4896,7 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						npc.netUpdate = true;
 					}
 					else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
 					{
@@ -4888,6 +4904,7 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						npc.netUpdate = true;
 					}
 				}
 
@@ -4950,6 +4967,7 @@ namespace CalamityMod.NPCs
 							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);
 							if (Vector2.Distance(vector7, player.Center) > 150f)
 								NPC.NewNPC((int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
+							npc.netUpdate = true;
 						}
 					}
 
@@ -4962,6 +4980,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.TargetClosest();
+					npc.netUpdate = true;
 				}
 			}
 
@@ -4985,6 +5004,7 @@ namespace CalamityMod.NPCs
 						if (ai0 > 3f)
 							ai0 = 3f;
 						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, ai0, npc.target + 1);
+						npc.netUpdate = true;
 					}
 				}
 

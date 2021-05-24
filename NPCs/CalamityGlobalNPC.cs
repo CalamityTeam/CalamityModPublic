@@ -3969,6 +3969,18 @@ namespace CalamityMod.NPCs
                         npc.justHit = false;
                 }
             }
+
+			if (npc.life <= 0 && BossRushEvent.BossRushActive && npc.type == NPCID.WallofFlesh && BossRushEvent.CurrentlyFoughtBoss == npc.type)
+            {
+				// Post-Wall of Flesh teleport back to spawn.
+				// This appears to only work correctly client-side in MP.
+				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+				{
+					bool appropriatePlayer = Main.myPlayer == playerIndex;
+					if (Main.player[playerIndex].active && appropriatePlayer)
+						Main.player[playerIndex].Spawn();
+				}
+			}
         }
         #endregion
 

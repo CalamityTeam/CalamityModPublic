@@ -109,7 +109,8 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-				}
+                    npc.netUpdate = true;
+                }
 			}
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
@@ -207,14 +208,16 @@ namespace CalamityMod.NPCs.SlimeGod
 						num180 *= num183;
 						num182 *= num183;
 						Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-					}
-				}
+                    }
+                    npc.netUpdate = true;
+                }
             }
 
             if (npc.ai[0] == 0f)
             {
                 npc.ai[0] = 1f;
                 npc.ai[1] = 0f;
+                npc.netUpdate = true;
             }
             else if (npc.ai[0] == 1f)
             {
@@ -224,6 +227,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+                    npc.netUpdate = true;
                 }
                 if (npc.velocity.Y == 0f)
                 {
@@ -251,7 +255,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= num1881;
 						npc.velocity.X = (num1880 + distanceSpeedBoost) * npc.direction;
-					}
+                        npc.netUpdate = true;
+                    }
                 }
                 else
                 {
@@ -292,6 +297,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+                    npc.netUpdate = true;
                 }
             }
             else if (npc.ai[0] == 2f)
@@ -302,6 +308,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
+                    npc.netUpdate = true;
                 }
             }
             else if (npc.ai[0] == 3f)
@@ -334,6 +341,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[0] = 3.1f;
                         npc.ai[2] = 0f;
                         npc.velocity = vector272;
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -366,9 +374,9 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
                         if (Collision.SolidCollision(npc.position, npc.width, npc.height))
-                        {
                             npc.ai[0] = 4f;
-                        }
+
+                        npc.netUpdate = true;
                     }
                 }
                 else if (npc.ai[2] == 0f)
@@ -406,6 +414,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+                        npc.netUpdate = true;
                     }
                     if (value74.Length() > 50f)
                     {
@@ -477,6 +486,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+                        npc.netUpdate = true;
                     }
                 }
                 else if (npc.ai[0] == 6f)

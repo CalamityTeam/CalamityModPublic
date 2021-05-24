@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Magic
 				Vector2 center = projectile.Center;
 				float homingRange = 200f;
 				bool homeIn = false;
-				float inertia = 30f;
-				float homingVelocity = 20f;
+				float inertia = 25f;
+				float homingSpeed = 23f;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.extraUpdates = 1;
 					Vector2 homeInVector = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
-					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingVelocity) / (inertia + 1f);
+					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingSpeed) / (inertia + 1f);
 				}
 				else
 					projectile.extraUpdates = 0;

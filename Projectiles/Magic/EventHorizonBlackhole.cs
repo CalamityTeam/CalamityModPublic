@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Magic
         {
 			if (projectile.frame == 8)
 				return;
+
             // Update animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
@@ -42,6 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
+
 			if (projectile.timeLeft > 15)
 			{
 				if (projectile.frame >= 4)
