@@ -3811,9 +3811,12 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.Calamity().stealthStrike)
 				{
-					if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
+					if (projectile.type == ProjectileType<TimeBoltKnife>())
 						damage = (int)(damage * 1.15);
 				}
+
+				if (projectile.type == ProjectileType<ValedictionBoomerang>())
+					damage = (int)(damage * 0.9);
 			}
 
 			// Other projectile resists
