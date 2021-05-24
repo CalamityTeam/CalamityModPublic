@@ -40,25 +40,27 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            bool usingStealthStrike = player.Calamity().StealthStrikeAvailable();
             float spreadAngle = MathHelper.ToRadians(2.5f);
             Vector2 direction = new Vector2(speedX, speedY);
             Vector2 baseDirection = direction.RotatedBy(-spreadAngle * 2.5f);
+
+            if (usingStealthStrike)
+                damage = (int)(damage * 1.8);
 
             for (int i = 0; i < 6; i++)
             {
                 Vector2 currentDirection = baseDirection.RotatedBy(spreadAngle * i);
                 currentDirection = currentDirection.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-1f, 1f)));
 
-                if (player.Calamity().StealthStrikeAvailable())
+                if (usingStealthStrike)
                 {
                     int p = Projectile.NewProjectile(position, currentDirection, type, damage, knockBack + 6f, player.whoAmI);
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().stealthStrike = true;
                 }
                 else
-                {
                     Projectile.NewProjectile(position, currentDirection, type, damage, knockBack, player.whoAmI);
-                }
             }
             return false;
         }
