@@ -9017,7 +9017,7 @@ namespace CalamityMod.CalPlayer
 
             ProvideStealthStatBonuses();
 
-            // If the player is using an item that deals damage and is on their first frame of doing so,
+            // If the player is using an item that deals damage and is on their first frame of a use of that item,
             // consume stealth if a stealth strike wasn't triggered manually by item code.
 
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
@@ -9033,10 +9033,14 @@ namespace CalamityMod.CalPlayer
             bool isChannelable = it.channel;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
-            bool animationCheck = player.itemAnimation == player.itemAnimationMax - 1;
-            if (it.useAnimation == it.useTime)
-                animationCheck = player.itemTime == player.itemAnimationMax - 1;
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+
+            // Animation check depends on whether the item is "clockwork", like Clockwork Assault Rifle.
+            // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.
+            bool animationCheck = it.useAnimation == it.useTime
+                ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
+                : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
+
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
                 ConsumeStealthByAttacking();
         }
 
