@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,17 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 		}
 
-		public float StealthStrikeDamage;
+		public float StealthStrikePrefixBonus;
 
 		public RogueWeapon()
 		{
-			StealthStrikeDamage = 1f;
+			StealthStrikePrefixBonus = 1f;
 		}
 
 		public override ModItem Clone(Item itemClone)
 		{
 			RogueWeapon myClone = (RogueWeapon)base.Clone(itemClone);
-			myClone.StealthStrikeDamage = StealthStrikeDamage;
+			myClone.StealthStrikePrefixBonus = StealthStrikePrefixBonus;
 			return myClone;
 		}
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool NewPreReforge()
 		{
-			StealthStrikeDamage = 1f;
+			StealthStrikePrefixBonus = 1f;
 			return true;
 		}
 
@@ -74,17 +75,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.summon = false;
 		}
 
-		// Simply add the player's dedicated rogue damage.
+		// Add both the player's dedicated rogue damage and stealth strike damage as applicable.
 		// Rogue weapons are internally throwing so they already benefit from throwing damage boosts.
 		// 5E-06 to prevent downrounding is not needed anymore, added by TML itself
 		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
-			add += player.Calamity().throwingDamage - 1f;
-			//Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
-			if (player.Calamity().StealthStrikeAvailable() && item.prefix > 0)
-			{
-				mult += StealthStrikeDamage - 1f;
-			}
+			CalamityPlayer mp = player.Calamity();
+
+			// Both regular rogue damage stat and stealth damage are added to the weapon simultaneously.
+			add += mp.throwingDamage + mp.stealthDamage - 1f;
+
+			// Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
+			if (mp.StealthStrikeAvailable() && item.prefix > 0)
+				mult += StealthStrikePrefixBonus - 1f;
 		}
 
 		// Simply add the player's dedicated rogue crit chance.
@@ -108,33 +111,42 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			TooltipLine tt = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
-			if (tt != null)
+			TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
+			if (damageTooltip != null)
 			{
-				string[] splitText = tt.text.Split(' ');
-				string damageValue = splitText.First();
-				string damageWord = splitText.Last();
-				tt.text = damageValue + " rogue " + damageWord;
+				// Replace the word "throwing" with "rogue" in the item's damage line.
+				string text = damageTooltip.text.Replace(" throwing ", " rogue ");
+
+				// Split visible damage into stealth and non-stealth damage values if the player has the stealth mechanic available to them.
+				Player p = Main.LocalPlayer;
+				CalamityPlayer mp = p.Calamity();
+				if (mp.rogueStealthMax > 0f)
+				{
+					int damageNumberSubstringIndex = text.IndexOf(' ');
+					string restOfTooltip = text.Substring(damageNumberSubstringIndex);
+					int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
+
+					int damageWithoutStealth = (int)(item.damage * (p.allDamage + p.thrownDamage + mp.throwingDamage - 2f));
+					text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
+				}
+
+				damageTooltip.text = text;
 			}
+
+			// Add a tooltip line for the stealth strike damage bonus of the item's prefix, if applicable.
 			if (item.prefix > 0)
 			{
-				float ssDmgBoost = StealthStrikeDamage - 1f;
-				if (ssDmgBoost > 0)
+				float ssDmgBoost = StealthStrikePrefixBonus - 1f;
+				if (ssDmgBoost != 0f)
 				{
-					TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "+" + Math.Round(ssDmgBoost * 100f) + "% stealth strike damage")
-					{
-						isModifier = true
-					};
-					tooltips.Add(StealthBonus);
-				}
-				else if (ssDmgBoost < 0)
-				{
-					TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "-" + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage")
+					bool badModifier = ssDmgBoost < 0f;
+					string txt = (badModifier ? "-" : "+") + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage";
+					TooltipLine stealthTooltip = new TooltipLine(mod, "PrefixSSDmg", txt)
 					{
 						isModifier = true,
-						isModifierBad = true
+						isModifierBad = badModifier
 					};
-					tooltips.Add(StealthBonus);
+					tooltips.Add(stealthTooltip);
 				}
 			}
 		}
