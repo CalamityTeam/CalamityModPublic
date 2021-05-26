@@ -51,16 +51,9 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.ai[0] == 1f)
             {
-				if (projectile.Calamity().stealthStrike)
-				{
-					kunaiStabbing += 2;
-				}
-				else
-				{
-					kunaiStabbing++;
-				}
-				if (kunaiStabbing >= 20)
-				{
+                kunaiStabbing++;
+                if (kunaiStabbing >= 20)
+                {
 					kunaiStabbing = 0;
 					float startOffsetX = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
 					float startOffsetY = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
