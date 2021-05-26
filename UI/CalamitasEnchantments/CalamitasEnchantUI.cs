@@ -164,7 +164,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			int cost = CurrentlyHeldItem.value * 4;
 
 			// Increase the cost of enchanting significantly if doing so would upgrade the item directly.
-			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == "Curse")
+			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 				cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
 			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
@@ -348,7 +348,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			CurrentlyHeldItem.Prefix(oldPrefix);
 			CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem);
 
-			if (SelectedEnchantment.Value.Name == "Curse")
+			if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 			{
 				CurrentlyHeldItem.SetDefaults(EnchantmentManager.ItemUpgradeRelationship[CurrentlyHeldItem.type]);
 				CurrentlyHeldItem.Prefix(oldPrefix);
@@ -366,7 +366,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				Main.cpItem = new Item();
 			Main.cpItem.SetDefaults(Main.cpItem.type);
 
-			if (SelectedEnchantment.Value.Name != "Curse")
+			if (SelectedEnchantment.Value.Name != EnchantmentManager.UpgradeEnchantName)
 			{
 				Main.cpItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
 				SelectedEnchantment.Value.CreationEffect?.Invoke(Main.cpItem);
@@ -380,7 +380,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
 
-			if (SelectedEnchantment.Value.Name == "Curse")
+			if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 				Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Main.LocalPlayer.Center);
 		}
 	}

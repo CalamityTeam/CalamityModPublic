@@ -13,6 +13,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 	public static class EnchantmentManager
 	{
 		internal const int ClearEnchantmentID = -18591774;
+		internal const string UpgradeEnchantName = "Exhume";
 		public static List<Enchantment> EnchantmentList { get; internal set; } = new List<Enchantment>();
 		public static Dictionary<int, int> ItemUpgradeRelationship { get; internal set; } = new Dictionary<int, int>();
 		public static Enchantment ClearEnchantment { get; internal set; }
@@ -133,7 +134,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			EnchantmentList = new List<Enchantment>
 			{
-				new Enchantment("Curse", "Transforms this item into something significantly better.",
+				new Enchantment(UpgradeEnchantName, "Transforms this item into something significantly better.",
 					1,
 					null,
 					null,
