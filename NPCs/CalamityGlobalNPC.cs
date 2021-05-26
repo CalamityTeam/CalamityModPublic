@@ -3809,12 +3809,24 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			if (DevourerOfGodsIDs.Contains(npc.type))
+			{
+				if (projectile.Calamity().stealthStrike)
+				{
+					if (projectile.type == ProjectileType<TimeBoltKnife>())
+						damage = (int)(damage * 1.15);
+				}
+
+				if (projectile.type == ProjectileType<ValedictionBoomerang>())
+					damage = (int)(damage * 0.9);
+			}
+
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
                 // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
-                    damage = (int)(damage * 0.9);
+                    damage = (int)(damage * 0.795);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{

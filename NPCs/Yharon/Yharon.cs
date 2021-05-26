@@ -2944,8 +2944,6 @@ namespace CalamityMod.NPCs.Yharon
 		#region Projectile Resists
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
-                damage = (int)(damage * 0.65);
             if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
             if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())

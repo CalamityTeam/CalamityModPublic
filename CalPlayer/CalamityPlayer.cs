@@ -286,6 +286,8 @@ namespace CalamityMod.CalPlayer
         public float accStealthGenBoost = 0f;
 
         public float throwingDamage = 1f;
+        public float stealthDamage = 0f; // This is extra Rogue Damage that is only added for stealth strikes.
+        public float RogueDamageWithStealth => throwingDamage + stealthDamage;
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
         public float throwingAmmoCost = 1f;
@@ -2113,6 +2115,7 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f;
 
             throwingDamage = 1f;
+            stealthDamage = 0f;
             throwingVelocity = 1f;
             throwingCrit = 0;
             throwingAmmoCost = 1f;
@@ -5357,7 +5360,7 @@ namespace CalamityMod.CalPlayer
                 if (nanotech)
                     penetrateAmt += 20; //nanotech is weaker
                 else if (electricianGlove)
-                    penetrateAmt += 30;
+                    penetrateAmt += 20;
                 else if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
@@ -8961,6 +8964,7 @@ namespace CalamityMod.CalPlayer
             // rogueStealth doesn't reset every frame because it's a continuously building resource
 
             // these other parameters are rebuilt every frame based on the items you have equipped
+            stealthDamage = 0f;
             rogueStealthMax = 0f;
             stealthGenStandstill = 1f;
             stealthGenMoving = 1f;
@@ -9004,7 +9008,7 @@ namespace CalamityMod.CalPlayer
 
             ProvideStealthStatBonuses();
 
-            // If the player is using an item that deals damage and is on their first frame of doing so,
+            // If the player is using an item that deals damage and is on their first frame of a use of that item,
             // consume stealth if a stealth strike wasn't triggered manually by item code.
 
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
@@ -9020,10 +9024,14 @@ namespace CalamityMod.CalPlayer
             bool isChannelable = it.channel;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
-            bool animationCheck = player.itemAnimation == player.itemAnimationMax - 1;
-            if (it.useAnimation == it.useTime)
-                animationCheck = player.itemTime == player.itemAnimationMax - 1;
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+
+            // Animation check depends on whether the item is "clockwork", like Clockwork Assault Rifle.
+            // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.
+            bool animationCheck = it.useAnimation == it.useTime
+                ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
+                : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
+
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
                 ConsumeStealthByAttacking();
         }
 
@@ -9059,9 +9067,7 @@ namespace CalamityMod.CalPlayer
             double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
 
             double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
-            // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
-            // This can be done in TML 1.4 using the new DamageClass system (Stealth becomes its own damage class which is a subclass of Rogue)
-            throwingDamage += (float)stealthAddedDamage;
+            stealthDamage += (float)stealthAddedDamage;
 
             // Show 100% crit chance if your stealth strikes always crit.
             // In practice, this is only for visuals because Terraria determines crit status on hit.
