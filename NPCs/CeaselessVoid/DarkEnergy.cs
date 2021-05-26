@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit53;
-            npc.DeathSound = null;
+            npc.DeathSound = SoundID.NPCDeath44;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
