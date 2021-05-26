@@ -49,11 +49,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
-            else
-                music = MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Siren") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
@@ -143,15 +139,11 @@ namespace CalamityMod.NPCs.Leviathan
 			bool phase4 = lifeRatio < 0.2f;
 
 			// Spawn Leviathan and change music
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (!spawnedLevi)
 				{
-					Mod calamityModMusic = CalamityMod.Instance.musicMod;
-					if (calamityModMusic != null)
-						music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-					else
-						music = MusicID.Boss3;
+					music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -212,7 +204,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.dontTakeDamage = true;
 			}
 
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (CalamityGlobalNPC.leviathan != -1)
 				{

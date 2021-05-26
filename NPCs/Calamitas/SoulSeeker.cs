@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.Calamitas
             timer++;
             if (timer > 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f && parent.Calamity().newAI[2] <= 0f)
                 {
 					int npcType = ModContent.NPCType<LifeSeeker>();
                     if (NPC.CountNPCS(npcType) < 3)

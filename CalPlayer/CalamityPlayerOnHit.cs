@@ -564,7 +564,7 @@ namespace CalamityMod.CalPlayer
 					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, (int)(60 * player.RogueDamage()), 3, proj.owner);
 					if (flare.WithinBounds(Main.maxProjectiles))
 						Main.projectile[flare].Calamity().forceTypeless = true;
-					modPlayer.moonCrownCooldown = 15;
+					modPlayer.moonCrownCooldown = 60;
 				}
 			}
 
@@ -575,7 +575,7 @@ namespace CalamityMod.CalPlayer
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 40f;
 					Projectile.NewProjectile(source, velocity, ProjectileType<NanoFlare>(), (int)(120 * player.RogueDamage()), 3f, proj.owner);
-					modPlayer.nanoFlareCooldown = 15;
+					modPlayer.nanoFlareCooldown = 60;
 				}
 			}
 
@@ -766,7 +766,7 @@ namespace CalamityMod.CalPlayer
 				}
 
 				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 20);
+					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -918,7 +918,7 @@ namespace CalamityMod.CalPlayer
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
 				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 20);
+					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -1072,8 +1072,8 @@ namespace CalamityMod.CalPlayer
 				// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 				if (player.ghostHeal)
 				{
-					float cooldownMult = 0.1f;
-					cooldownMult -= proj.numHits * 0.025f;
+					float cooldownMult = 0.2f;
+					cooldownMult -= proj.numHits * 0.05f;
 					if (cooldownMult < 0f)
 						cooldownMult = 0f;
 

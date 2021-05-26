@@ -1,6 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -20,6 +18,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -43,8 +42,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 20f;
 			npc.GetNPCDamage();
-			npc.width = 650;
-            npc.height = 300;
+			npc.width = 900;
+            npc.height = 450;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
             npc.LifeMaxNERB(55200, 72560, 6000000);
@@ -61,11 +60,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.boss = true;
             npc.netAlways = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
@@ -592,7 +587,11 @@ namespace CalamityMod.NPCs.Leviathan
                         if (npc.ai[2] != 1f)
                             return;
 
-                        npc.velocity *= 0.9f;
+						float playerLocation = vector.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
+						npc.spriteDirection = npc.direction;
+
+						npc.velocity *= 0.9f;
                         float num1052 = revenge ? 0.11f : 0.1f;
 						num1052 += 0.02f * enrageScale;
 
@@ -613,7 +612,74 @@ namespace CalamityMod.NPCs.Leviathan
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		// Can only hit the target if within certain distance.
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Vector2 npcCenter = npc.Center;
+
+			// NOTE: Tail and mouth hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the body hitbox.
+			// Width = 225, Height = 225
+			Rectangle mouthHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 2f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+			// Width = 450, Height = 450
+			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f)), npc.width / 2, npc.height);
+			// Width = 225, Height = 225
+			Rectangle tailHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+
+			Vector2 mouthHitboxCenter = new Vector2(mouthHitbox.X + (mouthHitbox.Width / 2), mouthHitbox.Y + (mouthHitbox.Height / 2));
+			Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
+			Vector2 tailHitboxCenter = new Vector2(tailHitbox.X + (tailHitbox.Width / 2), tailHitbox.Y + (tailHitbox.Height / 2));
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float mouthDist1 = Vector2.Distance(mouthHitboxCenter, targetHitbox.TopLeft());
+			float mouthDist2 = Vector2.Distance(mouthHitboxCenter, targetHitbox.TopRight());
+			float mouthDist3 = Vector2.Distance(mouthHitboxCenter, targetHitbox.BottomLeft());
+			float mouthDist4 = Vector2.Distance(mouthHitboxCenter, targetHitbox.BottomRight());
+
+			float minMouthDist = mouthDist1;
+			if (mouthDist2 < minMouthDist)
+				minMouthDist = mouthDist2;
+			if (mouthDist3 < minMouthDist)
+				minMouthDist = mouthDist3;
+			if (mouthDist4 < minMouthDist)
+				minMouthDist = mouthDist4;
+
+			bool insideMouthHitbox = minMouthDist <= 115f;
+
+			float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
+			float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
+			float bodyDist3 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomLeft());
+			float bodyDist4 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomRight());
+
+			float minBodyDist = bodyDist1;
+			if (bodyDist2 < minBodyDist)
+				minBodyDist = bodyDist2;
+			if (bodyDist3 < minBodyDist)
+				minBodyDist = bodyDist3;
+			if (bodyDist4 < minBodyDist)
+				minBodyDist = bodyDist4;
+
+			bool insideBodyHitbox = minBodyDist <= 230f;
+
+			float tailDist1 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopLeft());
+			float tailDist2 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopRight());
+			float tailDist3 = Vector2.Distance(tailHitboxCenter, targetHitbox.BottomLeft());
+			float tailDist4 = Vector2.Distance(tailHitboxCenter, targetHitbox.BottomRight());
+
+			float minTailDist = tailDist1;
+			if (tailDist2 < minTailDist)
+				minTailDist = tailDist2;
+			if (tailDist3 < minTailDist)
+				minTailDist = tailDist3;
+			if (tailDist4 < minTailDist)
+				minTailDist = tailDist4;
+
+			bool insideTailHitbox = minTailDist <= 115f;
+
+			return insideMouthHitbox || insideBodyHitbox || insideTailHitbox;
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

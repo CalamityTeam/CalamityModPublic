@@ -37,20 +37,16 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 20 == 0)
+                if (projectile.timeLeft % 20 == 0 && Main.myPlayer == projectile.owner)
                 {
                     for (int i = 0; i < 2; i++)
-                    {
-                        Projectile.NewProjectile(projectile.Center,
-                            (-1f * projectile.velocity).RotatedByRandom(0.1f) * 0.6f,
-                            ModContent.ProjectileType<ToxicantTwisterDust>(), projectile.damage, 0f, projectile.owner);
-                    }
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(projectile.damage * 0.35), 0f, projectile.owner);
                 }
                 projectile.rotation += 0.06f * (projectile.velocity.X > 0).ToDirectionInt();
             }
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * (float)projectile.direction;
+            projectile.rotation += 0.4f * projectile.direction;
 
             // Boomerang sound
             if (projectile.soundDelay == 0)
@@ -144,11 +140,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, 
-                    projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid,
-                    projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -157,11 +149,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity,
-                    projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid,
-                    projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
         }
     }
 }

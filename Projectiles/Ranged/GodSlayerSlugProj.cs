@@ -23,7 +23,9 @@ namespace CalamityMod.Projectiles.Ranged
             DisplayName.SetDefault("God Slayer Slug");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            TextureBlue = mod.GetTexture("Projectiles/Ranged/GodSlayerSlugBlue");
+
+            if (Main.netMode != NetmodeID.Server)
+                TextureBlue = mod.GetTexture("Projectiles/Ranged/GodSlayerSlugBlue");
         }
 
         public override void SetDefaults()

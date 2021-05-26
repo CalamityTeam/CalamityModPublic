@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 10000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.behindTiles = true;

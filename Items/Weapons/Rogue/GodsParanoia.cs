@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 70;
+        private static int damage = 98;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()

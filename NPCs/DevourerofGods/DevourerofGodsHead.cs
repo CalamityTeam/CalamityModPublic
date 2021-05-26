@@ -68,11 +68,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -194,11 +190,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (spawnDoGCountdown > 0)
                 {
                     spawnDoGCountdown--;
-
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
-
 					if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+
+						NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+					}
                 }
             }
 

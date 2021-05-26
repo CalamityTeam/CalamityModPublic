@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,6 +35,7 @@ namespace CalamityMod.Projectiles.Magic
         {
 			if (projectile.frame == 8)
 				return;
+
             // Update animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
@@ -40,6 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
+
 			if (projectile.timeLeft > 15)
 			{
 				if (projectile.frame >= 4)
@@ -58,5 +62,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             target.AddBuff(BuffID.Daybreak, 300);
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+			return false;
+		}
+	}
 }

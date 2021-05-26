@@ -23,6 +23,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     [AutoloadBossHead]
@@ -63,36 +64,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             aiType = -1;
             npc.boss = true;
             npc.value = Item.buyPrice(0, 25, 0, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
         }
 
@@ -322,6 +298,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     return;
                 }
 
@@ -482,6 +459,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.netUpdate = true;
 						return;
                     }
+
+					float playerLocation = vectorCenter.X - player.Center.X;
+					npc.direction = playerLocation < 0 ? 1 : -1;
+					npc.spriteDirection = npc.direction;
 
 					npc.rotation = npc.velocity.X * 0.02f;
 					charging = false;
@@ -1021,6 +1002,27 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         }
 
         public override bool CheckActive() => canDespawn;
+
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 100f;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

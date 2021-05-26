@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     else
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                            (Main.npc[DoGIndex].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
                     }
                 }
             }

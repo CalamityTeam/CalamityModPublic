@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.Cryogen
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)

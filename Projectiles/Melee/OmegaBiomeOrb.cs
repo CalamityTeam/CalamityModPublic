@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 600);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             }
             else if (beach)
             {
@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 600);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 120);
             }
             else if (hell)
             {

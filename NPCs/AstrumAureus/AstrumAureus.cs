@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -20,7 +19,6 @@ using System.IO;
 using System.Threading;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumAureus
@@ -55,11 +53,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
@@ -74,6 +68,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			writer.Write(stomping);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
+            writer.Write(npc.alpha);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -83,6 +78,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			stomping = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
+            npc.alpha = reader.ReadInt32();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}

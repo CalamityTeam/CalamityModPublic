@@ -42,21 +42,21 @@ namespace CalamityMod.NPCs.Signus
 			npc.width = 130;
             npc.height = 130;
             npc.defense = 60;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss4;
+            
+
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);
+
+            // If fought alone, Signus plays his own theme
             if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
-                else
-                    music = MusicID.Boss4;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             }
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -231,13 +231,15 @@ namespace CalamityMod.NPCs.Signus
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+
+                    npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[0] == 0f)
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += malice ? 2f : 1f;
+                    npc.localAI[1] += malice ? 1.5f : 1f;
 
 					if (expertMode)
 						npc.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
@@ -297,7 +299,7 @@ namespace CalamityMod.NPCs.Signus
                     Main.dust[dust].fadeIn = 1f;
                 }
 
-                npc.alpha += malice ? 4 : 2;
+                npc.alpha += malice ? 3 : 2;
 				if (expertMode)
 					npc.alpha += death ? (int)Math.Round(4.5D * (1D - lifeRatio)) : (int)Math.Round(3D * (1D - lifeRatio));
 

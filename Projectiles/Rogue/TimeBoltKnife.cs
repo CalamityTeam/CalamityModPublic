@@ -309,7 +309,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= radius)
                 {
                     if (npc.FindBuffIndex(buffType) == -1)
-                        npc.AddBuff(buffType, 180, false);
+                        npc.AddBuff(buffType, 90, false);
                 }
             }
         }
@@ -317,7 +317,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<TimeSlow>(), 360);
+				target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
         }
     }
 }

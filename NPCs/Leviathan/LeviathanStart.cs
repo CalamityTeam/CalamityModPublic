@@ -34,9 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = null;
 			npc.rarity = 2;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SirenLure") ?? -1;
         }
 
 		public override void SendExtraAI(BinaryWriter writer)

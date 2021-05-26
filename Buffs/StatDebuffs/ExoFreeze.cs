@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,6 +20,8 @@ namespace CalamityMod.Buffs.StatDebuffs
         {
 			if (npc.Calamity().eFreeze < npc.buffTime[buffIndex])
 				npc.Calamity().eFreeze = npc.buffTime[buffIndex];
+			if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+				npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().eFreeze;
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }

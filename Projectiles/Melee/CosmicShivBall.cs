@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
             target.AddBuff(ModContent.BuffType<Plague>(), 360);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);

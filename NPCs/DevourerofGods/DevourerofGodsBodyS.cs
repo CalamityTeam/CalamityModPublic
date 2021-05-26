@@ -48,11 +48,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-            else
-                music = MusicID.LunarBoss;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
             npc.dontCountMe = true;
         }
 

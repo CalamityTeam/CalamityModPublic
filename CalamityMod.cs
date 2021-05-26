@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
@@ -104,8 +106,20 @@ namespace CalamityMod
 		// Life steal cap
 		public const int lifeStealCap = 10;
 
-        internal static CalamityMod Instance;
+		// Debuff immunities, these are used in the NPCDebuffs file
+		public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
+		public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+		public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
+		public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
+		public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
+		public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
+		public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
+		public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
+		public static int[] holyEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
+
+		internal static CalamityMod Instance;
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
+        internal bool MusicAvailable => !(musicMod is null);
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod census = null;
@@ -135,7 +149,7 @@ namespace CalamityMod
             thorium = ModLoader.GetMod("ThoriumMod");
             varia = ModLoader.GetMod("Varia");
 
-            // Initialize the BossStats struct as early as it is safe to do so
+            // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
 
             heartOriginal2 = Main.heartTexture;
@@ -685,6 +699,10 @@ namespace CalamityMod
         #endregion
 
         #region Music
+
+        // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
+        public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? (int?)musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/" + songFilename) : null;
+        
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.musicVolume != 0)
@@ -696,10 +714,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag");
-                            else
-                                music = MusicID.Eerie;
+                            music = GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -707,10 +722,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/SunkenSea");
-                            else
-                                music = MusicID.Temple;
+                            music = GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -718,12 +730,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                            {
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
-                            }
-                            else
-                                music = MusicID.Space;
+                            music = GetMusicFromMusicMod("Astral") ?? MusicID.Space;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -731,12 +738,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                            {
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/AstralUnderground");
-                            }
-                            else
-                                music = MusicID.Space;
+                            music = GetMusicFromMusicMod("AstralUnderground") ?? MusicID.Space;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -744,10 +746,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheAbyss") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -755,10 +754,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheDeepAbyss") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -766,10 +762,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheVoid") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -778,26 +771,24 @@ namespace CalamityMod
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
                             bool acidRain = CalamityWorld.rainingAcid;
-                            if (musicMod != null)
-                            {
-                                string rainMusic = "Sounds/Music/AcidRain";
-                                string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
-                                music = musicMod.GetSoundSlot(SoundType.Music, musicChoice);
-                                
-                            }
-                            else
-                                music = acidRain ? CalamityWorld.downedPolterghast ? MusicID.Eclipse : MusicID.OldOnesArmy : MusicID.Desert; //if you have a better choice of music, feel free to change, it was pretty random choosing ngl
                             priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
+
+                            // Acid Rain themes
+                            if (acidRain)
+                                music = CalamityWorld.downedPolterghast
+                                    ? GetMusicFromMusicMod("AcidRain2") ?? MusicID.Eclipse // Acid Rain Tier 3
+                                    : GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
+
+                            // Regular Sulphur Sea theme, when Acid Rain is not occurring
+                            else
+                                music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
                         }
                     }
-                    if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
+                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG spawns
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (musicMod != null)
-                                music = musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-                            else
-                                music = MusicID.LunarBoss;
+                            music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
                             priority = MusicPriority.BossMedium;
                         }
                     }
