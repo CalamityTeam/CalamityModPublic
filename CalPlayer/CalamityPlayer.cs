@@ -5396,15 +5396,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.ranged)
             {
-                // Nerfed in prehardmode due to bullet damage being a balance meme
-                if (heldItem.type == ModContent.ItemType<HalibutCannon>())
-                {
-                    if (!Main.hardMode)
-                        damage = (int)(damage * 0.5);
-                    if (proj.type == ProjectileID.IchorBullet || proj.type == ModContent.ProjectileType<AcidBulletProj>())
-                        damage = (int)(damage * 0.85);
-                }
-
                 switch (proj.type)
                 {
                     case ProjectileID.CrystalShard:

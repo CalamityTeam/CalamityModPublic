@@ -382,13 +382,6 @@ namespace CalamityMod.NPCs
 			NPCID.PrimeVice
 		};
 
-		public static List<int> DarkEnergyIDs = new List<int>
-		{
-			NPCType<DarkEnergy>(),
-			NPCType<DarkEnergy2>(),
-			NPCType<DarkEnergy3>()
-		};
-
 		public static List<int> StormWeaverIDs = new List<int>
 		{
 			NPCType<StormWeaverHeadNaked>(),
@@ -891,17 +884,27 @@ namespace CalamityMod.NPCs
 				{
 					if (eFreeze > 0)
 					{
-						npc.velocity.X *= 0.5f;
-						npc.velocity.Y += 0.1f;
-						if (npc.velocity.Y > 15f)
-							npc.velocity.Y = 15f;
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							npc.velocity.X *= 0.5f;
+							npc.velocity.Y += 0.1f;
+							if (npc.velocity.Y > 15f)
+								npc.velocity.Y = 15f;
+						}
+						else
+							npc.velocity *= 0.5f;
 					}
 					else if (gState > 0)
 					{
-						npc.velocity.X *= 0.5f;
-						npc.velocity.Y += 0.05f;
-						if (npc.velocity.Y > 15f)
-							npc.velocity.Y = 15f;
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							npc.velocity.X *= 0.5f;
+							npc.velocity.Y += 0.05f;
+							if (npc.velocity.Y > 15f)
+								npc.velocity.Y = 15f;
+						}
+						else
+							npc.velocity *= 0.5f;
 					}
 					else if (tSad > 0)
 						npc.velocity *= 0.5f;
@@ -2951,8 +2954,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 21:
-                    if (npc.type != NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != NPCType<DarkEnergy>() &&
-                        npc.type != NPCType<DarkEnergy2>() && npc.type != NPCType<DarkEnergy3>())
+                    if (npc.type != NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != NPCType<DarkEnergy>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3696,7 +3698,7 @@ namespace CalamityMod.NPCs
 					else if (projectile.type == ProjectileType<DarkSparkBeam>())
 						damage = (int)(damage * 0.85);
 				}
-				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
+				else if (CosmicGuardianIDs.Contains(npc.type) || npc.type == NPCType<DarkEnergy>())
 				{
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
@@ -5136,7 +5138,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedProvidence;
 			}
-			else if (type == NPCType<DarkEnergy>() || type == NPCType<DarkEnergy2>() || type == NPCType<DarkEnergy3>())
+			else if (type == NPCType<CeaselessVoid.CeaselessVoid>() || type == NPCType<DarkEnergy>())
 			{
 				return CalamityWorld.downedSentinel1;
 			}

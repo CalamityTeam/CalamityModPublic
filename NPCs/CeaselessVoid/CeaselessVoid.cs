@@ -62,6 +62,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -69,6 +73,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -212,10 +220,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
             }
-            for (int k = 0; k < 5; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
-            }
+
+			for (int k = 0; k < 5; k++)
+			{
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
+				Main.dust[dust].noGravity = true;
+			}
+
             if (npc.life <= 0)
             {
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -228,7 +239,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+					Main.dust[num622].noGravity = true;
+					if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
                         Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -240,8 +252,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+					Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 2f;
                 }
+
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid"), 1f);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
