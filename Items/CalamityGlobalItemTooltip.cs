@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace CalamityMod.Items
 {
@@ -961,6 +963,39 @@ namespace CalamityMod.Items
 				};
 				tooltips.Add(StealthGen);
 			}
+		}
+		#endregion
+
+		#region Enchanted Rarity Text Drawing
+		public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
+		{
+			// Special enchantment line color.
+			if (line.Name == "ItemName" && line.mod == "Terraria" && item.IsEnchanted())
+			{
+				Color rarityColor = line.color;
+				Vector2 basePosition = new Vector2(line.X, line.Y);
+
+				float backInterpolant = (float)Math.Pow(Main.GlobalTime * 0.81f % 1f, 1.5f);
+				Vector2 backScale = line.baseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
+				Color backColor = Color.Lerp(rarityColor, Color.DarkRed, backInterpolant) * (float)Math.Pow(1f - backInterpolant, 0.46f);
+				Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+				// Draw the back text as an ominous pulse.
+				for (int i = 0; i < 2; i++)
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, backPosition, backColor, line.rotation, line.origin, backScale, line.maxWidth, line.spread);
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin();
+
+				// Draw the front text as usual.
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, basePosition, rarityColor, line.rotation, line.origin, line.baseScale, line.maxWidth, line.spread);
+
+				return false;
+			}
+			return true;
 		}
 		#endregion
 

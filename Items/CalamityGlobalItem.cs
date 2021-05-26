@@ -4,7 +4,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -22,13 +21,11 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.UI;
 
 namespace CalamityMod.Items
 {

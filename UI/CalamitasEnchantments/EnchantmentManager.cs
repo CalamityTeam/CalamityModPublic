@@ -130,7 +130,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			EnchantmentList.Add(new Enchantment(name, description, id, creationEffect, holdEffect, requirement));
 		}
 
-		public static void LoadAllEnchantments()
+		internal static void LoadAllEnchantments()
 		{
 			EnchantmentList = new List<Enchantment>
 			{
@@ -236,7 +236,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			};
 		}
 
-		public static void UnloadAllEnchantments()
+		internal static void UnloadAllEnchantments()
 		{
 			EnchantmentList = null;
 			ItemUpgradeRelationship = null;
