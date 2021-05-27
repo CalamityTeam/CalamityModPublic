@@ -29,7 +29,7 @@ Stealth strikes throw three high speed spears");
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 44;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             item.shootSpeed = 12f;

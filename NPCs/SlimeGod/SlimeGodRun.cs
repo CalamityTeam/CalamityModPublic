@@ -42,11 +42,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
-            else
-                music = MusicID.Boss1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             npc.aiStyle = -1;
             aiType = -1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
@@ -111,7 +107,8 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-				}
+                    npc.netUpdate = true;
+                }
 			}
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
@@ -124,7 +121,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * 0.005f;
 
-			if (lifeRatio <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
+			if (npc.life / (float)npc.lifeMax <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
                 Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, npc.height / 2f);
@@ -249,6 +246,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+                    npc.netUpdate = true;
                 }
                 if (npc.velocity.Y == 0f)
                 {
@@ -281,6 +279,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= num1881;
                         npc.velocity.X = (num1880 + distanceSpeedBoost) * npc.direction;
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -322,6 +321,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+                    npc.netUpdate = true;
                 }
             }
             else if (npc.ai[0] == 2f)
@@ -332,6 +332,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
+                    npc.netUpdate = true;
                 }
             }
             else if (npc.ai[0] == 3f)
@@ -364,6 +365,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[0] = 3.1f;
                         npc.ai[2] = 0f;
                         npc.velocity = vector272;
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -372,6 +374,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         npc.ai[1] = 0f;
                         npc.ai[2] = 1f;
+                        npc.netUpdate = true;
                         return;
                     }
                     vector272.Normalize();
@@ -385,6 +388,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				if (npc.ai[2] == 0f && (atTargetPosition || npc.localAI[1] == 0f) && Collision.CanHit(vector, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                 {
                     npc.ai[2] = 1f;
+                    npc.netUpdate = true;
                 }
                 if (atTargetPosition || npc.velocity.Y <= 0f)
                 {
@@ -396,9 +400,9 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
                         if (Collision.SolidCollision(npc.position, npc.width, npc.height))
-                        {
                             npc.ai[0] = 4f;
-                        }
+
+                        npc.netUpdate = true;
                     }
                 }
                 else if (npc.ai[2] == 0f)
@@ -436,6 +440,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+                        npc.netUpdate = true;
                     }
                     if (value74.Length() > 100f)
                     {
@@ -507,6 +512,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+                        npc.netUpdate = true;
                     }
                 }
                 else if (npc.ai[0] == 6f)

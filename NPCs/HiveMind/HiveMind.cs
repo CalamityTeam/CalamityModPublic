@@ -36,11 +36,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.value = 0f;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -172,8 +168,8 @@ namespace CalamityMod.NPCs.HiveMind
                     if ((npc.life + num660) < npc.ai[3])
                     {
                         npc.ai[3] = npc.life;
-						int maxSpawns = death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
-						int maxDankSpawns = death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
+						int maxSpawns = malice ? 10 : death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+						int maxDankSpawns = malice ? 4 : death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
 						for (int num662 = 0; num662 < maxSpawns; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));

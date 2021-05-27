@@ -36,17 +36,14 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
             item.useAmmo = ModContent.ItemType<ExplosiveShells>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 1;
-            }
         }
 
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 1;
-            }
+
             return true;
         }
 
@@ -63,30 +60,28 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 0;
-            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 15; ++index)
+            for (int index = 0; index < 8; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-65, 66) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-65, 66) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
+
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
 				player.HeldItem.Calamity().timesUsed++;
 				for (int i = 0; i < Main.maxInventory; i++)
 				{
 					if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
-					{
 						player.inventory[i].Calamity().timesUsed++;
-					}
 				}
 			}
+
             return false;
         }
 

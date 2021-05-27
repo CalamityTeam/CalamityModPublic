@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 36;
             npc.defense = 6;
 			npc.DR_NERD(0.05f);
-            npc.LifeMaxNERB(2300, 2650, 16500000);
+            npc.LifeMaxNERB(2600, 3000, 16500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
@@ -32,11 +32,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.knockBackResist = 0f;
             npc.alpha = 255;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
-            else
-                music = MusicID.Boss1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

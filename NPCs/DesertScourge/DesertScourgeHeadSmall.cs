@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = CalamityWorld.death ? 300 : 1000;
+                int num954 = (CalamityWorld.death || CalamityWorld.malice) ? 300 : 1000;
                 if (BossRushEvent.BossRushActive)
                     num954 = 150;
 

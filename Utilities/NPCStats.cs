@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -41,8 +42,8 @@ namespace CalamityMod
 		private const double NormalProjectileVanillaMultiplier = 2D;
 		private const double ExpertProjectileVanillaMultiplier = 4D;
 
-		#region Boss Stats Container Struct
-		internal partial struct BossStats
+		#region Enemy Stats Container Struct
+		internal partial struct EnemyStats
 		{
 			public static SortedDictionary<int, double> ExpertDamageMultiplier;
 			public static SortedDictionary<int, int[]> ContactDamageValues;
@@ -56,7 +57,7 @@ namespace CalamityMod
 			double damageAdjustment = GetExpertDamageMultiplier(npc) * ExpertContactVanillaMultiplier;
 
 			// Safety check: If for some reason the contact damage array is not initialized yet, set the NPC's damage to 1.
-			bool exists = BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
+			bool exists = EnemyStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
 			if (!exists)
 				npc.damage = 1;
 
@@ -68,6 +69,8 @@ namespace CalamityMod
 
 			// If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
 			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+			if (CalamityWorld.malice)
+				damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 			if (damageToUse != -1)
 				npc.damage = damageToUse;
 		}
@@ -79,7 +82,7 @@ namespace CalamityMod
 			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
 			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
 			if (!exists)
 				return 1;
 
@@ -88,7 +91,12 @@ namespace CalamityMod
 			int revengeanceDamage = (int)Math.Round(projectileDamage[2] / damageAdjustment);
 			int deathDamage = (int)Math.Round(projectileDamage[3] / damageAdjustment);
 			int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
-			return CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+
+			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+			if (CalamityWorld.malice)
+				damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
+
+			return damageToUse;
 		}
 
 		// Gets the amount of damage this projectile should do from a given NPC.
@@ -98,7 +106,7 @@ namespace CalamityMod
 			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
 			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
 			if (!exists)
 				return 1;
 
@@ -107,16 +115,21 @@ namespace CalamityMod
 			int revengeanceDamage = (int)Math.Round(projectileDamage[2] / damageAdjustment);
 			int deathDamage = (int)Math.Round(projectileDamage[3] / damageAdjustment);
 			int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
-			return CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+
+			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+			if (CalamityWorld.malice)
+				damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
+
+			return damageToUse;
 		}
 
 		// Gets the raw amount of damage a projectile should do from this NPC.
 		// That is, this doesn't adjust the value to compensate for Terraria's internal spaghetti scaling.
 		public static int GetProjectileDamageNoScaling(this NPC npc, int projType)
 		{
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
 			return !exists ? 1 // Base case for safety, in case the array is not initialized yet.
-				: CalamityWorld.death ? projectileDamage[3]
+				: (CalamityWorld.death || CalamityWorld.malice) ? projectileDamage[3]
 				: CalamityWorld.revenge ? projectileDamage[2]
 				: Main.expertMode ? projectileDamage[1]
 				: projectileDamage[0];
@@ -131,7 +144,7 @@ namespace CalamityMod
 		/// <returns></returns>
 		public static double GetExpertDamageMultiplier(this NPC npc, bool? master = null)
 		{
-			bool exists = BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
+			bool exists = EnemyStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
 			return exists ? damageMult : 1D;
 		}
 		#endregion
@@ -139,20 +152,20 @@ namespace CalamityMod
 		#region Load/Unload
 		internal static void Load()
 		{
-			LoadBossStats();
+			LoadEnemyStats();
 			LoadDebuffs();
 		}
 		internal static void Unload()
 		{
-			UnloadBossStats();
+			UnloadEnemyStats();
 			UnloadDebuffs();
 		}
 
-		// A static function, called exactly once, which initializes the BossStats struct at a predictable time.
+		// A static function, called exactly once, which initializes the EnemyStats struct at a predictable time.
 		// This is necessary to ensure this dictionary is populated as early as possible.
-		internal static void LoadBossStats()
+		internal static void LoadEnemyStats()
 		{
-			BossStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
+			EnemyStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
 				{ NPCID.KingSlime, 0.8 },
 
@@ -270,7 +283,7 @@ namespace CalamityMod
 				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
 			};
 
-			BossStats.ContactDamageValues = new SortedDictionary<int, int[]>
+			EnemyStats.ContactDamageValues = new SortedDictionary<int, int[]>
 			{
 				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
 
@@ -525,7 +538,7 @@ namespace CalamityMod
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
 			};
 
-			BossStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
+			EnemyStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
 			{
 				{ new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 22, 36, 44, 48, 66 } },
 
@@ -545,6 +558,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<BloodGeyser>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorShot>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorSporeCloud>()), new int[] { 36, 56, 68, 76, 102 } },
 
 				{ new Tuple<int, int>(NPCID.QueenBee, ProjectileID.Stinger), new int[] { 22, 44, 64, 72, 96 } }, // 66 damage in non-rev master mode
 
@@ -572,6 +586,7 @@ namespace CalamityMod
 					76,
 					102 } }, // 66 to 90, depending on life
 				{ new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.DeathLaser), new int[] { 40, 72, 88, 96, 132 } },
+				{ new Tuple<int, int>(NPCID.WallofFlesh, ProjectileID.DemonSickle), new int[] { 40, 72, 88, 96, 132 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBlast>()), new int[] { 46, 80, 96, 108, 144 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBomb>()), new int[] { 58, 100, 120, 132, 180 } },
@@ -615,19 +630,21 @@ namespace CalamityMod
 				{ new Tuple<int, int>(NPCID.PrimeCannon, ProjectileID.BombSkeletronPrime), new int[] { 80, 160, 0, 0, 240 } },
 				{ new Tuple<int, int>(NPCID.PrimeLaser, ProjectileID.DeathLaser), new int[] { 50, 100, 124, 136, 186 } }, // 150 in non-rev master mode
 
-				{ new Tuple<int, int>(ModContent.NPCType<Calamitas>(), ModContent.ProjectileType<BrimstoneLaser>()), new int[] {
+				{ new Tuple<int, int>(ModContent.NPCType<Calamitas>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] {
 					70, // 52 in rapid fire
 					112, // 84 in rapid fire
 					128, // 96 in rapid fire
 					140, // 104 in rapid fire
 					192 } }, // 144 in rapid fire
-				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneLaser>()), new int[] {
+				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] {
 					70, // 52 in rapid fire
 					112, // 84 in rapid fire
 					128, // 96 in rapid fire
 					140, // 104 in rapid fire
 					192 } }, // 144 in rapid fire
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 84, 136, 156, 168, 234 } },
+				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 84, 136, 156, 168, 234 } },
+				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 84, 136, 156, 168, 234 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 76, 120, 140, 152, 210 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun2>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 72, 116, 136, 144, 204 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SoulSeeker>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 60, 100, 108, 116, 162 } },
@@ -749,6 +766,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGFire>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
 
+				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<SkyFlareRevenge>()), new int[] { 300, 520, 548, 564, 822 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareBomb>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Flarenado>()), new int[] { 200, 340, 376, 396, 564 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado>()), new int[] { 300, 520, 548, 564, 822 } },
@@ -774,12 +792,12 @@ namespace CalamityMod
 			};
 		}
 
-		// Destroys the BossStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
-		internal static void UnloadBossStats()
+		// Destroys the EnemyStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
+		internal static void UnloadEnemyStats()
 		{
-			BossStats.ExpertDamageMultiplier = null;
-			BossStats.ContactDamageValues = null;
-			BossStats.ProjectileDamageValues = null;
+			EnemyStats.ExpertDamageMultiplier = null;
+			EnemyStats.ContactDamageValues = null;
+			EnemyStats.ProjectileDamageValues = null;
 		}
 		#endregion
 	}

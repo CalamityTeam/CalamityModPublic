@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -62,14 +63,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity *= 0.98f;
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.ai[1] > 1800f || projectile.ai[1] < 120f)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.ai[1] <= 1800f && projectile.ai[1] > 120f;
 
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -84,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //Changes the texture of the projectile
+            // Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];
             switch ((int)projectile.ai[0])
             {
@@ -105,8 +99,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 240);
-            target.AddBuff(BuffID.Venom, 120);
+			if (projectile.ai[1] <= 1800f && projectile.ai[1] > 120f)
+			{
+				target.AddBuff(BuffID.Poisoned, 240);
+				target.AddBuff(BuffID.Venom, 120);
+			}
         }
     }
 }

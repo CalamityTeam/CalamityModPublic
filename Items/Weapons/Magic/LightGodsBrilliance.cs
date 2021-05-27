@@ -39,17 +39,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int totalBeads = 2;
-            for (int index = 0; index < totalBeads; index++)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+            Vector2 beadVelocity = new Vector2(speedX, speedY) + Main.rand.NextVector2Square(-2.5f, 2.5f);
+            Projectile.NewProjectile(position, beadVelocity, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+
             if (Main.rand.NextBool(3))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LightBall>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
 
             return false;
         }

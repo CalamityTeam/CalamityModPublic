@@ -69,28 +69,29 @@ namespace CalamityMod.Projectiles.Rogue
 			Player player = Main.player[projectile.owner];
 			if (Main.rand.NextBool(7))
 			{
-				int lifeLossAmt = (int)(Math.Ceiling(player.statLife * 0.5));
+				int lifeLossAmt = (int)Math.Ceiling(player.statLife * 0.5);
 				player.statLife -= lifeLossAmt;
 				if (Main.myPlayer == player.whoAmI)
-				{
 					player.HealEffect(-lifeLossAmt, true);
-				}
 				if (player.statLife <= 0)
-				{
 					player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " became the blood god's sacrifice."), 1000.0, 0, false);
-				}
 			}
 			else if (Main.LocalPlayer.team == player.team && player.team != 0)
 			{
 				Main.LocalPlayer.AddBuff(ModContent.BuffType<AvertorBonus>(), CalamityUtils.SecondsToFrames(20f), true);
 				player.AddBuff(ModContent.BuffType<AvertorBonus>(), CalamityUtils.SecondsToFrames(20f), true);
+
 				float heal = damage * 0.025f;
 				if ((int)heal == 0)
 					return;
+
 				if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 					return;
 
-				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, player, heal, ProjectileID.VampireHeal, 1200f, 2f);
+				if (heal > CalamityMod.lifeStealCap)
+					heal = CalamityMod.lifeStealCap;
+
+				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
 			}
 		}
 	}

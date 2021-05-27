@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -37,19 +38,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             npc.lifeMax = 25000;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+
+            // If fought alone, Ceaseless Void plays its own theme
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Void");
-                else
-                    music = MusicID.Boss3;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             }
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -60,7 +59,21 @@ namespace CalamityMod.NPCs.CeaselessVoid
             bossBag = ModContent.ItemType<CeaselessVoidBag>();
         }
 
-        public override void FindFrame(int frameHeight)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -141,7 +154,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 				bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+
 				if (!Main.expertMode)
 				{
 					// Materials

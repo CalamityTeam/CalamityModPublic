@@ -21,11 +21,60 @@ namespace CalamityMod.ILEditing
         // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,768.
         private static readonly List<int> NeedsFourLifeBytes = new List<int>()
         {
+            // King Slime
+            NPCID.BlueSlime,
+            NPCID.SlimeSpiked,
+            NPCID.RedSlime,
+            NPCID.PurpleSlime,
+            NPCID.YellowSlime,
+            NPCID.IceSlime,
+            NPCID.UmbrellaSlime,
+            NPCID.RainbowSlime,
+            NPCID.Pinky,
+
+            // Eye of Cthulhu
+            NPCID.ServantofCthulhu,
+
+            // Eater of Worlds
             NPCID.EaterofWorldsHead,
             NPCID.EaterofWorldsBody,
             NPCID.EaterofWorldsTail,
+
+            // Brain of Cthulhu
             NPCID.Creeper,
+
+            // Skeletron
+            NPCID.SkeletronHand,
+
+            // Wall of Flesh
             NPCID.WallofFleshEye,
+
+            // The Destroyer
+            NPCID.Probe,
+
+            // Skeletron Prime
+            NPCID.PrimeVice,
+            NPCID.PrimeSaw,
+            NPCID.PrimeLaser,
+            NPCID.PrimeCannon,
+
+            // Plantera
+            NPCID.PlanterasTentacle,
+
+            // Golem
+            NPCID.GolemHead,
+            NPCID.GolemHeadFree,
+            NPCID.GolemFistLeft,
+            NPCID.GolemFistRight,
+
+            // Cultist
+            NPCID.CultistDragonHead,
+            NPCID.CultistDragonBody1,
+            NPCID.CultistDragonBody2,
+            NPCID.CultistDragonBody3,
+            NPCID.CultistDragonBody4,
+            NPCID.CultistDragonTail,
+            NPCID.AncientCultistSquidhead,
         };
 
         // Holds the vanilla game function which spawns town NPCs, wrapped in a delegate for reflection purposes.
@@ -171,6 +220,14 @@ namespace CalamityMod.ILEditing
 			IL.Terraria.Player.Update += (il) =>
 			{
 				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR8(1.6)); // Movement speed cap (removed in 1.4).
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R8, 3D); // Increase it to some higher amount.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.6f)); // Movement speed cap (removed in 1.4).
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 3f); // Increase it to some higher amount.
+
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)); // The max run speed multiplier for Asphalt.
 				cursor.Remove();
 				cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.

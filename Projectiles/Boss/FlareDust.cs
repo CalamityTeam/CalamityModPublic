@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 680;
             cooldownSlot = 1;
-        }
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

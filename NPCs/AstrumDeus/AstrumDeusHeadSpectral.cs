@@ -61,11 +61,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
             npc.netAlways = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrumDeusBag>();
         }
 
@@ -73,18 +69,14 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             writer.Write(npc.dontTakeDamage);
             for (int i = 0; i < 4; i++)
-            {
                 writer.Write(npc.Calamity().newAI[i]);
-            }
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
             for (int i = 0; i < 4; i++)
-            {
                 npc.Calamity().newAI[i] = reader.ReadSingle();
-            }
         }
 
         public override void AI()
@@ -238,7 +230,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
             int minFragments = Main.expertMode ? 20 : 12;

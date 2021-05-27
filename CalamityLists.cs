@@ -117,7 +117,6 @@ namespace CalamityMod
         public static List<int> revengeanceProjectileBuffList20Percent;
         public static List<int> revengeanceProjectileBuffList15Percent;
         public static List<int> revengeanceLifeStealExceptionList;
-        public static List<int> movementImpairImmuneList;
         public static List<int> noRageWormSegmentList;
         public static List<int> needsDebuffIconDisplayList;
         public static List<int> trapProjectileList;
@@ -1269,7 +1268,6 @@ namespace CalamityMod
                 ItemID.ChristmasTreeSword,
                 ItemID.MonkStaffT1,
                 ItemID.InfernoFork,
-                ItemID.VenomStaff,
                 ItemID.Frostbrand,
                 ItemID.BloodButcherer
             };
@@ -1305,7 +1303,8 @@ namespace CalamityMod
                 ItemID.ClingerStaff,
                 ItemID.ChargedBlasterCannon,
                 ItemID.NettleBurst,
-                ItemID.AmberStaff,
+				ItemID.VenomStaff,
+				ItemID.AmberStaff,
                 ItemID.VampireKnives,
                 ItemID.Cascade,
                 ItemID.TrueExcalibur,
@@ -1695,16 +1694,7 @@ namespace CalamityMod
                 NPCID.TheDestroyerTail,
                 NPCID.EaterofWorldsBody,
                 NPCID.EaterofWorldsTail,
-                NPCID.GolemHead,
-                NPCID.GolemHeadFree,
-                NPCID.GolemFistRight,
-                NPCID.GolemFistLeft,
                 NPCID.MoonLordCore
-            };
-
-            movementImpairImmuneList = new List<int>()
-            {
-                NPCID.QueenBee,
             };
 
             noRageWormSegmentList = new List<int>()
@@ -2569,7 +2559,6 @@ namespace CalamityMod
             revengeanceProjectileBuffList20Percent = null;
             revengeanceProjectileBuffList15Percent = null;
             revengeanceLifeStealExceptionList = null;
-            movementImpairImmuneList = null;
             noRageWormSegmentList = null;
             needsDebuffIconDisplayList = null;
             trapProjectileList = null;

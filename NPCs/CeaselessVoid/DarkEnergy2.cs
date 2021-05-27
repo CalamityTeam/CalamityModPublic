@@ -157,8 +157,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			}
 
 			double mult = 0.5 +
-                (CalamityWorld.revenge ? 0.2 : 0.0) +
-                (CalamityWorld.death ? 0.2 : 0.0);
+                ((CalamityWorld.revenge || CalamityWorld.malice) ? 0.2 : 0.0) +
+                ((CalamityWorld.death || CalamityWorld.malice) ? 0.2 : 0.0);
 
             if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
                 npc.knockBackResist = 0f;
@@ -235,9 +235,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
 
             float num1261 = (expertMode ? 15f : 12f) * tileEnrageMult;
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
                 num1261 += 3f;
-            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+            if (CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive)
                 num1261 += 3f;
 
             num1260 = num1261 / num1260;

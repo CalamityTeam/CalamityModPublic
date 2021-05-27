@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
@@ -56,11 +55,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
-            else
-                music = MusicID.Boss1;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
@@ -72,6 +67,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
 			writer.Write(buffedSlime);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,6 +79,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
 			buffedSlime = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -133,7 +132,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool phase2 = lifeRatio < 0.4f;
+			bool phase2 = lifeRatio < 0.4f || malice;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -658,7 +657,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad, ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
 

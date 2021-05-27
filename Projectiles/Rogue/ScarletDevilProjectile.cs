@@ -78,12 +78,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
-            if (!projectile.Calamity().stealthStrike || Main.player[projectile.owner].moonLeech)
-            {
+
+			if (!projectile.Calamity().stealthStrike || Main.player[projectile.owner].moonLeech)
                 return;
-            }
-            Main.player[projectile.owner].statLife += 120;
-            Main.player[projectile.owner].HealEffect(120);
+
+            Main.player[projectile.owner].statLife += 50;
+            Main.player[projectile.owner].HealEffect(50);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -93,12 +93,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
-            if (!projectile.Calamity().stealthStrike)
-            {
+
+			if (!projectile.Calamity().stealthStrike)
                 return;
-            }
-            Main.player[projectile.owner].statLife += 120;
-            Main.player[projectile.owner].HealEffect(120);
+
+            Main.player[projectile.owner].statLife += 50;
+            Main.player[projectile.owner].HealEffect(50);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

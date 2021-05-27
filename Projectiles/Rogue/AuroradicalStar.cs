@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
 			//Home in
-			float maxDistance = 1600f;
+			float maxDistance = 500f;
 			int targetIndex = -1;
 			int i;
 			for (i = 0; i < Main.maxNPCs; i++)

@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 100;
             item.ranged = true;
-            item.width = 54;
-            item.height = 38;
+            item.width = 80;
+            item.height = 46;
             item.useTime = 12;
             item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 3f;
 			item.value = CalamityGlobalItem.Rarity13BuyPrice;
 			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.rare = ItemRarityID.Purple;
 			item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 12f;

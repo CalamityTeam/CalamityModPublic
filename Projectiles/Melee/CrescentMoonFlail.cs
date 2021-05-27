@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
         }
+
         public override Color SpecialDrawColor => default;
         public override int ExudeDustType => 176;
         public override int WhipDustType => 176;
@@ -38,6 +39,7 @@ namespace CalamityMod.Projectiles.Melee
         public override int BodyType2SectionHeight => 18;
         public override int TailStartY => 108;
         public override int TailHeight => 50;
+
         public override void ExtraBehavior()
         {
             Player player = Main.player[projectile.owner];

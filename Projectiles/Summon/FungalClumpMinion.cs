@@ -242,21 +242,19 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.canGhostHeal)
-            {
                 return;
-            }
+
             float healAmt = damage * 0.25f;
             if ((int)healAmt == 0)
-            {
                 return;
-            }
+
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-            {
                 return;
-            }
-			if (healAmt > 50f)
-				healAmt = 50f;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 3f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

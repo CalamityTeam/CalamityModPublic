@@ -53,11 +53,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Murderswarm");
-            else
-                music = MusicID.Boss4;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Murderswarm") ?? MusicID.Boss4;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 30, 0, 0);
@@ -73,6 +69,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,6 +80,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -99,8 +99,8 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -399,7 +399,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
 

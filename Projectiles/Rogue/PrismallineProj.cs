@@ -116,14 +116,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
     }
 }

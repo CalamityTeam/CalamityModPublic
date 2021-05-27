@@ -71,8 +71,8 @@ namespace CalamityMod.Projectiles.Typeless
                     dust.fadeIn = Main.rand.NextFloat(3f, 4f);
                     dust.noGravity = true;
                 }
-                player.HealEffect(35, false);
-                player.statLife += 35;
+                player.HealEffect(70, false);
+                player.statLife += 70;
                 if (player.statLife > player.statLifeMax2)
                 {
                     player.statLife = player.statLifeMax2;
@@ -80,6 +80,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.PlaySound(SoundID.DD2_DarkMageHealImpact, projectile.Center);
             }
         }
+
         public void UpdatePlayerVisuals(Player player)
         {
             projectile.Center = player.Center + Vector2.UnitX * 15f * player.direction;

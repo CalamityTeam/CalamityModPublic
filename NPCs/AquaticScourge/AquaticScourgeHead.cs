@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 10000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -67,9 +67,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[1]);
 			for (int i = 0; i < 4; i++)
-			{
 				writer.Write(npc.Calamity().newAI[i]);
-			}
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -77,21 +75,13 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.chaseable = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
-			{
 				npc.Calamity().newAI[i] = reader.ReadSingle();
-			}
 		}
 
         public override void AI()
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
-			{
-                Mod calamityModMusic = CalamityMod.Instance.musicMod;
-				if (calamityModMusic != null)
-					music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
-				else
-					music = MusicID.Boss2;
-			}
+                music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 			CalamityAI.AquaticScourgeAI(npc, mod, true);
 		}
 
@@ -109,7 +99,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 				color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((npc.Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -188,7 +178,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
 

@@ -87,11 +87,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<HiveMindBag>();
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -109,7 +105,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftSpeed = 2f;
                 driftBoost = 2f;
             }
-            if (CalamityWorld.death || CalamityWorld.malice)
+            if (CalamityWorld.death)
             {
                 lungeRots = 0.4;
                 minimumDriftTime = 60;
@@ -118,6 +114,15 @@ namespace CalamityMod.NPCs.HiveMind
                 driftSpeed = 3f;
                 driftBoost = 1f;
             }
+			if (CalamityWorld.malice)
+			{
+				lungeRots = 0.4;
+				minimumDriftTime = 40;
+				reelbackFade = 10;
+				lungeTime = 16;
+				driftSpeed = 6f;
+				driftBoost = 1f;
+			}
             if (BossRushEvent.BossRushActive)
             {
                 lungeRots = 0.4;
@@ -443,7 +448,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.velocity.Normalize();
                         if (Main.expertMode || BossRushEvent.BossRushActive || malice) //variable velocity in expert and up
                         {
-                            npc.velocity *= driftSpeed + enrageScale + (driftBoost + enrageScale) * lifeRatio;
+                            npc.velocity *= driftSpeed + enrageScale + driftBoost * lifeRatio;
                         }
                         else
                         {
@@ -531,7 +536,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 phase2timer = lungeTime - 4 * (int)enrageScale;
                                 npc.velocity = player.Center - npc.Center;
                                 npc.velocity.Normalize();
-                                npc.velocity *= teleportRadius / (lungeTime - 4 * (int)enrageScale);
+                                npc.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;
                                 Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                             }
@@ -754,7 +759,6 @@ namespace CalamityMod.NPCs.HiveMind
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
 

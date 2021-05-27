@@ -30,8 +30,6 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
-
         public override bool UseItem(Player player)
         {
             // This world syncing code should only be run by one entity- the server, to prevent a race condition

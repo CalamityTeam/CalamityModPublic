@@ -21,7 +21,7 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				modPlayer.noLifeRegen = true;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
 			if (modPlayer.reaverDefense)
 				lifeRegenMult *= 0.8;
@@ -410,12 +410,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 5;
 					player.lifeRegenTime += 10;
 				}
+
                 if (modPlayer.bloodfinTimer > 0)
-                { modPlayer.bloodfinTimer--; }
-                if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+					modPlayer.bloodfinTimer--;
+
+				if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
+
+					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
 						player.statLife += 1;
                 }
             }
@@ -755,9 +758,11 @@ namespace CalamityMod.CalPlayer
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
 				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+
 				if (modPlayer.pinkCandleHealFraction >= 1D)
 				{
 					modPlayer.pinkCandleHealFraction = 0D;
+
 					if (player.statLife < player.statLifeMax2)
 						player.statLife++;
 				}
@@ -768,6 +773,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
 			{
 				modPlayer.reaverRegenCooldown = 0;
+
 				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
 					player.statLife += 1;
 			}

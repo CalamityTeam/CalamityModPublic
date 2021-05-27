@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 520;
+            item.damage = 442;
             item.knockBack = 15f;
             item.shootSpeed = 30f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -27,9 +27,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 42;
             item.UseSound = SoundID.Item92;
             item.shoot = ModContent.ProjectileType<NorfleetCannon>();
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.noMelee = true;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;
             item.channel = true;

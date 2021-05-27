@@ -41,13 +41,15 @@ namespace CalamityMod.Projectiles.Rogue
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 8f, 20f);
         }
 
-		// Reduce damage of Nanotech projectiles if more than the cap are active
+		// Reduce damage of projectiles if more than the cap are active
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
-			if (projectileCount > 5)
+			int cap = 5;
+			int oldDamage = damage;
+			if (projectileCount > cap)
 			{
-				damage -= (int)(damage * ((projectileCount - 5) * 0.05));
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
 				if (damage < 1)
 					damage = 1;
 			}

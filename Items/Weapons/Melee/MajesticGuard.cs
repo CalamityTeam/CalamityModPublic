@@ -33,11 +33,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(5))
-                target.defense -= 10;
+			if (Main.rand.NextBool(5) && target.defense > 0)
+			{
+				target.defense -= 10;
+				if (target.defense < 0)
+					target.defense = 0;
+			}
 
-            // Healing effect does not trigger versus dummies
-            if (player.moonLeech)
+			// Healing effect does not trigger versus dummies
+			if (player.moonLeech)
                 return;
 
             if (target.defense <= 0 && target.canGhostHeal)

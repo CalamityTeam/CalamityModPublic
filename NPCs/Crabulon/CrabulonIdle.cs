@@ -46,11 +46,7 @@ namespace CalamityMod.NPCs.Crabulon
             aiType = -1;
             npc.noGravity = false;
             npc.noTileCollide = false;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon");
-            else
-                music = MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             npc.boss = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 4, 0, 0);
@@ -679,7 +675,6 @@ namespace CalamityMod.NPCs.Crabulon
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedCrabulon);
 

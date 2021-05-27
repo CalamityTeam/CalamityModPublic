@@ -176,8 +176,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 900);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 900);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 90);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
         }
     }
 }

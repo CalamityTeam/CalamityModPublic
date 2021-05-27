@@ -42,21 +42,21 @@ namespace CalamityMod.NPCs.Signus
 			npc.width = 130;
             npc.height = 130;
             npc.defense = 60;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss4;
+            
+
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);
+
+            // If fought alone, Signus plays his own theme
             if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
-                else
-                    music = MusicID.Boss4;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             }
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -76,14 +76,18 @@ namespace CalamityMod.NPCs.Signus
             writer.Write(spawnX);
             writer.Write(spawnY);
             writer.Write(lifeToAlpha);
-        }
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             spawnX = reader.ReadInt32();
             spawnY = reader.ReadInt32();
             lifeToAlpha = reader.ReadInt32();
-        }
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -108,7 +112,7 @@ namespace CalamityMod.NPCs.Signus
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			float inertia = malice ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
-			float chargeVelocity = malice ? 15f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+			float chargeVelocity = malice ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
 			bool phase2 = lifeRatio < 0.75f && expertMode;
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
@@ -198,7 +202,7 @@ namespace CalamityMod.NPCs.Signus
                 if (phase3 || revenge)
                     npc.knockBackResist = 0f;
 
-                float speed = malice ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                float speed = malice ? 20f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (expertMode)
                     speed += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
@@ -227,13 +231,15 @@ namespace CalamityMod.NPCs.Signus
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+
+                    npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[0] == 0f)
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += malice ? 2f : 1f;
+                    npc.localAI[1] += malice ? 1.5f : 1f;
 
 					if (expertMode)
 						npc.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
@@ -424,8 +430,8 @@ namespace CalamityMod.NPCs.Signus
 					}
                 }
 
-				float maxVelocityY = malice ? 2f : death ? 2.5f : 3f;
-				float maxVelocityX = malice ? 6f : death ? 7f : 8f;
+				float maxVelocityY = malice ? 1.5f : death ? 2.5f : 3f;
+				float maxVelocityX = malice ? 5f : death ? 7f : 8f;
 
                 if (npc.position.Y > player.position.Y - 200f)
                 {
@@ -768,7 +774,7 @@ namespace CalamityMod.NPCs.Signus
 				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
+
 				if (!Main.expertMode)
 				{
 					// Materials

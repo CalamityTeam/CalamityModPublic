@@ -124,11 +124,8 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else
 			{
-				if (projectile.ai[0] != -1f)
-				{
-					projectile.ai[0] = -1f;
-					projectile.netUpdate = true;
-				}
+				projectile.ai[0] = Player.FindClosest(projectile.Center, 1, 1);
+				projectile.netUpdate = true;
 			}
 
 			if (death)

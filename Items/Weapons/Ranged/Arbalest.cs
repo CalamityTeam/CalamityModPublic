@@ -22,15 +22,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 32;
             item.ranged = true;
-            item.width = 58;
-            item.height = 22;
+            item.width = 82;
+            item.height = 34;
             item.useTime = 7;
 			item.reuseDelay = 30;
             item.useAnimation = 28;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.UseSound = null;
             item.autoReuse = true;

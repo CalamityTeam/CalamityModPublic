@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
@@ -9,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
+
 namespace CalamityMod.NPCs.Perforator
 {
 	[AutoloadBossHead]
@@ -52,7 +53,19 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.1f;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 

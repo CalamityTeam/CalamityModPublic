@@ -144,7 +144,7 @@ namespace CalamityMod
 		{
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
 			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<GlacialState>(), (int)(60 * multiplier));
 			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
