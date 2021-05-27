@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ai[1] += 1f;
 
 			// Don't fire projectiles if Ceaseless Void is entering a new phase
-			if (projectile.timeLeft > 85)
+			if (projectile.timeLeft > 30)
 			{
 				projectile.localAI[0] += 1f;
 				if (projectile.localAI[0] >= 240f)
@@ -128,9 +128,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (projectile.timeLeft < 30)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(projectile.timeLeft * 8.5);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }

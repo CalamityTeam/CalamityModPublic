@@ -56,13 +56,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (projectile.timeLeft == 950)
 				projectile.damage = (int)projectile.ai[0];
-			if (projectile.timeLeft < 85)
+			if (projectile.timeLeft < 30)
 				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft > 950 || projectile.timeLeft < 85)
+            if (projectile.timeLeft > 950 || projectile.timeLeft < 30)
             {
                 return false;
             }
@@ -75,9 +75,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return new Color(0, 0, 0, 0);
             }
-            if (projectile.timeLeft < 85)
+            if (projectile.timeLeft < 30)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(projectile.timeLeft * 8.5);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }

@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.timeLeft = 600;
             projectile.penetrate = -1;
+			projectile.Opacity = 0f;
             cooldownSlot = 1;
         }
 
@@ -38,7 +39,10 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < 10f)
 				projectile.velocity *= 1.05f;
 
-			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 570) / 30f), 0f, 1f);
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
+			else
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 570) / 30f), 0f, 1f);
 
 			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -89,7 +93,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.VortexDebuff, 60);
+			if (projectile.Opacity == 1f)
+				target.AddBuff(BuffID.VortexDebuff, 60);
 		}
 
 		public override void Kill(int timeLeft)

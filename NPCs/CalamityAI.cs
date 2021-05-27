@@ -4020,9 +4020,11 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			// Phases
-			bool phase2 = lifeRatio <= 0.7f;
-			bool phase3 = lifeRatio <= 0.4f;
-			bool phase4 = lifeRatio <= 0.1f;
+			bool phase2 = lifeRatio <= 0.7;
+			bool phase3 = lifeRatio <= 0.4;
+			bool phase4 = lifeRatio <= 0.1;
+			bool theBigSucc = npc.life / (double)npc.lifeMax <= 0.1;
+			bool succSoHardThatYouDie = npc.life / (double)npc.lifeMax <= 0.005;
 
 			// Spawn Dark Energies
 			int darkEnergyAmt = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
@@ -4051,7 +4053,8 @@ namespace CalamityMod.NPCs
 
 			// If there are any Dark Energies alive, change AI and don't take damage
 			bool anyDarkEnergies = NPC.AnyNPCs(ModContent.NPCType<DarkEnergy>());
-			npc.dontTakeDamage = anyDarkEnergies;
+			bool movingDuringSuccPhase = npc.ai[3] == 0f;
+			npc.dontTakeDamage = anyDarkEnergies || theBigSucc || movingDuringSuccPhase;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -4141,15 +4144,27 @@ namespace CalamityMod.NPCs
 				float suckDistance = (malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f) * tileEnrageMult;
 
 				// Move closer to the target before trying to succ
-				if (npc.ai[3] == 0f)
+				if (movingDuringSuccPhase)
 				{
-					if (Vector2.Distance(vector, player.Center) > 320f)
+					if (Vector2.Distance(vector, player.Center) > 320f || !Collision.CanHit(vector, 1, 1, player.Center, 1, 1))
 						Movement(true);
 					else
 						npc.ai[3] = 1f;
 				}
 				else
 				{
+					// Use this to generate more and more dust in final phase
+					float finalPhaseDustRatio = 1f;
+					if (succSoHardThatYouDie)
+					{
+						finalPhaseDustRatio = 5f;
+					}
+					else if (theBigSucc)
+					{
+						float amount = (10f - (float)(npc.life / (double)npc.lifeMax) * 100f) / 10f;
+						finalPhaseDustRatio += MathHelper.Lerp(0f, 2f, amount);
+					}
+
 					// Slow down
 					if (npc.velocity.Length() > 0.5f)
 						npc.velocity *= 0.8f;
@@ -4173,8 +4188,8 @@ namespace CalamityMod.NPCs
 						Vector2 dustOffset = new Vector2(dustDistance, 0f);
 						dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
 
-						int var = (int)dustDistance;
-						float dustVelocity = 36f / distanceDivisor;
+						int var = (int)(dustDistance / finalPhaseDustRatio);
+						float dustVelocity = 24f / distanceDivisor * finalPhaseDustRatio;
 						for (int i = 0; i < numDust; i++)
 						{
 							if (Main.rand.NextBool(var))
@@ -4190,9 +4205,9 @@ namespace CalamityMod.NPCs
 						}
 					}
 
+					float succPower = 0.1f + finalPhaseDustRatio * 0.1f;
 					for (int i = 0; i < Main.maxPlayers; i++)
 					{
-						float succPower = 0.2f * tileEnrageMult;
 						float distance = Vector2.Distance(Main.player[i].Center, vector);
 						if (distance < suckDistance && Main.player[i].grappling[0] == -1)
 						{
@@ -4213,98 +4228,128 @@ namespace CalamityMod.NPCs
 							}
 						}
 					}
-				}
 
-				// Projectiles
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					// Beam Portals
-					if (calamityGlobalNPC.newAI[1] == 0f)
+					// Projectiles
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						calamityGlobalNPC.newAI[1] = 1f;
-						int numBeamPortals = malice ? 3 : revenge ? 2 : 1;
-						float degrees = 360 / numBeamPortals;
-						float beamPortalDistance = malice ? 800f : death ? 960f : revenge ? 1000f : expertMode ? 1040f : 1080f;
-						int type = ModContent.ProjectileType<DoGBeamPortal>();
-						int damage = npc.GetProjectileDamage(type);
-						for (int i = 0; i < numBeamPortals; i++)
+						// Slowly die in final phase and then implode
+						// This phase lasts 20 seconds
+						if (theBigSucc && calamityGlobalNPC.newAI[1] % 60f == 0f)
 						{
-							float ai1 = i * degrees;
-							int proj = Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, player.whoAmI, ai1, 0f);
-							Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 2;
+							int damageAmt = npc.lifeMax / 200;
+							npc.life -= damageAmt;
+							npc.HealEffect(-damageAmt, true);
+
+							if (npc.life <= 0)
+								npc.StrikeNPCNoInteraction(9999, 0f, 0);
+
+							npc.netUpdate = true;
 						}
-					}
 
-					// Suck in Dark Energy projectiles from far away
-					calamityGlobalNPC.newAI[3] += 1f;
-					if (calamityGlobalNPC.newAI[3] >= 12f * projectileFireRateMultiplier)
-					{
-						calamityGlobalNPC.newAI[3] = 0f;
-						int type = ModContent.ProjectileType<DarkEnergyBall>();
-						int damage = npc.GetProjectileDamage(type);
-						bool normalSpread = npc.localAI[0] % 2f == 0f;
-						float speed = 0.5f;
-						int totalProjectiles = 4;
-						float radians = MathHelper.TwoPi / totalProjectiles;
-						double angleA = radians * 0.5;
-						double angleB = MathHelper.ToRadians(90f) - angleA;
-						float velocityX = (float)(speed * Math.Sin(angleA) / Math.Sin(angleB));
-						Vector2 spinningPoint = normalSpread ? new Vector2(0f, -speed) : new Vector2(-velocityX, -speed);
-						for (int i = 0; i < totalProjectiles; i++)
+						// Beam Portals
+						if (calamityGlobalNPC.newAI[1] == 0f)
 						{
-							Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.localAI[1]))) * suckDistance;
-							Vector2 velocity = Vector2.Normalize(vector - spawnVector) * speed;
-							Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
-						}
-						npc.localAI[1] += 10f;
-					}
-
-					if (phase2 && expertMode)
-					{
-						npc.localAI[2] += 1f;
-						if (npc.localAI[2] >= 60f * projectileFireRateMultiplier)
-						{
-							npc.localAI[2] = 0f;
-							int type = ModContent.ProjectileType<DarkEnergyBall2>();
+							int numBeamPortals = malice ? 3 : revenge ? 2 : 1;
+							float degrees = 360 / numBeamPortals;
+							float beamPortalDistance = malice ? 800f : death ? 960f : revenge ? 1000f : expertMode ? 1040f : 1080f;
+							int type = ModContent.ProjectileType<DoGBeamPortal>();
 							int damage = npc.GetProjectileDamage(type);
-							bool normalSpread = npc.localAI[0] % 2f != 0f;
-							float speed = 2f;
-							int totalProjectiles = 2;
+							for (int i = 0; i < numBeamPortals; i++)
+							{
+								float ai1 = i * degrees;
+								int proj = Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, player.whoAmI, ai1, 0f);
+								Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 2;
+							}
+						}
+
+						// Use this timer to lessen Dark Energy projectile rate of fire while Beam Portals are active
+						float beamPortalTimeLeft = 600f;
+						bool summonLessDarkEnergies = false;
+						if (calamityGlobalNPC.newAI[1] < beamPortalTimeLeft)
+						{
+							calamityGlobalNPC.newAI[1] += 1f;
+							summonLessDarkEnergies = true;
+						}
+						else if (theBigSucc)
+							calamityGlobalNPC.newAI[1] += 1f;
+
+						// Suck in Dark Energy projectiles from far away
+						calamityGlobalNPC.newAI[3] += 1f;
+						float darkEnergySpiralGateValue = (summonLessDarkEnergies ? 36f : 12f) * projectileFireRateMultiplier;
+						if (calamityGlobalNPC.newAI[3] >= darkEnergySpiralGateValue)
+						{
+							calamityGlobalNPC.newAI[3] = 0f;
+							int type = ModContent.ProjectileType<DarkEnergyBall>();
+							int damage = npc.GetProjectileDamage(type);
+							bool normalSpread = npc.localAI[0] % 2f == 0f;
+							float speed = 0.5f;
+							int totalProjectiles = 4;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;
 							float velocityX = (float)(speed * Math.Sin(angleA) / Math.Sin(angleB));
 							Vector2 spinningPoint = normalSpread ? new Vector2(0f, -speed) : new Vector2(-velocityX, -speed);
+							float radialOffset = MathHelper.ToRadians(npc.localAI[1]);
 							for (int i = 0; i < totalProjectiles; i++)
 							{
-								Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.localAI[1]))) * suckDistance;
+								Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + radialOffset)) * suckDistance;
 								Vector2 velocity = Vector2.Normalize(vector - spawnVector) * speed;
 								Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
 							}
+							npc.localAI[1] += 10f;
 						}
-					}
 
-					if (phase4 && revenge)
-					{
-						npc.localAI[3] += 1f;
-						if (npc.localAI[3] >= 90f * projectileFireRateMultiplier)
+						// Summon some extra projectiles in Expert Mode
+						if (phase2 && expertMode && !summonLessDarkEnergies)
 						{
-							npc.localAI[3] = 0f;
-							int type = ModContent.ProjectileType<DarkEnergyBall2>();
-							int damage = npc.GetProjectileDamage(type);
-							bool normalSpread = npc.localAI[0] % 2f == 0f;
-							float speed = 4f;
-							int totalProjectiles = 2;
-							float radians = MathHelper.TwoPi / totalProjectiles;
-							double angleA = radians * 0.5;
-							double angleB = MathHelper.ToRadians(90f) - angleA;
-							float velocityX = (float)(speed * Math.Sin(angleA) / Math.Sin(angleB));
-							Vector2 spinningPoint = normalSpread ? new Vector2(0f, -speed) : new Vector2(-velocityX, -speed);
-							for (int i = 0; i < totalProjectiles; i++)
+							npc.localAI[2] += 1f;
+							if (npc.localAI[2] >= 60f * projectileFireRateMultiplier)
 							{
-								Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.localAI[1]))) * suckDistance;
-								Vector2 velocity = Vector2.Normalize(vector - spawnVector) * speed;
-								Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+								npc.localAI[2] = 0f;
+								int type = ModContent.ProjectileType<DarkEnergyBall2>();
+								int damage = npc.GetProjectileDamage(type);
+								bool normalSpread = npc.localAI[0] % 2f != 0f;
+								float speed = 2f;
+								int totalProjectiles = 2;
+								float radians = MathHelper.TwoPi / totalProjectiles;
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(speed * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -speed) : new Vector2(-velocityX, -speed);
+								float radialOffset = MathHelper.ToRadians(npc.localAI[1] * 0.25f);
+								for (int i = 0; i < totalProjectiles; i++)
+								{
+									Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + radialOffset)) * suckDistance;
+									Vector2 velocity = Vector2.Normalize(vector - spawnVector) * speed;
+									Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+								}
+							}
+						}
+
+						// Summon some extra projectiles in Revengeance Mode
+						if (phase4 && revenge && !summonLessDarkEnergies)
+						{
+							npc.localAI[3] += 1f;
+							if (npc.localAI[3] >= 90f * projectileFireRateMultiplier)
+							{
+								npc.localAI[3] = 0f;
+								int type = ModContent.ProjectileType<DarkEnergyBall2>();
+								int damage = npc.GetProjectileDamage(type);
+								bool normalSpread = npc.localAI[0] % 2f == 0f;
+								float speed = 4f;
+								int totalProjectiles = 2;
+								float radians = MathHelper.TwoPi / totalProjectiles;
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(speed * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -speed) : new Vector2(-velocityX, -speed);
+								float radialOffset = MathHelper.ToRadians(npc.localAI[1] * 0.25f);
+								for (int i = 0; i < totalProjectiles; i++)
+								{
+									Vector2 spawnVector = vector + Vector2.Normalize(spinningPoint.RotatedBy(radians * i + radialOffset)) * suckDistance;
+									Vector2 velocity = Vector2.Normalize(vector - spawnVector) * speed;
+									Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+								}
 							}
 						}
 					}
@@ -4542,8 +4587,8 @@ namespace CalamityMod.NPCs
 								if (projectile.type == ModContent.ProjectileType<DoGBeamPortal>() || projectile.type == ModContent.ProjectileType<DoGBeam>() ||
 									projectile.type == ModContent.ProjectileType<DarkEnergyBall>() || projectile.type == ModContent.ProjectileType<DarkEnergyBall2>())
 								{
-									if (projectile.timeLeft > 85)
-										projectile.timeLeft = 85;
+									if (projectile.timeLeft > 30)
+										projectile.timeLeft = 30;
 								}
 							}
 						}
