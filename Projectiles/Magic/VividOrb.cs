@@ -21,7 +21,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {

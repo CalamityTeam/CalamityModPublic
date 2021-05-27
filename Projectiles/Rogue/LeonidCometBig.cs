@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 42;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.Calamity().rogue = true;
 			projectile.tileCollide = false;
 			projectile.extraUpdates = 2;

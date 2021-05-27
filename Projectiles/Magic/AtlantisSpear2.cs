@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.magic = true;
+			projectile.ignoreWater = true;
+			projectile.magic = true;
             aiType = ProjectileID.CrystalVileShardShaft;
         }
 

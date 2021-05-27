@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void Kill(int timeLeft)
         {

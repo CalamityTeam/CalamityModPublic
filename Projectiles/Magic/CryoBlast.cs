@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 3;
             projectile.timeLeft = 90;
 			projectile.coldDamage = true;
+			projectile.ignoreWater = true;
 			projectile.alpha = 255;
         }
 
