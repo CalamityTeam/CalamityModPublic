@@ -27,12 +27,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
-            npc.aiStyle = -1; //new
+			npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
