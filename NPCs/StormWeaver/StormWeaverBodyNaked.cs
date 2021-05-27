@@ -26,12 +26,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.npcSlots = 5f;
             npc.width = 40;
             npc.height = 40;
-            npc.lifeMax = 100000;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 585000 : 97500, notDoGFight ? 585000 : 97500, 3500000);
+			npc.lifeMax = notDoGFight ? 760500 : 126750;
+			npc.LifeMaxNERB(npc.lifeMax, npc.lifeMax, 4550000);
 
 			// If fought alone, Storm Weaver plays its own theme
-            if (notDoGFight)
+			if (notDoGFight)
                 music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
             // If fought as a DoG interlude, keep the DoG music playing
             else
