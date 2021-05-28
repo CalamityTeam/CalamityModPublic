@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 24;
             npc.height = 24;
             npc.defense = 0;
-			npc.LifeMaxNERB(48000, 55200);
+			npc.LifeMaxNERB(32000, 36800);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

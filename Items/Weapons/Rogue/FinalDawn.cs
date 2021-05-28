@@ -16,9 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 				"Stealth strikes perform a horizontal swing that leaves a lingering fire aura\n" +
 				"Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge");
 		}
+
 		public override void SafeSetDefaults()
 		{
-			item.damage = 2000;
+			item.damage = 1500;
 			item.Calamity().rogue = true;
 			item.width = 78;
 			item.height = 66;
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.channel = true;
 			item.noUseGraphic = true;
 		}
+
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] +
 			player.ownedProjectileCounts[ProjectileType<FinalDawnFireSlash>()] +
 			player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +
