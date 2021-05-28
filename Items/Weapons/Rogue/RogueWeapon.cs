@@ -78,9 +78,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 		// Add both the player's dedicated rogue damage and stealth strike damage as applicable.
 		// Rogue weapons are internally throwing so they already benefit from throwing damage boosts.
 		// 5E-06 to prevent downrounding is not needed anymore, added by TML itself
-		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		public sealed override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			CalamityPlayer mp = player.Calamity();
+
+			SafeModifyWeaponDamage(player, ref add, ref mult, ref flat);
 
 			// Both regular rogue damage stat and stealth damage are added to the weapon simultaneously.
 			add += mp.throwingDamage + mp.stealthDamage - 1f;
@@ -90,6 +92,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 				mult += StealthStrikePrefixBonus - 1f;
 		}
 
+		public virtual void SafeModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat) { }
+
 		// Simply add the player's dedicated rogue crit chance.
 		// Rogue crit isn't boosted by Calamity universal crit boosts, so this won't double-add universal crit.
 		public override void GetWeaponCrit(Player player, ref int crit)
@@ -97,9 +101,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 			crit += player.Calamity().throwingCrit;
 		}
 
-		public override float UseTimeMultiplier(Player player)
+		public sealed override float UseTimeMultiplier(Player player)
 		{
-			float rogueAS = 1f;
+			float baseMultiplier = SafeSetUseTimeMultiplier(player);
+			float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
 			if (player.Calamity().gloveOfPrecision)
 				rogueAS -= 0.2f;
 			if (player.Calamity().gloveOfRecklessness)
@@ -108,6 +113,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 				rogueAS -= 0.15f;
 			return rogueAS;
 		}
+
+		public virtual float SafeSetUseTimeMultiplier(Player player) => -1f;
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
