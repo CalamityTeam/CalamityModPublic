@@ -972,7 +972,7 @@ namespace CalamityMod.Items
 			// Special enchantment line color.
 			if (line.Name == "ItemName" && line.mod == "Terraria" && item.IsEnchanted())
 			{
-				Color rarityColor = line.color;
+				Color rarityColor = line.overrideColor ?? line.color;
 				Vector2 basePosition = new Vector2(line.X, line.Y);
 
 				float backInterpolant = (float)Math.Pow(Main.GlobalTime * 0.81f % 1f, 1.5f);

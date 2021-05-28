@@ -232,7 +232,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			ItemUpgradeRelationship = new Dictionary<int, int>()
 			{
-				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<Something>()
+				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>()
 			};
 		}
 

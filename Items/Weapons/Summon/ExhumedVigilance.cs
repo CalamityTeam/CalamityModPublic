@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class Something : ModItem
+    public class ExhumedVigilance : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Something");
+            DisplayName.SetDefault("Exhumed Vigilance");
             Tooltip.SetDefault("Summons either Cataclysm or Catastrophe at the mouse position\n" +
                 "They will look at you for a moment before charging at you\n" +
                 "They can do damage to both you and enemies");
