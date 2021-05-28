@@ -147,9 +147,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
@@ -167,9 +166,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);

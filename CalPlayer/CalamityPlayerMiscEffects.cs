@@ -1477,7 +1477,7 @@ namespace CalamityMod.CalPlayer
 							if (!npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= freezeDist)
 							{
 								if (npc.FindBuffIndex(buffType) == -1)
-									npc.AddBuff(buffType, 120, false);
+									npc.AddBuff(buffType, 60, false);
 							}
 						}
 					}

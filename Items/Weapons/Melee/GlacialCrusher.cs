@@ -14,14 +14,13 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Glacial Crusher");
             Tooltip.SetDefault("Fires very slow frost projectiles that gain strength as they travel and freeze enemies\n" +
                 "Enemies are frozen for longer the further the projectile travels\n" +
-                "True melee strikes cause tremendous damage to frozen enemies\n" +
-                "Enemies that cannot be frozen take increased damage");
+                "True melee strikes cause tremendous damage to frozen enemies");
         }
 
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 65;
+            item.damage = 120;
             item.melee = true;
             item.useAnimation = 27;
             item.useTime = 27;
@@ -40,19 +39,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 67);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 67);
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (target.buffImmune[ModContent.BuffType<GlacialState>()])
-            {
-                damage *= 2;
-                knockBack *= 2f;
-            }
-            else if (target.Calamity().gState > 0)
+            if (target.Calamity().gState > 0)
             {
                 damage *= 3;
                 knockBack *= 3f;

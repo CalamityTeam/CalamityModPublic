@@ -310,7 +310,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= radius)
                 {
                     if (npc.FindBuffIndex(buffType) == -1)
-                        npc.AddBuff(buffType, 90, false);
+                        npc.AddBuff(buffType, 60, false);
                 }
             }
         }

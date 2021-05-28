@@ -3511,7 +3511,7 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.85f;
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 						npc.velocity *= 0.9f;
-					else if (kamiFlu > 0)
+					else if (kamiFlu > 420)
 						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
 				}
 			}

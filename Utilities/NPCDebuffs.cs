@@ -109,6 +109,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<SoulSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<LifeSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
+				{ NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+				{ NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+
 				// She resists the cold because of her ice-related abilities.
 				{ ModContent.NPCType<Siren>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 				{ ModContent.NPCType<SirenIce>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
@@ -129,6 +132,11 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), new Tuple<bool, int[]>(true, new int[] { }) },
+
+				{ NPCID.MoonLordCore, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordHand, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordHead, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordLeechBlob, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
 
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 				{ ModContent.NPCType<ProfanedGuardianBoss2>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },

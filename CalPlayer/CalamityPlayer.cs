@@ -6703,46 +6703,43 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            if (sulfurSet)
-                npc.AddBuff(BuffID.Poisoned, 120);
+		#region On Hit
+		public override void OnHitByNPC(NPC npc, int damage, bool crit)
+		{
+			if (sulfurSet)
+				npc.AddBuff(BuffID.Poisoned, 120);
 
-            if (CalamityWorld.revenge || CalamityWorld.malice)
-            {
-                if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-                }
-                else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
-                {
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
-                {
-                    player.AddBuff(BuffID.Poisoned, 180);
-                    player.AddBuff(BuffID.Venom, 180);
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.PlanterasTentacle)
-                {
-                    player.AddBuff(BuffID.Poisoned, 120);
-                    player.AddBuff(BuffID.Venom, 120);
-                    player.AddBuff(BuffID.Bleeding, 180);
-                }
-                else if (npc.type == NPCID.AncientDoom)
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
-                }
-                else if (npc.type == NPCID.AncientLight)
-                {
-                    player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-                }
-            }
-        }
+			if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
+			}
+			else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
+			{
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
+			{
+				player.AddBuff(BuffID.Poisoned, 180);
+				player.AddBuff(BuffID.Venom, 180);
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.PlanterasTentacle)
+			{
+				player.AddBuff(BuffID.Poisoned, 120);
+				player.AddBuff(BuffID.Venom, 120);
+				player.AddBuff(BuffID.Bleeding, 180);
+			}
+			else if (npc.type == NPCID.AncientDoom)
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+			}
+			else if (npc.type == NPCID.AncientLight)
+			{
+				player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+			}
+		}
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
@@ -6761,7 +6758,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if ((CalamityWorld.revenge || CalamityWorld.malice) && proj.hostile)
+            if (proj.hostile)
             {
                 if (proj.type == ProjectileID.Explosives)
                 {
@@ -7404,7 +7401,10 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < freezeDist)
                         {
-                            float duration = Main.rand.Next(30 + (int)damage / 3, 80 + (int)damage / 2);
+                            float duration = Main.rand.Next(10 + (int)damage / 4, 20 + (int)damage / 3);
+							if (duration > 120)
+								duration = 120;
+
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }
@@ -8020,7 +8020,7 @@ namespace CalamityMod.CalPlayer
 							}
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{

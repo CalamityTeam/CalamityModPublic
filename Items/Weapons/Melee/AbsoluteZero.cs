@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
             int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * player.MeleeDamage()), knockBack * 3f, player.whoAmI);
             Main.projectile[p].Kill();
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
             int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * player.MeleeDamage()), 12f, player.whoAmI);
             Main.projectile[p].Kill();
