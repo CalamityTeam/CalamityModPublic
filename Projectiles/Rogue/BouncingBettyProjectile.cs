@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             projectile.penetrate = 3;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
         private void Explode()
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);

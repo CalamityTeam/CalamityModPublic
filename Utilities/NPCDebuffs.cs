@@ -141,8 +141,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<CeaselessVoid>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<DarkEnergy>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<DarkEnergy2>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<DarkEnergy3>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
 				{ ModContent.NPCType<StormWeaverHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<StormWeaverBody>(), new Tuple<bool, int[]>(true, new int[] { }) },

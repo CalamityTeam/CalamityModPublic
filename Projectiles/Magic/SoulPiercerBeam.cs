@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 240;
             projectile.usesLocalNPCImmunity = true;

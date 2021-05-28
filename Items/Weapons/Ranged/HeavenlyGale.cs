@@ -2,6 +2,8 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			item.damage = 600;
+			item.damage = 240;
 			item.ranged = true;
 			item.width = 44;
 			item.height = 58;
@@ -38,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 17f;
+			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Arrow;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
@@ -62,28 +64,44 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 				if (type == ProjectileID.WoodenArrowFriendly)
 				{
-					int arrow = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ProjectileType<TealExoArrow>(),
+					int[] arrowTypes = new int[5] 
+					{	ProjectileType<TealExoArrow>(),
 						ProjectileType<OrangeExoArrow>(),
+						ProjectileType<GreenExoArrow>(),
 						ProjectileType<BlueExoArrow>(),
-						ProjectileType<GreenExoArrow>()
-					});
-
-					if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
+						ProjectileType<TealExoArrow>()
+					};
+					int j = arrowTypes.Length;
+					var rng = new Random();
+					while (j > 1)
 					{
-						arrow = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ProjectileType<TealExoArrow>(),
-							ProjectileType<OrangeExoArrow>(),
-							ProjectileType<BlueExoArrow>()
-						});
+						int k = rng.Next(j--);
+						int randomArrow = arrowTypes[j];
+						arrowTypes[j] = arrowTypes[k];
+						arrowTypes[k] = randomArrow;
+					}
+					int newType = type;
+					switch (i)
+					{
+						case 0:
+						case 4:
+							newType = ProjectileType<TealExoArrow>();
+							break;
+						case 1:
+							newType = ProjectileType<MiniSharkron>();
+							break;
+						case 2:
+							newType = ProjectileType<GreenExoArrow>();
+							break;
+						case 3:
+							newType = ProjectileType<MiniSharkron>();
+							break;
 					}
 
-					if (arrow == ProjectileType<TealExoArrow>())
+					if (arrowTypes[i] == ProjectileType<TealExoArrow>())
 						dmgMult = 0.5f;
 
-					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
+					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrowTypes[i], (int)(damage * dmgMult), knockBack, player.whoAmI);
 				}
 				else
 				{

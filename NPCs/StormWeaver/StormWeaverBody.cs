@@ -194,7 +194,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					projectile.penetrate = 1;
 				}
 			}
-
         }
 
         public override void HitEffect(int hitDirection, double damage)

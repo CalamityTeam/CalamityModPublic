@@ -139,11 +139,9 @@ namespace CalamityMod.UI
             OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
 
-            int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
+            int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>() };
             OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
             OneToMany[ModContent.NPCType<DarkEnergy>()] = Void;
-            OneToMany[ModContent.NPCType<DarkEnergy2>()] = Void;
-            OneToMany[ModContent.NPCType<DarkEnergy3>()] = Void;
 
             int[] Rav = new int[] { ModContent.NPCType<RavagerBody>(), ModContent.NPCType<RavagerClawRight>(), ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerLegRight>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerHead>() };
@@ -682,9 +680,7 @@ namespace CalamityMod.UI
                     default:
                         break;
                     case SpecialType2.Ceaseless:
-                        int count = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
-                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) +
-                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>());
+                        int count = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>());
                         _specialData2[0] = count;
                         break;
                     case SpecialType2.Ravage:
