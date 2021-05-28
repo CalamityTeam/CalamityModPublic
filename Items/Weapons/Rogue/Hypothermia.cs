@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Hypothermia");
             Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes additionally fire a short ranged ice chunk that shatters into ice shards");
+                               "Stealth strikes additionally fire short ranged ice chunks that shatters into ice shards");
         }
 
         public override void SafeSetDefaults()
@@ -50,10 +50,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             if (player.Calamity().StealthStrikeAvailable() && player.itemAnimation == item.useAnimation - 1) //setting up the stealth strikes
             {
-                damage *= 2;
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                damage = (int)(damage * 1.7);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.13f) * Main.rand.NextFloat(1f, 1.1f);
+                    int stealth = Projectile.NewProjectile(position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
+                    if (stealth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[stealth].Calamity().stealthStrike = true;
+                }
             }
 			int projAmt = Main.rand.Next(1, 3);
 			for (int index = 0; index < projAmt; ++index)
