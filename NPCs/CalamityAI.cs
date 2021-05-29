@@ -4101,7 +4101,7 @@ namespace CalamityMod.NPCs
 				npc.timeLeft = 1800;
 
 			// Scale multiplier based on nearby active tiles
-			float tileEnrageMult = (malice && !BossRushEvent.BossRushActive) ? 1.5f : 1f;
+			float tileEnrageMult = (malice && !BossRushEvent.BossRushActive) ? 1.25f : 1f;
 
 			// Set AI variable to be used by Dark Energies
 			npc.ai[1] = tileEnrageMult;
@@ -4113,7 +4113,7 @@ namespace CalamityMod.NPCs
 			if (!anyDarkEnergies)
 			{
 				// This is here because it's used in multiple places
-				float suckDistance = (malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f) * tileEnrageMult;
+				float suckDistance = malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
 
 				// Move closer to the target before trying to succ
 				if (movingDuringSuccPhase)
