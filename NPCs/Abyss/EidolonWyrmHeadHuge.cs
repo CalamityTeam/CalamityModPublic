@@ -214,13 +214,9 @@ namespace CalamityMod.NPCs.Abyss
             }
 
             if (npc.velocity.X < 0f)
-            {
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
 
             if (Main.player[npc.target].dead)
             {
@@ -242,9 +238,7 @@ namespace CalamityMod.NPCs.Abyss
 
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTailHuge>()))
             {
@@ -264,7 +258,7 @@ namespace CalamityMod.NPCs.Abyss
 			if (!detectsPlayer)
 			{
 				num192 += 800;
-				if (Math.Abs(npc.Center.X - num191) < 400f) //500
+				if (Math.Abs(npc.Center.X - num191) < 400f)
 				{
 					if (npc.velocity.X > 0f)
 					{

@@ -4167,7 +4167,7 @@ namespace CalamityMod.NPCs
 							if (Main.rand.NextBool(var))
 							{
 								dustOffset = dustOffset.RotatedBy(angleIncrement);
-								int dust = Dust.NewDust(vector, 1, 1, (int)CalamityDusts.PurpleCosmolite);
+								int dust = Dust.NewDust(vector, 1, 1, ModContent.DustType<CeaselessDust>());
 								Main.dust[dust].position = vector + dustOffset;
 								Main.dust[dust].noGravity = true;
 								Main.dust[dust].fadeIn = 1f;
@@ -4213,7 +4213,11 @@ namespace CalamityMod.NPCs
 							npc.HealEffect(-damageAmt, true);
 
 							if (npc.life <= 0)
-								npc.StrikeNPCNoInteraction(9999, 0f, 0);
+							{
+								npc.life = 0;
+								npc.HitEffect();
+								npc.checkDead();
+							}
 
 							npc.netUpdate = true;
 						}

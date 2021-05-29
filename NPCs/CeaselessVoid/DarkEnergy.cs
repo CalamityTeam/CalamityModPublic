@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			// Distance from Ceaseless Void
 			double maxDistance = malice ? 1200D : death ? 1040D : revenge ? 960D : expertMode ? 880D : minMaxDistance;
 			double rateOfChangeIncrease = (maxDistance / minMaxDistance) - 1D;
-			double rateOfChange = (npc.ai[1] * 0.5f) + 1D + tileEnrageMult + rateOfChangeIncrease;
+			double rateOfChange = (npc.ai[1] * 0.5f) + 2D + (tileEnrageMult - 1f) + rateOfChangeIncrease;
 			if (npc.Calamity().newAI[0] == 0f)
 			{
 				distance += rateOfChange;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 			// Rotation velocity
 			float minRotationVelocity = 0.5f + tileEnrageMult - 1f;
-			float rotationVelocityIncrease = malice ? 0.4f : death ? 0.2f : revenge ? 0.15f : expertMode ? 0.1f : 0f;
+			float rotationVelocityIncrease = death ? 0.2f : revenge ? 0.15f : expertMode ? 0.1f : 0f;
 			rotationVelocityIncrease += rotationVelocityIncrease * (npc.ai[1] * 0.5f);
 
 			// Rotate around Ceaseless Void
