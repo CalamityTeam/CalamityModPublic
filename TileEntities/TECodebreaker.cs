@@ -1,5 +1,4 @@
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -13,6 +12,13 @@ namespace CalamityMod.TileEntities
 {
 	public class TECodebreaker : ModTileEntity
 	{
+		public int InputtedCellCount;
+		public bool HasSchematic;
+
+		public int DecryptionCountdown;
+		public int DecryptionTotalTime => 1800;
+		public float DecryptionCompletion => 1f - DecryptionCountdown / (float)DecryptionTotalTime;
+
 		public bool ContainsDecryptionComputer;
 		public bool ContainsSensorArray;
 		public bool ContainsAdvancedDisplay;
@@ -48,7 +54,9 @@ namespace CalamityMod.TileEntities
 		// This will cause them to Place the tile entity locally at that position, all with exactly the same ID.
 		public override void OnNetPlace() => NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
 
-		public void DropConstituents(int x, int y)
+		public override void Update() => UpdateTime();
+
+        public void DropConstituents(int x, int y)
 		{
 			if (ContainsDecryptionComputer)
 				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<DecryptionComputer>());
@@ -106,6 +114,48 @@ namespace CalamityMod.TileEntities
 			codebreakerTileEntity.ContainsVoltageRegulationSystem = containsVoltageRegulationSystem;
 			codebreakerTileEntity.ContainsCoolingCell = containsCoolingCell;
 		}
+
+		public void SyncContainedStuff()
+		{
+			// Don't bother sending packets in singleplayer.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerContainedStuff);
+			packet.Write(ID);
+			packet.Write(InputtedCellCount);
+			packet.Write(HasSchematic);
+		}
+
+		public static void ReadContainmentSync(Mod mod, BinaryReader reader)
+		{
+			int id = reader.ReadInt32();
+			bool exists = ByID.TryGetValue(id, out TileEntity tileEntity);
+
+			// Continue reading to the end even if a tile entity with the given ID does not exist.
+			// Not doing this will cause errors/bugs.
+			int cellCount = reader.ReadInt32();
+			bool hasSchematic = reader.ReadBoolean();
+
+			// After doing reading, check again to see if the tile entity is actually there.
+			// If it isn't don't bother doing anything else.
+			if (!exists)
+				return;
+
+			// Furthermore, verify to ensure that the tile entity is a valid one.
+			if (!(tileEntity is TECodebreaker codebreakerTileEntity))
+				return;
+
+			codebreakerTileEntity.InputtedCellCount = cellCount;
+			codebreakerTileEntity.HasSchematic = hasSchematic;
+		}
+
+		public void UpdateTime()
+        {
+			if (DecryptionCountdown > 0)
+				DecryptionCountdown--;
+        }
 
 		public override TagCompound Save()
 		{

@@ -1,10 +1,12 @@
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
+using CalamityMod.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -73,6 +75,35 @@ namespace CalamityMod.Tiles.DraedonSummoner
 
             // And destroy the tile entity, if it exists.
             codebreakerTileEntity?.Kill(left, top);
+        }
+
+        public override bool HasSmartInteract() => true;
+
+        public override bool NewRightClick(int i, int j)
+        {
+            TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
+            Player player = Main.LocalPlayer;
+            player.CancelSignsAndChests();
+
+            // If this is the tile the player is currently looking at, the associated tile entity doesn't really exist, or it's simply not upgraded enough, close the GUI.
+            if (codebreakerTileEntity is null || codebreakerTileEntity.ID == DraedonDecryptUI.ViewedTileEntityID || !codebreakerTileEntity.ContainsDecryptionComputer)
+            {
+                DraedonDecryptUI.ViewedTileEntityID = -1;
+                Main.PlaySound(SoundID.MenuClose);
+            }
+
+            // Otherwise, open the decryption interface when it exists. This can be either opening the GUI from nothing, or just opening a separate codebreaker.
+            else if (codebreakerTileEntity != null)
+            {
+                // Play a sound depending on whether the player had another charger open previously.
+                Main.PlaySound(DraedonDecryptUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                DraedonDecryptUI.ViewedTileEntityID = codebreakerTileEntity.ID;
+                Main.playerInventory = true;
+                Main.recBigList = false;
+            }
+
+            Recipe.FindRecipes();
+            return true;
         }
 
         // All tile drawcode is done manually because the tile's animation is controlled by a tile entity.

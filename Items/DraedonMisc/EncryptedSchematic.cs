@@ -8,7 +8,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Encrypted Schematic");
-            Tooltip.SetDefault("It's impossible to decipher"); // But not for long.
+            Tooltip.SetDefault("May be deciphered at the Codebreaker if it is upgraded enough");
         }
 
         public override void SetDefaults()
