@@ -11,13 +11,11 @@ namespace CalamityMod.Skies
     {
         public int StormWeaverHeadIndex = -1;
 
-        public override void Update(GameTime gameTime) => UpdateCryogenIndex();
-
-        public bool UpdateCryogenIndex()
+        public override void Update(GameTime gameTime)
         {
             int weaverType = ModContent.NPCType<StormWeaverHeadNaked>();
             if (StormWeaverHeadIndex >= 0 && Main.npc[StormWeaverHeadIndex].active && Main.npc[StormWeaverHeadIndex].type == weaverType)
-                return true;
+                return;
 
             StormWeaverHeadIndex = -1;
             for (int i = 0; i < Main.npc.Length; i++)
@@ -28,7 +26,6 @@ namespace CalamityMod.Skies
                     break;
                 }
             }
-            return StormWeaverHeadIndex != -1;
         }
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
