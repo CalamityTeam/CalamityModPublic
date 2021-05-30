@@ -203,14 +203,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
-            {
-                damage /= 2;
-            }
-        }
-
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
