@@ -2406,6 +2406,15 @@ namespace CalamityMod.CalPlayer
             bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
 
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
+            }
+
             bool useBrimstone = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
             player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
 
@@ -2416,13 +2425,9 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (useCryogen)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
             }
 
             Point point = player.Center.ToTileCoordinates();
@@ -2450,13 +2455,17 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (cryogenActive)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen");
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
+            }
+
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
             }
         }
 
