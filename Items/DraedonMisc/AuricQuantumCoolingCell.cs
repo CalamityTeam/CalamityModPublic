@@ -1,0 +1,69 @@
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.DraedonSummoner;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using CalamityMod.TileEntities;
+
+namespace CalamityMod.Items.DraedonMisc
+{
+    public class AuricQuantumCoolingCell : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Auric Quantum Cooling Cell");
+            Tooltip.SetDefault("Can be placed in the Codebreaker");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 26;
+            item.height = 44;
+            item.maxStack = 999;
+            item.consumable = true;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.rare = ItemRarityID.Red;
+            item.useTime = item.useAnimation = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 1.2f * brightness, 0.4f * brightness, 0.8f);
+        }
+
+        public override bool UseItem(Player player) => true;
+
+        public override bool ConsumeItem(Player player)
+        {
+            Point placeTileCoords = Main.MouseWorld.ToTileCoordinates();
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(placeTileCoords.X, placeTileCoords.Y);
+            float checkDistance = ((Player.tileRangeX + Player.tileRangeY) / 2f + player.blockRange) * 16f;
+
+            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.type == ModContent.TileType<CodebreakerTile>())
+            {
+                TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
+                if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsCoolingCell)
+                    return false;
+
+                codebreakerTileEntity.ContainsCoolingCell = true;
+                codebreakerTileEntity.SyncConstituents();
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

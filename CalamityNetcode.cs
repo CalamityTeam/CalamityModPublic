@@ -150,6 +150,9 @@ namespace CalamityMod
                     case CalamityModMessageType.LabHologramProjector:
                         TELabHologramProjector.ReadSyncPacket(mod, reader);
                         break;
+                    case CalamityModMessageType.UpdateCodebreakerConstituents:
+                        TECodebreaker.ReadConstituentsUpdateSync(mod, reader);
+                        break;
 
                     //
                     // Boss Rush
@@ -284,6 +287,7 @@ namespace CalamityMod
         ChargingStationItemChange,
         Turret,
         LabHologramProjector,
+        UpdateCodebreakerConstituents,
 
         // Boss Rush
         BossRushStage,
