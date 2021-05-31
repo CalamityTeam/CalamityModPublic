@@ -1,3 +1,4 @@
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 4);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 18);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);

@@ -1,11 +1,14 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CustomRecipes;
+using CalamityMod.Items.Materials;
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using CalamityMod.TileEntities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -14,7 +17,9 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Quantum Cooling Cell");
-            Tooltip.SetDefault("Can be placed in the Codebreaker");
+            Tooltip.SetDefault("Can be placed in the Codebreaker, completing it\n" +
+                "The completion of the Codebreaker allows you to make contact with its original creator\n" +
+                "Modified later");
         }
 
         public override void SetDefaults()
@@ -27,6 +32,13 @@ namespace CalamityMod.Items.DraedonMisc
             item.rare = ItemRarityID.Red;
             item.useTime = item.useAnimation = 15;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
+            tt2.text = "Attempting to do so may have dire consequences";
+            tt2.overrideColor = Color.DarkRed;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -59,7 +71,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

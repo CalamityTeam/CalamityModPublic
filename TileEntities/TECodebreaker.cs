@@ -1,5 +1,7 @@
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonSummoner;
+using CalamityMod.UI;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -16,7 +18,7 @@ namespace CalamityMod.TileEntities
 		public int HeldSchematicID;
 
 		public int DecryptionCountdown;
-		public int DecryptionTotalTime => 1800;
+		public int DecryptionTotalTime => 300;
 		public float DecryptionCompletion => 1f - DecryptionCountdown / (float)DecryptionTotalTime;
 
 		public bool ContainsDecryptionComputer;
@@ -48,9 +50,9 @@ namespace CalamityMod.TileEntities
 		}
 
 		public string UnderlyingSchematicText
-        {
-            get
-            {
+		{
+			get
+			{
 				// You can't decrypt nothing.
 				if (HeldSchematicID == 0)
 					return string.Empty;
@@ -67,7 +69,7 @@ namespace CalamityMod.TileEntities
 
 				return string.Empty;
 			}
-        }
+		}
 
 		public Vector2 Center => Position.ToWorldCoordinates(8f * CodebreakerTile.Width, 8f * CodebreakerTile.Height);
 
@@ -199,10 +201,84 @@ namespace CalamityMod.TileEntities
 			codebreakerTileEntity.HeldSchematicID = schematicID;
 		}
 
+		public void SyncDecryptCountdown()
+		{
+			// Don't bother sending packets in singleplayer.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerDecryptCountdown);
+			packet.Write(ID);
+			packet.Write(DecryptionCountdown);
+		}
+
+		public static void ReadDecryptCountdownSync(Mod mod, BinaryReader reader)
+		{
+			int id = reader.ReadInt32();
+			bool exists = ByID.TryGetValue(id, out TileEntity tileEntity);
+
+			// Continue reading to the end even if a tile entity with the given ID does not exist.
+			// Not doing this will cause errors/bugs.
+			int countdown = reader.ReadInt32();
+
+			// After doing reading, check again to see if the tile entity is actually there.
+			// If it isn't don't bother doing anything else.
+			if (!exists)
+				return;
+
+			// Furthermore, verify to ensure that the tile entity is a valid one.
+			if (!(tileEntity is TECodebreaker codebreakerTileEntity))
+				return;
+
+			codebreakerTileEntity.DecryptionCountdown = countdown;
+		}
+
 		public void UpdateTime()
 		{
 			if (DecryptionCountdown > 0)
+			{
 				DecryptionCountdown--;
+
+				if (DecryptionCountdown == 0)
+				{
+					LearnFromHeldSchematic(out bool anythingChanged);
+					if (Main.netMode == NetmodeID.Server)
+						SyncDecryptCountdown();
+					else if (anythingChanged && DraedonDecryptUI.AwaitingDecryptionTextClose)
+						CombatText.NewText(Main.LocalPlayer.Hitbox, Color.Cyan, "You learned how to create new things!", true);
+				}
+			}
+		}
+
+		public void LearnFromHeldSchematic(out bool anythingChanged)
+		{
+			anythingChanged = false;
+			int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
+
+			if (!RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes && schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
+			{
+				RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes = true;
+				anythingChanged = true;
+			}
+			if (!RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes && schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
+			{
+				RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes = true;
+				anythingChanged = true;
+			}
+			if (!RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes && schematicType == ModContent.ItemType<EncryptedSchematicHell>())
+			{
+				RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes = true;
+				anythingChanged = true;
+			}
+			if (!RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes && schematicType == ModContent.ItemType<EncryptedSchematicIce>())
+			{
+				RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes = true;
+				anythingChanged = true;
+			}
+
+			if (Main.netMode == NetmodeID.Server && anythingChanged)
+				CalamityNetcode.SyncWorld();
 		}
 
 		public override TagCompound Save()
@@ -214,6 +290,7 @@ namespace CalamityMod.TileEntities
 				["ContainsAdvancedDisplay"] = ContainsAdvancedDisplay,
 				["ContainsVoltageRegulationSystem"] = ContainsVoltageRegulationSystem,
 				["ContainsCoolingCell"] = ContainsCoolingCell,
+				["InputtedCellCount"] = InputtedCellCount,
 				["HeldSchematicID"] = HeldSchematicID
 			};
 		}
@@ -225,6 +302,7 @@ namespace CalamityMod.TileEntities
 			ContainsAdvancedDisplay = tag.GetBool("ContainsAdvancedDisplay");
 			ContainsVoltageRegulationSystem = tag.GetBool("ContainsVoltageRegulationSystem");
 			ContainsCoolingCell = tag.GetBool("ContainsCoolingCell");
+			InputtedCellCount = tag.GetInt("InputtedCellCount");
 			HeldSchematicID = tag.GetInt("HeldSchematicID");
 		}
 
@@ -235,6 +313,7 @@ namespace CalamityMod.TileEntities
 			writer.Write(ContainsAdvancedDisplay);
 			writer.Write(ContainsVoltageRegulationSystem);
 			writer.Write(ContainsCoolingCell);
+			writer.Write(InputtedCellCount);
 			writer.Write(HeldSchematicID);
 		}
 
@@ -245,6 +324,7 @@ namespace CalamityMod.TileEntities
 			ContainsAdvancedDisplay = reader.ReadBoolean();
 			ContainsVoltageRegulationSystem = reader.ReadBoolean();
 			ContainsCoolingCell = reader.ReadBoolean();
+			InputtedCellCount = reader.ReadInt32();
 			HeldSchematicID = reader.ReadInt32();
 		}
 	}

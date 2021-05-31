@@ -111,8 +111,9 @@ namespace CalamityMod.Tiles.DraedonSummoner
         {
             // These offsets start as the tile offsets, i.e. which sub-tile of the FrameImportant structure this specific location is.
             Tile t = Main.tile[i, j];
+            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
             int frameXPos = t.frameX;
-            int frameYPos = t.frameY;
+            int frameYPos = t.frameY + Height * SheetSquare * (int)((Main.GlobalTime * 12f + left) % 8);
 
             // Grab the tile entity because it stores the information regarding what is actually attached.
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
@@ -120,6 +121,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Texture2D tex = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
             Texture2D computerTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
             Texture2D sensorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
+            Texture2D displayTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
             Texture2D voltageRegulatorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
             Texture2D voltageRegulatorTexture2 = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
             Texture2D coolingCellTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
@@ -142,7 +144,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
                     if (codebreakerTileEntity.ContainsSensorArray)
                         spriteBatch.Draw(sensorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsAdvancedDisplay)
-                        spriteBatch.Draw(coolingCellTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(displayTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsVoltageRegulationSystem)
                     {
                         spriteBatch.Draw(voltageRegulatorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);

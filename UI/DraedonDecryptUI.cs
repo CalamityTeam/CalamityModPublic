@@ -56,23 +56,7 @@ namespace CalamityMod.UI
             Texture2D cellTexture = codebreakerTileEntity.InputtedCellCount > 0 ? occupiedCellIconTexture : emptyCellIconTexture;
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * 60f;
 
-            // Create a temporary item for drawing purposes.
-            // If cells are present, make the item reflect that.
-            Item temporaryPowerCell = new Item();
-            temporaryPowerCell.SetDefaults(ModContent.ItemType<PowerCell>());
-            temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
-
-            CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, 1f);
-            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellTexture.Size());
-
-            // Draw the schematic icon.
             Vector2 schematicSlotDrawCenter = cellDrawCenter + Vector2.UnitY * 70f;
-            Texture2D emptySchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Empty");
-            Texture2D occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Full");
-
-            Texture2D schematicTexture = codebreakerTileEntity.HeldSchematicID != 0 ? occupiedSchematicIconTexture : emptySchematicIconTexture;
-            spriteBatch.Draw(schematicTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
-            HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size());
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the text.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
@@ -127,6 +111,23 @@ namespace CalamityMod.UI
                     currentTextDrawPosition.Y += 16;
                 }
             }
+
+            // Draw the schematic icon.
+            Texture2D emptySchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Empty");
+            Texture2D occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Full");
+
+            Texture2D schematicTexture = codebreakerTileEntity.HeldSchematicID != 0 ? occupiedSchematicIconTexture : emptySchematicIconTexture;
+            spriteBatch.Draw(schematicTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size());
+
+            // Create a temporary item for drawing purposes.
+            // If cells are present, make the item reflect that.
+            Item temporaryPowerCell = new Item();
+            temporaryPowerCell.SetDefaults(ModContent.ItemType<PowerCell>());
+            temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
+
+            CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, 1f);
+            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellTexture.Size());
         }
 
         public static void HandleCellSlotInteractions(TECodebreaker codebreakerTileEntity, Item temporaryItem, Vector2 cellIconCenter, Vector2 area)
@@ -264,6 +265,7 @@ namespace CalamityMod.UI
                     codebreakerTileEntity.InputtedCellCount -= totalCellsCost;
                     codebreakerTileEntity.DecryptionCountdown = codebreakerTileEntity.DecryptionTotalTime;
                     codebreakerTileEntity.SyncContainedStuff();
+                    codebreakerTileEntity.SyncDecryptCountdown();
                 }
             }
             else

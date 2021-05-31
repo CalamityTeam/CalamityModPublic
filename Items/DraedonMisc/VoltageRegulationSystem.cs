@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.TileEntities;
+using CalamityMod.CustomRecipes;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 4);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);

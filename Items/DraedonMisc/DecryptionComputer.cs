@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.TileEntities;
+using CalamityMod.CustomRecipes;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -14,7 +15,8 @@ namespace CalamityMod.Items.DraedonMisc
         {
             DisplayName.SetDefault("Decryption Computer");
             Tooltip.SetDefault("Can be placed in the Codebreaker\n" +
-                "Allows you to decrypt schematics");
+                "Allows you to decrypt schematics\n" +
+                "Doing so allows you to learn how to craft new things");
         }
 
         public override void SetDefaults()
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddIngredient(ItemID.Glass, 5);

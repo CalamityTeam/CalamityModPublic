@@ -1,3 +1,4 @@
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Terraria.ID;
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
 			recipe.AddIngredient(ItemID.HallowedBar, 10);
