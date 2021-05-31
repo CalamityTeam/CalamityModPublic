@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(Owner, Owner.Calamity(), Owner.ActiveItem());
-            if (!Owner.Calamity().bladeArmEnchant || Owner.CCed || !Owner.active || Owner.dead)
+            if (!Owner.Calamity().bladeArmEnchant || Owner.ActiveItem().type != SwordItemID || Owner.CCed || !Owner.active || Owner.dead)
             {
                 projectile.Kill();
                 return;
