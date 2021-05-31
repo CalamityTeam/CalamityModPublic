@@ -1477,7 +1477,7 @@ namespace CalamityMod.CalPlayer
 							if (!npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= freezeDist)
 							{
 								if (npc.FindBuffIndex(buffType) == -1)
-									npc.AddBuff(buffType, 120, false);
+									npc.AddBuff(buffType, 60, false);
 							}
 						}
 					}
@@ -2758,7 +2758,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vHex)
 			{
 				player.blind = true;
-				player.statDefense -= 30;
+				player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 
 				if (player.wingTimeMax < 0)
@@ -3970,7 +3970,7 @@ namespace CalamityMod.CalPlayer
 		private static void EnduranceReductions(Player player, CalamityPlayer modPlayer)
 		{
 			if (modPlayer.vHex)
-				player.endurance -= 0.3f;
+				player.endurance -= 0.1f;
 
 			if (modPlayer.irradiated)
 				player.endurance -= 0.1f;

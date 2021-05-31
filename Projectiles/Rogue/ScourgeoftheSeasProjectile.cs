@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 26;
             projectile.height = 26;
             projectile.friendly = true;
-            projectile.aiStyle = 113;
+			projectile.ignoreWater = true;
+			projectile.aiStyle = 113;
             aiType = ProjectileID.BoneJavelin;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;

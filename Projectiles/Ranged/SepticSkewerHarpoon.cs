@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.ranged = true;
+			projectile.ignoreWater = true;
+			projectile.ranged = true;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;

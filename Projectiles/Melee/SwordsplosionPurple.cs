@@ -32,7 +32,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.3f / 255f, (255 - projectile.alpha) * 0.4f / 255f, (255 - projectile.alpha) * 1f / 255f);
             if (projectile.localAI[1] > 7f)
             {
@@ -70,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }

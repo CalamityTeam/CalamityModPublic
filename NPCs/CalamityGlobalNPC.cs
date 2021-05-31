@@ -382,13 +382,6 @@ namespace CalamityMod.NPCs
 			NPCID.PrimeVice
 		};
 
-		public static List<int> DarkEnergyIDs = new List<int>
-		{
-			NPCType<DarkEnergy>(),
-			NPCType<DarkEnergy2>(),
-			NPCType<DarkEnergy3>()
-		};
-
 		public static List<int> StormWeaverIDs = new List<int>
 		{
 			NPCType<StormWeaverHeadNaked>(),
@@ -891,17 +884,27 @@ namespace CalamityMod.NPCs
 				{
 					if (eFreeze > 0)
 					{
-						npc.velocity.X *= 0.5f;
-						npc.velocity.Y += 0.1f;
-						if (npc.velocity.Y > 15f)
-							npc.velocity.Y = 15f;
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							npc.velocity.X *= 0.5f;
+							npc.velocity.Y += 0.1f;
+							if (npc.velocity.Y > 15f)
+								npc.velocity.Y = 15f;
+						}
+						else
+							npc.velocity *= 0.5f;
 					}
 					else if (gState > 0)
 					{
-						npc.velocity.X *= 0.5f;
-						npc.velocity.Y += 0.05f;
-						if (npc.velocity.Y > 15f)
-							npc.velocity.Y = 15f;
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							npc.velocity.X *= 0.5f;
+							npc.velocity.Y += 0.05f;
+							if (npc.velocity.Y > 15f)
+								npc.velocity.Y = 15f;
+						}
+						else
+							npc.velocity *= 0.5f;
 					}
 					else if (tSad > 0)
 						npc.velocity *= 0.5f;
@@ -2951,8 +2954,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 21:
-                    if (npc.type != NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != NPCType<DarkEnergy>() &&
-                        npc.type != NPCType<DarkEnergy2>() && npc.type != NPCType<DarkEnergy3>())
+                    if (npc.type != NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != NPCType<DarkEnergy>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3509,7 +3511,7 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.85f;
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 						npc.velocity *= 0.9f;
-					else if (kamiFlu > 0)
+					else if (kamiFlu > 420)
 						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
 				}
 			}
@@ -3680,7 +3682,12 @@ namespace CalamityMod.NPCs
 						damage = (int)(damage * 0.75);
 					}
 				}
-                else if (DevourerOfGodsIDs.Contains(npc.type))
+				else if (npc.type == NPCType<SCalWormHeart>())
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (DevourerOfGodsIDs.Contains(npc.type))
 				{
                     // No grenade or global pierce resist here, body DR covers this appropriately
 
@@ -3696,8 +3703,17 @@ namespace CalamityMod.NPCs
 					else if (projectile.type == ProjectileType<DarkSparkBeam>())
 						damage = (int)(damage * 0.85);
 				}
-				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
+				else if (CosmicGuardianIDs.Contains(npc.type))
 				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (npc.type == NPCType<DarkEnergy>())
+				{
+					// 50% resist to Nuclear Fury
+					if (projectile.type == ProjectileType<NuclearFuryProjectile>())
+						damage = (int)(damage * 0.5);
+
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
 				}
@@ -3807,12 +3823,24 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			if (DevourerOfGodsIDs.Contains(npc.type))
+			{
+				if (projectile.Calamity().stealthStrike)
+				{
+					if (projectile.type == ProjectileType<TimeBoltKnife>())
+						damage = (int)(damage * 1.15);
+				}
+
+				if (projectile.type == ProjectileType<ValedictionBoomerang>())
+					damage = (int)(damage * 0.9);
+			}
+
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
                 // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
-                    damage = (int)(damage * 0.9);
+                    damage = (int)(damage * 0.795);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
@@ -3853,13 +3881,15 @@ namespace CalamityMod.NPCs
 			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
-            if (projectile.penetrate == -1)
-                damage = (int)(damage * 0.5);
-            else if (projectile.penetrate > 1) 
-            {
-                float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
-                damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
-            }
+			if (projectile.penetrate == -1)
+			{
+				damage = (int)(damage * 0.5);
+			}
+			else if (projectile.penetrate > 1)
+			{
+				float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
+				damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
+			}
 		}
 		#endregion
 
@@ -5136,7 +5166,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedProvidence;
 			}
-			else if (type == NPCType<DarkEnergy>() || type == NPCType<DarkEnergy2>() || type == NPCType<DarkEnergy3>())
+			else if (type == NPCType<CeaselessVoid.CeaselessVoid>() || type == NPCType<DarkEnergy>())
 			{
 				return CalamityWorld.downedSentinel1;
 			}

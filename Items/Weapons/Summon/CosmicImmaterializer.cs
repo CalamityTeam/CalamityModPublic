@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 100;
-            item.damage = 3000;
+            item.damage = 900;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 74;
             item.height = 72;

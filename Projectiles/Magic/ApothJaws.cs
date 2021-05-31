@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
             target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600, true);
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60, true);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30, true);
         }
     }
 }

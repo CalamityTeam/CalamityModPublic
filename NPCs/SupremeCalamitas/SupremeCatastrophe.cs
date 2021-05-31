@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DR_NERD(0.25f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1200000, 1500000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.LifeMaxNERB(240000, 276000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -200,14 +200,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f);
                     }
                 }
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
-            {
-                damage /= 2;
             }
         }
 

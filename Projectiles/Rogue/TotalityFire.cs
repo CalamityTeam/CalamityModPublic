@@ -29,7 +29,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {

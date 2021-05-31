@@ -42,7 +42,6 @@ namespace CalamityMod.NPCs.Signus
 			npc.width = 130;
             npc.height = 130;
             npc.defense = 60;
-            
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);

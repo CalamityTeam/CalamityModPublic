@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Magic;
@@ -70,27 +71,45 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-			{
-				npc.TargetClosest(true);
-			}
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
+
 			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
             {
 				if (!detectsPlayer)
 				{
 					if (Main.netMode != NetmodeID.Server)
-					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y);
-					}
+
 					detectsPlayer = true;
 				}
                 npc.damage = 1500;
             }
             else
-            {
                 npc.damage = 0;
-            }
+
             npc.chaseable = detectsPlayer;
+
             if (detectsPlayer)
             {
                 if (npc.soundDelay <= 0 && Main.netMode != NetmodeID.Server)
@@ -102,14 +121,12 @@ namespace CalamityMod.NPCs.Abyss
             else
             {
                 if (Main.rand.NextBool(900) && Main.netMode != NetmodeID.Server)
-                {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
-                }
             }
+
             if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -148,8 +165,6 @@ namespace CalamityMod.NPCs.Abyss
                     if (npc.localAI[0] >= 300f)
                     {
                         npc.localAI[0] = 0f;
-                        npc.TargetClosest(true);
-                        npc.netUpdate = true;
                         int damage = Main.expertMode ? 300 : 400;
                         float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
@@ -214,13 +229,9 @@ namespace CalamityMod.NPCs.Abyss
             }
 
             if (npc.velocity.X < 0f)
-            {
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
 
             if (Main.player[npc.target].dead)
             {
@@ -242,14 +253,10 @@ namespace CalamityMod.NPCs.Abyss
 
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTailHuge>()))
-            {
                 npc.active = false;
-            }
 
             float num188 = speed;
             float num189 = turnSpeed;
@@ -264,7 +271,7 @@ namespace CalamityMod.NPCs.Abyss
 			if (!detectsPlayer)
 			{
 				num192 += 800;
-				if (Math.Abs(npc.Center.X - num191) < 400f) //500
+				if (Math.Abs(npc.Center.X - num191) < 400f)
 				{
 					if (npc.velocity.X > 0f)
 					{
@@ -457,7 +464,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge);
+            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);

@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.width = 13;
 			projectile.height = 13;
 			projectile.Calamity().rogue = true;

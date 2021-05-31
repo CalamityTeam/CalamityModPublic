@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override void Kill(int timeLeft)

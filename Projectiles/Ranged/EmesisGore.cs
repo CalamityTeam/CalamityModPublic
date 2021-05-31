@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 10;
             projectile.timeLeft = 600;
             projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
+			projectile.ignoreWater = true;
+			projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
         }
         public override void SendExtraAI(BinaryWriter writer)

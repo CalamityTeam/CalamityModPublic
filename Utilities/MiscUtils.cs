@@ -144,7 +144,7 @@ namespace CalamityMod
 			(sfx.Volume, sfx.Pan) = CalculateSoundStats(soundPos, ambient);
 		}
 
-		public static void StartRain(bool torrentialTear = false)
+		public static void StartRain(bool torrentialTear = false, bool maxSeverity = false)
 		{
 			int num = 86400;
 			int num2 = num / 24;
@@ -193,7 +193,7 @@ namespace CalamityMod
 			Main.rainTime = (int)(Main.rainTime * num3);
 			Main.raining = true;
 			if (torrentialTear)
-				TorrentialTear.AdjustRainSeverity(false);
+				TorrentialTear.AdjustRainSeverity(maxSeverity);
 			CalamityNetcode.SyncWorld();
 		}
 

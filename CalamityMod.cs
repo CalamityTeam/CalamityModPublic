@@ -254,6 +254,7 @@ namespace CalamityMod
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+            SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
 
@@ -549,12 +550,11 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
                 { ModContent.NPCType<Bumblefuck>(), 7200 },
                 { ModContent.NPCType<Providence>(), 14400 },
-                { ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<DarkEnergy2>(), 1200 },
-                { ModContent.NPCType<DarkEnergy3>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
+				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -665,8 +665,6 @@ namespace CalamityMod
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
                 { ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },

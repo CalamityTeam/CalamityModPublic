@@ -286,6 +286,8 @@ namespace CalamityMod.CalPlayer
         public float accStealthGenBoost = 0f;
 
         public float throwingDamage = 1f;
+        public float stealthDamage = 0f; // This is extra Rogue Damage that is only added for stealth strikes.
+        public float RogueDamageWithStealth => throwingDamage + stealthDamage;
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
         public float throwingAmmoCost = 1f;
@@ -2113,6 +2115,7 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f;
 
             throwingDamage = 1f;
+            stealthDamage = 0f;
             throwingVelocity = 1f;
             throwingCrit = 0;
             throwingAmmoCost = 1f;
@@ -2403,6 +2406,15 @@ namespace CalamityMod.CalPlayer
             bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
 
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
+            }
+
             bool useBrimstone = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
             player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
 
@@ -2413,13 +2425,9 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (useCryogen)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
             }
 
             Point point = player.Center.ToTileCoordinates();
@@ -2447,13 +2455,17 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (cryogenActive)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen");
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
+            }
+
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
             }
         }
 
@@ -3485,9 +3497,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 100% run speed boost, so an 8 run speed would become 16 with a 400% move speed stat
+            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
             float accRunSpeedMin = player.accRunSpeed * 0.5f;
-            player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.0025f;
+            player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.002f;
 
             if (player.accRunSpeed < accRunSpeedMin)
                 player.accRunSpeed = accRunSpeedMin;
@@ -4453,87 +4465,71 @@ namespace CalamityMod.CalPlayer
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
-            {
 				mult += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-            }
+
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-            {
 				mult += hoverboardBoost ? 0.35f : 0.25f;
-            }
-            if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-            {
-				mult += 0.15f;
-            }
+
+			if (fireball && cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+			{
+				mult += 0.125f;
+			}
+			else
+			{
+				if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.05f;
+
+				if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.1f;
+			}
+
             if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
-            {
-				mult += 0.15f;
-            }
-            if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
+
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
 
             if (item.ranged)
-            {
                 acidRoundMultiplier = item.useTime / 20D;
-            }
             else
-            {
                 acidRoundMultiplier = 1D;
-            }
+
             //Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-            {
                 flat += 1f;
-            }
         }
 
         public override void GetWeaponKnockback(Item item, ref float knockback)
         {
             if (auricBoost)
-            {
                 knockback *= 1f + (1f - modStealth) * 0.5f;
-            }
+
             if (whiskey)
-            {
                 knockback *= 1.04f;
-            }
+
             if (tequila && Main.dayTime)
-            {
                 knockback *= 1.03f;
-            }
+
             if (tequilaSunrise && Main.dayTime)
-            {
                 knockback *= 1.07f;
-            }
+
             if (moscowMule)
-            {
                 knockback *= 1.09f;
-            }
+
             if (titanHeartMask && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartMantle && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartBoots && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartSet && item.Calamity().rogue)
-            {
                 knockback *= 1.2f;
-            }
+
             if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
-            {
                 knockback *= 2f;
-            }
         }
         #endregion
 
@@ -5255,7 +5251,7 @@ namespace CalamityMod.CalPlayer
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
-                    damageMult += 0.1;
+                    damageMult += 0.05;
             }
 
 			if (auricSet && godSlayerDamage && isTrueMelee)
@@ -5357,7 +5353,7 @@ namespace CalamityMod.CalPlayer
                 if (nanotech)
                     penetrateAmt += 20; //nanotech is weaker
                 else if (electricianGlove)
-                    penetrateAmt += 30;
+                    penetrateAmt += 20;
                 else if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
@@ -5396,15 +5392,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.ranged)
             {
-                // Nerfed in prehardmode due to bullet damage being a balance meme
-                if (heldItem.type == ModContent.ItemType<HalibutCannon>())
-                {
-                    if (!Main.hardMode)
-                        damage = (int)(damage * 0.5);
-                    if (proj.type == ProjectileID.IchorBullet || proj.type == ModContent.ProjectileType<AcidBulletProj>())
-                        damage = (int)(damage * 0.85);
-                }
-
                 switch (proj.type)
                 {
                     case ProjectileID.CrystalShard:
@@ -5697,7 +5684,7 @@ namespace CalamityMod.CalPlayer
                 contactDamageReduction += 0.1;
 
             if (vHex)
-                contactDamageReduction -= 0.3;
+                contactDamageReduction -= 0.1;
 
             if (irradiated)
                 contactDamageReduction -= 0.1;
@@ -6139,7 +6126,7 @@ namespace CalamityMod.CalPlayer
                 projectileDamageReduction += 0.1;
 
             if (vHex)
-                projectileDamageReduction -= 0.3;
+                projectileDamageReduction -= 0.1;
 
             if (irradiated)
                 projectileDamageReduction -= 0.1;
@@ -6709,46 +6696,43 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            if (sulfurSet)
-                npc.AddBuff(BuffID.Poisoned, 120);
+		#region On Hit
+		public override void OnHitByNPC(NPC npc, int damage, bool crit)
+		{
+			if (sulfurSet)
+				npc.AddBuff(BuffID.Poisoned, 120);
 
-            if (CalamityWorld.revenge || CalamityWorld.malice)
-            {
-                if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-                }
-                else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
-                {
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
-                {
-                    player.AddBuff(BuffID.Poisoned, 180);
-                    player.AddBuff(BuffID.Venom, 180);
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.PlanterasTentacle)
-                {
-                    player.AddBuff(BuffID.Poisoned, 120);
-                    player.AddBuff(BuffID.Venom, 120);
-                    player.AddBuff(BuffID.Bleeding, 180);
-                }
-                else if (npc.type == NPCID.AncientDoom)
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
-                }
-                else if (npc.type == NPCID.AncientLight)
-                {
-                    player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-                }
-            }
-        }
+			if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
+			}
+			else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
+			{
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
+			{
+				player.AddBuff(BuffID.Poisoned, 180);
+				player.AddBuff(BuffID.Venom, 180);
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.PlanterasTentacle)
+			{
+				player.AddBuff(BuffID.Poisoned, 120);
+				player.AddBuff(BuffID.Venom, 120);
+				player.AddBuff(BuffID.Bleeding, 180);
+			}
+			else if (npc.type == NPCID.AncientDoom)
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+			}
+			else if (npc.type == NPCID.AncientLight)
+			{
+				player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+			}
+		}
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
@@ -6767,7 +6751,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if ((CalamityWorld.revenge || CalamityWorld.malice) && proj.hostile)
+            if (proj.hostile)
             {
                 if (proj.type == ProjectileID.Explosives)
                 {
@@ -7410,7 +7394,10 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < freezeDist)
                         {
-                            float duration = Main.rand.Next(30 + (int)damage / 3, 80 + (int)damage / 2);
+                            float duration = Main.rand.Next(10 + (int)damage / 4, 20 + (int)damage / 3);
+							if (duration > 120)
+								duration = 120;
+
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }
@@ -8026,7 +8013,7 @@ namespace CalamityMod.CalPlayer
 							}
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
@@ -8970,6 +8957,7 @@ namespace CalamityMod.CalPlayer
             // rogueStealth doesn't reset every frame because it's a continuously building resource
 
             // these other parameters are rebuilt every frame based on the items you have equipped
+            stealthDamage = 0f;
             rogueStealthMax = 0f;
             stealthGenStandstill = 1f;
             stealthGenMoving = 1f;
@@ -9013,7 +9001,7 @@ namespace CalamityMod.CalPlayer
 
             ProvideStealthStatBonuses();
 
-            // If the player is using an item that deals damage and is on their first frame of doing so,
+            // If the player is using an item that deals damage and is on their first frame of a use of that item,
             // consume stealth if a stealth strike wasn't triggered manually by item code.
 
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
@@ -9029,10 +9017,14 @@ namespace CalamityMod.CalPlayer
             bool isChannelable = it.channel;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
-            bool animationCheck = player.itemAnimation == player.itemAnimationMax - 1;
-            if (it.useAnimation == it.useTime)
-                animationCheck = player.itemTime == player.itemAnimationMax - 1;
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+
+            // Animation check depends on whether the item is "clockwork", like Clockwork Assault Rifle.
+            // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.
+            bool animationCheck = it.useAnimation == it.useTime
+                ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
+                : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
+
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
                 ConsumeStealthByAttacking();
         }
 
@@ -9068,9 +9060,7 @@ namespace CalamityMod.CalPlayer
             double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
 
             double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
-            // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
-            // This can be done in TML 1.4 using the new DamageClass system (Stealth becomes its own damage class which is a subclass of Rogue)
-            throwingDamage += (float)stealthAddedDamage;
+            stealthDamage += (float)stealthAddedDamage;
 
             // Show 100% crit chance if your stealth strikes always crit.
             // In practice, this is only for visuals because Terraria determines crit status on hit.

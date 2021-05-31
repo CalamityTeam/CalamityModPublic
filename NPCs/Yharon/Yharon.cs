@@ -2193,7 +2193,7 @@ namespace CalamityMod.NPCs.Yharon
 							else
 							{
 								int ringReduction = (int)MathHelper.Lerp(0f, 12f, npc.ai[1] / spinPhaseTimer);
-								int totalProjectiles2 = (secondPhasePhase == 2 ? 42 : 38) - ringReduction; // 36 for first ring, 24 for last ring
+								int totalProjectiles2 = 38 - ringReduction; // 36 for first ring, 24 for last ring
 								DoFlareDustBulletHell(0, flareDustSpawnDivisor2, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles2, 0f, 0f, true);
 							}
 
@@ -2224,7 +2224,7 @@ namespace CalamityMod.NPCs.Yharon
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
 						{
 							int ringReduction = (int)MathHelper.Lerp(0f, 12f, npc.ai[1] / spinPhaseTimer);
-							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - ringReduction; // 36 for first ring, 24 for last ring
+							int totalProjectiles = 38 - ringReduction; // 36 for first ring, 24 for last ring
 							DoFlareDustBulletHell(0, flareDustSpawnDivisor, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, true);
 
 							// Fire a flame towards every player, with a limit of 10
@@ -2944,10 +2944,10 @@ namespace CalamityMod.NPCs.Yharon
 		#region Projectile Resists
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
-                damage = (int)(damage * 0.65);
             if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
+            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
+                damage = (int)(damage * 0.9);
             if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
                 damage = (int)(damage * 0.95);
         }
