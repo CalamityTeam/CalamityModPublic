@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
@@ -456,6 +457,8 @@ namespace CalamityMod.World
             if (HasGeneratedLuminitePlanetoids)
                 downed.Add("HasGeneratedLuminitePlanetoids");
 
+            RecipeUnlockHandler.Save(downed);
+
             return new TagCompound
             {
                 {
@@ -559,6 +562,8 @@ namespace CalamityMod.World
             forcedDownpourWithTear = downed.Contains("forcedTear");
             encounteredOldDuke = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
+
+            RecipeUnlockHandler.Load(downed);
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -803,6 +808,9 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
+
+            RecipeUnlockHandler.SendData(writer);
+
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -913,6 +921,8 @@ namespace CalamityMod.World
             _ = flags10[5];
             _ = flags10[6];
             _ = flags10[7];
+
+            RecipeUnlockHandler.ReceiveData(reader);
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();

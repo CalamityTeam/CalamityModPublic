@@ -3,12 +3,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class EncryptedSchematic : ModItem
+    public class EncryptedSchematicHell : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Encrypted Schematic");
-            Tooltip.SetDefault("May be deciphered at the Codebreaker if it is upgraded enough");
+            Tooltip.SetDefault("Requires a Codebreaker with a sophisticated display to decrypt");
         }
 
         public override void SetDefaults()
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.DraedonMisc
             item.height = 42;
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.maxStack = 999;
+            item.maxStack = 1;
         }
     }
 }

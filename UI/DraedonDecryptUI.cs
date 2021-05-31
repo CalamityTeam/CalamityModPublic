@@ -3,6 +3,7 @@ using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
@@ -69,12 +70,19 @@ namespace CalamityMod.UI
             Texture2D emptySchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Empty");
             Texture2D occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Full");
 
-            Texture2D schematicTexture = codebreakerTileEntity.HasSchematic ? occupiedSchematicIconTexture : emptySchematicIconTexture;
+            Texture2D schematicTexture = codebreakerTileEntity.HeldSchematicID != 0 ? occupiedSchematicIconTexture : emptySchematicIconTexture;
             spriteBatch.Draw(schematicTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
             HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size());
 
+            // Display some error text if the codebreaker isn't strong enough to decrypt the text.
+            if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
+            {
+                Vector2 errorDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
+                DisplayNotStrongEnoughErrorText(errorDisplayLocation);
+            }
+
             // Handle decryption costs.
-            if (codebreakerTileEntity.HasSchematic && codebreakerTileEntity.DecryptionCountdown == 0)
+            else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
             {
                 int cost = 30;
                 Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
@@ -91,17 +99,20 @@ namespace CalamityMod.UI
                 Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f);
                 spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 
-                // Generate gibberish and use slowly insert the real text at the beginning.
+                // Generate gibberish and use slowly insert the real text.
                 // When decryption is done the gibberish will go away and only the underlying text will remain.
                 int textPadding = 6;
-                string trueMessage = "The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal.";
+                string trueMessage = codebreakerTileEntity.UnderlyingSchematicText;
                 StringBuilder text = new StringBuilder(codebreakerTileEntity.DecryptionCountdown == 0 ? trueMessage : CalamityUtils.GenerateRandomAlphanumericString(500));
 
+                // Don't mess with whitespace characters. Doing so can cause the word-wrap to "jump" around.
                 for (int i = 0; i < trueMessage.Length; i++)
                 {
                     if (char.IsWhiteSpace(trueMessage[i]))
                         text[i] = trueMessage[i];
                 }
+
+                // Insert the necessary amount of true text.
                 for (int i = 0; i < (int)(trueMessage.Length * codebreakerTileEntity.DecryptionCompletion); i++)
                     text[i] = trueMessage[i];
 
@@ -204,21 +215,23 @@ namespace CalamityMod.UI
 
             if (Main.mouseLeft && Main.mouseLeftRelease)
             {
-                if (playerHandItem.IsAir && codebreakerTileEntity.HasSchematic)
+                if (playerHandItem.IsAir && codebreakerTileEntity.HeldSchematicID != 0)
                 {
-                    playerHandItem.SetDefaults(ModContent.ItemType<EncryptedSchematic>());
-                    codebreakerTileEntity.HasSchematic = false;
+                    playerHandItem.SetDefaults(CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID]);
+                    codebreakerTileEntity.HeldSchematicID = 0;
                     codebreakerTileEntity.DecryptionCountdown = 0;
                     codebreakerTileEntity.SyncContainedStuff();
                     Main.PlaySound(SoundID.Grab);
+
                     AwaitingDecryptionTextClose = false;
                 }
-                else if (playerHandItem.type == ModContent.ItemType<EncryptedSchematic>())
+                else if (CalamityLists.EncryptedSchematicIDRelationship.ContainsValue(playerHandItem.type))
                 {
+                    codebreakerTileEntity.HeldSchematicID = CalamityLists.EncryptedSchematicIDRelationship.First(i => i.Value == Main.mouseItem.type).Key;
                     playerHandItem.TurnToAir();
-                    codebreakerTileEntity.HasSchematic = true;
                     codebreakerTileEntity.SyncContainedStuff();
                     Main.PlaySound(SoundID.Grab);
+
                     AwaitingDecryptionTextClose = false;
                 }
             }
@@ -256,6 +269,13 @@ namespace CalamityMod.UI
                 VerificationButtonScale = MathHelper.Clamp(VerificationButtonScale - 0.05f, 1f, 1.35f);
 
             Main.spriteBatch.Draw(confirmationTexture, drawPosition, null, Color.White, 0f, confirmationTexture.Size() * 0.5f, VerificationButtonScale, SpriteEffects.None, 0f);
+        }
+        
+        public static void DisplayNotStrongEnoughErrorText(Vector2 drawPosition)
+        {
+            string text = "Encryption unsolveable: Upgrades required.";
+            drawPosition.X -= 30f;
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, drawPosition.X, drawPosition.Y + 20f, Color.IndianRed * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, 1f);
         }
     }
 }

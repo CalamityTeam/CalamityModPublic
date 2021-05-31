@@ -227,7 +227,7 @@ namespace CalamityMod.World
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogHell>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<Murasama>(), 1));
-                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematicHell>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -298,7 +298,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSunkenSea>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicSunkenSea>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -365,7 +365,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicIce>(), 1));
             }
             // If it's a frozen chest.
             if (type == TileID.Containers)
@@ -448,7 +448,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogJungle>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicJungle>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -541,7 +541,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogPlanetoid>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicPlanetoid>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {

@@ -13,7 +13,7 @@ namespace CalamityMod.TileEntities
 	public class TECodebreaker : ModTileEntity
 	{
 		public int InputtedCellCount;
-		public bool HasSchematic;
+		public int HeldSchematicID;
 
 		public int DecryptionCountdown;
 		public int DecryptionTotalTime => 1800;
@@ -24,6 +24,51 @@ namespace CalamityMod.TileEntities
 		public bool ContainsAdvancedDisplay;
 		public bool ContainsVoltageRegulationSystem;
 		public bool ContainsCoolingCell;
+
+		public bool CanDecryptHeldSchematic
+		{
+			get
+			{
+				// You can't decrypt nothing.
+				if (HeldSchematicID == 0)
+					return false;
+
+				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
+				if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
+					return ContainsDecryptionComputer;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
+					return ContainsDecryptionComputer && ContainsSensorArray;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicHell>())
+					return ContainsDecryptionComputer && ContainsSensorArray && ContainsAdvancedDisplay;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
+					return ContainsDecryptionComputer && ContainsSensorArray && ContainsAdvancedDisplay && ContainsVoltageRegulationSystem;
+
+				return false;
+			}
+		}
+
+		public string UnderlyingSchematicText
+        {
+            get
+            {
+				// You can't decrypt nothing.
+				if (HeldSchematicID == 0)
+					return string.Empty;
+
+				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
+				if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
+					return "test1";
+				if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
+					return "test2";
+				if (schematicType == ModContent.ItemType<EncryptedSchematicHell>())
+					return "test3";
+				if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
+					return "test4";
+
+				return string.Empty;
+			}
+        }
+
 		public Vector2 Center => Position.ToWorldCoordinates(8f * CodebreakerTile.Width, 8f * CodebreakerTile.Height);
 
 		// This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Charging Station tile.
@@ -56,7 +101,7 @@ namespace CalamityMod.TileEntities
 
 		public override void Update() => UpdateTime();
 
-        public void DropConstituents(int x, int y)
+		public void DropConstituents(int x, int y)
 		{
 			if (ContainsDecryptionComputer)
 				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<DecryptionComputer>());
@@ -68,7 +113,10 @@ namespace CalamityMod.TileEntities
 				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<VoltageRegulationSystem>());
 			if (ContainsCoolingCell)
 				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<AuricQuantumCoolingCell>());
-        }
+
+			if (HeldSchematicID != 0)
+				Item.NewItem(x * 16, y * 16, 32, 32, CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID]);
+		}
 
 		public void SyncConstituents()
 		{
@@ -125,7 +173,7 @@ namespace CalamityMod.TileEntities
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerContainedStuff);
 			packet.Write(ID);
 			packet.Write(InputtedCellCount);
-			packet.Write(HasSchematic);
+			packet.Write(HeldSchematicID);
 		}
 
 		public static void ReadContainmentSync(Mod mod, BinaryReader reader)
@@ -136,7 +184,7 @@ namespace CalamityMod.TileEntities
 			// Continue reading to the end even if a tile entity with the given ID does not exist.
 			// Not doing this will cause errors/bugs.
 			int cellCount = reader.ReadInt32();
-			bool hasSchematic = reader.ReadBoolean();
+			int schematicID = reader.ReadInt32();
 
 			// After doing reading, check again to see if the tile entity is actually there.
 			// If it isn't don't bother doing anything else.
@@ -148,7 +196,7 @@ namespace CalamityMod.TileEntities
 				return;
 
 			codebreakerTileEntity.InputtedCellCount = cellCount;
-			codebreakerTileEntity.HasSchematic = hasSchematic;
+			codebreakerTileEntity.HeldSchematicID = schematicID;
 		}
 
 		public void UpdateTime()
@@ -165,7 +213,8 @@ namespace CalamityMod.TileEntities
 				["ContainsSensorArray"] = ContainsSensorArray,
 				["ContainsAdvancedDisplay"] = ContainsAdvancedDisplay,
 				["ContainsVoltageRegulationSystem"] = ContainsVoltageRegulationSystem,
-				["ContainsCoolingCell"] = ContainsCoolingCell
+				["ContainsCoolingCell"] = ContainsCoolingCell,
+				["HeldSchematicID"] = HeldSchematicID
 			};
 		}
 
@@ -176,6 +225,7 @@ namespace CalamityMod.TileEntities
 			ContainsAdvancedDisplay = tag.GetBool("ContainsAdvancedDisplay");
 			ContainsVoltageRegulationSystem = tag.GetBool("ContainsVoltageRegulationSystem");
 			ContainsCoolingCell = tag.GetBool("ContainsCoolingCell");
+			HeldSchematicID = tag.GetInt("HeldSchematicID");
 		}
 
 		public override void NetSend(BinaryWriter writer, bool lightSend)
@@ -185,6 +235,7 @@ namespace CalamityMod.TileEntities
 			writer.Write(ContainsAdvancedDisplay);
 			writer.Write(ContainsVoltageRegulationSystem);
 			writer.Write(ContainsCoolingCell);
+			writer.Write(HeldSchematicID);
 		}
 
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
@@ -194,6 +245,7 @@ namespace CalamityMod.TileEntities
 			ContainsAdvancedDisplay = reader.ReadBoolean();
 			ContainsVoltageRegulationSystem = reader.ReadBoolean();
 			ContainsCoolingCell = reader.ReadBoolean();
+			HeldSchematicID = reader.ReadInt32();
 		}
 	}
 }
