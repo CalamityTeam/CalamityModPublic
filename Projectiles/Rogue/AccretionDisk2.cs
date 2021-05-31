@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(ModContent.BuffType<Plague>(), 120);
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(ModContent.BuffType<Plague>(), 120);
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}

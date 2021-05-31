@@ -2441,6 +2441,15 @@ namespace CalamityMod.CalPlayer
             bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
 
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
+            }
+
             bool useBrimstone = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
             player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
 
@@ -2451,13 +2460,9 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (useCryogen)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
             }
 
             Point point = player.Center.ToTileCoordinates();
@@ -2485,13 +2490,17 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (cryogenActive)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen");
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
+            }
+
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
             }
         }
 
@@ -3523,9 +3532,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 100% run speed boost, so an 8 run speed would become 16 with a 400% move speed stat
+            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
             float accRunSpeedMin = player.accRunSpeed * 0.5f;
-            player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.0025f;
+            player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.002f;
 
             if (player.accRunSpeed < accRunSpeedMin)
                 player.accRunSpeed = accRunSpeedMin;
@@ -4490,16 +4499,26 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
+            if (item.type == ModContent.ItemType<GaelsGreatsword>())
+				mult += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
+
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
 				mult += hoverboardBoost ? 0.35f : 0.25f;
 
-            if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-				mult += 0.15f;
+			if (fireball && cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+			{
+				mult += 0.125f;
+			}
+			else
+			{
+				if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.05f;
+
+				if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.1f;
+			}
 
             if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
-				mult += 0.15f;
-
-            if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
 				mult += 0.1f;
 
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
@@ -4518,45 +4537,34 @@ namespace CalamityMod.CalPlayer
         public override void GetWeaponKnockback(Item item, ref float knockback)
         {
             if (auricBoost)
-            {
                 knockback *= 1f + (1f - modStealth) * 0.5f;
-            }
+
             if (whiskey)
-            {
                 knockback *= 1.04f;
-            }
+
             if (tequila && Main.dayTime)
-            {
                 knockback *= 1.03f;
-            }
+
             if (tequilaSunrise && Main.dayTime)
-            {
                 knockback *= 1.07f;
-            }
+
             if (moscowMule)
-            {
                 knockback *= 1.09f;
-            }
+
             if (titanHeartMask && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartMantle && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartBoots && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartSet && item.Calamity().rogue)
-            {
                 knockback *= 1.2f;
-            }
+
             if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
-            {
                 knockback *= 2f;
-            }
         }
         #endregion
 
@@ -5278,7 +5286,7 @@ namespace CalamityMod.CalPlayer
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
-                    damageMult += 0.1;
+                    damageMult += 0.05;
             }
 
 			if (auricSet && godSlayerDamage && isTrueMelee)
@@ -5711,7 +5719,7 @@ namespace CalamityMod.CalPlayer
                 contactDamageReduction += 0.1;
 
             if (vHex)
-                contactDamageReduction -= 0.3;
+                contactDamageReduction -= 0.1;
 
             if (irradiated)
                 contactDamageReduction -= 0.1;
@@ -6153,7 +6161,7 @@ namespace CalamityMod.CalPlayer
                 projectileDamageReduction += 0.1;
 
             if (vHex)
-                projectileDamageReduction -= 0.3;
+                projectileDamageReduction -= 0.1;
 
             if (irradiated)
                 projectileDamageReduction -= 0.1;
@@ -6723,46 +6731,43 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            if (sulfurSet)
-                npc.AddBuff(BuffID.Poisoned, 120);
+		#region On Hit
+		public override void OnHitByNPC(NPC npc, int damage, bool crit)
+		{
+			if (sulfurSet)
+				npc.AddBuff(BuffID.Poisoned, 120);
 
-            if (CalamityWorld.revenge || CalamityWorld.malice)
-            {
-                if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-                }
-                else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
-                {
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
-                {
-                    player.AddBuff(BuffID.Poisoned, 180);
-                    player.AddBuff(BuffID.Venom, 180);
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
-                else if (npc.type == NPCID.PlanterasTentacle)
-                {
-                    player.AddBuff(BuffID.Poisoned, 120);
-                    player.AddBuff(BuffID.Venom, 120);
-                    player.AddBuff(BuffID.Bleeding, 180);
-                }
-                else if (npc.type == NPCID.AncientDoom)
-                {
-                    player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
-                }
-                else if (npc.type == NPCID.AncientLight)
-                {
-                    player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-                }
-            }
-        }
+			if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
+			}
+			else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
+			{
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
+			{
+				player.AddBuff(BuffID.Poisoned, 180);
+				player.AddBuff(BuffID.Venom, 180);
+				player.AddBuff(BuffID.Bleeding, 300);
+			}
+			else if (npc.type == NPCID.PlanterasTentacle)
+			{
+				player.AddBuff(BuffID.Poisoned, 120);
+				player.AddBuff(BuffID.Venom, 120);
+				player.AddBuff(BuffID.Bleeding, 180);
+			}
+			else if (npc.type == NPCID.AncientDoom)
+			{
+				player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+			}
+			else if (npc.type == NPCID.AncientLight)
+			{
+				player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+			}
+		}
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
@@ -6781,7 +6786,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if ((CalamityWorld.revenge || CalamityWorld.malice) && proj.hostile)
+            if (proj.hostile)
             {
                 if (proj.type == ProjectileID.Explosives)
                 {
@@ -7427,7 +7432,10 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < freezeDist)
                         {
-                            float duration = Main.rand.Next(30 + (int)damage / 3, 80 + (int)damage / 2);
+                            float duration = Main.rand.Next(10 + (int)damage / 4, 20 + (int)damage / 3);
+							if (duration > 120)
+								duration = 120;
+
                             npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                         }
                     }
@@ -8043,7 +8051,7 @@ namespace CalamityMod.CalPlayer
 							}
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{

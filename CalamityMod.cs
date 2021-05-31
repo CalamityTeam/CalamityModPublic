@@ -258,6 +258,7 @@ namespace CalamityMod
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+            SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
 

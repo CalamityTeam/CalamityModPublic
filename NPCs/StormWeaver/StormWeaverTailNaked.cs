@@ -95,9 +95,7 @@ namespace CalamityMod.NPCs.StormWeaver
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
 
             bool flag = false;
             if (npc.ai[1] <= 0f)
@@ -126,11 +124,10 @@ namespace CalamityMod.NPCs.StormWeaver
                         Main.dust[num935].noLight = true;
                     }
                 }
+
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -142,6 +139,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector18.Y = (int)(vector18.Y / 16f) * 16;
             num191 -= vector18.X;
             num192 -= vector18.Y;
+
             float num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
             if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
             {
@@ -153,7 +151,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 } catch
                 {
                 }
-                npc.rotation = (float)System.Math.Atan2(num192, num191) + 1.57f;
+
+                npc.rotation = (float)System.Math.Atan2(num192, num191) + MathHelper.PiOver2;
                 num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
                 int num194 = npc.width;
                 num193 = (num193 - num194) / num193;
@@ -162,14 +161,11 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
+
                 if (num191 < 0f)
-                {
                     npc.spriteDirection = -1;
-                }
                 else if (num191 > 0f)
-                {
                     npc.spriteDirection = 1;
-                }
             }
         }
 
@@ -231,20 +227,21 @@ namespace CalamityMod.NPCs.StormWeaver
 
 		public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 5; k++)
-            {
+            for (int k = 0; k < 3; k++)
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail2"), 1f);
+
                 npc.position.X = npc.position.X + (npc.width / 2);
                 npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 30;
                 npc.height = 30;
                 npc.position.X = npc.position.X - (npc.width / 2);
                 npc.position.Y = npc.position.Y - (npc.height / 2);
+
                 for (int num621 = 0; num621 < 20; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
@@ -255,6 +252,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
+
                 for (int num623 = 0; num623 < 40; num623++)
                 {
                     int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);

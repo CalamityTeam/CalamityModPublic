@@ -3521,7 +3521,7 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.85f;
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 						npc.velocity *= 0.9f;
-					else if (kamiFlu > 0)
+					else if (kamiFlu > 420)
 						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
 				}
 			}
@@ -3692,7 +3692,12 @@ namespace CalamityMod.NPCs
 						damage = (int)(damage * 0.75);
 					}
 				}
-                else if (DevourerOfGodsIDs.Contains(npc.type))
+				else if (npc.type == NPCType<SCalWormHeart>())
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (DevourerOfGodsIDs.Contains(npc.type))
 				{
                     // No grenade or global pierce resist here, body DR covers this appropriately
 
@@ -3708,8 +3713,17 @@ namespace CalamityMod.NPCs
 					else if (projectile.type == ProjectileType<DarkSparkBeam>())
 						damage = (int)(damage * 0.85);
 				}
-				else if (CosmicGuardianIDs.Contains(npc.type) || npc.type == NPCType<DarkEnergy>())
+				else if (CosmicGuardianIDs.Contains(npc.type))
 				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (npc.type == NPCType<DarkEnergy>())
+				{
+					// 50% resist to Nuclear Fury
+					if (projectile.type == ProjectileType<NuclearFuryProjectile>())
+						damage = (int)(damage * 0.5);
+
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
 				}
@@ -3877,13 +3891,15 @@ namespace CalamityMod.NPCs
 			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
-            if (projectile.penetrate == -1)
-                damage = (int)(damage * 0.5);
-            else if (projectile.penetrate > 1) 
-            {
-                float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
-                damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
-            }
+			if (projectile.penetrate == -1)
+			{
+				damage = (int)(damage * 0.5);
+			}
+			else if (projectile.penetrate > 1)
+			{
+				float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
+				damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
+			}
 		}
 		#endregion
 

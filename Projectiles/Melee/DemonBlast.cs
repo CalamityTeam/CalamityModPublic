@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 300);
         }
     }
 }

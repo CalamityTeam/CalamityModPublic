@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.damage = 0;
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(Main.expertMode ? 45000 : 28125, 51750);
+			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }

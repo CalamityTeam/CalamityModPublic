@@ -4100,33 +4100,8 @@ namespace CalamityMod.NPCs
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			// Detect active tiles around Ceaseless Void
-			int radius = 30; // 30 tile radius
-			int diameter = radius * 2;
-			int npcCenterX = (int)(vector.X / 16f);
-			int npcCenterY = (int)(vector.Y / 16f);
-			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
-			int nearbyActiveTiles = 0; // 0 to 3600
-			for (int x = area.Left; x < area.Right; x++)
-			{
-				for (int y = area.Top; y < area.Bottom; y++)
-				{
-					if (Main.tile[x, y] != null)
-					{
-						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
-							nearbyActiveTiles++;
-					}
-				}
-			}
-
 			// Scale multiplier based on nearby active tiles
-			float tileEnrageMult = 1f;
-			if (nearbyActiveTiles < 1000)
-				tileEnrageMult += (1000 - nearbyActiveTiles) * 0.0005f; // Ranges from 1f to 1.5f
-
-			// Maximize enrage during Malice Mode
-			if (malice && !BossRushEvent.BossRushActive)
-				tileEnrageMult = 1.5f;
+			float tileEnrageMult = (malice && !BossRushEvent.BossRushActive) ? 1.25f : 1f;
 
 			// Set AI variable to be used by Dark Energies
 			npc.ai[1] = tileEnrageMult;
@@ -4134,14 +4109,11 @@ namespace CalamityMod.NPCs
 			// Increase projectile fire rate based on number of nearby active tiles
 			float projectileFireRateMultiplier = MathHelper.Lerp(0.5f, 1.5f, 1f - ((tileEnrageMult - 1f) / 0.5f));
 
-			// Decrease projectile time left based on number of nearby active tiles
-			int baseProjectileTimeLeft = (int)(300f * tileEnrageMult);
-
 			// Succ attack
 			if (!anyDarkEnergies)
 			{
 				// This is here because it's used in multiple places
-				float suckDistance = (malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f) * tileEnrageMult;
+				float suckDistance = malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
 
 				// Move closer to the target before trying to succ
 				if (movingDuringSuccPhase)
@@ -4195,9 +4167,8 @@ namespace CalamityMod.NPCs
 							if (Main.rand.NextBool(var))
 							{
 								dustOffset = dustOffset.RotatedBy(angleIncrement);
-								int dust = Dust.NewDust(vector, 1, 1, (int)CalamityDusts.PurpleCosmolite);
+								int dust = Dust.NewDust(vector, 1, 1, ModContent.DustType<CeaselessDust>());
 								Main.dust[dust].position = vector + dustOffset;
-								Main.dust[dust].noGravity = true;
 								Main.dust[dust].fadeIn = 1f;
 								Main.dust[dust].velocity = Vector2.Normalize(vector - Main.dust[dust].position) * dustVelocity;
 								Main.dust[dust].scale = 3f - h;
@@ -4241,7 +4212,11 @@ namespace CalamityMod.NPCs
 							npc.HealEffect(-damageAmt, true);
 
 							if (npc.life <= 0)
-								npc.StrikeNPCNoInteraction(9999, 0f, 0);
+							{
+								npc.life = 0;
+								npc.HitEffect();
+								npc.checkDead();
+							}
 
 							npc.netUpdate = true;
 						}
@@ -4257,8 +4232,7 @@ namespace CalamityMod.NPCs
 							for (int i = 0; i < numBeamPortals; i++)
 							{
 								float ai1 = i * degrees;
-								int proj = Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, player.whoAmI, ai1, 0f);
-								Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 2;
+								Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(i * degrees) * beamPortalDistance), player.Center.Y + (float)(Math.Cos(i * degrees) * beamPortalDistance), 0f, 0f, type, damage, 0f, player.whoAmI, ai1, 0f);
 							}
 						}
 

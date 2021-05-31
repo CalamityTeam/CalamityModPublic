@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Fireball");
             Tooltip.SetDefault(@"A great-tasting cinnamon whiskey
-Boosts all fire-based weapon damage by 10%
+Multiplies all fire-based weapon damage by 1.05
 Cursed flame, shadowflame, god slayer inferno, brimstone flame, and frostburn weapons will not receive this benefit
 The weapon must be more fire-related than anything else
 Reduces life regen by 1");

@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
-			npc.LifeMaxNERB(1500000, 1725000);
+			npc.LifeMaxNERB(1000000, 1150000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -2144,14 +2144,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             CalamityUtils.DisplayLocalizedText(key, messageColor);
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
-            {
-                damage /= 2;
-            }
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

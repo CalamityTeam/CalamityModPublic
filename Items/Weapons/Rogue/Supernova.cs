@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 900;
+            item.damage = 675;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;

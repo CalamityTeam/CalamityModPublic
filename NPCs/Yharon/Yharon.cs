@@ -2946,6 +2946,8 @@ namespace CalamityMod.NPCs.Yharon
 		{
             if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
+            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
+                damage = (int)(damage * 0.9);
             if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
                 damage = (int)(damage * 0.95);
         }
