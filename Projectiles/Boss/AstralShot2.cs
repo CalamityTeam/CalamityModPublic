@@ -43,20 +43,14 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
             
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 25;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
