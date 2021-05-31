@@ -118,7 +118,7 @@ namespace CalamityMod.UI
 
                 Vector2 currentTextDrawPosition = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width - Vector2.UnitX * (textPanelTexture.Width - textPadding);
                 currentTextDrawPosition.Y += 6f;
-                foreach (string line in Utils.WordwrapString(text.ToString(), Main.fontMouseText, (int)(textPanelTexture.Width * 1.5 - textPadding * 2), 15, out _))
+                foreach (string line in Utils.WordwrapString(text.ToString(), Main.fontMouseText, (int)(textPanelTexture.Width * 1.5 - textPadding * 2), 13, out _))
                 {
                     if (string.IsNullOrEmpty(line))
                         continue;
@@ -215,6 +215,7 @@ namespace CalamityMod.UI
 
             if (Main.mouseLeft && Main.mouseLeftRelease)
             {
+                Main.playerInventory = true;
                 if (playerHandItem.IsAir && codebreakerTileEntity.HeldSchematicID != 0)
                 {
                     playerHandItem.SetDefaults(CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID]);
@@ -244,7 +245,7 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, drawPosition.X, drawPosition.Y + 20f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, 1f);
 
             Texture2D cellTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/PowerCell");
-            Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One, -1f).X + 25f, drawPosition.Y + 30f);
+            Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One, -1f).X + 15f, drawPosition.Y + 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
             Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontItemStack, totalCellsCost.ToString(), offsetDrawPosition.X - 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
         }

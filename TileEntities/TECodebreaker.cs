@@ -200,10 +200,10 @@ namespace CalamityMod.TileEntities
 		}
 
 		public void UpdateTime()
-        {
+		{
 			if (DecryptionCountdown > 0)
 				DecryptionCountdown--;
-        }
+		}
 
 		public override TagCompound Save()
 		{
