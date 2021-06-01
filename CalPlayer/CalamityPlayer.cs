@@ -2447,7 +2447,10 @@ namespace CalamityMod.CalPlayer
             bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
 
-            bool inAstral = ZoneAstral;
+			bool useWyrmWater = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			player.ManageSpecialBiomeVisuals("CalamityMod:AdultEidolonWyrm", useWyrmWater);
+
+			bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
 
             bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());

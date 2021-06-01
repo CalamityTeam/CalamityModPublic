@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					Vector2 soundCenter = Main.player[npc.target].Center;
 
 					// Play lightning sound on all nearby players if in phase 3
-					if (phase3 && Main.netMode != NetmodeID.Server)
+					if (phase3)
 					{
 						if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
 						{
@@ -378,11 +378,14 @@ namespace CalamityMod.NPCs.StormWeaver
 
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
 
-							// Set how quickly the lightning flash dissipates
-							lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
+							if (Main.netMode != NetmodeID.Server)
+							{
+								// Set how quickly the lightning flash dissipates
+								lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
 
-							// Set how quickly the lightning flash intensifies
-							lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+								// Set how quickly the lightning flash intensifies
+								lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+							}
 						}
 					}
 					else
@@ -543,10 +546,11 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 
 				// Start a storm when in third phase
-				if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu))
+				if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f)
 					return;
 
 				CalamityUtils.StartRain(true, true);
+				calamityGlobalNPC.newAI[1] = 1f;
 			}
 		}
 

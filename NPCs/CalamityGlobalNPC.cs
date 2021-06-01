@@ -5198,6 +5198,10 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedSCal;
 			}
+			else if (type == NPCType<EidolonWyrmHeadHuge>())
+			{
+				return CalamityWorld.downedAdultEidolonWyrm;
+			}
 
 			return true;
 		}
