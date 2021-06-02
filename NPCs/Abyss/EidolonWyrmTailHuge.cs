@@ -66,11 +66,21 @@ namespace CalamityMod.NPCs.Abyss
             if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
                 npc.active = false;
 
-			if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
+			bool invisiblePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 1f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 5f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 7f;
+			if (!invisiblePhase)
 			{
-				npc.Opacity += 0.15f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
+				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
+				{
+					npc.Opacity += 0.15f;
+					if (npc.Opacity > 1f)
+						npc.Opacity = 1f;
+				}
+			}
+			else
+			{
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
 			}
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
