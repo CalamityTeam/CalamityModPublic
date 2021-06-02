@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 			float SpeedX2 = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
 			float SpeedY2 = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-            int soul = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI);
+            int soul = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI, 2f, 0f);
 			if (soul.WithinBounds(Main.maxProjectiles))
 			{
 				Main.projectile[soul].timeLeft = 600;

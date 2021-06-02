@@ -827,6 +827,7 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
+            writer.Write(flags11);
 
             RecipeUnlockHandler.SendData(writer);
 
