@@ -145,10 +145,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 3; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-            }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
@@ -157,11 +153,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/Wyrm2"), 1f);
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 500, true);
         }
     }
 }

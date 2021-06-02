@@ -16,8 +16,12 @@ namespace CalamityMod.Dusts
 			float scale = dust.scale;
 			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), scale * 0.4f, scale * 0.1f, scale);
 
+			dust.position += dust.velocity;
 			dust.velocity *= 0.95f;
-			dust.scale -= 0.01f;
+			dust.scale -= 0.05f;
+
+			if (dust.scale <= 0.05f)
+				dust.active = false;
 
 			return false;
 		}

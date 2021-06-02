@@ -2406,6 +2406,15 @@ namespace CalamityMod.CalPlayer
             bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
 
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
+            }
+
             bool useBrimstone = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
             player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
 
@@ -2416,13 +2425,9 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (useCryogen)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
             }
 
             Point point = player.Center.ToTileCoordinates();
@@ -2442,7 +2447,10 @@ namespace CalamityMod.CalPlayer
             bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
 
-            bool inAstral = ZoneAstral;
+			bool useWyrmWater = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			player.ManageSpecialBiomeVisuals("CalamityMod:AdultEidolonWyrm", useWyrmWater);
+
+			bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
 
             bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
@@ -2450,13 +2458,17 @@ namespace CalamityMod.CalPlayer
             if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
                 if (cryogenActive)
-                {
                     SkyManager.Instance.Activate("CalamityMod:Cryogen");
-                }
                 else
-                {
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
-                }
+            }
+
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
             }
         }
 
@@ -4456,87 +4468,71 @@ namespace CalamityMod.CalPlayer
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
-            {
 				mult += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-            }
+
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-            {
 				mult += hoverboardBoost ? 0.35f : 0.25f;
-            }
-            if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
-            {
-				mult += 0.15f;
-            }
+
+			if (fireball && cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+			{
+				mult += 0.125f;
+			}
+			else
+			{
+				if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.05f;
+
+				if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
+					mult += 0.1f;
+			}
+
             if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
-            {
-				mult += 0.15f;
-            }
-            if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
+
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
-            {
 				mult += 0.1f;
-            }
 
             if (item.ranged)
-            {
                 acidRoundMultiplier = item.useTime / 20D;
-            }
             else
-            {
                 acidRoundMultiplier = 1D;
-            }
+
             //Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-            {
                 flat += 1f;
-            }
         }
 
         public override void GetWeaponKnockback(Item item, ref float knockback)
         {
             if (auricBoost)
-            {
                 knockback *= 1f + (1f - modStealth) * 0.5f;
-            }
+
             if (whiskey)
-            {
                 knockback *= 1.04f;
-            }
+
             if (tequila && Main.dayTime)
-            {
                 knockback *= 1.03f;
-            }
+
             if (tequilaSunrise && Main.dayTime)
-            {
                 knockback *= 1.07f;
-            }
+
             if (moscowMule)
-            {
                 knockback *= 1.09f;
-            }
+
             if (titanHeartMask && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartMantle && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartBoots && item.Calamity().rogue)
-            {
                 knockback *= 1.05f;
-            }
+
             if (titanHeartSet && item.Calamity().rogue)
-            {
                 knockback *= 1.2f;
-            }
+
             if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
-            {
                 knockback *= 2f;
-            }
         }
         #endregion
 
@@ -5258,7 +5254,7 @@ namespace CalamityMod.CalPlayer
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
-                    damageMult += 0.1;
+                    damageMult += 0.05;
             }
 
 			if (auricSet && godSlayerDamage && isTrueMelee)

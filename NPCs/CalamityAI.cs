@@ -4169,7 +4169,6 @@ namespace CalamityMod.NPCs
 								dustOffset = dustOffset.RotatedBy(angleIncrement);
 								int dust = Dust.NewDust(vector, 1, 1, ModContent.DustType<CeaselessDust>());
 								Main.dust[dust].position = vector + dustOffset;
-								Main.dust[dust].noGravity = true;
 								Main.dust[dust].fadeIn = 1f;
 								Main.dust[dust].velocity = Vector2.Normalize(vector - Main.dust[dust].position) * dustVelocity;
 								Main.dust[dust].scale = 3f - h;
