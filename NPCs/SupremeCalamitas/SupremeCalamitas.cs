@@ -1,8 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -15,7 +13,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -135,6 +132,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         private Vector2 cataclysmSpawnPosition;
         private Vector2 catastropheSpawnPosition;
+        private Vector2 initialRitualPosition;
         private Rectangle safeBox = default;
 
         public static int hoodedHeadIconIndex;
@@ -148,7 +146,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private const int sepulcherSpawnCastTime = 75;
         private const int brothersSpawnCastTime = 150;
 
-        // TODO: This is ridiculous and cumbersome. Change it to be better in 1.4.
+        // TODO: This is cumbersome. Change it to be better in 1.4.
         internal static void LoadHeadIcons()
         {
             string hoodedIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
@@ -198,7 +196,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.canGhostHeal = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.HitSound = SoundID.NPCHit1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
         }
 
@@ -455,18 +453,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Vector2 vectorPlayer = new Vector2(player.position.X, player.position.Y);
                 if (death)
                 {
-                    safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1000f);
-                    spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1000f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(vectorPlayer.Y - 1000f);
+                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
+                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
+                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
                     safeBox.Width = 2000;
                     safeBox.Height = 2000;
                     spawnYAdd = 100;
                 }
                 else
                 {
-                    safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1250f);
-                    spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1250f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(vectorPlayer.Y - 1250f);
+                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
+                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
+                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
                     safeBox.Width = 2500;
                     safeBox.Height = 2500;
                     spawnYAdd = 125;
@@ -480,6 +478,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
                         {
+                            if (!WorldGen.InWorld(num55, num56, 2))
+                                continue;
+
                             if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
                             {
                                 Main.tile[num55, num56].type = (ushort)ModContent.TileType<Tiles.ArenaTile>();
@@ -824,10 +825,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
 
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
-
                 if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
@@ -997,8 +994,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
-                        npc.chaseable = true;
-                        npc.dontTakeDamage = false;
+                        for (int i = 0; i < 24; i++)
+                        {
+                            Dust brimstoneFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
+                            brimstoneFire.color = Color.Red;
+                            brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
+                            brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
+                            brimstoneFire.fadeIn = 1.25f;
+                            brimstoneFire.noGravity = true;
+                        }
+
+                        npc.active = false;
+                        npc.netUpdate = true;
+                        NPCLoot();
                         return;
                     }
                     giveUpCounter--;
@@ -1138,6 +1146,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Eye.ai[3] = I * 18;
                         }
                     }
+                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
                     secondStage = true;
                 }
             }
@@ -2575,6 +2584,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
                     CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, ModContent.NPCType<SupremeCataclysm>());
                 }
+                Main.PlaySound(SoundID.DD2_DarkMageHealImpact, npc.Center);
                 hasSummonedBrothers = true;
             }
         }
@@ -2650,7 +2660,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void NPCLoot()
         {
-            // Incrase the player's SCal kill count
+            // Create a teleport line effect
+            Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
+            npc.Center = initialRitualPosition;
+
+            // Increase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
 
@@ -2696,7 +2710,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
 
-            // Mark Supreme Calamitas as dead
+            // Mark Supreme Calamitas as defeated
             CalamityWorld.downedSCal = true;
             CalamityNetcode.SyncWorld();
         }
