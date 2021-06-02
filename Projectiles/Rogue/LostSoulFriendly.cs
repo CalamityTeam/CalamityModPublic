@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.alpha = 150;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210 && target.CanBeChasedBy(projectile);
+		public override bool? CanHitNPC(NPC target) => (projectile.timeLeft < 210 || projectile.ai[0] == 2f) && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-			if (projectile.ai[0] != 1f && projectile.timeLeft < 210)
+			if (projectile.ai[0] != 1f && (projectile.timeLeft < 210 || projectile.ai[0] == 2f))
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
