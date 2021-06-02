@@ -5,10 +5,12 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -110,6 +112,9 @@ namespace CalamityMod.CalPlayer
 
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
+
+			// Check if schematics are present on the mouse, for the sake of registering their recipes.
+			CheckIfMouseItemIsSchematic(player);
 
 			// Regularly sync player stats during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -4105,6 +4110,54 @@ namespace CalamityMod.CalPlayer
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
 			}
+		}
+		#endregion
+
+		#region Mouse Item Checks
+		public static void CheckIfMouseItemIsSchematic(Player player)
+		{
+			if (Main.myPlayer != player.whoAmI)
+				return;
+
+			bool shouldSync = false;
+
+			// ActiveItem doesn't need to be checked as the other possibility involves
+			// the item in question already being in the inventory.
+			if (Main.mouseItem != null && !Main.mouseItem.IsAir)
+			{
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicSunkenSea>() && !RecipeUnlockHandler.HasFoundSunkenSeaSchematic)
+				{
+					RecipeUnlockHandler.HasFoundSunkenSeaSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicPlanetoid>() && !RecipeUnlockHandler.HasFoundPlanetoidSchematic)
+				{
+					RecipeUnlockHandler.HasFoundPlanetoidSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicJungle>() && !RecipeUnlockHandler.HasFoundJungleSchematic)
+				{
+					RecipeUnlockHandler.HasFoundJungleSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicHell>() && !RecipeUnlockHandler.HasFoundHellSchematic)
+				{
+					RecipeUnlockHandler.HasFoundHellSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicIce>() && !RecipeUnlockHandler.HasFoundIceSchematic)
+				{
+					RecipeUnlockHandler.HasFoundIceSchematic = true;
+					shouldSync = true;
+				}
+			}
+
+			if (shouldSync)
+				CalamityNetcode.SyncWorld();
 		}
 		#endregion
 
