@@ -1,14 +1,23 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityMod.World;
+using Terraria.ModLoader;
 
 namespace CalamityMod.CustomRecipes
 {
     public class ArsenalTierGatedRecipe : ModRecipe
     {
         public int Tier;
-        public ArsenalTierGatedRecipe(Mod mod, int tier) : base(mod) => Tier = tier;
+        public bool AllowedInOldWorlds;
+        public ArsenalTierGatedRecipe(Mod mod, int tier, bool allowedInOldWorlds = false) : base(mod)
+		{
+            Tier = tier;
+            AllowedInOldWorlds = allowedInOldWorlds;
+        }
 
         public override bool RecipeAvailable()
         {
+            if (AllowedInOldWorlds && !CalamityWorld.IsWorldAfterDraedonUpdate)
+                return true;
+
             switch (Tier)
             {
                 case 1:

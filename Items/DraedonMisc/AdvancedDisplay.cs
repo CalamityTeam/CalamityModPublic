@@ -14,7 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Advanced Display");
-            Tooltip.SetDefault("Can be placed in the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.DraedonMisc
             item.maxStack = 999;
             item.consumable = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.Yellow;
             item.useTime = item.useAnimation = 15;
         }
 

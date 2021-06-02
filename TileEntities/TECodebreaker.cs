@@ -1,7 +1,6 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonSummoner;
-using CalamityMod.UI;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -15,11 +14,48 @@ namespace CalamityMod.TileEntities
 	public class TECodebreaker : ModTileEntity
 	{
 		public int InputtedCellCount;
+		public int InitialCellCountBeforeDecrypting;
 		public int HeldSchematicID;
 
 		public int DecryptionCountdown;
-		public int DecryptionTotalTime => 300;
+		public int DecryptionTotalTime
+		{
+			get
+			{
+				// Decryption takes 35 minutes typically.
+				int decryptTime = 126000;
+
+				// However, if this codebreaker has a quantum cell, it only takes 1 minute.
+				if (ContainsCoolingCell)
+					decryptTime = 3600;
+				return decryptTime;
+			}
+		}
+
+		public int DecryptionCellCost
+		{
+			get
+			{
+				// You can't decrypt nothing.
+				if (HeldSchematicID == 0 || !CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
+					return 0;
+
+				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
+				if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
+					return 500;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
+					return 950;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicHell>())
+					return 1750;
+				if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
+					return 5000;
+
+				return 0;
+			}
+		}
+
 		public float DecryptionCompletion => 1f - DecryptionCountdown / (float)DecryptionTotalTime;
+		public bool ReadyToSummonDreadon => ContainsCoolingCell;
 
 		public bool ContainsDecryptionComputer;
 		public bool ContainsSensorArray;
@@ -32,7 +68,7 @@ namespace CalamityMod.TileEntities
 			get
 			{
 				// You can't decrypt nothing.
-				if (HeldSchematicID == 0)
+				if (HeldSchematicID == 0 || !CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
 					return false;
 
 				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
@@ -54,7 +90,7 @@ namespace CalamityMod.TileEntities
 			get
 			{
 				// You can't decrypt nothing.
-				if (HeldSchematicID == 0)
+				if (HeldSchematicID == 0 || !CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
 					return string.Empty;
 
 				int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
@@ -72,6 +108,7 @@ namespace CalamityMod.TileEntities
 		}
 
 		public Vector2 Center => Position.ToWorldCoordinates(8f * CodebreakerTile.Width, 8f * CodebreakerTile.Height);
+		public const int MaxCellCapacity = 9999;
 
 		// This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Charging Station tile.
 		public override bool ValidTile(int i, int j)
@@ -116,7 +153,7 @@ namespace CalamityMod.TileEntities
 			if (ContainsCoolingCell)
 				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<AuricQuantumCoolingCell>());
 
-			if (HeldSchematicID != 0)
+			if (CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
 				Item.NewItem(x * 16, y * 16, 32, 32, CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID]);
 		}
 
@@ -175,6 +212,7 @@ namespace CalamityMod.TileEntities
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerContainedStuff);
 			packet.Write(ID);
 			packet.Write(InputtedCellCount);
+			packet.Write(InitialCellCountBeforeDecrypting);
 			packet.Write(HeldSchematicID);
 		}
 
@@ -186,6 +224,7 @@ namespace CalamityMod.TileEntities
 			// Continue reading to the end even if a tile entity with the given ID does not exist.
 			// Not doing this will cause errors/bugs.
 			int cellCount = reader.ReadInt32();
+			int cellCountBeforeDecrypting = reader.ReadInt32();
 			int schematicID = reader.ReadInt32();
 
 			// After doing reading, check again to see if the tile entity is actually there.
@@ -198,6 +237,7 @@ namespace CalamityMod.TileEntities
 				return;
 
 			codebreakerTileEntity.InputtedCellCount = cellCount;
+			codebreakerTileEntity.InitialCellCountBeforeDecrypting = cellCountBeforeDecrypting;
 			codebreakerTileEntity.HeldSchematicID = schematicID;
 		}
 
@@ -240,12 +280,26 @@ namespace CalamityMod.TileEntities
 			{
 				DecryptionCountdown--;
 
+				// Gradually consume cells.
+				if (DecryptionCountdown % 5 == 4)
+				{
+					InputtedCellCount = InitialCellCountBeforeDecrypting - (int)(DecryptionCellCost * DecryptionCompletion);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						SyncContainedStuff();
+				}
+
 				if (DecryptionCountdown == 0)
 				{
+					// Reset the cell count prior to decrypting.
+					InitialCellCountBeforeDecrypting = 0;
+
 					LearnFromHeldSchematic(out bool anythingChanged);
 					if (Main.netMode == NetmodeID.Server)
+					{
 						SyncDecryptCountdown();
-					else if (anythingChanged && DraedonDecryptUI.AwaitingDecryptionTextClose)
+						SyncContainedStuff();
+					}
+					else if (anythingChanged)
 						CombatText.NewText(Main.LocalPlayer.Hitbox, Color.Cyan, "You learned how to create new things!", true);
 				}
 			}
@@ -254,6 +308,11 @@ namespace CalamityMod.TileEntities
 		public void LearnFromHeldSchematic(out bool anythingChanged)
 		{
 			anythingChanged = false;
+
+			// Do nothing if no valid schematic is inputted at the moment.
+			if (!CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
+				return;
+
 			int schematicType = CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID];
 
 			if (!RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes && schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
@@ -291,7 +350,9 @@ namespace CalamityMod.TileEntities
 				["ContainsVoltageRegulationSystem"] = ContainsVoltageRegulationSystem,
 				["ContainsCoolingCell"] = ContainsCoolingCell,
 				["InputtedCellCount"] = InputtedCellCount,
-				["HeldSchematicID"] = HeldSchematicID
+				["HeldSchematicID"] = HeldSchematicID,
+				["DecryptionCountdown"] = DecryptionCountdown,
+				["InitialCellCountBeforeDecrypting"] = InitialCellCountBeforeDecrypting
 			};
 		}
 
@@ -304,6 +365,8 @@ namespace CalamityMod.TileEntities
 			ContainsCoolingCell = tag.GetBool("ContainsCoolingCell");
 			InputtedCellCount = tag.GetInt("InputtedCellCount");
 			HeldSchematicID = tag.GetInt("HeldSchematicID");
+			DecryptionCountdown = tag.GetInt("DecryptionCountdown");
+			InitialCellCountBeforeDecrypting = tag.GetInt("InitialCellCountBeforeDecrypting");
 		}
 
 		public override void NetSend(BinaryWriter writer, bool lightSend)
@@ -315,6 +378,8 @@ namespace CalamityMod.TileEntities
 			writer.Write(ContainsCoolingCell);
 			writer.Write(InputtedCellCount);
 			writer.Write(HeldSchematicID);
+			writer.Write(DecryptionCountdown);
+			writer.Write(InitialCellCountBeforeDecrypting);
 		}
 
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
@@ -326,6 +391,8 @@ namespace CalamityMod.TileEntities
 			ContainsCoolingCell = reader.ReadBoolean();
 			InputtedCellCount = reader.ReadInt32();
 			HeldSchematicID = reader.ReadInt32();
+			DecryptionCountdown = reader.ReadInt32();
+			InitialCellCountBeforeDecrypting = reader.ReadInt32();
 		}
 	}
 }

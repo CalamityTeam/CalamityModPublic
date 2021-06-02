@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.DraedonMisc
             DisplayName.SetDefault("Auric Quantum Cooling Cell");
             Tooltip.SetDefault("Can be placed in the Codebreaker, completing it\n" +
                 "The completion of the Codebreaker allows you to make contact with its original creator\n" +
-                "Modified later");
+                "Attempting to do so may have dire consequences");
         }
 
         public override void SetDefaults()
@@ -36,9 +37,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
-            tt2.text = "Attempting to do so may have dire consequences";
-            tt2.overrideColor = Color.DarkRed;
+            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria").overrideColor = Color.DarkRed;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -71,7 +70,8 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5);
+            // Old worlds can craft the cell immediately for the sake of being able to easily fight Draedon in endgame worlds.
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5, true);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

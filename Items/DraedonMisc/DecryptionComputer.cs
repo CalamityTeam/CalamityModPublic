@@ -14,8 +14,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Decryption Computer");
-            Tooltip.SetDefault("Can be placed in the Codebreaker\n" +
-                "Allows you to decrypt schematics\n" +
+            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt advanced schematics\n" +
                 "Doing so allows you to learn how to craft new things");
         }
 

@@ -52,6 +52,7 @@ namespace CalamityMod.World
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
+        public static bool IsWorldAfterDraedonUpdate = false;
         public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
         //Boss Rush
@@ -154,6 +155,11 @@ namespace CalamityMod.World
         public static bool truffleName = false;
         public static bool witchDoctorName = false;
         public static bool wizardName = false;
+
+        // Draedon Summoning stuff.
+        public static int DraedonSummonCountdown = 0;
+        public static Vector2 DraedonSummonPosition = Vector2.Zero;
+        public const int DraedonSummonCountdownMax = 450;
 
         #region Downed Bools
         public static bool downedDesertScourge = false;
@@ -459,6 +465,7 @@ namespace CalamityMod.World
                 downed.Add("encounteredOldDuke");
             if (HasGeneratedLuminitePlanetoids)
                 downed.Add("HasGeneratedLuminitePlanetoids");
+            downed.AddWithCondition("IsWorldAfterDraedonUpdate", IsWorldAfterDraedonUpdate);
 
             RecipeUnlockHandler.Save(downed);
 
@@ -566,6 +573,7 @@ namespace CalamityMod.World
             forcedDownpourWithTear = downed.Contains("forcedTear");
             encounteredOldDuke = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
+            IsWorldAfterDraedonUpdate = downed.Contains("IsWorldAfterDraedonUpdate");
 
             RecipeUnlockHandler.Load(downed);
 
@@ -826,6 +834,8 @@ namespace CalamityMod.World
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
+            writer.Write(DraedonSummonCountdown);
+            writer.WriteVector2(DraedonSummonPosition);
         }
         #endregion
 
@@ -944,6 +954,8 @@ namespace CalamityMod.World
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
+            DraedonSummonCountdown = reader.ReadInt32();
+            DraedonSummonPosition = reader.ReadVector2();
         }
         #endregion
 
@@ -981,6 +993,10 @@ namespace CalamityMod.World
         {
             numAbyssIslands = 0;
             roxShrinePlaced = false;
+
+            // This will only be applied at world-gen time to new worlds.
+            // Only worlds will never receive this marker naturally.
+            IsWorldAfterDraedonUpdate = true;
         }
         #endregion
 
@@ -1164,6 +1180,12 @@ namespace CalamityMod.World
         #region PostUpdate
         public override void PostUpdate()
         {
+            if (DraedonSummonCountdown > 0)
+			{
+                DraedonSummonCountdown--;
+                HandleDraedonSummoning();
+			}
+
             // Sunken Sea Location...duh
             SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom,
                         WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
@@ -2017,6 +2039,25 @@ namespace CalamityMod.World
                 }
             }
         }
+
+        public static void HandleDraedonSummoning()
+		{
+            // Fire a giant laser into the sky.
+            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
+                Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 70, 0f);
+            
+            if (DraedonSummonCountdown < 150)
+			{
+                float fadeToWhite = Utils.InverseLerp(150f, 90f, DraedonSummonCountdown, true) * Utils.InverseLerp(30f, 50f, DraedonSummonCountdown, true);
+                MoonlordDeathDrama.RequestLight(fadeToWhite, Main.LocalPlayer.Center);
+			}
+            
+            if (DraedonSummonCountdown == 0)
+			{
+                Main.NewText("John Wulfrum has awoken!", new Color(175, 75, 255));
+                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<WulfrumHovercraft>());
+			}
+		}
         #endregion
 
         #region Check Placement Proximity

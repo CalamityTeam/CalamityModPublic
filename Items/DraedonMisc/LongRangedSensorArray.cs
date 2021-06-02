@@ -14,7 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Long Ranged Sensor Array");
-            Tooltip.SetDefault("Can be placed in the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker");
         }
 
         public override void SetDefaults()
