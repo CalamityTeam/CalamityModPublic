@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Hypothermia");
             Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes additionally fire short ranged ice chunks that shatters into ice shards");
+                               "Stealth strikes additionally fire short ranged ice chunks that shatter into ice shards");
         }
 
         public override void SafeSetDefaults()
