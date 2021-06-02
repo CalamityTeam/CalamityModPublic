@@ -194,6 +194,11 @@ namespace CalamityMod
 				{ ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+				{ ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<EidolonWyrmBodyAltHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<EidolonWyrmTailHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+
 				{ ModContent.NPCType<AcidEel>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
 				{ ModContent.NPCType<BloodwormFleeing>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
 				{ ModContent.NPCType<BloodwormNormal>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -261,10 +266,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<EidolonWyrmBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<EidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<EidolonWyrmTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-				{ ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmBodyAltHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmTailHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<ColossalSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 				{ ModContent.NPCType<Reaper>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 

@@ -84,11 +84,11 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Variables for ichor spore phase
 			float sporePhaseGateValue = 600f;
-			bool floatAboveToFireSpores = npc.ai[2] >= sporePhaseGateValue - 120f;
+			bool floatAboveToFireBlobs = npc.ai[2] >= sporePhaseGateValue - 120f;
 
-			// Don't deal damage for 3 seconds after spawning or while firing spores
+			// Don't deal damage for 3 seconds after spawning or while firing blobs
 			npc.damage = npc.defDamage;
-			if (npc.ai[1] < 180f || floatAboveToFireSpores)
+			if (npc.ai[1] < 180f || floatAboveToFireBlobs)
 			{
 				if (npc.ai[1] < 180f)
 					npc.ai[1] += 1f;
@@ -196,10 +196,10 @@ namespace CalamityMod.NPCs.Perforator
 
 			npc.rotation = npc.velocity.X * 0.04f;
 
-			// Emit ichor spores
+			// Emit ichor blobs
 			if (phase2)
 			{
-				if (wormsAlive == 0 || malice || floatAboveToFireSpores)
+				if (wormsAlive == 0 || malice || floatAboveToFireBlobs)
 				{
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= sporePhaseGateValue)
@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.Perforator
 						if (npc.ai[2] < sporePhaseGateValue + 300f)
 						{
 							if (npc.velocity.Length() > 0.5f)
-								npc.velocity *= 0.95f;
+								npc.velocity *= 0.96f;
 							else
 								npc.ai[2] = sporePhaseGateValue + 300f;
 						}
@@ -230,24 +230,24 @@ namespace CalamityMod.NPCs.Perforator
 								}
 							}
 
-							int numSpores = expertMode ? 14 : 7;
-							int type = ModContent.ProjectileType<IchorSporeCloud>();
+							int numBlobs = expertMode ? 6 : 3;
+							int type = ModContent.ProjectileType<IchorBlob>();
 							int damage = npc.GetProjectileDamage(type);
 
-							for (int i = 0; i < numSpores; i++)
+							for (int i = 0; i < numBlobs; i++)
 							{
-								Vector2 sporeVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-								sporeVelocity.Normalize();
-								sporeVelocity *= Main.rand.Next(200, 401) * 0.01f;
+								Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+								blobVelocity.Normalize();
+								blobVelocity *= Main.rand.Next(200, 401) * (malice ? 0.02f : 0.01f);
 
-								float sporeVelocityYAdd = Math.Abs(sporeVelocity.Y) * 0.5f;
-								if (sporeVelocity.Y < 2f)
-									sporeVelocity.Y = 2f + sporeVelocityYAdd;
+								float sporeVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
+								if (blobVelocity.Y < 2f)
+									blobVelocity.Y = 2f + sporeVelocityYAdd;
 
 								if (BossRushEvent.BossRushActive)
-									sporeVelocity *= 2f;
+									blobVelocity *= 2f;
 
-								Projectile.NewProjectile(npc.Center, sporeVelocity, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center, blobVelocity, type, damage, 0f, Main.myPlayer);
 							}
 						}
 
@@ -260,8 +260,8 @@ namespace CalamityMod.NPCs.Perforator
 			float velocityXEnrageIncrease = 1.5f * enrageScale;
 			float velocityYEnrageIncrease = 0.5f * enrageScale;
 
-			// When firing spores, float above the target and don't call any other projectile firing or movement code
-			if (floatAboveToFireSpores)
+			// When firing blobs, float above the target and don't call any other projectile firing or movement code
+			if (floatAboveToFireBlobs)
 			{
 				if (revenge)
 				{

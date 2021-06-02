@@ -248,6 +248,14 @@ namespace CalamityMod
 				case "supremecalamitas":
 				case "supreme calamitas":
 					return CalamityWorld.downedSCal;
+
+				case "adulteidolonwyrm":
+				case "adult eidolon wyrm":
+				case "adultwyrm":
+				case "adult wyrm":
+				case "adulteidolon":
+				case "adult eidolon":
+					return CalamityWorld.downedAdultEidolonWyrm;
 			}
 		}
 		#endregion
