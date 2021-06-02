@@ -12,6 +12,12 @@ namespace CalamityMod.CustomRecipes
         public static bool HasUnlockedT4ArsenalRecipes = false;
         public static bool HasUnlockedT5ArsenalRecipes = false;
 
+        public static bool HasFoundSunkenSeaSchematic = false;
+        public static bool HasFoundPlanetoidSchematic = false;
+        public static bool HasFoundJungleSchematic = false;
+        public static bool HasFoundHellSchematic = false;
+        public static bool HasFoundIceSchematic = false;
+
         public static void Save(List<string> boolTagContainer)
         {
             boolTagContainer.AddWithCondition("HasUnlockedT1ArsenalRecipes", HasUnlockedT1ArsenalRecipes);
@@ -19,6 +25,24 @@ namespace CalamityMod.CustomRecipes
             boolTagContainer.AddWithCondition("HasUnlockedT3ArsenalRecipes", HasUnlockedT3ArsenalRecipes);
             boolTagContainer.AddWithCondition("HasUnlockedT4ArsenalRecipes", HasUnlockedT4ArsenalRecipes);
             boolTagContainer.AddWithCondition("HasUnlockedT5ArsenalRecipes", HasUnlockedT5ArsenalRecipes);
+
+            boolTagContainer.AddWithCondition("HasFoundSunkenSeaSchematic", HasFoundSunkenSeaSchematic);
+            boolTagContainer.AddWithCondition("HasFoundPlanetoidSchematic", HasFoundPlanetoidSchematic);
+            boolTagContainer.AddWithCondition("HasFoundJungleSchematic", HasFoundJungleSchematic);
+            boolTagContainer.AddWithCondition("HasFoundHellSchematic", HasFoundHellSchematic);
+            boolTagContainer.AddWithCondition("HasFoundIceSchematic", HasFoundIceSchematic);
+
+            HasUnlockedT1ArsenalRecipes = false;
+            HasUnlockedT2ArsenalRecipes = false;
+            HasUnlockedT3ArsenalRecipes = false;
+            HasUnlockedT4ArsenalRecipes = false;
+            HasUnlockedT5ArsenalRecipes = false;
+
+            HasFoundSunkenSeaSchematic = false;
+            HasFoundPlanetoidSchematic = false;
+            HasFoundJungleSchematic = false;
+            HasFoundHellSchematic = false;
+            HasFoundIceSchematic = false;
         }
 
         public static void Load(IList<string> boolTagContainer)
@@ -28,6 +52,12 @@ namespace CalamityMod.CustomRecipes
             HasUnlockedT3ArsenalRecipes = boolTagContainer.Contains("HasUnlockedT3ArsenalRecipes");
             HasUnlockedT4ArsenalRecipes = boolTagContainer.Contains("HasUnlockedT4ArsenalRecipes");
             HasUnlockedT5ArsenalRecipes = boolTagContainer.Contains("HasUnlockedT5ArsenalRecipes");
+
+            HasFoundSunkenSeaSchematic = boolTagContainer.Contains("HasFoundSunkenSeaSchematic");
+            HasFoundPlanetoidSchematic = boolTagContainer.Contains("HasFoundPlanetoidSchematic");
+            HasFoundJungleSchematic = boolTagContainer.Contains("HasFoundJungleSchematic");
+            HasFoundHellSchematic = boolTagContainer.Contains("HasFoundHellSchematic");
+            HasFoundIceSchematic = boolTagContainer.Contains("HasFoundIceSchematic");
         }
 
         public static void SendData(BinaryWriter writer)
@@ -38,8 +68,16 @@ namespace CalamityMod.CustomRecipes
             flags[2] = HasUnlockedT3ArsenalRecipes;
             flags[3] = HasUnlockedT4ArsenalRecipes;
             flags[4] = HasUnlockedT5ArsenalRecipes;
+            flags[5] = HasFoundSunkenSeaSchematic;
+            flags[6] = HasFoundPlanetoidSchematic;
+            flags[7] = HasFoundJungleSchematic;
+
+            BitsByte flags2 = new BitsByte();
+            flags2[0] = HasFoundHellSchematic;
+            flags2[1] = HasFoundIceSchematic;
 
             writer.Write(flags);
+            writer.Write(flags2);
         }
 
         public static void ReceiveData(BinaryReader reader)
@@ -50,6 +88,13 @@ namespace CalamityMod.CustomRecipes
             HasUnlockedT3ArsenalRecipes = flags[2];
             HasUnlockedT4ArsenalRecipes = flags[3];
             HasUnlockedT5ArsenalRecipes = flags[4];
+            HasFoundSunkenSeaSchematic = flags[5];
+            HasFoundPlanetoidSchematic = flags[6];
+            HasFoundJungleSchematic = flags[7];
+
+            BitsByte flags2 = reader.ReadByte();
+            HasFoundHellSchematic = flags2[0];
+            HasFoundIceSchematic = flags2[1];
         }
     }
 }

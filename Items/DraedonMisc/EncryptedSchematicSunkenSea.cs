@@ -1,4 +1,5 @@
 using CalamityMod.CustomRecipes;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,11 +29,24 @@ namespace CalamityMod.Items.DraedonMisc
         {
             // Since no decrypting is necessary for this item simply placing it in your inventory is sufficient enough to "learn"
             // from it.
-            if (Main.myPlayer == player.whoAmI && !RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes)
+            if (Main.myPlayer == player.whoAmI && (!RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes || !RecipeUnlockHandler.HasFoundSunkenSeaSchematic))
             {
+                RecipeUnlockHandler.HasFoundSunkenSeaSchematic = true;
                 RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes = true;
                 CalamityNetcode.SyncWorld();
             }
+        }
+
+        // Recipe exists for posierity.
+        public override void AddRecipes()
+        {
+            SchematicRecipe recipe = new SchematicRecipe(mod, "Sunken Sea");
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+            recipe.AddIngredient(ItemID.Glass, 50);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
     }
 }
