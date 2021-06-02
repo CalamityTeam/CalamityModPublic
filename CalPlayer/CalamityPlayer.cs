@@ -1974,6 +1974,9 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
+            if (CalamityConfig.Instance.DisableScreenShakes)
+                return;
+
             if (CalamityWorld.ScreenShakeSpots.Count > 0)
             {
                 // Fail-safe to ensure that spots don't last forever.
