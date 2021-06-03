@@ -22,9 +22,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 420;
+            item.damage = 85;
             item.magic = true;
-            item.mana = (int)42.0; // TODO -- is there a reason for this?
+            item.mana = 42;
             item.width = 30;
             item.height = 34;
             item.useTime = 15;
