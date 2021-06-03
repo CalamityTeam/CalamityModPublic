@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.SlimeGod
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 8, 0, 0);
-            npc.alpha = 55;
+			npc.Opacity = 0.8f;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -265,8 +265,9 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.velocity = Vector2.Zero;
 
-						if (npc.alpha < 255)
-							npc.alpha += 5;
+						npc.Opacity -= 0.2f;
+						if (npc.Opacity < 0f)
+							npc.Opacity = 0f;
 					}
 
 					bool slimeDead = false;
@@ -306,8 +307,9 @@ namespace CalamityMod.NPCs.SlimeGod
 					return;
 				}
 
-				if (npc.alpha > 55)
-					npc.alpha -= 5;
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 0.8f)
+					npc.Opacity = 0.8f;
 
 				buffedSlime = 0;
 			}
@@ -326,10 +328,10 @@ namespace CalamityMod.NPCs.SlimeGod
 							npc.rotation = npc.velocity.X * 0.1f;
 
 							// Set teleport location, turn invisible, spin direction
-							npc.alpha += 20;
-							if (npc.alpha >= 255)
+							npc.Opacity -= 0.2f;
+							if (npc.Opacity <= 0f)
 							{
-								npc.alpha = 255;
+								npc.Opacity = 0f;
 								npc.velocity.Normalize();
 
 								int teleportX = player.velocity.X < 0f ? -20 : 20;
@@ -349,17 +351,17 @@ namespace CalamityMod.NPCs.SlimeGod
 							npc.rotation = npc.velocity.X * 0.1f;
 
 							// Teleport to location
-							if (npc.alpha == 255)
+							if (npc.Opacity == 0f)
 							{
 								Vector2 position = new Vector2(npc.ai[2] * 16f - (npc.width / 2), npc.ai[3] * 16f - (npc.height / 2));
 								npc.position = position;
 							}
 
 							// Turn visible
-							npc.alpha -= 20;
-							if (npc.alpha < 55)
+							npc.Opacity += 0.2f;
+							if (npc.Opacity >= 0.8f)
 							{
-								npc.alpha = 55;
+								npc.Opacity = 0.8f;
 								npc.localAI[0] = vectorCenter.X - player.Center.X < 0 ? 1f : -1f;
 								npc.localAI[1] = 2f;
 							}
