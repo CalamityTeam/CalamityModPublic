@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 44000;
+                npc.lifeMax = 4400;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

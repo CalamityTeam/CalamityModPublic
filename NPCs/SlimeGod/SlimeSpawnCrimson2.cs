@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax = 130;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 120000;
+                npc.lifeMax = 12000;
             }
             npc.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;

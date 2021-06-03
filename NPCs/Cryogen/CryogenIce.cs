@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 1400;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;

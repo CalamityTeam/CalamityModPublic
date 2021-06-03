@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 75000;
+				npc.lifeMax = 7500;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;

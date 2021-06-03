@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             global.DR = 0.5f;
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1;
-			npc.LifeMaxNERB(notDoGFight ? 67200 : 16800, notDoGFight ? 77280 : 19320, 720000);
+			npc.LifeMaxNERB(notDoGFight ? 67200 : 16800, notDoGFight ? 77280 : 19320, 72000);
 
             // If fought alone, Ceaseless Void plays its own theme
             if (notDoGFight)
