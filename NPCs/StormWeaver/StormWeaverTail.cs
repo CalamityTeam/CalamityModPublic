@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.defense = 0;
             npc.takenDamageMultiplier = 3f;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
 
             // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)

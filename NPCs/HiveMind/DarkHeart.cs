@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax = 150;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 18000;
+                npc.lifeMax = 1800;
             }
             npc.aiStyle = -1;
             aiType = -1;

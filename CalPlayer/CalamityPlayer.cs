@@ -1370,9 +1370,7 @@ namespace CalamityMod.CalPlayer
             if (BossRushEvent.BossRushActive)
             {
                 if (CalamityConfig.Instance.BossRushAccessoryCurse)
-                {
                     player.extraAccessorySlots = 0;
-                }
             }
 
             ResetRogueStealth();
@@ -1975,6 +1973,9 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
+            if (CalamityConfig.Instance.DisableScreenShakes)
+                return;
+
             if (GeneralScreenShakePower > 0f)
             {
                 Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower, GeneralScreenShakePower);

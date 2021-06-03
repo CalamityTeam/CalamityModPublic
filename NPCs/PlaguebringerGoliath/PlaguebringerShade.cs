@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.value = Item.buyPrice(0, 1, 50, 0);
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 200000;
+                npc.lifeMax = 20000;
             }
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;

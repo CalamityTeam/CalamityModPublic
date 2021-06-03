@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.lifeMax = 400;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.aiStyle = -1;
             aiType = -1;

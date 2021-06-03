@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Tools
 
 		public override void SetDefaults()
 		{
-			item.damage = 2000;
+			item.damage = 400;
 			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;

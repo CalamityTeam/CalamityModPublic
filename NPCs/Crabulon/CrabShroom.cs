@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Crabulon
             npc.lifeMax = 25;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 15000;
             }
             aiType = -1;
             npc.knockBackResist = 0.75f;

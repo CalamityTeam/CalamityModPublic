@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.lifeMax = notDoGFight ? 760500 : 126750;
-			npc.LifeMaxNERB(npc.lifeMax, npc.lifeMax, 4550000);
+			npc.LifeMaxNERB(npc.lifeMax, npc.lifeMax, 455000);
 
 			// If fought alone, Storm Weaver plays its own theme
 			if (notDoGFight)
