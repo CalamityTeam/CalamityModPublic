@@ -312,6 +312,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             FrameChangeSpeed = 0.15f;
             #endregion
             #region StartUp
+
             CalamityGlobalNPC.SCal = npc.whoAmI;
 
             lootTimer++;
@@ -450,7 +451,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!spawnArena)
             {
                 spawnArena = true;
-                Vector2 vectorPlayer = new Vector2(player.position.X, player.position.Y);
                 if (death)
                 {
                     safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
@@ -495,6 +495,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 WorldGen.SquareTileFrame(num55, num56, true);
                             }
                         }
+                    }
+
+                    if (initialRitualPosition == Vector2.Zero)
+                    {
+                        initialRitualPosition = npc.Center + Vector2.UnitY * 24f;
+                        npc.netUpdate = true;
                     }
                 }
             }
