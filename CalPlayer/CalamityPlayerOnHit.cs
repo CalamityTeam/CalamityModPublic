@@ -564,7 +564,7 @@ namespace CalamityMod.CalPlayer
 					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, (int)(60 * player.RogueDamage()), 3, proj.owner);
 					if (flare.WithinBounds(Main.maxProjectiles))
 						Main.projectile[flare].Calamity().forceTypeless = true;
-					modPlayer.moonCrownCooldown = 15;
+					modPlayer.moonCrownCooldown = 60;
 				}
 			}
 
@@ -743,10 +743,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
                     target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(BuffType<GlacialState>(), duration, false);
-                    }
                 }
                 if (modPlayer.cryogenSoul || modPlayer.frostFlare)
                 {
@@ -764,9 +760,6 @@ namespace CalamityMod.CalPlayer
 				{
 					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<AbyssalFlames>());
 				}
-
-				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -823,7 +816,7 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.tearMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 60);
+					target.AddBuff(BuffType<TemporalSadness>(), 30);
 				}
 
 				if (modPlayer.shadowMinions)
@@ -896,10 +889,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
                     target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(BuffType<GlacialState>(), duration, false);
-                    }
                 }
                 if (modPlayer.aWeapon)
                 {
@@ -917,8 +906,6 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
-				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -972,7 +959,7 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.tearMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 60);
+					target.AddBuff(BuffType<TemporalSadness>(), 30);
 				}
 
 				if (modPlayer.shadowMinions)

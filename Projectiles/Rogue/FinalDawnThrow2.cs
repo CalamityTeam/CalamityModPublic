@@ -22,7 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 200;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.light = 0.0f;
             projectile.extraUpdates = 1;
 			projectile.tileCollide = true; // We don't want people getting stuck in walls right

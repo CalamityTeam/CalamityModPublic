@@ -176,15 +176,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (target.rarity < 2)
-			{
+			if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
 				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
-			}
-			else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
-			{
+			else
 				target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
-			}
-            projectile.ai[0] = 1f;
+
+			projectile.ai[0] = 1f;
             projectile.netUpdate = true;
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
         }

@@ -3277,6 +3277,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[0] = 1f;
 					SpawnHands();
+                    npc.netUpdate = true;
                 }
 
                 // Respawn hands
@@ -3285,6 +3286,9 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[0] = 1f;
                     Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, -0.25f);
 					SpawnHands();
+
+                    npc.netUpdate = true;
+                    npc.SyncExtraAI();
                 }
 
 				void SpawnHands()
@@ -3403,6 +3407,7 @@ namespace CalamityMod.NPCs
 							int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
 							Main.projectile[proj].timeLeft = 600;
 						}
+                        npc.netUpdate = true;
                     }
 
                     // Teleport dust
@@ -3451,6 +3456,7 @@ namespace CalamityMod.NPCs
                                 // New location params
                                 calamityGlobalNPC.newAI[2] = num1458 * 16 - npc.width / 2;
                                 calamityGlobalNPC.newAI[3] = num1459 * 16 - npc.height;
+                                npc.SyncExtraAI();
                                 break;
                             }
                         }
@@ -3497,6 +3503,7 @@ namespace CalamityMod.NPCs
                     npc.ai[3] = -60f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
+                    npc.SyncExtraAI();
 					npc.netUpdate = true;
                 }
             }
@@ -3538,6 +3545,8 @@ namespace CalamityMod.NPCs
 						vector18 += vector19 * 5f;
                         int num168 = Projectile.NewProjectile(vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
                         Main.projectile[num168].timeLeft = 300;
+
+                        npc.netUpdate = true;
                     }
                 }
             }
@@ -3555,7 +3564,9 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
                     npc.ai[1] = 1f;
                     calamityGlobalNPC.newAI[1] = 0f;
+
                     npc.TargetClosest();
+                    npc.SyncExtraAI();
                     npc.netUpdate = true;
                 }
 
@@ -3631,8 +3642,11 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
                     npc.ai[1] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
+
 					npc.TargetClosest();
-				}
+                    npc.SyncExtraAI();
+                    npc.netUpdate = true;
+                }
 
                 npc.rotation += npc.direction * 0.3f;
                 Vector2 vector20 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -3729,6 +3743,8 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[1] < 180f)
 			{
 				calamityGlobalNPC.newAI[1] += 1f;
+                if (calamityGlobalNPC.newAI[1] % 15f == 0f)
+                    npc.SyncExtraAI();
 				npc.damage = 0;
 			}
 			else
@@ -3900,7 +3916,10 @@ namespace CalamityMod.NPCs
             else if (npc.ai[2] == 2f)
             {
                 if (npc.position.Y > Main.player[npc.target].position.Y || npc.velocity.Y < 0f || npc.velocity == Vector2.Zero)
+                {
                     npc.ai[2] = 3f;
+                    npc.netUpdate = true;
+                }
             }
             else if (npc.ai[2] == 4f)
             {
@@ -3936,7 +3955,10 @@ namespace CalamityMod.NPCs
                 }
             }
             else if (npc.ai[2] == 5f && ((npc.velocity.X > 0f && npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2)) || npc.velocity == Vector2.Zero))
+            {
                 npc.ai[2] = 0f;
+                npc.netUpdate = true;
+            }
 
             return false;
         }
@@ -5061,6 +5083,9 @@ namespace CalamityMod.NPCs
 			if (npc.Calamity().newAI[1] < 120f)
 			{
 				npc.Calamity().newAI[1] += 1f;
+                if (npc.Calamity().newAI[1] % 15f == 0f)
+                    npc.SyncExtraAI();
+
 				npc.dontTakeDamage = true;
 			}
 			else
@@ -5169,6 +5194,7 @@ namespace CalamityMod.NPCs
 					int type = ProjectileID.PinkLaser;
 					int damage = npc.GetProjectileDamage(type);
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, type, damage, 0f, Main.myPlayer);
+                    npc.netUpdate = true;
 				}
 			}
 
@@ -9953,7 +9979,7 @@ namespace CalamityMod.NPCs
                         Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 60f);
                         if (npc.localAI[1] % divisor == 0f && (Vector2.Distance(Main.player[npc.target].Center, vector82) > 160f || !flag43))
                         {
-                            float num673 = enrage ? 12f : 6f;
+                            float num673 = turboEnrage ? 12f : enrage ? 9f : 6f;
                             float num674 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector82.X;
                             float num675 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector82.Y;
                             float num676 = (float)Math.Sqrt(num674 * num674 + num675 * num675);
@@ -10031,6 +10057,7 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y = 1f;
 
                         npc.noTileCollide = true;
+                        npc.netUpdate = true;
 
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -10099,13 +10126,18 @@ namespace CalamityMod.NPCs
 								velocity *= 1.5f;
 
                             if (enrage)
-                                velocity *= 1.5f;
+                                velocity *= 1.25f;
+
+							if (turboEnrage)
+								velocity *= 1.25f;
 
 							int type = ProjectileID.Fireball;
 							int damage = npc.GetProjectileDamage(type);
 							int proj = Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].timeLeft = 240;
                         }
+
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -10171,13 +10203,16 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			int num649 = turboEnrage ? 6000 : 4500;
+			int num649 = turboEnrage ? 7500 : enrage ? 6000 : 4500;
             if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > num649)
             {
                 npc.TargetClosest();
 
                 if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > num649)
+                {
                     npc.active = false;
+                    npc.netUpdate = true;
+                }
             }
 
             return false;
@@ -10221,26 +10256,7 @@ namespace CalamityMod.NPCs
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            float num650 = 40f;
-            Vector2 vector80 = npc.Center;
-            float num651 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
-            float num652 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
-            num652 -= 57f;
-            num651 -= 3f;
-            float num653 = (float)Math.Sqrt(num651 * num651 + num652 * num652);
-            if (num653 < 20f)
-            {
-                npc.rotation = 0f;
-                npc.velocity.X = num651;
-                npc.velocity.Y = num652;
-            }
-            else
-            {
-                num653 = num650 / num653;
-                npc.velocity.X = num651 * num653;
-                npc.velocity.Y = num652 * num653;
-                npc.rotation = npc.velocity.X * 0.1f;
-            }
+            npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(3f, 57f);
 
             // Enrage if the target isn't inside the temple
             bool enrage = true;
@@ -10282,14 +10298,14 @@ namespace CalamityMod.NPCs
                 else
                     npc.localAI[0] = 0f;
 
-                if (npc.ai[1] >= num654)
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= num654)
                 {
                     npc.TargetClosest();
 
                     npc.ai[1] = 0f;
 
                     Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y + 10f);
-                    float num655 = turboEnrage ? 16f : enrage ? 12f : 8f;
+                    float num655 = turboEnrage ? 12f : enrage ? 10f : 8f;
                     float num656 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector81.X;
                     float num657 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector81.Y;
                     float num658 = (float)Math.Sqrt(num656 * num656 + num657 * num657);
@@ -10300,8 +10316,9 @@ namespace CalamityMod.NPCs
 
 					int type = ProjectileID.Fireball;
 					int damage = npc.GetProjectileDamage(type);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(vector81.X, vector81.Y, num656, num657, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector81.X, vector81.Y, num656, num657, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+                    npc.netUpdate = true;
                 }
             }
 
@@ -10333,13 +10350,13 @@ namespace CalamityMod.NPCs
                 else
                     npc.localAI[0] = 0f;
 
-                if (npc.ai[1] >= num662)
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= num662)
                 {
                     npc.TargetClosest();
 
                     npc.ai[1] = 0f;
 
-                    float num663 = turboEnrage ? 18f : enrage ? 15f : 12f;
+                    float num663 = turboEnrage ? 16f : enrage ? 14f : 12f;
                     float num664 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector82.X;
                     float num665 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector82.Y;
                     float num666 = (float)Math.Sqrt(num664 * num664 + num665 * num665);
@@ -10350,8 +10367,9 @@ namespace CalamityMod.NPCs
 
 					int type = ProjectileID.Fireball;
 					int damage = npc.GetProjectileDamage(type);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(vector82.X, vector82.Y, num664, num665, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector82.X, vector82.Y, num664, num665, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+                    npc.netUpdate = true;
                 }
 
 				// Lasers
@@ -10399,6 +10417,7 @@ namespace CalamityMod.NPCs
                             {
                                 int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
+                                npc.netUpdate = true;
                             }
                         }
                     }
@@ -10428,6 +10447,7 @@ namespace CalamityMod.NPCs
                         {
                             int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
+                            npc.netUpdate = true;
                         }
                     }
                 }
@@ -10510,8 +10530,6 @@ namespace CalamityMod.NPCs
             // Move to new location
             if (npc.ai[3] <= 0f)
             {
-                npc.netSpam = 5;
-
                 npc.ai[3] = 300f;
 
                 float maxDistance = 300f;
@@ -10575,6 +10593,8 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[1] = -maxDistance;
                 }
 
+                npc.netSpam = 5;
+                npc.SyncExtraAI();
                 npc.netUpdate = true;
 			}
 
@@ -10659,7 +10679,11 @@ namespace CalamityMod.NPCs
 			{
 				calamityGlobalNPC.newAI[2] += 1f;
 
-				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                if (calamityGlobalNPC.newAI[2] % 15f == 0f)
+                {
+                    npc.netUpdate = true;
+                    npc.SyncExtraAI();
+                }
 
 				return false;
 			}
@@ -10677,14 +10701,14 @@ namespace CalamityMod.NPCs
             if (flag44 && !phase3)
                 npc.ai[1] = 20f;
 
-            if (npc.ai[1] >= num705 && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= num705 && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
             {
 				npc.TargetClosest();
 
                 npc.ai[1] = 0f;
 
                 Vector2 vector88 = new Vector2(npc.Center.X, npc.Center.Y - 10f);
-                float num706 = turboEnrage ? 10f : enrage ? 7.5f : 5f;
+                float num706 = turboEnrage ? 8f : enrage ? 6.5f : 5f;
                 float num709 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector88.X;
                 float num710 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector88.Y;
                 float num711 = (float)Math.Sqrt(num709 * num709 + num710 * num710);
@@ -10694,18 +10718,17 @@ namespace CalamityMod.NPCs
                 num710 *= num711;
 
                 int projectileType = phase3 ? ProjectileID.InfernoHostileBolt : ProjectileID.Fireball;
-				int damage = npc.GetProjectileDamage(projectileType);
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+                int damage = npc.GetProjectileDamage(projectileType);
+                int proj = Projectile.NewProjectile(vector88.X, vector88.Y, num709, num710, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                if (projectileType == ProjectileID.InfernoHostileBolt)
                 {
-                    int proj = Projectile.NewProjectile(vector88.X, vector88.Y, num709, num710, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                    if (projectileType == ProjectileID.InfernoHostileBolt)
-                    {
-                        Main.projectile[proj].timeLeft = 300;
-                        Main.projectile[proj].ai[0] = Main.player[npc.target].Center.X;
-                        Main.projectile[proj].ai[1] = Main.player[npc.target].Center.Y;
-                        Main.projectile[proj].netUpdate = true;
-                    }
+                    Main.projectile[proj].timeLeft = 300;
+                    Main.projectile[proj].ai[0] = Main.player[npc.target].Center.X;
+                    Main.projectile[proj].ai[1] = Main.player[npc.target].Center.Y;
+                    Main.projectile[proj].netUpdate = true;
                 }
+
+                npc.netUpdate = true;
             }
 
             // Lasers
@@ -10713,7 +10736,7 @@ namespace CalamityMod.NPCs
             if (!Collision.CanHit(Main.npc[NPC.golemBoss].Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                 npc.ai[2] += 8f;
 
-            if (npc.ai[2] >= 300f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= 300f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
             {
 				npc.TargetClosest();
 
@@ -10740,15 +10763,12 @@ namespace CalamityMod.NPCs
 
 					int type = ProjectileID.EyeBeam;
 					int damage = npc.GetProjectileDamage(type);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int num720 = Projectile.NewProjectile(vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[num720].timeLeft = enrage ? 480 : 300;
-                    }
+                    int num720 = Projectile.NewProjectile(vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Main.projectile[num720].timeLeft = enrage ? 480 : 300;
                 }
-            }
 
-            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                npc.netUpdate = true;
+            }
 
             return false;
         }

@@ -42,10 +42,9 @@ namespace CalamityMod.NPCs.Signus
 			npc.width = 130;
             npc.height = 130;
             npc.defense = 60;
-            
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
-			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);
+			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 240000);
 
             // If fought alone, Signus plays his own theme
             if (notDoGFight)
@@ -231,6 +230,8 @@ namespace CalamityMod.NPCs.Signus
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+
+                    npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[0] == 0f)

@@ -65,9 +65,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
+        public override float SafeSetUseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void SafeModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             mult += flexMult - 1f;
         }
@@ -86,7 +86,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
 
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+            if (player.Calamity().StealthStrikeAvailable())
+                damage = (int)(damage * 1.3);
+
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = true;
 

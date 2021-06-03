@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.lifeMax = 800;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 350000;
+                npc.lifeMax = 35000;
             }
             npc.aiStyle = 6;
             aiType = -1;

@@ -2460,8 +2460,6 @@ namespace CalamityMod
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnHealer>(),
                 NPCType<DarkEnergy>(),
-                NPCType<DarkEnergy2>(),
-                NPCType<DarkEnergy3>(),
                 NPCType<CosmicLantern>(),
                 NPCType<DevourerofGodsHead2>(),
                 NPCType<DevourerofGodsBody2>(),

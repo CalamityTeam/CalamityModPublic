@@ -69,5 +69,16 @@ namespace CalamityMod
 			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
 			return new Rectangle(num, num2, num3 - num, num4 - num2);
 		}
+
+		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Utils.cs function.
+		// Due to its temporary state, this method will not receive an XML documentation comment.
+		public static Vector2 MoveTowards(this Vector2 currentPosition, Vector2 targetPosition, float maxAmountAllowedToMove)
+		{
+			Vector2 v = targetPosition - currentPosition;
+			if (v.Length() < maxAmountAllowedToMove)
+				return targetPosition;
+
+			return currentPosition + v.SafeNormalize(Vector2.Zero) * maxAmountAllowedToMove;
+		}
 	}
 }

@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = projectile.height = 20;
             projectile.friendly = true;
             projectile.magic = true;
+            projectile.ignoreWater = true;
             projectile.penetrate = 10;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;

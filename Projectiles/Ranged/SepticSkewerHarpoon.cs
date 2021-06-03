@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.ranged = true;
+			projectile.ignoreWater = true;
+			projectile.ranged = true;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                 vector63.Normalize();
                 vector63 *= Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(projectile.damage * 0.175), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
             }
             if (player.dead)
             {

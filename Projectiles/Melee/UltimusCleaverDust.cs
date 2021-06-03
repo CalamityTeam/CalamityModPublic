@@ -16,7 +16,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = 5;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 5;
             projectile.timeLeft = 120;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;

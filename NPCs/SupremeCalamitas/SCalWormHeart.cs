@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 24;
             npc.height = 24;
             npc.defense = 0;
-			npc.LifeMaxNERB(160000, 180000, 90000);
+			npc.LifeMaxNERB(25600, 29440, 10000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -38,19 +38,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.netUpdate = true;
                 return;
             }
+
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<Celestus2>())
-            {
-                damage = (int)(damage * 0.66);
-            }
         }
 
         public override bool CheckActive()

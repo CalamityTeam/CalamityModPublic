@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = 200;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.aiStyle = 5;
             aiType = NPCID.Probe;

@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.lifeMax = 6000;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 100000;
+				npc.lifeMax = 10000;
 			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;

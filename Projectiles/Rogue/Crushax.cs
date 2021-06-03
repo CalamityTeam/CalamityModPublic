@@ -18,7 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
             projectile.aiStyle = 2;
             projectile.timeLeft = 300;
             aiType = ProjectileID.ThrowingKnife;
@@ -39,7 +40,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

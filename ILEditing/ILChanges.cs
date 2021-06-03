@@ -25,11 +25,60 @@ namespace CalamityMod.ILEditing
         // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,768.
         private static readonly List<int> NeedsFourLifeBytes = new List<int>()
         {
+            // King Slime
+            NPCID.BlueSlime,
+            NPCID.SlimeSpiked,
+            NPCID.RedSlime,
+            NPCID.PurpleSlime,
+            NPCID.YellowSlime,
+            NPCID.IceSlime,
+            NPCID.UmbrellaSlime,
+            NPCID.RainbowSlime,
+            NPCID.Pinky,
+
+            // Eye of Cthulhu
+            NPCID.ServantofCthulhu,
+
+            // Eater of Worlds
             NPCID.EaterofWorldsHead,
             NPCID.EaterofWorldsBody,
             NPCID.EaterofWorldsTail,
+
+            // Brain of Cthulhu
             NPCID.Creeper,
+
+            // Skeletron
+            NPCID.SkeletronHand,
+
+            // Wall of Flesh
             NPCID.WallofFleshEye,
+
+            // The Destroyer
+            NPCID.Probe,
+
+            // Skeletron Prime
+            NPCID.PrimeVice,
+            NPCID.PrimeSaw,
+            NPCID.PrimeLaser,
+            NPCID.PrimeCannon,
+
+            // Plantera
+            NPCID.PlanterasTentacle,
+
+            // Golem
+            NPCID.GolemHead,
+            NPCID.GolemHeadFree,
+            NPCID.GolemFistLeft,
+            NPCID.GolemFistRight,
+
+            // Cultist
+            NPCID.CultistDragonHead,
+            NPCID.CultistDragonBody1,
+            NPCID.CultistDragonBody2,
+            NPCID.CultistDragonBody3,
+            NPCID.CultistDragonBody4,
+            NPCID.CultistDragonTail,
+            NPCID.AncientCultistSquidhead,
         };
 
         // Holds the vanilla game function which spawns town NPCs, wrapped in a delegate for reflection purposes.

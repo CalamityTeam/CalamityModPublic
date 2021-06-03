@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = 56;
 			projectile.height = 56;
 			projectile.alpha = 120;
+			projectile.ignoreWater = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(ModContent.BuffType<Plague>(), 120);
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(ModContent.BuffType<Plague>(), 120);
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 		}

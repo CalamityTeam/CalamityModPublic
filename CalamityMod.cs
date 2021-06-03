@@ -10,6 +10,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -251,11 +252,15 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
+
+			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+            SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
 
@@ -549,12 +554,11 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
                 { ModContent.NPCType<Bumblefuck>(), 7200 },
                 { ModContent.NPCType<Providence>(), 14400 },
-                { ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<DarkEnergy2>(), 1200 },
-                { ModContent.NPCType<DarkEnergy3>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
+				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -565,8 +569,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
-                { ModContent.NPCType<SupremeCalamitas>(), 18000 }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
+			};
         }
         #endregion
 
@@ -665,8 +670,6 @@ namespace CalamityMod
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
                 { ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
@@ -690,8 +693,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
-                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+			};
         }
         #endregion
 

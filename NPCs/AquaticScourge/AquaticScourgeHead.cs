@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.LifeMaxNERB(80000, 92000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -82,6 +82,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
                 music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
+
 			CalamityAI.AquaticScourgeAI(npc, mod, true);
 		}
 
@@ -130,23 +131,22 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-            {
                 return npc.Calamity().newAI[0] == 1f;
-            }
+
             return null;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe)
-            {
                 return 0f;
-            }
+
             if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
                     return 0.01f;
             }
+
             return 0f;
         }
 
@@ -239,15 +239,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
-                {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                }
+
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASHead"), 1f);
             }
         }
@@ -255,9 +253,8 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override bool CheckActive()
         {
             if (npc.Calamity().newAI[0] == 1f && !Main.player[npc.target].dead && npc.Calamity().newAI[1] != 1f)
-            {
                 return false;
-            }
+
             return true;
         }
 

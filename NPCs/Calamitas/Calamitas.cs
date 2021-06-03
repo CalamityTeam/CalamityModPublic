@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 15;
 			npc.DR_NERD(0.15f);
             npc.value = 0f;
-            npc.LifeMaxNERB(37500, 51750, 5200000);
+            npc.LifeMaxNERB(37500, 51750, 520000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
             target.immune[projectile.owner] = 0; //so that all blades can hit the enemy
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 90);
+            target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);

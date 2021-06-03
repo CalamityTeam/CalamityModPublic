@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");
-            Tooltip.SetDefault("Fires a spread of 6 arrows and emits phantom arrows on enemy hits");
+            Tooltip.SetDefault("Fires a spread of 5 arrows and emits phantom arrows on enemy hits");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 125;
+            item.damage = 100;
             item.width = 20;
             item.height = 12;
             item.useTime = 12;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PhangasmBow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PhangasmBow>(), damage, knockBack, player.whoAmI);
             return false;
         }
 

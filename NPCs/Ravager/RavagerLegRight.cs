@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 400000;
+                npc.lifeMax = 40000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -48,50 +48,27 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void AI()
         {
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-            Vector2 center = npc.Center;
-            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            if (npc.timeLeft < 1800)
-            {
-                npc.timeLeft = 1800;
-            }
-            if (npc.alpha > 0)
-            {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-                npc.ai[1] = 0f;
-            }
-            if (npc.ai[0] == 0f)
-            {
-                float num659 = 40f;
-                Vector2 vector79 = new Vector2(center.X, center.Y);
-                float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
-                float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
-                num661 += 88f;
-                num660 += 70f;
-                float num662 = (float)Math.Sqrt(num660 * num660 + num661 * num661);
-                if (num662 < 12f + num659)
-                {
-                    npc.rotation = 0f;
-                    npc.velocity.X = num660;
-                    npc.velocity.Y = num661;
-                }
-                else
-                {
-                    num662 = num659 / num662;
-                    npc.velocity.X = num660 * num662;
-                    npc.velocity.Y = num661 * num662;
-                }
-            }
-        }
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			if (npc.timeLeft < 1800)
+				npc.timeLeft = 1800;
+
+			if (npc.alpha > 0)
+			{
+				npc.alpha -= 10;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+
+				npc.ai[1] = 0f;
+			}
+
+			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
+		}
 
 		public override bool CheckActive()
 		{

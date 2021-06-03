@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			projectile.width = projectile.height = 30;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.penetrate = 6;
 			projectile.timeLeft = 600; //10 seconds and counting (but not actually because extra updates)
 			projectile.Calamity().rogue = true;

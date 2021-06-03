@@ -109,6 +109,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<SoulSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<LifeSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
+				{ NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+				{ NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+
 				// She resists the cold because of her ice-related abilities.
 				{ ModContent.NPCType<Siren>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 				{ ModContent.NPCType<SirenIce>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
@@ -130,6 +133,11 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
+				{ NPCID.MoonLordCore, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordHand, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordHead, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+				{ NPCID.MoonLordLeechBlob, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
+
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 				{ ModContent.NPCType<ProfanedGuardianBoss2>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 				{ ModContent.NPCType<ProfanedGuardianBoss3>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
@@ -141,8 +149,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<CeaselessVoid>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<DarkEnergy>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<DarkEnergy2>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<DarkEnergy3>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
 				{ ModContent.NPCType<StormWeaverHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<StormWeaverBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
@@ -187,6 +193,11 @@ namespace CalamityMod
 				{ ModContent.NPCType<SCalWormBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
+
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+				{ ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<EidolonWyrmBodyAltHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<EidolonWyrmTailHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
 				{ ModContent.NPCType<AcidEel>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
 				{ ModContent.NPCType<BloodwormFleeing>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -255,10 +266,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<EidolonWyrmBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<EidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<EidolonWyrmTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-				{ ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmBodyAltHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<EidolonWyrmTailHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<ColossalSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 				{ ModContent.NPCType<Reaper>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 

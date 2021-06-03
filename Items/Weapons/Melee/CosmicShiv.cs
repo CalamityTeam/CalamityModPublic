@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 420);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
             target.AddBuff(ModContent.BuffType<Plague>(), 420);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
@@ -92,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 420);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
             target.AddBuff(ModContent.BuffType<Plague>(), 420);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);

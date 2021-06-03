@@ -30,6 +30,12 @@ namespace CalamityMod
 		[Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
 		public bool Afterimages { get; set; }
 
+		[Label("Disable Screenshakes")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Disables all screen-shaking effects.")]
+		public bool DisableScreenShakes { get; set; }
+
 		[Label("Stealth Invisibility")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
