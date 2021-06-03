@@ -2,6 +2,7 @@ using CalamityMod.CustomRecipes;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonSummoner;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
@@ -155,6 +156,15 @@ namespace CalamityMod.TileEntities
 
 			if (CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
 				Item.NewItem(x * 16, y * 16, 32, 32, CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID]);
+
+			while (InputtedCellCount > 0)
+			{
+				int totalCellsToDrop = InputtedCellCount;
+				if (totalCellsToDrop > 999)
+					totalCellsToDrop = 999;
+				InputtedCellCount -= totalCellsToDrop;
+				Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<PowerCell>(), totalCellsToDrop);
+			}
 		}
 
 		public void SyncConstituents()

@@ -107,7 +107,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             // Otherwise, open the decryption interface when it exists. This can be either opening the GUI from nothing, or just opening a separate codebreaker.
             else if (codebreakerTileEntity != null)
             {
-                // Play a sound depending on whether the player had another charger open previously.
+                // Play a sound depending on whether the player had another codebreaker open previously.
                 Main.PlaySound(DraedonDecryptUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
                 DraedonDecryptUI.ViewedTileEntityID = codebreakerTileEntity.ID;
                 Main.playerInventory = true;
