@@ -235,8 +235,12 @@ namespace CalamityMod
 			if (trailPoints.Count <= 2)
 				return;
 
-			// If the trail point has any NaN positions, don't draw anything.
+			// If the trail points have any NaN positions, don't draw anything.
 			if (trailPoints.Any(point => point.HasNaNs()))
+				return;
+
+			// If the trail points are all equal, don't draw anything.
+			if (trailPoints.All(point => point == trailPoints[0]))
 				return;
 
 			UpdateBaseEffect(out Matrix projection, out Matrix view);
