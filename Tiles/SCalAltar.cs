@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
@@ -50,7 +51,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            //Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
+            Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<SCalAltarItem>());
         }
 
         public override bool NewRightClick(int i, int j)
