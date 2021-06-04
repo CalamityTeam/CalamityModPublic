@@ -912,26 +912,10 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			bool allianceBoost = false;
-			if (hFlames > 0)
-			{
-				for (int i = 0; i < Main.maxPlayers; i++)
-				{
-					Player player = Main.player[i];
-					if (player is null || !player.active || player.dead)
-						continue;
-					if (player.ActiveItem().type == ModContent.ItemType<KnowledgeProvidence>() && player.Calamity().angelicAlliance)
-					{
-						allianceBoost = true;
-						break;
-					}
-				}
-			}
-
 			// Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (allianceBoost ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
@@ -944,7 +928,7 @@ namespace CalamityMod.NPCs
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bFlames, 40, 8, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(hFlames, allianceBoost ? 100 : 50, allianceBoost ? 20 : 10, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(hFlames, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(pFlames, 100, 20, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(gsInferno, 250, 50, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(astralInfection, 75, 15, ref npc.lifeRegen, ref damage);
@@ -962,10 +946,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
-            if (npc.lifeMax < 1000000)
-                ApplyDPSDebuff(banishingFire, 1500, 300, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 25000000)
+                ApplyDPSDebuff(banishingFire, 20000, 4000, ref npc.lifeRegen, ref damage);
             else
-                ApplyDPSDebuff(banishingFire, npc.lifeMax / 25, npc.lifeMax / 125, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 2500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)

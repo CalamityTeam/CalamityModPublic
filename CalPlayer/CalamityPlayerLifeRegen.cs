@@ -406,6 +406,15 @@ namespace CalamityMod.CalPlayer
 
 			// Buffs
 
+			if (modPlayer.divineBless)
+			{
+				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0)
+                {
+					if (!modPlayer.noLifeRegen)
+						player.statLife += 1;
+                }
+            }
+
 			if (modPlayer.bloodfinBoost)
 			{
 				if (player.lifeRegen < 0)

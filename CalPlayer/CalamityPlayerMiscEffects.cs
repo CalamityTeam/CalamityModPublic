@@ -1791,7 +1791,7 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.divineBless = false;
 				player.ClearBuff(ModContent.BuffType<DivineBless>());
-				int seconds = CalamityUtils.SecondsToFrames(modPlayer.profanedCrystal ? 90f : 120f);
+				int seconds = CalamityUtils.SecondsToFrames(60f);
 				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
 			}
 		}
@@ -3318,7 +3318,7 @@ namespace CalamityMod.CalPlayer
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
 					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
-					int guardianAmt = modPlayer.angelicAlliance ? 3 : 1;
+					int guardianAmt = 1;
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -3609,13 +3609,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (modPlayer.angelicActivate == 1)
 				{
-					int seconds = CalamityUtils.SecondsToFrames(modPlayer.profanedCrystal ? 90f : 120f);
+					int seconds = CalamityUtils.SecondsToFrames(60f);
 					player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
 				}
 				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
 					modPlayer.angelicActivate = -1;
-				if (modPlayer.divineBless)
-					player.allDamage += 0.05f;
 			}
 
 			if (modPlayer.theBee)

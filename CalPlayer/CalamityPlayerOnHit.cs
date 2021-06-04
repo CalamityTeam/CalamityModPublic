@@ -730,13 +730,6 @@ namespace CalamityMod.CalPlayer
 		public static void NPCDebuffs(Player player, Mod mod, NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.angelicAlliance && player.ActiveItem().type == ItemType<KnowledgeProfanedGuardians>())
-			{
-				if (Main.rand.NextBool(10) || modPlayer.divineBless)
-				{
-                    target.AddBuff(BuffType<BanishingFire>(), 60, false);
-				}
-			}
 
             if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
@@ -822,6 +815,10 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
+				if (modPlayer.divineBless)
+				{
+					target.AddBuff(BuffType<BanishingFire>(), 60);
+				}
 
 				if (modPlayer.tearMinions)
 				{
@@ -884,13 +881,6 @@ namespace CalamityMod.CalPlayer
 		public static void PvpDebuffs(Player player, Mod mod, Player target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.angelicAlliance && player.ActiveItem().type == ItemType<KnowledgeProfanedGuardians>())
-			{
-				if (Main.rand.NextBool(10) || modPlayer.divineBless)
-				{
-                    target.AddBuff(BuffType<BanishingFire>(), 60, false);
-				}
-			}
             if (melee)
             {
                 if (modPlayer.eGauntlet)

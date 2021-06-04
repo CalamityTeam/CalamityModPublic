@@ -2736,12 +2736,13 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !divineBlessCooldown)
             {
-				int seconds = CalamityUtils.SecondsToFrames(profanedCrystal ? 60f : 30f);
+				int seconds = CalamityUtils.SecondsToFrames(15f);
                 player.AddBuff(ModContent.BuffType<DivineBless>(), seconds, false);
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngelicAllianceActivation"), player.Center);
 
 				// Spawn an archangel for every minion you have
+				float angelAmt = 0f;
 				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 				{
 					Projectile proj = Main.projectile[projIndex];
@@ -2749,8 +2750,16 @@ namespace CalamityMod.CalPlayer
 						continue;
 					if (proj.active && proj.owner == player.whoAmI)
 					{
-						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 4, proj.knockBack / 4f, player.whoAmI);
+						angelAmt += 1f;
 					}
+				}
+				for (int projIndex = 0; projIndex < angelAmt; projIndex++)
+				{
+					Projectile proj = Main.projectile[projIndex];
+					float start = 360f / angelAmt;
+					Projectile.NewProjectile(new Vector2((int)(player.Center.X + (Math.Sin(projIndex * start) * 300)), (int)(player.Center.Y + (Math.Cos(projIndex * start) * 300))), Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 4, proj.knockBack / 4f, player.whoAmI, Main.rand.Next(120), projIndex * start);
+					player.statLife += 2;
+					player.HealEffect(2);
 				}
             }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&

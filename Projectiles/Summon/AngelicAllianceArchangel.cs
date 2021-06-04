@@ -1,9 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AngelicAllianceArchangel : ModProjectile
     {
-		private int lifeSpan = 300;
+		private int lifeSpan = 900;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Archangel");
@@ -28,12 +28,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            projectile.minion = true;
             projectile.minionSlots = 0f;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.minion = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(lifeSpan);
@@ -45,11 +44,40 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (!modPlayer.divineBless)
+			if (!modPlayer.divineBless || player.dead || !player.active)
 			{
-				projectile.Kill();
-				return;
+				lifeSpan = 0;
 			}
+
+			// Initialization and dust
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                for (int i = 0; i < 10; i++)
+                {
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+                }
+                projectile.localAI[0] += 1f;
+            }
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                    player.MinionDamage());
+                projectile.damage = damage2;
+            }
+
+			// Rotate around the player
+            double deg = projectile.ai[1];
+            double rad = deg * (Math.PI / 180);
+            double dist = 300;
+            projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
+            projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
+            projectile.ai[1] += 1f;
+
+			if (!projectile.FinalExtraUpdate())
+				return;
 
 			lifeSpan--;
 			if (lifeSpan <= 0)
@@ -62,43 +90,67 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int dustAmt = 30;
-                for (int d = 0; d < dustAmt; d++)
-                {
-                    int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1f);
-                    Main.dust[idx].velocity *= 2f;
-                    Main.dust[idx].scale *= 1.15f;
-                }
-                projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = damage2;
-            }
-
-			//Adjust sprite direction so it faces correctly
-            if (Math.Abs(projectile.velocity.X) > 0.2f)
-            {
-                projectile.spriteDirection = -projectile.direction;
-            }
-
-			projectile.ChargingMinionAI(1600f, 1800f, 2500f, 400f, 0, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 10f, true, true);
-
-			//Give off some light
+			// Give off some light
             float lightScalar = Main.rand.NextFloat(0.9f, 1.1f) * Main.essScale;
-            Lighting.AddLight(projectile.Center, 0.2f * lightScalar, 0.17f * lightScalar, 0.1f * lightScalar);
+            Lighting.AddLight(projectile.Center, 0.3f * lightScalar, 0.26f * lightScalar, 0.15f * lightScalar);
 
-			if (!projectile.FinalExtraUpdate())
-				return;
+			// Get a target
+			NPC target = projectile.Center.MinionHoming(2000f, player, false, true);
 
-			//Frames
+			// Shoot the target
+			if (target != null)
+			{
+				Vector2 direction = target.Center - projectile.Center;
+				direction.Normalize();
+				direction *= 6f;
+				if (direction.X >= 0.25f)
+				{
+					projectile.direction = -1;
+				}
+				else if (direction.X < -0.25f)
+				{
+					projectile.direction = 1;
+				}
+				projectile.ai[0]++;
+				int timerLimit = 120;
+				if (projectile.ai[0] > timerLimit && projectile.alpha < 50)
+				{
+					for (int i = 0; i < Main.maxProjectiles; i++)
+					{
+						Projectile angel = Main.projectile[i];
+						if (angel.type == projectile.type)
+						{
+							if (angel == projectile)
+								Main.PlaySound(SoundID.Item60, projectile.Center);
+							break;
+						}
+					}
+					if (Main.myPlayer == projectile.owner)
+					{
+						int type = ModContent.ProjectileType<AngelRay>();
+						Projectile.NewProjectile(projectile.Center, direction, type, projectile.damage, projectile.knockBack, projectile.owner);
+					}
+					projectile.ai[0] = 0f;
+					projectile.netUpdate = true;
+				}
+			}
+			else
+            {
+				Vector2 direction = player.Center - projectile.Center;
+				direction.Normalize();
+				direction *= 6f;
+				if (direction.X >= 0.25f)
+				{
+					projectile.direction = -1;
+				}
+				else if (direction.X < -0.25f)
+				{
+					projectile.direction = 1;
+				}
+            }
+			projectile.spriteDirection = projectile.direction;
+
+			// Frames
             projectile.frameCounter++;
             if (projectile.frameCounter > 7)
             {
@@ -121,10 +173,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
-
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
-
-		public override bool CanDamage() => projectile.alpha < 50;
+        public override bool CanDamage() => false;
     }
 }

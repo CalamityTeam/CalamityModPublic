@@ -17,14 +17,13 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Call upon the force of heaven to empower your attacks and minions\n" +
 			"Further Empowerment to Holy Forces\n" +
 			"Courage, Enlightenment, Bliss. United in Judgement\n" +
-			"10% increased damage\n" +
-			"While holding the Profaned Guardians Lore item, all attacks have a chance to inflict Banishing Fire\n" +
-			"While holding the Providence Lore item, classless projectiles deal increased damage and the Holy Flames debuff deals more damage\n" +
-			"While the Profaned Soul Crystal is equipped, additional guardians will be summoned for a total of nine\n" + //This is going to be broken as fuck because the angels aren't already, y'know?
-			"This line is modified below. If you can read this, someone probably did something wrong (It was Ben)\n" +
+			"+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes\n" +
+			"Life regeneration is boosted while jumping\n" +
+			"This line is modified in the code below. If you can read this, someone probably did something wrong (It was Ben)\n" +
 			"While under the effects of Divine Bless, for every minion you have, an archangel shall be summoned to aid you in combat\n" +
-			"Divine Bless also boosts your life regeneration and grants an additional +5% increased damage\n" +
-			"This line is also modified below, kinda sus");
+			"Each spawned angel will instantly heal you for two health\n" +
+			"All minion attacks inflict Banishing Fire and you are granted a flat health boost of four health per second\n" +
+			"This effect has a cooldown of 1 minute");
         }
 
         public override void SetDefaults()
@@ -34,24 +33,18 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             item.accessory = true;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityMod.AngelicAllianceHotKey.TooltipHotkeyString();
-			bool crystal = Main.player[Main.myPlayer].Calamity().profanedCrystal;
-			int time = crystal ? 60 : 30;
-			string time2 = crystal ? "1.5" : "2";
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
                 {
-                    line2.text = "Press " + hotkey + " to grace yourself in divinity for " + time + " seconds";
-                }
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
-                {
-                    line2.text = "This effect has a cooldown of " + time2 + " minutes";
+                    line2.text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
                 }
             }
         }
@@ -60,7 +53,11 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.angelicAlliance = true;
-			player.allDamage += 0.1f;
+			player.allDamage += 0.08f;
+			player.minionDamage += 0.07f; //7% + 8% = 15%
+			player.maxMinions += 2;
+			if (player.controlJump)
+				player.lifeRegen += 4;
         }
 
         public override void AddRecipes()
