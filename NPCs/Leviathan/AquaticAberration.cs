@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 1600;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.knockBackResist = 0f;
             npc.noGravity = true;

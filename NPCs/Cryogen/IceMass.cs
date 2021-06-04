@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 220;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.knockBackResist = 0f;
             npc.canGhostHeal = false;

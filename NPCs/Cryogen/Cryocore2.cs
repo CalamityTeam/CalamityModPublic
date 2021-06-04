@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 300;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 4000;
             }
             npc.aiStyle = -1;
             aiType = -1;

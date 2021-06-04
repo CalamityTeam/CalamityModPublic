@@ -10,6 +10,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -175,9 +176,7 @@ namespace CalamityMod
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
 
             if (!Main.dedServ)
-            {
                 LoadClient();
-            }
 
             ILChanges.Load();
             BossRushEvent.Load();
@@ -253,7 +252,10 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
+
+			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
@@ -264,6 +266,8 @@ namespace CalamityMod
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
+
+            SupremeCalamitas.LoadHeadIcons();
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
@@ -568,8 +572,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
-                { ModContent.NPCType<SupremeCalamitas>(), 18000 }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
+			};
         }
         #endregion
 
@@ -691,8 +696,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
-                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+			};
         }
         #endregion
 

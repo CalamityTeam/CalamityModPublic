@@ -117,6 +117,7 @@ namespace CalamityMod.CalPlayer
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
         public bool GivenBrimstoneLocus = false;
+        public float GeneralScreenShakePower = 0f;
         #endregion
 
         #region Tile Entity Trackers
@@ -331,6 +332,7 @@ namespace CalamityMod.CalPlayer
         public bool radiator = false;
         public bool scalPet = false;
         public bool bendyPet = false;
+        public bool littleLightPet = false;
         #endregion
 
         #region Rage
@@ -1390,9 +1392,7 @@ namespace CalamityMod.CalPlayer
             if (BossRushEvent.BossRushActive)
             {
                 if (CalamityConfig.Instance.BossRushAccessoryCurse)
-                {
                     player.extraAccessorySlots = 0;
-                }
             }
 
             ResetRogueStealth();
@@ -1435,6 +1435,8 @@ namespace CalamityMod.CalPlayer
             radiator = false;
             scalPet = false;
             bendyPet = false;
+            littleLightPet = false;
+
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -2008,6 +2010,15 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
+            if (CalamityConfig.Instance.DisableScreenShakes)
+                return;
+
+            if (GeneralScreenShakePower > 0f)
+            {
+                Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower, GeneralScreenShakePower);
+                GeneralScreenShakePower = MathHelper.Clamp(GeneralScreenShakePower - 0.185f, 0f, 20f);
+            }
+
             if (CalamityWorld.ScreenShakeSpots.Count > 0)
             {
                 // Fail-safe to ensure that spots don't last forever.
@@ -2479,10 +2490,13 @@ namespace CalamityMod.CalPlayer
             bool useHoly = NPC.AnyNPCs(ModContent.NPCType<Providence>());
             player.ManageSpecialBiomeVisuals("CalamityMod:Providence", useHoly);
 
-            bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+            bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) || SCalSky.OverridingIntensity > 0f;
             player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
 
-            bool inAstral = ZoneAstral;
+			bool useWyrmWater = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			player.ManageSpecialBiomeVisuals("CalamityMod:AdultEidolonWyrm", useWyrmWater);
+
+			bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
 
             bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());

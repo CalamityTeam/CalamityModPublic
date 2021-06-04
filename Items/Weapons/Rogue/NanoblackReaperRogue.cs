@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class NanoblackReaperRogue : RogueWeapon
     {
-        public static int BaseDamage = 500;
+        public static int BaseDamage = 100;
         public static float Knockback = 9f;
         public static float Speed = 16f;
 

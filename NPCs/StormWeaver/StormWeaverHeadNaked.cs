@@ -3,6 +3,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -48,7 +49,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.lifeMax = notDoGFight ? 760500 : 126750;
-			npc.LifeMaxNERB(npc.lifeMax, npc.lifeMax, 4550000);
+			npc.LifeMaxNERB(npc.lifeMax, npc.lifeMax, 455000);
 
 			// If fought alone, Storm Weaver plays its own theme
 			if (notDoGFight)
@@ -370,7 +371,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					Vector2 soundCenter = Main.player[npc.target].Center;
 
 					// Play lightning sound on all nearby players if in phase 3
-					if (phase3 && Main.netMode != NetmodeID.Server)
+					if (phase3)
 					{
 						if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
 						{
@@ -378,11 +379,14 @@ namespace CalamityMod.NPCs.StormWeaver
 
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
 
-							// Set how quickly the lightning flash dissipates
-							lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
+							if (Main.netMode != NetmodeID.Server)
+							{
+								// Set how quickly the lightning flash dissipates
+								lightningDecay = Main.rand.NextFloat() * 0.05f + 0.008f;
 
-							// Set how quickly the lightning flash intensifies
-							lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+								// Set how quickly the lightning flash intensifies
+								lightningSpeed = Main.rand.NextFloat() * 0.05f + 0.05f;
+							}
 						}
 					}
 					else
@@ -543,10 +547,11 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 
 				// Start a storm when in third phase
-				if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu))
+				if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f)
 					return;
 
 				CalamityUtils.StartRain(true, true);
+				calamityGlobalNPC.newAI[1] = 1f;
 			}
 		}
 
@@ -702,7 +707,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);
-					if (Main.rand.NextBool(20))
+
+                    // Light pet.
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<LittleLight>(), 10);
+                    if (Main.rand.NextBool(20))
 					{
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());

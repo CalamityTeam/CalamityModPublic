@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -11,6 +12,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool isActive = false;
         private float intensity = 0f;
         private int SCalIndex = -1;
+        public static float OverridingIntensity = 0f;
 
         public override void Update(GameTime gameTime)
         {
@@ -26,6 +28,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         private float GetIntensity()
         {
+            if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<SCalRitualDrama>()) > 0)
+                return OverridingIntensity;
+
+            OverridingIntensity = 0f;
             if (this.UpdateSCalIndex())
             {
                 float x = 0f;
