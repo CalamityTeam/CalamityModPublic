@@ -3,6 +3,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -706,7 +707,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);
-					if (Main.rand.NextBool(20))
+
+                    // Light pet.
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<LittleLight>(), 10);
+                    if (Main.rand.NextBool(20))
 					{
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
