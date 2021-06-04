@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Accessories
 			recipe.AddIngredient(ItemID.HallowedPlateMail);
 			recipe.AddIngredient(ItemID.HallowedGreaves);
 			recipe.AddIngredient(ItemID.PaladinsShield);
-			recipe.AddIngredient(ItemID.Excalibur);
+			recipe.AddIngredient(ItemID.TrueExcalibur);
 			recipe.AddIngredient(ItemID.CrossNecklace);
 			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
