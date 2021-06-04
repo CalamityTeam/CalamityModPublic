@@ -83,6 +83,24 @@ namespace CalamityMod.NPCs.Abyss
 					npc.Opacity = 0f;
 			}
 
+			bool shootShadowFireballs = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 6f && Main.npc[(int)npc.ai[2]].Calamity().newAI[2] > 0f;
+			if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 320f)
+				{
+					npc.ai[3] += 1f;
+					if (npc.ai[3] >= 90f)
+					{
+						float fireballVelocity = 4f;
+						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
+						Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
+						int type = ProjectileID.CultistBossIceMist;
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer);
+					}
+				}
+			}
+
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);

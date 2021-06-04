@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
@@ -10515,7 +10516,18 @@ namespace CalamityMod.NPCs
 			if (malice)
 				enrage = true;
 
-			npc.defense = turboEnrage ? (npc.defDefense * 50) : npc.defDefense;
+			if (turboEnrage)
+			{
+				npc.defense = npc.defDefense * 50;
+				npc.Calamity().DR = 0.99f;
+				npc.Calamity().unbreakableDR = true;
+			}
+			else
+			{
+				npc.defense = npc.defDefense;
+				npc.Calamity().DR = 0.25f;
+				npc.Calamity().unbreakableDR = false;
+			}
 
 			// Float through tiles or not
 			bool flag44 = false;
@@ -12842,7 +12854,7 @@ namespace CalamityMod.NPCs
             int rateOfChange = 1;
             float splitProjVelocity = 5f;
 
-			// Percent life remaining for Cultist
+			// Percent life remaining for Cultist or Eidolon Wyrm
 			float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;
 
 			bool phase2 = lifeRatio < 0.7f;
@@ -12851,7 +12863,7 @@ namespace CalamityMod.NPCs
 
 			bool kill = npc.ai[1] < 0f || !Main.npc[(int)npc.ai[0]].active;
 			int target = Main.maxPlayers;
-            if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss)
+            if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss || Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
             {
 				if (target == Main.maxPlayers)
 					target = Main.npc[(int)npc.ai[0]].target;
@@ -12861,6 +12873,9 @@ namespace CalamityMod.NPCs
 
                 if (phase4 || death)
                     rateOfChange = 3;
+
+				if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+					npc.dontTakeDamage = true;
             }
             else
                 kill = true;
@@ -12881,6 +12896,12 @@ namespace CalamityMod.NPCs
 				double deg = npc.ai[3];
 				double rad = deg * (Math.PI / 180);
 				double dist = 550;
+				if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+				{
+					float aiGateValue = Main.npc[(int)npc.ai[0]].Calamity().newAI[2] - 30f;
+					int ancientDoomScale = (int)(aiGateValue / 120f);
+					dist += ancientDoomScale * 45;
+				}
 				npc.position.X = Main.player[target].Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
 				npc.position.Y = Main.player[target].Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
 				float spinVelocity = 8f * (1f - (npc.ai[1] / duration));

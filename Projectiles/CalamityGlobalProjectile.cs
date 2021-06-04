@@ -761,93 +761,96 @@ namespace CalamityMod.Projectiles
 
 				else if (projectile.type == ProjectileID.CultistBossIceMist)
 				{
-					if (projectile.localAI[1] == 0f)
+					if (NPC.AnyNPCs(NPCID.CultistBoss))
 					{
-						projectile.localAI[1] = 1f;
-						Main.PlaySound(SoundID.Item120, projectile.position);
-					}
+						if (projectile.localAI[1] == 0f)
+						{
+							projectile.localAI[1] = 1f;
+							Main.PlaySound(SoundID.Item120, projectile.position);
+						}
 
-					projectile.ai[0] += 1f;
+						projectile.ai[0] += 1f;
 
-					// Main projectile
-					float duration = 300f;
-					if (projectile.ai[1] == 1f)
-					{
-						if (projectile.ai[0] >= duration - 20f)
-							projectile.alpha += 10;
+						// Main projectile
+						float duration = 300f;
+						if (projectile.ai[1] == 1f)
+						{
+							if (projectile.ai[0] >= duration - 20f)
+								projectile.alpha += 10;
+							else
+								projectile.alpha -= 10;
+
+							if (projectile.alpha < 0)
+								projectile.alpha = 0;
+							if (projectile.alpha > 255)
+								projectile.alpha = 255;
+
+							if (projectile.ai[0] >= duration)
+							{
+								projectile.Kill();
+								return false;
+							}
+
+							int num103 = Player.FindClosest(projectile.Center, 1, 1);
+							Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+							float scaleFactor2 = projectile.velocity.Length();
+							vector11.Normalize();
+							vector11 *= scaleFactor2;
+							projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
+							projectile.velocity.Normalize();
+							projectile.velocity *= scaleFactor2;
+
+							if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								Vector2 vector50 = projectile.rotation.ToRotationVector2();
+								Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+							}
+
+							projectile.rotation += (float)Math.PI / 30f;
+
+							Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
+
+							return false;
+						}
+
+						// Split projectiles
+						projectile.position -= projectile.velocity;
+
+						if (projectile.ai[0] >= duration - 260f)
+							projectile.alpha += 3;
 						else
-							projectile.alpha -= 10;
+							projectile.alpha -= 40;
 
 						if (projectile.alpha < 0)
 							projectile.alpha = 0;
 						if (projectile.alpha > 255)
 							projectile.alpha = 255;
 
-						if (projectile.ai[0] >= duration)
+						if (projectile.ai[0] >= duration - 255f)
 						{
 							projectile.Kill();
 							return false;
 						}
 
-						int num103 = Player.FindClosest(projectile.Center, 1, 1);
-						Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-						float scaleFactor2 = projectile.velocity.Length();
-						vector11.Normalize();
-						vector11 *= scaleFactor2;
-						projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
-						projectile.velocity.Normalize();
-						projectile.velocity *= scaleFactor2;
+						Vector2 value39 = new Vector2(0f, -720f).RotatedBy(projectile.velocity.ToRotation());
+						float scaleFactor3 = projectile.ai[0] % (duration - 255f) / (duration - 255f);
+						Vector2 spinningpoint13 = value39 * scaleFactor3;
 
-						if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+						for (int num724 = 0; num724 < 6; num724++)
 						{
-							Vector2 vector50 = projectile.rotation.ToRotationVector2();
-							Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+							Vector2 vector51 = projectile.Center + spinningpoint13.RotatedBy(num724 * ((float)Math.PI * 2f) / 6f);
+
+							Lighting.AddLight(vector51, 0.3f, 0.75f, 0.9f);
+
+							for (int num725 = 0; num725 < 2; num725++)
+							{
+								int num726 = Dust.NewDust(vector51 + Utils.RandomVector2(Main.rand, -8f, 8f) / 2f, 8, 8, 197, 0f, 0f, 100, Color.Transparent);
+								Main.dust[num726].noGravity = true;
+							}
 						}
-
-						projectile.rotation += (float)Math.PI / 30f;
-
-						Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
 
 						return false;
 					}
-
-					// Split projectiles
-					projectile.position -= projectile.velocity;
-
-					if (projectile.ai[0] >= duration - 260f)
-						projectile.alpha += 3;
-					else
-						projectile.alpha -= 40;
-
-					if (projectile.alpha < 0)
-						projectile.alpha = 0;
-					if (projectile.alpha > 255)
-						projectile.alpha = 255;
-
-					if (projectile.ai[0] >= duration - 255f)
-					{
-						projectile.Kill();
-						return false;
-					}
-
-					Vector2 value39 = new Vector2(0f, -720f).RotatedBy(projectile.velocity.ToRotation());
-					float scaleFactor3 = projectile.ai[0] % (duration - 255f) / (duration - 255f);
-					Vector2 spinningpoint13 = value39 * scaleFactor3;
-
-					for (int num724 = 0; num724 < 6; num724++)
-					{
-						Vector2 vector51 = projectile.Center + spinningpoint13.RotatedBy(num724 * ((float)Math.PI * 2f) / 6f);
-
-						Lighting.AddLight(vector51, 0.3f, 0.75f, 0.9f);
-
-						for (int num725 = 0; num725 < 2; num725++)
-						{
-							int num726 = Dust.NewDust(vector51 + Utils.RandomVector2(Main.rand, -8f, 8f) / 2f, 8, 8, 197, 0f, 0f, 100, Color.Transparent);
-							Main.dust[num726].noGravity = true;
-						}
-					}
-
-					return false;
 				}
 
                 // Change the stupid homing eyes
