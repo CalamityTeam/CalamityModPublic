@@ -26,7 +26,7 @@ namespace CalamityMod.UI
         public static void Draw(SpriteBatch spriteBatch)
         {
             // If not viewing the specific tile entity's interface anymore, or if the ID is for some reason invalid
-            // don't do anything except resetting/update necessary information.
+            // don't do anything except resetting/updating necessary information.
             if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || !(TileEntity.ByID[ViewedTileEntityID] is TECodebreaker codebreakerTileEntity))
             {
                 VerificationButtonScale = 1f;
@@ -304,7 +304,6 @@ namespace CalamityMod.UI
             Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, edgeTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 
             // Display a completion percentage below the bar.
-
             string percentString = (codebreakerTileEntity.DecryptionCompletion * 100f).ToString("n2");
             string completionText = $"{percentString}%";
             Vector2 textDrawPosition = barCenter + new Vector2(-Main.fontMouseText.MeasureString(completionText).X * 0.5f, 10f);

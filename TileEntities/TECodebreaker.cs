@@ -111,18 +111,18 @@ namespace CalamityMod.TileEntities
 		public Vector2 Center => Position.ToWorldCoordinates(8f * CodebreakerTile.Width, 8f * CodebreakerTile.Height);
 		public const int MaxCellCapacity = 9999;
 
-		// This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Charging Station tile.
+		// This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Codebreaker tile.
 		public override bool ValidTile(int i, int j)
 		{
 			Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
 			return tile.active() && tile.type == ModContent.TileType<CodebreakerTile>() && tile.frameX == 0 && tile.frameY == 0;
 		}
 
-		// This code is called as a hook when the player places the Charging Station tile so that the tile entity may be placed.
+		// This code is called as a hook when the player places the Codebreaker tile so that the tile entity may be placed.
 		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
 		{
 			// If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
-			// Also tell the server that you placed the 3x2 tiles that make up the Charging Station.
+			// Also tell the server that you placed the 5x8 tiles that make up the Codebreaker.
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				NetMessage.SendTileRange(Main.myPlayer, i, j, CodebreakerTile.Width, CodebreakerTile.Height);
