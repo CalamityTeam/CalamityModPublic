@@ -124,6 +124,15 @@ namespace CalamityMod.Items
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
 			if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
+			if (item.type == ModContent.ItemType<AngelicAlliance>())
+			{
+				nameLine.overrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTime / 2f % 1f, new Color[]
+				{
+					new Color(255, 196, 55),
+					new Color(255, 231, 107),
+					new Color(255, 254, 243)
+				});
+			}
 
 			// TODO -- for cleanliness, ALL color math should either be a one-line color swap or inside the item's own file
 			// The items that currently violate this are all below:

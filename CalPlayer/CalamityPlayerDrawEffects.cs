@@ -489,7 +489,7 @@ namespace CalamityMod.CalPlayer
         {
             Player drawPlayer = drawInfo.drawPlayer;
 			CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (drawPlayer.ownedProjectileCounts[ModContent.ProjectileType<AllianceTriangle>()] <= 0)
+            if (!modPlayer.divineBless)
                 return;
 			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(new Color(255, 163, 56), new Color(242, 48, 187), 3f));
         });

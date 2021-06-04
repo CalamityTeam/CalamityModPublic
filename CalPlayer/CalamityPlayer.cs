@@ -2738,7 +2738,6 @@ namespace CalamityMod.CalPlayer
             {
 				int seconds = CalamityUtils.SecondsToFrames(15f);
                 player.AddBuff(ModContent.BuffType<DivineBless>(), seconds, false);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngelicAllianceActivation"), player.Center);
 
 				// Spawn an archangel for every minion you have

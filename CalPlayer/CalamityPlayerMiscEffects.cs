@@ -3436,8 +3436,6 @@ namespace CalamityMod.CalPlayer
 			int projAmt = 1;
 			for (int i = 0; i < summonDeleteList.Count; i++)
 			{
-				if (i > 9 && modPlayer.angelicAlliance) // PSA donuts
-					projAmt = 3;
 				if (player.ownedProjectileCounts[summonDeleteList[i]] > projAmt)
 				{
 					for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
@@ -3605,6 +3603,11 @@ namespace CalamityMod.CalPlayer
 					if (hasBuff == ModContent.BuffType<DivineBless>())
 					{
 						modPlayer.angelicActivate = player.buffTime[l];
+					}
+					if (hasBuff == ModContent.BuffType<DivineBlessCooldown>())
+					{
+						if (player.buffTime[l] == 1)
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
 					}
 				}
 				if (modPlayer.angelicActivate == 1)

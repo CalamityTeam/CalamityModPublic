@@ -115,16 +115,6 @@ namespace CalamityMod.Projectiles.Summon
 				int timerLimit = 120;
 				if (projectile.ai[0] > timerLimit && projectile.alpha < 50)
 				{
-					for (int i = 0; i < Main.maxProjectiles; i++)
-					{
-						Projectile angel = Main.projectile[i];
-						if (angel.type == projectile.type)
-						{
-							if (angel == projectile)
-								Main.PlaySound(SoundID.Item60, projectile.Center);
-							break;
-						}
-					}
 					if (Main.myPlayer == projectile.owner)
 					{
 						int type = ModContent.ProjectileType<AngelRay>();

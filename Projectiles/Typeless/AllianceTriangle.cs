@@ -31,14 +31,17 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.Center = player.Center;
 
 			projectile.ai[0]++;
-			if (projectile.ai[0] <= 30f)
+			if (projectile.ai[0] <= 5f)
 			{
 				projectile.alpha -= 75;
 				if (projectile.alpha < 0)
 					projectile.alpha = 0;
 			}
-			else if (projectile.ai[0] > 120f)
-				projectile.alpha += 50;
+			else
+			{
+				projectile.scale *= 1.06f;
+				projectile.alpha += 10;
+			}
 
 			if (projectile.alpha >= 255 || player is null || player.dead)
 			{
