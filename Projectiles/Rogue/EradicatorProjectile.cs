@@ -26,12 +26,13 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = projectile.height = 58;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 			projectile.aiStyle = 3;
 			projectile.timeLeft = 180;
 			aiType = ProjectileID.WoodenBoomerang;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			projectile.localNPCHitCooldown = 18;
 			projectile.Calamity().rogue = true;
 		}
 
@@ -56,14 +57,18 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				shootCounter = 0f;
 				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), projectile.damage, 0f, projectile.owner);
+
+				int laserDamage = (int)(projectile.damage * 0.5);
+				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, 0f, projectile.owner);
 				if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
 				{
 					laser.Calamity().forceRogue = true;
 					laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
 					laser.penetrate = -1;
 					laser.usesLocalNPCImmunity = true;
-					laser.localNPCHitCooldown = 20;
+
+					// This projectile has a hefty amount of extra updates, which will influence the hit cooldown.
+					laser.localNPCHitCooldown = 70;
 				}
 			}
 
@@ -114,7 +119,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
 			return false;
 		}
 

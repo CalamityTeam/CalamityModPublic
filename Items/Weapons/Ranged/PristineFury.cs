@@ -11,15 +11,13 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public int frameCounter = 0;
         public int frame = 0;
-        public static int BaseDamage = 89;
+        public static int BaseDamage = 96;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pristine Fury");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires an intense helix of flames that explode into a column of fire\n" +
-                "Right click to fire a short ranged cloud of lingering flames\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
+                "Right click to fire a short ranged cloud of lingering flames");
         }
 
         public override void SetDefaults()
@@ -39,9 +37,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 11f;
             item.useAmmo = AmmoID.Gel;
 
+			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
 
@@ -67,6 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.altFunctionUse == 2)
             {
                 int flameAmt = 3;
+                damage = (int)(damage * 1.2);
                 for (int index = 0; index < flameAmt; ++index)
                 {
                     float SpeedX = speedX + Main.rand.NextFloat(-1.25f, 1.25f);
@@ -76,6 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
+                damage = (int)(damage * 0.94);
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI);
             }
             return false;

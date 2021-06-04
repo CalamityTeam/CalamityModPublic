@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
@@ -9,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
+
 namespace CalamityMod.NPCs.Perforator
 {
 	[AutoloadBossHead]
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 70;
             npc.height = 84;
             npc.defense = 4;
-			npc.LifeMaxNERB(2500, 2700, 800000);
+			npc.LifeMaxNERB(2500, 2700, 80000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
@@ -44,7 +45,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -52,18 +53,31 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.1f;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson)
+			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -102,7 +116,7 @@ namespace CalamityMod.NPCs.Perforator
 				turnSpeed *= 1.25f;
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (npc.Calamity().enraged > 0)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -119,10 +133,13 @@ namespace CalamityMod.NPCs.Perforator
                 npc.realLife = (int)npc.ai[3];
             }
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
-				npc.TargetClosest(true);
-			}
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -154,7 +171,7 @@ namespace CalamityMod.NPCs.Perforator
 							Main.npc[lol].localAI[3] = 1f;
 						}
 						Main.npc[lol].realLife = npc.whoAmI;
-						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[3] = npc.whoAmI;
 						Main.npc[lol].ai[1] = Previous;
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
@@ -276,7 +293,10 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Quickly fall back down once above target
 			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+			{
+				npc.TargetClosest();
 				npc.Calamity().newAI[1] = 2f;
+			}
 
 			// Quickly fall and reset variables once at target's Y position
 			if (quickFall)
@@ -298,7 +318,6 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (!flag94)
             {
-                npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.5f);
                 if (npc.velocity.Y > num188)
                 {

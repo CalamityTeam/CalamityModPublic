@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 44;
             item.height = 44;
 
-            item.damage = 666;
+            item.damage = 218;
 
             item.melee = true;
             item.knockBack = 9f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
             return false;
         }
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 420);
+            target.AddBuff(BuffID.Frostburn, 420);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
             target.AddBuff(ModContent.BuffType<Plague>(), 420);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
@@ -92,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 420);
+            target.AddBuff(BuffID.Frostburn, 420);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
             target.AddBuff(ModContent.BuffType<Plague>(), 420);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);

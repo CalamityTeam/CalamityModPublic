@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 25;
             npc.value = Item.buyPrice(0, 15, 0, 0);
 			npc.DR_NERD(0.15f);
-			npc.LifeMaxNERB(28125, 38812, 3900000);
+			npc.LifeMaxNERB(28125, 38812, 390000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
@@ -62,25 +62,23 @@ namespace CalamityMod.NPCs.Calamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<CalamitasBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
-            for (int i = 0; i < 2; i++)
+			writer.Write(npc.dontTakeDamage);
+			for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
-            for (int i = 0; i < 2; i++)
+			npc.dontTakeDamage = reader.ReadBoolean();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
@@ -155,10 +153,12 @@ namespace CalamityMod.NPCs.Calamitas
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+			// Legendary drop for Cal Clone
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 

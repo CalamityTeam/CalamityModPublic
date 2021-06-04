@@ -58,9 +58,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<AuroradicalThrow>(w)
             );
 
-            float leonidChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<LeonidProgenitor>(), CalamityWorld.revenge, leonidChance);
-
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
             DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());

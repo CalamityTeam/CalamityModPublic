@@ -26,13 +26,12 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 220;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.knockBackResist = 0f;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)

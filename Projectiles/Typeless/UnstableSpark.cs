@@ -18,12 +18,26 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 90;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
 
-        public override void AI()
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap = 5;
+			int oldDamage = damage;
+			if (projectileCount > cap)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override void AI()
         {
             if (projectile.velocity.X != projectile.velocity.X)
             {

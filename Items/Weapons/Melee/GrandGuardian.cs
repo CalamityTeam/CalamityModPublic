@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grand Guardian");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 15 when striking them\n" +
+            Tooltip.SetDefault("Has a 20% chance to lower enemy defense by 15 when striking them\n" +
                        "If enemy defense is 0 or below your attacks will heal you\n" +
                        "Striking enemies causes a large explosion\n" +
                        "Striking enemies that have under half life will make you release rainbow bolts\n" +
@@ -45,15 +45,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(5))
-            {
-                target.defense -= 15;
-            }
-            if (target.defense <= 0 && target.canGhostHeal && !player.moonLeech)
+			if (Main.rand.NextBool(5) && target.defense > 0)
+			{
+				target.defense -= 15;
+				if (target.defense < 0)
+					target.defense = 0;
+			}
+
+			if (target.defense <= 0 && target.canGhostHeal && !player.moonLeech)
             {
                 player.statLife += 4;
                 player.HealEffect(4);
             }
+
 			OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback);
         }
 
@@ -65,18 +69,18 @@ namespace CalamityMod.Items.Weapons.Melee
 		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback)
 		{
             Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * player.MeleeDamage() * 0.5f), 0f, player.whoAmI);
-            if (targetLife <= (targetMaxLife * 0.5f))
+            if (targetLife <= (targetMaxLife * 0.5f) && player.ownedProjectileCounts[ModContent.ProjectileType<RainBolt>()] < 3)
             {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                float randomSpeedX = Main.rand.Next(9);
+                float randomSpeedY = Main.rand.Next(6, 15);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
             }
-            if (targetLife <= 0 && !player.moonLeech)
+            if (targetLife <= 0 && !player.moonLeech && player.ownedProjectileCounts[ModContent.ProjectileType<RainHeal>()] < 3)
             {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                float randomSpeedX = Main.rand.Next(9);
+                float randomSpeedY = Main.rand.Next(6, 15);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);

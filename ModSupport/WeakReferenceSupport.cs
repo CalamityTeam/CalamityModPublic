@@ -29,6 +29,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -103,6 +104,7 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
+		public static readonly Func<bool> DownedAdultEidolonWyrm = () => CalamityWorld.downedAdultEidolonWyrm;
 
 		public static readonly Func<bool> DownedAcidRainInitial = () => CalamityWorld.downedEoCAcidRain;
 		public static readonly Func<bool> DownedAcidRainHardmode = () => CalamityWorld.downedAquaticScourgeAcidRain;
@@ -140,6 +142,7 @@ namespace CalamityMod
 			{ "Yharon", 18f },
 			// { "Draedon", 18.5f },
 			{ "SupremeCalamitas", 19f },
+			{ "AdultEidolonWyrm", 19.5f },
 			// { "Yharim", 20f },
 			// { "Noxus", 120f },
 			// { "Xeroc", 121f },
@@ -225,9 +228,8 @@ namespace CalamityMod
 		/// </summary>
 		private static void BossChecklistSupport()
 		{
-			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-			Mod calamity = GetInstance<CalamityMod>();
-
+			CalamityMod calamity = GetInstance<CalamityMod>();
+			Mod bossChecklist = calamity.bossChecklist;
 			if (bossChecklist is null)
 				return;
 
@@ -320,7 +322,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Cryogen", out float order);
 				int type = NPCType<Cryogen>();
 				int summon = ItemType<CryoKey>();
-				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<CryoBar>(), ItemType<EssenceofEleum>(), ItemID.FrostCore, ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<Regenator>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemID.FrostCore, ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<Regenator>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<CryogenTrophy>(), ItemType<CryogenMask>(), ItemType<KnowledgeCryogen>() };
 				string instructions = $"Use a [i:{summon}] in the Snow Biome";
 				string despawn = CalamityUtils.ColorMessage("Cryogen drifts away, carried on a freezing wind.", new Color(0x00, 0xFF, 0xFF));
@@ -485,7 +487,7 @@ namespace CalamityMod
 			// Ceaseless Void
 			{
 				BossDifficulty.TryGetValue("CeaselessVoid", out float order);
-				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>(), NPCType<DarkEnergy2>(), NPCType<DarkEnergy3>() };
+				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
 				int summon = ItemType<RuneofCos>();
 				List<int> loot = new List<int>() { ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<ArcanumoftheVoid>(), ItemType<TheEvolution>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<KnowledgeSentinels>() };
@@ -580,6 +582,18 @@ namespace CalamityMod
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
 				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summon, loot, collection, instructions, despawn);
+			}
+
+			// Adult Eidolon Wyrm
+			{
+				BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
+				int type = NPCType<EidolonWyrmHeadHuge>();
+				int summon = ItemID.RodofDiscord;
+				List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenite>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>() };
+				List<int> collection = new List<int>() { ItemType<HalibutCannon>() };
+				string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
+				string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
+				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn);
 			}
 		}
 		
@@ -797,12 +811,9 @@ namespace CalamityMod
 
 		private static void FargosSupport()
 		{
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			Mod fargos = GetInstance<CalamityMod>().fargos;
 			if (fargos is null)
 				return;
-
-			// Mark Fargo's Mutant Mod as loaded so that Calamity doesn't add ANY boss summons to vanilla NPCs, even for its own bosses
-			GetInstance<CalamityMod>().fargosMutant = true;
 
 			void AddToMutantShop(string bossName, string summonItemName, Func<bool> downed, int price)
 			{
@@ -837,7 +848,7 @@ namespace CalamityMod
 
 		private static void CensusSupport()
 		{
-			Mod censusMod = ModLoader.GetMod("Census");
+			Mod censusMod = GetInstance<CalamityMod>().census;
 			if (censusMod != null)
 			{
 				censusMod.Call("TownNPCCondition", NPCType<SEAHOE>(), "Defeat a Giant Clam after defeating the Desert Scourge");
@@ -849,7 +860,7 @@ namespace CalamityMod
 
 		private static void SummonersAssociationSupport()
 		{
-			Mod sAssociation = ModLoader.GetMod("SummonersAssociation");
+			Mod sAssociation = GetInstance<CalamityMod>().summonersAssociation;
 			if (sAssociation is null)
 				return;
 

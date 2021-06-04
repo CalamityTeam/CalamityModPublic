@@ -9,13 +9,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class Hypothermia : RogueWeapon
     {
-		private int counter = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");
             Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes additionally fire a short ranged ice chunk that shatters into ice shards");
+                               "Stealth strikes additionally fire short ranged ice chunks that shatter into ice shards");
         }
 
         public override void SafeSetDefaults()
@@ -30,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = ItemRarityID.Red;
 
-            item.damage = 369;
+            item.damage = 206;
             item.useAnimation = 21;
             item.useTime = 3;
             item.reuseDelay = 1;
@@ -47,11 +45,20 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable() && counter == 0) //setting up the stealth strikes
-			{
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+                damage = (int)(damage * 1.55);
+
+            if (player.Calamity().StealthStrikeAvailable() && player.itemAnimation == item.useAnimation - 1) //setting up the stealth strikes
+            {
+                damage = (int)(damage * 1.7);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.13f) * Main.rand.NextFloat(1f, 1.1f);
+                    int stealth = Projectile.NewProjectile(position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
+                    if (stealth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[stealth].Calamity().stealthStrike = true;
+                }
             }
 			int projAmt = Main.rand.Next(1, 3);
 			for (int index = 0; index < projAmt; ++index)
@@ -61,9 +68,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 				Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
 			}
 
-			counter++;
-			if (counter >= item.useAnimation / item.useTime)
-				counter = 0;
             return false;
         }
 

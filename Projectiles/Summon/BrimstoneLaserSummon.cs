@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneLaserSummon : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneLaser";
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrimstoneLaser";
 
         public override void SetStaticDefaults()
         {

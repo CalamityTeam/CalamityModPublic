@@ -54,14 +54,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            double lifeAmount = (double)target.life;
-            double lifeMax = (double)target.lifeMax;
+            double lifeAmount = target.life;
+            double lifeMax = target.lifeMax;
             double damageMult = lifeAmount / lifeMax * 7;
             damage = (int)Math.Pow(damage, damageMult);
-            if (damage > 1000000)
-            {
-                damage = 1000000;
-            }
+            if (damage > 200000)
+                damage = 200000;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -78,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

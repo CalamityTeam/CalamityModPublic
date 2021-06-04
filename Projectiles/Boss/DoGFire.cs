@@ -26,14 +26,16 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
+			projectile.extraUpdates = 1;
             projectile.penetrate = -1;
             projectile.timeLeft = 480;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (projectile.localAI[0] == 0f && projectile.ai[1] == 0f)
             {
                 projectile.localAI[0] = 1f;
                 Main.PlaySound(SoundID.Item20, projectile.position);
@@ -46,48 +48,28 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 5)
-            {
                 projectile.frame = 0;
-            }
 
             if (projectile.alpha > 0)
                 projectile.alpha -= 25;
             if (projectile.alpha < 0)
                 projectile.alpha = 0;
 
-            int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 173, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.2f);
+            int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 173, projectile.velocity.X, projectile.velocity.Y, 100, default, 0.8f);
             Main.dust[dust].noGravity = true;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-            if (projectile.ai[1] == 1f)
+            if (projectile.ai[1] > 0f)
             {
-                int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] >= 60f)
-                {
-                    if (projectile.ai[0] < 300f)
-                    {
-                        float scaleFactor2 = projectile.velocity.Length();
-                        vector11.Normalize();
-                        vector11 *= scaleFactor2;
-                        projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= scaleFactor2;
-                    }
-                    else if (projectile.velocity.Length() < 24f)
-                    {
-                        projectile.tileCollide = true;
-                        projectile.velocity *= 1.02f;
-                    }
-                }
-            }
+				if (projectile.velocity.Length() < projectile.ai[1])
+					projectile.velocity *= projectile.ai[0];
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

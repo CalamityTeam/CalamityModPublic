@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -13,8 +15,8 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -98,11 +100,22 @@ namespace CalamityMod
 				npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>();
 		}
 
-		public static bool AnyBossNPCS()
+		public static bool AnyBossNPCS(bool checkForMechs = false)
 		{
 			for (int i = 0; i < Main.maxNPCs; i++)
-				if (Main.npc[i] != null && Main.npc[i].IsABoss())
-					return true;
+			{
+				if (Main.npc[i] != null)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.IsABoss())
+					{
+						// Added due to the new mech boss ore progression, return true if any mech is alive and checkForMechs is true, reduces mech boss projectile damage if true.
+						if (checkForMechs)
+							return npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer;
+						return true;
+					}
+				}
+			}
 			return FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
 		}
 
@@ -250,6 +263,26 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Syncs <see cref="CalamityGlobalNPC.newAI"/>. This exists specifically for AIs manipulated in a global context, as <see cref="GlobalNPC"/> has no netUpdate related hooks.
+		/// </summary>
+		/// <param name="npc"></param>
+		public static void SyncExtraAI(this NPC npc)
+        {
+			// Don't bother attempting to send packets in singleplayer.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+
+			ModPacket packet = CalamityMod.Instance.GetPacket();
+			packet.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+			packet.Write((byte)npc.whoAmI);
+
+			for (int i = 0; i < npc.Calamity().newAI.Length; i++)
+				packet.Write(npc.Calamity().newAI[i]);
+
+			packet.Send();
+		}
+
+		/// <summary>
 		/// Detects nearby hostile NPCs from a given point
 		/// </summary>
 		/// <param name="origin">The position where we wish to check for nearby NPCs</param>
@@ -308,6 +341,7 @@ namespace CalamityMod
 			}
 			return closestTarget;
 		}
+
 		/// <summary>
 		/// Detects nearby hostile NPCs from a given point with minion support
 		/// </summary>
@@ -437,11 +471,45 @@ namespace CalamityMod
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
 			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+		}
+
+		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;
+
+		/// <summary>
+		/// Summons a boss near a particular area depending on a specific spawn context.
+		/// </summary>
+		/// <param name="relativeSpawnPosition">The relative spawn position.</param>
+		/// <param name="bossType">The NPC type ID of the boss to spawn.</param>
+		/// <param name="spawnContext">The context in which the direct spawn position is decided.</param>
+		/// <param name="ai0">The optional 1st ai parameter for the boss.</param>
+		/// <param name="ai1">The optional 2nd ai parameter for the boss.</param>
+		/// <param name="ai2">The optional 3rd ai parameter for the boss.</param>
+		/// <param name="ai3">The optional 4th ai parameter for the boss.</param>
+		public static NPC SpawnBossBetter(Vector2 relativeSpawnPosition, int bossType, BaseBossSpawnContext spawnContext = null, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f, float ai3 = 0f)
+		{
+			// Don't spawn entities client-side.
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+				return null;
+
+			// Fall back to an exact spawn position if nothing else is inputted.
+			if (spawnContext is null)
+				spawnContext = new ExactPositionBossSpawnContext();
+
+			Vector2 spawnPosition = spawnContext.DetermineSpawnPosition(relativeSpawnPosition);
+			int bossIndex = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, bossType, 0, ai0, ai1, ai2, ai3);
+
+			// Broadcast a spawn message to indicate the summoning of the boss if it was successfully spawned.
+			if (Main.npc.IndexInRange(bossIndex))
+			{
+				BossAwakenMessage(bossIndex);
+				return Main.npc[bossIndex];
+			}
+			else
+				return null;
 		}
 
 		/// <summary>

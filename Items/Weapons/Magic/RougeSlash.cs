@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RougeSlashLarge>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, ModContent.ProjectileType<RougeSlashMedium>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, speedX * 0.6f, speedY * 0.6f, ModContent.ProjectileType<RougeSlashSmall>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RougeSlashLarge>(), damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, ModContent.ProjectileType<RougeSlashMedium>(), damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX * 0.6f, speedY * 0.6f, ModContent.ProjectileType<RougeSlashSmall>(), damage / 2, knockBack, player.whoAmI);
             return false;
         }
     }

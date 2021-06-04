@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 235;
             item.summon = true;
-			item.sentry = true;
+            item.sentry = true;
             item.mana = 10;
             item.width = 42;
             item.height = 60;
@@ -27,12 +27,13 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Purple;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LanternSoul>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-            item.UseSound = SoundID.Item44;
+			item.Calamity().challengeDrop = true;
+			item.UseSound = SoundID.Item44;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

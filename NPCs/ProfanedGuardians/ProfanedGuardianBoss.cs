@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 40;
 			npc.DR_NERD(0.3f);
-            npc.LifeMaxNERB(76875, 84375, 1650000); // Old HP - 102500, 112500
+            npc.LifeMaxNERB(76875, 84375, 165000); // Old HP - 102500, 112500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -51,11 +51,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.noTileCollide = true;
             aiType = -1;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
-            else
-                music = MusicID.Boss1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
@@ -105,9 +101,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
             }
-            
-            npc.TargetClosest(false);
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			if (!Main.dayTime || !player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -139,9 +143,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
@@ -225,6 +230,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             break;
                     }
 
+					if (malice)
+						totalProjectiles *= 2;
+
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					for (int i = 0; i < totalProjectiles; i++)
 					{
@@ -239,7 +247,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = death ? 16f : 14f;
+                float scaleFactor6 = malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
                 Vector2 center5 = player.Center;
                 Vector2 vector126 = center5 - vectorCenter;
                 Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
@@ -289,7 +297,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= 10f;
+                    velocity *= malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
                     npc.velocity = velocity;
                 }
             }
@@ -339,6 +347,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
                 npc.velocity *= 0.98f;
@@ -422,7 +431,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfDeliverance>(), 4);
             DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
 

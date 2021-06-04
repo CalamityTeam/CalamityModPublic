@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
 	public class LightBead : ModProjectile
@@ -27,13 +28,14 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.5f);
             projectile.rotation += projectile.velocity.X * 0.2f;
             projectile.ai[1] += 1f;
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(5))
             {
-                int num300 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 0, default, 1f);
-                Main.dust[num300].noGravity = true;
-                Main.dust[num300].velocity *= 0.5f;
-                Main.dust[num300].scale *= 0.9f;
+                Dust whiteMagic = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 0, default, 1f);
+                whiteMagic.noGravity = true;
+                whiteMagic.velocity *= 0.5f;
+                whiteMagic.scale *= 0.9f;
             }
+
             if (projectile.ai[1] > 300f)
             {
                 projectile.scale -= 0.05f;
@@ -44,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 18f, 10f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 15f, 15f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -54,10 +56,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 6; k++)
-            {
+            for (int k = 0; k < 4; k++)
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+
             int beadAmt = Main.rand.Next(2, 3);
             if (projectile.owner == Main.myPlayer)
             {

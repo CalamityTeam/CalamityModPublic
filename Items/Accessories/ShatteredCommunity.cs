@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 		private static long CumulativeLevelCost(int level) => (BaseLevelCost / 2L) * level * (level + 1);
 		private const int MaxLevel = 60;
 
-		internal int rageLevel = 0;
+		internal int level = 0;
 		internal long totalRageDamage = 0L;
 
 		public override void SetStaticDefaults()
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			var clone = (ShatteredCommunity)base.Clone();
 			clone.everInInventory = everInInventory;
-			clone.rageLevel = rageLevel;
+			clone.level = level;
 			clone.totalRageDamage = totalRageDamage;
 			return clone;
 		}
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			var clone = (ShatteredCommunity)base.Clone();
 			clone.everInInventory = everInInventory;
-			clone.rageLevel = rageLevel;
+			clone.level = level;
 			clone.totalRageDamage = totalRageDamage;
 			return clone;
 		}
@@ -92,17 +92,14 @@ namespace CalamityMod.Items.Accessories
 			player.moveSpeed += 0.2f;
 
 			// Shattered Community provides a stacking +1% Rage Mode damage per level.
-			modPlayer.RageDamageBoost += rageLevel * 0.01;
+			modPlayer.RageDamageBoost += level * 0.01;
 		}
 
 		// Community and Shattered Community are mutually exclusive
 		public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().community;
 		public override bool CanUseItem(Player player) => false;
 
-		public override void UpdateInventory(Player player)
-		{
-			everInInventory = true;
-		}
+		public override void UpdateInventory(Player player) => everInInventory = true;
 
 		// Produces purple light while in the world.
 		public override void PostUpdate()
@@ -136,16 +133,33 @@ namespace CalamityMod.Items.Accessories
 			sc.totalRageDamage += damage;
 
 			// Level up if applicable.
-			if (sc.totalRageDamage > CumulativeLevelCost(sc.rageLevel + 1))
+			if (sc.level < MaxLevel && sc.totalRageDamage > CumulativeLevelCost(sc.level + 1))
 			{
-				++sc.rageLevel;
+				++sc.level;
 				sc.LevelUpEffects(player);
 			}
 		}
 
 		private void LevelUpEffects(Player player)
 		{
-			// TODO -- it should probably do something fancy involving dust or whatever
+			// Spawn the purple laser beam from failing the Dungeon Defenders event.
+			int projID = ProjectileID.DD2ElderWins;
+			Vector2 offset = new Vector2(0f, 800f); // The effect is extremely tall, so start it very low down
+			Projectile fx = Projectile.NewProjectileDirect(player.Center + offset, Vector2.Zero, projID, 0, 0f, player.whoAmI);
+			fx.friendly = false;
+			fx.hostile = false;
+			// On the 108th update, crystal debris is spawned, so we avoid that.
+			fx.timeLeft = 107;
+			fx.MaxUpdates = 2; // Make the animation play at double speed.
+
+			// Play a weird dimensional lightning sound simultaneously.
+			var extraSound = SoundID.DD2_EtherianPortalDryadTouch.WithVolume(1.4f);
+			Main.PlaySound(extraSound, player.Center);
+
+			// Display a level up text notification.
+			Rectangle textArea = new Rectangle((int)player.Center.X, (int)player.Center.Y, 1, 1);
+			Color textColor = new Color(236, 209, 236);
+			CombatText.NewText(textArea, textColor, "The Community cracks...", false, false);
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -165,17 +179,17 @@ namespace CalamityMod.Items.Accessories
 
 			// Line 6: Current level
 			sb.Append("Current level: ");
-			sb.Append(rageLevel);
+			sb.Append(level);
 			sb.Append(" (+");
-			sb.Append(rageLevel);
+			sb.Append(level);
 			sb.Append("% Rage Mode damage)");
 			tooltips.Add(new TooltipLine(mod, "Tooltip6", sb.ToString()));
 			sb.Clear();
 
-			if (rageLevel < MaxLevel)
+			if (level < MaxLevel)
 			{
-				long progressToNextLevel = totalRageDamage - CumulativeLevelCost(rageLevel);
-				long totalToNextLevel = LevelCost(rageLevel + 1);
+				long progressToNextLevel = totalRageDamage - CumulativeLevelCost(level);
+				long totalToNextLevel = LevelCost(level + 1);
 				double ratio = (double)progressToNextLevel / totalToNextLevel;
 				string percent = (100D * ratio).ToString("0.00");
 
@@ -198,7 +212,7 @@ namespace CalamityMod.Items.Accessories
 			TagCompound tag = new TagCompound
 			{
 				{ "real", everInInventory },
-				{ "level", rageLevel },
+				{ "level", level },
 				{ "totalDamage", totalRageDamage }
 			};
 			return tag;
@@ -207,21 +221,21 @@ namespace CalamityMod.Items.Accessories
 		public override void Load(TagCompound tag)
 		{
 			everInInventory = tag.GetBool("real");
-			rageLevel = tag.GetInt("level");
+			level = tag.GetInt("level");
 			totalRageDamage = tag.GetLong("totalDamage");
 		}
 
 		public override void NetSend(BinaryWriter writer)
 		{
 			writer.Write(everInInventory);
-			writer.Write(rageLevel);
+			writer.Write(level);
 			writer.Write(totalRageDamage);
 		}
 
 		public override void NetRecieve(BinaryReader reader)
 		{
 			everInInventory = reader.ReadBoolean();
-			rageLevel = reader.ReadInt32();
+			level = reader.ReadInt32();
 			totalRageDamage = reader.ReadInt64();
 		}
 

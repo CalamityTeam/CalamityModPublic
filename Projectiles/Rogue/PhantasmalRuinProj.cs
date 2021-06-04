@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = Lifetime;
             projectile.extraUpdates = 1;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 3);
             return false;
         }
 
@@ -82,8 +83,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 // Each pair of souls has randomized player homing strength
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                Projectile.NewProjectile(projectile.Center, velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
-                Projectile.NewProjectile(projectile.Center, -velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
+                if (Main.rand.NextBool(2))
+                    Projectile.NewProjectile(projectile.Center, velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
+                if (Main.rand.NextBool(2))
+                    Projectile.NewProjectile(projectile.Center, -velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
 
                 // Rotate direction for the next pair of souls.
                 velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);

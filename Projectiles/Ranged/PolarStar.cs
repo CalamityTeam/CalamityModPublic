@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[1] == 2f) //Boost three
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (projectile.ai[1] == 1f) //Boost two
             {

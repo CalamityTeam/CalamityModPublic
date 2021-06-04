@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 200;
+            item.damage = 60;
             item.melee = true;
-            item.useTime = 5;
+            item.useTime = 15;
             item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 			item.shoot = ModContent.ProjectileType<BurningMeteor>();
-            item.shootSpeed = 35f;
+            item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 10;
+            int num107 = 20;
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);

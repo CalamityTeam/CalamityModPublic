@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 	// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
 	public class PlasmaCaster : ModItem
 	{
-		public const int BaseDamage = 750;
+		public const int BaseDamage = 705;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Caster");

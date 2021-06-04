@@ -32,7 +32,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
 			projectile.tileCollide = false;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

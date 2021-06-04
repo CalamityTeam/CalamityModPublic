@@ -3,10 +3,10 @@ using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class Calamitamini : ModProjectile
@@ -26,8 +26,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+            projectile.width = projectile.height = 36;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;

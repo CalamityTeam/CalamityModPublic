@@ -113,16 +113,7 @@ namespace CalamityMod.Events
                     Player player = Main.player[ClosestPlayerToWorldCenter];
                     NPC.SpawnWOF(player.position);
                 }),
-                new Boss(ModContent.NPCType<HiveMind>(), spawnContext: type =>
-                {
-                    // Post-Wall of Flesh teleport back to spawn
-                    for (int playerIndex = 0; playerIndex < Main.player.Length; playerIndex++)
-                    {
-                        if (Main.player[playerIndex].active)
-                            Main.player[playerIndex].Spawn();
-                    }
-                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
-                }),
+                new Boss(ModContent.NPCType<HiveMind>()),
                 new Boss(NPCID.SkeletronHead, TimeChangeContext.Night, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
@@ -231,6 +222,7 @@ namespace CalamityMod.Events
                                 player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                         }
                     }
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),

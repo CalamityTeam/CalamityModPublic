@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 100;
             npc.defense = 20;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(27400, 41600, 2600000);
+            npc.LifeMaxNERB(27400, 41600, 260000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -49,11 +49,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
-            else
-                music = MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Siren") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
@@ -66,7 +62,8 @@ namespace CalamityMod.NPCs.Leviathan
 			writer.Write(npc.localAI[3]);
 			writer.Write(frameUsed);
             writer.Write(npc.dontTakeDamage);
-        }
+			writer.Write(npc.Calamity().newAI[0]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -77,7 +74,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.localAI[3] = reader.ReadSingle();
 			frameUsed = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
-        }
+			npc.Calamity().newAI[0] = reader.ReadSingle();
+		}
 
 		public override void AI()
         {
@@ -92,9 +90,13 @@ namespace CalamityMod.NPCs.Leviathan
 			// Light
 			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.5f, 0.3f);
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Check for Leviathan
 			bool leviAlive = false;
@@ -103,13 +105,14 @@ namespace CalamityMod.NPCs.Leviathan
 
 			// Variables
 			Player player = Main.player[npc.target];
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 			bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
 			float enrageScale = 0f;
-			if (notOcean)
+			if (notOcean || malice)
 				enrageScale += 2f;
 
 			if (BossRushEvent.BossRushActive)
@@ -136,15 +139,11 @@ namespace CalamityMod.NPCs.Leviathan
 			bool phase4 = lifeRatio < 0.2f;
 
 			// Spawn Leviathan and change music
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (!spawnedLevi)
 				{
-					Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-					if (calamityModMusic != null)
-						music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-					else
-						music = MusicID.Boss3;
+					music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -205,7 +204,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.dontTakeDamage = true;
 			}
 
-			if (phase3)
+			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
 				if (CalamityGlobalNPC.leviathan != -1)
 				{
@@ -329,6 +328,7 @@ namespace CalamityMod.NPCs.Leviathan
                 else
                     ChargeRotation(player, vector);
 
+				npc.TargetClosest();
                 npc.ai[1] = 0f;
                 npc.ai[2] = 0f;
             }
@@ -336,7 +336,6 @@ namespace CalamityMod.NPCs.Leviathan
             // Get in position for bubble spawn
             else if (npc.ai[0] == 0f)
             {
-                npc.TargetClosest(true);
                 npc.rotation = npc.velocity.X * 0.02f;
                 npc.spriteDirection = npc.direction;
 
@@ -400,8 +399,6 @@ namespace CalamityMod.NPCs.Leviathan
             else if (npc.ai[0] == 1f)
             {
                 npc.rotation = npc.velocity.X * 0.02f;
-                npc.TargetClosest(true);
-
                 Vector2 vector119 = new Vector2(npc.position.X + (npc.width / 2) + (15 * npc.direction), npc.position.Y + 30);
                 Vector2 vector120 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num1058 = player.position.X + (player.width / 2) - vector120.X;
@@ -527,7 +524,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
 					float projectileVelocity = expertMode ? 3f : 2f;
-					projectileVelocity += 2f * enrageScale;
+					projectileVelocity += enrageScale;
 					if (!leviAlive || phase4)
 						projectileVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
@@ -606,7 +603,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     // Velocity and rotation
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
-					chargeVelocity += 14f * enrageScale;
+					chargeVelocity += 8f * enrageScale;
 
 					if (revenge)
 						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));

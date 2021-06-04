@@ -11,11 +11,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Norfleet");
-        }
+			Tooltip.SetDefault("Fire everything!");
+		}
 
         public override void SetDefaults()
         {
-            item.damage = 1000;
+            item.damage = 442;
             item.knockBack = 15f;
             item.shootSpeed = 30f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -26,17 +27,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 42;
             item.UseSound = SoundID.Item92;
             item.shoot = ModContent.ProjectileType<NorfleetCannon>();
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.noMelee = true;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;
             item.channel = true;
             item.useTurn = false;
             item.useAmmo = AmmoID.FallenStar;
             item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

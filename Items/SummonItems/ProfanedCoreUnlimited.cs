@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && CalamityWorld.downedBossAny && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

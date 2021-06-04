@@ -47,20 +47,7 @@ namespace CalamityMod.Items.SummonItems
 			if (player.ZoneDungeon)
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
-
-					bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-					bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-					bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-					int glob = death ? 5 : revenge ? 4 : expertMode ? 3 : 2;
-					for (int i = 0; i < glob; i++)
-					{
-						NPC.NewNPC((int)player.Center.X - 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
-						NPC.NewNPC((int)player.Center.X + 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
-						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
-					}
-				}
 				else
 					NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 			}

@@ -22,7 +22,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 38;
             projectile.height = 38;
             projectile.friendly = true;
-            projectile.light = 0.5f;
+			projectile.ignoreWater = true;
+			projectile.light = 0.5f;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 420;
@@ -56,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 8f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

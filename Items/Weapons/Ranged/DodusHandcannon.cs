@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             // Reduce volume to 30% so it stops destroying people's ears.
             var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
-            item.UseSound = sound.WithVolume(0.3f);
+            item.UseSound = sound?.WithVolume(0.3f);
 
             item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
             item.shootSpeed = 13f;

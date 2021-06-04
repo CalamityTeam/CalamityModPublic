@@ -28,13 +28,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.65f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
+            Lighting.AddLight(projectile.Center, 0.65f, 0f, 0.1f);
             Player player = Main.player[projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
             if (flag15 && Main.myPlayer == projectile.owner)
             {
                 int num42 = ModContent.ProjectileType<GhastlyBlast>();
-                float scaleFactor11 = 6f;
+                float coreVelocity = 11.5f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
                         projectile.netUpdate = true;
                     }
                     projectile.velocity = value19 * 0.55f;
-                    Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                    Vector2 vector20 = Vector2.Normalize(projectile.velocity) * coreVelocity;
                     if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
                     {
                         vector20 = -Vector2.UnitY;

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
                 {
-                    line2.text = "Press " + hotkey + " to teleport to a random location";
+                    line2.text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
                 }
             }
         }
@@ -47,8 +47,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 20);
+			recipe.AddRecipeGroup("AnyLargeGem");
+			recipe.AddIngredient(ItemID.TeleportationPotion, 3);
+			recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

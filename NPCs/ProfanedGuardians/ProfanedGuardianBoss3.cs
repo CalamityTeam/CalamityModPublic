@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 30;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(18750, 26250, 200000); // Old HP - 25000, 35000
+            npc.LifeMaxNERB(18750, 26250, 20000); // Old HP - 25000, 35000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -44,11 +44,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.canGhostHeal = false;
             aiType = -1;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
-            else
-                music = MusicID.Boss1;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }
@@ -75,12 +71,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-			npc.TargetClosest(false);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			bool expertMode = Main.expertMode;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
 
@@ -151,7 +156,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
@@ -184,7 +189,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (npc.localAI[0] >= 600f)
                 {
                     npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);

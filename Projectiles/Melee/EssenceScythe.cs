@@ -40,12 +40,12 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 
@@ -78,9 +78,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.life <= 0)
             {
                 if (projectile.owner == Main.myPlayer)
-                {
 					CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 8, ModContent.ProjectileType<EssenceFlame>(), 1200f, 0f);
-                }
             }
         }
     }

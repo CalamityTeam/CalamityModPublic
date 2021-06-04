@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(350 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(175 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                if (Main.rand.NextBool(8))
-                {
+				if (player.miscCounter % 8 == 0)
+				{
                     if (player.whoAmI == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(750 * player.AverageDamage()), 9f, player.whoAmI);
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(375 * player.AverageDamage()), 9f, player.whoAmI);
                     }
                 }
             }

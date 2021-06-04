@@ -30,6 +30,12 @@ namespace CalamityMod
 		[Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
 		public bool Afterimages { get; set; }
 
+		[Label("Disable Screenshakes")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Disables all screen-shaking effects.")]
+		public bool DisableScreenShakes { get; set; }
+
 		[Label("Stealth Invisibility")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
@@ -114,6 +120,16 @@ namespace CalamityMod
 
 		[Header("General Gameplay Changes")]
 
+		[Label("Early Hardmode Progression Rework")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\n" +
+			"Wall of Flesh spawns Cobalt and Palladium ore on first kill.\n" +
+			"The first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.\n" +
+			"The second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.\n" +
+			"The third mech boss spawns Hallowed Ore on first kill")]
+		public bool EarlyHardmodeProgressionRework { get; set; }
+
 		[Label("Lethal Lava")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
@@ -141,7 +157,7 @@ namespace CalamityMod
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
-		[Tooltip("While a boss is alive, all players receive the Boss Zen buff which drastically reduces enemy spawn rates.")]
+		[Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
 		public bool BossZen { get; set; }
 
 		[Label("Never Weaken Reactive Boss DR")]
@@ -300,12 +316,6 @@ namespace CalamityMod
 		[DefaultValue(false)]
 		[Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
 		public bool BossRushImmunityFrameCurse { get; set; }
-
-		[Label("Xeroc Curse")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Permanently enrages every boss in the Boss Rush.\nThis enrage is equivalent to that provided by Demonshade armor.")]
-		public bool BossRushXerocCurse { get; set; }
 
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
 	}

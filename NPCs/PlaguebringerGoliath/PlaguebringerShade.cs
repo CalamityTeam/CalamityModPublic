@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.value = Item.buyPrice(0, 1, 50, 0);
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 200000;
+                npc.lifeMax = 20000;
             }
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             }
             bool dead4 = Main.player[npc.target].dead;
             if (dead4 && Main.expertMode)

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 102;
-            item.damage = 501;
+            item.damage = 150;
             item.melee = true;
             item.useAnimation = 15;
             item.useTime = 15;
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.height = 102;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 28f;
             item.Calamity().customRarity = CalamityRarity.Violet;

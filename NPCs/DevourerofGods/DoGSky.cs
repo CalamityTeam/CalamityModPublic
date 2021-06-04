@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (Main.npc[DoGIndex].active)
                 {
                     float intensity = GetIntensity();
-                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * 0.15 || CalamityWorld.death)
+                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * 0.15 || CalamityWorld.death || CalamityWorld.malice)
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             Color.Black * (intensity + 0.5f));
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     else
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                            (Main.npc[DoGIndex].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
                     }
                 }
             }

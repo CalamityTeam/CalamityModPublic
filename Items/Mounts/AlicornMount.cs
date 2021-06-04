@@ -16,30 +16,27 @@ namespace CalamityMod.Items.Mounts
             mountData.spawnDustNoGravity = true;
             mountData.buff = ModContent.BuffType<AlicornBuff>();
             mountData.heightBoost = 35;
-            mountData.fallDamage = 0f; //0.5
-            mountData.runSpeed = 7f; //12
-            mountData.dashSpeed = 21f; //8
+            mountData.fallDamage = 0f;
+            mountData.runSpeed = 5.6f;
+            mountData.dashSpeed = 16.8f;
             mountData.flightTimeMax = 500;
             mountData.fatigueMax = 0;
             mountData.jumpHeight = 12;
-            mountData.acceleration = 0.45f;
-            mountData.jumpSpeed = 8f; //10
+            mountData.acceleration = 0.4f;
+            mountData.jumpSpeed = 8.01f;
             mountData.swimSpeed = 4f;
             mountData.blockExtraJumps = false;
             mountData.totalFrames = 15;
             mountData.constantJump = false;
+			int baseYOffset = 24;
             int[] array = new int[mountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
-                array[l] = 30;
+                array[l] = baseYOffset;
             }
-            array[1] = 28;
-            array[3] = 28;
-            array[5] = 28;
-            array[7] = 28;
-            array[12] = 28;
+            array[1] = array[3] = array[5] = array[7] = array[12] = baseYOffset - 2;
             mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
+            mountData.xOffset = -4;
             mountData.bodyFrame = 3;
             mountData.yOffset = 7; //-8
             mountData.playerHeadOffset = 36; //30

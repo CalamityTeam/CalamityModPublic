@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = projectile.height = 94;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 3;
 			projectile.usesLocalNPCImmunity = true;
@@ -125,7 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					break;
 				case 2f:
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, speed, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, speed, 20f);
 					break;
 				default:
 					break;
@@ -166,7 +167,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 100;
             item.ranged = true;
             item.width = 74;
             item.height = 34;
@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
+            float SpeedX = speedX + Main.rand.Next(-5, 6) * 0.05f;
+            float SpeedY = speedY + Main.rand.Next(-5, 6) * 0.05f;
             if (Main.rand.NextBool(5))
             {
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FishronRPG>(), damage, knockBack, player.whoAmI);

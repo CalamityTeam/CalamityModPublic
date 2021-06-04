@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
@@ -8,6 +10,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -48,7 +51,6 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Dyes;
-using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -102,17 +104,53 @@ namespace CalamityMod
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
 
-        // TODO -- Calamity should check for other mods existing in exactly one place
-        public bool fargosMutant = false;
+		// Life steal cap
+		public const int lifeStealCap = 10;
 
-        internal static CalamityMod Instance;
+		// Debuff immunities, these are used in the NPCDebuffs file
+		public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
+		public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+		public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
+		public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
+		public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
+		public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
+		public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
+		public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
+		public static int[] holyEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
+
+		internal static CalamityMod Instance;
+        internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
+        internal bool MusicAvailable => !(musicMod is null);
+        internal Mod ancientsAwakened = null;
+        internal Mod bossChecklist = null;
+        internal Mod census = null;
+        internal Mod crouchMod = null;
+        internal Mod fargos = null;
+        internal Mod redemption = null;
+        internal Mod soa = null;
+        internal Mod summonersAssociation = null;
+        internal Mod thorium = null;
+        internal Mod varia = null;
 
         #region Load
         public override void Load()
         {
             Instance = this;
 
-            // Initialize the BossStats struct as early as it is safe to do so
+            // If any of these mods aren't loaded, it will simply keep them as null.
+            musicMod = ModLoader.GetMod("CalamityModMusic");
+            ancientsAwakened = ModLoader.GetMod("AAMod");
+            bossChecklist = ModLoader.GetMod("BossChecklist");
+            census = ModLoader.GetMod("Census");
+            crouchMod = ModLoader.GetMod("CrouchMod");
+            fargos = ModLoader.GetMod("Fargowiltas");
+            redemption = ModLoader.GetMod("Redemption");
+            soa = ModLoader.GetMod("SacredTools");
+            summonersAssociation = ModLoader.GetMod("SummonersAssociation");
+            thorium = ModLoader.GetMod("ThoriumMod");
+            varia = ModLoader.GetMod("Varia");
+
+            // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
 
             heartOriginal2 = Main.heartTexture;
@@ -120,8 +158,12 @@ namespace CalamityMod
             rainOriginal = Main.rainTexture;
             manaOriginal = Main.manaTexture;
             carpetOriginal = Main.flyingCarpetTexture;
+            Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
+			NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -135,9 +177,7 @@ namespace CalamityMod
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 
             if (!Main.dedServ)
-            {
                 LoadClient();
-            }
 
             ILChanges.Load();
             BossRushEvent.Load();
@@ -212,16 +252,22 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
+
+			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+            SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
+
+            SupremeCalamitas.LoadHeadIcons();
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
@@ -236,6 +282,18 @@ namespace CalamityMod
         #region Unload
         public override void Unload()
         {
+            musicMod = null;
+            ancientsAwakened = null;
+            bossChecklist = null;
+            census = null;
+            crouchMod = null;
+            fargos = null;
+            redemption = null;
+            soa = null;
+            summonersAssociation = null;
+            thorium = null;
+            varia = null;
+
             NormalityRelocatorHotKey = null;
             RageHotKey = null;
             AdrenalineHotKey = null;
@@ -263,8 +321,6 @@ namespace CalamityMod
             CalamityLists.UnloadLists();
             NPCStats.Unload();
 
-            fargosMutant = false;
-
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
@@ -285,8 +341,12 @@ namespace CalamityMod
                 Main.manaTexture = manaOriginal;
                 Main.flyingCarpetTexture = carpetOriginal;
             }
+            Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-            heartOriginal2 = null;
+			heartOriginal2 = null;
             heartOriginal = null;
             rainOriginal = null;
             manaOriginal = null;
@@ -497,12 +557,11 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
                 { ModContent.NPCType<Bumblefuck>(), 7200 },
                 { ModContent.NPCType<Providence>(), 14400 },
-                { ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<DarkEnergy2>(), 1200 },
-                { ModContent.NPCType<DarkEnergy3>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
+				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -512,9 +571,10 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
-                { ModContent.NPCType<Yharon>(), 8100 },
-                { ModContent.NPCType<SupremeCalamitas>(), 18000 }
-            };
+                { ModContent.NPCType<Yharon>(), 15300 },
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
+			};
         }
         #endregion
 
@@ -613,8 +673,6 @@ namespace CalamityMod
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
                 { ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
@@ -638,15 +696,19 @@ namespace CalamityMod
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
-                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+			};
         }
         #endregion
 
         #region Music
+
+        // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
+        public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? (int?)musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/" + songFilename) : null;
+        
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (Main.musicVolume != 0)
             {
                 if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
@@ -656,10 +718,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag");
-                            else
-                                music = MusicID.Eerie;
+                            music = GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -667,10 +726,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SunkenSea");
-                            else
-                                music = MusicID.Temple;
+                            music = GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -678,12 +734,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                            {
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
-                            }
-                            else
-                                music = MusicID.Space;
+                            music = GetMusicFromMusicMod("Astral") ?? MusicID.Space;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -691,12 +742,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                            {
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstralUnderground");
-                            }
-                            else
-                                music = MusicID.Space;
+                            music = GetMusicFromMusicMod("AstralUnderground") ?? MusicID.Space;
                             priority = MusicPriority.Environment;
                         }
                     }
@@ -704,10 +750,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheAbyss") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -715,10 +758,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheDeepAbyss") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -726,10 +766,7 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid");
-                            else
-                                music = MusicID.Hell;
+                            music = GetMusicFromMusicMod("TheVoid") ?? MusicID.Hell;
                             priority = MusicPriority.BiomeHigh;
                         }
                     }
@@ -738,26 +775,24 @@ namespace CalamityMod
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
                             bool acidRain = CalamityWorld.rainingAcid;
-                            if (calamityModMusic != null)
-                            {
-                                string rainMusic = "Sounds/Music/AcidRain";
-                                string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
-                                
-                            }
-                            else
-                                music = acidRain ? CalamityWorld.downedPolterghast ? MusicID.Eclipse : MusicID.OldOnesArmy : MusicID.Desert; //if you have a better choice of music, feel free to change, it was pretty random choosing ngl
                             priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
+
+                            // Acid Rain themes
+                            if (acidRain)
+                                music = CalamityWorld.downedPolterghast
+                                    ? GetMusicFromMusicMod("AcidRain2") ?? MusicID.Eclipse // Acid Rain Tier 3
+                                    : GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
+
+                            // Regular Sulphur Sea theme, when Acid Rain is not occurring
+                            else
+                                music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
                         }
                     }
-                    if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
+                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG spawns
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
-                            if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-                            else
-                                music = MusicID.LunarBoss;
+                            music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
                             priority = MusicPriority.BossMedium;
                         }
                     }
@@ -766,7 +801,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region ModSupport
+        #region Mod Support
         public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
@@ -1356,8 +1391,8 @@ namespace CalamityMod
                         float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
 
                         float baseDistance = 2800f;
-                        float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-                        float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+                        float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+                        float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
                         float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
                         bool guardianAlive = false;
@@ -1395,7 +1430,7 @@ namespace CalamityMod
             else if (CalamityWorld.death)
                 scale += MaxCaveDarkness * darkRatio;
 
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge || CalamityWorld.malice)
             {
                 if (CalamityGlobalNPC.signus != -1)
                 {
@@ -1429,7 +1464,7 @@ namespace CalamityMod
                             }
 
                             // Increased darkness in Death Mode
-                            if (CalamityWorld.death)
+                            if (CalamityWorld.death || CalamityWorld.malice)
                                 multiplier += (1f - multiplier) * 0.1f;
 
                             // Total darkness

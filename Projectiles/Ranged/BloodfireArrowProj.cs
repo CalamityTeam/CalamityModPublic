@@ -42,6 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.ToRadians(90);
+
             if (projectile.timeLeft % 15 == 0)
             {
                 for (int l = 0; l < 12; l++)
@@ -57,10 +58,9 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
+
 			if (projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
-			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
-			}
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -86,16 +86,16 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
                 return;
-            }
+
             Player player = Main.player[projectile.owner];
+
 			int chance = 3;
 			if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
-			{
 				chance = 6;
-			}
+
             if (Main.rand.NextBool(chance))
             {
                 player.statLife += 1;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

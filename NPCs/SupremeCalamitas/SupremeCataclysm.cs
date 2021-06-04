@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DR_NERD(0.25f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1200000, 1500000);
+			npc.LifeMaxNERB(240000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -68,15 +69,22 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void AI()
         {
             CalamityGlobalNPC.SCalCataclysm = npc.whoAmI;
-            bool expertMode = Main.expertMode;
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
             }
-            npc.TargetClosest(true);
-            float num676 = 60f;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			float num676 = 60f;
             float num677 = 1.5f;
 
 			// Reduce acceleration if target is holding a true melee weapon
@@ -148,7 +156,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (npc.localAI[0] >= 120f)
             {
                 npc.ai[1] += 1f;
-				if (deadBrother)
+				if (deadBrother || CalamityWorld.malice)
 				{
 					npc.ai[1] += 1f;
 				}
@@ -164,7 +172,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
                 npc.ai[2] += 1f;
-                if (deadBrother)
+                if (deadBrother || CalamityWorld.malice)
                 {
                     npc.ai[2] += 2f;
                 }
@@ -193,14 +201,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f);
                     }
                 }
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
-            {
-                damage /= 2;
             }
         }
 

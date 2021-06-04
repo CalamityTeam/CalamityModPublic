@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 1200;
+            item.damage = 662;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 15;
+            item.useTime = item.useAnimation = 13;
             item.useTurn = true;
             item.melee = true;
             item.knockBack = 7f;
@@ -90,11 +90,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), damage, knockBack, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }
@@ -136,7 +136,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);
@@ -148,7 +147,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);

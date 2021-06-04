@@ -28,11 +28,11 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 50;
             projectile.timeLeft = 180;
             cooldownSlot = 1;
-        }
+		}
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -71,12 +71,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.Distance(Main.player[num959].Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
                 }
             }
             else

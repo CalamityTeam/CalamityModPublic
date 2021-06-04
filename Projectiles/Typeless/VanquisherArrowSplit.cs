@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

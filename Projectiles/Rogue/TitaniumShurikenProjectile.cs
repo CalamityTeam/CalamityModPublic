@@ -117,7 +117,6 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike)
 			{
-				projectile.ai[0] += 0.1f;
 				if (projectile.velocity.X != oldVelocity.X)
 				{
 					projectile.velocity.X = -oldVelocity.X;
@@ -136,7 +135,7 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D tex = Main.projectileTexture[projectile.type];
             if (projectile.Calamity().stealthStrike)
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             }
 			else
 			{

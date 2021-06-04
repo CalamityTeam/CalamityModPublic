@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 55;
-            item.rare = ItemRarityID.Pink;
+            item.damage = 80;
+            item.rare = ItemRarityID.Cyan;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.noMelee = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.shoot = ModContent.ProjectileType<MagnusBeam>();
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+			item.shoot = ModContent.ProjectileType<MagnusBeam>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

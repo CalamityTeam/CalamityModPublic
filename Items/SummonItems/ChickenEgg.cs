@@ -32,7 +32,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && CalamityWorld.downedBossAny && !BossRushEvent.BossRushActive;
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

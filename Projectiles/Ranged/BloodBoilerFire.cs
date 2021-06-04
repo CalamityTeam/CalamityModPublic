@@ -31,6 +31,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
+            projectile.Calamity().ResistDamagePenaltyMinCapFactor = 0.33f;
+            projectile.Calamity().ResistDamagePenaltyHarshness = 1.625f;
         }
 
         public override void AI()
@@ -166,14 +168,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 360);
+
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
                 return;
-            }
+
             Player player = Main.player[projectile.owner];
             if (Main.rand.NextBool(2))
             {
-				int healAmt = Main.rand.Next(1,4);
+				int healAmt = Main.rand.Next(1, 4);
                 player.statLife += healAmt;
                 player.HealEffect(healAmt);
             }

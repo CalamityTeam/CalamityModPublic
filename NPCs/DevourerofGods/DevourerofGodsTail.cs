@@ -41,11 +41,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.netAlways = true;
             npc.boss = true;
             npc.takenDamageMultiplier = 1.25f;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -57,9 +53,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
 
 			// Target

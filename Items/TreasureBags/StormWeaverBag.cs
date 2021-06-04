@@ -1,6 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.StormWeaver;
@@ -40,7 +41,6 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
 			DropHelper.DropItemChance(player, ModContent.ItemType<TheStorm>(), 3);
 			DropHelper.DropItemChance(player, ModContent.ItemType<StormDragoon>(), 3);
-			DropHelper.DropItemChance(player, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
 
             // Equipment (None yet boohoo)
 
@@ -51,7 +51,12 @@ namespace CalamityMod.Items.TreasureBags
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerHornedHelm>());
+				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerVisage>());
 			}
+
+            // Light pet.
+            DropHelper.DropItemChance(player, ModContent.ItemType<LittleLight>(), 8);
         }
     }
 }

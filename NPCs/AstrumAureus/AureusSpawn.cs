@@ -31,10 +31,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.alpha = 255;
             npc.defense = 10;
             npc.lifeMax = 3000;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -76,7 +72,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 }
             }
 
-            npc.TargetClosest(true);
+            npc.TargetClosest();
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
@@ -63,19 +63,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            }
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(BuffID.Frostburn, 600);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            }
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(BuffID.Frostburn, 600);
         }
     }

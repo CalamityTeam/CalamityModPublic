@@ -1,13 +1,170 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 
 namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		#region Projectile Afterimages
+		/// <summary>
+		/// Draws a projectile as a series of afterimages. The first of these afterimages is centered on the center of the projectile's hitbox.<br />
+		/// This function is guaranteed to draw the projectile itself, even if it has no afterimages and/or the Afterimages config option is turned off.
+		/// </summary>
+		/// <param name="proj">The projectile to be drawn.</param>
+		/// <param name="mode">The type of afterimage drawing code to use. Vanilla Terraria has three options: 0, 1, and 2.</param>
+		/// <param name="lightColor">The light color to use for the afterimages.</param>
+		/// <param name="typeOneIncrement">If mode 1 is used, this controls the loop increment. Set it to more than 1 to skip afterimages.</param>
+		/// <param name="texture">The texture to draw. Set to <b>null</b> to draw the projectile's own loaded texture.</param>
+		/// <param name="drawCentered">If <b>false</b>, the afterimages will be centered on the projectile's position instead of its own center.</param>
+		public static void DrawAfterimagesCentered(Projectile proj, int mode, Color lightColor, int typeOneIncrement = 1, Texture2D texture = null, bool drawCentered = true)
+		{
+			if (texture is null)
+				texture = Main.projectileTexture[proj.type];
+
+			int frameHeight = texture.Height / Main.projFrames[proj.type];
+			int frameY = frameHeight * proj.frame;
+			float scale = proj.scale;
+			float rotation = proj.rotation;
+
+			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+			Vector2 origin = rectangle.Size() / 2f;
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (proj.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			// If no afterimages are drawn due to an invalid mode being specified, ensure the projectile itself is drawn anyway.
+			bool failedToDrawAfterimages = false;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				Vector2 centerOffset = drawCentered ? proj.Size / 2f : Vector2.Zero;
+				switch (mode)
+				{
+					// Standard afterimages. No customizable features other than total afterimage count.
+					// Type 0 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+					case 0:
+						for (int i = 0; i < proj.oldPos.Length; ++i)
+						{
+							Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+							// DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+							Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+							Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
+						}
+						break;
+
+					// Paladin's Hammer style afterimages. Can be optionally spaced out further by using the typeOneDistanceMultiplier variable.
+					// Type 1 afterimages linearly scale down from 66% to 0% opacity. They otherwise do not differ from type 0.
+					case 1:
+						// Safety check: the loop must increment
+						int increment = Math.Max(1, typeOneIncrement);
+						Color drawColor = proj.GetAlpha(lightColor);
+						int afterimageCount = ProjectileID.Sets.TrailCacheLength[proj.type];
+						int k = 0;
+						while (k < afterimageCount)
+						{
+							Vector2 drawPos = proj.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+							// DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS EITHER.
+							if (k > 0)
+							{
+								float colorMult = (float)(afterimageCount - k);
+								drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+							}
+							Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
+							k += increment;
+						}
+						break;
+
+					// Standard afterimages with rotation. No customizable features other than total afterimage count.
+					// Type 2 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+					case 2:
+						for (int i = 0; i < proj.oldPos.Length; ++i)
+						{
+							float afterimageRot = proj.oldRot[i];
+							SpriteEffects sfxForThisAfterimage = proj.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+							Vector2 drawPos = proj.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+							// DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+							Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+							Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, origin, scale, sfxForThisAfterimage, 0f);
+						}
+						break;
+
+					default:
+						failedToDrawAfterimages = true;
+						break;
+				}
+			}
+
+			// Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
+			if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[proj.type] <= 0 || failedToDrawAfterimages)
+			{
+				Vector2 startPos = drawCentered ? proj.Center : proj.position;
+				Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, proj.gfxOffY), rectangle, proj.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
+			}
+		}
+
+		// Used for bullets. This lets you draw afterimages while keeping the hitbox at the front of the projectile.
+		// This supports type 0 and type 2 afterimages. Vanilla bullets never have type 2 afterimages.
+		public static void DrawAfterimagesFromEdge(Projectile proj, int mode, Color lightColor, Texture2D texture = null)
+		{
+			if (texture is null)
+				texture = Main.projectileTexture[proj.type];
+
+			int frameHeight = texture.Height / Main.projFrames[proj.type];
+			int frameY = frameHeight * proj.frame;
+			float scale = proj.scale;
+			float rotation = proj.rotation;
+
+			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (proj.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, proj.height * 0.5f);
+
+			switch (mode)
+			{
+				default: // If you specify an afterimage mode other than 0 or 2, you get nothing.
+					return;
+
+				// Standard afterimages. No customizable features other than total afterimage count.
+				// Type 0 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+				case 0:
+					for (int i = 0; i < proj.oldPos.Length; ++i)
+					{
+						Vector2 drawPos = proj.oldPos[i] + drawOrigin - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+						// DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+						Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+						Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, rotation, drawOrigin, scale, spriteEffects, 0f);
+					}
+					return;
+
+				// Standard afterimages with rotation. No customizable features other than total afterimage count.
+				// Type 2 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
+				case 2:
+					for (int i = 0; i < proj.oldPos.Length; ++i)
+					{
+						float afterimageRot = proj.oldRot[i];
+						SpriteEffects sfxForThisAfterimage = proj.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+						Vector2 drawPos = proj.oldPos[i] + drawOrigin - Main.screenPosition + new Vector2(0f, proj.gfxOffY);
+						// DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
+						Color color = proj.GetAlpha(lightColor) * ((float)(proj.oldPos.Length - i) / (float)proj.oldPos.Length);
+						Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color, afterimageRot, drawOrigin, scale, sfxForThisAfterimage, 0f);
+					}
+					return;
+			}
+		}
+		#endregion
+
 		public static void DrawItemGlowmaskSingleFrame(this Item item, SpriteBatch spriteBatch, float rotation, Texture2D glowmaskTexture)
 		{
 			Vector2 origin = new Vector2(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f - 2f);
@@ -156,7 +313,7 @@ namespace CalamityMod
 				}
 				else
 				{
-					center += projectile.DirectionTo(player.MountedCenter) * hookTexture.Height;
+					center += projectile.SafeDirectionTo(player.MountedCenter) * hookTexture.Height;
 					Color tileAtCenterColor = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
 					Main.spriteBatch.Draw(hookTexture, center - Main.screenPosition,
 						new Rectangle?(new Rectangle(0, 0, hookTexture.Width, hookTexture.Height)),
@@ -258,6 +415,16 @@ namespace CalamityMod
 			Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
 			return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
 		}
+
+		// Cached for efficiency purposes.
+		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
+		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{

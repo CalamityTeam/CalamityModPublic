@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = Main.rand.NextFloat(-0.1f, 0.1f) + i * 0.05f;
                     Projectile.NewProjectile(projectile.Center + new Vector2(0f, -6f),
-                                             projectile.DirectionTo(target.Center).RotatedBy(angle) * 7.5f,
+                                             projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 7.5f,
                                              ModContent.ProjectileType<BelladonnaPetal>(),
                                              projectile.damage,
                                              projectile.knockBack,

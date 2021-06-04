@@ -75,7 +75,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
 
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);
         }
     }
 }

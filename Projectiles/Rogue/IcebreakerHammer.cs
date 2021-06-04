@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 30;
             projectile.height = 30;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
             projectile.Calamity().rogue = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
 						if (nPC.active && !nPC.dontTakeDamage && !nPC.buffImmune[buffType] && Vector2.Distance(projectile.Center, nPC.Center) <= radius)
 						{
 							if (nPC.FindBuffIndex(buffType) == -1)
-								nPC.AddBuff(buffType, 180, false);
+								nPC.AddBuff(buffType, 60, false);
 						}
 					}
 				}
@@ -102,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
 						if ((owner.team != player.team || player.team == 0)  && player.hostile && owner.hostile && !player.dead && !player.buffImmune[buffType] && Vector2.Distance(projectile.Center, player.Center) <= radius)
 						{
 							if (player.FindBuffIndex(buffType) == -1)
-								player.AddBuff(buffType, 180, false);
+								player.AddBuff(buffType, 60, false);
 						}
 					}
 				}

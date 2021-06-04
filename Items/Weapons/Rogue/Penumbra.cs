@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra");
-            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls \n" +
+            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
                                "Stealth strikes make the bomb manifest on the cursor and explode into more souls");
         }
 
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = ItemRarityID.Red;
 
-            item.damage = 1600;
+            item.damage = 1008;
             item.useAnimation = 40;
             item.useTime = 40;
             item.knockBack = 8f;

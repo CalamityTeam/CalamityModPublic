@@ -649,7 +649,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
             DropHelper.DropItem(npc, ModContent.ItemType<AnechoicCoating>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
@@ -658,7 +657,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
 			if (CalamityWorld.downedPolterghast)
 			{
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<Valediction>(), ModContent.ItemType<TheReaper>(), 0.3333f, 0.01f);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<Valediction>(), 3);
 			}
         }
 

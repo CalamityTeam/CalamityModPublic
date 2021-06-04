@@ -46,9 +46,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CryoBar>(), 20, 40);
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
-            DropHelper.DropItem(player, ItemID.FrostCore);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -61,14 +59,10 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Icebreaker>(w)
             );
 
-            float divinityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
             DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 10);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);

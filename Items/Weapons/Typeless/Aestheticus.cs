@@ -71,12 +71,12 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Vaporfied>(), 180);
+            target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Vaporfied>(), 180);
+            target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }
     }
 }

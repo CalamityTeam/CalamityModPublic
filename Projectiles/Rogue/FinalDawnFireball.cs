@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Rogue
 			Main.dust[idx].noLight = true;
 
 			projectile.ai[0]++;
-			if(projectile.ai[0] >= 20)
+			if (projectile.ai[0] >= 20)
 			{
                 projectile.friendly = true;
 				NPC npc = Main.npc[(int)projectile.ai[1]];
-				Vector2 desiredVelocity = projectile.DirectionTo(npc.Center) * DesiredSpeed;
+				Vector2 desiredVelocity = projectile.SafeDirectionTo(npc.Center) * DesiredSpeed;
 				projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
 				if(!npc.active)
 					projectile.Kill();

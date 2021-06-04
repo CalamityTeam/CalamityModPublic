@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 75000;
+				npc.lifeMax = 7500;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
@@ -99,7 +100,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             float num1372 = 12f;
-			if (Main.expertMode || BossRushEvent.BossRushActive)
+			if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);

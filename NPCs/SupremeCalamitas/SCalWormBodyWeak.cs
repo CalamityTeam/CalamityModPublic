@@ -23,11 +23,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.npcSlots = 5f;
             npc.width = 20;
             npc.height = 20;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
+            npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -65,9 +61,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
 			bool flag = false;
@@ -111,7 +107,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.localAI[0] += 1f;
+				npc.localAI[0] += CalamityWorld.malice ? 2f : 1f;
 				if (npc.localAI[0] >= 900f)
 				{
 					npc.localAI[0] = 0f;

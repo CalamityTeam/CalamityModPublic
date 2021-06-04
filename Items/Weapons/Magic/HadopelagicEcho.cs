@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 769;
+            item.damage = 230;
             item.magic = true;
             item.mana = 15;
             item.width = 60;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Magic
 				damageMult = 1.35f;
 			if (counter == 4)
 				damageMult = 1.5f;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, (float)counter, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, counter, 0f);
 			counter++;
 			if (counter >= 5)
                 counter = 0;

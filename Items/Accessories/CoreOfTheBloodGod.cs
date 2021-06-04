@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,12 +18,12 @@ namespace CalamityMod.Items.Accessories
                 "Healing Potions are 15% more effective\n" +
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
+            item.width = item.height = 48;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.expert = true;
             item.rare = ItemRarityID.Red;

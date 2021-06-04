@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 64;
-            item.damage = 467;
+            item.damage = 200;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useTime = 3;
@@ -57,11 +57,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable() && counter == 0 && stealth.WithinBounds(Main.maxProjectiles))
-            {
+            bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
+            if (usingStealth)
+                damage *= 2;
+
+            int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-            }
 
 			counter++;
 			if (counter >= item.useAnimation / item.useTime)

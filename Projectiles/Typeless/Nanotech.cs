@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -22,20 +21,20 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.ai[1] >= 30f && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.4f, 0.15f));
+
             projectile.rotation += projectile.velocity.X * 0.2f;
             if (projectile.velocity.X > 0f)
-            {
                 projectile.rotation += 0.08f;
-            }
             else
-            {
                 projectile.rotation -= 0.08f;
-            }
+
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 30f)
+            if (projectile.ai[1] > 60f)
             {
                 projectile.alpha += 5;
                 if (projectile.alpha >= 255)
@@ -45,10 +44,26 @@ namespace CalamityMod.Projectiles.Typeless
                     return;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 800f, 20f, 20f);
+
+			if (projectile.ai[1] >= 30f)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap = 5;
+			int oldDamage = damage;
+			if (projectileCount > cap)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override void Kill(int timeLeft)
         {
             int num3;
             for (int num191 = 0; num191 < 2; num191 = num3 + 1)

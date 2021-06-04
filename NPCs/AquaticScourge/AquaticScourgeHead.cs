@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
 
@@ -42,7 +41,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -55,7 +54,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.netAlways = true;
             bossBag = ModContent.ItemType<AquaticScourgeBag>();
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -68,9 +67,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[1]);
 			for (int i = 0; i < 4; i++)
-			{
 				writer.Write(npc.Calamity().newAI[i]);
-			}
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -78,21 +75,14 @@ namespace CalamityMod.NPCs.AquaticScourge
 			npc.chaseable = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
-			{
 				npc.Calamity().newAI[i] = reader.ReadSingle();
-			}
 		}
 
         public override void AI()
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
-			{
-				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-				if (calamityModMusic != null)
-					music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
-				else
-					music = MusicID.Boss2;
-			}
+                music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
+
 			CalamityAI.AquaticScourgeAI(npc, mod, true);
 		}
 
@@ -110,7 +100,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 				color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((npc.Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -141,23 +131,22 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-            {
                 return npc.Calamity().newAI[0] == 1f;
-            }
+
             return null;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe)
-            {
                 return 0f;
-            }
+
             if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
                     return 0.01f;
             }
+
             return 0f;
         }
 
@@ -181,11 +170,14 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
+			// Legendary drops for Aquatic Scourge
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
 
@@ -247,15 +239,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
-                {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                }
+
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASHead"), 1f);
             }
         }
@@ -263,9 +253,8 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override bool CheckActive()
         {
             if (npc.Calamity().newAI[0] == 1f && !Main.player[npc.target].dead && npc.Calamity().newAI[1] != 1f)
-            {
                 return false;
-            }
+
             return true;
         }
 

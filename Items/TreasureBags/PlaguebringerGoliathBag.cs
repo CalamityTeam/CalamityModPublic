@@ -62,9 +62,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<TheSyringe>(w)
             );
 
-            float malachiteChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
             DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 10);

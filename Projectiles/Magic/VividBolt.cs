@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.timeLeft = 30;
             projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
+			projectile.ignoreWater = true;
+			projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
         }
 

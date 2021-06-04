@@ -72,21 +72,14 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (flag2)
             {
-                Vector2 mouseWorld2 = Main.MouseWorld;
-                int num11 = (player.DirectionTo(mouseWorld2).X > 0f) ? 1 : -1;
-                if ((float)num11 != projectile.velocity.X)
+                int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
+                if (expectedDirection != projectile.velocity.X)
                 {
-                    player.ChangeDir(num11);
-                    projectile.velocity = new Vector2((float)num11, 0f);
+                    player.ChangeDir(expectedDirection);
+                    projectile.velocity = Vector2.UnitX * expectedDirection;
+                    projectile.rotation -= MathHelper.Pi;
                     projectile.netUpdate = true;
-                    projectile.rotation -= 3.14159274f;
                 }
-            }
-            if ((projectile.ai[0] == num10 || (projectile.ai[0] == (float)(int)(num / 2f) && projectile.active)) && projectile.owner == Main.myPlayer)
-            {
-                Vector2 mouseWorld3 = Main.MouseWorld;
-                Vector2 mouse = player.DirectionTo(mouseWorld3) * 0f;
-                player.DirectionTo(mouse);
             }
             float num12 = projectile.rotation - 0.7853982f * (float)num9;
             value2 = (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * (projectile.ai[0] / num) * scaleFactor;
@@ -96,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.rand.NextBool(2))
             {
                 Dust dust3 = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 33, player.velocity.X, player.velocity.Y, 150, default, 1f);
-                dust3.velocity = projectile.DirectionTo(dust3.position) * 0.1f + dust3.velocity * 0.1f;
+                dust3.velocity = projectile.SafeDirectionTo(dust3.position) * 0.1f + dust3.velocity * 0.1f;
             }
             for (int j = 0; j < 4; j++)
             {

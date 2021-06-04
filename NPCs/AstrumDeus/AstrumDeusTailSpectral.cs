@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -24,14 +26,14 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.width = 52;
             npc.height = 68;
             npc.defense = 75;
-			npc.LifeMaxNERB(187500, 225000, 6500000);
+			npc.LifeMaxNERB(187500, 225000, 650000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
-            if (Main.expertMode)
+            if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 npc.scale = 1.35f;
             }
@@ -44,11 +46,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
             npc.netAlways = true;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -56,18 +54,14 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             writer.Write(npc.dontTakeDamage);
             for (int i = 0; i < 4; i++)
-            {
                 writer.Write(npc.Calamity().newAI[i]);
-            }
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
             for (int i = 0; i < 4; i++)
-            {
                 npc.Calamity().newAI[i] = reader.ReadSingle();
-            }
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

@@ -36,7 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 64;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 240;
             aiType = ProjectileID.ThrowingKnife;
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 1200f, 26f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -31,13 +31,13 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
             item.summon = true;
 
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
 			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
         public override void AddRecipes()
@@ -45,8 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.XenoStaff);
             recipe.AddIngredient(ItemID.MoonlordTurretStaff);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

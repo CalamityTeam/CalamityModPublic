@@ -8,11 +8,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PurgeProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Magic/Purge";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purge");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -62,6 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Main.PlaySound(SoundID.Item91, projectile.position);
                     }
+                    projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 }
                 if (projectile.ai[1] == 1f && projectile.ai[0] != 1f)
                 {
@@ -121,11 +121,8 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(12f, 0f).RotatedBy(projectile.rotation);
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += MathHelper.Pi;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + Vector2.UnitX * 8f;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);

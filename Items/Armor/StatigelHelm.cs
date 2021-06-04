@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-			string jumpSpeedBonus = player.autoJump ? "7.5" : "30";
+			string jumpSpeedBonus = player.autoJump ? "4" : "16";
 			player.setBonus = "Enemies are more likely to target you\n" +
 					"When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
 					"Grants an extra jump and increased jump height\n" +
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
 			modPlayer.statigelSet = true;
 			modPlayer.statigelJump = true;
 			Player.jumpHeight += 5;
-			player.jumpSpeedBoost += player.autoJump ? 0.375f : 1.5f;
+			player.jumpSpeedBoost += player.autoJump ? 0.2f : 0.8f;
             player.aggro += 400;
 		}
 

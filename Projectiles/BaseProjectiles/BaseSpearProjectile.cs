@@ -123,15 +123,12 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                         new Vector2(originalVelocitySpeed + TravelSpeed, 0f).RotatedBy(originalVelocityDirection);
 
                     // Determine how to rotate. The larger the 40 value is, the more rapidly the projectile rotates.
-                    Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(originalVelocityDirection) +
-                        new Vector2(originalVelocitySpeed + TravelSpeed + 40f, 0f).RotatedBy(originalVelocityDirection);
+                    Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(originalVelocityDirection) + originalVelocityDirection.ToRotationVector2() * (originalVelocitySpeed + TravelSpeed + 40f);
                     projectile.rotation = player.AngleTo(destination) + MathHelper.PiOver4 * player.direction; //or this
 
                     // Rotate 180 degrees if facing to the right
                     if (projectile.spriteDirection == -1)
                         projectile.rotation += MathHelper.Pi;
-
-                    player.DirectionTo(projectile.Center);
                 }
 
                 // Kill the hook if the player's item use cycle is almost over and reset the reuseDelay

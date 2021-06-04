@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Providence
             npc.lifeMax = 18750; // Old HP - 25000
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 300000;
+                npc.lifeMax = 30000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -56,7 +56,6 @@ namespace CalamityMod.NPCs.Providence
         public override void AI()
         {
             CalamityGlobalNPC.holyBossDefender = npc.whoAmI;
-            bool expertMode = Main.expertMode;
             Vector2 vectorCenter = npc.Center;
             Player player = Main.player[npc.target];
             npc.TargetClosest(false);

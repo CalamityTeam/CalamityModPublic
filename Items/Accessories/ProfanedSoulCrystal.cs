@@ -1,7 +1,9 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -123,6 +125,152 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.profanedCrystalHide = true;
         }
 
+        // Moved from CalamityGlobalItem since it's just a function called in one place.
+        internal static bool TransformItemUsage(Item item, Player player)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return false;
+            int weaponType = item.melee ? 1 : item.ranged ? 2 : item.magic ? 3 : item.Calamity().rogue ? 4 : -1;
+            if (weaponType > 0)
+            {
+                if (player.Calamity().profanedSoulWeaponType != weaponType || player.Calamity().profanedSoulWeaponUsage >= 300)
+                {
+                    player.Calamity().profanedSoulWeaponType = weaponType;
+                    player.Calamity().profanedSoulWeaponUsage = 0;
+                }
+                Vector2 correctedVelocity = Main.MouseWorld - player.Center;
+                correctedVelocity.Normalize();
+                bool shouldNerf = player.Calamity().endoCooper || player.Calamity().magicHat; //No bonkers damage memes thank you very much.
+                bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
+                if (item.melee)
+                {
+                    if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 4 : 6) == 0)
+                    {
+                        if (player.Calamity().profanedSoulWeaponUsage > 0 && player.Calamity().profanedSoulWeaponUsage % (enrage ? 20 : 30) == 0) //every 5 shots is a shotgun spread
+                        {
+                            int numProj = 5;
+
+                            correctedVelocity *= 12f;
+                            int spread = 3;
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 175 : 350) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                spread -= Main.rand.Next(2, 4);
+                                Main.PlaySound(SoundID.Item20, player.Center);
+                            }
+                            player.Calamity().profanedSoulWeaponUsage = 0;
+                        }
+                        else
+                        {
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 125 : 250) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+
+                    }
+                    player.Calamity().profanedSoulWeaponUsage++;
+
+                }
+                else if (item.ranged)
+                {
+                    if (enrage || Main.rand.NextBool(2)) //100% chance if 50% or lower, else 1 in 2 chance
+                    {
+                        correctedVelocity *= 20f;
+                        Vector2 perturbedspeed = new Vector2(correctedVelocity.X + Main.rand.Next(-3, 4), correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(3));
+                        bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
+                        bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
+                        int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
+                        int dam = (int)((shouldNerf ? 100 : 200) * player.MinionDamage());
+                        switch (projType)
+                        {
+                            case 1: //big boomer
+                            case 2: //boomer
+                                int proj = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), dam, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
+                                if (proj.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[proj].Calamity().forceMinion = true;
+                                break;
+                            case 3: //bab boomer
+                                int proj2 = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), dam, 0f, player.whoAmI, 0f);
+                                if (proj2.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[proj2].Calamity().forceMinion = true;
+                                break;
+                        }
+                        if (projType > 1)
+                        {
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+                    }
+                }
+                else if (item.magic)
+                {
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalMageFireball>()] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>()] == 0)
+                    {
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    int manaCost = (int)(100 * player.manaCost);
+                    if (player.statMana < manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
+                    {
+                        if (player.manaFlower)
+                        {
+                            player.QuickMana();
+                        }
+                    }
+                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0 && !player.silence)
+                    {
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                        player.statMana -= manaCost;
+                        correctedVelocity *= 25f;
+                        Main.PlaySound(SoundID.Item20, player.Center);
+                        int dam = (int)((shouldNerf ? 450 : 900) * player.MinionDamage());
+                        if (player.HasBuff(BuffID.ManaSickness))
+                        {
+                            int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
+                            dam -= sickPenalty;
+                        }
+                        int proj = Projectile.NewProjectile(player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), dam, 1f, player.whoAmI, enrage ? 1f : 0f);
+                        if (proj.WithinBounds(Main.maxProjectiles))
+                            Main.projectile[proj].Calamity().forceMinion = true;
+                        player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
+                    }
+                    if (player.Calamity().profanedSoulWeaponUsage > 0)
+                        player.Calamity().profanedSoulWeaponUsage--;
+                }
+                else if (item.Calamity().rogue)
+                {
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalRogueShard>()] == 0)
+                    {
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 69 : 180))
+                    {
+                        float crystalCount = 36f;
+                        for (float i = 0; i < crystalCount; i++)
+                        {
+                            float angle = MathHelper.TwoPi / crystalCount * i;
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 88 : 176) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+                            if (proj.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
+                    {
+                        float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 110 : 220) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
+                        if (proj.WithinBounds(Main.maxProjectiles))
+                            Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.PlaySound(SoundID.Item20, player.Center);
+                    }
+                    player.Calamity().profanedSoulWeaponUsage += enrage ? 1 : 2;
+                    if (!enrage && player.Calamity().profanedSoulWeaponUsage % 2 != 0)
+                        player.Calamity().profanedSoulWeaponUsage--;
+                }
+            }
+            return false;
+        }
+
         public override void AddRecipes()
         {
             PSCRecipe recipe = new PSCRecipe(mod);
@@ -142,7 +290,6 @@ namespace CalamityMod.Items.Accessories
 
     public class PSCRecipe : ModRecipe
     {
-
         public PSCRecipe(Mod mod) : base(mod) { }
 
         public override int ConsumeItem(int type, int numRequired)

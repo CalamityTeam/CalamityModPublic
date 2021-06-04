@@ -28,10 +28,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = false;
             projectile.timeLeft = 240;
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Water drip
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, new Color(255, 255, 255, 127), ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], new Color(255, 255, 255, 127), 2);
             return false;
         }
     }

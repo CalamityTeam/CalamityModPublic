@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
@@ -74,17 +75,14 @@ namespace CalamityMod.Projectiles.Rogue
 			if (homeIn)
 			{
                 projectile.extraUpdates = 2;
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
-
-				projectile.velocity = (projectile.velocity * 20f + homeInVector * 12f) / (21f);
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
 			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

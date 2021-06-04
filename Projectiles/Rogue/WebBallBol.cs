@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike == true)
 			{
-				target.AddBuff(BuffID.Webbed, 180);
+				target.AddBuff(BuffID.Webbed, 120);
 			}
 			else
 			{
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike == true)
 			{
-				target.AddBuff(BuffID.Webbed, 180);
+				target.AddBuff(BuffID.Webbed, 120);
 			}
 			else
 			{

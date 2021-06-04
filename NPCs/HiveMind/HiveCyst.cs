@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
 			bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.player.ZoneCorrupt;
             if (NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) ||
-			spawnInfo.playerSafe || !corrupt)
+			spawnInfo.playerSafe || !corrupt || NPC.LunarApocalypseIsUp)
             {
                 return 0f;
             }

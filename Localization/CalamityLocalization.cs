@@ -46,34 +46,44 @@ namespace CalamityMod.Localization
                 new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
                 new [] { "GhostBossText4", "The souls released stir the acidic storms..." },
 
-                new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
-                new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
-                new [] { "SupremeBossText5", "Everything was going well until you came along." }, //75%
-                new [] { "SupremeBossText6", "Brothers, could you assist me for a moment? This ordeal is growing tiresome." }, //45%
-                new [] { "SupremeBossText", "Don't worry, I still have plenty of tricks left." }, //40%
-                new [] { "SupremeBossText7", "Hmm...perhaps I should let the little ones out to play for a while." },//30%
-                new [] { "SupremeBossText8", "Impressive...but still not good enough!" }, //20%
-                new [] { "SupremeBossText9", "I'm just getting started!" }, //10%
-                new [] { "SupremeBossText20", "How are you still alive!?" }, //8%
-                new [] { "SupremeBossText21", "Just stop!" }, //6%
-                new [] { "SupremeBossText22", "Even if you defeat me you would still have the lord to contend with!" }, //4%
-                new [] { "SupremeBossText23", "He has never lost a battle!" }, //2%
-                new [] { "SupremeBossText24", "Not even I could defeat him! What hope do you have!?" }, //1%
-                new [] { "SupremeBossText25", "He has grown far stronger since we last fought...you stand no chance." }, //1% after 10 seconds
-                new [] { "SupremeBossText26", "Well...I suppose this is the end..." }, //1% after 15 seconds
-                new [] { "SupremeBossText27", "Perhaps one of these times I'll change my mind..." }, //1% after first win
-                new [] { "SupremeBossText28", "You aren't hurting as much as I'd like...are you cheating?" }, //not taking enough damage
-                new [] { "SupremeBossText2", "Go to hell." }, //cheater
-                new [] { "SupremeBossText10", "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell." }, //end after 20 seconds
-                new [] { "SupremeBossText11", "Do you enjoy going through hell?" }, //rebattle after killing once
-                new [] { "SupremeBossText12", "Don't get me wrong, I like pain too, but you're just ridiculous." }, //rebattle after killing four times
-                new [] { "SupremeBossText13", "You must enjoy dying more than most people, huh?" }, //rebattle five deaths
-                new [] { "SupremeBossText14", "Do you have a fetish for getting killed or something?" }, //rebattle twenty deaths
-                new [] { "SupremeBossText15", "Alright, I'm done counting. You probably died this much just to see what I'd say." }, //rebattle fifty deaths
-                new [] { "SupremeBossText16", "You didn't die at all huh? Welp, you probably cheated. Do it again, for real this time...but here's your reward I guess." }, //die 0 times
-                new [] { "SupremeBossText17", "One death? That's it? ...I guess you earned this then." },  //die 1 time and win
-                new [] { "SupremeBossText18", "Two deaths, nice job. Here's your reward." }, //die 2 times and win
-                new [] { "SupremeBossText19", "Third time's the charm. Here's a special reward." }, //die 3 times and win
+                new [] { "SCalSummonText", "Do you enjoy going through hell?" },
+                new [] { "SCalStartText", "You should have just died..." },
+                new [] { "SCalBH2Text", "It wasn't too long ago you barely managed to defeat my doppelganger. Quite the failure, wasn't it?" },
+                new [] { "SCalBH3Text", "You've harnessed great power, but you wield it for no one but yourself." },
+                new [] { "SCalBrothersText", "Would you like to meet my family? Horrible, isn't it?" },
+                new [] { "SCalPhase2Text", "You will suffer greatly." },
+                new [] { "SCalBH4Text", "It's absurd to even think of trying to get away. As long as you live, you will suffer." },
+                new [] { "SCalSeekerRingText", "An upstart who recklessly stole and killed their way to power. I wonder, who does that remind me of...?" },
+                new [] { "SCalBH5Text", "You have no stake in this battle. No one gave you any say in this matter!" },
+                new [] { "SCalSepulcher2Text", "Once the dust has settled and only one remains, if it is you, what value will this have had?!" },
+                new [] { "SCalDesparationText1", "Just stop!" },
+                new [] { "SCalDesparationText2", "I have no future if I lose here." },
+                new [] { "SCalDesparationText3", "Once you have bested me, you too will only have one path forward." },
+                new [] { "SCalDesparationText4", "And that path... also has no future." },
+                new [] { "SCalAcceptanceText1", "Even if he has thrown all else away, his power remains." },
+                new [] { "SCalAcceptanceText2", "I have no more energy left to resent him, or you..." },
+                new [] { "SCalAcceptanceText3", "It will all be in your hands now." },
+
+                // Some of these keys are incorrect in terms of their contents, but they remain as their bases + an addon at the end to make it 
+                // easier to define them.
+                new [] { "SCalSummonTextRematch", "You called? If you're looking to get scorched, you've got the right person." },
+                new [] { "SCalStartTextRematch", "Ha! You saw it coming this time." },
+                new [] { "SCalBH2TextRematch", "Don't get cocky just because you've won once." },
+                new [] { "SCalBH3TextRematch", "You know, I was expecting a house call from the Tyrant at this point. Think he died?" },
+                new [] { "SCalBH3TextRematch2", "Haha, no way." },
+                new [] { "SCalBrothersTextRematch", "Would you like to meet my family? Horrible, isn't it?" },
+                new [] { "SCalBrothersTextRematch2", "I'm joking. They are but empty shells now. Did I frighten you?" },
+                new [] { "SCalPhase2TextRematch", "Here we go again." },
+                new [] { "SCalBH4TextRematch", "Remember these? I bet you've seen them a few times since the last battle... in your nightmares." },
+                new [] { "SCalSeekerRingTextRematch", "It seems your skill hasn't faltered in the least." },
+                new [] { "SCalBH5TextRematch", "One last go." },
+                new [] { "SCalSepulcher2TextRematch", "And... you never cease to amaze." },
+                new [] { "SCalDesparationText1Rematch", "You may even have a proper chance now." },
+                new [] { "SCalDesparationText2Rematch", "I wonder if you've met his mechanic yet." },
+                new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
+                new [] { "SCalDesparationText4Rematch", "Now... even I cannot see what your future holds." },
+
+                new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
                 new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
@@ -107,7 +117,12 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-                new [] { "BloodMoonText", "The Blood Moon is rising..." },
+				new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
+				new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
+				new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
+
+				new [] { "BloodMoonText", "The Blood Moon is rising..." },
 
                 new [] { "DargonBossText", "The dark sun awaits." },
                 new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
@@ -115,10 +130,13 @@ namespace CalamityMod.Localization
                 new [] { "RevengeText", "Revengeance is active." },
                 new [] { "RevengeText2", "Revengeance is not active." },
 
-                new [] { "DeathText", "Death is active, enjoy the fun." },
-                new [] { "DeathText2", "Death is not active, not fun enough for you?" },
+                new [] { "DeathText", "Death is active; enjoy the fun." },
+                new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
-                new [] { "ArmageddonText", "Bosses will now kill you instantly." },
+				new [] { "MaliceText", "Malice is active; witness the horror!" },
+				new [] { "MaliceText2", "Malice is not active." },
+
+				new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
 
                 new [] { "DefiledText", "Your soul is mine..." },

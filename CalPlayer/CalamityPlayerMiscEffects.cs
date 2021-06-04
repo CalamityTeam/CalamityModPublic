@@ -53,6 +53,14 @@ namespace CalamityMod.CalPlayer
 
 			// No category
 
+			// Give the player some jump speed boost at base while wings or balloons are equipped
+			if (player.wingsLogic > 0 || player.jumpBoost)
+				player.jumpSpeedBoost += 1.2f;
+
+			// Reduce balloon jump boosts because they'd be too powerful when stacked with wings
+			if (player.jumpBoost)
+				player.jumpSpeedBoost -= 0.75f;
+
 			// Decrease the counter on Fearmonger set turbo regeneration
 			if (modPlayer.fearmongerRegenFrames > 0)
 				modPlayer.fearmongerRegenFrames--;
@@ -66,13 +74,6 @@ namespace CalamityMod.CalPlayer
 
 			// Bool for any existing events, true if any event is active
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
-
-			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
-			if (CalamityPlayer.areThereAnyDamnBosses && CalamityConfig.Instance.BossZen)
-			{
-				if (player.whoAmI == Main.myPlayer)
-					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
-			}
 
 			// Revengeance effects
 			RevengeanceModeMiscEffects(player, modPlayer, mod);
@@ -137,8 +138,8 @@ namespace CalamityMod.CalPlayer
 						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
 
 						float baseDistance = 2800f;
-						float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+						float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 						bool guardianAlive = false;
@@ -168,7 +169,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
 				// This effect is way too annoying during the fight so I disabled it - Fab
 				// Signus headcrab effect
@@ -222,7 +223,7 @@ namespace CalamityMod.CalPlayer
 				}*/
 
 				// Adjusts the life steal cap in rev/death
-				float lifeStealCap = CalamityWorld.death ? 50f : 60f;
+				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
 				/*if (Main.masterMode)
 					lifeStealCap *= 0.75f;*/
 				if (player.lifeSteal > lifeStealCap)
@@ -253,7 +254,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Adrenaline and Rage
-					if (CalamityConfig.Instance.Rippers)
+					if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
 						UpdateRippers(mod, player, modPlayer);
 				}
 			}
@@ -537,12 +538,17 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
 
+			// Shield of Cthulhu immunity frame nerf, nerfed from 10 to 6
+			if (player.eocDash > 6 && player.dashDelay > 0)
+				player.eocDash = 6;
+
 			// Life Steal nerf
-			// Reduces normal mode life steal recovery rate from 0.6/s to 0.5/s
-			// Reduces expert mode life steal recovery rate from 0.5/s to 0.35/s
-			// Revengeance mode recovery rate is 0.3/s
-			// Death mode recovery rate is 0.25/s
-			float lifeStealCooldown = CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+			// Reduces Normal Mode life steal recovery rate from 0.6/s to 0.5/s
+			// Reduces Expert Mode life steal recovery rate from 0.5/s to 0.35/s
+			// Revengeance Mode recovery rate is 0.3/s
+			// Death Mode recovery rate is 0.25/s
+			// Malice Mode recovery rate is 0.2/s
+			float lifeStealCooldown = CalamityWorld.malice ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
 			/*if (Main.masterMode)
 				lifeStealCooldown *= 1.25f;*/
 			player.lifeSteal -= lifeStealCooldown;
@@ -950,12 +956,14 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.IsUnderwater() && modPlayer.ironBoots)
 					player.maxFallSpeed = 9f;
-				if (modPlayer.aeroSet && !player.wet)
-					player.maxFallSpeed = 15f;
-				if (modPlayer.gSabatonFall > 0 && !player.wet)
-					player.maxFallSpeed = 20f;
-				if (modPlayer.normalityRelocator)
-					player.maxFallSpeed *= 1.1f;
+
+				if (!player.wet)
+				{
+					if (modPlayer.aeroSet)
+						player.maxFallSpeed = 15f;
+					if (modPlayer.gSabatonFall > 0 || player.PortalPhysicsEnabled)
+						player.maxFallSpeed = 20f;
+				}
 			}
 
 			// Omega Blue Armor bonus
@@ -976,7 +984,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (!tentaclesPresent[i])
 						{
-							int damage = (int)(500 * player.AverageDamage());
+							int damage = (int)(390 * player.AverageDamage());
 							Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
 							Projectile.NewProjectile(player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
 						}
@@ -1008,8 +1016,10 @@ namespace CalamityMod.CalPlayer
 
 					if (modPlayer.healCounter <= 0)
 					{
-						bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
+						bool enrage = player.statLife < (int)(player.statLifeMax2 * 0.5);
+
 						modPlayer.healCounter = (!enrage && modPlayer.profanedCrystalBuffs) ? 360 : 300;
+
 						if (player.whoAmI == Main.myPlayer)
 						{
 							int healAmount = 5 +
@@ -1068,6 +1078,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
+				modPlayer.phantomicHeartRegen--;
+			if (modPlayer.phantomicBulwarkCooldown > 0)
+				modPlayer.phantomicBulwarkCooldown--;
 			if (modPlayer.dodgeCooldownTimer > 0)
 				modPlayer.dodgeCooldownTimer--;
 			if (modPlayer.KameiBladeUseDelay > 0)
@@ -1114,10 +1128,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.xerocDmg -= 2f;
 			if (modPlayer.xerocDmg < 0f)
 				modPlayer.xerocDmg = 0f;
-			if (modPlayer.godSlayerDmg > 0f)
-				modPlayer.godSlayerDmg -= 2.5f;
-			if (modPlayer.godSlayerDmg < 0f)
-				modPlayer.godSlayerDmg = 0f;
 			if (modPlayer.aBulwarkRareMeleeBoostTimer > 0)
 				modPlayer.aBulwarkRareMeleeBoostTimer--;
 			if (modPlayer.bossRushImmunityFrameCurseTimer > 0)
@@ -1162,6 +1172,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fungalSymbioteTimer--;
 			if (modPlayer.aBulwarkRareTimer > 0)
 				modPlayer.aBulwarkRareTimer--;
+			if (modPlayer.hellbornBoost > 0)
+				modPlayer.hellbornBoost--;
 			if (player.miscCounter % 20 == 0)
 				modPlayer.canFireAtaxiaRangedProjectile = true;
 			if (player.miscCounter % 100 == 0)
@@ -1280,8 +1292,6 @@ namespace CalamityMod.CalPlayer
 			{
 				if (modPlayer.bloodflareHeartTimer > 0)
 					modPlayer.bloodflareHeartTimer--;
-				if (modPlayer.bloodflareManaTimer > 0)
-					modPlayer.bloodflareManaTimer--;
 			}
 
 			// Bloodflare frenzy effects
@@ -1328,22 +1338,10 @@ namespace CalamityMod.CalPlayer
 			// Raider Talisman bonus
 			if (modPlayer.raiderTalisman)
 			{
-				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
+				// Nanotech use to have an exclusive nerf here, but since they are currently equal, there
+				// is no check to indicate such.
+				float damageMult = 0.15f;
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
-			}
-
-			// Spirit Glyph defense buff
-			if (modPlayer.sDefense)
-			{
-				player.statDefense += 5;
-				player.endurance += 0.05f;
-			}
-
-			// Hallowed Rune defense buff
-			if (modPlayer.hallowedDefense)
-			{
-				player.statDefense += 7;
-				player.endurance += 0.07f;
 			}
 
 			if (modPlayer.kamiBoost)
@@ -1363,7 +1361,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += player.autoJump ? 0.3f : 1.2f;
+				player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
 				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
@@ -1479,7 +1477,7 @@ namespace CalamityMod.CalPlayer
 							if (!npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= freezeDist)
 							{
 								if (npc.FindBuffIndex(buffType) == -1)
-									npc.AddBuff(buffType, 120, false);
+									npc.AddBuff(buffType, 60, false);
 							}
 						}
 					}
@@ -1686,6 +1684,8 @@ namespace CalamityMod.CalPlayer
 						lightningVel *= Main.rand.NextFloat(1f, 2f);
 						int projectile = Projectile.NewProjectile(player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * player.RogueDamage()), 0, player.whoAmI, Main.rand.Next(2), 0f);
 						Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
 					}
 
 					for (int i = 0; i < 3; i++)
@@ -1706,6 +1706,8 @@ namespace CalamityMod.CalPlayer
 						cloudVelocity *= Main.rand.NextFloat(0f, 1f);
 						int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * player.RogueDamage()), 0, player.whoAmI, 0, 0);
 						Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
 					}
 
 					for (int i = 0; i < 3; i++)
@@ -2543,9 +2545,6 @@ namespace CalamityMod.CalPlayer
 				player.lavaMax += 240;
 			}
 
-			if (modPlayer.eQuiver)
-				player.magicQuiver = true;
-
 			if (modPlayer.bloodPactBoost)
 			{
 				player.allDamage += 0.05f;
@@ -2699,6 +2698,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
 				(modPlayer.prismaticGreaves ? 0.1 : 0D) +
@@ -2765,7 +2765,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vHex)
 			{
 				player.blind = true;
-				player.statDefense -= 30;
+				player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 
 				if (player.wingTimeMax < 0)
@@ -2798,7 +2798,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.bounding)
 			{
-				player.jumpSpeedBoost += 0.5f;
+				player.jumpSpeedBoost += 0.25f;
 				Player.jumpHeight += 10;
 				player.extraFall += 25;
 			}
@@ -2949,9 +2949,17 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
 					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+
+					if (hitboxEdgeDist < 0)
+						hitboxEdgeDist = 0;
+
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
 					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
 
 						if (damageBoost >= 0.3f)
 						{
@@ -2967,7 +2975,10 @@ namespace CalamityMod.CalPlayer
 			modPlayer.actualMaxLife = player.statLifeMax2;
 
 			if (modPlayer.thirdSageH && !player.dead && modPlayer.healToFull)
-				player.statLife = player.statLifeMax2;
+			{
+				modPlayer.thirdSageH = false;
+				player.statLife = modPlayer.actualMaxLife;
+			}
 
 			if (modPlayer.manaOverloader)
 				player.magicDamage += 0.06f;
@@ -3076,8 +3087,10 @@ namespace CalamityMod.CalPlayer
 					for (int I = 0; I < 3; I++)
 					{
 						float ai1 = I * 120;
-						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
+						int projectile = Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
 							ModContent.ProjectileType<GhostlyMine>(), (int)(3750 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
 					}
 				}
 			}
@@ -3270,12 +3283,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.auricSet && modPlayer.silvaMelee)
-			{
-				double multiplier = player.statLife / (double)player.statLifeMax2;
-				player.meleeDamage += (float)(multiplier * 0.2); //ranges from 1.2 times to 1 times
-			}
-
 			if (modPlayer.dArtifact)
 				player.allDamage += 0.25f;
 
@@ -3310,7 +3317,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
-					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
+					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
 					int guardianAmt = modPlayer.angelicAlliance ? 3 : 1;
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
@@ -3404,6 +3411,8 @@ namespace CalamityMod.CalPlayer
 							Main.projectile[bee].usesLocalNPCImmunity = true;
 							Main.projectile[bee].localNPCHitCooldown = 10;
 							Main.projectile[bee].penetrate = 2;
+							if (bee.WithinBounds(Main.maxProjectiles))
+								Main.projectile[bee].Calamity().forceTypeless = true;
 						}
 					}
 				}
@@ -3547,6 +3556,8 @@ namespace CalamityMod.CalPlayer
 					velocity.Y += Main.rand.Next(-50, 51) * 0.02f;
 					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, 0f);
 					Main.projectile[laser].localNPCHitCooldown = 5;
+					if (laser.WithinBounds(Main.maxProjectiles))
+						Main.projectile[laser].Calamity().forceTypeless = true;
 				}
 				Main.PlaySound(SoundID.Item12, player.Center);
 			}
@@ -3618,14 +3629,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.badgeOfBravery)
 			{
-				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-				{
-					player.meleeDamage += 0.1f;
-					player.meleeCrit += 5;
-				}
+				player.meleeDamage += 0.05f;
+				player.meleeCrit += 5;
 			}
 
 			if (CalamityConfig.Instance.Proficiency)
@@ -3647,9 +3652,17 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
 					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+
+					if (hitboxEdgeDist < 0)
+						hitboxEdgeDist = 0;
+
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
 					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
 
 						if (damageBoost >= 0.3f)
 						{
@@ -3992,7 +4005,7 @@ namespace CalamityMod.CalPlayer
 		private static void EnduranceReductions(Player player, CalamityPlayer modPlayer)
 		{
 			if (modPlayer.vHex)
-				player.endurance -= 0.3f;
+				player.endurance -= 0.1f;
 
 			if (modPlayer.irradiated)
 					player.endurance -= 0.1f;
@@ -4006,7 +4019,6 @@ namespace CalamityMod.CalPlayer
 		private static void UpdateStatMeter(Player player, CalamityPlayer modPlayer)
 		{
 			float allDamageStat = player.allDamage - 1f;
-			modPlayer.actualMeleeDamageStat = player.meleeDamage + allDamageStat;
 			modPlayer.damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
@@ -4045,7 +4057,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
 			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
 				(player.wereWolf ? 0.2f : 0f) +
-				(player.jumpBoost ? 1.5f : 0f);
+				(player.jumpBoost ? 0.75f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.rageDamageStat = (int)(100D * modPlayer.RageDamageBoost);
 			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());

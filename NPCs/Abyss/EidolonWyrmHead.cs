@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -98,9 +98,9 @@ namespace CalamityMod.NPCs.Abyss
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)npc.position.X, (int)npc.position.Y);
                 }
             }
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -453,7 +453,6 @@ namespace CalamityMod.NPCs.Abyss
 				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
 				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);

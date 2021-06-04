@@ -47,7 +47,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

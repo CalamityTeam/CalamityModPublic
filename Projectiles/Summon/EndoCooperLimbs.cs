@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (projectile.ai[0] == 2f)
                 return false;
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -150,8 +150,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 90);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(BuffID.Frostburn, 180);
         }
 

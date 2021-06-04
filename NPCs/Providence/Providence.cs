@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.LifeMaxNERB(330000, 375000, 12500000); // Old HP - 440000, 500000
+            npc.LifeMaxNERB(330000, 375000, 1250000); // Old HP - 440000, 500000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -104,11 +104,7 @@ namespace CalamityMod.NPCs.Providence
             npc.netAlways = true;
             npc.chaseable = true;
             npc.canGhostHeal = false;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
-            else
-                music = MusicID.LunarBoss;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("ProvidenceTheme") ?? MusicID.LunarBoss;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
         }
@@ -191,7 +187,8 @@ namespace CalamityMod.NPCs.Providence
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Night bool
-			bool nightTime = !Main.dayTime;
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
 
 			// Play enrage animation if night starts
 			if (nightTime && calamityGlobalNPC.newAI[3] == spawnAnimationTime)
@@ -210,7 +207,7 @@ namespace CalamityMod.NPCs.Providence
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive);
+			bool enraged = npc.Calamity().enraged > 0;
 
 			// Increase all projectile damage at night
 			int projectileDamageMult = 1;
@@ -270,8 +267,8 @@ namespace CalamityMod.NPCs.Providence
 
 			// Inflict Holy Inferno if target is too far away
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = CalamityWorld.death ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-			float shorterSpearCocoonDistance = CalamityWorld.death ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)
@@ -868,16 +865,16 @@ namespace CalamityMod.NPCs.Providence
 						{
 							if (npc.ai[3] % divisor == 0f)
 							{
+								Main.PlaySound(SoundID.Item20, npc.Center);
 								bool normalSpread = calamityGlobalNPC.newAI[1] % 2f == 0f;
-								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -cocoonProjVelocity) : Vector2.Normalize(new Vector2(-cocoonProjVelocity, -cocoonProjVelocity));
 								double radians = MathHelper.TwoPi / chains;
-								Main.PlaySound(SoundID.Item20, npc.position);
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(cocoonProjVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = normalSpread ? new Vector2(0f, -cocoonProjVelocity) : new Vector2(-velocityX, -cocoonProjVelocity);
 								for (int i = 0; i < chains; i++)
 								{
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
-
-									if (!normalSpread)
-										vector2 *= cocoonProjVelocity;
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 									if (Main.rand.NextBool(healingStarChance) && !death)
@@ -903,9 +900,13 @@ namespace CalamityMod.NPCs.Providence
 								calamityGlobalNPC.newAI[1] += 1f;
 								double radians = MathHelper.TwoPi / totalFlameProjectiles;
 								Main.PlaySound(SoundID.Item20, npc.position);
+								double angleA = radians * 0.5;
+								double angleB = MathHelper.ToRadians(90f) - angleA;
+								float velocityX = (float)(cocoonProjVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+								Vector2 spinningPoint = npc.ai[3] % (divisor * totalFlameProjectiles * 2f) == 0f ? new Vector2(-velocityX, -cocoonProjVelocity) : new Vector2(0f, -cocoonProjVelocity);
 								for (int i = 0; i < totalFlameProjectiles; i++)
 								{
-									Vector2 vector2 = new Vector2(0f, -cocoonProjVelocity).RotatedBy(radians * i);
+									Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 									if (Main.rand.NextBool(healingStarChance) && !death)
@@ -919,7 +920,8 @@ namespace CalamityMod.NPCs.Providence
 						}
 
 						// Fire a flame towards every player, with a limit of 5
-						if (npc.ai[3] % 60f == 0f && expertMode)
+						// Only fired while the guardians aren't alive or if Providence is at low health
+						if (npc.ai[3] % 60f == 0f && expertMode && normalAttackRate)
 						{
 							List<int> targets = new List<int>();
 							for (int p = 0; p < Main.maxPlayers; p++)
@@ -934,7 +936,8 @@ namespace CalamityMod.NPCs.Providence
 							{
 								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								int proj = Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								Main.projectile[proj].extraUpdates += 1;
 							}
 						}
 					}
@@ -1137,7 +1140,7 @@ namespace CalamityMod.NPCs.Providence
 								for (int i = 0; i < totalSpearProjectiles; i++)
 								{
 									Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * cocoonProjVelocity;
-									Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
 								}
 
 								if (spearRateIncrease > 1f)
@@ -1295,9 +1298,13 @@ namespace CalamityMod.NPCs.Providence
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
+
+			// Legendary drop for Providence
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 
@@ -1312,7 +1319,7 @@ namespace CalamityMod.NPCs.Providence
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
 			// Special drop for defeating her at night
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedMoonlightDye>(), true, !hasTakenDaytimeDamage, 3, 4);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedMoonlightDye>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage, 3, 4);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -1332,9 +1339,6 @@ namespace CalamityMod.NPCs.Providence
 					DropHelper.WeightStack<DazzlingStabberStaff>(w),
 					DropHelper.WeightStack<MoltenAmputator>(w)
 				);
-
-				// Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1405,7 +1409,8 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			bool nightTime = !Main.dayTime;
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
 
 			string baseTextureString = "CalamityMod/NPCs/Providence/";
 			string baseGlowTextureString = baseTextureString + "Glowmasks/";

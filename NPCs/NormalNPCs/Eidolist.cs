@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Eidolist : ModNPC
@@ -55,7 +57,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void AI()
         {
             Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.4f, 0.5f);
-            if (npc.justHit)
+            if (npc.justHit || NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
             {
                 hasBeenHit = true;
             }
@@ -290,6 +292,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist3"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist4"), npc.scale);
             }
         }
 

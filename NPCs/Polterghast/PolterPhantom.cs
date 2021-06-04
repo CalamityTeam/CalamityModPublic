@@ -17,8 +17,9 @@ namespace CalamityMod.NPCs.Polterghast
 	public class PolterPhantom : ModNPC
     {
         private int despawnTimer = 600;
+		private bool reachedChargingPoint = false;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[npc.type] = 4;
@@ -50,6 +51,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
+			writer.Write(reachedChargingPoint);
 			CalamityGlobalNPC cgn = npc.Calamity();
 			writer.Write(cgn.newAI[0]);
 			writer.Write(cgn.newAI[1]);
@@ -60,6 +62,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
+			reachedChargingPoint = reader.ReadBoolean();
 			CalamityGlobalNPC cgn = npc.Calamity();
 			cgn.newAI[0] = reader.ReadSingle();
 			cgn.newAI[1] = reader.ReadSingle();
@@ -71,9 +74,12 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
-            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
+			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -96,10 +102,8 @@ namespace CalamityMod.NPCs.Polterghast
 			float chargeAcceleration = 0.6f;
 			float chargeDistance = 480f;
 
-			bool speedBoost1 = false;
+			bool speedBoost = false;
             bool despawnBoost = false;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1500)
                 npc.timeLeft = 1500;
@@ -119,14 +123,17 @@ namespace CalamityMod.NPCs.Polterghast
 					npc.Calamity().newAI[3] = 0f;
 				}
 
-                speedBoost1 = true;
+                speedBoost = true;
 				velocity += 8f;
 				acceleration = 0.15f;
             }
             else
                 despawnTimer++;
 
-            if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
+			if (BossRushEvent.BossRushActive)
+				speedBoost = false;
+
+			if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
 				velocity = 21f;
 				acceleration = 0.13f;
@@ -145,8 +152,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
-			if (speedBoost1)
-				npc.damage *= 2;
 
 			if (!chargePhase)
 			{
@@ -181,8 +186,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 				float maxDistanceFromHooks = expertMode ? 650f : 500f;
-				if (speedBoost1)
-					maxDistanceFromHooks += 500f;
+				if (speedBoost || malice)
+					maxDistanceFromHooks += 250f;
 				if (death)
 					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
 
@@ -252,6 +257,8 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
+					reachedChargingPoint = false;
+
 					npc.Opacity += 0.06f;
 					if (npc.Opacity > 0.8f)
 						npc.Opacity = 0.8f;
@@ -333,14 +340,22 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
-						npc.velocity *= 0.8f;
-					else
+					int numUpdates = reachedChargingPoint ? 5 : 1;
+					for (int i = 0; i < numUpdates; i++)
 					{
-						if (Vector2.Distance(vector, chargeVector) > 1200f)
-							npc.velocity = chargeLocationVelocity;
+						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+						{
+							reachedChargingPoint = true;
+
+							npc.velocity *= 0.5f;
+						}
 						else
-							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+						{
+							if (Vector2.Distance(vector, chargeVector) > 1200f)
+								npc.velocity = chargeLocationVelocity;
+							else
+								npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+						}
 					}
 				}
 

@@ -17,13 +17,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 64;
             item.magic = true;
             item.mana = 4;
             item.width = 34;
             item.height = 36;
-            item.useTime = 3;
-            item.useAnimation = 3;
+            item.useTime = item.useAnimation = 4;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
@@ -40,17 +39,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = Main.rand.Next(2, 5);
-            for (int index = 0; index < num6; ++index)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+            Vector2 beadVelocity = new Vector2(speedX, speedY) + Main.rand.NextVector2Square(-2.5f, 2.5f);
+            Projectile.NewProjectile(position, beadVelocity, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+
             if (Main.rand.NextBool(3))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LightBall>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
 
             return false;
         }

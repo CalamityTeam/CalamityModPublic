@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
         }
 

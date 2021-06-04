@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 22;
             npc.height = 22;
             npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 20000 : 200;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     float num761 = v3.ToRotation();
 					float angle = num761 - num760;
 					angle = MathHelper.WrapAngle(angle);
-                    npc.velocity = npc.velocity.RotatedBy(angle * 0.2, default);
+                    npc.velocity = npc.velocity.RotatedBy(angle * 0.2);
                 }
                 else
                 {

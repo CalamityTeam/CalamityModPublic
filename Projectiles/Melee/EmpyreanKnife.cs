@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.rotation += 0.5f;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 20f);
 			if (Main.rand.NextBool(6))
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 58, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
 		}
@@ -82,9 +82,14 @@ namespace CalamityMod.Projectiles.Melee
 			float healAmt = damage * 0.005f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
@@ -92,14 +97,19 @@ namespace CalamityMod.Projectiles.Melee
 			float healAmt = damage * 0.005f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

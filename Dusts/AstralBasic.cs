@@ -13,14 +13,12 @@ namespace CalamityMod.Dusts
 
         public override bool Update(Dust dust)
         {
-            //update position
+            // Update position
             dust.position += dust.velocity;
 
             dust.scale -= 0.02f;
             if (dust.scale < 0.1f)
-            {
                 dust.active = false;
-            }
 
             return false;
         }

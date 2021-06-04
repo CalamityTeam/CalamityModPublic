@@ -69,6 +69,8 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone2"), npc.scale);
             }
         }
     }

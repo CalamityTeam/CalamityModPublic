@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
             if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;
@@ -61,11 +61,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.Distance(Main.player[num959].Center) > 320f)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-                    if (vector102.HasNaNs())
-                        vector102 = Vector2.UnitY;
-
-                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
                 }
             }
             else

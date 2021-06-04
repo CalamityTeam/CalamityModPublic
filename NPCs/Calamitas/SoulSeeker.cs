@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = CalamityWorld.death ? 1500 : 2500;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 15000;
             }
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Calamitas
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Calamitas
                 start = false;
             }
 
-            npc.TargetClosest(true);
+            npc.TargetClosest();
 
             Vector2 velocity = Main.player[npc.target].Center - npc.Center;
             velocity.Normalize();
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.Calamitas
             timer++;
             if (timer > 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f && parent.Calamity().newAI[2] <= 0f)
                 {
 					int npcType = ModContent.NPCType<LifeSeeker>();
                     if (NPC.CountNPCS(npcType) < 3)

@@ -255,8 +255,6 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            float gaelsChance = Main.expertMode ? 0.03f : 0.02f;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, gaelsChance);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -271,6 +269,8 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScryllarGores/ScryllarRage"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScryllarGores/ScryllarRage2"), npc.scale);
             }
         }
     }

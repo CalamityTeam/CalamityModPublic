@@ -22,7 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 40;
             projectile.height = 40;
             projectile.friendly = true;
-            projectile.penetrate = 3;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 3;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 16;
             projectile.Calamity().rogue = true;
@@ -66,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -47,6 +47,7 @@ namespace CalamityMod.Projectiles.Magic
 					playedSound = true;
 				}
 			}
+
             if (projectile.localAI[0] < 1f)
             {
                 projectile.localAI[0] += 0.05f;
@@ -63,30 +64,28 @@ namespace CalamityMod.Projectiles.Magic
 			if (echoCooldown > 0)
 				echoCooldown--;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.velocity.X != oldVelocity.X)
-            {
                 projectile.velocity.X = -oldVelocity.X;
-            }
+
             if (projectile.velocity.Y != oldVelocity.Y)
-            {
                 projectile.velocity.Y = -oldVelocity.Y;
-            }
+
             return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (0.5D + (0.5D / (double)projectile.penetrate)));
+            damage = (int)((double)damage * projectile.localAI[0] * (0.5D + (0.5D / projectile.penetrate)));
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (0.5D + (0.5D / (double)projectile.penetrate)));
+            damage = (int)((double)damage * projectile.localAI[0] * (0.5D + (0.5D / projectile.penetrate)));
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -114,7 +113,7 @@ namespace CalamityMod.Projectiles.Magic
 
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, projectile.owner);
 					}
 				}
 			}
@@ -133,7 +132,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

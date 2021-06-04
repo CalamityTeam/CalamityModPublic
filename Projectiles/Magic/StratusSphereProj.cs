@@ -54,20 +54,22 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity.X = projectile.velocity.X * 10 / 11;
                 projectile.velocity.Y = projectile.velocity.Y * 10 / 11;
-                if (roundsGone <= 4) projectile.ai[1]++;
+                if (roundsGone <= 4)
+                    projectile.ai[1]++;
+
                 int rand = Main.rand.Next(-50, 51);
                 int rand2 = Main.rand.Next(-50, 51);
                 Vector2 targetDir = projectile.Center + new Vector2(rand, rand2);
                 if (projectile.ai[1] > 40)
-                {
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(targetDir) * 12f, ModContent.ProjectileType<Crescent>(), projectile.damage / 2, 0.4f, projectile.owner, projectile.whoAmI);
-                }
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(targetDir) * 12f, ModContent.ProjectileType<Crescent>(), projectile.damage / 2, 0.4f, projectile.owner, projectile.whoAmI);
+
                 if (projectile.ai[1] > 46)
                 {
                     projectile.ai[1] = 0;
                     roundsGone++;
                 }
-                if (roundsGone > 4 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Crescent>()] == 0) projectile.Kill();
+                if (roundsGone > 4 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Crescent>()] == 0)
+                    projectile.Kill();
             }
 
             projectile.frameCounter++;

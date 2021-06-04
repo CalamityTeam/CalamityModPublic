@@ -3,8 +3,6 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
@@ -41,14 +39,8 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
-				case ItemID.KingSlimeBossBag:
-					DropHelper.DropItemCondition(player, ModContent.ItemType<CrownJewel>(), CalamityWorld.revenge);
-					break;
-
 				case ItemID.EyeOfCthulhuBossBag:
 					DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
-					DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
-					DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
 					break;
 
 				case ItemID.QueenBeeBossBag:
@@ -64,10 +56,6 @@ namespace CalamityMod.Items
 
 					DropHelper.DropItem(player, ItemID.Stinger, 8, 12); // Extra stingers
 					DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
-					break;
-
-				case ItemID.SkeletronBossBag:
-					DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
 					break;
 
 				case ItemID.WallOfFleshBossBag:
@@ -101,8 +89,11 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.DestroyerBossBag:
-					float shpcChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
+				case ItemID.TwinsBossBag:
+				case ItemID.SkeletronPrimeBossBag:
+					// Only drop hallowed bars after all mechs are down.
+					if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						DropHelper.BlockDrops(ItemID.HallowedBar);
 					break;
 
 				case ItemID.PlanteraBossBag:
@@ -122,8 +113,6 @@ namespace CalamityMod.Items
 					DropHelper.BlockDrops(planteraWeapons);
 
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
-					float bFluxChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
 					DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 					break;
 
@@ -146,10 +135,7 @@ namespace CalamityMod.Items
 					bool playerHasPicksaw = player.InventoryHas(ItemID.Picksaw);
 					DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 1.0f : 0.25f);
 
-					float aegisChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
 					DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
-					DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
 					break;
 
 				case ItemID.BossBagBetsy:
@@ -163,9 +149,6 @@ namespace CalamityMod.Items
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, betsyWeapons);
 					DropHelper.BlockDrops(betsyWeapons);
-
-					float vesuviusChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
 					break;
 
 				case ItemID.FishronBossBag:
@@ -181,9 +164,6 @@ namespace CalamityMod.Items
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
 					DropHelper.BlockDrops(dukeWeapons);
-
-					float baronChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
 					break;
 
 				case ItemID.MoonLordBossBag:
@@ -208,9 +188,6 @@ namespace CalamityMod.Items
 					// The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
 					int celestialOnion = ModContent.ItemType<MLGRune2>();
 					DropHelper.DropItemCondition(player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
-
-					DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
-					DropHelper.DropItemChance(player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
 					break;
 			}
 		}
@@ -219,15 +196,92 @@ namespace CalamityMod.Items
 		#region Fishing Crates
 		private static void CrateLoot(Player player, int itemID)
 		{
+			bool twoMechsDowned =
+				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) ||
+				(NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) ||
+				(NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) ||
+				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
+
 			switch (itemID)
 			{
 				case ItemID.WoodenCrate:
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						int[] preMechBlockedDrops_WoodenCrate = new int[]
+						{
+							ItemID.MythrilOre,
+							ItemID.OrichalcumOre,
+							ItemID.AdamantiteOre,
+							ItemID.TitaniumOre,
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_WoodenCrate = new int[]
+						{
+							ItemID.AdamantiteOre,
+							ItemID.TitaniumOre,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_WoodenCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_WoodenCrate);
+					}
+
 					DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
 					break;
 
 				case ItemID.IronCrate:
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						int[] preMechBlockedDrops_IronCrate = new int[]
+						{
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_IronCrate = new int[]
+						{
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_IronCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_IronCrate);
+					}
+
 					DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
 					DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
+					break;
+
+				case ItemID.GoldenCrate:
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						int[] preMechBlockedDrops_GoldenCrate = new int[]
+						{
+							ItemID.MythrilBar,
+							ItemID.OrichalcumBar,
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+						int[] postOneMechBlockedDrops_GoldenCrate = new int[]
+						{
+							ItemID.AdamantiteBar,
+							ItemID.TitaniumBar,
+						};
+
+						if (!NPC.downedMechBossAny)
+							DropHelper.BlockDrops(preMechBlockedDrops_GoldenCrate);
+						else if (!twoMechsDowned)
+							DropHelper.BlockDrops(postOneMechBlockedDrops_GoldenCrate);
+					}
 					break;
 
 				case ItemID.CorruptFishingCrate:

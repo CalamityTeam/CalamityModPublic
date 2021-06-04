@@ -18,13 +18,13 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (100f +
-                        (CalamityWorld.downedDoG ? 100f : 0f) +
-                        (CalamityWorld.downedYharon ? 100f : 0f) +
-                        (modPlayer.profanedCrystalBuffs ? 700f : 0f));
+            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (75f +
+                        (CalamityWorld.downedDoG ? 75f : 0f) +
+                        (CalamityWorld.downedYharon ? 75f : 0f) +
+                        (modPlayer.profanedCrystalBuffs ? 420f : 0f));
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
-            if (baseDamage >= 700f)
+            if (baseDamage >= 420f)
             {
                 projectile.localNPCHitCooldown = 6;
             }
@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().endoCooper)
 			{ 
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
                 return false;
             }
             else

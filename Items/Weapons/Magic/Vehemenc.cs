@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Vehemence");
             Tooltip.SetDefault("Casts an intense energy blast\n" +
                                "Does far more damage the more HP an enemy has left\n" +
-                               "Max damage is capped at 1,000,000\n" +
+                               "Max damage is capped at 200,000\n" +
                                "If an enemy has full HP it will inflict several long-lasting debuffs\n" +
                                "Revengeance drop");
             Item.staff[item.type] = true;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 7;
+            item.damage = 3;
             item.magic = true;
             item.mana = 590;
             item.width = 44;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Vehemence>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Vehemence>(), damage, knockBack, player.whoAmI);
             player.AddBuff(BuffID.ManaSickness, 600, true);
             return false;
         }

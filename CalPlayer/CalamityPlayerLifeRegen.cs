@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -21,7 +22,7 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				modPlayer.noLifeRegen = true;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
 			if (modPlayer.reaverDefense)
 				lifeRegenMult *= 0.8;
@@ -419,12 +420,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 5;
 					player.lifeRegenTime += 10;
 				}
+
                 if (modPlayer.bloodfinTimer > 0)
-                { modPlayer.bloodfinTimer--; }
-                if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+					modPlayer.bloodfinTimer--;
+
+				if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
+
+					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
 						player.statLife += 1;
                 }
             }
@@ -476,11 +480,11 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += 2;
+                        player.lifeRegen += 4;
                         player.statDefense += 10;
                     }
                     else
-                        player.lifeRegen += 1;
+                        player.lifeRegen += 2;
                 }
             }
 
@@ -678,6 +682,22 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 3;
 			}
 
+			if (modPlayer.phantomicHeartRegen <= 720 && modPlayer.phantomicHeartRegen >= 600)
+			{
+				player.lifeRegen += 2;
+				if (Main.rand.NextBool(2))
+				{
+					int regen = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 200, new Color(99, 54, 84), 2f);
+					Main.dust[regen].noGravity = true;
+					Main.dust[regen].fadeIn = 1.3f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+					Main.dust[regen].velocity = velocity;
+					velocity.Normalize();
+					velocity *= 34f;
+					Main.dust[regen].position = player.Center - velocity;
+				}
+			}
+
 			if (modPlayer.community)
 			{
 				float floatTypeBoost = 0.05f +
@@ -715,10 +735,6 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 8;
 				player.lifeRegen += 16;
 			}
-            if (modPlayer.camper)
-            {
-                player.lifeRegen += 2;
-            }
             if (modPlayer.handWarmer && modPlayer.eskimoSet)
             {
                 player.lifeRegen += 2;
@@ -752,9 +768,11 @@ namespace CalamityMod.CalPlayer
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
 				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+
 				if (modPlayer.pinkCandleHealFraction >= 1D)
 				{
 					modPlayer.pinkCandleHealFraction = 0D;
+
 					if (player.statLife < player.statLifeMax2)
 						player.statLife++;
 				}
@@ -765,6 +783,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
 			{
 				modPlayer.reaverRegenCooldown = 0;
+
 				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
 					player.statLife += 1;
 			}
@@ -921,11 +940,10 @@ namespace CalamityMod.CalPlayer
 			// The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
 			if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife && !player.StandingStill())
 			{
-				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
-				int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
-				player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
-				player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
-				player.lifeRegenCount++;
+				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.25f : 2f;
+				int camperRegenCount = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
+				player.lifeRegen = (int)(player.lifeRegen * camperRegenMult);
+				player.lifeRegenCount += camperRegenCount;
 				if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 				{
 					int regen = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);

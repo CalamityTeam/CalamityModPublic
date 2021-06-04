@@ -117,7 +117,6 @@ namespace CalamityMod
         public static List<int> revengeanceProjectileBuffList20Percent;
         public static List<int> revengeanceProjectileBuffList15Percent;
         public static List<int> revengeanceLifeStealExceptionList;
-        public static List<int> movementImpairImmuneList;
         public static List<int> noRageWormSegmentList;
         public static List<int> needsDebuffIconDisplayList;
         public static List<int> trapProjectileList;
@@ -254,7 +253,7 @@ namespace CalamityMod
                 "Vroomy Has -3,000 IQ",
                 "The Goliath",
                 "DaPyRo",
-                "Termi",
+                "Takeru",
                 "Circuit-Jay",
                 "Commmander Frostbite",
                 "cytokat",
@@ -693,16 +692,17 @@ namespace CalamityMod
 
             hardModeNerfList = new List<int>()
             {
-                ProjectileID.WebSpit,
                 ProjectileID.PinkLaser,
                 ProjectileID.FrostBlastHostile,
-                ProjectileID.RuneBlast,
                 ProjectileID.GoldenShowerHostile,
                 ProjectileID.RainNimbus,
-                ProjectileID.Stinger,
                 ProjectileID.FlamingArrow,
                 ProjectileID.BulletDeadeye,
-                ProjectileID.CannonballHostile
+                ProjectileID.CannonballHostile,
+				ProjectileID.UnholyTridentHostile,
+				ProjectileID.FrostBeam,
+				ProjectileID.CursedFlameHostile,
+				ProjectileID.Stinger
             };
 
             debuffList = new List<int>()
@@ -1061,7 +1061,13 @@ namespace CalamityMod
 
             useTurnList = new List<int>()
             {
-                ItemID.IronBroadsword,
+				ItemID.WoodenSword,
+				ItemID.RichMahoganySword,
+				ItemID.BorealWoodSword,
+				ItemID.EbonwoodSword,
+				ItemID.ShadewoodSword,
+				ItemID.CopperBroadsword,
+				ItemID.IronBroadsword,
                 ItemID.LeadBroadsword,
                 ItemID.SilverBroadsword,
                 ItemID.TungstenBroadsword,
@@ -1249,8 +1255,10 @@ namespace CalamityMod
                 ItemID.GreenPhaseblade,
                 ItemID.WhitePhaseblade,
                 ItemID.YellowPhaseblade,
-                ItemID.PurplePhaseblade
-            };
+                ItemID.PurplePhaseblade,
+				ItemID.RocketLauncher,
+				ItemID.GrenadeLauncher
+			};
 
             sixtySixDamageBuffList = new List<int>()
             {
@@ -1260,7 +1268,6 @@ namespace CalamityMod
                 ItemID.ChristmasTreeSword,
                 ItemID.MonkStaffT1,
                 ItemID.InfernoFork,
-                ItemID.VenomStaff,
                 ItemID.Frostbrand,
                 ItemID.BloodButcherer
             };
@@ -1296,7 +1303,8 @@ namespace CalamityMod
                 ItemID.ClingerStaff,
                 ItemID.ChargedBlasterCannon,
                 ItemID.NettleBurst,
-                ItemID.AmberStaff,
+				ItemID.VenomStaff,
+				ItemID.AmberStaff,
                 ItemID.VampireKnives,
                 ItemID.Cascade,
                 ItemID.TrueExcalibur,
@@ -1327,11 +1335,19 @@ namespace CalamityMod
             tenDamageBuffList = new List<int>()
             {
                 ItemID.MagnetSphere,
-                ItemID.BatScepter
-            };
+                ItemID.BatScepter,
+				ItemID.ElectrosphereLauncher
+			};
 
             weaponAutoreuseList = new List<int>()
             {
+				ItemID.WoodenSword,
+				ItemID.RichMahoganySword,
+				ItemID.BorealWoodSword,
+				ItemID.EbonwoodSword,
+				ItemID.ShadewoodSword,
+				ItemID.CopperShortsword,
+				ItemID.CopperBroadsword,
                 ItemID.IronShortsword,
                 ItemID.IronBroadsword,
                 ItemID.LeadShortsword,
@@ -1344,15 +1360,18 @@ namespace CalamityMod
                 ItemID.PlatinumBroadsword,
                 ItemID.GoldShortsword,
                 ItemID.GoldBroadsword,
+				ItemID.CactusSword,
                 ItemID.ZombieArm,
                 ItemID.CandyCaneSword,
                 ItemID.BoneSword,
                 ItemID.LightsBane,
                 ItemID.BloodButcherer,
                 ItemID.DyeTradersScimitar,
+				ItemID.FieryGreatsword,
                 ItemID.NightsEdge,
                 ItemID.TrueNightsEdge,
                 ItemID.TrueExcalibur,
+				ItemID.BreakerBlade,
                 ItemID.PhoenixBlaster,
                 ItemID.VenusMagnum,
                 ItemID.MagicDagger,
@@ -1418,15 +1437,17 @@ namespace CalamityMod
 
             quarterDamageNerfList = new List<int>()
             {
+				ItemID.LastPrism,
+				ItemID.DemonScythe,
                 ItemID.Razorpine,
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher,
-                ItemID.OpticStaff //Note: got local i frames so it should be better
-            };
+                ItemID.OpticStaff, //Note: got local i frames so it should be better
+				ItemID.RocketIII,
+				ItemID.RocketIV
+			};
 
             pumpkinMoonBuffList = new List<int>()
             {
@@ -1673,16 +1694,7 @@ namespace CalamityMod
                 NPCID.TheDestroyerTail,
                 NPCID.EaterofWorldsBody,
                 NPCID.EaterofWorldsTail,
-                NPCID.GolemHead,
-                NPCID.GolemHeadFree,
-                NPCID.GolemFistRight,
-                NPCID.GolemFistLeft,
                 NPCID.MoonLordCore
-            };
-
-            movementImpairImmuneList = new List<int>()
-            {
-                NPCID.QueenBee,
             };
 
             noRageWormSegmentList = new List<int>()
@@ -2446,8 +2458,6 @@ namespace CalamityMod
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnHealer>(),
                 NPCType<DarkEnergy>(),
-                NPCType<DarkEnergy2>(),
-                NPCType<DarkEnergy3>(),
                 NPCType<CosmicLantern>(),
                 NPCType<DevourerofGodsHead2>(),
                 NPCType<DevourerofGodsBody2>(),
@@ -2519,13 +2529,20 @@ namespace CalamityMod
             iceWeaponList = null;
             natureWeaponList = null;
             alcoholList = null;
+			useTurnList = null;
+			twentyUseTimeBuffList = null;
+			fiftySizeBuffList = null;
+			quadrupleDamageBuffList = null;
+			tripleDamageBuffList = null;
             doubleDamageBuffList = null;
             sixtySixDamageBuffList = null;
             fiftyDamageBuffList = null;
             thirtyThreeDamageBuffList = null;
             twentyFiveDamageBuffList = null;
+			twentyDamageBuffList = null;
             tenDamageBuffList = null;
             weaponAutoreuseList = null;
+			spearAutoreuseList = null;
             tenDamageNerfList = null;
             quarterDamageNerfList = null;
             pumpkinMoonBuffList = null;
@@ -2540,7 +2557,6 @@ namespace CalamityMod
             revengeanceProjectileBuffList20Percent = null;
             revengeanceProjectileBuffList15Percent = null;
             revengeanceLifeStealExceptionList = null;
-            movementImpairImmuneList = null;
             noRageWormSegmentList = null;
             needsDebuffIconDisplayList = null;
             trapProjectileList = null;

@@ -18,7 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 240;
             projectile.extraUpdates = 1;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.timeLeft >= 207)
                 projectile.alpha += 6;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 18f, 40f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 40f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);

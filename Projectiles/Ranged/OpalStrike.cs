@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
@@ -16,8 +17,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
+            projectile.width = projectile.height = 20;
             projectile.friendly = true;
             projectile.scale = 0.5f;
             projectile.alpha = 200;
@@ -29,20 +29,16 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             if (projectile.scale <= 1.5f)
-            {
                 projectile.scale *= 1.01f;
-            }
             projectile.alpha -= 2;
             if (projectile.alpha == 0)
-            {
                 projectile.alpha = 200;
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

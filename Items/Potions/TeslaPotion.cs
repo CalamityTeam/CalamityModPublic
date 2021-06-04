@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
 		{
 			DisplayName.SetDefault("Tesla Potion");
 			Tooltip.SetDefault("Summons an aura of electricity that electrifies and slows enemies\n" +
-				"Slowdown does not work on bosses\n" +
+				"Aura damage is reduced on bosses\n" +
 				"Reduces the duration of the Electrified debuff");
 		}
 

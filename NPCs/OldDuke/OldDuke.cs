@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.GetNPCDamage();
 			npc.defense = 90;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.LifeMaxNERB(412500, 495000, 4000000);
+			npc.LifeMaxNERB(412500, 495000, 400000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
@@ -55,11 +55,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BoomerDuke");
-            else
-                music = MusicID.Boss1;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
 		}
 
@@ -376,9 +372,11 @@ namespace CalamityMod.NPCs.OldDuke
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
+			// Legendary drop for Old Duke
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
 

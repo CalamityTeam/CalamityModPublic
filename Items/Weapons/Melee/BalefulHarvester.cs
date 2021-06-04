@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baleful Harvester");
-            Tooltip.SetDefault("Shoots skulls that split into homing fire orbs on enemy hits\n" +
-                "Summons flaming pumpkins on enemy hits");
+            Tooltip.SetDefault("Summons flaming pumpkins and skulls that split into homing fire orbs on enemy hits");
         }
 
         public override void SetDefaults()
@@ -20,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 160;
             item.width = 66;
             item.height = 66;
+			item.scale = 1.5f;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -30,8 +30,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = ItemRarityID.Cyan;
-            item.shoot = ModContent.ProjectileType<BalefulHarvesterProjectile>();
-            item.shootSpeed = 6f;
         }
 
         public override void AddRecipes()
@@ -47,13 +45,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback);
+			int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack);
+			int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
+			CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
         }
     }

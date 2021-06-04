@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "40% increased minion damage and +2 max minions\n" +
                 "Inferno effect when below 50% life\n" +
                 "Summons a hydrothermic vent to protect you\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.chaosSpirit = true;

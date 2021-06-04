@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -16,8 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
+            projectile.width = projectile.height = 16;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 95;
@@ -27,6 +25,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+
+			if (projectile.ai[0] == 0f)
+			{
+				Main.PlaySound(SoundID.Item11, (int)projectile.Center.X, (int)projectile.Center.Y);
+				projectile.ai[0] = 1f;
+			}
 
             //Animation
             projectile.frameCounter++;
@@ -60,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

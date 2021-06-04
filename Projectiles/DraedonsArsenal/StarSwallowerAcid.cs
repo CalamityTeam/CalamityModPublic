@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, new Color(255, 255, 255, 127) * projectile.Opacity, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], new Color(255, 255, 255, 127) * projectile.Opacity, 2);
             return false;
         }
     }

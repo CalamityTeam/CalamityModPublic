@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,29 +10,30 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryophobia");
-            Tooltip.SetDefault("Chill");
+            Tooltip.SetDefault("Chill\n" +
+				"Fires an icy wave that splits multiple times and explodes into shards");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 24;
+            item.damage = 56;
             item.magic = true;
             item.mana = 18;
             item.width = 56;
             item.height = 34;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 28;
+            item.useAnimation = 28;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item117;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Pink;
+			item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<CryoBlast>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

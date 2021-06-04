@@ -62,9 +62,9 @@ namespace CalamityMod.NPCs.Polterghast
             // Bools
             bool speedBoost = false;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			// Despawn if Polter is gone
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
@@ -86,6 +86,10 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Percent life remaining, Polter
 			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression)
+				lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().killTimeRatio_IncreasedAggression;
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
@@ -109,9 +113,15 @@ namespace CalamityMod.NPCs.Polterghast
 			phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f) && !phase3;
 			if (phase2)
             {
-                npc.TargetClosest(true);
+				// Get a target
+				if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+					npc.TargetClosest();
 
-                Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, tileEnrageMult, player);
+				// Despawn safety, make sure to target another player if the current player target is too far away
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+					npc.TargetClosest();
+
+				Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, tileEnrageMult, player);
 
                 // Fire projectiles
                 Vector2 vector17 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);

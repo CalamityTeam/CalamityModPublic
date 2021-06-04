@@ -11,10 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aegis Blade");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Striking an enemy with the blade causes an earthen eruption\n" +
-                "Right click to fire an aegis bolt\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
+                "Right click to fire an aegis bolt");
         }
 
         public override void SetDefaults()
@@ -34,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

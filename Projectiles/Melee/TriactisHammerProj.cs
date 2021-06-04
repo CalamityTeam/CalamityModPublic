@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.width = 160;
 			projectile.height = 160;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 3;
@@ -154,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

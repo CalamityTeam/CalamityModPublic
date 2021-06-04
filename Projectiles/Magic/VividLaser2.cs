@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 10;
             projectile.friendly = true;
             projectile.alpha = 255;
-            projectile.timeLeft = 120;
+			projectile.ignoreWater = true;
+			projectile.timeLeft = 120;
             projectile.penetrate = 1;
             projectile.magic = true;
         }
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.ai[0] = 1f;
 
 			if (projectile.ai[0] >= 1f)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 30f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 400f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -70,19 +71,9 @@ namespace CalamityMod.Projectiles.Magic
 			target.ExoDebuffs();
         }
 
-        // Cannot deal damage for the first several frames of existence.
-        public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft >= 110)
-			{
-				return false;
-			}
-			return null;
-		}
+		// Cannot deal damage for the first several frames of existence.
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 110;
 
-        public override bool CanHitPvp(Player target)
-		{
-			return projectile.timeLeft < 110;
-		}
+		public override bool CanHitPvp(Player target) => projectile.timeLeft < 110;
     }
 }

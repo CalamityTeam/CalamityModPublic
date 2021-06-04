@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
+			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Boss
                 num807 = 2400f;
             }
 
-			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+			int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 			float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
@@ -143,11 +143,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-            Texture2D texture2D19 = Main.dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
-            Texture2D texture2D20 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
-            Texture2D texture2D21 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
+			bool dayTime = Main.dayTime && !CalamityWorld.malice;
+			Texture2D texture2D19 = dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
+            Texture2D texture2D20 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
+            Texture2D texture2D21 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
             float num223 = projectile.localAI[1]; //length of laser
-            Color color44 = Main.dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
+            Color color44 = dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
             Vector2 vector = projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
             Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
@@ -203,7 +204,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 300);
         }
 

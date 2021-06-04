@@ -11,10 +11,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("SHPC");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires plasma orbs that linger and emit massive explosions\n" +
-                "Right click to fire powerful energy beams\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
+                "Right click to fire powerful energy beams");
         }
 
         public override void SetDefaults()
@@ -22,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 22;
             item.magic = true;
             item.mana = 20;
-            item.width = 96;
-            item.height = 34;
+            item.width = 90;
+            item.height = 42;
             item.useTime = item.useAnimation = 7;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
@@ -35,7 +33,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

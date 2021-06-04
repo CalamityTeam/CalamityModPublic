@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 
             Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.75f / 255f, 0f);
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
         public override void Kill(int timeLeft)

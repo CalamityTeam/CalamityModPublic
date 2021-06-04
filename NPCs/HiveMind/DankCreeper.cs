@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax = 90;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 20000;
+                npc.lifeMax = 2000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -40,10 +40,10 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            npc.TargetClosest(true);
+            npc.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 18f;
 
 			if (npc.ai[1] < 90f)
@@ -108,11 +108,11 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void NPCLoot()
         {
-            if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
+            if ((Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice) && Main.netMode != NetmodeID.MultiplayerClient)
             {
 				int type = ModContent.ProjectileType<ShadeNimbusHostile>();
 				int damage = npc.GetProjectileDamage(type);
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
         }
     }

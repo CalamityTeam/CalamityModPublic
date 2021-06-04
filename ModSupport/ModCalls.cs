@@ -248,6 +248,14 @@ namespace CalamityMod
 				case "supremecalamitas":
 				case "supreme calamitas":
 					return CalamityWorld.downedSCal;
+
+				case "adulteidolonwyrm":
+				case "adult eidolon wyrm":
+				case "adultwyrm":
+				case "adult wyrm":
+				case "adulteidolon":
+				case "adult eidolon":
+					return CalamityWorld.downedAdultEidolonWyrm;
 			}
 		}
 		#endregion
@@ -386,6 +394,11 @@ namespace CalamityMod
 				case "death mode":
 					return CalamityWorld.death;
 
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice;
+
 				case "br":
 				case "bossrush":
 				case "boss rush":
@@ -431,6 +444,11 @@ namespace CalamityMod
 				case "deathmode":
 				case "death mode":
 					return CalamityWorld.death = enabled;
+
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice = enabled;
 
 				case "br":
 				case "bossrush":
@@ -781,14 +799,6 @@ namespace CalamityMod
 				case "godslayer ranged":
 				case "god slayer ranged":
 					return mp.godSlayerRanged;
-				case "godslayer_magic":
-				case "godslayer magic":
-				case "god slayer magic":
-					return mp.godSlayerMage;
-				case "godslayer_summon":
-				case "godslayer summon":
-				case "god slayer summon":
-					return mp.godSlayerSummon;
 				case "godslayer_rogue":
 				case "godslayer rogue":
 				case "god slayer rogue":
@@ -806,21 +816,12 @@ namespace CalamityMod
 					break;
 				case "silva":
 					return mp.silvaSet;
-				case "silva_melee":
-				case "silva melee":
-					return mp.silvaMelee;
-				case "silva_ranged":
-				case "silva ranged":
-					return mp.silvaRanged;
 				case "silva_magic":
 				case "silva magic":
 					return mp.silvaMage;
 				case "silva_summon":
 				case "silva summon":
 					return mp.silvaSummon;
-				case "silva_rogue":
-				case "silva rogue":
-					return mp.silvaThrowing;
 			}
 
 			// Auric Tesla
@@ -1176,18 +1177,6 @@ namespace CalamityMod
 					mp.godSlayer = enabled;
 					mp.godSlayerRanged = enabled;
 					return true;
-				case "godslayer_magic":
-				case "godslayer magic":
-				case "god slayer magic":
-					mp.godSlayer = enabled;
-					mp.godSlayerMage = enabled;
-					return true;
-				case "godslayer_summon":
-				case "godslayer summon":
-				case "god slayer summon":
-					mp.godSlayer = enabled;
-					mp.godSlayerSummon = enabled; // LATER -- remove this when player.godSlayerSummon actually controls mechworm
-					return true;
 				case "godslayer_rogue":
 				case "godslayer rogue":
 				case "god slayer rogue":
@@ -1211,16 +1200,6 @@ namespace CalamityMod
 				case "silva":
 					mp.silvaSet = enabled;
 					return true;
-				case "silva_melee":
-				case "silva melee":
-					mp.silvaSet = enabled;
-					mp.silvaMelee = enabled;
-					return true;
-				case "silva_ranged":
-				case "silva ranged":
-					mp.silvaSet = enabled;
-					mp.silvaRanged = enabled;
-					return true;
 				case "silva_magic":
 				case "silva magic":
 					mp.silvaSet = enabled;
@@ -1230,11 +1209,6 @@ namespace CalamityMod
 				case "silva summon":
 					mp.silvaSet = enabled;
 					mp.silvaSummon = enabled; // LATER -- remove this when player.silvaSummon actually controls silva crystal
-					return true;
-				case "silva_rogue":
-				case "silva rogue":
-					mp.silvaSet = enabled;
-					mp.silvaThrowing = enabled;
 					return true;
 			}
 
@@ -1263,8 +1237,6 @@ namespace CalamityMod
 					mp.bloodflareMelee = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerDamage = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaMelee = enabled;
 					mp.auricSet = enabled;
 					return true;
 				case "auric_ranged":
@@ -1278,8 +1250,6 @@ namespace CalamityMod
 					mp.bloodflareRanged = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerRanged = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaRanged = enabled;
 					mp.auricSet = enabled;
 					return true;
 				case "auric_magic":
@@ -1291,8 +1261,6 @@ namespace CalamityMod
 					mp.tarraMage = enabled;
 					mp.bloodflareSet = enabled;
 					mp.bloodflareMage = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerMage = enabled;
 					mp.silvaSet = enabled;
 					mp.silvaMage = enabled;
 					mp.auricSet = enabled;
@@ -1306,8 +1274,6 @@ namespace CalamityMod
 					mp.tarraSummon = enabled;
 					mp.bloodflareSet = enabled;
 					mp.bloodflareSummon = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerSummon = enabled;
 					mp.silvaSet = enabled;
 					mp.silvaSummon = enabled;
 					mp.auricSet = enabled;
@@ -1323,8 +1289,6 @@ namespace CalamityMod
 					mp.bloodflareThrowing = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerThrowing = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaThrowing = enabled;
 					mp.auricSet = enabled;
 					return true;
 			}

@@ -262,14 +262,11 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

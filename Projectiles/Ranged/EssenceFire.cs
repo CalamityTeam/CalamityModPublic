@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
-            projectile.timeLeft = 50;
+            projectile.timeLeft = 65;
         }
 
         public override void AI()
@@ -33,10 +33,9 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.scale *= 1.01f;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.45f / 255f);
-            if (projectile.timeLeft > 50)
-            {
-                projectile.timeLeft = 50;
-            }
+            if (projectile.timeLeft > 65)
+                projectile.timeLeft = 65;
+
             if (projectile.ai[0] > 5f)
             {
                 float num296 = 1f;
@@ -86,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.ai[0] += 1f;
             }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            projectile.rotation += 0.3f * projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -28,7 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 40;
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
-            projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 15;
 			projectile.coldDamage = true;
@@ -138,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int i = 0; i < icicleAmt; i++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>(), projectile.damage / 3, 0f, projectile.owner);
 				}
 			}
 		}
@@ -149,8 +150,7 @@ namespace CalamityMod.Projectiles.Rogue
 			OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-			if (Main.rand.NextBool(5))
-				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+			target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -158,8 +158,7 @@ namespace CalamityMod.Projectiles.Rogue
 			OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-			if (Main.rand.NextBool(5))
-				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+			target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

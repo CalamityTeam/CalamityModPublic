@@ -68,10 +68,9 @@ namespace CalamityMod.Projectiles.Summon
             if (target != null)
             {
                 projectile.ai[1]++;
-                if (projectile.ai[1] % 55f == 54f &&
-                    Main.myPlayer == projectile.owner)
+                if (projectile.ai[1] % 55f == 54f && Main.myPlayer == projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
                 }
             }
 
@@ -86,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 18f) / 20f;
+                        projectile.velocity = (projectile.velocity * 19f + projectile.SafeDirectionTo(mother.Center) * 18f) / 20f;
                     }
                 }
                 else

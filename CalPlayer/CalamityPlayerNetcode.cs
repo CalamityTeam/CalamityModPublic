@@ -250,14 +250,14 @@ namespace CalamityMod.CalPlayer
 
         internal void HandleRage(BinaryReader reader)
         {
-            rage = reader.ReadInt32();
+            rage = reader.ReadSingle();
             if (Main.netMode == NetmodeID.Server)
                 SyncRage(true);
         }
 
         internal void HandleAdrenaline(BinaryReader reader)
         {
-            adrenaline = reader.ReadInt32();
+            adrenaline = reader.ReadSingle();
             if (Main.netMode == NetmodeID.Server)
                 SyncAdrenaline(true);
         }

@@ -90,9 +90,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localAI[0] += 1f;
             if (projectile.timeLeft == 1 && !Collapsing)
             {
-                projectile.velocity = projectile.DirectionTo(target.Center) * 2f;
+                projectile.velocity = projectile.SafeDirectionTo(target.Center) * 2f;
                 projectile.timeLeft = InwardCollapseTime;
                 Collapsing = true;
+
                 projectile.netUpdate = true;
             }
             SpinAngle -= MathHelper.ToRadians(DegreesToSpin);

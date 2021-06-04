@@ -134,7 +134,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+			if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
+				return;
+
+			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
     }
 }

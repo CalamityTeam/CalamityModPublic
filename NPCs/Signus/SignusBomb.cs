@@ -55,14 +55,22 @@ namespace CalamityMod.NPCs.Signus
 				return;
 			}
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 
 			npc.rotation = npc.velocity.X * 0.04f;
 
-			npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			Vector2 vector = player.Center - npc.Center;
 			npc.ai[2] = vector.Length();
 

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), 3);
 
             // Equipment
-            DropHelper.DropItemRIV(player, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 1f, DropHelper.RareVariantDropRateFloat);
+            DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());
 
             // Vanity
 			DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
@@ -49,6 +49,8 @@ namespace CalamityMod.Items.TreasureBags
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
 				DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerHornedHelm>());
+				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerVisage>());
 			}
         }
     }

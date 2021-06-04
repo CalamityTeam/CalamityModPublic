@@ -21,7 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 66;
             projectile.height = 76;
             projectile.friendly = true;
-            projectile.penetrate = 6;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 6;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -40,9 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 NPC target = projectile.Center.ClosestNPCAt(640f);
                 if (target != null)
-                {
-                    projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
-                }
+                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
             }
 
             // This code is only run on stealth strikes and periodically spawns damaging afterimages.

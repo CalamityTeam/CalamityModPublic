@@ -19,7 +19,7 @@ Stealth strikes continuously leave spectral clones in their wake");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 1060;
+            item.damage = 955;
             item.knockBack = 8f;
 
             item.width = 102;
@@ -43,6 +43,7 @@ Stealth strikes continuously leave spectral clones in their wake");
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
+                damage = (int)(damage * 1.22);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = true;

@@ -44,6 +44,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion3"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion4"), npc.scale);
             }
         }
 

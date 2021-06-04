@@ -16,7 +16,8 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Armageddon");
             Tooltip.SetDefault("Makes any hit while a boss is alive instantly kill you\n" +
                 "Effect can be toggled on and off\n" +
-                "If a boss is defeated with this effect active it will drop 6 treasure bags, 5 in normal mode");
+                "If a boss is defeated with this effect active it will drop 6 treasure bags, 5 in normal mode\n" +
+				"These extra bags will only drop if it's your first time killing the boss");
         }
 
         public override void SetDefaults()

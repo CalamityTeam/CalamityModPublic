@@ -79,22 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
                 }
             }
-            projectile.ai[0] += 1f;
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.ai[0] > 10f || projectile.ai[0] > 5f)
-            {
-                projectile.ai[0] = 10f;
-                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
-                    {
-                        projectile.velocity.X = 0f;
-                        projectile.netUpdate = true;
-                    }
-                }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

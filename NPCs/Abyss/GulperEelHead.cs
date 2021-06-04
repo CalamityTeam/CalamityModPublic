@@ -76,9 +76,9 @@ namespace CalamityMod.NPCs.Abyss
                 detectsPlayer = true;
             }
             npc.chaseable = detectsPlayer;
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -335,7 +335,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f, 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 6, 8);

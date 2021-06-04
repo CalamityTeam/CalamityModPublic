@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                 if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     player = Main.player[npc.target];
                     npc.netUpdate = true;
                 }
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 resetAI = false;
                 if (npc.direction == 0)
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
 
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                     if (flag122)
                     {
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
                         npc.velocity.X += npc.direction * 0.15f;
                         npc.velocity.Y += npc.directionY * 0.15f;
                         float velocityX = 8f;
@@ -413,8 +413,9 @@ namespace CalamityMod.NPCs.GreatSandShark
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             npc.ai[2] = -30f;
-                            Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
-                            npc.velocity = vector261 * 18f;
+
+                            Vector2 upwardChargeDirection = npc.SafeDirectionTo(vector260 + new Vector2(0f, -80f), -Vector2.UnitY);
+                            npc.velocity = upwardChargeDirection * 18f;
                         }
                     }
                     else
@@ -453,7 +454,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (npc.velocity.Y == 0f)
                     {
                         if (flag122)
-                            npc.TargetClosest(true);
+                            npc.TargetClosest();
 
                         float num1538 = 1f;
                         npc.velocity.X += npc.direction * 0.1f;

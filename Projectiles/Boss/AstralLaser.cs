@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 240;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -64,33 +65,27 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
-        public override bool CanDamage()
-        {
-            if (projectile.timeLeft < 85)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 85;
 
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, projectile.alpha);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+			if (projectile.timeLeft >= 85)
+				target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
     }
 }

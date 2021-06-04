@@ -43,11 +43,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
-            npc.velocity.Length();
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {

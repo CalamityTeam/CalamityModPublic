@@ -38,11 +38,9 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.timeLeft < 580f)
             {
-                projectile.velocity = (projectile.velocity * 18f + projectile.DirectionTo(Main.player[projectile.owner].Center) * 18f) / 19f;
+                projectile.velocity = (projectile.velocity * 18f + projectile.SafeDirectionTo(Main.player[projectile.owner].Center) * 18f) / 19f;
                 if (Main.player[projectile.owner].Hitbox.Intersects(projectile.Hitbox))
-                {
                     projectile.Kill();
-                }
             }
             if (projectile.timeLeft % 5 == 0 && projectile.Calamity().stealthStrike)
             {

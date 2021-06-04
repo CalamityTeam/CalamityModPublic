@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().donorItem = true;
 
-            item.damage = 5800;
+            item.damage = 2250;
             item.knockBack = 6f;
             item.useTime = 300;
             item.useAnimation = 300;
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.IceRod);
             recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 23);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

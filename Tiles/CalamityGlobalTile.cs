@@ -194,6 +194,17 @@ namespace CalamityMod.Tiles
 						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
 					}
 				}
+				else if (type == TileID.DemonAltar && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+				{
+					int quantity = 6;
+					Vector2 pos = new Vector2(i, j) * 16;
+					for (int k = 0; k < quantity; k += 1)
+					{
+						pos.X += Main.rand.NextFloat(-32f, 32f);
+						pos.Y += Main.rand.NextFloat(-32f, 32f);
+						Item.NewItem(pos, ItemID.SoulofNight, 1);
+					}
+				}
 			}
 
 			// This is old pot code, kept here for legacy reasons with old worlds. Should be removed in a future update after a sufficient amount of time.
@@ -539,7 +550,7 @@ namespace CalamityMod.Tiles
 								}
 							}
 						}
-						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
+						if (shootFlames)
 						{
 							float ai0 = 0f;
 							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
@@ -570,6 +581,7 @@ namespace CalamityMod.Tiles
 
 			return new int[0];
 		}
+
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
 			int[] invincibleTiles = new int[]

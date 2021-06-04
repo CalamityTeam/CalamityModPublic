@@ -11,14 +11,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leonid Progenitor");
-			Tooltip.SetDefault("Legendary Drop\n" +
-				"Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
+			Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
 				"Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
-				"Stealth strikes lob a bombshell that additionally splits into comets on hit\n" +
-				"Revengeance drop");
+				"Stealth strikes lob a bombshell that additionally splits into comets on hit");
 		}
 
 		public override void SafeSetDefaults()
@@ -40,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
 			item.rare = ItemRarityID.Lime;
+			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			return base.CanUseItem(player);
 		}
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float SafeSetUseTimeMultiplier(Player player)
 		{
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 				return 1f;

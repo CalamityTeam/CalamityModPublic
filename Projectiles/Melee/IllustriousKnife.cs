@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.rotation += 0.5f;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 35f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
 			if (Main.rand.NextBool(6))
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 20, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
@@ -62,28 +62,40 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+
 			float healAmt = damage * 0.015f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 3f);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+
 			float healAmt = damage * 0.015f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 3f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

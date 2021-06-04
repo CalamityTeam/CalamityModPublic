@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             int debuffDuration = 300 - projectile.timeLeft;
             if (projectile.timeLeft < 270)
-                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffDuration);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffDuration / 3);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

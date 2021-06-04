@@ -87,11 +87,9 @@ namespace CalamityMod.Projectiles.Summon
                 NPC potentialTarget = projectile.Center.MinionHoming(500f, player);
                 if (potentialTarget != null)
                 {
-                    if (projectile.ai[1]++ % 35f == 34f &&
-                        Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+                    if (projectile.ai[1]++ % 35f == 34f && Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 20f,
-                            ModContent.ProjectileType<FrostBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }
             }

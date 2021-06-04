@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Accessories
                 "During the day the player has +3 life regen\n" +
                 "During the night the player has +15 defense\n" +
 				"Both of these bonuses are granted during an eclipse");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
+            item.width = 40;
+            item.height = 28;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
 			item.rare = ItemRarityID.Purple;
             item.defense = 10;

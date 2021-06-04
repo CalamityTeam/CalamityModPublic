@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 60;
-            item.damage = 144;
+            item.damage = 166;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
+                damage = (int)(damage * 1.07);
                 int ss = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 if (ss.WithinBounds(Main.maxProjectiles))
                     Main.projectile[ss].Calamity().stealthStrike = true;

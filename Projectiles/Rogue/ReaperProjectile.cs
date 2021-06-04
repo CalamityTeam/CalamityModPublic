@@ -24,11 +24,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 70;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 12;
-            projectile.timeLeft = 1080;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.extraUpdates = 3;
+            projectile.timeLeft = projectile.MaxUpdates * 90;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40; // can't hit too fast, but can hit many many times
+            projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
             projectile.Calamity().rogue = true;
         }
 
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 480f, 22.5f, 14f);
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.
@@ -145,7 +146,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 80;
             npc.height = 140;
             npc.defense = 50;
-			npc.LifeMaxNERB(517500, 621000, 9200000);
+			npc.LifeMaxNERB(517500, 621000, 920000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
@@ -50,11 +50,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-            else
-                music = MusicID.LunarBoss;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
             npc.dontCountMe = true;
         }
 
@@ -97,8 +93,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
 				invinceTime = 240;
 
-            if (npc.ai[3] > 0f)
-                npc.realLife = (int)npc.ai[3];
+            if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
