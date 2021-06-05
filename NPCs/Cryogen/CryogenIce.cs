@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Cryogen
 					double radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
-					float velocity = BossRushEvent.BossRushActive ? 12f : 9f;
+					float velocity = 9f;
 					double angleA = radians * 0.5;
 					double angleB = MathHelper.ToRadians(90f) - angleA;
 					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

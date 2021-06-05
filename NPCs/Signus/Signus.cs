@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.975f;
 
-                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.Y -= death ? 0.12f : 0.1f;
 
                     if (npc.velocity.Y > maxVelocityY)
                         npc.velocity.Y = maxVelocityY;
@@ -447,7 +447,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.Y < 0f)
                         npc.velocity.Y *= 0.975f;
 
-                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.Y += death ? 0.12f : 0.1f;
 
                     if (npc.velocity.Y < -maxVelocityY)
                         npc.velocity.Y = -maxVelocityY;
@@ -458,7 +458,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.X > 0f)
                         npc.velocity.X *= 0.98f;
 
-                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.X -= death ? 0.12f : 0.1f;
 
                     if (npc.velocity.X > maxVelocityX)
                         npc.velocity.X = maxVelocityX;
@@ -469,7 +469,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.X < 0f)
                         npc.velocity.X *= 0.98f;
 
-                    npc.velocity.X += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.X += death ? 0.12f : 0.1f;
 
                     if (npc.velocity.X < -maxVelocityX)
                         npc.velocity.X = -maxVelocityX;

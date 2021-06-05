@@ -55,19 +55,16 @@ namespace CalamityMod.NPCs.Perforator
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
-
-			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -88,12 +85,6 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			if (npc.Calamity().enraged > 0)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;

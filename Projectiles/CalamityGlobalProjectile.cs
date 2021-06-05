@@ -104,6 +104,7 @@ namespace CalamityMod.Projectiles
 		// Boss projectile velocity multiplier in Malice Mode
 		public bool affectedByMaliceModeVelocityMultiplier = false;
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
+		public const float BossRushProjectileVelocityMultiplier = 1.5f;
 
 		#region SetDefaults
 		public override void SetDefaults(Projectile projectile)
@@ -1189,8 +1190,8 @@ namespace CalamityMod.Projectiles
 			{
 				if (projectile.hostile)
 				{
-					if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier)
-						projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
+					if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+						projectile.velocity *= BossRushEvent.BossRushActive ? BossRushProjectileVelocityMultiplier : MaliceModeProjectileVelocityMultiplier;
 
 					// Reduce Nail damage from Nailheads because they're stupid
 					if (projectile.type == ProjectileID.Nail && Main.expertMode)

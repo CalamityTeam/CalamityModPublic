@@ -98,10 +98,10 @@ namespace CalamityMod.NPCs.Perforator
 
 			Player player = Main.player[npc.target];
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -118,9 +118,6 @@ namespace CalamityMod.NPCs.Perforator
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
-
-			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
@@ -244,9 +241,6 @@ namespace CalamityMod.NPCs.Perforator
 								if (blobVelocity.Y < 2f)
 									blobVelocity.Y = 2f + sporeVelocityYAdd;
 
-								if (BossRushEvent.BossRushActive)
-									blobVelocity *= 2f;
-
 								Projectile.NewProjectile(npc.Center, blobVelocity, type, damage, 0f, Main.myPlayer);
 							}
 						}
@@ -265,7 +259,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (revenge)
 				{
-					Movement(player, 9f + velocityXEnrageIncrease, 3f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.4f : 0.3f, 160f, 400f, 500f, false);
+					Movement(player, 9f + velocityXEnrageIncrease, 3f + velocityYEnrageIncrease, 0.3f, 160f, 400f, 500f, false);
 					npc.ai[0] = 0f;
 				}
 				else
@@ -323,7 +317,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (wormsAlive == 1)
 				{
-					Movement(player, 4f + velocityXEnrageIncrease, 1f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.2f : 0.15f, 160f, 300f, 400f, false);
+					Movement(player, 4f + velocityXEnrageIncrease, 1f + velocityYEnrageIncrease, 0.15f, 160f, 300f, 400f, false);
 					npc.ai[0] = 0f;
 				}
 				else
@@ -331,13 +325,13 @@ namespace CalamityMod.NPCs.Perforator
 					if (npc.ai[0] == 1f)
 					{
 						if (large || death)
-							Movement(player, 3.5f + velocityXEnrageIncrease, 1f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.195f : death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
+							Movement(player, 3.5f + velocityXEnrageIncrease, 1f + velocityYEnrageIncrease, death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
 						else if (medium)
-							Movement(player, 4.5f + velocityXEnrageIncrease, 1.5f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.18f : death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
+							Movement(player, 4.5f + velocityXEnrageIncrease, 1.5f + velocityYEnrageIncrease, death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
 						else if (small)
-							Movement(player, 5.5f + velocityXEnrageIncrease, 2f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.165f : death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
+							Movement(player, 5.5f + velocityXEnrageIncrease, 2f + velocityYEnrageIncrease, death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
 						else
-							Movement(player, 6.5f + velocityXEnrageIncrease, 2.5f + velocityYEnrageIncrease, BossRushEvent.BossRushActive ? 0.15f : death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
+							Movement(player, 6.5f + velocityXEnrageIncrease, 2.5f + velocityYEnrageIncrease, death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
 					}
 					else
 					{

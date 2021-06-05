@@ -47,8 +47,6 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override bool PreAI()
 		{
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-
 			if (start)
 			{
 				start = false;

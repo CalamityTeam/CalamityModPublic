@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             Vector2 velocity = Main.player[npc.target].Center - npc.Center;
             velocity.Normalize();
-            velocity *= BossRushEvent.BossRushActive ? 14f : 9f;
+            velocity *= 9f;
             npc.rotation = velocity.ToRotation() + MathHelper.Pi;
 
             timer++;

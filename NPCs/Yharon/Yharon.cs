@@ -154,10 +154,10 @@ namespace CalamityMod.NPCs.Yharon
 			CalamityMod.StopRain();
 
 			// Variables
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 			float pie = (float)Math.PI;
 
 			Vector2 vectorCenter = npc.Center;
@@ -2530,7 +2530,7 @@ namespace CalamityMod.NPCs.Yharon
 				int npc = NPC.NewNPC((int)origin.X, (int)origin.Y, type, 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[npc].velocity = target.Center - origin;
 				Main.npc[npc].velocity.Normalize();
-				Main.npc[npc].velocity *= BossRushEvent.BossRushActive ? 15f : 10f;
+				Main.npc[npc].velocity *= 10f;
 				Main.npc[npc].netUpdate = true;
 			}
 		}

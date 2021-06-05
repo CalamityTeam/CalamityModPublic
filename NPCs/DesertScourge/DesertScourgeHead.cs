@@ -83,10 +83,10 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -101,9 +101,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			float enrageScale = 0f;
 			if (!player.ZoneDesert || malice)
 				enrageScale += 2f;
-
-			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -142,12 +139,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			if (npc.Calamity().enraged > 0)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -229,8 +220,6 @@ namespace CalamityMod.NPCs.DesertScourge
 				int num954 = (npc.Calamity().enraged > 0) ? 500 : 1000;
 				if (enrageScale > 0f)
 					num954 = 100;
-				if (BossRushEvent.BossRushActive)
-					num954 /= 2;
 
 				bool flag95 = true;
 				if (npc.position.Y > player.position.Y)

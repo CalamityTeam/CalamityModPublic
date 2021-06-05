@@ -163,10 +163,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Variables
 			Vector2 vector = npc.Center;
             bool flies = npc.ai[3] == 0f;
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
             bool phase2 = lifeRatio < 0.8f;
 			bool phase3 = lifeRatio < 0.6f;
             bool phase4 = lifeRatio < 0.3f;
@@ -1079,7 +1079,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
 
-			teleportTimer = BossRushEvent.BossRushActive ? 100 : (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 		}
 
 		private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase3)
@@ -1120,7 +1120,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			npc.TargetClosest();
 			npc.position = newPosition;
-			float chargeVelocity = BossRushEvent.BossRushActive ? 36f : malice ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
+			float chargeVelocity = malice ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
 			float maxChargeDistance = 1600f;
 			postTeleportTimer = (int)Math.Round(maxChargeDistance / chargeVelocity);
 			npc.alpha = postTeleportTimer;
