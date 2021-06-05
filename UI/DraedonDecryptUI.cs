@@ -87,10 +87,10 @@ namespace CalamityMod.UI
                 DisplayCostText(costDisplayLocation, cost);
 
                 if (codebreakerTileEntity.InputtedCellCount >= cost)
-                    DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation, cost);
+                    DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation);
             }
 
-            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 55f);
+            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 48f);
             if (codebreakerTileEntity.ReadyToSummonDreadon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 
@@ -238,9 +238,9 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontItemStack, totalCellsCost.ToString(), offsetDrawPosition.X - 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
         }
 
-        public static void DrawCostVerificationButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition, int totalCellsCost)
+        public static void DrawCostVerificationButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
-            Texture2D confirmationTexture = Main.cameraTexture[5];
+            Texture2D confirmationTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, confirmationTexture.Size() * VerificationButtonScale);
             if (MouseScreenArea.Intersects(clickArea))
             {
@@ -295,12 +295,15 @@ namespace CalamityMod.UI
                 currentTextDrawPosition.Y += 16;
             }
 
+            if (codebreakerTileEntity.DecryptionCountdown <= 0)
+                return;
+
             // Draw a small bar at the bottom to indicate how much work is left.
             Texture2D edgeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeterBorder");
             Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeter");
             Main.spriteBatch.Draw(edgeTexture, barCenter, null, Color.White, 0f, edgeTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 
-            Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion), barTexture.Width);
+            Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion * 0.9f), barTexture.Width);
             Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, edgeTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 
             // Display a completion percentage below the bar.
@@ -311,8 +314,8 @@ namespace CalamityMod.UI
         }
 
         public static void HandleDraedonSummonButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
-		{
-            Texture2D contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactButton");
+        {
+            Texture2D contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, contactButton.Size() * VerificationButtonScale);
             if (MouseScreenArea.Intersects(clickArea))
             {
@@ -330,9 +333,22 @@ namespace CalamityMod.UI
 
             Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, 0f, contactButton.Size() * 0.5f, ContactButtonScale, SpriteEffects.None, 0f);
 
+            Color[] exoPalette = new Color[]
+            {
+                new Color(250, 255, 112),
+                new Color(211, 235, 108),
+                new Color(166, 240, 105),
+                new Color(105, 240, 220),
+                new Color(64, 130, 145),
+                new Color(145, 96, 145),
+                new Color(242, 112, 73),
+                new Color(199, 62, 62),
+            };
+
             string contactText = "Contact";
+            Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTime * 0.7f) * 0.5f + 0.5f, exoPalette);
             drawPosition.X -= Main.fontMouseText.MeasureString(contactText).X * 0.5f;
-            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, contactText, drawPosition.X, drawPosition.Y + 20f, Color.Red * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, 1f);
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, contactText, drawPosition.X, drawPosition.Y + 20f, contactTextColor, Color.Black, Vector2.Zero, 1f);
         }
 
         public static void DisplayNotStrongEnoughErrorText(Vector2 drawPosition)
