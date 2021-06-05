@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Angelic Alliance");
 			Tooltip.SetDefault("Call upon the force of heaven to empower your attacks and minions\n" +
-			"Further Empowerment to Holy Forces\n" +
 			"Courage, Enlightenment, Bliss. United in Judgement\n" +
 			"+2 max minions, 15% increased summon damage, and 8% increased damage to all other classes\n" +
 			"Life regeneration is boosted while jumping\n" +
@@ -42,7 +41,7 @@ namespace CalamityMod.Items.Accessories
 			string hotkey = CalamityMod.AngelicAllianceHotKey.TooltipHotkeyString();
 			foreach (TooltipLine line2 in list)
 			{
-				if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
 				{
 					line2.text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
 				}
