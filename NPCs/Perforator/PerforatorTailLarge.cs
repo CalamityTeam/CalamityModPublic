@@ -23,14 +23,13 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 60;
             npc.height = 78;
             npc.defense = 12;
-			npc.LifeMaxNERB(2500, 2700, 800000);
+			npc.LifeMaxNERB(2500, 2700, 80000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -40,7 +39,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;

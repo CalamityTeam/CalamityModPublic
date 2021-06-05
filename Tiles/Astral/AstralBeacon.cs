@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -56,7 +57,7 @@ namespace CalamityMod.Tiles.Astral
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
                 return true;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()) || BossRushEvent.BossRushActive)
                 return true;
 
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)
@@ -73,7 +74,7 @@ namespace CalamityMod.Tiles.Astral
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"), ritualSpawnPosition);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
             Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingStarcore)

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 100;
-            item.damage = 350;
+            item.damage = 112;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<StreamGougeProj>();
             item.shootSpeed = 15f;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddRecipeGroup("NForEE", 7);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

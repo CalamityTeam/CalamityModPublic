@@ -23,16 +23,17 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.width = 44;
 			npc.height = 44;
 			npc.GetNPCDamage();
 			npc.defense = 100;
-			npc.lifeMax = 8000;
+			npc.lifeMax = 6000;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 100000;
+				npc.lifeMax = 10000;
 			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
@@ -41,10 +42,6 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.noGravity = true;
 			npc.dontTakeDamage = true;
 			npc.noTileCollide = true;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

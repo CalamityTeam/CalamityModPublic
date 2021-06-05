@@ -20,7 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 68;
             projectile.height = 68;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -91,7 +92,8 @@ namespace CalamityMod.Projectiles.Rogue
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
 
-			projectile.ai[0]++;
+			if (projectile.ai[0] > 0)
+				projectile.ai[0]--;
         }
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -100,14 +102,19 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (projectile.ai[0] % 5 == 0)
+				if (projectile.ai[0] <= 0f)
 				{
 					if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
 					{
 						if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
 						{
 							if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
-								modPlayer.rogueStealth += 0.01f;
+							{
+								modPlayer.rogueStealth += 0.05f;
+								projectile.ai[0] = 3f;
+								if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
+									modPlayer.rogueStealth = modPlayer.rogueStealthMax;
+							}
 						}
 					}
 				}
@@ -127,12 +134,16 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (projectile.ai[0] >= 5)
+				if (projectile.ai[0] <= 0f)
 				{
 					if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
 					{
 						if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
-							modPlayer.rogueStealth += 0.01f;
+						{
+							modPlayer.rogueStealth += 0.05f;
+							if (modPlayer.rogueStealth > modPlayer.rogueStealthMax)
+								modPlayer.rogueStealth = modPlayer.rogueStealthMax;
+						}
 					}
 				}
 				if (Main.rand.NextBool(8))

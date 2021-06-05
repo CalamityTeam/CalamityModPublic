@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.lifeMax = 100;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.aiStyle = 6;
             aiType = -1;
@@ -53,10 +53,10 @@ namespace CalamityMod.NPCs.DesertScourge
                     {
                         lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DriedSeekerTail>(), npc.whoAmI);
                     }
-                    Main.npc[lol].realLife = npc.whoAmI;
-                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                    Main.npc[lol].ai[1] = (float)Previous;
-                    Main.npc[Previous].ai[0] = (float)lol;
+					Main.npc[lol].ai[3] = npc.whoAmI;
+					Main.npc[lol].realLife = npc.whoAmI;
+                    Main.npc[lol].ai[1] = Previous;
+                    Main.npc[Previous].ai[0] = lol;
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                     Previous = lol;
                 }

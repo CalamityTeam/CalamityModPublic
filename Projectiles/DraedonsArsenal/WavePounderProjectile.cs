@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class WavePounderProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/WavePounder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave Pounder");
@@ -66,11 +68,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     for (int i = 0; i < 7; i++)
                     {
                         Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner);
-                        explosion.ai[1] = Main.rand.NextFloat(320f, 870f) + i * 45f; // Randomize the maximum radius.
-                        explosion.localAI[1] = Main.rand.NextFloat(0.08f, 0.25f); // And the interpolation step.
-                        explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
-                        explosion.Calamity().stealthStrike = true;
-                        explosion.netUpdate = true;
+						if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							explosion.ai[1] = Main.rand.NextFloat(320f, 870f) + i * 45f; // Randomize the maximum radius.
+							explosion.localAI[1] = Main.rand.NextFloat(0.08f, 0.25f); // And the interpolation step.
+							explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
+							explosion.Calamity().stealthStrike = true;
+							explosion.netUpdate = true;
+						}
                     }
                 }
             }

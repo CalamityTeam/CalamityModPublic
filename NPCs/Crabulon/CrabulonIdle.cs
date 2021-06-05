@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -33,25 +33,20 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 14f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 14f;
 			npc.GetNPCDamage();
 			npc.width = 280;
             npc.height = 160;
             npc.defense = 8;
-            npc.LifeMaxNERB(3000, 4000, 11000000);
+            npc.LifeMaxNERB(3000, 4000, 1100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.noGravity = false;
             npc.noTileCollide = false;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon");
-            else
-                music = MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             npc.boss = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 4, 0, 0);
@@ -74,26 +69,37 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			npc.gfxOffY = -16;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
-			
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
 			npc.spriteDirection = npc.direction;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Phases
 			bool phase2 = lifeRatio < 0.66f && expertMode;
 			bool phase3 = lifeRatio < 0.33f && expertMode;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
@@ -129,9 +135,9 @@ namespace CalamityMod.NPCs.Crabulon
 				npc.timeLeft = 1800;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!player.ZoneGlowshroom)
+			if (!player.ZoneGlowshroom || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -232,7 +238,7 @@ namespace CalamityMod.NPCs.Crabulon
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (death ? 5f : revenge ? 30f : 60f))
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.noGravity = true;
                     npc.noTileCollide = true;
                     npc.ai[0] = 2f;
@@ -251,9 +257,9 @@ namespace CalamityMod.NPCs.Crabulon
 					num823 += 2f * (1f - lifeRatio);
                 if (BossRushEvent.BossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (npc.Calamity().enraged > 0)
                     num823 = 16f;
-				num823 += 2f * enrageScale;
+				num823 += 4f * enrageScale;
 
 				bool flag51 = false;
 				if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
@@ -263,9 +269,7 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     npc.velocity.X *= 0.9f;
                     if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-                    {
                         npc.velocity.X = 0f;
-                    }
                 }
                 else
                 {
@@ -330,7 +334,7 @@ namespace CalamityMod.NPCs.Crabulon
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.ai[0] = 3f;
@@ -361,8 +365,6 @@ namespace CalamityMod.NPCs.Crabulon
 								case 0:
 									break;
 								case 1:
-									npc.ai[1] += 1f;
-									break;
 								case 2:
 									npc.ai[1] += 3f;
 									break;
@@ -374,16 +376,13 @@ namespace CalamityMod.NPCs.Crabulon
 							}
 						}
                         if (phase2)
-                        {
                             npc.ai[1] += !revenge ? 4f : 1f;
-                        }
                         if (phase3)
-                        {
                             npc.ai[1] += !revenge ? 4f : 1f;
-                        }
                     }
 
-                    if (npc.ai[1] >= 300f)
+					float jumpGateValue = 300f / (enrageScale + 1f);
+                    if (npc.ai[1] >= jumpGateValue)
                     {
                         npc.ai[1] = -20f;
                     }
@@ -436,6 +435,9 @@ namespace CalamityMod.NPCs.Crabulon
 						else
 							npc.velocity.Y = velocityY;
 
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
+
 						npc.velocity.X = velocityX * npc.direction;
 
                         npc.ai[0] = 4f;
@@ -470,7 +472,7 @@ namespace CalamityMod.NPCs.Crabulon
 						}
 					}
 
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= (phase2 ? 4f : 3f))
                     {
@@ -492,9 +494,13 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     else
                     {
-                        npc.ai[0] = 3f;
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
+
+						npc.ai[0] = 3f;
 						if (revenge)
 							npc.ai[3] += 1f;
+
                         npc.netUpdate = true;
                     }
 
@@ -541,7 +547,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             num626 += 3f;
                         }
@@ -664,9 +670,11 @@ namespace CalamityMod.NPCs.Crabulon
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
+			// Legendary drop for Crabulon
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedCrabulon);
 
@@ -678,7 +686,7 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<MycelialClaws>(w),
                     DropHelper.WeightStack<Fungicide>(w),

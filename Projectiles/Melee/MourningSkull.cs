@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
         }
 
         public override void AI()
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

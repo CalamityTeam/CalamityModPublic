@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
 							   "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
-                               "+40 max life and increased life regen\n" +
+                               "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
                                "TOOLTIP LINE HERE\n" +
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 48;
             item.height = 42;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.defense = 8;
             item.accessory = true;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
                 {
-                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
+                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance and defense";
                 }
             }
         }
@@ -52,8 +53,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 2;
-            player.statLifeMax2 += 40;
+            player.statLifeMax2 += 30;
         }
     }
 }

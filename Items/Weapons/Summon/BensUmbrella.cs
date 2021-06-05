@@ -14,15 +14,15 @@ namespace CalamityMod.Items.Weapons.Summon
 		{
 			DisplayName.SetDefault("Temporal Umbrella");
 			Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
-							   "Summons a magic hat to hover above your head\n" +
-							   "The hat will release a variety of objects to assault your foes\n" +
-							   "Requires 5 minion slots to use\n" +
-							   "There can only be one");
+				"Summons a magic hat to hover above your head\n" +
+				"The hat will release a variety of objects to assault your foes\n" +
+				"Requires 5 minion slots to use\n" +
+				"There can only be one");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 963;
+			item.damage = 193;
 			item.knockBack = 1f;
 			item.mana = 99;
 			item.useTime = item.useAnimation = 10;
@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.height = 72;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item68;
-			item.value = Item.buyPrice(5, 0, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.value = CalamityGlobalItem.Rarity16BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.HotPink;
+			item.Calamity().devItem = true;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;

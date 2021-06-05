@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 30;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
             item.shootSpeed = 7.5f;
             item.Calamity().rogue = true;
@@ -41,8 +41,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 220;
+            item.damage = 130;
             item.melee = true;
             item.useAnimation = 18;
             item.useTime = 18;
@@ -29,18 +29,19 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 62;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<OmegaBiomeOrb>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<OmegaBiomeOrb>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int projectiles = 0; projectiles <= 2; projectiles++)
+            for (int projectiles = 0; projectiles < 3; projectiles++)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OmegaBiomeOrb>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+				float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

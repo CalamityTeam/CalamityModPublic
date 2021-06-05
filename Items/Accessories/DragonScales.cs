@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
 							   "Rogue projectiles create slow fireballs as they travel\n" +
                                "Stealth strikes create infernados on death\n" +
-                               "After Yharon is dead, you gain 10% movement speed and acceleration");
+                               "+10% max run speed and acceleration");
         }
 
         public override void SetDefaults()
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 32;
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.accessory = true;
         }

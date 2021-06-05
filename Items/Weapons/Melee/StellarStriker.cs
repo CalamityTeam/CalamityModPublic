@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 84;
 			item.height = 90;
 			item.scale = 1.5f;
-			item.damage = 640;
+			item.damage = 480;
             item.melee = true;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -28,18 +28,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             if (player.whoAmI == Main.myPlayer)
                 SpawnFlares(player, knockback);
         }
@@ -97,7 +92,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
                 int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(item.damage * player.MeleeDamage() * 0.5), knockBack, i, 0f, (float)Main.rand.Next(3));
-                Main.projectile[proj].Calamity().forceMelee = true;
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
 

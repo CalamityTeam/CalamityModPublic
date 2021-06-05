@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 27;
+            item.damage = 22;
             item.ranged = true;
             item.width = 22;
             item.height = 22;
@@ -22,9 +22,8 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 2f;
             item.value = 2000;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
             item.shootSpeed = 6f;
             item.ammo = AmmoID.Bullet;
         }

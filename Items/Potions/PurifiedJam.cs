@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Potions
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.malice)
 			{
 				foreach (TooltipLine line2 in list)
 				{
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Potions
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Invincible>(), CalamityWorld.death ? 300 : 600);
+            player.AddBuff(ModContent.BuffType<Invincible>(), (CalamityWorld.death || CalamityWorld.malice) ? 300 : 600);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 1500 : 1800);
             return true;
         }

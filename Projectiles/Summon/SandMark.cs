@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SandMark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mark");
@@ -26,11 +28,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.minion = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

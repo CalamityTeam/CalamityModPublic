@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ShockGrenadeExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private const float radius = 100f;
 
         public override void SetStaticDefaults()

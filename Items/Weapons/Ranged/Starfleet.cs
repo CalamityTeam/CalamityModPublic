@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 78;
+            item.damage = 68;
             item.ranged = true;
             item.width = 76;
             item.height = 36;
@@ -25,14 +25,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 15f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item92;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item92;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlasmaBlast>();
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.FallenStar;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int index = 0; index < 5; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Fathom Swarmer Greaves");
             Tooltip.SetDefault("4% increased minion damage\n" +
 				"Grants the ability to swim\n" +
-                "Speed greatly increased while submerged in liquid");
+                "Movement speed increased by 40% while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 15;
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Armor
             player.minionDamage += 0.04f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.moveSpeed += 0.5f;
+                player.moveSpeed += 0.4f;
             }
 			player.ignoreWater = true;
             if (player.wingTime <= 0) //ignore flippers while the player can fly

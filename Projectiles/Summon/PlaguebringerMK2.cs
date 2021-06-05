@@ -76,21 +76,19 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity *= 0.9f;
                 }
                 else
-                {
-                    Vector2 velocity = projectile.DirectionTo(destination) * projectile.Distance(destination) / 36f;
-                    projectile.velocity = velocity;
-                }
+                    projectile.velocity = projectile.SafeDirectionTo(destination) * projectile.Distance(destination) / 36f;
+
                 int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(projectile.localAI[1] / 320f, 0f, 1f));
                 if (projectile.ai[0] >= timeNeeded && Main.myPlayer == projectile.owner)
                 {
                     Projectile.NewProjectile(projectile.Center,
-                        projectile.DirectionTo(potentialTarget.Center) * 14f,
+                        projectile.SafeDirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
                         (int)(projectile.damage * 0.9),
                         3f,
                         projectile.owner);
                     Projectile.NewProjectile(projectile.Center,
-                        projectile.DirectionTo(potentialTarget.Center) * 11.5f,
+                        projectile.SafeDirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
                         (int)(projectile.damage * 0.9),
                         3f,

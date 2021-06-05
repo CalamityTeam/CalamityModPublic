@@ -21,7 +21,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override bool CanRightClick() => true;
@@ -29,16 +29,16 @@ namespace CalamityMod.Items.TreasureBags
         public override void RightClick(Player player)
         {
             // Weapons
-            DropHelper.DropItem(player, ItemID.CopperBroadsword);
-            DropHelper.DropItem(player, ItemID.CopperBow);
+            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperBroadsword : ItemID.TinBroadsword);
+            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperBow : ItemID.TinBow);
             DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
-            DropHelper.DropItem(player, ItemID.AmethystStaff);
+            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.AmethystStaff : ItemID.TopazStaff);
             DropHelper.DropItem(player, ItemID.ManaCrystal);
             DropHelper.DropItem(player, ModContent.ItemType<SquirrelSquireStaff>());
             DropHelper.DropItem(player, ModContent.ItemType<ThrowingBrick>(), 150);
 
             // Tools / Utility
-            DropHelper.DropItem(player, ItemID.CopperHammer);
+            DropHelper.DropItem(player, WorldGen.CopperTierOre == TileID.Copper ? ItemID.CopperHammer : ItemID.TinHammer);
             DropHelper.DropItem(player, ItemID.Bomb, 10);
             DropHelper.DropItem(player, ItemID.MiningPotion);
             DropHelper.DropItem(player, ItemID.SpelunkerPotion, 2);
@@ -51,8 +51,11 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Torch, 25);
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
-            // Difficulty items (doesn't drop in Normal)
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
+			// Malice item
+			DropHelper.DropItem(player, ModContent.ItemType<Malice>());
+
+			// Difficulty items (doesn't drop in Normal)
+			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
             DropHelper.DropItemCondition(player, ModContent.ItemType<DefiledRune>(), Main.expertMode);
 
             // Speedrun King Slime
@@ -62,7 +65,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
             // Music box (if music mod installed)
-            Mod musicMod = ModLoader.GetMod("CalamityModMusic");
+            Mod musicMod = CalamityMod.Instance.musicMod;
             if (musicMod != null)
                 DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
         }

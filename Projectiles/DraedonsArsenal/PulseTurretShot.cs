@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulseTurretShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public const int SpiralPrecision = 36;
         public const int SpiralRings = 6;
         public override void SetStaticDefaults()
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     float speed = projectile.velocity.Length();
                     float inertia = MathHelper.Lerp(18f, 6f, 1f - projectile.timeLeft / 300f);
-                    projectile.velocity = (projectile.velocity * inertia + projectile.DirectionTo(potentialTarget.Center) * speed) / (inertia + 1f);
+                    projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(potentialTarget.Center) * speed) / (inertia + 1f);
                     projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX) * speed;
                 }
             }
@@ -69,7 +71,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             Dust dust = Dust.NewDustPerfect(projectile.Center +
                                 Vector2.UnitY.RotatedBy(j / (float)SpiralRings * MathHelper.TwoPi * direction).RotatedBy(i / (float)SpiralPrecision * MathHelper.TwoPi / SpiralRings * direction) *
                                 36f * i / SpiralPrecision, 173);
-                            dust.velocity = projectile.DirectionTo(dust.position) * 2.4f;
+                            dust.velocity = projectile.SafeDirectionTo(dust.position) * 2.4f;
                             dust.scale = 1.6f;
                             dust.noGravity = true;
 

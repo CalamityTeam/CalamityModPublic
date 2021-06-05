@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class KylieBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Kylie";
+
         //This variable will be used for the stealth strike
         public float ReboundTime = 0f;
         public float timer = 0f;

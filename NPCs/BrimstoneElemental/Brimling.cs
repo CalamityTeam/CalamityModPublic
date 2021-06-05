@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     {
         private bool boostDR = false;
         public static float normalDR = 0.15f;
-        public static float boostedDR = 0.8f;
+        public static float boostedDR = 0.6f;
 
         public override void SetStaticDefaults()
         {
@@ -36,34 +36,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			npc.DR_NERD(normalDR);
             npc.lifeMax = 2000;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -71,11 +43,11 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.DeathSound = SoundID.NPCDeath39;
             if (CalamityWorld.downedProvidence)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 26000;
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
         }
 
@@ -100,7 +72,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.netUpdate = true;
                 return;
             }
-            bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
+
+            bool goIntoShell = npc.life <= npc.lifeMax * 0.25;
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
@@ -114,7 +87,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             // Set DR based on boost status
-            npc.Calamity().DR = boostDR ? boostedDR : CalamityWorld.revenge ? normalDR : 0f;
+            npc.Calamity().DR = boostDR ? boostedDR : normalDR;
 
             float num1446 = goIntoShell ? 1f : (BossRushEvent.BossRushActive ? 12f : 6f);
             int num1447 = 480;

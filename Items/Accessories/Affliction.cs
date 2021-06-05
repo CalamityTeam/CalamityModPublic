@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Affliction");
             Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
-                               "+10% max life, 7% damage reduction, 20 defense, and 10% increased damage");
+                               "+10% max life, 7% damage reduction, 10 defense, and 10% increased damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

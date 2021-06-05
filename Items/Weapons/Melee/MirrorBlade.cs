@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MirrorBlade : ModItem
     {
-        private int baseDamage = 295;
+        private int baseDamage = 180;
 
         public override void SetStaticDefaults()
         {
@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 62;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 9f;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<MirrorBlast>();
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

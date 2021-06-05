@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.expert = true;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 
@@ -33,9 +34,13 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI, 6, 1);
-						rain.tileCollide = false;
-						rain.penetrate = 1;
+						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI);
+						if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							rain.Calamity().forceTypeless = true;
+							rain.tileCollide = false;
+							rain.penetrate = 1;
+						}
                     }
                 }
             }

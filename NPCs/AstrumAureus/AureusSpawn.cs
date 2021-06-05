@@ -22,7 +22,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             aiType = -1;
 			npc.GetNPCDamage();
 			npc.width = 90;
@@ -30,15 +31,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.alpha = 255;
             npc.defense = 10;
             npc.lifeMax = 3000;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -79,7 +72,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 }
             }
 
-            npc.TargetClosest(true);
+            npc.TargetClosest();
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

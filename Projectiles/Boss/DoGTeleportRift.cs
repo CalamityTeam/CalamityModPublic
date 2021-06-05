@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DoGTeleportRift : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rift");
@@ -55,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			float lerpMult = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
+			float lerpMult = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
 
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);

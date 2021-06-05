@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheDesertProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheDesert";
+
         private int StealthDamageCap = 0;
         private int BaseDamage = 0;
 
@@ -76,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

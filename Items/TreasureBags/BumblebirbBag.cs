@@ -10,6 +10,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick() => true;
@@ -49,8 +50,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GoldenEagle>(w),
                 DropHelper.WeightStack<RougeSlash>(w)
             );
-
-            DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());

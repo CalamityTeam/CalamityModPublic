@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class IceBombFriendly : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/IceBomb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bomb");
@@ -48,9 +50,11 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[projectile1].Calamity().forceMelee = true;
+					if (projectile1.WithinBounds(Main.maxProjectiles))
+						Main.projectile[projectile1].Calamity().forceMelee = true;
                     int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[projectile2].Calamity().forceMelee = true;
+					if (projectile2.WithinBounds(Main.maxProjectiles))
+						Main.projectile[projectile2].Calamity().forceMelee = true;
                 }
             }
             for (int k = 0; k < 3; k++)

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -52,40 +52,37 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 500f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item54, projectile.position);
-            Vector2 arg_6751_0 = projectile.Center;
-            int num3;
-            for (int num191 = 0; num191 < 10; num191 = num3 + 1)
+            for (int i = 0; i < 10; i++)
             {
                 int num192 = (int)(10f * projectile.scale);
-                int num193 = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 107, 0f, 0f, 0, default, 1f);
-                Dust dust20 = Main.dust[num193];
-                Vector2 value8 = Vector2.Normalize(dust20.position - projectile.Center);
-                dust20.position = projectile.Center + value8 * (float)num192 * projectile.scale;
-                if (num191 < 30)
+                int d = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 242, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[d];
+                Vector2 offset = Vector2.Normalize(dust.position - projectile.Center);
+                dust.position = projectile.Center + offset * (float)num192 * projectile.scale;
+                if (i < 30)
                 {
-                    dust20.velocity = value8 * dust20.velocity.Length();
+                    dust.velocity = offset * dust.velocity.Length();
                 }
                 else
                 {
-                    dust20.velocity = value8 * (float)Main.rand.Next(45, 91) / 10f;
+                    dust.velocity = offset * Main.rand.NextFloat(4.5f, 9f);
                 }
-                dust20.color = Main.hslToRgb((float)(0.40000000596046448 + Main.rand.NextDouble() * 0.20000000298023224), 0.9f, 0.5f);
-                dust20.color = Color.Lerp(dust20.color, Color.White, 0.3f);
-                dust20.noGravity = true;
-                dust20.scale = 0.7f;
-                num3 = num191;
+                dust.color = Main.hslToRgb(0.95f, 0.41f + Main.rand.NextFloat() * 0.2f, 0.93f);
+                dust.color = Color.Lerp(dust.color, Color.White, 0.3f);
+                dust.noGravity = true;
+                dust.scale = 0.7f;
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(0, 255 - projectile.alpha, 0, 0);
+            return new Color(200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha);
         }
     }
 }

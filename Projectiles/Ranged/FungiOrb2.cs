@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FungiOrb2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");
@@ -20,10 +22,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+			projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
@@ -33,6 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             projectile.velocity.Y += 0.1f;
             projectile.velocity.X *= 0.95f;
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
@@ -41,7 +46,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity = dspeed;
             }
-        }
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
+		}
 
         public override void Kill(int timeLeft)
         {

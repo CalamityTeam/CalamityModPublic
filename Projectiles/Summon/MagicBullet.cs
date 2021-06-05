@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class MagicBullet : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Ranged/BloodClotFriendly";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bullet");

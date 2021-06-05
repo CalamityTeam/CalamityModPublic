@@ -14,20 +14,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Earth");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 50 when striking them\n" +
-                       "Your attacks will heal you a lot\n" +
-                       "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
-                       "Ice meteors freeze enemies\n" +
-                       "Flame meteors explode\n" +
-                       "Green meteors spawn healing orbs");
+            Tooltip.SetDefault("Has a 50% chance to lower enemy defense by 50 when striking them\n" +
+                "Your attacks will heal you a lot\n" +
+                "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
+                "Ice meteors freeze enemies\n" +
+                "Flame meteors explode\n" +
+                "Green meteors spawn healing orbs");
         }
 
         public override void SetDefaults()
         {
             item.width = 92;
-			item.height = 104;
-			item.scale = 1.5f;
-			item.damage = 840;
+            item.height = 104;
+            item.scale = 1.5f;
+            item.damage = 170;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -36,9 +36,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 9.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -87,14 +88,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
-            if (Main.rand.NextBool(2))
-            {
-                target.defense -= 50;
-            }
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+
+			if (Main.rand.NextBool(2) && target.defense > 0)
+			{
+				target.defense -= 50;
+				if (target.defense < 0)
+					target.defense = 0;
+			}
+
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
+
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
             player.HealEffect(heal);
@@ -146,8 +150,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
-			if (player.moonLeech)
-				return;
+
+            if (player.moonLeech)
+                return;
+
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
             player.HealEffect(heal);

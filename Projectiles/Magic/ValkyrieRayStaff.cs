@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ValkyrieRayStaff : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/ValkyrieRay";
+
         private const float AimResponsiveness = 0.66f;
 
         public override void SetStaticDefaults()

@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -166,11 +167,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 AIState == HovercraftAIState.Hover)
             {
                 Vector2 destination = player.Center + new Vector2(SearchXOffset * SearchDirection, -160f);
-                npc.velocity = npc.DirectionTo(destination) * (Supercharged ? 8.5f : 6f);
+                npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 8.5f : 6f);
                 if (AIState == HovercraftAIState.Hover)
                 {
                     destination = player.Center + new Vector2(SearchXOffset * -SearchDirection, -160f);
-                    npc.velocity = npc.DirectionTo(destination) * (Supercharged ? 7f : 5f);
+                    npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 7f : 5f);
                 }
 
                 npc.rotation = npc.velocity.X / 16f;
@@ -271,6 +272,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

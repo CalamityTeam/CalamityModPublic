@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.height = 26;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<BrimbladeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -41,14 +41,16 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int blade = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[blade].Calamity().stealthStrike = true;
+				int blade = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (blade.WithinBounds(Main.maxProjectiles))
+					Main.projectile[blade].Calamity().stealthStrike = true;
 
 				for (int i = -6; i <= 6; i += 4)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int dart = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage, knockBack * 0.5f, player.whoAmI, 0f, 0f);
-					Main.projectile[dart].Calamity().forceRogue = true;
+					int dart = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage, knockBack * 0.5f, player.whoAmI);
+					if (dart.WithinBounds(Main.maxProjectiles))
+						Main.projectile[dart].Calamity().forceRogue = true;
 				}
 				return false;
 			}

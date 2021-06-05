@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class TarraThornTip : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/NettleTip";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn");

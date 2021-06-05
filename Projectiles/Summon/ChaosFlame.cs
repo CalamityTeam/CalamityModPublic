@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ChaosFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaos Flame");
@@ -64,7 +66,7 @@ namespace CalamityMod.Projectiles.Summon
 			if (projectile.timeLeft == 300)
 				return false;
 
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

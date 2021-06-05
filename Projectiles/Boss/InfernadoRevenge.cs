@@ -1,16 +1,17 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class InfernadoRevenge : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/Flarenado";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
@@ -53,10 +54,6 @@ namespace CalamityMod.Projectiles.Boss
             float baseWidth = 320f;
             float baseHeight = 88f;
 
-            if (projectile.velocity.X != 0f)
-            {
-                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
-            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 2)
             {
@@ -112,17 +109,6 @@ namespace CalamityMod.Projectiles.Boss
                 center.Y += 2f;
                 Projectile.NewProjectile(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
             }
-            if (projectile.ai[0] <= 0f)
-            {
-                float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 5f;
-                num623 *= 2f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X -= num624 * -projectile.direction;
-                projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X += num624 * -projectile.direction;
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -141,8 +127,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.KillMe(PlayerDeathReason.ByOther(11), 1000.0, 0, false);
-        }
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
+		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {

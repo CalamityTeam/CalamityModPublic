@@ -105,14 +105,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner);
-                    Main.projectile[proj].Calamity().forceMelee = true;
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

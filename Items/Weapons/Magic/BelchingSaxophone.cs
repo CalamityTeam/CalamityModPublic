@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AcidicReed>();
 			//If a saxophone actually fired reeds, I'd be concerned.
@@ -65,9 +65,12 @@ namespace CalamityMod.Items.Weapons.Magic
 					ProjectileID.TiedEighthNote
 				});
                 int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, (int)(damage * 0.75), knockBack, player.whoAmI);
-				Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
-				Main.projectile[note].usesLocalNPCImmunity = true;
-				Main.projectile[note].localNPCHitCooldown = 10;
+				if (note.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
+					Main.projectile[note].usesLocalNPCImmunity = true;
+					Main.projectile[note].localNPCHitCooldown = 10;
+				}
             }
             return false;
         }

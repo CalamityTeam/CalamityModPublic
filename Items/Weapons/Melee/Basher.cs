@@ -18,7 +18,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 40;
             item.height = 42;
-            item.damage = 17;
+            item.damage = 30;
+			item.scale = 1.5f;
             item.melee = true;
             item.useAnimation = item.useTime = 26;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useTurn = true;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void AddRecipes()
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
     }
 }

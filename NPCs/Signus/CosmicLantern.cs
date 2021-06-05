@@ -34,10 +34,6 @@ namespace CalamityMod.NPCs.Signus
             npc.chaseable = false;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
         }
@@ -82,7 +78,7 @@ namespace CalamityMod.NPCs.Signus
 
 			bool revenge = CalamityWorld.revenge;
 			float playerDistNormMult = revenge ? 24f : 22f;
-			if (BossRushEvent.BossRushActive)
+			if (BossRushEvent.BossRushActive || CalamityWorld.malice)
 				playerDistNormMult = 30f;
             CalamityAI.DungeonSpiritAI(npc, mod, playerDistNormMult, 0f, true);
         }
@@ -144,7 +140,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return npc.alpha == 0;
         }
 

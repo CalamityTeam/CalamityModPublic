@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Grape Beer");
             Tooltip.SetDefault(@"This crap is abhorrent but you might like it
-Reduces defense by 2 and movement speed by 5%");
+Reduces defense by 3% and movement speed by 5%");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ Reduces defense by 2 and movement speed by 5%");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -32,7 +32,7 @@ Reduces defense by 2 and movement speed by 5%");
             item.healMana = 100;
             item.consumable = true;
             item.potion = true;
-            item.value = Item.buyPrice(0, 0, 65, 0);
+            item.value = Item.buyPrice(0, 0, 20, 0);
         }
 
         public override void OnConsumeItem(Player player)

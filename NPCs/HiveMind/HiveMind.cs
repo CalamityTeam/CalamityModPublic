@@ -26,23 +26,17 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
-            npc.LifeMaxNERB(1200, 1800, 350000);
+            npc.LifeMaxNERB(1200, 1800, 35000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.boss = true;
             npc.value = 0f;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -65,8 +59,15 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
 			{
 				npc.TargetClosest(false);
@@ -108,15 +109,16 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noGravity = false;
             npc.noTileCollide = false;
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!player.ZoneCorrupt)
+			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -166,14 +168,14 @@ namespace CalamityMod.NPCs.HiveMind
                     if ((npc.life + num660) < npc.ai[3])
                     {
                         npc.ai[3] = npc.life;
-						int maxSpawns = death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
-						int maxDankSpawns = death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
+						int maxSpawns = malice ? 10 : death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+						int maxDankSpawns = malice ? 4 : death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
 						for (int num662 = 0; num662 < maxSpawns; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int type = ModContent.NPCType<HiveBlob>();
-                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0)
                             {
                                 type = ModContent.NPCType<DankCreeper>();
                             }
@@ -267,6 +269,7 @@ namespace CalamityMod.NPCs.HiveMind
                 }
                 else
                 {
+					npc.TargetClosest();
                     npc.dontTakeDamage = true;
                     npc.damage = 0;
                 }

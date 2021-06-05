@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TyphoonBubble : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrinyTyphoonBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bubble");

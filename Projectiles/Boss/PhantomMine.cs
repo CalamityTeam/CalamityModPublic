@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.penetrate = -1;
@@ -23,7 +24,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.timeLeft = 480;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -69,8 +71,11 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
-			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+			if (projectile.velocity.Length() >= projectile.ai[0])
+			{
+				target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+				target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+			}
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 34;
             npc.height = 34;
             npc.defense = 45;
-			npc.DR_NERD(0.45f);
+			npc.DR_NERD(0.35f);
 			npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
 			npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.netAlways = true;
             npc.dontCountMe = true;
             banner = ModContent.NPCType<ArmoredDiggerHead>();

@@ -28,29 +28,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool HasSmartInteract() => true;
 
-        public string MapChestName(string name, int i, int j)
-        {
-            // Bounds check
-            if (i < 0 || i >= Main.maxTilesX || j < 0 || j >= Main.maxTilesY)
-                return name;
-
-            // Tile null check
-            Tile tile = Main.tile[i, j];
-            if (tile is null)
-                return name;
-
-            int left = i;
-            int top = j;
-            if (tile.frameX % 36 != 0)
-                left--;
-            if (tile.frameY != 0)
-                top--;
-
-            int chest = Chest.FindChest(left, top);
-            if (chest == -1)
-                return name;
-            return name + (Main.chest[chest].name != "" ? ": " + Main.chest[chest].name : "");
-        }
+        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

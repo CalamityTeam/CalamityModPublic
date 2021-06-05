@@ -40,36 +40,8 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = CalamityWorld.death ? 1500 : 2500;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 15000;
             }
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
@@ -87,7 +59,7 @@ namespace CalamityMod.NPCs.Calamitas
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
@@ -107,7 +79,7 @@ namespace CalamityMod.NPCs.Calamitas
                 start = false;
             }
 
-            npc.TargetClosest(true);
+            npc.TargetClosest();
 
             Vector2 velocity = Main.player[npc.target].Center - npc.Center;
             velocity.Normalize();
@@ -117,7 +89,7 @@ namespace CalamityMod.NPCs.Calamitas
             timer++;
             if (timer > 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f && parent.Calamity().newAI[2] <= 0f)
                 {
 					int npcType = ModContent.NPCType<LifeSeeker>();
                     if (NPC.CountNPCS(npcType) < 3)

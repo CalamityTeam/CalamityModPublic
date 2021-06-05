@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class SystemBaneProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/SystemBane";
+
         public SoundEffectInstance ShittyMicrowaveMemeSound = null;
         public float Time
         {
@@ -28,7 +30,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = 36;
             projectile.height = 36;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 16;
             projectile.tileCollide = true;
@@ -59,7 +62,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(900f);
                 if (potentialTarget != null)
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
 
             // Sometimes generate lightning from the outside of the energy field if the projectile was spawned by a stealth strike.
@@ -101,7 +104,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             int totalCirclePoints = 55;
             float generalOpacity = Utils.InverseLerp(0f, 30f, projectile.timeLeft, true) * Utils.InverseLerp(480f, 450f, projectile.timeLeft, true);
-            Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/SystemBaneLightning");
+            Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/Projectiles/LightningProj");
             for (int i = 0; i < totalCirclePoints; i++)
             {
                 float angle = MathHelper.TwoPi * i / totalCirclePoints;

@@ -38,7 +38,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Melee Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
+            player.setBonus = "Melee Tarragon, Bloodflare and God Slayer effects\n" +
+                "Enemies are more likely to target you\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Your melee damage is multiplied based on how high your HP is; at full HP this effect is at max";
@@ -49,8 +50,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareMelee = true;
             modPlayer.godSlayer = true;
             modPlayer.godSlayerDamage = true;
-            modPlayer.silvaSet = true;
-            modPlayer.silvaMelee = true;
             modPlayer.auricSet = true;
             player.thorns += 3f;
             player.lavaMax += 240;
@@ -75,7 +74,6 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaHelm>());
             recipe.AddIngredient(ModContent.ItemType<GodSlayerHelm>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareMask>());
             recipe.AddIngredient(ModContent.ItemType<TarragonHelm>());

@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 minimumFrame = 7;
                 maximumFrame = 11;
                 float inertia = 30f;
-                projectile.velocity = (projectile.velocity * (inertia - 1) + projectile.DirectionTo(player.Center) * 18f) / inertia;
+                projectile.velocity = (projectile.velocity * (inertia - 1) + projectile.SafeDirectionTo(player.Center) * 18f) / inertia;
             }
             // Otherwise hop around when on the ground.
             else if (projectile.oldPosition.Y == projectile.position.Y)
@@ -245,19 +245,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Main.myPlayer == projectile.owner)
                 {
                     Vector2 spawnPosition = projectile.Center + Vector2.UnitX * 8f * projectile.spriteDirection;
-
-                    float shootSpeed = 14f;
-                    float gravity = -StarSwallowerAcid.Gravity;
-                    float distance = Vector2.Distance(spawnPosition, potentialTarget.Center);
-                    float angle = 0.5f * (float)Math.Asin(MathHelper.Clamp(gravity * distance / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
-
-                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.015f);
-                    velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
-
                     projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X > 0).ToDirectionInt();
+                    Vector2 fireVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, potentialTarget.Center, StarSwallowerAcid.Gravity, 14f);
 
                     Projectile.NewProjectile(spawnPosition,
-                                             velocity,
+                                             fireVelocity,
                                              ModContent.ProjectileType<StarSwallowerAcid>(),
                                              projectile.damage,
                                              projectile.knockBack,

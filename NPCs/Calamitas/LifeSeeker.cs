@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = 200;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.aiStyle = 5;
             aiType = NPCID.Probe;
@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.Calamitas
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.buffImmune[BuffID.OnFire] = true;
         }
 
 		public override bool PreAI()

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeRound : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 17f) / 21f;
+                projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 17f) / 21f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -60,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

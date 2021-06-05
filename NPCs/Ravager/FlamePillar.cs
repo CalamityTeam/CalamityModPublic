@@ -27,10 +27,6 @@ namespace CalamityMod.NPCs.Ravager
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontTakeDamage = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -47,7 +43,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
@@ -74,7 +70,7 @@ namespace CalamityMod.NPCs.Ravager
 			else
 			{
 				if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
-					npc.damage = npc.defDamage * 2;
+					npc.damage = (int)(npc.defDamage * 1.5);
 				else
 					npc.damage = npc.defDamage;
 			}

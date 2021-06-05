@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Crags
             npc.damage = 50;
             npc.width = 18;
             npc.height = 40;
-            npc.defense = 25;
+            npc.defense = 16;
             npc.lifeMax = 80;
             npc.knockBackResist = 0.5f;
             animationType = NPCID.ZombieXmas;
@@ -33,12 +33,11 @@ namespace CalamityMod.NPCs.Crags
             if (CalamityWorld.downedProvidence)
             {
                 npc.damage = 100;
-                npc.defense = 40;
+                npc.defense = 30;
                 npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CultistAssassinBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -57,6 +56,9 @@ namespace CalamityMod.NPCs.Crags
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), npc.scale);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), npc.scale);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), npc.scale);
                 }
             }
         }

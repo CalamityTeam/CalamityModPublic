@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 22;
             item.ranged = true;
             item.width = 22;
             item.height = 46;
@@ -42,9 +42,8 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddRecipeGroup("NForEE");
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 333);
+            recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }
     }

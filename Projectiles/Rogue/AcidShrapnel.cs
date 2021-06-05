@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AcidShrapnel : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/BarrelShrapnel";
+
         public bool HitTile = false;
         public override void SetStaticDefaults()
         {
@@ -25,7 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 160;
             projectile.tileCollide = true;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
         public override void AI()
         {
             projectile.ai[0] += 1f;

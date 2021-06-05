@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
-				"You deal no damage unless stationary\n" +
+				"You deal 90% less damage unless stationary\n" +
                 "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice; 
-            item.rare = 7;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
             item.defense = 10;
         }
@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Accessories
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
             player.AddBuff(BuffID.WellFed, 60, true);
-            player.lifeRegen += 2;
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
@@ -93,16 +92,16 @@ namespace CalamityMod.Items.Accessories
                         bool magic = player.ActiveItem().magic;
                         if (summon)
                         {
-                            player.minionKB += 0.10f;
+                            player.minionKB += 0.1f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingVelocity += 0.10f;
+                            modPlayer.throwingVelocity += 0.1f;
                         }
                         else if (melee)
                         {
-                            player.meleeSpeed += 0.10f;
+                            player.meleeSpeed += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)

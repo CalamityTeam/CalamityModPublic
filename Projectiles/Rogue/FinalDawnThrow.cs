@@ -24,23 +24,24 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 80;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.light = 0.0f;
             projectile.extraUpdates = 2;
 			projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 				projectile.Kill();
 
             if (projectile.localAI[0] == 0)
             {
-                Main.PlaySound(SoundID.Item71, (int)projectile.position.X, (int)projectile.position.Y);
+                Main.PlaySound(SoundID.Item71, projectile.Center);
                 projectile.localAI[0] = 1;
             }
 
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0]++;
 			if (projectile.ai[0] >= 30)
 			{
-				Vector2 desiredVelocity = projectile.DirectionTo(player.Center) * DesiredSpeed;
+				Vector2 desiredVelocity = projectile.SafeDirectionTo(player.Center) * DesiredSpeed;
 				projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
 				
 				float distance = projectile.Distance(player.Center);
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.Kill();
 			}
 
-			int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
+			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
             Main.dust[idx].velocity *= 0.5f;
             Main.dust[idx].velocity += projectile.velocity * 0.5f;
             Main.dust[idx].noGravity = true;

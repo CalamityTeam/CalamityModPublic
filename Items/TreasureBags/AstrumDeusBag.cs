@@ -31,7 +31,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick() => true;
@@ -56,10 +56,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<RegulusRiot>(w)
             );
 
-            DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
-
             // Equipment
-            DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
+            DropHelper.DropItem(player, ModContent.ItemType<AstralBulwark>());
             DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity

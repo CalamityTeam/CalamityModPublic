@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1450;
+            item.damage = 435;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 9.5f;
             item.UseSound = SoundID.Item11;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
             item.shootSpeed = 15f;

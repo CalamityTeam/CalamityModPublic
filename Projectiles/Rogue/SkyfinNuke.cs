@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class SkyfinNuke : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyfinBombers";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin Nuke");
@@ -21,7 +23,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 720;
-            projectile.tileCollide = true;
             projectile.alpha = 0;
             projectile.Calamity().rogue = true;
 			projectile.extraUpdates = 1;
@@ -32,9 +33,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-			const float turnSpeed = 10f;
-			const float speedMult = 20f;
-			const float homingRange = 800f;
+			const float turnSpeed = 20f;
+			float speedMult = projectile.Calamity().stealthStrike ? 9f : 12f;
+			const float homingRange = 300f;
 			if (!projectile.Calamity().stealthStrike) //normal attack
 			{
 				projectile.ai[0]++;
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				//More range
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, homingRange, speedMult, turnSpeed);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, homingRange, speedMult, turnSpeed);
 			}
         }
 

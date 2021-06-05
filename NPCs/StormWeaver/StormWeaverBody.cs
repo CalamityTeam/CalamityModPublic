@@ -25,19 +25,15 @@ namespace CalamityMod.NPCs.StormWeaver
             global.DR = 0.999999f;
             global.unbreakableDR = true;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 100000 : 20000, notDoGFight ? 100000 : 20000, 170000);
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
+
+            // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
-            {
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
-                else
-                    music = MusicID.Boss3;
-            }
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -53,13 +49,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.chaseable = false;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -80,9 +72,9 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.defense = 0;
 
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -202,7 +194,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					projectile.penetrate = 1;
 				}
 			}
-
         }
 
         public override void HitEffect(int hitDirection, double damage)

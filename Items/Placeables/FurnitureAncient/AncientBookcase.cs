@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.useAnimation = 15;
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = 0;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientBookcase>();

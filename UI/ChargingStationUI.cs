@@ -66,7 +66,8 @@ namespace CalamityMod.UI
             ref Item pluggedItem = ref charger.PluggedItem;
             Item powercell = new Item();
             powercell.TurnToAir();
-            if (charger.CellStack > 0)
+
+            if (charger.CellStack > 0 || powercell.maxStack == 0)
             {
                 powercell.SetDefaults(powercellID);
                 powercell.stack = charger.CellStack;
@@ -167,9 +168,9 @@ namespace CalamityMod.UI
                         bool holdingPowercell = playerHandItem.type == powercellID;
 
                         // If the player's held power cells can be stacked on top of what's already in the charger, then stack them.
-                        if (holdingPowercell && powercell.stack < 999)
+                        if (holdingPowercell && powercell.stack < powercell.maxStack)
                         {
-                            int spaceLeft = 999 - powercell.stack;
+                            int spaceLeft = powercell.maxStack - powercell.stack;
 
                             // If the player has more cells than there is space left, insert as many as possible. Otherwise insert all the cells.
                             int cellsToInsert = Math.Min(playerHandItem.stack, spaceLeft);

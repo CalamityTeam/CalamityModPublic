@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            this.SetUpSink();
+            this.SetUpSink(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Sink");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class Shadowflamethrower : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Breath");
@@ -21,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 60;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {

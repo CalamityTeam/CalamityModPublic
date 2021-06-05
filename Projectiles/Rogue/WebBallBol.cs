@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class WebBallBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/WebBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Web Ball");
@@ -34,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike == true)
 			{
-				target.AddBuff(BuffID.Webbed, 180);
+				target.AddBuff(BuffID.Webbed, 120);
 			}
 			else
 			{
@@ -46,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike == true)
 			{
-				target.AddBuff(BuffID.Webbed, 180);
+				target.AddBuff(BuffID.Webbed, 120);
 			}
 			else
 			{

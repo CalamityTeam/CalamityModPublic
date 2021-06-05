@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 26;
+            item.width = 40;
+            item.height = 54;
             item.melee = true;
-            item.damage = 200;
+            item.damage = 50;
             item.knockBack = 6f;
             item.useTime = 20;
             item.useAnimation = 20;
@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<AzathothYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.value = Item.buyPrice(platinum: 5);
         }
 

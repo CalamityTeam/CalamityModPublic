@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHex : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public int TargetNPCIndex
         {
             get => (int)projectile.ai[0];

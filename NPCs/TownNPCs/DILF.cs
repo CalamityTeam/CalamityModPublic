@@ -144,7 +144,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
+			shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
@@ -183,8 +186,8 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
-            shop.item[nextSlot].shopCustomPrice = 1000000; //I think this is 5 platinum
-            nextSlot++;
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+			nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
             nextSlot++;

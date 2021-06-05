@@ -27,7 +27,7 @@ namespace CalamityMod.Items.PermanentBoosters
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.Calamity().customRarity = CalamityRarity.PureGreen;
 		}
 

@@ -21,8 +21,10 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.WispinaBottle);
             item.shoot = ModContent.ProjectileType<Sparks>();
             item.buffType = ModContent.BuffType<SparksBuff>();
+
             item.value = Item.sellPrice(gold: 1);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)

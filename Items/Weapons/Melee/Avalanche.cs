@@ -22,15 +22,15 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.scale = 1.5f;
 			item.damage = 60;
             item.melee = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
+            item.useAnimation = 20;
+            item.useTime = 20;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

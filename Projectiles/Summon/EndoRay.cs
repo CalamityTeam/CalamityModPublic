@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");

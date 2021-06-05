@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PhantomGuy : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Polterghast/PhantomFuckYou";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom");
@@ -30,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -182,11 +185,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (flag25)
             {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + MathHelper.Pi, 0.1f);
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46), 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+                projectile.rotation = projectile.velocity.ToRotation();
             }
             if (projectile.ai[1] > 0f)
             {

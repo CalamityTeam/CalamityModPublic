@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ToxicantTwisterTwoPointZero : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ToxicantTwister";
+
 		private int lifeTime = 300;
 		private int targetIndex = -1;
 
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 46;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.timeLeft = lifeTime;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -35,20 +38,16 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 20 == 0)
+                if (projectile.timeLeft % 20 == 0 && Main.myPlayer == projectile.owner)
                 {
                     for (int i = 0; i < 2; i++)
-                    {
-                        Projectile.NewProjectile(projectile.Center,
-                            (-1f * projectile.velocity).RotatedByRandom(0.1f) * 0.6f,
-                            ModContent.ProjectileType<ToxicantTwisterDust>(), projectile.damage, 0f, projectile.owner);
-                    }
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(projectile.damage * 0.35), 0f, projectile.owner);
                 }
                 projectile.rotation += 0.06f * (projectile.velocity.X > 0).ToDirectionInt();
             }
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * (float)projectile.direction;
+            projectile.rotation += 0.4f * projectile.direction;
 
             // Boomerang sound
             if (projectile.soundDelay == 0)
@@ -115,11 +114,9 @@ namespace CalamityMod.Projectiles.Rogue
 					targetIndex = closestTarget.whoAmI;
 					float inertia = 20f;
 					float homingVelocity = projectile.Calamity().stealthStrike ? 30f : 20f;
-					Vector2 homeInVector = projectile.DirectionTo(closestTarget.Center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(closestTarget.Center, Vector2.UnitY);
 
-					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingVelocity) / (inertia + 1f);
+                    projectile.velocity = (projectile.velocity * inertia + moveDirection * homingVelocity) / (inertia + 1f);
 				}
 			}
 			else
@@ -144,11 +141,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, 
-                    projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid,
-                    projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -157,11 +150,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity,
-                    projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid,
-                    projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
         }
     }
 }

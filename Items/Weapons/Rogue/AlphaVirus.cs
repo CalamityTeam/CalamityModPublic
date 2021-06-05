@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
+            item.damage = 333;
             item.width = 44;
-            item.damage = 400;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 31;
@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 44;
             item.maxStack = 1;
-            item.value = Item.buyPrice(0, 16, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
             item.shootSpeed = 4f;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.Calamity().rogue = true;
         }
 
@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, item.shootSpeed, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

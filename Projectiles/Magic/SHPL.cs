@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SHPL : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser");

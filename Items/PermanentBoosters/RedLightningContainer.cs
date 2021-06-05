@@ -2,7 +2,6 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.PermanentBoosters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Red Lightning Container");
-			Tooltip.SetDefault("Permanently makes Rage Mode do 15% more damage\n" +
+			Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 2 seconds\n" +
 				"Revengeance drop");
 		}
 
@@ -28,8 +27,7 @@ namespace CalamityMod.Items.PermanentBoosters
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Purple;
 		}
 
 		public override bool CanUseItem(Player player) => !player.Calamity().rageBoostThree;

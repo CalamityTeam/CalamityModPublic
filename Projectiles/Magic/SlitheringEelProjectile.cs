@@ -62,9 +62,10 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<EelDrop>(), projectile.damage / 2, 2f, projectile.owner);
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, new Color(255, 255, 255, 127), ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], new Color(255, 255, 255, 127), 1);
             return false;
         }
 

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
 	public class SparklingEmpress : ModItem
 	{
-        public static int BaseDamage = 21;
+        public static int BaseDamage = 10;
 
 		public override void SetStaticDefaults()
 		{
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 			item.noMelee = true;
 			item.magic = true;
 			item.channel = true; //Channel so that you can hold the weapon [Important]
-			item.rare = 2;
-			item.mana = 8;
+			item.rare = ItemRarityID.Green;
+			item.mana = 5;
 			item.width = 42;
 			item.height = 34;
 			item.useTime = 20;

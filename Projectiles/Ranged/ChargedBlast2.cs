@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ChargedBlast2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
@@ -70,7 +72,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

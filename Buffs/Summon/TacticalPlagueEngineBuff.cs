@@ -13,12 +13,13 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("A giant plague jet is following you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<TacticalPlagueEngineSummon>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<TacticalPlagueJet>()] > 0)
             {
                 modPlayer.plagueEngine = true;
             }

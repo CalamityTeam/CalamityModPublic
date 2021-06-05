@@ -23,10 +23,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 2;
             projectile.alpha = 255;
-            projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-        }
+            projectile.timeLeft = 90;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 8;
+		}
 
         public override void AI()
         {
@@ -35,10 +35,6 @@ namespace CalamityMod.Projectiles.Melee
             float num615 = 1.5f;
             int num616 = 150;
             int num617 = 42;
-            if (Main.rand.NextBool(15))
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
-            }
             if (projectile.velocity.X != 0f)
             {
                 projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
@@ -99,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
                 float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
                 center.Y -= (float)num617 * num618 / 2f;
                 center.Y += 2f;
-                int num335 = Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                int num335 = Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 8f, projectile.ai[1] - 1f);
             }
             if (projectile.ai[0] <= 0f)
             {

@@ -30,7 +30,7 @@ Stealth strikes don't slow down and souls always deal full damage");
             item.noUseGraphic = true;
 
             item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.useTime = 23;
             item.useAnimation = 23;
             item.maxStack = 999;
@@ -47,8 +47,9 @@ Stealth strikes don't slow down and souls always deal full damage");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

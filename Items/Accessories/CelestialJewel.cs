@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Celestial Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 20 defense\n" +
+                "While under the effects of a damaging debuff you will gain 15 defense\n" +
                 "TOOLTIP LINE HERE");
         }
 
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
                 {
-                    line2.text = "Press " + hotkey + " to teleport to a random location";
+                    line2.text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
                 }
             }
         }
@@ -47,8 +47,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 20);
+			recipe.AddRecipeGroup("AnyLargeGem");
+			recipe.AddIngredient(ItemID.TeleportationPotion, 3);
+			recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

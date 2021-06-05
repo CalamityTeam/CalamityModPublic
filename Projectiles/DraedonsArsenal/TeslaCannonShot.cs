@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class TeslaCannonShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int[] dustArray = new int[7] { 56, 111, 137, 160, 206, 229, 226 };
 
 		private int arcs = 0;
@@ -107,7 +109,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 								if (projectile.Center.ManhattanDistance(Main.npc[i].Center) < num474)
 								{
-									Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 2f, projectile.type, (int)(projectile.damage * 0.6), projectile.knockBack * 0.6f, projectile.owner, 0f, -1f);
+									Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(Main.npc[i].Center) * 2f, projectile.type, (int)(projectile.damage * 0.6), projectile.knockBack * 0.6f, projectile.owner, 0f, -1f);
 
 									projectile.ai[1] = 60f;
 

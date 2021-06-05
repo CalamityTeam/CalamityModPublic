@@ -32,10 +32,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.lifeMax = Main.hardMode ? 500 : 60;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.behindTiles = true;
@@ -50,9 +46,9 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DevourerofGods;
 using Microsoft.Xna.Framework;
@@ -18,7 +19,8 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			bool validBoss = npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()
 				&& npc.type != ModContent.NPCType<DevourerofGodsBody>()
-				&& npc.type != ModContent.NPCType<DevourerofGodsBodyS>();
+				&& npc.type != ModContent.NPCType<DevourerofGodsBodyS>()
+				&& npc.type != ModContent.NPCType<AstrumDeusBodySpectral>();
 			if (validBoss)
 				return true;
 			bool bossMinion = CalamityLists.bossMinionList.Contains(npc.type);

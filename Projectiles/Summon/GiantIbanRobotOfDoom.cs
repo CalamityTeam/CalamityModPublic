@@ -50,9 +50,9 @@ namespace CalamityMod.Projectiles.Summon
         /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
-        public const int LaserBaseDamage = 21000;
-        public const int RegicideBaseDamageSmall = 9487;
-        public const int RegicideBaseDamageLarge = 26000;
+        public const int LaserBaseDamage = 4200;
+        public const int RegicideBaseDamageSmall = 1897;
+        public const int RegicideBaseDamageLarge = 5200;
 
         public override void SetStaticDefaults()
         {
@@ -152,10 +152,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     ExitChargeModeEarly(player);
                 }
-                player.velocity = Vector2.Lerp(player.velocity, projectile.DirectionTo(Main.MouseWorld) * RightIconLungeSpeed, 0.225f);
+
+                player.velocity = Vector2.Lerp(player.velocity, projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * RightIconLungeSpeed, 0.225f);
                 projectile.rotation = player.velocity.ToRotation() + MathHelper.PiOver2;
             }
-            else projectile.rotation = 0f;
+            else
+                projectile.rotation = 0f;
+
             if (player.mount != null) // Kill any mounts
             {
                 player.mount.Dismount(player);
@@ -387,7 +390,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            8f,
                                                                            projectile.owner,
                                                                            projectile.whoAmI);
-                    if (player.HeldItem != null)
+                    if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         if (player.HeldItem.magic)
                         {
@@ -439,13 +442,13 @@ namespace CalamityMod.Projectiles.Summon
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
 
                             dust = Dust.NewDustPerfect(projectile.Center, 221);
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(-angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
                         }
                     }
                 }

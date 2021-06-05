@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 32;
             npc.height = 32;
             npc.scale = 1.2f;
-            npc.defense = 40;
-            npc.lifeMax = 9000;
+            npc.defense = 30;
+            npc.lifeMax = 3000;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 60, 0);
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            float speed = CalamityWorld.death ? 16f : 12f;
+            float speed = (CalamityWorld.death || CalamityWorld.malice) ? 16f : 12f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
             int num822 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];

@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class VividBeam : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private bool initialized = false;
 		public override void SetStaticDefaults()
 		{
@@ -20,6 +21,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.height = 4;
 			projectile.friendly = true;
 			projectile.magic = true;
+			projectile.ignoreWater = true;
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 100;
 			projectile.timeLeft = 240;
@@ -117,8 +119,7 @@ namespace CalamityMod.Projectiles.Magic
 					break;
 
 				case 1f:
-					int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage * 2, projectile.knockBack, projectile.owner);
-					Main.projectile[boom].Calamity().forceMagic = true;
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VividExplosion>(), projectile.damage * 2, projectile.knockBack, projectile.owner);
 					break;
 
 				case 2f:

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
             item.shootSpeed = 22f;
 			item.Calamity().rogue = true;
@@ -44,7 +44,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             float ai0 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
             int projectileIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
-            Main.projectile[projectileIndex].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (projectileIndex.WithinBounds(Main.maxProjectiles))
+				Main.projectile[projectileIndex].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
     }

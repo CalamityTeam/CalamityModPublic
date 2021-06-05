@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class QuasarKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Quasar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quasar");
@@ -23,18 +25,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 4;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 600f;
@@ -108,7 +107,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

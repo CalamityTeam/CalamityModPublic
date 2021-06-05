@@ -1,8 +1,8 @@
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Tiles
 {

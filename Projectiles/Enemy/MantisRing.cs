@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.knockBack = 3f;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.knockBack = 3f;
             projectile.width = 72;
             projectile.height = 30;
             projectile.hostile = true;
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

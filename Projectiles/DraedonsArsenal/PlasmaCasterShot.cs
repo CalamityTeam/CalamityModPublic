@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaCasterShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust1 = 107; //160
 		private int dust2 = 110; //187
 
@@ -23,7 +25,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 5;
+            projectile.extraUpdates = 6;
             projectile.timeLeft = 600;
         }
 
@@ -103,7 +105,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void Kill(int timeLeft)
 		{
-			int height = 60;
+			int height = 90;
 			projectile.position = projectile.Center;
 			projectile.width = projectile.height = height;
 			projectile.Center = projectile.position;

@@ -8,9 +8,11 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlindingLight : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private const float Radius = 1400f;
         private const int Lifetime = 45;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blinding Light");
@@ -60,17 +62,20 @@ namespace CalamityMod.Projectiles.Magic
             float progress = (float)Math.Sin(projectile.ai[0] / Lifetime * MathHelper.Pi);
             if (projectile.ai[0] > 55f)
                 progress = MathHelper.Lerp(progress, 0f, (projectile.ai[0] - 55f) / 5f);
-            if (projectile.ai[0] > 15f) // Otherwise a white flash appears, but it quickly disappears.
+            if (Main.netMode != NetmodeID.Server && projectile.ai[0] > 15f) // Otherwise a white flash appears, but it quickly disappears.
             {
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["CalamityMod:LightBurst"].IsActive())
-                {
+                if (!Filters.Scene["CalamityMod:LightBurst"].IsActive())
                     Filters.Scene.Activate("CalamityMod:LightBurst", projectile.Center).GetShader().UseTargetPosition(projectile.Center).UseProgress(0f);
-                }
+
                 Filters.Scene["CalamityMod:LightBurst"].GetShader().UseProgress(progress);
             }
         }
 
-        public override void Kill(int timeLeft) => Filters.Scene.Deactivate("CalamityMod:LightBurst");
+        public override void Kill(int timeLeft)
+        {
+            if (Main.netMode != NetmodeID.Server)
+                Filters.Scene.Deactivate("CalamityMod:LightBurst");
+        }
 
         private void ConsumeNearbyBlades()
         {
@@ -94,7 +99,7 @@ namespace CalamityMod.Projectiles.Magic
         private void DivideDamageAmongstTargets()
         {
             int numTargets = 0;
-            for(int i = 0; i < Main.maxNPCs; ++i)
+            for (int i = 0; i < Main.maxNPCs; ++i)
             {
                 NPC npc = Main.npc[i];
                 if (npc is null || !npc.active || npc.friendly || npc.dontTakeDamage || npc.immortal)

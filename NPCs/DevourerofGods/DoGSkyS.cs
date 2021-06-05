@@ -66,12 +66,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            if (maxDepth >= 0 && minDepth < 0 && CalamityGlobalNPC.DoGHead != -1)
+            if (maxDepth >= 0 && minDepth < 0 && DoGIndex != -1)
             {
-                if (Main.npc[CalamityGlobalNPC.DoGHead].active)
+                if (Main.npc[DoGIndex].active)
                 {
                     float intensity = this.GetIntensity();
-                    if ((double)Main.npc[CalamityGlobalNPC.DoGHead].life < (double)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
+                    if ((double)Main.npc[DoGIndex].life < (double)Main.npc[DoGIndex].lifeMax * 0.15 || CalamityWorld.death || CalamityWorld.malice)
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             Color.Black * (intensity + 0.5f));
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     else
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                            (Main.npc[CalamityGlobalNPC.DoGHead].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
                     }
                 }
             }

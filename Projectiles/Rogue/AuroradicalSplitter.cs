@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9);
                 }
             }
 
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 100, default, 0.8f);
+                int astral = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 100, default, 0.8f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 0f;
             }
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (Main.myPlayer != projectile.owner)
 				return;
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
             for (float i = 0; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i;
@@ -108,14 +108,14 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);
             }
             for (int d = 0; d < 20; d++)
             {
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 0, default, 1.5f);
+                int astral = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 0, default, 1.5f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 3f;
-                astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default, 1f);
+                astral = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 50, default, 1f);
                 Main.dust[astral].velocity *= 2f;
                 Main.dust[astral].noGravity = true;
             }

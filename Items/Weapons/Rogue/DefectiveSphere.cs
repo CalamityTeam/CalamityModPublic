@@ -36,7 +36,7 @@ Stealth strikes launch all 4 sphere types at once");
             item.UseSound = SoundID.Item15; //phaseblade sound effect
 
             item.value = Item.buyPrice(0, 16, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
 
             item.Calamity().rogue = true;
             item.shoot = ProjectileType<SphereSpiked>();
@@ -83,14 +83,18 @@ Stealth strikes launch all 4 sphere types at once");
 
             if (player.Calamity().StealthStrikeAvailable())
 			{
-				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-				Main.projectile[stealth2].Calamity().stealthStrike = true;
-				Main.projectile[stealth3].Calamity().stealthStrike = true;
-				Main.projectile[stealth4].Calamity().stealthStrike = true;
+				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI);
+				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI);
+				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI);
+				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+				if (stealth2.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth2].Calamity().stealthStrike = true;
+				if (stealth3.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth3].Calamity().stealthStrike = true;
+				if (stealth4.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth4].Calamity().stealthStrike = true;
 			}
 			else
 			{

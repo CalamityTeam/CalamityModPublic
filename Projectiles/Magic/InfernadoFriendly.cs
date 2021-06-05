@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.timeLeft = 500;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 10;
 			projectile.magic = true;
         }
 
@@ -100,12 +100,15 @@ namespace CalamityMod.Projectiles.Magic
                 center.Y += 2f;
 				Projectile segment = Projectile.NewProjectileDirect(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
 				//Defaults to magic
-				segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
-				segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
-				segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
-				segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
-				segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
-				segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
+				if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
+				{
+					segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
+					segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
+					segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
+					segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
+					segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
+					segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
+				}
             }
             if (projectile.ai[0] <= 0f)
             {

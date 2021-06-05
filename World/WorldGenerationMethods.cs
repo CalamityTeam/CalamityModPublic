@@ -232,49 +232,50 @@ namespace CalamityMod.World
         {
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
-            if (type == ModContent.TileType<ExodiumOre>())
-            {
-                depthLimit = 0.14f;
-                if (y > 1500)
-                { depthLimit = 0.1f; if (y > 2100) { depthLimit = 0.07f; } }
-            }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                for (int k = 0; k < (int)((double)(x * y) * frequency); k++)
+                for (int k = 0; k < (int)(x * y * frequency); k++)
                 {
                     int tilesX = WorldGen.genRand.Next(0, x);
                     int tilesY = WorldGen.genRand.Next((int)(y * depth), (int)(y * depthLimit));
                     if (type == ModContent.TileType<AuricOre>())
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(12, 18), WorldGen.genRand.Next(12, 18), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(6, 12), WorldGen.genRand.Next(6, 12), (ushort)type);
                     }
                     else if (type == ModContent.TileType<UelibloomOre>())
-                    { //mud
-                        if (Main.tile[tilesX, tilesY].type == 59)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Mud)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else if (type == ModContent.TileType<PerennialOre>())
-                    { //dirt, stone
-                        if (Main.tile[tilesX, tilesY].type == 0 || Main.tile[tilesX, tilesY].type == 1)
+                    else if (type == ModContent.TileType<PerennialOre>() || type == TileID.LunarOre)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else if (type == ModContent.TileType<CryonicOre>())
-                    { //snow, ice, purple ice, pink ice, red ice, astral snow, astral ice
-                        if (Main.tile[tilesX, tilesY].type == 147 || Main.tile[tilesX, tilesY].type == 161 || Main.tile[tilesX, tilesY].type == 163 || Main.tile[tilesX, tilesY].type == 164 || Main.tile[tilesX, tilesY].type == 200 || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock || Main.tile[tilesX, tilesY].type == TileID.CorruptIce || Main.tile[tilesX, tilesY].type == TileID.HallowedIce || Main.tile[tilesX, tilesY].type == TileID.FleshIce || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else
+					else if (type == ModContent.TileType<HallowedOre>())
+					{
+						if (Main.tile[tilesX, tilesY].type == TileID.Pearlstone || Main.tile[tilesX, tilesY].type == TileID.HallowHardenedSand || Main.tile[tilesX, tilesY].type == TileID.HallowSandstone || Main.tile[tilesX, tilesY].type == TileID.HallowedIce)
+						{
+							WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+						}
+					}
+					else
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                     }
                 }
-            }
+			}
         }
         #endregion
 
@@ -336,7 +337,7 @@ namespace CalamityMod.World
 
         public static void PlaceAstralMeteor()
         {
-            Mod ancientsAwakened = ModLoader.GetMod("AAMod");
+            Mod ancientsAwakened = CalamityMod.Instance.ancientsAwakened;
 
             // This flag is also used to determine whether players are nearby.
             bool meteorDropped = true;
@@ -2004,9 +2005,9 @@ namespace CalamityMod.World
                 {
                     num8 = Main.maxTilesX;
                 }
-                if (num9 < 0)
+                if (num9 < Main.maxTilesY - 270)
                 {
-                    num9 = 0;
+                    num9 = Main.maxTilesY - 270;
                 }
                 if (num10 > Main.maxTilesY)
                 {
@@ -2086,6 +2087,8 @@ namespace CalamityMod.World
                 while (!Main.tile[m, num14].active())
                 {
                     num14--;
+                    if (num14 < Main.maxTilesX - WorldGen.genRand.Next(265, 275 + 1))
+                        break;
                 }
                 num14 += WorldGen.genRand.Next(-3, 4);
                 num15 = WorldGen.genRand.Next(4, 8);
@@ -3266,6 +3269,39 @@ namespace CalamityMod.World
         #endregion
 
         #region Planetoids
+
+        public static void GenerateLuminitePlanetoids()
+        {
+            // Don't attempt to generate these things client-side.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            // The worldgen structure map only gets created/regenerated when you generate a world, for some reason.
+            // This means if you simply enter a world and generate this planetoid, the map will not exist yet, and errors will arise.
+            // As a result, a new one is generated as necessary.
+            if (WorldGen.structures is null)
+                WorldGen.structures = new StructureMap();
+
+            int totalPlanetoidsToGenerate = Main.maxTilesX / 4200 + 1;
+            for (int i = 0; i < totalPlanetoidsToGenerate; i++)
+            {
+                for (int tries = 0; tries < 3000; tries++)
+                {
+                    Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 700, Main.maxTilesX / 2 + 700), WorldGen.genRand.Next(85, 110));
+                    if (WorldGen.genRand.NextBool(2))
+                    {
+                        if (Biomes<LuminitePlanet>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                    else
+                    {
+                        if (Biomes<LuminitePlanet2>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                }
+            }
+        }
+
         public static void Planetoids(GenerationProgress progress)
         {
             progress.Message = "Generating Planetoids...";

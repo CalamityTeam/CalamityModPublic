@@ -12,10 +12,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Quiver");
-            Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
-                "15% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
+            Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
                 "5 increased defense, 2 increased life regen, and 15% increased pick speed\n" +
-				"Greatly increases arrow speed and grants a 20% chance to not consume arrows");
+                "Greatly increases arrow speed and grants a 20% chance to not consume arrows");
         }
 
         public override void SetDefaults()
@@ -29,14 +28,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.eQuiver = true;
             player.rangedDamage += 0.15f;
             player.rangedCrit += 5;
-            player.ammoCost80 = true;
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.pickSpeed -= 0.15f;
+            player.magicQuiver = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.eQuiver = true; // Since splitting was removed, this has no effect.
+            modPlayer.rangedAmmoCost *= 0.8f;
         }
 
         public override void AddRecipes()

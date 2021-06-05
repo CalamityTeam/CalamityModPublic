@@ -26,7 +26,7 @@ namespace CalamityMod.Items
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTurn = true;
 			item.value = 0;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 		}
 
@@ -44,8 +44,11 @@ namespace CalamityMod.Items
 					NPC npc = Main.npc[i];
 					if (npc.type == ModContent.NPCType<SuperDummyNPC>() && npc.active)
 					{
-                        npc.active = false;
-                        npc.netUpdate = true;
+						if (player.whoAmI == Main.myPlayer)
+						{
+							npc.active = false;
+							npc.netUpdate = true;
+						}
                         Main.PlaySound(SoundID.NPCDeath2, npc.Center);
 					}
 				}

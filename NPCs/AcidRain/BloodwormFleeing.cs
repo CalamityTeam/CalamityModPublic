@@ -21,10 +21,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.defense = 0;
             npc.lifeMax = 5;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -37,8 +33,13 @@ namespace CalamityMod.NPCs.AcidRain
             Player player = Main.player[Player.FindClosest(npc.Center, 1, 1)];
             if (npc.velocity == Vector2.Zero)
                 npc.velocity = Vector2.UnitY * 12f;
+
             float intertia = 24f;
-            npc.velocity = (npc.velocity * intertia - npc.DirectionTo(player.Center) * 12f) / (intertia + 1f);
+
+            // Attempt to flee from the nearest player.
+            npc.velocity = (npc.velocity * intertia - npc.SafeDirectionTo(player.Center) * 12f) / (intertia + 1f);
+
+            // But always dig downward.
             npc.velocity.Y = Math.Abs(npc.velocity.Y);
             npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
 		}
@@ -51,9 +52,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.frameCounter = 0;
                 npc.frame.Y += frameHeight;
                 if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                {
                     npc.frame.Y = 0;
-                }
             }
         }
 

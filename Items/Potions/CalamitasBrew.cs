@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Calamitas' Brew");
             Tooltip.SetDefault("Adds abyssal flames to your melee projectiles and melee attacks\n" +
-                               "Increases your movement speed by 15%");
+                               "Increases your movement speed by 10%");
         }
 
         public override void SetDefaults()
@@ -22,14 +22,14 @@ namespace CalamityMod.Items.Potions
             item.height = 30;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<AbyssalWeapon>();
-            item.buffTime = 36000;
+            item.buffTime = CalamityUtils.SecondsToFrames(900f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			//Dust effect
 			int splash = 0;
 			while (splash < 4)

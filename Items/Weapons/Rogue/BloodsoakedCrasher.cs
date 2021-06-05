@@ -7,8 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
-    {
+	public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
+	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodsoaked Crasher");
@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 300;
+			item.damage = 245;
 			item.knockBack = 3f;
 			item.autoReuse = true;
 			item.Calamity().rogue = true;
-			item.useAnimation = item.useTime = 18;
-			item.shootSpeed = 15f;
+			item.useAnimation = item.useTime = 24;
+			item.shootSpeed = 9f;
 			item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
 
 			item.width = 66;
@@ -33,21 +33,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable(); //setting the stealth strike
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod); //post-Prov rogue weapon
+			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CrushsawCrasher>());
 			recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
 			recipe.AddTile(TileID.LunarCraftingStation);

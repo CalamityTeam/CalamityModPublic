@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

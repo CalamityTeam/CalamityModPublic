@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SandstormBullet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/SandBlast";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandstorm");
@@ -74,15 +76,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.boss)
-            {
-                target.velocity.X *= 0.5f;
-                target.velocity.Y *= 0.5f;
-            }
+                target.velocity *= 0.5f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredSunKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShatteredSun";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Sun");
@@ -21,7 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 56;
             projectile.height = 56;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 4;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
             projectile.tileCollide = false;
@@ -32,11 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             projectile.ai[1] += 1f;
             if (projectile.ai[1] < 5f)
             {
@@ -51,14 +49,16 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[1] == 20f)
             {
                 int numProj = 5;
-                float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
                     int spread = 6;
+                    int projID = ModContent.ProjectileType<ShatteredSunScorchedBlade>();
+                    int splitDamage = (int)(0.75f * projectile.damage);
+                    float splitKB = 1f;
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X * 0.2f, perturbedspeed.Y * 0.2f, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(projectile.Center, perturbedspeed * 0.2f, projID, splitDamage, splitKB, projectile.owner, 0f, 0f);
                         Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                         spread -= Main.rand.Next(2, 6);
                     }
@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.Rogue
                         Main.dust[num622].velocity *= 3f;
                         if (Main.rand.NextBool(2))
                         {
-                            //Main.dust[num622].scale = 0.5f;
                             Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
@@ -88,26 +87,26 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        private void ShatteredExplosion()
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int) ((double) damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
+            int projID = ModContent.ProjectileType<ShatteredExplosion>();
+            int explosionDamage = (int)(projectile.damage * 0.45f);
+            float explosionKB = 3f;
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, projectile.owner, 0f, 0f);
             Main.PlaySound(SoundID.Item14, projectile.position);
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(SoundID.Item14, projectile.position);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShatteredExplosion();
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => ShatteredExplosion();
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            ShatteredExplosion();
             return true;
         }
 

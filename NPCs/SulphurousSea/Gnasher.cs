@@ -16,7 +16,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 25;
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;
@@ -28,10 +29,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.value = Item.buyPrice(0, 0, 0, 60);
             npc.HitSound = SoundID.NPCHit50;
             npc.DeathSound = SoundID.NPCDeath54;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             banner = npc.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
         }

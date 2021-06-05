@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GalaxySmasherMelee : ModItem
+	public class GalaxySmasherMelee : ModItem
     {
-        public static int BaseDamage = 480;
+        public static int BaseDamage = 264;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()
@@ -35,9 +34,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(platinum: 1, gold: 80);
 
             item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
             item.shootSpeed = Speed;
@@ -45,8 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceMelee = true;
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
 
@@ -56,8 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             r.SetResult(this);
             r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddTile(TileID.LunarCraftingStation);
             r.AddRecipe();
         }
     }

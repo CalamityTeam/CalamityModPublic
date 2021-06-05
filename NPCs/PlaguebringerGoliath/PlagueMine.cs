@@ -15,16 +15,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Mine");
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 1f;
             npc.width = 42;
             npc.height = 42;
             npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 10000 : 100;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -121,16 +123,26 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter % 6 == 5)
+                npc.frame.Y += frameHeight;
+
+            if (npc.frame.Y / frameHeight >= Main.npcFrameCount[npc.type])
+                npc.frame.Y = 0;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);

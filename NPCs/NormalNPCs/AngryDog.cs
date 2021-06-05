@@ -41,7 +41,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
 			npc.coldDamage = true;
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -147,7 +146,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ItemID.Leather, 1, 1, 2);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Cryophobia>(), 100);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
         }
     }

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class TarraThornRight : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/NettleRight";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn");
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.ignoreWater = true;
 			projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 3;
+            projectile.idStaticNPCHitCooldown = 10;
 			projectile.aiStyle = 4;
         }
 

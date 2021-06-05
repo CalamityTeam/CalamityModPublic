@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
                 "10% increased melee speed\n" +
                 "10% increased melee and true melee damage\n" +
                 "Melee attacks and melee projectiles inflict holy fire\n" +
-                "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback");
         }
@@ -26,7 +25,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 38;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<NecklaceofVexation>());
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-			recipe.AddIngredient(ItemID.CrossNecklace);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class TarraEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round");
@@ -29,7 +31,21 @@ namespace CalamityMod.Projectiles.Typeless
             aiType = ProjectileID.Bullet;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap = 5;
+			int oldDamage = damage;
+			if (projectileCount > cap)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
             for (int k = 0; k < projectile.oldPos.Length; k++)

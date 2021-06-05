@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 13f;
 			item.shoot = ModContent.ProjectileType<NavyBobber>();
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()

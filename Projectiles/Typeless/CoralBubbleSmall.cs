@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CoralBubbleSmall : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bubble");

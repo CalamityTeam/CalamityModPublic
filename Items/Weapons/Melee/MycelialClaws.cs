@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 22;
-            item.damage = 14;
+            item.damage = 21;
             item.melee = true;
             item.useAnimation = 6;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 24;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

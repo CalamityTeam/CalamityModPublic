@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
@@ -37,7 +37,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             int p = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
-            Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (p.WithinBounds(Main.maxProjectiles))
+				Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
         public override void AddRecipes()

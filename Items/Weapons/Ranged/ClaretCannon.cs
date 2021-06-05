@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Claret Cannon");
-            Tooltip.SetDefault("Fires a string of bloody tears that drain enemy health");
+            Tooltip.SetDefault("Converts musket balls into strings of 3 bloody tears that drain enemy health");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 215;
+            item.damage = 140;
             item.ranged = true;
             item.width = 48;
             item.height = 30;
@@ -27,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item40;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ClaretCannonProj>();
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -50,8 +50,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
     }
 }

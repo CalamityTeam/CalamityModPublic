@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Magic
                 default:
                     break;
             }
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, texture);
             return false;
         }
 

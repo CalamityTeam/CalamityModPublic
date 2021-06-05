@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 132;
             item.magic = true;
             item.mana = 12;
             item.width = 80;
@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item12;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagicNebulaShot>();
             item.shootSpeed = 18f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         /*public override Vector2? HoldoutOrigin()
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Magic
             int num107 = 2;
             for (int num108 = 0; num108 < num107; num108++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(91) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

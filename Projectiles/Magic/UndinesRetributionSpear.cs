@@ -61,16 +61,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
                     return;
                 }
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 9f, 20f);
             }
             else
             {
@@ -83,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

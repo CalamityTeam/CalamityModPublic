@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
@@ -53,9 +53,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
                 }
                 int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
-                Main.projectile[index].Calamity().forceRanged = true;
-                Main.projectile[index].usesLocalNPCImmunity = true;
-                Main.projectile[index].localNPCHitCooldown = 10;
+				if (index.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[index].Calamity().forceRanged = true;
+					Main.projectile[index].usesLocalNPCImmunity = true;
+					Main.projectile[index].localNPCHitCooldown = 10;
+				}
             }
             return true;
         }

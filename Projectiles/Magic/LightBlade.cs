@@ -70,13 +70,13 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.ai[1] = 0f;
                 else
                 {
-                    Vector2 homingVec = projectile.DirectionTo(paired.Center) * projectile.ai[0];
+                    Vector2 homingVec = projectile.SafeDirectionTo(paired.Center) * projectile.ai[0];
                     projectile.velocity = (projectile.velocity * (SwordHomingStrength - 1f) + homingVec) / SwordHomingStrength;
                 }
             }
 
             // Also weakly home in on nearby enemies
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, projectile.ai[0], EnemyHomingStrength);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, projectile.ai[0], EnemyHomingStrength);
 
             // The projectile never slows down, even as it tries to curve towards enemies and its paired sword.
             float currentSpeed = projectile.velocity.Length();

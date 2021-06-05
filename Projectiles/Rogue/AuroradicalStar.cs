@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
 			//Home in
-			float maxDistance = 1600f;
+			float maxDistance = 500f;
 			int targetIndex = -1;
 			int i;
 			for (i = 0; i < Main.maxNPCs; i++)
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -126,29 +126,29 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+			OnHitEffect(target.Center, target.width);
+		}
+
+		private void OnHitEffect(Vector2 targetPos, int width)
+		{
 			if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
 			{
-				Vector2 pos = new Vector2(target.Center.X + target.width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-				Vector2 velocity = (target.Center - pos) / 40f;
+				Vector2 pos = new Vector2(targetPos.X + width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+				Vector2 velocity = (targetPos - pos) / 40f;
 				int dmg = projectile.damage / 2;
-				int comet = Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[comet].Calamity().forceRogue = true;
-				Main.projectile[comet].Calamity().lineColor = Main.rand.Next(3);
+				int comet = Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, projectile.knockBack, projectile.owner);
+				if (comet.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[comet].Calamity().forceRogue = true;
+					Main.projectile[comet].Calamity().lineColor = Main.rand.Next(3);
+				}
 			}
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-			if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
-			{
-				Vector2 pos = new Vector2(target.Center.X + target.width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-				Vector2 velocity = (target.Center - pos) / 40f;
-				int dmg = projectile.damage / 2;
-				int comet = Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[comet].Calamity().forceRogue = true;
-				Main.projectile[comet].Calamity().lineColor = Main.rand.Next(3);
-			}
+			OnHitEffect(target.Center, target.width);
         }
 
         public override void Kill(int timeLeft)

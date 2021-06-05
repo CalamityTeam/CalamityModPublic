@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormLaser : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser");
@@ -28,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

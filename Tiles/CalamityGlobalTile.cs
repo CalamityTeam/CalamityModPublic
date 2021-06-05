@@ -48,6 +48,12 @@ namespace CalamityMod.Tiles
 			(ushort)ModContent.TileType<Voidstone>()
 		};
 
+		public override void SetDefaults()
+		{
+			Main.tileSpelunker[TileID.LunarOre] = true;
+			Main.tileValue[TileID.LunarOre] = 900;
+		}
+
 		public override bool PreHitWire(int i, int j, int type)
 		{
 			return !BossRushEvent.BossRushActive;
@@ -126,6 +132,7 @@ namespace CalamityMod.Tiles
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Main.tile[i, j];
+			Player player = Main.LocalPlayer;
 
 			if (tile is null)
 				return;
@@ -143,7 +150,7 @@ namespace CalamityMod.Tiles
 						NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
 				}
 			}
-			
+
 			// CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
 			if (Main.tileSolid[tile.type] && tile.type != ModContent.TileType<LumenylCrystals>() && tile.type != ModContent.TileType<SeaPrismCrystals>())
 			{
@@ -151,6 +158,13 @@ namespace CalamityMod.Tiles
 				CheckShatterCrystal(i - 1, j);
 				CheckShatterCrystal(i, j + 1);
 				CheckShatterCrystal(i, j - 1);
+			}
+
+			if (player.Calamity().reaverExplore && !fail)
+			{
+				player.breath += 20;
+				if (player.breath > player.breathMax)
+					player.breath = player.breathMax;
 			}
 		}
 
@@ -178,6 +192,17 @@ namespace CalamityMod.Tiles
 					{
 						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore1"));
 						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
+					}
+				}
+				else if (type == TileID.DemonAltar && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+				{
+					int quantity = 6;
+					Vector2 pos = new Vector2(i, j) * 16;
+					for (int k = 0; k < quantity; k += 1)
+					{
+						pos.X += Main.rand.NextFloat(-32f, 32f);
+						pos.Y += Main.rand.NextFloat(-32f, 32f);
+						Item.NewItem(pos, ItemID.SoulofNight, 1);
 					}
 				}
 			}
@@ -525,7 +550,7 @@ namespace CalamityMod.Tiles
 								}
 							}
 						}
-						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
+						if (shootFlames)
 						{
 							float ai0 = 0f;
 							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
@@ -556,6 +581,7 @@ namespace CalamityMod.Tiles
 
 			return new int[0];
 		}
+
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
 			int[] invincibleTiles = new int[]

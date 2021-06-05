@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GodsParanoiaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GodsParanoia";
+
 		public int kunaiStabbing = 12;
 
         public override void SetStaticDefaults()
@@ -23,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 15;
             projectile.height = 15;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
 			projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.penetrate = -1;
@@ -44,20 +47,13 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num137].noGravity = true;
             }
 
-            projectile.StickyProjAI(15);
+            projectile.StickyProjAI(50);
 
             if (projectile.ai[0] == 1f)
             {
-				if (projectile.Calamity().stealthStrike)
-				{
-					kunaiStabbing += 2;
-				}
-				else
-				{
-					kunaiStabbing++;
-				}
-				if (kunaiStabbing >= 20)
-				{
+                kunaiStabbing++;
+                if (kunaiStabbing >= 20)
+                {
 					kunaiStabbing = 0;
 					float startOffsetX = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
 					float startOffsetY = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
@@ -88,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				projectile.rotation += 0.2f * (float)projectile.direction;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, (projectile.Calamity().stealthStrike ? 14f : 7f), 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
 			}
 
             Player player = Main.player[projectile.owner];
@@ -116,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

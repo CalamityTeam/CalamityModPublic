@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
 			npc.coldDamage = true;
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()

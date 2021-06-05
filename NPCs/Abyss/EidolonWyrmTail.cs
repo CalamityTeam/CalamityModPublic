@@ -25,10 +25,6 @@ namespace CalamityMod.NPCs.Abyss
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -48,9 +44,9 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             npc.damage = 0;
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             bool flag = false;
             if (npc.ai[1] <= 0f)
@@ -148,10 +144,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 3; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-            }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
@@ -160,12 +152,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/Wyrm4"), 1f);
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Bleeding, 60, true);
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 60, true);
         }
     }
 }

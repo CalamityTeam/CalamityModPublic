@@ -63,8 +63,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
 		{
             if (projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
+                int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				if (boom.WithinBounds(Main.maxProjectiles))
+					Main.projectile[boom].Calamity().forceMelee = true;
             }
             if (crit)
             {

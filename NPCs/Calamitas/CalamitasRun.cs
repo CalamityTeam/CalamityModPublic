@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -10,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
+
 namespace CalamityMod.NPCs.Calamitas
 {
 	[AutoloadBossHead]
@@ -24,62 +25,43 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 10;
 			npc.DR_NERD(0.15f);
-            npc.LifeMaxNERB(9000, 13200, 800000);
+            npc.LifeMaxNERB(9000, 13200, 80000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 5;
-                npc.lifeMax *= 3;
+                npc.lifeMax *= 5;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
         }
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
 		public override void FindFrame(int frameHeight)
         {
@@ -156,8 +138,8 @@ namespace CalamityMod.NPCs.Calamitas
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CataclysmTrophy>(), 10);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 10 : 12);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 10 : 12);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 4 : 5);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 4 : 5);
         }
 
         public override void HitEffect(int hitDirection, double damage)

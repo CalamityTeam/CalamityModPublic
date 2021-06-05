@@ -7,8 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoLightBurst : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public const float MinDistanceFromTarget = 45f;
-        public const float MaxDistanceFromTarget = 1350f;
+        public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Flare");
@@ -24,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.timeLeft = 180;
         }
         public override void AI()

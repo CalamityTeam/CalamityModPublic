@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 60;
             item.melee = true;
             item.width = 50;
             item.height = 52;
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Tools
             item.pick = 275;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 6;

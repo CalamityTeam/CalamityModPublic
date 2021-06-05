@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 74;
@@ -35,19 +36,15 @@ namespace CalamityMod.NPCs.StormWeaver
             global.DR = 0.999999f;
             global.unbreakableDR = true;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 100000 : 20000, notDoGFight ? 100000 : 20000, 170000);
-			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
+
+            // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
-            {
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
-                else
-                    music = MusicID.Boss3;
-            }
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -62,12 +59,8 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -87,9 +80,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
             {
                 npc.defense = 99999;
@@ -103,16 +97,20 @@ namespace CalamityMod.NPCs.StormWeaver
 				CalamityUtils.StartRain();
             }
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            if (npc.alpha != 0)
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			if (npc.alpha != 0)
             {
                 for (int num934 = 0; num934 < 2; num934++)
                 {
@@ -126,6 +124,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.alpha = 0;
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!tail && npc.ai[0] == 0f)
@@ -159,7 +158,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					if (npc.localAI[0] >= 360f)
 					{
 						npc.localAI[0] = 0f;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.netUpdate = true;
 						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
 						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
@@ -171,7 +170,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 if (BoltCountdown == 0)
                 {
-                    BoltCountdown = 600;
+                    BoltCountdown = malice ? 480 : 600;
                 }
                 if (BoltCountdown > 0)
                 {
@@ -179,7 +178,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     if (BoltCountdown == 0)
                     {
                         int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             speed2 += 1;
                         }
@@ -262,10 +261,6 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.spriteDirection = 1;
             }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
-            }
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -311,8 +306,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = revenge ? 11f : 10f;
-                num189 = revenge ? 0.31f : 0.28f;
+                num188 = malice ? 13f : revenge ? 11f : 10f;
+                num189 = malice ? 0.38f : revenge ? 0.31f : 0.28f;
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;

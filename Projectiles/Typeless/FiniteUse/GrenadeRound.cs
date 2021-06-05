@@ -62,11 +62,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (target.Inorganic())
-            {
-                damage += target.lifeMax / 20; //500 + 200 = 700 + (100000 / 20 = 5000) = 5700 * 2 (explosion) = 11400 = 11.4% of boss HP
-            }
-            if (damage > target.lifeMax / 12 && CalamityPlayer.areThereAnyDamnBosses)
-                damage = target.lifeMax / 12;
+                damage += target.lifeMax / 100; // 500 + 200 = 700 + (100000 / 100 = 1000) = 1700 * 2 (explosion) = 3400 = 3.4% of boss HP
         }
 
         public override void Kill(int timeLeft)

@@ -15,11 +15,13 @@ namespace CalamityMod.Projectiles.Magic
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public float IdealScale
         {
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
+
         public const int TentacleSpawnRate = 20;
         public const int PulseInterval = 18;
         public const float PulseHitboxExpandRatio = 2.5f;
@@ -44,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         // Vanilla Terraria does not sync projectile scale by default.
@@ -90,6 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(projectile.scale * 62));
             Time++;
         }
+
         public void ProduceSubsumingHentai()
         {
             int tentacleDamage = (int)(projectile.damage * 0.25f);
@@ -111,12 +114,11 @@ namespace CalamityMod.Projectiles.Magic
         
         public void TargetingMovement()
         {
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true, true);
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(600f, true, true);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 7f) / 6f;
-            }
+                projectile.velocity = (projectile.velocity * 5f + projectile.SafeDirectionTo(potentialTarget.Center) * 7f) / 6f;
         }
+
         public void PulseEffect()
         {
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, PulseHitboxExpandRatio);
@@ -138,6 +140,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, 1f / PulseHitboxExpandRatio);
         }
+
         public void ExplodeEffect()
         {
             Main.PlaySound(SoundID.Zombie, projectile.Center, 104);
@@ -162,7 +165,8 @@ namespace CalamityMod.Projectiles.Magic
                     float rotation = Main.rand.NextFloat(MathHelper.TwoPi);
                     Vector2 velocity = Vector2.UnitY.RotatedBy(rotation);
                     if (closestTarget != null)
-                        velocity = projectile.DirectionTo(closestTarget.Center).RotatedByRandom(0.4f);
+                        velocity = projectile.SafeDirectionTo(closestTarget.Center, -Vector2.UnitY).RotatedByRandom(0.4f);
+
                     velocity *= Main.rand.NextFloat(3f, 5f);
 
                     Projectile.NewProjectileDirect(projectile.Center,
@@ -176,6 +180,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int vortexesToDraw = 27;

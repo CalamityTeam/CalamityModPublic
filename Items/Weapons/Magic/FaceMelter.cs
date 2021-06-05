@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Face Melter");
             Tooltip.SetDefault("WOOO!! FAAAAAAANTASYY WORLDDDDD!\n" +
-                               "Fires music notes\n" +
-                               "Right click summons an amplifier that shoots towards your mouse");
+                "Fires music notes\n" +
+                "Right click summons an amplifier that shoots towards your mouse");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 140;
             item.magic = true;
             item.mana = 10;
             item.width = 56;
@@ -30,9 +30,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
+
             item.shoot = ModContent.ProjectileType<MelterNote1>();
             item.UseSound = SoundID.Item47;
             item.autoReuse = true;

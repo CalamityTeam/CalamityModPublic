@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -7,7 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shadowfish"); //Future potion ingredient
+            DisplayName.SetDefault("Shadowfish");
             Tooltip.SetDefault("Darkness spreads");
         }
 
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 8);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
     }
 }

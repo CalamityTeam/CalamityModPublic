@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private float counter = 0f;
 
         public override void SetStaticDefaults()
@@ -55,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 1000f, 36f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
 		public override void Kill(int timeLeft)

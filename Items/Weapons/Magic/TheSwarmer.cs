@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ProjectileID.Wasp;
@@ -54,17 +54,23 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI, 0f, 0f);
-                Main.projectile[wasps].penetrate = 1;
-                Main.projectile[wasps].Calamity().forceMagic = true;
+                int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI);
+				if (wasps.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[wasps].penetrate = 1;
+					Main.projectile[wasps].Calamity().forceMagic = true;
+				}
             }
             for (int i = 0; i <= 3; i++)
             {
                 float SpeedX2 = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
                 float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bees].penetrate = 1;
-                Main.projectile[bees].Calamity().forceMagic = true;
+                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI);
+				if (bees.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[bees].penetrate = 1;
+					Main.projectile[bees].Calamity().forceMagic = true;
+				}
             }
             return false;
         }

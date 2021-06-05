@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CinquedeaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Cinquedea";
+
         internal float gravspin = 0f;
 
         public override void SetStaticDefaults()
@@ -68,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Stealth strike
             if (stealthstrike)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 7f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else
@@ -91,13 +93,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

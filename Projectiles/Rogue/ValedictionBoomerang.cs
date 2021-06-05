@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ValedictionBoomerang : ModProjectile
 	{
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Valediction";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Valediction");
@@ -23,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = projectile.height = 70;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 3;
 			projectile.usesLocalNPCImmunity = true;
@@ -49,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				else
 				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 				}
 			}
 			else
@@ -112,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -131,7 +133,8 @@ namespace CalamityMod.Projectiles.Rogue
 		private void OnHitEffects()
 		{
 			int typhoonAmt = 3;
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			int typhoonDamage = (int)(projectile.damage * 0.3f);
+			if (projectile.owner == Main.myPlayer && projectile.numHits < 1 && projectile.Calamity().stealthStrike)
 			{
 				Main.PlaySound(SoundID.Item84, projectile.position);
 				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
@@ -143,10 +146,13 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					velocity.Normalize();
 					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile typhoon = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner);
-					typhoon.Calamity().forceRogue = true;
-					typhoon.usesLocalNPCImmunity = true;
-					typhoon.localNPCHitCooldown = 10;
+					Projectile typhoon = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), typhoonDamage, 0f, projectile.owner);
+					if (typhoon.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						typhoon.Calamity().forceRogue = true;
+						typhoon.usesLocalNPCImmunity = true;
+						typhoon.localNPCHitCooldown = 10;
+					}
 				}
 			}
 		}

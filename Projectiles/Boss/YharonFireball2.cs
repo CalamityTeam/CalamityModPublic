@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class YharonFireball2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
@@ -20,14 +22,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 3600;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -93,23 +97,13 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.velocity.Y < -16f)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.velocity.Y >= -16f;
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -135,7 +129,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+			if (projectile.velocity.Y >= -16f)
+				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

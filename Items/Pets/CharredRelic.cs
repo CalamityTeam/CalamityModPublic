@@ -19,7 +19,11 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<BrimlingPet>();
             item.buffType = ModContent.BuffType<BrimlingBuff>();
-            item.rare = 4;
+
+            item.value = Item.sellPrice(gold: 4);
+            item.rare = ItemRarityID.Red;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.NPCHit51;
         }
 

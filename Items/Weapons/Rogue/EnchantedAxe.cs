@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 36;
             item.maxStack = 1;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<EnchantedAxeProj>();
             item.shootSpeed = 30f;
@@ -44,7 +44,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

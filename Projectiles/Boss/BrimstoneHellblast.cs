@@ -21,7 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 40;
             projectile.height = 40;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 255;
             cooldownSlot = 1;
-        }
+		}
 
         public override void AI()
         {
@@ -43,8 +44,11 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
-            projectile.alpha += 1;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+			if (projectile.timeLeft < 51)
+			{
+				projectile.alpha += 5;
+				Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+			}
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
@@ -66,12 +70,17 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			lightColor.R = (byte)(255 * projectile.Opacity);
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 51;
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+			if (projectile.timeLeft < 51)
+				return;
+
 			if (projectile.ai[0] == 0f)
 			{
 				target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);

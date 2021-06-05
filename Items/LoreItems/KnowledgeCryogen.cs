@@ -13,28 +13,20 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Cryogen");
             Tooltip.SetDefault("The archmage's prison.\n" +
-                "I am unsure if it has grown weaker over the decades of imprisonment.\n" +
-                "Favorite this item to gain a frost dash that freezes enemies, at the cost of slightly reduced defense due to your brittle body.");
+                "I am unsure if it has grown weaker over the decades of imprisonment.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.dashMod = 6;
         }
 
         public override void AddRecipes()

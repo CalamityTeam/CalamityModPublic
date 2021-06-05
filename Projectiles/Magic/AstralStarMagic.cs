@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AstralStarMagic : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/AstralStar";
+
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()
@@ -29,7 +31,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {
@@ -97,7 +100,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

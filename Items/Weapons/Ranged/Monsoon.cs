@@ -14,32 +14,32 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Monsoon");
             Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
-                "Wooden arrows have a chance to be converted to typhoon arrows or sharks");
+                "Wooden arrows are converted into typhoon arrows and sharks");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 142;
+            item.damage = 110;
             item.ranged = true;
             item.width = 46;
             item.height = 78;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().customRarity = (CalamityRarity)13;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 15f;
+            item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter);
             float piOver10 = MathHelper.Pi * 0.1f;
             int totalProjectiles = 5;
             Vector2 velocity = new Vector2(speedX, speedY);
@@ -48,32 +48,37 @@ namespace CalamityMod.Items.Weapons.Ranged
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
             for (int p = 0; p < totalProjectiles; p++)
             {
-                float offsetAmt = (float)p - ((float)totalProjectiles - 1f) / 2f;
-                Vector2 offset = velocity.RotatedBy((double)(piOver10 * offsetAmt), default);
+                float offsetAmt = p - (totalProjectiles - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt);
                 if (!canHit)
-                {
                     offset -= velocity;
-                }
+
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    if (Main.rand.NextBool(5))
-                    {
-                        type = ModContent.ProjectileType<MiniSharkron>();
-                    }
-                    if (Main.rand.NextBool(15))
-                    {
-                        type = ModContent.ProjectileType<TyphoonArrow>();
-                    }
-                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI);
-                    Main.projectile[arrow].Calamity().forceRanged = true;
-                    Main.projectile[arrow].noDropItem = true;
-                    Main.projectile[arrow].arrow = true;
-                    Main.projectile[arrow].extraUpdates += 1;
+					int newType = type;
+					switch (p)
+					{
+						case 0:
+						case 1:
+						case 3:
+						case 4:
+							newType = ModContent.ProjectileType<MiniSharkron>();
+							break;
+						case 2:
+							newType = ModContent.ProjectileType<TyphoonArrow>();
+							break;
+					}
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, newType, (int)(damage * 1.1), knockBack, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].arrow = true;
+						Main.projectile[proj].extraUpdates += 1;
+					}
                 }
                 else
                 {
-                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[arrow].noDropItem = true;
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
                 }
             }
             return false;

@@ -60,29 +60,29 @@ namespace CalamityMod.Projectiles.Magic
             {
                 int explosionDamage = projectile.damage;
                 float explosionKB = 6f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, projectile.owner);
 
-                int cinderDamage = (int)(projectile.damage * 0.75f);
+                int cinderDamage = (int)(projectile.damage * 0.75);
                 float cinderKB = 0f;
                 Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
                 int numCinders = Main.rand.Next(7, 10);
                 for (int i = 0; i < numCinders; i++)
                 {
-                    Vector2 cinderVel = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    Vector2 cinderVel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                     while (cinderVel.X == 0f && cinderVel.Y == 0f)
                     {
-                        cinderVel = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        cinderVel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                     }
                     cinderVel.Normalize();
-                    cinderVel *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
+                    cinderVel *= Main.rand.Next(70, 101) * 0.1f;
+                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, projectile.owner);
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

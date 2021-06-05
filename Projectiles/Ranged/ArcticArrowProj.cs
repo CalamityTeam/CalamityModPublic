@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ArcticArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/ArcticArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arctic Arrow");
@@ -66,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
     }
 }

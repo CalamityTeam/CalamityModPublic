@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CraniumSmasherProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CraniumSmasher";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cranium Smasher");
@@ -15,7 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 50;
             projectile.height = 50;
             projectile.friendly = true;
-            projectile.penetrate = 5;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 5;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
@@ -44,13 +47,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
-    }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+	}
 }

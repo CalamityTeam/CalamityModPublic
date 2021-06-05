@@ -135,12 +135,8 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         if (projectile.Distance(Main.player[projectile.owner].Center) > minDist)
                         {
-                            Vector2 vecToPlayer = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                            if (vecToPlayer.HasNaNs())
-                            {
-                                vecToPlayer = Vector2.UnitY;
-                            }
-                            projectile.velocity = (projectile.velocity * (inertia - 1f) + vecToPlayer * homingSpeed) / inertia;
+                            Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                            projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * homingSpeed) / inertia;
                         }
                     }
                     else
@@ -156,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
                 case 4: // Green, home in on enemies
                     color = new Color(0, 255, 0, alpha);
 
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 6f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 6f, 20f);
 
                     break;
 
@@ -338,7 +334,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.timeLeft > 1195)
                 return false;
 
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

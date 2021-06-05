@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 36;
             item.maxStack = 1;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<GleamingDaggerProj>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
@@ -42,8 +42,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[p].Calamity().stealthStrike = true;
-                Main.projectile[p].penetrate = 4;
+				if (p.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[p].Calamity().stealthStrike = true;
+					Main.projectile[p].penetrate = 4;
+				}
                 return false;
             }
             return true;

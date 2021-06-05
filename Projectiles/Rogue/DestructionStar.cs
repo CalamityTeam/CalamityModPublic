@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DestructionStar : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StarofDestruction";
+
 		public int hitCount = 0;
         private static float Radius = 47f;
 

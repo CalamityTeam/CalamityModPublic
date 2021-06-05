@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.scale = 1.2f;
             projectile.friendly = true;
             projectile.melee = true;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.MaxUpdates = 2;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

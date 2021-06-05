@@ -14,13 +14,11 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cold Divinity");
-            Tooltip.SetDefault("Legendary Drop\n" +
-							   "Summons the power of the ancient ice castle\n" +
-                               "For each minion slot used, you will gain an additional orbiting shield spike\n" +
-                               "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
-                               "They take some time to regenerate after launching themselves at the target, however\n" +
-                               "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
-                               "Revengeance Drop");
+            Tooltip.SetDefault("Summons the power of the ancient ice castle\n" +
+                "For each minion slot used, you will gain an additional orbiting shield spike\n" +
+                "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
+                "They take some time to regenerate after launching themselves at the target, however\n" +
+                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding");
         }
 
         public override void SetDefaults()
@@ -33,29 +31,30 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item30;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ColdDivinityPointyThing>();
             item.shootSpeed = 10f;
             item.summon = true;
-        }
+
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
-					{
-						line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
-						"Revengeance Drop";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+                    {
+                        line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
+                        "Revengeance Drop";
+                    }
+                }
+            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

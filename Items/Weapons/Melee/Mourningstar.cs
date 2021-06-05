@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 16;
             item.height = 16;
-            item.damage = 230;
+            item.damage = 127;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item116;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 24f;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<MourningstarFlail>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

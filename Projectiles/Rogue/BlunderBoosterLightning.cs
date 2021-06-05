@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93, 0.25f, 0f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 93, 0.25f, 0f);
 
             for (int i = 0; i < 5; i++)
             {

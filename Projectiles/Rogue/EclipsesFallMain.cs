@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EclipsesFallMain : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eclipse's Fall");
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

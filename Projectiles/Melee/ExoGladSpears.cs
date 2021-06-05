@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladSpears : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
+
         private Color currentColor = Color.Black;
 
         internal ref float FlySpeedMultiplier => ref projectile.ai[1];
@@ -38,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(1000f);
 
                 if (potentialTarget != null)
-                    projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 8f) / 21f;
+                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 8f) / 21f;
 				else if (projectile.Distance(Main.player[projectile.owner].Center) > 1000f)
                 {
                     float inertia = 25f * FlySpeedMultiplier;
@@ -84,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

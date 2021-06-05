@@ -19,7 +19,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 50;
             npc.height = 50;
@@ -27,7 +28,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 1600;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.knockBackResist = 0f;
             npc.noGravity = true;

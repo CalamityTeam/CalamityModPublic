@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/FlareBomb";
+
 		private bool start = true;
 		private float startingPosX = 0f;
 		private float startingPosY = 0f;
@@ -23,7 +25,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 30;
             projectile.height = 30;
             projectile.scale = 1.5f;
             projectile.hostile = true;
@@ -32,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 680;
             cooldownSlot = 1;
-        }
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

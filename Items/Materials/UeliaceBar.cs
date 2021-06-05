@@ -1,4 +1,7 @@
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,12 +17,19 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
+			item.createTile = ModContent.TileType<UelibloomBar>();
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.value = Item.sellPrice(gold: 3);
             item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTurn = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.autoReuse = true;
+			item.consumable = true;
         }
 
         public override void AddRecipes()

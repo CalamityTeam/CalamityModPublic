@@ -25,7 +25,9 @@ namespace CalamityMod.Buffs.StatBuffs
                 player.immune = true;
                 player.immuneNoBlink = false;
                 player.immuneTime = 90;
-            }
+				for (int j = 0; j < player.hurtCooldowns.Length; j++)
+					player.hurtCooldowns[j] = player.immuneTime;
+			}
         }
     }
 }

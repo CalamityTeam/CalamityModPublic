@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 26;
             item.ranged = true;
             item.width = 14;
             item.height = 36;
@@ -24,10 +24,11 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 3.5f;
             item.value = Item.sellPrice(copper: 80);
-            item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             item.shootSpeed = 10f;
             item.ammo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void AddRecipes()

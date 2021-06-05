@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystalline");
-            Tooltip.SetDefault("Splits into several projectiles as it travels \n" +
+            Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
                                "Stealth strikes make the blade split more and create crystals when destroyed");
         }
 
@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 44;
             item.damage = 16;
-            item.crit += 4;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 18;
@@ -30,11 +29,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<CrystallineProj>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
         public override void AddRecipes()
         {
@@ -51,8 +53,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

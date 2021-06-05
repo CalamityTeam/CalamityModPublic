@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class AuroraAustralis : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private static float CosFrequency = 0.05f;
 		private static float CosAmplitude = 0.008f;
 		public int[] dustTypes = new int[]
@@ -28,6 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 			projectile.timeLeft = 300;
 			projectile.magic = true;
 			projectile.alpha = 255;

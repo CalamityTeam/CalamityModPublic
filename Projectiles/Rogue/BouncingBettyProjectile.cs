@@ -19,29 +19,33 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             projectile.penetrate = 3;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
         private void Explode()
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
-            if (projectile.Calamity().stealthStrike)
-            {
-                int projectileCount = 12;
-                for (int i = 0; i < projectileCount; i++)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(projectile.damage * 0.5f), 3f, projectile.owner);
-                    }
-                    else
-                    {
-                        Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
-                        Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.6f), 1f, projectile.owner);
-                        fire.localNPCHitCooldown = 9;
-                        fire.timeLeft = 240;
-                    }
-                }
+			if (Main.myPlayer == projectile.owner)
+			{
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
+				if (projectile.Calamity().stealthStrike)
+				{
+					int projectileCount = 12;
+					for (int i = 0; i < projectileCount; i++)
+					{
+						if (Main.rand.NextBool(2))
+						{
+							Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+							Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(projectile.damage * 0.5f), 3f, projectile.owner);
+						}
+						else
+						{
+							Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+							Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.6f), 1f, projectile.owner);
+							fire.localNPCHitCooldown = 9;
+							fire.timeLeft = 240;
+						}
+					}
+				}
             }
         }
         public override void AI()

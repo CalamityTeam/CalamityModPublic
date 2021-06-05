@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/PhantomHookShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom Shot");
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.alpha = 255;
             projectile.penetrate = 2;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

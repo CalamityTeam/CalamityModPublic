@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
             item.UseSound = SoundID.Item89;
             item.noMelee = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.autoReuse = true;
 

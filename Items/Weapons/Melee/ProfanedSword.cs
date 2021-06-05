@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 100;
             item.melee = true;
             item.width = item.height = 52;
 			item.scale = 1.5f;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 20f;
@@ -66,22 +66,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, (int)CalamityDusts.Brimstone);
-            }
         }
 
         public override void AddRecipes()

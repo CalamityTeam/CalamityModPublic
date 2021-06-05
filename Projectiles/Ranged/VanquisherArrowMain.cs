@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrowMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -29,13 +31,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
-            if (projectile.timeLeft % 60 == 0)
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            if (projectile.timeLeft % 45 == 0)
             {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<VanquisherArrowSplit>()] < 6)
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
             }
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
                 color = new Color(b2, b2, b2, a2);
             }
             Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)

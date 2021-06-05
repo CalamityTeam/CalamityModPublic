@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.useTime = 8;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.fishingPole = 10;
 			item.shootSpeed = 10f;
 			item.shoot = ModContent.ProjectileType<WulfrumBobber>();

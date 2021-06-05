@@ -32,12 +32,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit22;
             npc.DeathSound = SoundID.NPCDeath25;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VirulingBanner>();
         }

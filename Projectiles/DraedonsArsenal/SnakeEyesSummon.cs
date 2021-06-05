@@ -201,12 +201,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (projectile.ai[1] > 0 && Main.myPlayer == projectile.owner)
                 {
-                    Projectile laser = Projectile.NewProjectileDirect(projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness), 
-                                                   projectile.DirectionTo(npc.Center) * 4f, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
-                    laser.timeLeft *= 2;
-                    laser.tileCollide = false;
-                    laser.netUpdate = true;
-                    laser.Calamity().forceMinion = true;
+                    Vector2 shootPosition = projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
+                    Vector2 shootVelocity = projectile.SafeDirectionTo(npc.Center, Main.rand.NextVector2Unit()) * 4f;
+                    int laser = Projectile.NewProjectile(shootPosition, shootVelocity, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
+					if (laser.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[laser].timeLeft *= 2;
+                        Main.projectile[laser].tileCollide = false;
+                        Main.projectile[laser].netUpdate = true;
+                        Main.projectile[laser].Calamity().forceMinion = true;
+					}
                 }
                 projectile.ai[1]++;
                 OldCenter = projectile.Center;
@@ -252,7 +256,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, 0, ProjectileID.Sets.TrailCacheLength[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, 0, Color.White, ProjectileID.Sets.TrailCacheLength[projectile.type]);
             Texture2D eyeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/SnakeEye");
             Vector2 offsetVector = Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
             spriteBatch.Draw(eyeTexture,

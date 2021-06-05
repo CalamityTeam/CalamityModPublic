@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.World;
@@ -27,8 +28,9 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
 
 		public override bool CanUseItem(Player player)
         {
-            return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && CalamityWorld.downedBossAny;
+            return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

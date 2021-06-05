@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PrismallineProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
+
         public bool hitEnemy = false;
 
         public override void SetStaticDefaults()
@@ -22,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
             projectile.aiStyle = 113;
             projectile.timeLeft = 180;
             aiType = ProjectileID.BoneJavelin;
@@ -31,11 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             projectile.ai[1] += 1f;
             if (projectile.ai[1] == 40f)
             {
@@ -66,10 +65,13 @@ namespace CalamityMod.Projectiles.Rogue
 						for (int num252 = 0; num252 < shardCount; num252++)
 						{
 							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-							int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-							Main.projectile[shard].Calamity().forceRogue = true;
-							Main.projectile[shard].usesLocalNPCImmunity = true;
-							Main.projectile[shard].localNPCHitCooldown = 10;
+							int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner);
+							if (shard.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[shard].Calamity().forceRogue = true;
+								Main.projectile[shard].usesLocalNPCImmunity = true;
+								Main.projectile[shard].localNPCHitCooldown = 10;
+							}
 						}
 						for (int i = 0; i < numProj + 1; i++)
 						{
@@ -101,9 +103,12 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int s = 0; s < shardCount; s++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[shard].Calamity().forceRogue = true;
-					Main.projectile[shard].penetrate = 1;
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner);
+					if (shard.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[shard].Calamity().forceRogue = true;
+						Main.projectile[shard].penetrate = 1;
+					}
 				}
 			}
         }
@@ -112,14 +117,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
     }
 }

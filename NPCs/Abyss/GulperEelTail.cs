@@ -20,16 +20,12 @@ namespace CalamityMod.NPCs.Abyss
             npc.damage = 65; //70
             npc.width = 54; //28
             npc.height = 76; //28
-            npc.defense = 100;
-            npc.lifeMax = 80000;
+            npc.defense = 50;
+            npc.lifeMax = 60000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -49,9 +45,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             bool flag = false;
             if (npc.ai[1] <= 0f)

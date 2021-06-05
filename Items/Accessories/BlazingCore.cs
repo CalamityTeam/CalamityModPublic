@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 46;
             item.accessory = true;
             item.expert = true;
-            item.rare = 9;
+			item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
         }
 

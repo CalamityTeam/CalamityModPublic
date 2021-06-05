@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 295)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffTime / 2);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffTime / 3);
             }
             else if (beach)
             {
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), debuffTime);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), debuffTime / 3);
             }
             else if (hell)
             {

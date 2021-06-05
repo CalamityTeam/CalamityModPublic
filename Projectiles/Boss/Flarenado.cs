@@ -18,7 +18,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 320;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 320;
             projectile.height = 88;
             projectile.hostile = true;
             projectile.tileCollide = false;
@@ -121,14 +122,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft > 480)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 480;
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -146,7 +140,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 300);
+			if (projectile.timeLeft <= 480)
+				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 300);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

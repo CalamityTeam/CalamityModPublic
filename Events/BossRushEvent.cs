@@ -30,6 +30,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -112,16 +113,7 @@ namespace CalamityMod.Events
                     Player player = Main.player[ClosestPlayerToWorldCenter];
                     NPC.SpawnWOF(player.position);
                 }),
-                new Boss(ModContent.NPCType<HiveMind>(), spawnContext: type =>
-                {
-                    // Post-Wall of Flesh teleport back to spawn
-                    for (int playerIndex = 0; playerIndex < Main.player.Length; playerIndex++)
-                    {
-                        if (Main.player[playerIndex].active)
-                            Main.player[playerIndex].Spawn();
-                    }
-                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
-                }),
+                new Boss(ModContent.NPCType<HiveMind>()),
                 new Boss(NPCID.SkeletronHead, TimeChangeContext.Night, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
@@ -190,7 +182,13 @@ namespace CalamityMod.Events
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
-                new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night),
+                new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true),
                 new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day),
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>()),
                 new Boss(ModContent.NPCType<Calamitas>(), TimeChangeContext.Night, specialSpawnCountdown: 420),
@@ -224,6 +222,7 @@ namespace CalamityMod.Events
                                 player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                         }
                     }
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
@@ -240,8 +239,8 @@ namespace CalamityMod.Events
             {
                 [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
                 [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
-				[ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
-			};
+                [ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
+            };
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
             {
@@ -292,7 +291,7 @@ namespace CalamityMod.Events
         #endregion
 
         #region Updates
-        public static void MiscUpdateEffects()
+        internal static void MiscUpdateEffects()
         {
             if (!BossRushActive)
                 return;
@@ -303,7 +302,7 @@ namespace CalamityMod.Events
             }
         }
 
-        public static void Update()
+        internal static void Update()
         {
             if (!BossRushActive)
             {
@@ -357,6 +356,94 @@ namespace CalamityMod.Events
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
                 }
+            }
+        }
+        #endregion
+
+        #region On Boss Kill
+        internal static void OnBossKill(NPC npc, Mod mod)
+        {
+            // Eater of Worlds splits in Boss Rush now, so you have to kill every single segment to progress.
+            // Vanilla sets npc.boss to true for the last Eater of Worlds segment to die in NPC.checkDead.
+            // This means we do not need to manually check for other segments ourselves.
+            if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            {
+                if (npc.boss)
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // Anahita and Leviathan manually check for each other (this probably isn't necessary).
+            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan>())
+            {
+                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Siren>();
+                if (!NPC.AnyNPCs(bossType))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // Killing any split Deus head ends the fight instantly. You don't need to kill both.
+            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
+            {
+                BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+            }
+
+            // All Slime God entities must be killed to progress to the next stage.
+            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+            {
+                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
+                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+                else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+                else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.
+            else if ((Bosses.Any(boss => boss.EntityID == npc.type) && !BossIDsAfterDeath.ContainsKey(npc.type)) ||
+                     BossIDsAfterDeath.Values.Any(killList => killList.Contains(npc.type)))
+            {
+                BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+                if (BossDeathEffects.ContainsKey(npc.type))
+                    BossDeathEffects[npc.type].Invoke(npc);
+            }
+
+            // Sync the stage and progress of Boss Rush whenever a relevant boss dies.
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                netMessage.Write(BossRushStage);
+                netMessage.Send();
+                var netMessage2 = mod.GetPacket();
+                netMessage2.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                netMessage2.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                netMessage2.Send();
             }
         }
         #endregion

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BlueExoArrow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 3;
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.arrow = true;

@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class BloodOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Orb");
@@ -13,7 +15,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.alpha = 255;
+			projectile.ignoreWater = true;
+			projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 30;
             projectile.magic = true;

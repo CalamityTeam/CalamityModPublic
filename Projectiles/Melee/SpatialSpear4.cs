@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -22,13 +23,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-            projectile.timeLeft = 50;
+            projectile.timeLeft = 25;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.05f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver4;
             if (projectile.localAI[1] == 0f)
             {
                 projectile.scale -= 0.01f;
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 45)
+			if (projectile.timeLeft > 20)
 				return false;
 
 			Texture2D tex = Main.projectileTexture[projectile.type];
@@ -68,18 +69,17 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
         public override void Kill(int timeLeft)
         {
-            int num3;
-            for (int num795 = 4; num795 < 12; num795 = num3 + 1)
+            for (int num795 = 4; num795 < 12; num795++)
             {
-                float num796 = projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
+                float num796 = projectile.oldVelocity.X * (30f / num795);
+                float num797 = projectile.oldVelocity.Y * (30f / num795);
                 int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 244, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
                 Main.dust[num798].noGravity = true;
                 Dust dust = Main.dust[num798];
@@ -87,7 +87,6 @@ namespace CalamityMod.Projectiles.Melee
                 num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 244, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
                 dust = Main.dust[num798];
                 dust.velocity *= 0.05f;
-                num3 = num795;
             }
         }
     }

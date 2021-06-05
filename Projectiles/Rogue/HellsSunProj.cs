@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class HellsSunProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HellsSun";
 
         public override void SetStaticDefaults()
         {
@@ -21,7 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 20;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 20;
             projectile.timeLeft = 1200;
 
             projectile.usesLocalNPCImmunity = true;

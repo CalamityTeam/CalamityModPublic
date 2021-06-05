@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 220;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.Cryogen
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -49,10 +48,10 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.5f, 0.5f);
-            npc.TargetClosest(true);
+            npc.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 24f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;

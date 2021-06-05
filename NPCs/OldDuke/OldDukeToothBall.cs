@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -21,23 +22,20 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.GetNPCDamage();
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;
-			npc.lifeMax = 5000;
+			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 75000;
+				npc.lifeMax = 7500;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
@@ -102,7 +100,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             float num1372 = 12f;
-			if (Main.expertMode || BossRushEvent.BossRushActive)
+			if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
@@ -227,10 +225,10 @@ namespace CalamityMod.NPCs.OldDuke
 				{
 					float velocity = Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandTooth>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;
 				}
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloud>(), damage, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloudOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
             }
 
             return true;

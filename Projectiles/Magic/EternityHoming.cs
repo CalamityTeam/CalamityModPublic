@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHoming : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
@@ -46,9 +48,8 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             if (target != null)
-            {
-                projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(target.Center) * 10f) / 8f;
-            }
+                projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(target.Center) * 10f) / 8f;
+
             projectile.ai[0] += 0.18f;
             float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             float pulse = (float)Math.Sin(projectile.ai[0]);

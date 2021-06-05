@@ -11,43 +11,38 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomer");
-            Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
+            Tooltip.SetDefault("Fires bullets and an extremely powerful homing mushroom");
         }
 
         public override void SetDefaults()
         {
             item.damage = 150;
             item.ranged = true;
-            item.width = 96;
-            item.height = 40;
-            item.crit += 35;
+            item.width = 90;
+            item.height = 28;
             item.useTime = 27;
             item.useAnimation = 27;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 9.75f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Bullet;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-25, 0);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 35;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (Main.rand.NextBool(5))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shroom>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Shroom>(), (int)(damage * 0.5), knockBack, player.whoAmI);
+            return true;
         }
 
         public override void AddRecipes()

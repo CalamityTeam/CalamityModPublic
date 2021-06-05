@@ -13,28 +13,20 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Wall of Flesh");
             Tooltip.SetDefault("I see the deed is done.\n" +
                 "The unholy amalgamation of flesh and hatred has been defeated.\n" +
-                "Prepare to face the terrors that lurk in the light and dark parts of this world.\n" +
-                "Favorite this item to gain increased item grab range.");
+                "Prepare to face the terrors that lurk in the light and dark parts of this world.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.wallOfFleshLore = true;
         }
 
         public override void AddRecipes()

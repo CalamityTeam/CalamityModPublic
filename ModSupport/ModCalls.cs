@@ -4,6 +4,8 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 
 namespace CalamityMod
@@ -236,18 +238,6 @@ namespace CalamityMod
 				case "the devourer of gods":
 					return CalamityWorld.downedDoG;
 
-				case "darksun":
-				case "darksuneclipse":
-				case "darksun eclipse":
-				case "buffedeclipse":
-				case "buffed eclipse":
-				case "mothron":
-				case "darksunmothron":
-				case "darksun mothron":
-				case "buffedmothron":
-				case "buffed mothron":
-					return CalamityWorld.downedBuffedMothron;
-
 				case "yharon":
 				case "jungledragonyharon":
 				case "jungle dragon yharon":
@@ -258,6 +248,14 @@ namespace CalamityMod
 				case "supremecalamitas":
 				case "supreme calamitas":
 					return CalamityWorld.downedSCal;
+
+				case "adulteidolonwyrm":
+				case "adult eidolon wyrm":
+				case "adultwyrm":
+				case "adult wyrm":
+				case "adulteidolon":
+				case "adult eidolon":
+					return CalamityWorld.downedAdultEidolonWyrm;
 			}
 		}
 		#endregion
@@ -396,19 +394,17 @@ namespace CalamityMod
 				case "death mode":
 					return CalamityWorld.death;
 
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice;
+
 				case "br":
 				case "bossrush":
 				case "boss rush":
 				case "bossrushactive":
 				case "boss rush active":
 					return BossRushEvent.BossRushActive;
-
-				case "defiled":
-				case "defiledrune":
-				case "defiled rune":
-				case "defiledmode":
-				case "defiled mode":
-					return CalamityWorld.defiled;
 
 				case "armageddon":
 				case "arma":
@@ -420,9 +416,6 @@ namespace CalamityMod
 
 				case "ironheart":
 				case "iron heart":
-				case "steelsoul":
-				case "steel soul":
-				case "permadeath":
 					return CalamityWorld.ironHeart;
 			}
 		}
@@ -452,19 +445,17 @@ namespace CalamityMod
 				case "death mode":
 					return CalamityWorld.death = enabled;
 
+				case "malice":
+				case "malicemode":
+				case "malice mode":
+					return CalamityWorld.malice = enabled;
+
 				case "br":
 				case "bossrush":
 				case "boss rush":
 				case "bossrushactive":
 				case "boss rush active":
 					return BossRushEvent.BossRushActive = enabled;
-
-				case "defiled":
-				case "defiledrune":
-				case "defiled rune":
-				case "defiledmode":
-				case "defiled mode":
-					return CalamityWorld.defiled = enabled;
 
 				case "armageddon":
 				case "arma":
@@ -644,22 +635,22 @@ namespace CalamityMod
 				default:
 					break;
 				case "reaver":
-					return mp.reaverBlast || mp.reaverDoubleTap || mp.reaverBurst || mp.reaverOrb || mp.reaverSpore;
-				case "reaver_melee":
-				case "reaver melee":
-					return mp.reaverBlast;
-				case "reaver_ranged":
-				case "reaver ranged":
-					return mp.reaverDoubleTap;
-				case "reaver_magic":
-				case "reaver magic":
-					return mp.reaverBurst;
-				case "reaver_summon":
-				case "reaver summon":
-					return mp.reaverOrb;
-				case "reaver_rogue":
-				case "reaver rogue":
-					return mp.reaverSpore;
+					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore;
+				case "reaver_defense":
+				case "reaver defense":
+				case "reaver_helm":
+				case "reaver helm":
+					return mp.reaverDefense;
+				case "reaver_speed":
+				case "reaver speed":
+				case "reaver_visage":
+				case "reaver visage":
+					return mp.reaverSpeed;
+				case "reaver_explore":
+				case "reaver explore":
+				case "reaver_headgear":
+				case "reaver headgear":
+					return mp.reaverExplore;
 			}
 
 			// Fathom Swarmer
@@ -808,14 +799,6 @@ namespace CalamityMod
 				case "godslayer ranged":
 				case "god slayer ranged":
 					return mp.godSlayerRanged;
-				case "godslayer_magic":
-				case "godslayer magic":
-				case "god slayer magic":
-					return mp.godSlayerMage;
-				case "godslayer_summon":
-				case "godslayer summon":
-				case "god slayer summon":
-					return mp.godSlayerSummon;
 				case "godslayer_rogue":
 				case "godslayer rogue":
 				case "god slayer rogue":
@@ -833,21 +816,12 @@ namespace CalamityMod
 					break;
 				case "silva":
 					return mp.silvaSet;
-				case "silva_melee":
-				case "silva melee":
-					return mp.silvaMelee;
-				case "silva_ranged":
-				case "silva ranged":
-					return mp.silvaRanged;
 				case "silva_magic":
 				case "silva magic":
 					return mp.silvaMage;
 				case "silva_summon":
 				case "silva summon":
 					return mp.silvaSummon;
-				case "silva_rogue":
-				case "silva rogue":
-					return mp.silvaThrowing;
 			}
 
 			// Auric Tesla
@@ -972,25 +946,23 @@ namespace CalamityMod
 			{
 				default:
 					break;
-				case "reaver_melee":
-				case "reaver melee":
-					mp.reaverBlast = enabled;
+				case "reaver_defense":
+				case "reaver defense":
+				case "reaver_helm":
+				case "reaver helm":
+					mp.reaverDefense = enabled;
 					return true;
-				case "reaver_ranged":
-				case "reaver ranged":
-					mp.reaverDoubleTap = enabled;
+				case "reaver_speed":
+				case "reaver speed":
+				case "reaver_visage":
+				case "reaver visage":
+					mp.reaverSpeed = enabled;
 					return true;
-				case "reaver_magic":
-				case "reaver magic":
-					mp.reaverBurst = enabled;
-					return true;
-				case "reaver_summon":
-				case "reaver summon":
-					mp.reaverOrb = enabled; // LATER -- remove this when player.reaverOrb actually controls reaver summoner
-					return true;
-				case "reaver_rogue":
-				case "reaver rogue":
-					mp.reaverSpore = enabled;
+				case "reaver_explore":
+				case "reaver explore":
+				case "reaver_headgear":
+				case "reaver headgear":
+					mp.reaverExplore = enabled;
 					return true;
 			}
 
@@ -1205,18 +1177,6 @@ namespace CalamityMod
 					mp.godSlayer = enabled;
 					mp.godSlayerRanged = enabled;
 					return true;
-				case "godslayer_magic":
-				case "godslayer magic":
-				case "god slayer magic":
-					mp.godSlayer = enabled;
-					mp.godSlayerMage = enabled;
-					return true;
-				case "godslayer_summon":
-				case "godslayer summon":
-				case "god slayer summon":
-					mp.godSlayer = enabled;
-					mp.godSlayerSummon = enabled; // LATER -- remove this when player.godSlayerSummon actually controls mechworm
-					return true;
 				case "godslayer_rogue":
 				case "godslayer rogue":
 				case "god slayer rogue":
@@ -1240,16 +1200,6 @@ namespace CalamityMod
 				case "silva":
 					mp.silvaSet = enabled;
 					return true;
-				case "silva_melee":
-				case "silva melee":
-					mp.silvaSet = enabled;
-					mp.silvaMelee = enabled;
-					return true;
-				case "silva_ranged":
-				case "silva ranged":
-					mp.silvaSet = enabled;
-					mp.silvaRanged = enabled;
-					return true;
 				case "silva_magic":
 				case "silva magic":
 					mp.silvaSet = enabled;
@@ -1259,11 +1209,6 @@ namespace CalamityMod
 				case "silva summon":
 					mp.silvaSet = enabled;
 					mp.silvaSummon = enabled; // LATER -- remove this when player.silvaSummon actually controls silva crystal
-					return true;
-				case "silva_rogue":
-				case "silva rogue":
-					mp.silvaSet = enabled;
-					mp.silvaThrowing = enabled;
 					return true;
 			}
 
@@ -1292,8 +1237,6 @@ namespace CalamityMod
 					mp.bloodflareMelee = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerDamage = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaMelee = enabled;
 					mp.auricSet = enabled;
 					return true;
 				case "auric_ranged":
@@ -1307,8 +1250,6 @@ namespace CalamityMod
 					mp.bloodflareRanged = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerRanged = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaRanged = enabled;
 					mp.auricSet = enabled;
 					return true;
 				case "auric_magic":
@@ -1320,8 +1261,6 @@ namespace CalamityMod
 					mp.tarraMage = enabled;
 					mp.bloodflareSet = enabled;
 					mp.bloodflareMage = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerMage = enabled;
 					mp.silvaSet = enabled;
 					mp.silvaMage = enabled;
 					mp.auricSet = enabled;
@@ -1335,8 +1274,6 @@ namespace CalamityMod
 					mp.tarraSummon = enabled;
 					mp.bloodflareSet = enabled;
 					mp.bloodflareSummon = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerSummon = enabled;
 					mp.silvaSet = enabled;
 					mp.silvaSummon = enabled;
 					mp.auricSet = enabled;
@@ -1352,8 +1289,6 @@ namespace CalamityMod
 					mp.bloodflareThrowing = enabled;
 					mp.godSlayer = enabled;
 					mp.godSlayerThrowing = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaThrowing = enabled;
 					mp.auricSet = enabled;
 					return true;
 			}
@@ -1762,6 +1697,15 @@ namespace CalamityMod
 						AcidRainEvent.UpdateInvasion(false);
 					}
 					return eventActive;
+
+				case "ExcludeMinionsFromResurrection":
+					// This assumes all arguments after the calling command name are projectile types.
+					IEnumerable<object> secondaryArguments = args.Skip(1);
+					if (secondaryArguments.Any(argument => !(argument is int)))
+						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be ints.");
+
+					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument => Convert.ToInt32(argument)));
+					return null;
 
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");

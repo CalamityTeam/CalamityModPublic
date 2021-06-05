@@ -52,13 +52,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (projectile.owner == Main.myPlayer)
             {
                 int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
+				if (boom.WithinBounds(Main.maxProjectiles))
+					Main.projectile[boom].Calamity().forceMelee = true;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

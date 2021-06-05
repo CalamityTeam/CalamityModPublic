@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class AcidBarrelDrop : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");
@@ -58,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, new Color(255, 255, 255, 127), ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], new Color(255, 255, 255, 127), 2);
             return false;
         }
     }

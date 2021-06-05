@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 		{
 			item.damage = 9;
 			item.ranged = true;
-			item.width = 64;
-			item.height = 16;
+			item.width = 46;
+			item.height = 30;
 			item.useTime = 5;
 			item.reuseDelay = 25;
 			item.useAnimation = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.noMelee = true;
 			item.knockBack = 0f;
 			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<OpalStrike>();

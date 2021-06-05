@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 650;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.knockBackResist = 0f;
             npc.HitSound = SoundID.NPCHit1;
@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 16f : 13f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 24f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, MathHelper.Pi);
         }

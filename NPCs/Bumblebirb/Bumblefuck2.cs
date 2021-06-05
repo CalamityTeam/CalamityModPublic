@@ -30,30 +30,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(12000, 15000, 50000);
+            npc.LifeMaxNERB(9000, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
@@ -67,11 +45,13 @@ namespace CalamityMod.NPCs.Bumblebirb
 			{
 				return 0f;
 			}
-			return SpawnCondition.SurfaceJungle.Chance * 0.09f;
+			return SpawnCondition.SurfaceJungle.Chance * 0.14f;
 		}
 
 		public override void AI()
         {
+			npc.damage = CalamityPlayer.areThereAnyDamnBosses ? npc.defDamage : (int)(npc.defDamage * 0.8);
+
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
 

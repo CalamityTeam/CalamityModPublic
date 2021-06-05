@@ -24,7 +24,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void SetDefaults()
         {
-            item.damage = 700;
+            item.damage = 210;
             item.knockBack = 1f;
             item.shootSpeed = 18f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -36,7 +36,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.UseSound = SoundID.Item5;
             item.shoot = ModContent.ProjectileType<DrataliornusBow>();
             item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;

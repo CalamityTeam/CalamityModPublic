@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussRifleExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
@@ -23,10 +25,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.friendly = true;
             projectile.ranged = true;
 			projectile.tileCollide = false;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 40;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 20;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()

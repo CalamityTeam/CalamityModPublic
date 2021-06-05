@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DracoBeam2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DracoBeam";
+
         private int start = 60;
         private int speedTimer = 120;
 
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.timeLeft = 240;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -62,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 235)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

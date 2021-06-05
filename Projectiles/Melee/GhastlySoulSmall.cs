@@ -1,10 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class GhastlySoulSmall : ModProjectile
@@ -56,16 +58,12 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
                     return;
                 }
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 18f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
             }
             else
             {
@@ -78,10 +76,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -112,7 +110,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(SoundID.NPCDeath39, projectile.position);
+            Main.PlaySound(SoulEdge.ProjectileDeathSound, projectile.Center);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

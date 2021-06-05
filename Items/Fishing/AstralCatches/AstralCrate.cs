@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<AstralCrateTile>();
             item.useTurn = true;
@@ -46,23 +46,17 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void RightClick(Player player)
         {
             //Modded materials
-            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 10, 20);
-            DropHelper.DropItem(player, ItemID.FallenStar, 10, 20);
-			DropHelper.DropItemChance(player, ItemID.Meteorite, 0.5f, 10, 20);
-			DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.25f, 5, 10);
-            if (CalamityWorld.downedAstrageldon)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralJelly>(), 0.5f, 5, 10);
-            }
-            if (CalamityWorld.downedStarGod)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralOre>(), 0.5f, 10, 20);
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralBar>(), 0.25f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<MeldBlob>(), 0.25f, 5, 10);
-            }
+            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 5, 10);
+            DropHelper.DropItem(player, ItemID.FallenStar, 5, 10);
+			DropHelper.DropItemChance(player, ItemID.Meteorite, 0.2f, 10, 20);
+			DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.1f, 1, 3);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralJelly>(), CalamityWorld.downedAstrageldon, 0.2f, 2, 5);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, 0.2f, 10, 20);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBar>(), CalamityWorld.downedStarGod, 0.1f, 1, 3);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<MeldBlob>(), CalamityWorld.downedStarGod, 0.25f, 5, 10);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.2f,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.1f,
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),
@@ -89,19 +83,26 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            if (CalamityWorld.downedStarGod)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.SuperHealingPotion : ItemID.SuperManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion : ItemID.GreaterManaPotion, 5, 10);
-            }
-            if (CalamityWorld.downedAstrageldon)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralInjection>(), 4, 1, 3);
-                DropHelper.DropItemChance(player, ModContent.ItemType<GravityNormalizerPotion>(), 4, 1, 3);
-            }
+			DropHelper.DropItemCondition(player, ModContent.ItemType<AstralInjection>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<GravityNormalizerPotion>(), CalamityWorld.downedAstrageldon, 0.1f, 1, 3);
+			int healingPotID = ItemID.HealingPotion;
+			int manaPotID = ItemID.ManaPotion;
+			if (CalamityWorld.downedDoG)
+			{
+				healingPotID = ModContent.ItemType<SupremeHealingPotion>();
+				manaPotID = ModContent.ItemType<SupremeManaPotion>();
+			}
+			else if (CalamityWorld.downedProvidence)
+			{
+				healingPotID = ItemID.SuperHealingPotion;
+				manaPotID = ItemID.SuperManaPotion;
+			}
+			else if (NPC.downedMechBossAny)
+			{
+				healingPotID = ItemID.GreaterHealingPotion;
+				manaPotID = ItemID.GreaterManaPotion;
+			}
+			DropHelper.DropItemChance(player, Main.rand.Next(100) >= 49 ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);

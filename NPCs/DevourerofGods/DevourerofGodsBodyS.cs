@@ -23,16 +23,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 70;
             npc.height = 70;
             npc.defense = 70;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = CalamityWorld.death ? 0.97f : 0.955f;
+            global.DR = 0.925f;
             global.unbreakableDR = true;
-            npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.LifeMaxNERB(517500, 621000, 920000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -47,15 +48,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-            else
-                music = MusicID.LunarBoss;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
             npc.dontCountMe = true;
         }
 
@@ -101,9 +94,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			{
 				invinceTime = 240;
 			}
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
 
 			// Target
@@ -112,7 +105,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
             if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;
@@ -177,7 +169,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 } catch
                 {
                 }
-                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + MathHelper.PiOver2;
                 num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
                 int num194 = npc.width;
                 num193 = (num193 - (float)num194) / num193;
@@ -229,7 +221,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return npc.alpha == 0 && invinceTime <= 0;
         }
 

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 80\n" +
-                "15% increased movement speed while wearing the Reaver Armor");
+                "10% increased movement speed while wearing the Reaver Armor");
         }
 
         public override void SetDefaults()
@@ -27,18 +27,17 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 54;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
-                player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
-                player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
-                player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+            if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
+                player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
+				player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
             {
-                player.moveSpeed += 0.15f;
+                player.moveSpeed += 0.1f;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

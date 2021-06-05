@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -20,11 +21,16 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				modPlayer.noLifeRegen = true;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
+			if (modPlayer.reaverDefense)
+				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
-            // Initial Debuffs
+			// Initial Debuffs
+
+			// Get fucked, Nebula Armor
+			player.nebulaLevelLife = 0;
 
 			// Vanilla
 			if (death)
@@ -142,7 +148,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore && !modPlayer.decayEffigy)
+            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.decayEffigy && !player.lavaWet && !player.honeyWet)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
                 modPlayer.pissWaterBoost++;
@@ -404,12 +410,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 5;
 					player.lifeRegenTime += 10;
 				}
+
                 if (modPlayer.bloodfinTimer > 0)
-                { modPlayer.bloodfinTimer--; }
-                if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+					modPlayer.bloodfinTimer--;
+
+				if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
+
+					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
 						player.statLife += 1;
                 }
             }
@@ -423,10 +432,11 @@ namespace CalamityMod.CalPlayer
                     lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
+				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
                 if (lesserEffect)
                 {
                     player.lifeRegen += 1;
-                    player.statDefense += 20;
+                    player.statDefense += defenseBoost;
                 }
                 else
                 {
@@ -436,7 +446,7 @@ namespace CalamityMod.CalPlayer
                             player.lifeRegenTime = 1800;
 
                         player.lifeRegen += 4;
-                        player.statDefense += 20;
+                        player.statDefense += defenseBoost;
                     }
                     else
                         player.lifeRegen += 2;
@@ -460,11 +470,11 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += 2;
+                        player.lifeRegen += 4;
                         player.statDefense += 10;
                     }
                     else
-                        player.lifeRegen += 1;
+                        player.lifeRegen += 2;
                 }
             }
 
@@ -662,6 +672,22 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 3;
 			}
 
+			if (modPlayer.phantomicHeartRegen <= 720 && modPlayer.phantomicHeartRegen >= 600)
+			{
+				player.lifeRegen += 2;
+				if (Main.rand.NextBool(2))
+				{
+					int regen = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 200, new Color(99, 54, 84), 2f);
+					Main.dust[regen].noGravity = true;
+					Main.dust[regen].fadeIn = 1.3f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+					Main.dust[regen].velocity = velocity;
+					velocity.Normalize();
+					velocity *= 34f;
+					Main.dust[regen].position = player.Center - velocity;
+				}
+			}
+
 			if (modPlayer.community)
 			{
 				float floatTypeBoost = 0.05f +
@@ -699,10 +725,6 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 8;
 				player.lifeRegen += 16;
 			}
-            if (modPlayer.camper)
-            {
-                player.lifeRegen += 2;
-            }
             if (modPlayer.handWarmer && modPlayer.eskimoSet)
             {
                 player.lifeRegen += 2;
@@ -710,6 +732,10 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.bloodPactBoost)
             {
                 player.lifeRegen += 2;
+            }
+			if (modPlayer.avertorBonus)
+            {
+                player.lifeRegen += 4;
             }
 
 			if (modPlayer.bloodflareSummon)
@@ -720,28 +746,37 @@ namespace CalamityMod.CalPlayer
 
             if (modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
             {
-                player.lifeRegen += 14;
-                player.lifeRegenTime += 7;
-                if (player.lifeRegenTime < 1800)
-                    player.lifeRegenTime = 1800;
-            }
+                player.lifeRegen += 7;
 
-			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
-				player.lifeRegen += 1;
+				if (player.lifeRegenTime < 1800)
+					player.lifeRegenTime = 1800;
+
+				player.lifeRegenTime += 4;
+            }
 
 			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
 				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+
 				if (modPlayer.pinkCandleHealFraction >= 1D)
 				{
 					modPlayer.pinkCandleHealFraction = 0D;
+
 					if (player.statLife < player.statLifeMax2)
 						player.statLife++;
 				}
 			}
 			else
 				modPlayer.pinkCandleHealFraction = 0D;
+
+			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
+			{
+				modPlayer.reaverRegenCooldown = 0;
+
+				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
+					player.statLife += 1;
+			}
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)
@@ -860,11 +895,10 @@ namespace CalamityMod.CalPlayer
 			// The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
 			if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife && !player.StandingStill())
 			{
-				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
-				int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
-				player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
-				player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
-				player.lifeRegenCount++;
+				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.25f : 2f;
+				int camperRegenCount = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
+				player.lifeRegen = (int)(player.lifeRegen * camperRegenMult);
+				player.lifeRegenCount += camperRegenCount;
 				if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 				{
 					int regen = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
@@ -878,36 +912,30 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityWorld.revenge)
+			if (player.statLife < modPlayer.actualMaxLife)
 			{
-				if (player.statLife < modPlayer.actualMaxLife)
-				{
-					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
-						player.StandingStill() && player.itemAnimation == 0;
+				bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
+					player.StandingStill() && player.itemAnimation == 0;
 
-					if (!noLifeRegenCap)
+				if (!noLifeRegenCap)
+				{
+					// Max HP = 400
+					// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
+					// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
+					// 200 HP = 1 - 0.5 * 10 = 5
+					int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
+					if (player.lifeRegen > lifeRegenScale)
 					{
-						// Max HP = 400
-						// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
-						// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
-						// 200 HP = 1 - 0.5 * 10 = 5
-						int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
-						if (player.lifeRegen > lifeRegenScale)
-						{
-							float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
-							int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
-							player.lifeRegen = defLifeRegen;
-						}
+						float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
+						int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
+						player.lifeRegen = defLifeRegen;
 					}
 				}
 			}
 
 			if (player.lifeRegen > 0)
 			{
-				if (modPlayer.plaguebringerGoliathLore)
-					player.lifeRegen /= 2;
-
-				if (modPlayer.eaterOfWorldsLore)
+				if (modPlayer.godSlayerCooldown)
 					player.lifeRegen /= 2;
 			}
 

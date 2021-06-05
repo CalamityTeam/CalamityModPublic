@@ -19,39 +19,17 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 80;
             npc.height = 40;
             npc.defense = 40;
-			npc.DR_NERD(0.1f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 11120;
             npc.knockBackResist = 0f;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.alpha = 255;
@@ -59,13 +37,13 @@ namespace CalamityMod.NPCs.Ravager
             npc.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.damage *= 2;
-                npc.defense *= 2;
-                npc.lifeMax *= 7;
+				npc.damage = (int)(npc.damage * 1.5);
+				npc.defense *= 2;
+                npc.lifeMax *= 5;
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 260000;
+                npc.lifeMax = 26000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -79,7 +57,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			if (npc.timeLeft < 1800)
             {
                 npc.timeLeft = 1800;
@@ -96,31 +74,18 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
-                float num659 = 21f;
-                if (npc.life < npc.lifeMax / 2 || death)
-                {
-                    num659 += 1f;
-                }
-                if (npc.life < npc.lifeMax / 3 || death)
-                {
-                    num659 += 1f;
-                }
-                if (npc.life < npc.lifeMax / 5 || death)
-                {
-                    num659 += 1f;
-                }
+                float num659 = 36f;
                 Vector2 vector79 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
-                num661 += 50f;
-                num660 += 120f;
+				num660 += 120f;
+				num661 += 50f;
                 float num662 = (float)Math.Sqrt(num660 * num660 + num661 * num661);
                 if (num662 < 12f + num659)
                 {
                     npc.rotation = 0f;
-                    npc.velocity.X = num660;
-                    npc.velocity.Y = num661;
-                    npc.ai[1] += 1f;
+					npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(120f, 50f);
+					npc.ai[1] += 1f;
                     if (npc.life < npc.lifeMax / 2 || death)
                     {
                         npc.ai[1] += 1f;
@@ -135,8 +100,15 @@ namespace CalamityMod.NPCs.Ravager
                     }
                     if (npc.ai[1] >= 60f)
                     {
-                        npc.TargetClosest(true);
-                        if (npc.Center.X - 100f < Main.player[npc.target].Center.X)
+						// Get a target
+						if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+							npc.TargetClosest();
+
+						// Despawn safety, make sure to target another player if the current player target is too far away
+						if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+							npc.TargetClosest();
+
+						if (npc.Center.X - 100f < Main.player[npc.target].Center.X)
                         {
                             npc.ai[1] = 0f;
                             npc.ai[0] = 1f;

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StickyFeatherAero : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/StickyFeather";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather");
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.tileCollide = true;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

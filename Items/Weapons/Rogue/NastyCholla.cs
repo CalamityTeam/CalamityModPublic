@@ -34,7 +34,7 @@ Stealth strikes throw five at once");
             item.UseSound = SoundID.Item1;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.shoot = ModContent.ProjectileType<NastyChollaBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
@@ -48,8 +48,9 @@ Stealth strikes throw five at once");
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

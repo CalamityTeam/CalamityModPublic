@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 240;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.tileCollide = false;
@@ -64,10 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
             target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600, true);
-            if (Main.rand.NextBool(30))
-            {
-                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 120, true);
-            }
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30, true);
         }
     }
 }

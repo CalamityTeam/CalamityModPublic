@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Shadowbolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -18,16 +20,17 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 10;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 6;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.damage = (int)(projectile.damage * 1.25);
+            projectile.damage = (int)(projectile.damage * 1.15);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -35,7 +38,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -50,11 +52,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
-			projectile.damage = (int)(projectile.damage * 1.1);
+			projectile.damage = (int)(projectile.damage * 1.15);
 		}
 
         public override void AI()

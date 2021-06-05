@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -30,9 +31,9 @@ namespace CalamityMod.Items.TreasureBags
         {
             item.maxStack = 999;
             item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
+            item.width = 32;
+            item.height = 34;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -41,10 +42,7 @@ namespace CalamityMod.Items.TreasureBags
 			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"));
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void OpenBossBag(Player player)
         {
@@ -52,7 +50,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 10, 20);
-            DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
+            DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 40, 50);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

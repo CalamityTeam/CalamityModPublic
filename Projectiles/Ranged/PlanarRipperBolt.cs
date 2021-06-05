@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class PlanarRipperBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/ShockGrenadeBolt";
+
         public static int frameWidth = 12;
         public static int frameHeight = 26;
 
@@ -88,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

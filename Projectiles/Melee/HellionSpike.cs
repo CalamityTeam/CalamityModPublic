@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 595)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
 			return false;
 		}
 
@@ -73,8 +73,11 @@ namespace CalamityMod.Projectiles.Melee
 				if (projectile.owner == Main.myPlayer)
 				{
 					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
-					petal.Calamity().forceMelee = true;
-					petal.localNPCHitCooldown = -1;
+					if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						petal.Calamity().forceMelee = true;
+						petal.localNPCHitCooldown = -1;
+					}
 				}
             }
         }

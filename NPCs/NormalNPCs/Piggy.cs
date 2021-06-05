@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.aiStyle = 7;
             aiType = NPCID.Squirrel;
             npc.knockBackResist = 0.99f;
-            npc.value = Item.buyPrice(0, 10, 0, 0);
+            npc.value = Item.buyPrice(0, 2, 0, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;

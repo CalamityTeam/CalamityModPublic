@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class Flarefrost : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flarefrost");
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

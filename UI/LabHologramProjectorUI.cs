@@ -48,6 +48,10 @@ namespace CalamityMod.UI
 			if (projectorID == -1)
 				return;
 
+			// The UI cannot draw if the player is already occupied with an NPC.
+			if (p.talkNPC > 0 || Main.npcShop > 0)
+				return;
+
 			// Check if this tile entity ID is actually a projector. If it's not, immediately destroy this UI.
 			TELabHologramProjector projector;
 			bool projectorIsValid = TileEntity.ByID.TryGetValue(projectorID, out TileEntity te);

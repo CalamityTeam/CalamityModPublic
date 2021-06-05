@@ -10,11 +10,14 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmilampMinion : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Signus/CosmicLantern";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmilamp");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -62,6 +65,18 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
+
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;

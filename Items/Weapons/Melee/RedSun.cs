@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 62;
             item.height = 62;
-            item.damage = 2500;
+            item.damage = 500;
             item.melee = true;
             item.useTime = 5;
             item.reuseDelay = 20;
@@ -33,11 +33,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 4;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<RSSolarFlare>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()
@@ -106,9 +107,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 64);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 64);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

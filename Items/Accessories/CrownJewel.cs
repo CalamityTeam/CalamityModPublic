@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,8 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Crown Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 10 defense\n" +
-                "Revengeance drop");
+                "While under the effects of a damaging debuff you will gain 10 defense");
         }
 
         public override void SetDefaults()
@@ -19,9 +19,10 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.accessory = true;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

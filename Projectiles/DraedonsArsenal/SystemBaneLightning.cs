@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class SystemBaneLightning : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
         public int ElectrocutionTarget
         {
             get => (int)projectile.ai[0];
@@ -33,7 +35,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 22;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 40 * (projectile.extraUpdates + 1);

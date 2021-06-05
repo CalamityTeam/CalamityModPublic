@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class UnstableMatter : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public bool HasCollidedWithATile
 		{
 			get => projectile.ai[0] == 1f;
@@ -88,7 +90,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				// And bounce off the tile. Or towards a nearby enemy, if there is one.
 				NPC potentialTarget = projectile.Center.ClosestNPCAt(700f, false);
 				if (potentialTarget != null)
-					projectile.velocity = projectile.DirectionTo(potentialTarget.Center);
+					projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center);
 				else
 				{
 					if (projectile.velocity.X != oldVelocity.X)

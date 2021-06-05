@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DesecratedWaterProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DesecratedWater";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desecrated Water");
@@ -17,7 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 25;
             projectile.height = 25;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 300;
             aiType = ProjectileID.ThrowingKnife;

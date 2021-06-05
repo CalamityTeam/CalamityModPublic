@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DrataliornusBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Drataliornus";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");

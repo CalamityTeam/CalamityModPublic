@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AntumbraShardProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/XerocPitchfork";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Antumbra Shard");
@@ -22,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
@@ -32,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;
@@ -56,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

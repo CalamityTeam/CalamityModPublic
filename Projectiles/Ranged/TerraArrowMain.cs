@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/TerraArrow";
+
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
 					projectile.Kill();
 				}
 			}
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)

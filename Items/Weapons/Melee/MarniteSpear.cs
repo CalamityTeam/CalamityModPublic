@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 50;
-            item.damage = 20;
+            item.damage = 26;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
             item.shootSpeed = 5f;
         }

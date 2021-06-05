@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.noMelee = true;
             item.UseSound = SoundID.Item1;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.buyPrice(0, 4, 0, 0);
 
             item.damage = 30;
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MetalChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            if (player.Calamity().StealthStrikeAvailable())
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MetalChunk>(), damage, knockBack, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = true;
             return false;
         }

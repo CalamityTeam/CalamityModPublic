@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class GodSlayerShrapnel : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame");
@@ -83,13 +85,6 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
-    }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+	}
 }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ConsecratedWaterProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }

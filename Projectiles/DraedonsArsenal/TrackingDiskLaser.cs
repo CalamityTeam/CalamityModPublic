@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class TrackingDiskLaser : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public float Time
 		{
 			get => projectile.localAI[0];

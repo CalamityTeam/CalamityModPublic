@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 150;
             projectile.magic = true;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {
@@ -49,8 +50,8 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			if (projectile.timeLeft % 2 == projectile.ai[0])
-				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+			if (projectile.timeLeft % 4 == projectile.ai[0])
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

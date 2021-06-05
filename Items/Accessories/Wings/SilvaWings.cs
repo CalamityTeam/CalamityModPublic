@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 11\n" +
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 220\n" +
+                "Flight time: 270\n" +
 				"The Silva revive heals you to half health while wearing the Silva armor");
         }
 
@@ -27,16 +27,15 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 22;
             item.height = 20;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().postMoonLordRarity = 15;
+			item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<SilvaHelm>() || player.armor[0].type == ModContent.ItemType<SilvaHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaHornedHelm>() || player.armor[0].type == ModContent.ItemType<SilvaMask>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaMaskedCap>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<SilvaHelmet>() || player.armor[0].type == ModContent.ItemType<SilvaMaskedCap>()) &&
                 player.armor[1].type == ModContent.ItemType<SilvaArmor>() && player.armor[2].type == ModContent.ItemType<SilvaLeggings>())
             {
                 player.Calamity().silvaWings = true;
@@ -58,7 +57,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 220;
+            player.wingTimeMax = 270;
             player.noFallDmg = true;
         }
 
@@ -80,12 +79,11 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
             recipe.AddRecipeGroup("AnyGoldBar", 3);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

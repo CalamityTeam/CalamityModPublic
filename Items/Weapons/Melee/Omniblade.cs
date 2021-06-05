@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 63;
-            item.crit += 45;
+            item.damage = 95;
             item.melee = true;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -30,8 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 146;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 45;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
@@ -41,17 +43,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextBool(5))
-            {
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
-            }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(5))
-            {
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
-            }
         }
 
         public override void AddRecipes()

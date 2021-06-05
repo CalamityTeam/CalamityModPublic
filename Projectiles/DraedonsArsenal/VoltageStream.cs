@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class VoltageStream : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
@@ -78,9 +80,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Dust dust = Dust.NewDustPerfect(Target.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     if (Main.rand.NextBool(6))
-                    {
-                        dust.velocity = Target.DirectionTo(dust.position) * 4.5f;
-                    }
+                        dust.velocity = Target.SafeDirectionTo(dust.position) * 4.5f;
+
                     dust.noGravity = true;
                 }
             }

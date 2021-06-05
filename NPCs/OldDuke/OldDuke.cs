@@ -3,6 +3,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -34,14 +35,14 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
-            npc.width = 150;
+			npc.width = 150;
             npc.height = 100;
             npc.aiStyle = -1;
 			aiType = -1;
 			npc.GetNPCDamage();
-			npc.defense = 100;
+			npc.defense = 90;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.LifeMaxNERB(750000, 1000000, 4000000);
+			npc.LifeMaxNERB(412500, 495000, 400000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
@@ -50,20 +51,12 @@ namespace CalamityMod.NPCs.OldDuke
             npc.npcSlots = 15f;
             npc.HitSound = SoundID.NPCHit14;
             npc.DeathSound = SoundID.NPCDeath20;
-			npc.value = Item.buyPrice(0, 75, 0, 0);
+			npc.value = Item.buyPrice(0, 70, 0, 0);
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BoomerDuke");
-            else
-                music = MusicID.Boss1;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -372,16 +365,18 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
+			// Legendary drop for Old Duke
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
 
@@ -389,7 +384,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (!Main.expertMode)
             {
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<InsidiousImpaler>(w),
 					DropHelper.WeightStack<FetidEmesis>(w),
@@ -408,6 +403,9 @@ namespace CalamityMod.NPCs.OldDuke
 
             // Mark Old Duke as dead
             CalamityWorld.downedBoomerDuke = true;
+
+			// Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
+			CalamityWorld.encounteredOldDuke = true;
             CalamityNetcode.SyncWorld();
         }
 

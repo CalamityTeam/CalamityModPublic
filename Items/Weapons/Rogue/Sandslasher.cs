@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<SandslasherProj>();
 			item.shootSpeed = 7f;
             item.Calamity().rogue = true;
@@ -39,10 +39,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if(player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

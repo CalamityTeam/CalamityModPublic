@@ -13,15 +13,14 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			DisplayName.SetDefault("Ultra Liquidator");
 			Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
-							   "The blades inflict ichor, cursed inferno, on fire, and frostburn");
+							   "The blades inflict ichor, cursed inferno, on fire and frostburn");
 			Item.staff[item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 145;
-			item.crit = 30;
-			item.knockBack = 7f;
+			item.damage = 120;
+			item.knockBack = 5f;
 			item.useTime = 3;
 			item.reuseDelay = item.useAnimation = 15;
 			item.mana = 25;
@@ -34,10 +33,12 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item9;
-			item.value = Item.buyPrice(1, 20, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
 		}
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;
 
 		public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
@@ -58,8 +59,8 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
 			float speed = item.shootSpeed;
-			float xVec = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-			float yVec = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
+			float xVec = Main.mouseX + Main.screenPosition.X - playerPos.X;
+			float yVec = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
 			float f = Main.rand.NextFloat() * MathHelper.TwoPi;
 			float lowerBoundOffset = 20f;
 			float upperBoundOffset = 60f;

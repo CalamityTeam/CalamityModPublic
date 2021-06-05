@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PhangasmBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Phangasm";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");
@@ -32,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
             projectile.ai[0] += 1f;
             int num39 = 0;
@@ -101,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.netUpdate = true;
                     }
                     projectile.velocity = value19 * 0.55f;
-                    for (int num43 = 0; num43 < 10; num43++)
+                    for (int num43 = 0; num43 < 5; num43++)
                     {
                         Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
                         if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
@@ -109,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
                             vector20 = -Vector2.UnitY;
                         }
                         Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(vector21, vector20, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
+                        int num44 = Projectile.NewProjectile(vector21, vector20, num42, weaponDamage2, weaponKnockback2, projectile.owner);
                         Main.projectile[num44].noDropItem = true;
                     }
                 }

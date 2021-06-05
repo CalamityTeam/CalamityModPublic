@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 32;
+			projectile.width = 50;
+			projectile.height = 50;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.magic = true;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.extraUpdates = 12;
 			projectile.timeLeft = 30;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 2;
+			projectile.localNPCHitCooldown = 6;
 			projectile.scale = 0.5f;
 		}
 

@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -17,7 +18,10 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			npc.Calamity().vaporfied = npc.buffTime[buffIndex];
+			if (npc.Calamity().vaporfied < npc.buffTime[buffIndex])
+				npc.Calamity().vaporfied = npc.buffTime[buffIndex];
+			if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+				npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().vaporfied;
 			npc.DelBuff(buffIndex);
 			buffIndex--;
 		}

@@ -1146,7 +1146,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.mushy || (calamityPlayer.etherealExtorter && player.ZoneGlowshroom))
+            if (calamityPlayer.mushy)
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {
@@ -1199,5 +1199,101 @@ namespace CalamityMod.CalPlayer
 			}
         }
         #endregion
+
+		#region Tanks/Backpacks
+		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+		{
+			if (drawInfo.shadow != 0f)
+				return;
+
+			Player drawPlayer = drawInfo.drawPlayer;
+			Item item = drawPlayer.ActiveItem();
+
+			if (!drawPlayer.frozen &&
+				(item.IsAir || item.type > ItemID.None) &&
+				!drawPlayer.dead &&
+				(!drawPlayer.wet || !item.noWet) &&
+				(drawPlayer.wings == 0 || drawPlayer.velocity.Y == 0f))
+			{
+				//Make sure the lists are in the same order
+				List<int> tankItems = new List<int>()
+				{
+					ModContent.ItemType<FlurrystormCannon>(),
+					ModContent.ItemType<MepheticSprayer>(),
+					ModContent.ItemType<BrimstoneFlameblaster>(),
+					ModContent.ItemType<BrimstoneFlamesprayer>(),
+					ModContent.ItemType<SparkSpreader>(),
+					ModContent.ItemType<HalleysInferno>(),
+					ModContent.ItemType<CleansingBlaze>(),
+					ModContent.ItemType<ElementalEruption>(),
+					ModContent.ItemType<TheEmpyrean>(),
+					ModContent.ItemType<Meowthrower>(),
+					ModContent.ItemType<OverloadedBlaster>(),
+					ModContent.ItemType<TerraFlameburster>(),
+					ModContent.ItemType<Photoviscerator>(),
+					ModContent.ItemType<Shadethrower>(),
+					ModContent.ItemType<BloodBoiler>(),
+					ModContent.ItemType<PristineFury>(),
+					ModContent.ItemType<AuroraBlazer>()
+				};
+				List<Texture2D> tankTextures = new List<Texture2D>()
+				{
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer")
+				};
+				if (tankItems.Contains(item.type) || drawPlayer.Calamity().plaguebringerCarapace)
+				{
+					Texture2D thingToDraw = null;
+					if (tankItems.Contains(item.type))
+					{
+						for (int i = 0; i < tankItems.Count; i++)
+						{
+							if (item.type == tankItems[i])
+							{
+								thingToDraw = tankTextures[i];
+								break;
+							}
+						}
+					}
+					else if (drawPlayer.Calamity().plaguebringerCarapace)
+						thingToDraw = ModContent.GetTexture("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
+
+					if (thingToDraw is null)
+						return;
+
+					SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+					float num25 = -4f;
+					float num24 = -8f;
+					DrawData howDoIDrawThings = new DrawData(thingToDraw,
+						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+						new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
+						drawInfo.middleArmorColor,
+						drawPlayer.bodyRotation,
+						new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
+						1f,
+						spriteEffects,
+						0);
+					howDoIDrawThings.shader = 0;
+					Main.playerDrawData.Add(howDoIDrawThings);
+				}
+			}
+		}
+		#endregion
     }
 }

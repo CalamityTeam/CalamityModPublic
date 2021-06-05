@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantStarKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RadiantStar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiant Star");
@@ -23,18 +25,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 4;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= MathHelper.PiOver2;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.ai[0] == 1f)
             {
                 float num472 = projectile.Center.X;
@@ -92,10 +91,10 @@ namespace CalamityMod.Projectiles.Rogue
                         Main.projectile[stabber2].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     }
                     Main.PlaySound(SoundID.Item14, projectile.position);
-                    int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
-					if (projectile.Calamity().stealthStrike)
+                    int boomer = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner);
+					if (projectile.Calamity().stealthStrike && boomer.WithinBounds(Main.maxProjectiles))
 					{
+						Main.projectile[boomer].Calamity().stealthStrike = true;
 						Main.projectile[boomer].height = 300;
 						Main.projectile[boomer].width = 300;
 					}
@@ -117,7 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

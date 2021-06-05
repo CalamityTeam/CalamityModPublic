@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Tenebreus Tides");
             Tooltip.SetDefault("Inundatio ex Laminis\n" +
-			"Shoots a water spear that pierces enemies and terrain\n" +
-			"Striking enemies summon liquid blades and spears to assault the struck foe");
+                "Shoots a water spear that pierces enemies and terrain\n" +
+                "Striking enemies summon liquid blades and spears to assault the struck foe");
         }
 
         public override void SetDefaults()
@@ -28,15 +28,16 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
             item.shootSpeed = 12f;
 
-            item.width = item.height = 72;
-            item.useStyle = 5;
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            item.rare = ItemRarityID.Cyan;
+            item.Calamity().donorItem = true;
+
+            item.width = item.height = 68;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.useTurn = true;
             item.noUseGraphic = true;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = 9;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

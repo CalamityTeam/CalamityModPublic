@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class LeadCore : ModItem
@@ -15,7 +17,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.accessory = true;
         }

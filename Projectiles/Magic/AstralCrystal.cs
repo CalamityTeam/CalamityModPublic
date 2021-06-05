@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AstralCrystal : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/AstralFlame";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal");
@@ -67,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

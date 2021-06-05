@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 360;
+            projectile.timeLeft = 180;
             projectile.alpha = 90;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -34,9 +34,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
         }
     }
 }

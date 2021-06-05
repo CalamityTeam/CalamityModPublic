@@ -4,13 +4,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ReaperProjectile : ModProjectile
+    public class ReaperProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheReaper";
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scythe");
+            DisplayName.SetDefault("The Reaper");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -21,11 +24,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 70;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 12;
-            projectile.timeLeft = 750;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.extraUpdates = 3;
+            projectile.timeLeft = projectile.MaxUpdates * 90;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
             projectile.Calamity().rogue = true;
         }
 
@@ -39,21 +43,25 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.localAI[0] == 0f)
             {
                 projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 60f)
+
+                // If the Reaper lands a hit, switch to second behavior mode immediately.
+                if (projectile.ai[1] >= 60f || projectile.numHits > 0)
                 {
                     projectile.localAI[0] = 1f;
                     projectile.ai[1] = 0f;
                     projectile.netUpdate = true;
                 }
+
+                // Initial homing before landing a hit.
                 else
-                {
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
-                }
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 14f);
             }
+
+            // Homing after landing a hit. This homing repeatedly turns on and off.
             else
             {
-                float num633 = 700f;
-                bool flag24 = false;
+                float homingRange = 700f;
+                bool noHomingThisFrame = false;
                 if (projectile.ai[0] == 1f)
                 {
                     projectile.ai[1] += 1f;
@@ -64,48 +72,50 @@ namespace CalamityMod.Projectiles.Rogue
                         projectile.netUpdate = true;
                     }
                     else
-                    {
-                        flag24 = true;
-                    }
+                        noHomingThisFrame = true;
                 }
-                if (flag24)
-                {
+
+                if (noHomingThisFrame)
                     return;
-                }
-                Vector2 vector46 = projectile.position;
-                bool flag25 = false;
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+
+                Vector2 homingTarget = projectile.Center;
+                bool foundTarget = false;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[num645];
+                    NPC nPC2 = Main.npc[i];
                     if (nPC2.CanBeChasedBy(projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if (!flag25)
+                        float npcDist = Vector2.Distance(nPC2.Center, projectile.Center);
+                        if (!foundTarget)
                         {
-                            num633 = num646;
-                            vector46 = nPC2.Center;
-                            flag25 = true;
+                            homingRange = npcDist;
+                            homingTarget = nPC2.Center;
+                            foundTarget = true;
+                            break;
                         }
                     }
                 }
-                if (flag25 && projectile.ai[0] == 0f)
+
+                if (foundTarget && projectile.ai[0] == 0f)
                 {
-                    Vector2 vector47 = vector46 - projectile.Center;
-                    float num648 = vector47.Length();
-                    vector47.Normalize();
-                    if (num648 > 200f)
+                    Vector2 delta = homingTarget - projectile.Center;
+                    float distance = delta.Length();
+                    delta /= distance;
+
+                    if (distance > 200f)
                     {
-                        float scaleFactor2 = 8f;
-                        vector47 *= scaleFactor2;
-                        projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                        float homingScalar = 11f;
+                        delta *= homingScalar;
+                        projectile.velocity = (projectile.velocity * 40f + delta) / 41f;
                     }
                     else
                     {
-                        float num649 = 4f;
-                        vector47 *= -num649;
-                        projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                        float homingScalar = 3.6f;
+                        delta *= -homingScalar; // yes this is intentionally backwards
+                        projectile.velocity = (projectile.velocity * 40f + delta) / 41f;
                     }
                 }
+
                 if (projectile.ai[1] > 0f)
                 {
                     projectile.ai[1] += (float)Main.rand.Next(1, 4);
@@ -117,13 +127,13 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (projectile.ai[0] == 0f)
                 {
-                    if (projectile.ai[1] == 0f && flag25 && num633 < 500f)
+                    if (projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
                     {
                         projectile.ai[1] += 1f;
                         if (Main.myPlayer == projectile.owner)
                         {
                             projectile.ai[0] = 1f;
-                            Vector2 value20 = vector46 - projectile.Center;
+                            Vector2 value20 = homingTarget - projectile.Center;
                             value20.Normalize();
                             projectile.velocity = value20 * 8f;
                             projectile.netUpdate = true;
@@ -131,12 +141,12 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            projectile.rotation += 0.5f;
+            projectile.rotation += 0.07f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

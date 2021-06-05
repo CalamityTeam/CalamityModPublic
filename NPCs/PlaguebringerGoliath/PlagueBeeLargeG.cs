@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.lifeMax = 400;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -38,12 +38,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -86,7 +80,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
             float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
             float num1261 = revenge ? 22f : 20f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 num1261 = 30f;
 
             num1260 = num1261 / num1260;

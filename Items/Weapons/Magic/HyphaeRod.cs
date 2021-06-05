@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ProjectileID.TruffleSpore;
@@ -83,8 +83,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 spawnVec.X += (float)Main.rand.Next(-180, 181) * 0.02f;
                 spawnVec.Y += (float)Main.rand.Next(-180, 181) * 0.02f;
                 int proj = Projectile.NewProjectile(source, spawnVec, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
-                Main.projectile[proj].Calamity().forceMagic = true;
-                Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(8f);
+				if (proj.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[proj].Calamity().forceMagic = true;
+					Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
+				}
             }
             return false;
         }

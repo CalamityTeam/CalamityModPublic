@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MK2FlaskSummon : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Summon/FuelCellBundle";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flask");

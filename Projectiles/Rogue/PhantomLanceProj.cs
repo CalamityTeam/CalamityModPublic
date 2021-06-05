@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantomLanceProj : ModProjectile
     {
-        private int projCount = 22;
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantomLance";
 
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 1;
@@ -33,13 +34,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void AI()
         {
-			if (projectile.Calamity().stealthStrike != true)
+			if (!projectile.Calamity().stealthStrike)
 			{
 				if (projectile.timeLeft <= 255)
 					projectile.alpha += 1;
@@ -49,34 +50,25 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.velocity.Y *= 0.995f;
 				}
 			}
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default, 0.85f);
-			projCount--;
-			if (projCount <= 0)
+			projectile.ai[0]++;
+			if (projectile.ai[0] % 18f == 0f)
 			{
 				if (projectile.owner == Main.myPlayer)
 				{
+					float damageMult = projectile.timeLeft * 0.7f / 300f;
 					if (projectile.Calamity().stealthStrike)
+                        damageMult = 0.7f;
+					int soulDamage = (int)(projectile.damage * damageMult);
+					int soul = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, projectile.knockBack, projectile.owner);
+					if (soul.WithinBounds(Main.maxProjectiles))
 					{
-                        int stealthSoulDamage = (int)(projectile.damage * 0.7f);
-                        float stealthSoulKB = projectile.knockBack;
-                        int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), stealthSoulDamage, stealthSoulKB, projectile.owner, 0f, 0f);
-						Main.projectile[stealthSoul].Calamity().forceRogue = true;
-						Main.projectile[stealthSoul].usesLocalNPCImmunity = true;
-						Main.projectile[stealthSoul].localNPCHitCooldown = -2;
-					}
-					else
-					{
-                        float damageMult = projectile.timeLeft * 0.7f / 300f;
-                        int soulDamage = (int)(projectile.damage * damageMult);
-                        float soulKB = projectile.knockBack;
-						int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), soulDamage, soulKB, projectile.owner, 0f, 0f);
 						Main.projectile[soul].Calamity().forceRogue = true;
 						Main.projectile[soul].usesLocalNPCImmunity = true;
 						Main.projectile[soul].localNPCHitCooldown = -2;
 					}
 				}
-				projCount = 18;
 			}
         }
 

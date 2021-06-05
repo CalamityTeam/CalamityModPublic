@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrothermic Mask");
-            Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 15%, and 10% increased magic critical strike chance\n" +
-                "+100 max mana, temporary immunity to lava, and immunity to fire damage");
+            Tooltip.SetDefault("12% increased magic damage, +100 max mana, and 10% increased magic critical strike chance\n" +
+                "Temporary immunity to lava, and immunity to fire damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 9; //45
         }
 
@@ -55,19 +55,19 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased magic damage\n" +
+            player.setBonus = "5% increased magic damage and 15% reduced mana usage\n" +
                 "Inferno effect when below 50% life\n" +
                 "Magic attacks summon damaging and healing flare orbs on hit\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaMage = true;
             player.magicDamage += 0.05f;
+            player.manaCost *= 0.85f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.manaCost *= 0.85f;
             player.statManaMax2 += 100;
             player.magicDamage += 0.12f;
             player.magicCrit += 10;

@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoLightBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public Vector2 InitialCenter;
         public Vector2 Destination;
         public const float MaxRadius = 90f;
@@ -172,7 +174,6 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             target.AddBuff(BuffID.CursedInferno, 180);

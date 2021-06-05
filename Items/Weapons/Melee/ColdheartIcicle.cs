@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.damage = 1;
             item.melee = true;
-            item.width = 26;
-            item.height = 26;
+            item.width = item.height = 24;
             item.useTime = 27;
             item.useAnimation = 27;
             item.autoReuse = true;
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)

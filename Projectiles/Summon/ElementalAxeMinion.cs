@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -59,11 +59,11 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
             if (flag64)
             {
-                if (player.dead)
-                {
-                    modPlayer.eAxe = false;
-                }
-                if (modPlayer.eAxe)
+				if (player.dead)
+				{
+					modPlayer.eAxe = false;
+				}
+				if (modPlayer.eAxe)
                 {
                     projectile.timeLeft = 2;
                 }
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }

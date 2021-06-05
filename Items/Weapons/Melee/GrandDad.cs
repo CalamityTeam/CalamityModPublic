@@ -1,4 +1,5 @@
 using CalamityMod.NPCs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 124;
+            item.height = 124;
             item.damage = 777;
             item.melee = true;
             item.useAnimation = 25;
@@ -27,11 +29,15 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 77f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 124;
-            item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().challengeDrop = true;
+		}
+
+		public override void UseStyle(Player player)
+		{
+			player.itemLocation += new Vector2(-12f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

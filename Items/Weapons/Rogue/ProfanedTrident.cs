@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 72;
-            item.damage = 1000;
+            item.damage = 300;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 13;
@@ -28,18 +28,19 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 72;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<InfernalSpearProjectile>();
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.shoot = ModContent.ProjectileType<InfernalSpearProjectile>();
             item.shootSpeed = 28f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
     }

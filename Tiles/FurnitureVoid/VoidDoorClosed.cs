@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            this.SetUpDoorClosed();
+            this.SetUpDoorClosed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Door");
             AddMapEntry(new Color(191, 142, 111), name);

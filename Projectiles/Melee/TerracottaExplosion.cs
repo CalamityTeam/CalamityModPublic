@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerracottaExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -20,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 5;
         }
 
         public override void AI()

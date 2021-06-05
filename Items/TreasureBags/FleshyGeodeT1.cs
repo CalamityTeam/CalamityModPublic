@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
         public override bool CanRightClick() => true;

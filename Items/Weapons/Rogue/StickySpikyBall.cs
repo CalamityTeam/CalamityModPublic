@@ -30,7 +30,7 @@ Stealth strikes throw seven at once and last a lot longer");
             item.UseSound = SoundID.Item1;
             item.height = 14;
             item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<StickyBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
@@ -44,10 +44,13 @@ Stealth strikes throw seven at once and last a lot longer");
                 for (int i = 0; i < 7; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
-                    Main.projectile[proj].timeLeft *= 4;
-                    Main.projectile[proj].localNPCHitCooldown += 15;
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().stealthStrike = true;
+						Main.projectile[proj].timeLeft *= 4;
+						Main.projectile[proj].localNPCHitCooldown += 15;
+					}
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

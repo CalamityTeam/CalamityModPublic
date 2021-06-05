@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 34;
+            item.damage = 60;
             item.width = 70;
             item.height = 70;
             item.melee = true;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

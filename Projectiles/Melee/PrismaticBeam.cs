@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class PrismaticBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
 		public Color[] colors = new Color[]
 		{
 			new Color(255, 0, 0, 50), //Red
@@ -165,7 +167,7 @@ namespace CalamityMod.Projectiles.Melee
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68);
 				playedSound = true;
 			}
 
@@ -295,7 +297,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);
@@ -307,7 +308,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);

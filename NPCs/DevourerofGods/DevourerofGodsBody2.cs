@@ -20,14 +20,13 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetDefaults()
         {
 			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
             npc.width = 34;
             npc.height = 34;
             npc.defense = 60;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             global.unbreakableDR = true;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 50000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -39,10 +38,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
         }
 
@@ -79,9 +74,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = false;
             }
 
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
 			bool flag = false;

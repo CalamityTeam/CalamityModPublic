@@ -21,11 +21,12 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.hostile = true;
 			projectile.timeLeft = 300;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
@@ -35,12 +36,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num323].noGravity = true;
                 Dust dust = Main.dust[num323];
                 dust.velocity *= 0.3f;
-            }
-
-            if (projectile.ai[1] == 0f)
-            {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item28, projectile.position);
             }
 
 			if (projectile.localAI[0] == 0f)
@@ -72,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
         {
-            int num497 = 10;
+            int num497 = 5;
             Main.PlaySound(SoundID.Item27, projectile.position);
             int num3;
             for (int num498 = 0; num498 < num497; num498 = num3 + 1)

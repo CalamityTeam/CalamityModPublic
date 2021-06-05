@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BloodRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Ray");
@@ -17,7 +19,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 10;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 10;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 150;
         }

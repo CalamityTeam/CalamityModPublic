@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PlagueStingerGoliathV2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/PlagueStingerGoliath";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exploding Plague Stinger");
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -46,14 +49,13 @@ namespace CalamityMod.Projectiles.Boss
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 center = new Vector2(projectile.Center.X, projectile.Center.Y);
-            Vector2 vector11 = new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type] / 2);
-            Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2(ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathV2Glow").Width, ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathV2Glow").Height / Main.projFrames[projectile.type]) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + projectile.gfxOffY);
+			Texture2D glow = ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow");
+            Vector2 origin = new Vector2(glow.Width / 2, glow.Height / Main.projFrames[projectile.type] / 2);
+            Vector2 drawPos = projectile.Center - Main.screenPosition;
+            drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[projectile.type]) * 1f / 2f;
+            drawPos += origin * 1f + new Vector2(0f, 0f + 4f + projectile.gfxOffY);
             Color color = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Color.Red);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathV2Glow"), vector,
-                null, color, projectile.rotation, vector11, projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(glow, drawPos, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
         }
 
         public override void Kill(int timeLeft)

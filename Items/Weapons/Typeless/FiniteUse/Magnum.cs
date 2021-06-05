@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void SetDefaults()
         {
             item.damage = 80;
-            item.crit += 46;
             item.width = 46;
             item.height = 24;
             item.useTime = 25;
@@ -30,43 +29,35 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.useAmmo = ModContent.ItemType<MagnumRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 3;
-            }
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 46;
 
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 3;
-            }
+
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return item.Calamity().timesUsed < 3;
-        }
+        public override bool CanUseItem(Player player) => item.Calamity().timesUsed < 3;
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-            {
                 item.Calamity().timesUsed = 0;
-            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -77,9 +68,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 				for (int i = 0; i < Main.maxInventory; i++)
 				{
 					if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
-					{
 						player.inventory[i].Calamity().timesUsed++;
-					}
 				}
 			}
             return true;

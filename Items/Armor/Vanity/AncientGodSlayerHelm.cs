@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]

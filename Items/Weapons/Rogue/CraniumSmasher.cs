@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item1;
 			item.value = Item.buyPrice(0, 80, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.shoot = ModContent.ProjectileType<CraniumSmasherProj>();
 			item.shootSpeed = 20f;
 			item.Calamity().rogue = true;
@@ -50,8 +50,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 			{
 				type = ModContent.ProjectileType<CraniumSmasherProj>();
 			}
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 	}

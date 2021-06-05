@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
@@ -28,8 +29,9 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
@@ -45,7 +47,7 @@ namespace CalamityMod.Items.SummonItems
 
 		public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

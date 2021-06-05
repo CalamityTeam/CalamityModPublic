@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CirrusRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
@@ -20,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 0;
+            projectile.localNPCHitCooldown = 10;
 			projectile.npcProj = true;
 		}
 

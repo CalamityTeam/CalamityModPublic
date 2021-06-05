@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CounterScarf>());
+            recipe.AddIngredient(ItemID.RedandBlackDye);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.Silk, 15);

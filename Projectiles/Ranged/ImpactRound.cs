@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class ImpactRound : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
 		private bool initialized = false;
 		public override void SetStaticDefaults()
 		{
@@ -39,7 +41,13 @@ namespace CalamityMod.Projectiles.Ranged
 			if (!initialized && projectile.ranged) //Ranged check prevents quiver splits triggering the sound
 			{
 				initialized = true;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), projectile.Center);
+
+				if (Main.netMode != NetmodeID.Server)
+				{
+					var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+					sound = sound.WithVolume(sound.Volume * 0.45f);
+					Main.PlaySound(sound, projectile.Center);
+				}
 			}
 		}
 

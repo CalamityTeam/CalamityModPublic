@@ -1,6 +1,4 @@
-using CalamityMod.Events;
 using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -12,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
 	public class BirbAuraFlare : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Aura Flare");
@@ -81,7 +81,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			Main.PlaySound(SoundID.DD2_BetsyFireballImpact, (int)projectile.position.X, (int)projectile.position.Y);
 			int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)

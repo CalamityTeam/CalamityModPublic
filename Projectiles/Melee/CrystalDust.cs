@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class CrystalDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dust");

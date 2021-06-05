@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ToothBallProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ToothBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ball");

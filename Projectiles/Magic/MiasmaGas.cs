@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 28;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 240;
             projectile.penetrate = 10;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

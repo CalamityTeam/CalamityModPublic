@@ -114,16 +114,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // The yoyo does nothing versus normal dummies
-            if (target.type == NPCID.TargetDummy)
-                return;
-
             // Charge up the red lightning aura with every hit
             projectile.localAI[1] += ChargePerHit;
 
@@ -221,8 +217,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     if (projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
-                        p.melee = true;
-                        p.Calamity().forceMelee = true;
+						if (p.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							p.melee = true;
+							p.Calamity().forceMelee = true;
+						}
                     }
                 }
             }

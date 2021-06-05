@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables
             item.height = 25;
             item.maxStack = 999;
             item.value = 0;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
@@ -28,13 +28,13 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.StoneBlock, 1);
             recipe.AddIngredient(ModContent.ItemType<ChaoticOre>(), 1);
             recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this, 10);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ChaoticBrickWall>(), 4);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

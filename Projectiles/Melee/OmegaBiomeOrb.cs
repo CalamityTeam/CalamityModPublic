@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 			aiType = ProjectileID.LightBeam;
 			projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 120;
             projectile.melee = true;
         }
 
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 235)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 600);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             }
             else if (beach)
             {
@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 600);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 30);
             }
             else if (hell)
             {

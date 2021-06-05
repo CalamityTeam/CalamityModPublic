@@ -20,15 +20,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 100;
             item.ranged = true;
-            item.width = 60;
-            item.height = 24;
+            item.width = 74;
+            item.height = 40;
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;
             item.shootSpeed = 22f;

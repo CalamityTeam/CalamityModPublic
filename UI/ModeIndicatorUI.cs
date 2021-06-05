@@ -10,7 +10,7 @@ namespace CalamityMod.UI
 	{
 		public static readonly Vector2 OffsetToAreaCenter = new Vector2(0f, 4f);
 		public static Vector2 DifficultyIconOffset => new Vector2(0f, -16f);
-		public static Vector2 ArmageddonIconOffset => new Vector2(12f, 7f);
+		public static Vector2 ArmageddonIconOffset => new Vector2(11.5f, 7f);
 		public static Vector2 DefiledRuneIconOffset => new Vector2(-12f, 7);
 		public static void Draw(SpriteBatch spriteBatch)
 		{
@@ -23,8 +23,7 @@ namespace CalamityMod.UI
 			Texture2D deathIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ModeIndicatorDeath");
 			Texture2D armageddonIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ModeIndicatorArma");
 
-			// CONSIDER: The defiled rune is scheduled to be removed. Possibly change the 3rd slot to occupy death instead of the
-			// death icon completely overtaking revengeance?
+			// TODO -- When Malice is added, replace this with Malice's indicator.
 			Texture2D defiledRuneIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ModeIndicatorRune");
 
 			Vector2 drawCenter = new Vector2(Main.screenWidth - 400f, 72f) + outerAreaTexture.Size() * 0.5f;
@@ -40,8 +39,8 @@ namespace CalamityMod.UI
 			if (CalamityWorld.armageddon)
 				spriteBatch.Draw(armageddonIconTexture, drawCenter + ArmageddonIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
 
-			if (CalamityWorld.defiled)
-				spriteBatch.Draw(defiledRuneIconTexture, drawCenter + DefiledRuneIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+			/*if (false)
+				spriteBatch.Draw(defiledRuneIconTexture, drawCenter + DefiledRuneIconOffset, null, Color.White, 0f, revengeanceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);*/
 		}
 	}
 }

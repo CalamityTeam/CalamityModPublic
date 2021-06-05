@@ -43,7 +43,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumRoverBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void FindFrame(int frameHeight)
@@ -141,6 +140,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>());
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RoverDrive>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

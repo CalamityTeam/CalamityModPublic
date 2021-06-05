@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EclipsesStealth : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
 		private bool changedTimeLeft = false;
 
 		public override void SetStaticDefaults()
@@ -84,18 +86,11 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.ai[0] == 1f)
-			{
-				return false;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => projectile.ai[0] != 1f;
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
 	}

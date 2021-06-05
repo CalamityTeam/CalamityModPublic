@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Ghast Blast");
         }
 
         public override void SetDefaults()
@@ -18,10 +18,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 420;
+			projectile.ignoreWater = true;
+			projectile.timeLeft = 420;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -43,10 +44,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 projectile.timeLeft = 2;
             }
-            float[] npcArray = projectile.ai;
-            int npcChase = 0;
-            float num73 = npcArray[npcChase];
-            npcArray[npcChase] = num73 + 1f;
+            projectile.ai[0] += 1f;
             if (projectile.ai[0] < num1025)
             {
                 bool flag62 = true;
@@ -97,10 +95,9 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             projectile.ai[0] = 60f;
-            int num3;
-            for (int num114 = 0; num114 < 10; num114 = num3 + 1)
+            for (int num114 = 0; num114 < 10; num114++)
             {
-                int num115 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.5f);
+                int num115 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.5f);
                 Dust dust;
                 Main.dust[num115].scale = 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
                 Main.dust[num115].noGravity = true;
@@ -108,7 +105,6 @@ namespace CalamityMod.Projectiles.Magic
                 dust.velocity *= 1.25f;
                 dust = Main.dust[num115];
                 dust.velocity -= projectile.oldVelocity / 10f;
-                num3 = num114;
             }
         }
     }

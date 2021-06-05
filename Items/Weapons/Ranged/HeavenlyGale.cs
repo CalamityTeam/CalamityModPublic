@@ -2,6 +2,8 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenly Gale");
-			Tooltip.SetDefault("Fires a barrage of 5 random exo arrows\n" +
+			Tooltip.SetDefault("Converts wooden arrows into barrages of 5 random exo arrows\n" +
 				"Green exo arrows explode into a tornado on death\n" +
 				"Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
 				"Orange exo arrows cause explosions on death\n" +
@@ -24,21 +26,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			item.damage = 600;
+			item.damage = 180;
 			item.ranged = true;
 			item.width = 44;
 			item.height = 58;
-			item.useTime = 11;
-			item.useAnimation = 22;
+			item.useTime = 15;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 4f;
 			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 17f;
+			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Arrow;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
@@ -56,30 +58,56 @@ namespace CalamityMod.Items.Weapons.Ranged
 			for (int i = 0; i < arrowAmt; i++)
 			{
 				float offsetAmt = i - (arrowAmt - 1f) / 2f;
-				Vector2 offset = speed.RotatedBy((double)(piOver10 * offsetAmt), default);
+				Vector2 offset = speed.RotatedBy(piOver10 * offsetAmt);
 				if (!canHit)
-				{
 					offset -= speed;
-				}
-				int arrow = Utils.SelectRandom(Main.rand, new int[]
+
+				if (type == ProjectileID.WoodenArrowFriendly)
 				{
-					ProjectileType<TealExoArrow>(),
-					ProjectileType<OrangeExoArrow>(),
-					ProjectileType<BlueExoArrow>(),
-					ProjectileType<GreenExoArrow>()
-				});
-				if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
-				{
-					arrow = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ProjectileType<TealExoArrow>(),
+					int[] arrowTypes = new int[5] 
+					{	ProjectileType<TealExoArrow>(),
 						ProjectileType<OrangeExoArrow>(),
-						ProjectileType<BlueExoArrow>()
-					});
+						ProjectileType<GreenExoArrow>(),
+						ProjectileType<BlueExoArrow>(),
+						ProjectileType<TealExoArrow>()
+					};
+					int j = arrowTypes.Length;
+					var rng = new Random();
+					while (j > 1)
+					{
+						int k = rng.Next(j--);
+						int randomArrow = arrowTypes[j];
+						arrowTypes[j] = arrowTypes[k];
+						arrowTypes[k] = randomArrow;
+					}
+					int newType = type;
+					switch (i)
+					{
+						case 0:
+						case 4:
+							newType = ProjectileType<TealExoArrow>();
+							break;
+						case 1:
+							newType = ProjectileType<MiniSharkron>();
+							break;
+						case 2:
+							newType = ProjectileType<GreenExoArrow>();
+							break;
+						case 3:
+							newType = ProjectileType<MiniSharkron>();
+							break;
+					}
+
+					if (arrowTypes[i] == ProjectileType<TealExoArrow>())
+						dmgMult = 0.5f;
+
+					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrowTypes[i], (int)(damage * dmgMult), knockBack, player.whoAmI);
 				}
-				if (arrow == ProjectileType<TealExoArrow>())
-					dmgMult = 0.5f;
-				Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
 			}
 			return false;
 		}

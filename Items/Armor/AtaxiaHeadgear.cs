@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 15; //53
         }
 
@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "5% increased ranged damage\n" +
                 "Inferno effect when below 50% life\n" +
-                "You have a 50% chance to fire a homing chaos flare when using ranged weapons\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You fire a homing chaos flare when using ranged weapons every 0.33 seconds\n" +
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;

@@ -16,7 +16,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 40;
             projectile.height = 40;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -76,9 +77,14 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.Opacity != 1f)
 				return;
 
-			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
-        }
+			if (projectile.ai[0] == 0f)
+			{
+				target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+			}
+			else
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {

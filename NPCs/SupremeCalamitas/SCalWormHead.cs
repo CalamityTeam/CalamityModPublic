@@ -32,12 +32,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
-            npc.aiStyle = -1; //new
+			npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
@@ -46,10 +42,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.scale = 1.35f;
             }
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.chaseable = false;
             npc.behindTiles = true;
             npc.noGravity = true;
@@ -81,15 +73,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             CalamityGlobalNPC.SCalWorm = npc.whoAmI;
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -165,8 +161,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
 			float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-			float num188 = 10f;
-			float num189 = 0.1f;
+			float num188 = CalamityWorld.malice ? 12.5f : 10f;
+			float num189 = CalamityWorld.malice ? 0.125f : 0.1f;
 
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;

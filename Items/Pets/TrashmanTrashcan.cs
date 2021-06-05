@@ -22,11 +22,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
-            item.value = Item.sellPrice(0, 1, 0, 0);
             item.shoot = ModContent.ProjectileType<DannyDevitoPet>();
             item.buffType = ModContent.BuffType<DannyDevito>();
-            item.rare = 5;
             item.UseSound = SoundID.NPCDeath13;
+
+            item.value = Item.sellPrice(gold: 1);
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,13 +11,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Edge");
-            Tooltip.SetDefault("Chance to heal the player on enemy hits");
+            Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
+				"Inflicts Burning Blood");
         }
 
         public override void SetDefaults()
         {
             item.width = 46;
-            item.damage = 52;
+            item.damage = 70;
             item.melee = true;
             item.useAnimation = 23;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.height = 60;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
@@ -53,17 +55,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+
+			if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
+
             int healAmount = Main.rand.Next(3) + 1;
             if (Main.rand.NextBool(2))
             {
@@ -74,7 +75,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int healAmount = Main.rand.Next(3) + 1;
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+
+			int healAmount = Main.rand.Next(3) + 1;
             if (Main.rand.NextBool(2) && !player.moonLeech)
             {
                 player.statLife += healAmount;

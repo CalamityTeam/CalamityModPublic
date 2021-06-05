@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBeadSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/LightBead";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Light Bead");
@@ -26,7 +28,6 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
             projectile.rotation += projectile.velocity.X * 0.2f;
             projectile.velocity *= 0.985f;
-
         }
 
         public override void Kill(int timeLeft)

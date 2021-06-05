@@ -20,14 +20,14 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<TriumphBuff>();
-            item.buffTime = 7200;
+            item.buffTime = CalamityUtils.SecondsToFrames(240f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
             recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);

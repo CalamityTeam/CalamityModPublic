@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 22;
             npc.defense = 20;
 			npc.DR_NERD(0.1f);
-            npc.lifeMax = NPC.downedMoonlord ? 1600 : 120;
+            npc.lifeMax = NPC.downedMoonlord ? 1200 : 120;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PhantomDebrisBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void FindFrame(int frameHeight)

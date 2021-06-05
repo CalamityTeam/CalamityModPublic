@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.lifeMax = 300;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -40,25 +40,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             }
             float num = revenge ? 8f : 7f;
             float num2 = revenge ? 0.2f : 0.15f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 num *= 1.5f;
                 num2 *= 1.5f;

@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.Item60;
             item.summon = true;
             item.mana = 25;
-            item.damage = 450;
+            item.damage = 225;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 10;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
 
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
@@ -55,12 +54,12 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile.NewProjectileDirect(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    Projectile.NewProjectileDirect(player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
                 }
                 else
                 {
                     bodyIndex = Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    Projectile.NewProjectile(player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
                     for (int i = 0; i < 72; i++)
                     {
                         Dust dust = Dust.NewDustPerfect(Main.projectile[bodyIndex].Center, 113);
@@ -80,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.StaffoftheFrostHydra);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 15);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

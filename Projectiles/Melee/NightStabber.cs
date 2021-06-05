@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class NightStabber : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stabber");
@@ -17,11 +19,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             projectile.melee = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -34,7 +38,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 7f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 7f, 20f);
         }
 
         public override void Kill(int timeLeft)

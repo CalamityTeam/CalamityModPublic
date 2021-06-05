@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax = 150;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 18000;
+                npc.lifeMax = 1800;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -48,11 +48,11 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
-            npc.TargetClosest(true);
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            npc.TargetClosest();
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 num1164 *= 2f;
                 num1165 *= 2f;

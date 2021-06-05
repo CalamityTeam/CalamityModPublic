@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlameBlast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float count = 0;
 
         public override void SetStaticDefaults()
@@ -70,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(300f, Main.player[projectile.owner]);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 25f) / 21f;
+                projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 25f) / 21f;
         }
 
         public override void Kill(int timeLeft)

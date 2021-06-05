@@ -21,11 +21,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 22;
             npc.height = 22;
             npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 20000 : 200;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -34,12 +35,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AI()
@@ -114,7 +109,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     float num761 = v3.ToRotation();
 					float angle = num761 - num760;
 					angle = MathHelper.WrapAngle(angle);
-                    npc.velocity = npc.velocity.RotatedBy(angle * 0.2, default);
+                    npc.velocity = npc.velocity.RotatedBy(angle * 0.2);
                 }
                 else
                 {

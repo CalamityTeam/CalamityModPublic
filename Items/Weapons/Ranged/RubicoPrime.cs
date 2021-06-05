@@ -15,32 +15,34 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Rubico Prime");
             Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
                 "Fires impact rounds that have an increased crit multiplier and deal bonus damage to inorganic targets");
-				//would do less to organic targets if like this wasn't meant to be used against yharon lole
+                //would do less to organic targets if like this wasn't meant to be used against yharon lole
         }
 
         public override void SetDefaults()
         {
-            item.damage = 2601;
+            item.damage = 1178;
             item.ranged = true;
-            item.crit += 40;
             item.knockBack = 10f;
             item.useTime = 30;
             item.useAnimation = 300;
             item.autoReuse = false;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.width = 82;
             item.height = 28;
 
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
@@ -48,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PestilentDefiler>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

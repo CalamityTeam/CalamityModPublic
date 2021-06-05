@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VenusianExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -24,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 120;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

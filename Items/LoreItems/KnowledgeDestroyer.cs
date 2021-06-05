@@ -12,29 +12,20 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Destroyer");
             Tooltip.SetDefault("A machine brought to life by the mighty souls of warriors, and built to excavate massive tunnels in planets to gather resources.\n" +
-                "Could have proven useful if Draedon didn't have an obsession with turning everything into a tool of destruction.\n" +
-                "Favorite this item to gain a boost to your pick speed.\n" +
-				"However, your max acceleration is decreased slightly due to you feeling heavier.");
+                "Could have proven useful if Draedon didn't have an obsession with turning everything into a tool of destruction.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.destroyerLore = true;
         }
 
         public override void AddRecipes()

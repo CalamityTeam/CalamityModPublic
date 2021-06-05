@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 4;
             //projectile.Calamity().trueMelee = true;
         }
 
@@ -44,15 +44,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;
 
             Player player = Main.player[projectile.owner];
-			if (Main.rand.NextBool(2))
-			{
-				player.statLife += 1;
-				player.HealEffect(1);
-			}
+			player.statLife += 1;
+			player.HealEffect(1);
         }
     }
 }

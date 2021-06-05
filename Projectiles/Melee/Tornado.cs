@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class Tornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");

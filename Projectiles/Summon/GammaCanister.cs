@@ -1,14 +1,13 @@
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class GammaCanister : ModProjectile
     {
+        public const float Gravity = 0.2f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Canister");
@@ -19,75 +18,38 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 20;
             projectile.height = 28;
-            projectile.friendly = projectile.hostile = false;
+            projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
+            projectile.alpha = 255;
             projectile.timeLeft = 300;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
         }
         public override void AI()
         {
-            if (!Main.player[projectile.owner].Calamity().GammaCanisters.Contains(projectile.whoAmI))
+            NPC potentialTarget = projectile.Center.MinionHoming(1450f, Main.player[projectile.owner]);
+            if (projectile.timeLeft >= 180)
+                projectile.velocity.Y += Gravity;
+
+            else if (potentialTarget != null)
             {
-                Main.player[projectile.owner].Calamity().GammaCanisters.Add(projectile.whoAmI);
+                // This looks quite stupid but the weapon is going to be useless otherwise and I'm not reworking this thing a 3rd time.
+                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * 18f, 0.18f);
             }
-            projectile.ai[1]++;
-            if (projectile.ai[1] == 80f)
-            {
-                for (int i = 0; i < 36; i++)
-                {
-                    Vector2 velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(3f, 8f);
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
-                    dust.velocity = velocity;
-                    dust.noGravity = true;
-                    dust.scale = Main.rand.NextFloat(1.3f, 1.7f);
-                }
-            }
-            projectile.velocity = Vector2.UnitY * (float)Math.Sin(projectile.ai[1] / 40f * MathHelper.TwoPi) * 0.5f;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            projectile.alpha = Utils.Clamp(projectile.alpha - 22, 0, 255);
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            const float totalRotations = 3f;
-            const float outwardPositionDeltaStart = 8f;
-            float angle = MathHelper.TwoPi * projectile.ai[1] / totalRotations / 80f;
-            float outwardPositionDelta = outwardPositionDeltaStart;
-            if (projectile.ai[1] < 80f && projectile.ai[1] > 55f)
-            {
-                outwardPositionDelta = MathHelper.Lerp(outwardPositionDeltaStart, 0f, (projectile.ai[1] - 55f) / 35f);
-            }
-            if (projectile.ai[1] >= 80f)
-            {
-                outwardPositionDelta = 0f;
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                angle += MathHelper.TwoPi / 3f * i;
-                spriteBatch.Draw(ModContent.GetTexture(Texture),
-                                 projectile.Center + angle.ToRotationVector2() * outwardPositionDelta + Vector2.UnitY * (float)Math.Cos(angle) * 3f - Main.screenPosition,
-                                 null,
-                                 Color.White,
-                                 projectile.rotation,
-                                 projectile.Size * 0.5f,
-                                 projectile.scale,
-                                 SpriteEffects.None,
-                                 0f);
-            }
-            return false;
-        }
+
         public override void Kill(int timeLeft)
         {
-            Main.player[projectile.owner].Calamity().GammaCanisters.Clear();
-            for (int i = 0; i < 12; i++)
+            if (Main.myPlayer != projectile.owner)
+                return;
+
+            for (int i = 0; i < 6; i++)
             {
-                int idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
-                Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity *= 3f;
-                Main.dust[idx].scale = 1.8f;
-                idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
-                Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity *= 3f;
-                Main.dust[idx].scale = 1.8f;
+                Vector2 shootVelocity = (MathHelper.TwoPi * i / 12f).ToRotationVector2() * Main.rand.NextFloat(6f, 17f);
+                Projectile.NewProjectile(projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), projectile.damage / 2, projectile.knockBack * 0.4f, projectile.owner);
             }
         }
     }

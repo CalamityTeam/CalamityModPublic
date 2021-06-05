@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Spirit Defense");
-            Description.SetDefault("Defense boosted by 5 and damage reduction boosted by 5%");
+            Description.SetDefault("Defense boosted by 6 and damage reduction boosted by 3%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -18,7 +18,8 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().sDefense = true;
-        }
+			player.statDefense += 6;
+			player.endurance += 0.03f;
+		}
     }
 }

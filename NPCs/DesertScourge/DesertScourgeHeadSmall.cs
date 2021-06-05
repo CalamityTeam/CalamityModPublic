@@ -23,6 +23,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 2f;
             npc.width = 60;
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.lifeMax = 800;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 350000;
+                npc.lifeMax = 35000;
             }
             npc.aiStyle = 6;
             aiType = -1;
@@ -53,10 +54,9 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 			}
 			Player player = Main.player[npc.target];
-			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
@@ -76,10 +76,10 @@ namespace CalamityMod.NPCs.DesertScourge
                     {
                         lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTailSmall>(), npc.whoAmI);
                     }
-                    Main.npc[lol].realLife = npc.whoAmI;
-                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                    Main.npc[lol].ai[1] = (float)Previous;
-                    Main.npc[Previous].ai[0] = (float)lol;
+					Main.npc[lol].ai[3] = npc.whoAmI;
+					Main.npc[lol].realLife = npc.whoAmI;
+                    Main.npc[lol].ai[1] = Previous;
+                    Main.npc[Previous].ai[0] = lol;
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                     Previous = lol;
                 }
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = CalamityWorld.death ? 300 : 1000;
+                int num954 = (CalamityWorld.death || CalamityWorld.malice) ? 300 : 1000;
                 if (BossRushEvent.BossRushActive)
                     num954 = 150;
 
@@ -192,7 +192,6 @@ namespace CalamityMod.NPCs.DesertScourge
             float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
             if (!flag94)
             {
-                npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.75f);
                 if (npc.velocity.Y > num188)
                 {

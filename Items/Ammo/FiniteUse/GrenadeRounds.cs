@@ -1,5 +1,7 @@
 using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Ammo.FiniteUse
 {
     public class GrenadeRounds : ModItem
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             item.consumable = true;
             item.knockBack = 10f;
             item.value = 15000;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<GrenadeRound>();
             item.shootSpeed = 12f;
             item.ammo = ModContent.ItemType<GrenadeRounds>(); // CONSIDER -- Would item.type work here instead of a self reference?

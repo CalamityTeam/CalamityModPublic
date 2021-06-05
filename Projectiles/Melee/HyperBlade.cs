@@ -25,18 +25,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.melee = true;
             projectile.penetrate = 5;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
             projectile.ignoreWater = true;
             aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 25f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

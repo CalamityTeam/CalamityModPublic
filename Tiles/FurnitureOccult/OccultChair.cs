@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpChair();
+            this.SetUpChair(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Chair");
             AddMapEntry(new Color(191, 142, 111), name);

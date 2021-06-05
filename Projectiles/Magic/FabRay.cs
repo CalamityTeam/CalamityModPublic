@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class FabRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
@@ -16,11 +18,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 20;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 20;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 0;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

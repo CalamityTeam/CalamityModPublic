@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TorrentialArrow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
             projectile.arrow = true;
         }
 

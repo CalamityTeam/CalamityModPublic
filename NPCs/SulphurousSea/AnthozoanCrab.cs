@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.defense = 22;
             npc.lifeMax = 920;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit38;
             npc.DeathSound = SoundID.NPCDeath46;
@@ -133,11 +129,9 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                 {
-                    npc.direction = npc.spriteDirection = (npc.DirectionTo(player.Center).X < 0).ToDirectionInt();
+                    npc.direction = npc.spriteDirection = (npc.SafeDirectionTo(player.Center).X < 0).ToDirectionInt();
                     if (Math.Abs(npc.velocity.X) < 14f && Math.Abs(player.Center.X - npc.Center.X) > 65f)
-                    {
                         npc.velocity.X += npc.spriteDirection * -0.08f;
-                    }
                 }
             }
             else

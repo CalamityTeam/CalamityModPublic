@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DivineHatchetBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/DivineHatchet";
+
         private bool hasHitEnemy = false;
         private static int Lifetime = 300;
         private static int ReboundTime = 100;
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 60;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 3;
+            projectile.penetrate = 4;
             projectile.timeLeft = Lifetime;
             projectile.melee = true;
 			projectile.extraUpdates = 1;
@@ -146,7 +148,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.width = 34;
             projectile.height = 18;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 5;
             projectile.aiStyle = 1;
@@ -25,8 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y *= 0.9995f;
+            projectile.velocity *= 0.9995f;
         }
 
         public override void Kill(int timeLeft)

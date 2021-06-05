@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class FrequencyManipulatorEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
@@ -27,7 +29,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 8;
             projectile.friendly = true;
             projectile.Calamity().rogue = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = Lifetime;
             projectile.extraUpdates = 1;
         }
@@ -42,7 +45,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float oldSpeed = projectile.velocity.Length();
                 float inertia = MathHelper.Lerp(15f, 4f, Utils.InverseLerp(Lifetime, Lifetime - 60f, projectile.timeLeft, true));
-                projectile.velocity = (projectile.velocity * inertia + projectile.DirectionTo(potentialTarget.Center) * oldSpeed) / (inertia + 1f);
+                projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(potentialTarget.Center, -Vector2.UnitY) * oldSpeed) / (inertia + 1f);
                 projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX) * oldSpeed;
             }
         }

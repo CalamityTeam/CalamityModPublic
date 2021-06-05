@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -9,19 +11,24 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Evolution");
-            Tooltip.SetDefault("You have a 50% chance to reflect projectiles when they hit you back at the enemy for 1000% their original damage\n" +
-                                "If this effect triggers you get a health regeneration boost for a short time\n" +
+            Tooltip.SetDefault("You reflect projectiles when they hit you\n" +
+                                "Reflected projectiles deal 10 times damage to enemies and no damage to you\n" +
+                                "This reflect has a 120 second cooldown which is shared with all other dodges and reflects\n" +
+                                "If this effect triggers you get a health regeneration boost for 5 seconds\n" +
                                 "If the same enemy projectile type hits you again you will resist its damage by 15%");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 10));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+            item.width = 58;
+            item.height = 44;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Purple;
+			item.accessory = true;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

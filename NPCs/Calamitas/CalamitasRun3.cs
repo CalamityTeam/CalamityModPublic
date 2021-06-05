@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 14f;
             npc.width = 120;
@@ -43,12 +44,12 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 25;
             npc.value = Item.buyPrice(0, 15, 0, 0);
 			npc.DR_NERD(0.15f);
-			npc.LifeMaxNERB(28125, 38812, 3900000);
+			npc.LifeMaxNERB(28125, 38812, 390000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
-                npc.lifeMax *= 3;
+                npc.lifeMax *= 2;
                 npc.value *= 2.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -56,58 +57,28 @@ namespace CalamityMod.NPCs.Calamitas
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<CalamitasBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
-            for (int i = 0; i < 2; i++)
+			writer.Write(npc.dontTakeDamage);
+			for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
-            for (int i = 0; i < 2; i++)
+			npc.dontTakeDamage = reader.ReadBoolean();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
@@ -182,10 +153,12 @@ namespace CalamityMod.NPCs.Calamitas
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+			// Legendary drop for Cal Clone
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
@@ -198,7 +171,7 @@ namespace CalamityMod.NPCs.Calamitas
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TheEyeofCalamitas>(w),
                     DropHelper.WeightStack<Animosity>(w),

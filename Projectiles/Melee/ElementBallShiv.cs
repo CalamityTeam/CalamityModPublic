@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[rainbow].noGravity = true;
             Main.dust[rainbow].velocity = Vector2.Zero;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 36f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
         {
 			OnHitEffects(target.Center);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
@@ -66,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
         {
 			OnHitEffects(target.Center);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }

@@ -23,16 +23,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 56;
             npc.height = 56;
             npc.defense = 70;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = CalamityWorld.death ? 0.95f : 0.925f;
+            global.DR = 0.925f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERB(675000, 750000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.LifeMaxNERB(371250, 445500);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -47,15 +48,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -78,8 +71,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
-
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.25f);
 
             if (invinceTime > 0)
@@ -90,8 +81,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             else
                 npc.dontTakeDamage = false;
 
-            if (npc.ai[3] > 0f)
-                npc.realLife = (int)npc.ai[3];
+            if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -202,7 +193,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return true;
         }
 

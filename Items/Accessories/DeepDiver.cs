@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Diver");
-            Tooltip.SetDefault("15% increased damage, defense, and movement speed when underwater\n" +
+            Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
                                 "While underwater you gain the ability to dash great distances");
         }
 
@@ -17,16 +18,16 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 24;
             item.height = 28;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.defense = 2;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Pink;
+			item.defense = 8;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            if (player.IsUnderwater())
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;

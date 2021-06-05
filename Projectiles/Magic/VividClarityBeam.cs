@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VividClarityBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
@@ -18,11 +20,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 10;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 10;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -80,7 +83,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -96,10 +98,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.ExoDebuffs();
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             projectile.damage = (int)(projectile.damage * 1.1);
         }
 

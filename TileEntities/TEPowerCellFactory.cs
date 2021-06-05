@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using CalamityMod.Items.DraedonMisc;
 
 namespace CalamityMod.TileEntities
 {
@@ -71,7 +72,8 @@ namespace CalamityMod.TileEntities
 		public override void Update()
 		{
 			++Time;
-			if (IsCellFrame && CellStack < 999)
+			int maxCellStack = ModContent.GetModItem(ModContent.ItemType<PowerCell>()).item.maxStack;
+			if (IsCellFrame && CellStack < maxCellStack)
 				// The property setter will automatically send the necessary packet.
 				CellStack++;
 		}

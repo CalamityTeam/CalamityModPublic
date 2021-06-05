@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DarkOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
 		private bool start = true;
 		private Vector2 center = Vector2.Zero;
 		private Vector2 velocity = Vector2.Zero;
@@ -554,7 +556,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

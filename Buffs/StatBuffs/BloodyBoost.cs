@@ -10,11 +10,10 @@ namespace CalamityMod.Buffs.StatBuffs
             DisplayName.SetDefault("Bloody Boost");
             Description.SetDefault("Increased offensive and defensive stats\n" +
 			"Healing potions grant more health");
-            Main.debuff[Type] = true;
+            Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
-            Main.buffNoSave[Type] = false;
+            Main.buffNoSave[Type] = true;
             longerExpertDebuff = false;
-            canBeCleared = false;
         }
 
 		public override void Update(Player player, ref int buffIndex)

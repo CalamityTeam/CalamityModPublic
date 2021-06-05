@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class TerraOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -15,7 +17,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 14;
             projectile.friendly = true;
             projectile.alpha = 255;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.timeLeft = 30;
             projectile.magic = true;
         }

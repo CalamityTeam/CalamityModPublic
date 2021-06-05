@@ -13,10 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sea's Searing");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires a string of bubbles summoning a shower of bubbles on hit\n" +
-                "Right click to fire a slower, larger water blast that summons a water spout\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires a string of bubbles summoning a shower of bubbles on hit\n" +
+                "Right click to fire a slower, larger water blast that summons a water spout");
         }
 
         public override void SetDefaults()
@@ -31,14 +29,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.rare = 5;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
             item.shootSpeed = 11f;
-        }
+
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

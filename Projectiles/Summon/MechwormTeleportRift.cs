@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormTeleportRift : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
 		public ref float GeneralRotationalOffset => ref projectile.ai[0];
         public override void SetStaticDefaults()
         {

@@ -21,10 +21,11 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 30;
             npc.height = 30;
-            npc.lifeMax = 6000;
+            npc.lifeMax = 4800;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -54,14 +55,22 @@ namespace CalamityMod.NPCs.Signus
 				return;
 			}
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 
 			npc.rotation = npc.velocity.X * 0.04f;
 
-			npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			Vector2 vector = player.Center - npc.Center;
 			npc.ai[2] = vector.Length();
 
@@ -189,7 +198,7 @@ namespace CalamityMod.NPCs.Signus
 
 		public override bool CheckDead()
         {
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
             npc.damage = npc.defDamage;

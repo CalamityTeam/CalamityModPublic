@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             //unitY additive is do it doesn't exploe initially
             int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }

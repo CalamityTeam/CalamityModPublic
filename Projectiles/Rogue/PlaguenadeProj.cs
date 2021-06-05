@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PlaguenadeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Plaguenade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguenade");

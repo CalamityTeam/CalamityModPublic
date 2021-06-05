@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.damage = 92;
-            item.crit = 4;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -31,13 +30,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;
 
             item.shootSpeed = Speed;
             item.shoot = ModContent.ProjectileType<BlazingStarProj>();
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -48,11 +50,16 @@ namespace CalamityMod.Items.Weapons.Rogue
                     for (int i = 0; i < item.stack; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
-                        Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f, 0f).Calamity().stealthStrike = true;
+                        Projectile proj = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+						if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
+							proj.Calamity().stealthStrike = true;
 
-                        Projectile projectile = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
-                        projectile.penetrate = -1;
-                        projectile.Calamity().stealthStrike = true;
+                        Projectile projectile = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+						if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							projectile.penetrate = -1;
+							projectile.Calamity().stealthStrike = true;
+						}
 
                     }
                     return false;

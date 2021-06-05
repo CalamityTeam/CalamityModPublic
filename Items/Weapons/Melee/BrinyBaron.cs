@@ -11,15 +11,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Briny Baron");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Striking an enemy with the blade causes a briny typhoon to appear\n" +
-                "Right click to fire a razorwind aqua blade\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
+                "Right click to fire a razorwind aqua blade");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 120;
             item.knockBack = 4f;
             item.useAnimation = item.useTime = 15;
             item.melee = true;
@@ -29,12 +27,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.width = 100;
             item.height = 102;
+			item.scale = 1.5f;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 80, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player) => true;
 
@@ -66,16 +66,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), damage / 2, knockBack, player.whoAmI);
             return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

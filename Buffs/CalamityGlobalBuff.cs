@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.NPCs;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +11,20 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-            if (type == BuffID.Shine)
+			/*if (type == BuffID.HornetMinion || type == BuffID.ImpMinion || type == BuffID.SpiderMinion || type == BuffID.TwinEyesMinion ||
+				type == BuffID.PirateMinion || type == BuffID.SharknadoMinion || type == BuffID.UFOMinion || type == BuffID.StardustMinion ||
+				type == BuffID.StardustGuardianMinion || type == BuffID.StardustDragonMinion)
+				Main.persistentBuff[type] = true;*/
+
+			if (type == BuffID.SugarRush)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Swiftness)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Shine)
             {
                 player.Calamity().shine = true;
             }
@@ -24,12 +38,12 @@ namespace CalamityMod.Buffs
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
-                float nebulaDamage = 0.075f * player.nebulaLevelDamage; //7.5% to 22.5%
+                float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%
                 player.allDamage -= nebulaDamage;
             }
             else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
             {
-                player.lifeRegen -= 5 * player.nebulaLevelLife; //10 to 30 changed to 5 to 15
+                player.lifeRegen -= 5 * player.nebulaLevelLife; // 10 to 30 changed to 5 to 15
             }
             else if (type == BuffID.Warmth)
             {
@@ -45,6 +59,8 @@ namespace CalamityMod.Buffs
 			{
 				if (npc.Calamity().webbed < npc.buffTime[buffIndex])
 					npc.Calamity().webbed = npc.buffTime[buffIndex];
+				if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+					npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().webbed;
 				npc.DelBuff(buffIndex);
 				buffIndex--;
 			}
@@ -52,7 +68,9 @@ namespace CalamityMod.Buffs
             {
                 if (npc.Calamity().slowed < npc.buffTime[buffIndex])
                     npc.Calamity().slowed = npc.buffTime[buffIndex];
-                npc.DelBuff(buffIndex);
+				if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+					npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().slowed;
+				npc.DelBuff(buffIndex);
                 buffIndex--;
             }
             if (type == BuffID.Electrified)
@@ -71,6 +89,14 @@ namespace CalamityMod.Buffs
 			//Vanilla buffs
             switch (type)
             {
+				case BuffID.Swiftness:
+					tip = "15% increased movement speed";
+					break;
+
+				case BuffID.SugarRush:
+					tip = "10% increased movement speed and 20% increased mining speed";
+					break;
+
                 case BuffID.NebulaUpDmg1:
                     tip = "7.5% increased damage";
                     break;
@@ -118,8 +144,7 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.CursedInferno:
-					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 20%";
+					tip += ". All damage taken increased by 20%";
                     break;
 
                 case BuffID.Warmth:

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ShadecrystalProjectile>();
@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Magic
             int num6 = Main.rand.Next(1, 3);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

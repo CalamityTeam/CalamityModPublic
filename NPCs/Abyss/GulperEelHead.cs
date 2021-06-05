@@ -31,17 +31,14 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.damage = 135;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 135;
             npc.width = 66; //36
             npc.height = 86; //20
-            npc.defense = 50;
-            npc.lifeMax = 80000;
+            npc.defense = 10;
+            npc.lifeMax = 60000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 50, 0);
             npc.behindTiles = true;
@@ -79,9 +76,9 @@ namespace CalamityMod.NPCs.Abyss
                 detectsPlayer = true;
             }
             npc.chaseable = detectsPlayer;
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -338,7 +335,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f, 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 6, 8);

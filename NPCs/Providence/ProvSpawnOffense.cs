@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Providence
 {
+    [AutoloadBossHead]
 	public class ProvSpawnOffense : ModNPC
     {
         public int dustTimer = 3;
@@ -24,17 +25,18 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 1f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 1f;
             npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 100;
             npc.height = 80;
             npc.defense = 40;
 			npc.DR_NERD(0.3f);
-            npc.lifeMax = 42500;
+            npc.lifeMax = 31875; // Old HP - 42500
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 400000;
+                npc.lifeMax = 40000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -42,25 +44,6 @@ namespace CalamityMod.NPCs.Providence
             npc.noGravity = true;
             npc.noTileCollide = true;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }
@@ -76,8 +59,7 @@ namespace CalamityMod.NPCs.Providence
         public override void AI()
         {
             CalamityGlobalNPC.holyBossAttacker = npc.whoAmI;
-            bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool expertMode = Main.expertMode;
+            bool fireDust = npc.life <= npc.lifeMax * 0.5;
             Vector2 vectorCenter = npc.Center;
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];

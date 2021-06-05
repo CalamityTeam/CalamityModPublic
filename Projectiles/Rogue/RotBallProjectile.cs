@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RotBallProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RotBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ball");

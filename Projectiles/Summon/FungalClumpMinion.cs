@@ -219,18 +219,12 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.friendly = true;
 					float minionSpeed = amalgam ? 20f : 8f;
 					float turnSpeed = 14f;
-					Vector2 targetLocation = targetVec - projectile.Center;
-					float targetDist = targetLocation.Length();
+					float targetDist = projectile.Distance(targetVec);
 					if (targetDist < 100f)
 						minionSpeed = amalgam ? 25f : 10f;
 
-					Vector2 homeInVector = projectile.DirectionTo(targetLocation);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-                    targetLocation.Normalize();
-                    targetLocation *= minionSpeed;
-                    projectile.velocity = (projectile.velocity * turnSpeed + targetLocation) / (turnSpeed + 1f);
+					Vector2 homingVelocity = projectile.SafeDirectionTo(targetVec) * minionSpeed;
+                    projectile.velocity = (projectile.velocity * turnSpeed + homingVelocity) / (turnSpeed + 1f);
 				}
 				else
 				{
@@ -247,22 +241,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
-            {
+            if (!target.canGhostHeal)
                 return;
-            }
+
             float healAmt = damage * 0.25f;
             if ((int)healAmt == 0)
-            {
                 return;
-            }
+
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-            {
                 return;
-            }
-			if (healAmt > 50f)
-				healAmt = 50f;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 3f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

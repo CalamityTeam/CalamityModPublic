@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class FlameBurstHostile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float count = 0;
 
         public override void SetStaticDefaults()

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ShadowflameFireball : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Fireball");
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
             projectile.scale = 1.25f;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {

@@ -3,10 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class MagneticOrb : ModProjectile
     {
+        private const int Lifetime = 120;
+        private const float FramesPerBeam = 12f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magnetic Orb");
@@ -18,17 +22,25 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 38;
             projectile.height = 38;
             projectile.friendly = true;
-            projectile.light = 0.5f;
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 150;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
+            projectile.timeLeft = 120;
             projectile.magic = true;
         }
 
+        public override bool CanDamage() => false;
+
         public override void AI()
         {
-            projectile.velocity *= 0.96f;
+            // Drift to a stop after being launched
+            projectile.velocity *= 0.972f;
 
+            // On frame 1, pick a random offset to use for the firing pattern.
+            if (projectile.timeLeft == Lifetime)
+                projectile.localAI[0] = Main.rand.NextFloat(0f, FramesPerBeam);
+
+            // What in the hell does this code do
             if (projectile.velocity.X > 0f)
             {
                 projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
@@ -38,6 +50,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
             }
 
+            // Update animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -49,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 2, ModContent.ProjectileType<MagneticBeam>(), 1D, true);
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, FramesPerBeam, 1, ModContent.ProjectileType<MagneticBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -70,7 +83,5 @@ namespace CalamityMod.Projectiles.Magic
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-
-        public override bool CanDamage() => false;
     }
 }

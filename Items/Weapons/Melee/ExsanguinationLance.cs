@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 44;
-            item.damage = 77;
+            item.damage = 130;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<ExsanguinationLanceProjectile>();
             item.shootSpeed = 8f;
         }

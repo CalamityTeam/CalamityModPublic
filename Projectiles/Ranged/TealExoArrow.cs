@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TealExoArrow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -19,41 +21,34 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 3;
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
             projectile.arrow = true;
         }
 
         public override void AI()
         {
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 25;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             float num55 = 40f;
             float num56 = 1.5f;
             if (projectile.ai[1] == 0f)
             {
                 projectile.localAI[0] += num56;
                 if (projectile.localAI[0] > num55)
-                {
                     projectile.localAI[0] = num55;
-                }
             }
             else
             {
                 projectile.localAI[0] -= num56;
                 if (projectile.localAI[0] <= 0f)
-                {
                     projectile.Kill();
-                }
             }
         }
 

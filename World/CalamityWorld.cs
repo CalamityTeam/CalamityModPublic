@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -36,7 +37,6 @@ using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
@@ -47,7 +47,6 @@ namespace CalamityMod.World
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
-        public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
@@ -67,9 +66,9 @@ namespace CalamityMod.World
         public static bool onionMode = false; //Extra accessory from Moon Lord
         public static bool revenge = false; //Revengeance Mode
         public static bool death = false; //Death Mode
-        public static bool defiled = false; //Defiled Mode
         public static bool armageddon = false; //Armageddon Mode
         public static bool ironHeart = false; //Iron Heart Mode
+		public static bool malice = false; // Malice Mode, enrages all bosses and makes them drop good shit
 
         // New Temple Altar
         public static int newAltarX = 0;
@@ -95,12 +94,11 @@ namespace CalamityMod.World
         public static int abyssChasmBottom = 0;
         public static bool rainingAcid;
         public static int acidRainPoints = 0;
-        public static int acidRainExtraDrawTime = 0;
         public static bool triedToSummonOldDuke = false;
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;
         public static bool forcedDownpourWithTear = false;
-		public static bool encounteredOldDuke = false;
+        public static bool encounteredOldDuke = false;
         public static int forceRainTimer = 0;
         public static int timeSinceAcidRainKill = 0;
         public static int timeSinceAcidStarted = 0;
@@ -123,6 +121,9 @@ namespace CalamityMod.World
         public static int[] SChestX = new int[10];
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
+
+        // Planetoids
+        public static bool HasGeneratedLuminitePlanetoids = false;
 
         // Town NPC spawn/home bools
         public static bool spawnedBandit = false;
@@ -154,13 +155,11 @@ namespace CalamityMod.World
         public static bool wizardName = false;
 
         #region Downed Bools
-        public static bool downedBossAny = false; //Any boss
         public static bool downedDesertScourge = false;
         public static bool downedCrabulon = false;
         public static bool downedHiveMind = false;
         public static bool downedPerforator = false;
         public static bool downedSlimeGod = false;
-        public static bool spawnedHardBoss = false; //Hardmode boss spawned
         public static bool downedCryogen = false;
         public static bool downedAquaticScourge = false;
         public static bool downedBrimstoneElemental = false;
@@ -180,10 +179,9 @@ namespace CalamityMod.World
         public static bool downedPolterghast = false;
         public static bool downedDoG = false;
         public static bool downedBumble = false;
-        public static bool buffedEclipse = false;
-        public static bool downedBuffedMothron = false;
         public static bool downedYharon = false;
         public static bool downedSCal = false;
+		public static bool downedAdultEidolonWyrm = false;
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedCLAMHardMode = false;
@@ -199,9 +197,8 @@ namespace CalamityMod.World
         public override void Initialize()
         {
             if (CalamityConfig.Instance.NerfExpertPillars)
-            {
                 NPC.LunarShieldPowerExpert = 100;
-            }
+
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
             CalamityGlobalNPC.voidBoss = -1;
@@ -278,15 +275,13 @@ namespace CalamityMod.World
             downedSentinel2 = false;
             downedSentinel3 = false;
             downedYharon = false;
-            buffedEclipse = false;
             downedSCal = false;
+			downedAdultEidolonWyrm = false;
             downedCLAM = false;
             downedCLAMHardMode = false;
             downedBumble = false;
             downedCrabulon = false;
             downedBetsy = false;
-            downedBossAny = false;
-            spawnedHardBoss = false;
             demonMode = false;
             onionMode = false;
             revenge = false;
@@ -294,14 +289,12 @@ namespace CalamityMod.World
             downedAstrageldon = false;
             downedPolterghast = false;
             downedGSS = false;
-            downedBuffedMothron = false;
             downedBoomerDuke = false;
             downedSecondSentinels = false;
             death = false;
-            defiled = false;
             armageddon = false;
             ironHeart = false;
-            dragonScalesBought = false;
+			malice = false;
             rainingAcid = false;
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
@@ -349,10 +342,10 @@ namespace CalamityMod.World
                 downed.Add("secondSentinels");
             if (downedYharon)
                 downed.Add("yharon");
-            if (buffedEclipse)
-                downed.Add("eclipse");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
+			if (downedAdultEidolonWyrm)
+				downed.Add("adultEidolonWyrm");
             if (downedBumble)
                 downed.Add("bumblebirb");
             if (downedCrabulon)
@@ -361,8 +354,6 @@ namespace CalamityMod.World
                 downed.Add("betsy");
             if (downedScavenger)
                 downed.Add("scavenger");
-            if (downedBossAny)
-                downed.Add("anyBoss");
             if (demonMode)
                 downed.Add("demonMode");
             if (onionMode)
@@ -373,24 +364,20 @@ namespace CalamityMod.World
                 downed.Add("starGod");
             if (downedAstrageldon)
                 downed.Add("astrageldon");
-            if (spawnedHardBoss)
-                downed.Add("hardBoss");
             if (downedPolterghast)
                 downed.Add("polterghast");
             if (downedGSS)
                 downed.Add("greatSandShark");
-            if (downedBuffedMothron)
-                downed.Add("moth");
             if (downedBoomerDuke)
                 downed.Add("oldDuke");
             if (death)
                 downed.Add("death");
-            if (defiled)
-                downed.Add("defiled");
             if (armageddon)
                 downed.Add("armageddon");
             if (ironHeart)
                 downed.Add("ironHeart");
+			if (malice)
+				downed.Add("malice");
             if (abyssSide)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
@@ -399,8 +386,6 @@ namespace CalamityMod.World
                 downed.Add("clam");
             if (downedCLAMHardMode)
                 downed.Add("clamHardmode");
-            if (dragonScalesBought)
-                downed.Add("scales");
             if (rainingAcid)
                 downed.Add("acidRain");
             if (spawnedBandit)
@@ -469,8 +454,10 @@ namespace CalamityMod.World
                 downed.Add("forcedRain");
             if (forcedDownpourWithTear)
                 downed.Add("forcedTear");
-			if (encounteredOldDuke)
-				downed.Add("encounteredOldDuke");
+            if (encounteredOldDuke)
+                downed.Add("encounteredOldDuke");
+            if (HasGeneratedLuminitePlanetoids)
+                downed.Add("HasGeneratedLuminitePlanetoids");
 
             return new TagCompound
             {
@@ -515,32 +502,28 @@ namespace CalamityMod.World
             downedSentinel3 = downed.Contains("signus");
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
-            buffedEclipse = downed.Contains("eclipse");
             downedSCal = downed.Contains("supremeCalamitas");
+			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
             downedScavenger = downed.Contains("scavenger");
-            downedBossAny = downed.Contains("anyBoss");
             demonMode = downed.Contains("demonMode");
             onionMode = downed.Contains("onionMode");
             revenge = downed.Contains("revenge");
             downedStarGod = downed.Contains("starGod");
             downedAstrageldon = downed.Contains("astrageldon");
-            spawnedHardBoss = downed.Contains("hardBoss");
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
-            downedBuffedMothron = downed.Contains("moth");
             downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
-            defiled = downed.Contains("defiled");
             armageddon = downed.Contains("armageddon");
             ironHeart = downed.Contains("ironHeart");
+			malice = downed.Contains("malice");
             abyssSide = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
             downedCLAMHardMode = downed.Contains("clamHardmode");
-            dragonScalesBought = downed.Contains("scales");
             rainingAcid = downed.Contains("acidRain");
 
             spawnedBandit = downed.Contains("bandit");
@@ -578,7 +561,8 @@ namespace CalamityMod.World
             startAcidicDownpour = downed.Contains("startDownpour");
             forcedRainAlready = downed.Contains("forcedRain");
             forcedDownpourWithTear = downed.Contains("forcedTear");
-			encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -634,7 +618,7 @@ namespace CalamityMod.World
                 _ = flags4[1];
                 _ = flags4[2];
                 _ = flags4[3];
-                downedBossAny = flags4[4];
+                _ = flags4[4];
                 demonMode = flags4[5];
                 onionMode = flags4[6];
                 revenge = flags4[7];
@@ -644,7 +628,7 @@ namespace CalamityMod.World
                 spawnedBandit = flags5[1];
                 spawnedCirrus = flags5[2];
                 startAcidicDownpour = flags5[3];
-                spawnedHardBoss = flags5[4];
+                _ = flags5[4];
                 downedPolterghast = flags5[5];
                 death = flags5[6];
                 downedGSS = flags5[7];
@@ -653,17 +637,17 @@ namespace CalamityMod.World
                 abyssSide = flags6[0];
                 downedAquaticScourge = flags6[1];
                 downedAstrageldon = flags6[2];
-                buffedEclipse = flags6[3];
+                _ = flags6[3];
                 armageddon = flags6[4];
-                defiled = flags6[5];
-                downedBuffedMothron = flags6[6];
+                _ = flags6[5];
+                _ = flags6[6];
                 ironHeart = flags6[7];
 
                 BitsByte flags7 = reader.ReadByte();
                 BossRushEvent.BossRushActive = flags7[0];
                 downedBoomerDuke = flags7[1];
                 downedCLAM = flags7[2];
-                dragonScalesBought = flags7[3];
+                _ = flags7[3];
                 rainingAcid = flags7[4];
                 downedEoCAcidRain = flags7[5];
                 downedAquaticScourgeAcidRain = flags7[6];
@@ -698,6 +682,11 @@ namespace CalamityMod.World
                 _ = flags10[5];
                 _ = flags10[6];
                 _ = flags10[7];
+
+				BitsByte flags11 = reader.ReadByte();
+				malice = flags11[0];
+				HasGeneratedLuminitePlanetoids = flags11[1];
+				downedAdultEidolonWyrm = flags11[2];
             }
             else
             {
@@ -745,7 +734,7 @@ namespace CalamityMod.World
             flags4[1] = false;
             flags4[2] = false;
             flags4[3] = false;
-            flags4[4] = downedBossAny;
+            flags4[4] = false;
             flags4[5] = demonMode;
             flags4[6] = onionMode;
             flags4[7] = revenge;
@@ -755,7 +744,7 @@ namespace CalamityMod.World
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
             flags5[3] = startAcidicDownpour;
-            flags5[4] = spawnedHardBoss;
+            flags5[4] = false;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
             flags5[7] = downedGSS;
@@ -764,17 +753,17 @@ namespace CalamityMod.World
             flags6[0] = abyssSide;
             flags6[1] = downedAquaticScourge;
             flags6[2] = downedAstrageldon;
-            flags6[3] = buffedEclipse;
+            flags6[3] = false;
             flags6[4] = armageddon;
-            flags6[5] = defiled;
-            flags6[6] = downedBuffedMothron;
+            flags6[5] = false;
+            flags6[6] = false;
             flags6[7] = ironHeart;
 
             BitsByte flags7 = new BitsByte();
             flags7[0] = BossRushEvent.BossRushActive;
             flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
-            flags7[3] = dragonScalesBought;
+            flags7[3] = false;
             flags7[4] = rainingAcid;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
@@ -810,7 +799,12 @@ namespace CalamityMod.World
             flags10[6] = false;
             flags10[7] = false;
 
-            writer.Write(flags);
+			BitsByte flags11 = new BitsByte();
+			flags11[0] = malice;
+			flags11[1] = HasGeneratedLuminitePlanetoids;
+			flags11[2] = downedAdultEidolonWyrm;
+
+			writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
             writer.Write(flags4);
@@ -820,6 +814,7 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
+            writer.Write(flags11);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -866,7 +861,7 @@ namespace CalamityMod.World
             _ = flags4[1];
             _ = flags4[2];
             _ = flags4[3];
-            downedBossAny = flags4[4];
+            _ = flags4[4];
             demonMode = flags4[5];
             onionMode = flags4[6];
             revenge = flags4[7];
@@ -876,7 +871,7 @@ namespace CalamityMod.World
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
             startAcidicDownpour = flags5[3];
-            spawnedHardBoss = flags5[4];
+            _ = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
             downedGSS = flags5[7];
@@ -885,17 +880,17 @@ namespace CalamityMod.World
             abyssSide = flags6[0];
             downedAquaticScourge = flags6[1];
             downedAstrageldon = flags6[2];
-            buffedEclipse = flags6[3];
+            _ = flags6[3];
             armageddon = flags6[4];
-            defiled = flags6[5];
-            downedBuffedMothron = flags6[6];
+            _ = flags6[5];
+            _ = flags6[6];
             ironHeart = flags6[7];
 
             BitsByte flags7 = reader.ReadByte();
             BossRushEvent.BossRushActive = flags7[0];
             downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
-            dragonScalesBought = flags7[3];
+            _ = flags7[3];
             rainingAcid = flags7[4];
             downedEoCAcidRain = flags7[5];
             downedAquaticScourgeAcidRain = flags7[6];
@@ -931,7 +926,12 @@ namespace CalamityMod.World
             _ = flags10[6];
             _ = flags10[7];
 
-            abyssChasmBottom = reader.ReadInt32();
+			BitsByte flags11 = reader.ReadByte();
+			malice = flags11[0];
+			HasGeneratedLuminitePlanetoids = flags11[1];
+			downedAdultEidolonWyrm = flags11[2];
+
+			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
@@ -1172,27 +1172,27 @@ namespace CalamityMod.World
                 CalamityNetcode.SyncWorld();
             }
 
-			// Attempt to start the acid rain at the 4:29AM
-			bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
-			if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
-			{
-				bool noRain = false;
-				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-				{
-					if (!Main.player[playerIndex].active)
-						continue;
-					if (Main.player[playerIndex].Calamity().noStupidNaturalARSpawns)
-					{
-						noRain = true;
-						break;
-					}
-				}
-				if (!noRain)
-				{
-					AcidRainEvent.TryStartEvent();
-					CalamityNetcode.SyncWorld();
-				}
-			}
+            // Attempt to start the acid rain at the 4:29AM
+            bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
+            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
+            {
+                bool noRain = false;
+                for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+                {
+                    if (!Main.player[playerIndex].active)
+                        continue;
+                    if (Main.player[playerIndex].Calamity().noStupidNaturalARSpawns)
+                    {
+                        noRain = true;
+                        break;
+                    }
+                }
+                if (!noRain)
+                {
+                    AcidRainEvent.TryStartEvent();
+                    CalamityNetcode.SyncWorld();
+                }
+            }
             if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
             {
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
@@ -1517,17 +1517,12 @@ namespace CalamityMod.World
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (DoGSecondStageCountdown == 21540)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CeaselessVoid>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<CeaselessVoid>(), new OffscreenBossSpawnContext());
                     if (DoGSecondStageCountdown == 14340)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<StormWeaverHead>(), new OffscreenBossSpawnContext());
                     if (DoGSecondStageCountdown == 7140)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<Signus>(), new OffscreenBossSpawnContext());
+
                     if (DoGSecondStageCountdown <= 60)
                     {
                         int freeNPCSlots = Main.maxNPCs - Main.npc.Take(Main.maxNPCs).Where(npc => npc.active).Count();
@@ -1625,19 +1620,6 @@ namespace CalamityMod.World
                     netMessage.Write((byte)CalamityModMessageType.ArmoredDiggerCountdownSync);
                     netMessage.Write(ArmoredDiggerSpawnCooldown);
                     netMessage.Send();
-                }
-            }
-
-            if (Main.dayTime && Main.hardMode)
-            {
-                if (player.townNPCs >= 2f)
-                {
-                    if (Main.rand.NextBool(2000))
-                    {
-                        int steamGril = NPC.FindFirstNPC(NPCID.Steampunker);
-                        if (steamGril == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.Steampunker); //Steampunker has awoken!
-                    }
                 }
             }
 

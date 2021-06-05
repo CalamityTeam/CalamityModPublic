@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SandDollarStealth : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SandDollar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");
@@ -44,8 +46,9 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int coralCount = 0; coralCount < coralAmt; coralCount++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int coral = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[coral].Calamity().forceRogue = true;
+					int coral = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner);
+					if (coral.WithinBounds(Main.maxProjectiles))
+						Main.projectile[coral].Calamity().forceRogue = true;
 				}
 			}
         }

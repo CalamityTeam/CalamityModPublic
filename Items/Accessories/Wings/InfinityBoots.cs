@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 9\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Good vertical speed\n" +
-                "Flight time: 120\n" +
+                "Flight time: 140\n" +
                 "24% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 36;
             item.height = 32;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -71,14 +71,13 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 9.25f;
-            player.rocketBoots = 3;
-            player.moveSpeed += 0.24f;
+            player.accRunSpeed = 8.5f;
+            player.moveSpeed += 0.16f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
-            player.wingTimeMax = 120;
+            player.wingTimeMax = 140;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
             modPlayer.sTracers = true;

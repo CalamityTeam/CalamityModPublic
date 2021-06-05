@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class RainBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -18,10 +20,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 150;
+            projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             projectile.velocity *= 0.95f;
 
@@ -35,7 +39,8 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 14f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

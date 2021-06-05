@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.SunkenSea
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -47,9 +43,9 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void AI()
         {
             Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.30f / 255f, (255 - npc.alpha) * 0.30f / 255f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {

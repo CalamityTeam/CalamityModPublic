@@ -11,7 +11,10 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Slug");
-            Tooltip.SetDefault("These bullets aren't finished.");
+            Tooltip.SetDefault("Pierces through unlimited targets\n" +
+                "After striking at least one enemy,\n" +
+                "if the bullet hits a wall or runs out of targets,\n" +
+                "it will warp backwards through space and explode on impact");
         }
 
         public override void SetDefaults()
@@ -26,22 +29,19 @@ namespace CalamityMod.Items.Ammo
             item.value = Item.buyPrice(silver: 4);
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<GodSlayerSlugMain>();
+            item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
             item.shootSpeed = 6f;
             item.ammo = ItemID.MusketBall;
         }
 
         public override void AddRecipes()
         {
-            /*
-			ModRecipe recipe = new ModRecipe(mod);
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddRecipeGroup("NForEE");
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 999);
             recipe.AddRecipe();
-			*/
         }
     }
 }

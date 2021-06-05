@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 55;
+            item.damage = 56;
             item.magic = true;
             item.mana = 4;
             item.width = 74;
@@ -27,13 +27,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item33;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<BigBeamofDeath>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise; //12
         }
 
         public override Vector2? HoldoutOffset()
@@ -49,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
             float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
             for (int index = 0; index < num6; ++index)
             {
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, ProjectileID.LaserMachinegunLaser, (int)((double)damage * 0.65), knockBack * 0.6f, player.whoAmI, 0f, 0f);
+                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.65), knockBack * 0.6f, player.whoAmI, 0f, 0f);
                 Main.projectile[projectile].timeLeft = 120;
             }
             return false;

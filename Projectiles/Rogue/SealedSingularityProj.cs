@@ -30,8 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.ai[0] >= 70f)
             {
-                projectile.velocity.X *= 0.96f;
-                projectile.velocity.Y *= 0.96f;
+                projectile.velocity *= 0.96f;
             }
 			else
 			{
@@ -48,8 +47,11 @@ namespace CalamityMod.Projectiles.Rogue
 			Main.PlaySound(SoundID.Shatter, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 
             int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SealedSingularityBlackhole>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.Calamity().stealthStrike ? -180f : 0f, 0f);
-			Main.projectile[blackhole].Center = projectile.Center;
-			Main.projectile[blackhole].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+			if (blackhole.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[blackhole].Center = projectile.Center;
+				Main.projectile[blackhole].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+			}
 
 			for (int index = 0; index < 3; ++index)
 			{

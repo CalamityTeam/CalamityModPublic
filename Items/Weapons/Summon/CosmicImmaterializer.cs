@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 100;
-            item.damage = 3000;
+            item.damage = 900;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 74;
             item.height = 72;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             item.shootSpeed = 10f;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
 			CalamityUtils.KillShootProjectiles(true, type, player);
             CalamityPlayer modPlayer = player.Calamity();
-            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
+            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
             Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

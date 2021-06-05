@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 30;
             item.height = 26;
             item.melee = true;
-            item.damage = 100;
+            item.damage = 107;
             item.knockBack = 7f;
             item.useTime = 20;
             item.useAnimation = 20;
@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<LaceratorYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.value = Item.buyPrice(platinum: 1, gold: 40);
-        }
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override void AddRecipes()
         {

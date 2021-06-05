@@ -41,12 +41,18 @@ namespace CalamityMod.Items.Placeables
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
         {
-            /*
+			/*
                 Celestial remains will give stardust, fallen stars, ancient bone dust, gems and HM ores always by default
                 When Astrum Deus has been defeated, it will give Astral Ore
             */
 
-            float val = Main.rand.NextFloat(100);
+			bool twoMechsDowned = 
+				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) || 
+				(NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) || 
+				(NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) || 
+				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
+
+			float val = Main.rand.NextFloat(100);
             if (val < 20f)
             {
                 resultType = ItemID.CopperCoin;
@@ -134,27 +140,27 @@ namespace CalamityMod.Items.Placeables
             }
             else if (val < 85.03f)
             {
-                resultType = ItemID.MythrilOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : ItemID.MythrilOre) : ItemID.MythrilOre;
                 resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 87.03f)
             {
-                resultType = ItemID.OrichalcumOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : ItemID.OrichalcumOre) : ItemID.OrichalcumOre;
                 resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 88.78f)
             {
-                resultType = ItemID.AdamantiteOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : !twoMechsDowned ? ItemID.MythrilOre : ItemID.AdamantiteOre) : ItemID.AdamantiteOre;
                 resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 89.53f)
             {
-                resultType = ItemID.TitaniumOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : !twoMechsDowned ? ItemID.OrichalcumOre : ItemID.TitaniumOre) : ItemID.TitaniumOre;
                 resultStack = Main.rand.Next(1, 17);
             }
             else if (CalamityWorld.downedStarGod)
             {
-                resultType = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
+                resultType = ModContent.ItemType<Ores.AstralOre>();
                 resultStack = Main.rand.Next(1, 2);
             }
         }

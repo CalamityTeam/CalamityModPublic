@@ -60,14 +60,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				if (bubbleStronkCounter >= 240)
 					bubbleStronk = false;
 
-				Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
 				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
 					Projectile proj = Main.projectile[i];
 					if (proj.active && proj.type == ModContent.ProjectileType<SulphurousGrabberBubble2>() && proj.ai[0] >= 40f && proj.owner == projectile.owner)
 					{
-						Rectangle rect = proj.getRect();
-						if (rectangle.Intersects(rect))
+						if (projectile.Hitbox.Intersects(proj.Hitbox))
 						{
 							proj.Kill();
 							bubbleStronk = true;
@@ -89,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 						if (Main.rand.NextBool(10))
 							projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
 						float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 4, projectile.knockBack / 4, projectile.owner);
 					}
 					bubbleCounter = 0;
 				}
@@ -106,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (bubbleStronk)
             {
 				tex = ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble");
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, tex);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, tex);
             }
             return false;
         }

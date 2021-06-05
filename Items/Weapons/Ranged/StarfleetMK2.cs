@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 222;
+            item.damage = 135;
             item.knockBack = 15f;
             item.shootSpeed = 16f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item92;
             item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;

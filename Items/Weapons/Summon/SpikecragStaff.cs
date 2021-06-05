@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.UseSound = SoundID.Item78;

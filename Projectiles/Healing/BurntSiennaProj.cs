@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Healing
 {
 	public class BurntSiennaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sienna");
@@ -23,8 +25,7 @@ namespace CalamityMod.Projectiles.Healing
 
 		public override void AI()
 		{
-			projectile.velocity.X *= 0.95f;
-			projectile.velocity.Y *= 0.95f;
+			projectile.velocity *= 0.95f;
 
 			projectile.HealingProjectile(3, (int)projectile.ai[0], 6f, 15f, false);
 			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);

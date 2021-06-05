@@ -1,8 +1,9 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -14,8 +15,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Armor");
             Tooltip.SetDefault("+80 max life\n" +
-                       "20% increased movement speed\n" +
-                       "12% increased damage and 8% increased critical strike chance");
+                       "12% increased damage and 8% increased critical strike chance\n" +
+					   "Grants immunity to the irradiated debuff");
         }
 
         public override void SetDefaults()
@@ -24,27 +25,27 @@ namespace CalamityMod.Items.Armor
             item.height = 24;
             item.value = Item.buyPrice(0, 72, 0, 0);
             item.defense = 44;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+			item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 80;
-            player.moveSpeed += 0.2f;
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
             recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<LeadCore>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

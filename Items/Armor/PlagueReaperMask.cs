@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 9; //35
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
                 "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
-				"Getting hit causes the plague cinders to rain from above\n" +
+				"Getting hit causes plague cinders to rain from above\n" +
                 "Press " + hotkey + " to blind yourself for 5 seconds but massively boost your ranged damage\n" +
 				"This has a 25 second cooldown.";
             CalamityPlayer modPlayer = player.Calamity();
@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Armor
 				player.blind = true;
 				player.headcovered = true;
 				player.blackout = true;
-				player.rangedDamage += 1f; //100% ranged dmg and 30% crit
-				player.rangedCrit += 30;
+				player.rangedDamage += 0.6f; //60% ranged dmg and 20% crit
+				player.rangedCrit += 20;
 			}
 			if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
 			{
@@ -77,9 +77,11 @@ namespace CalamityMod.Items.Armor
             {
                 if (player.immune)
                 {
-                    if (Main.rand.NextBool(10))
+                    if (player.miscCounter % 10 == 0)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI, 6);
+						Projectile cinder = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
+						if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
+							cinder.Calamity().forceTypeless = true;
                     }
                 }
             }

@@ -3,6 +3,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -17,9 +18,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
-                "Increases max life by 20, life regen by 1, and all damage by 5%\n" +
-                "Increases movement speed by 10% and jump speed by 20%\n" +
-                "Increases damage reduction by 5%\n" +
+                "Increases max life by 20, life regen by 1 and all damage by 5%\n" +
+                "Increases jump speed by 12%\n" +
+				"Increases damage reduction and movement speed by 5%\n" +
                 "Increases max mana by 50 and reduces mana usage by 5%\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
                 "Summons all elementals to protect you\n" +
@@ -33,13 +34,42 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 9;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			bool autoJump = Main.player[Main.myPlayer].autoJump;
+			bool hideVisual = false;
+			for (int i = 3; i < 10; i++)
+			{
+				if (Main.player[Main.myPlayer].armor[i].type == item.type)
+					hideVisual = Main.player[Main.myPlayer].hideVisual[i];
+			}
+			string lifeAmt = hideVisual ? "25" : "20";
+			string lifeRegenAmt = hideVisual ? "2" : "1";
+			string damageAmt = hideVisual ? "7" : "5";
+			string jumpAmt = hideVisual ? (autoJump ? "3" : "12") : (autoJump ? "2.5" : "10");
+			string damageReductionAndMoveSpeedAmt = hideVisual ? "6" : "5";
+			string manaAmt = hideVisual ? "60" : "50";
+			string manaUsageAmt = hideVisual ? "7" : "5";
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					line2.text = "Increases max life by " + lifeAmt + ", life regen by " + lifeRegenAmt + " and all damage by " + damageAmt + "%";
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
+					line2.text = jumpAmt + "% increased jump speed";
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
+					line2.text = "Increases damage reduction and movement speed by " + damageReductionAndMoveSpeedAmt + "%";
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+					line2.text = "Increases max mana by " + manaAmt + " and reduces mana usage by " + manaUsageAmt + "%";
+			}
+		}
+
+		public override bool CanEquipAccessory(Player player, int slot)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.brimstoneWaifu || modPlayer.sandWaifu || modPlayer.sandBoobWaifu || modPlayer.cloudWaifu || modPlayer.sirenWaifu)
@@ -52,17 +82,16 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			if (player != null && !player.dead)
-			{
 				Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
-			}
+
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.allWaifus = !hideVisual;
             modPlayer.elementalHeart = true;
 
 			player.lifeRegen += hideVisual ? 2 : 1;
 			player.statLifeMax2 += hideVisual ? 25 : 20;
-			player.moveSpeed += hideVisual ? 0.12f : 0.1f;
-			player.jumpSpeedBoost += hideVisual ? (player.autoJump ? 0.3f : 1.1f) : (player.autoJump ? 0.25f : 1f);
+			player.moveSpeed += hideVisual ? 0.06f : 0.05f;
+			player.jumpSpeedBoost += hideVisual ? (player.autoJump ? 0.15f : 0.6f) : (player.autoJump ? 0.125f : 0.5f);
 			player.endurance += hideVisual ? 0.06f : 0.05f;
 			player.statManaMax2 += hideVisual ? 60 : 50;
 			player.manaCost *= hideVisual ? 0.93f : 0.95f;
@@ -77,9 +106,7 @@ namespace CalamityMod.Items.Accessories
             if (!hideVisual)
             {
 				Vector2 velocity = new Vector2(0f, -1f);
-				int damage = NPC.downedMoonlord ? 150 : 90;
-				float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
-				int elementalDmg = (int)(damage * damageMult * player.MinionDamage());
+				int elementalDmg = (int)(75 * player.MinionDamage());
 				float kBack = 2f + player.minionKB;
 
 				if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||

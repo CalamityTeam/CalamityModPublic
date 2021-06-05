@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class NanoFlare : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nano Flare");
@@ -19,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-            projectile.extraUpdates = 10;
+			projectile.extraUpdates = 10;
             projectile.timeLeft = 60;
         }
 

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Electrician's Glove");
             Tooltip.SetDefault(@"Stealth strikes summon sparks on enemy hits
-Stealth strikes also have +30 armor penetration, deal 10% more damage, and heal for 1 HP");
+Stealth strikes also have +20 armor penetration, deal 10% more damage, and heal for 1 HP");
         }
 
         public override void SetDefaults()
@@ -20,7 +20,7 @@ Stealth strikes also have +30 armor penetration, deal 10% more damage, and heal 
             item.height = 40;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.accessory = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

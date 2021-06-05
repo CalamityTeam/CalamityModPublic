@@ -14,7 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -22,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 1800;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -35,9 +37,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
 
             projectile.velocity *= 0.995f;
 
@@ -58,24 +58,16 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.alpha -= 30;
                 if (projectile.alpha < 30)
-                {
                     projectile.alpha = 30;
-                }
             }
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft < 180)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 180;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 300);
+			if (projectile.timeLeft >= 180)
+				target.AddBuff(BuffID.Venom, 300);
         }
     }
 }

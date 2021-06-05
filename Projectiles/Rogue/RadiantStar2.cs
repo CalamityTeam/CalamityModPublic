@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantStar2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RadiantStar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiant Star");
@@ -24,18 +26,17 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.ai[0] == 1f)
             {
                 float num472 = projectile.Center.X;
@@ -71,10 +72,8 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            else
-            {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.Calamity().stealthStrike ? 1800f : 600f, 24f, 20f);
-            }
+            else if (projectile.timeLeft < 270)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -89,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

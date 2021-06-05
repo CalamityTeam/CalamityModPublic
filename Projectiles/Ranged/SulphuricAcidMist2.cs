@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SulphuricAcidMist2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidMist";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Mist");

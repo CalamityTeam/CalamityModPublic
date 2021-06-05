@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<YinYoyo>();
             item.shootSpeed = 12f;
 
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.buyPrice(gold: 36);
         }
 

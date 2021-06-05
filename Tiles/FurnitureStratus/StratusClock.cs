@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            this.SetUpClock();
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Clock");
             AddMapEntry(new Color(191, 142, 111), name);

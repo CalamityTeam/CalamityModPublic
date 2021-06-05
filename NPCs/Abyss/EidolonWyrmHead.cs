@@ -34,19 +34,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 8f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 8f;
             npc.damage = 170;
             npc.width = 126; //36
             npc.height = 76; //20
-            npc.defense = 300;
+            npc.defense = 70;
 			npc.DR_NERD(0.15f);
             npc.lifeMax = 160000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.behindTiles = true;
@@ -76,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -101,9 +98,9 @@ namespace CalamityMod.NPCs.Abyss
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)npc.position.X, (int)npc.position.Y);
                 }
             }
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -456,8 +453,6 @@ namespace CalamityMod.NPCs.Abyss
 				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
 				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
-			int chance = CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, chance, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);

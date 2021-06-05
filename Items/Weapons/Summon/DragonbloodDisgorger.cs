@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 300;
+            item.damage = 160;
             item.mana = 30;
             item.width = 64;
             item.height = 62;
@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.UseSound = SoundID.DD2_SkeletonDeath;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.DD2_SkeletonDeath;
             item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
             item.shootSpeed = 10f;
             item.summon = true;

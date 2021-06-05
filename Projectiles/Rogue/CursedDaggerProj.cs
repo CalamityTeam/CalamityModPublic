@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CursedDaggerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CursedDagger";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Dagger");
@@ -41,10 +43,13 @@ namespace CalamityMod.Projectiles.Rogue
 					if (projectile.owner == Main.myPlayer)
 					{
 						Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-						int flame = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
-            			Main.projectile[flame].Calamity().forceRogue = true;
-            			Main.projectile[flame].usesLocalNPCImmunity = true;
-						Main.projectile[flame].localNPCHitCooldown = 10;
+						int flame = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
+						if (flame.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[flame].Calamity().forceRogue = true;
+							Main.projectile[flame].usesLocalNPCImmunity = true;
+							Main.projectile[flame].localNPCHitCooldown = 10;
+						}
 					}
                 }
 			}
@@ -67,7 +72,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

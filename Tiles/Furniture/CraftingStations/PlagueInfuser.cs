@@ -13,8 +13,9 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
+			TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };

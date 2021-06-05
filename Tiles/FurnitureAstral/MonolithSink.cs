@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
     {
         public override void SetDefaults()
         {
-            this.SetUpSink();
+            this.SetUpSink(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Sink");
             AddMapEntry(new Color(191, 142, 111), name);

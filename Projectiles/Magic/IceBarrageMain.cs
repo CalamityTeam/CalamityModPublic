@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class IceBarrageMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int pwidth = 58;
         private int pheight = 58;
         public override void SetStaticDefaults()
@@ -154,9 +156,12 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
                     int ice = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(projectile.damage * 0.05f), 2f, projectile.owner, 0f, (float)Main.rand.Next(3));
-                    Main.projectile[ice].timeLeft = 600;
-                    Main.projectile[ice].melee = false;
-                    Main.projectile[ice].Calamity().forceMagic = true;
+					if (ice.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[ice].timeLeft = 600;
+						Main.projectile[ice].melee = false;
+						Main.projectile[ice].Calamity().forceMagic = true;
+					}
                     projectile.ai[1] = 0f;
                 }
             }
@@ -171,8 +176,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 900);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 900);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
     }
 }

@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.magic = true;
             item.mana = 8;
             item.width = 28;
-            item.crit = 3;
             item.height = 30;
             item.useTime = 5;
             item.useAnimation = 20;
@@ -30,12 +29,15 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicTentacle>();
             item.shootSpeed = 17f;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 3;
 
         public override void AddRecipes()
         {

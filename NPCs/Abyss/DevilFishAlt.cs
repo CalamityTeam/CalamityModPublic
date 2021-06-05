@@ -29,14 +29,14 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.lavaImmune = true;
-            npc.damage = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 90;
             npc.width = 126;
             npc.height = 66;
             npc.defense = 999999;
             npc.lifeMax = 400;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -300,12 +300,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 3, 9);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), NPC.downedGolemBoss, 200, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1,4 +1,5 @@
-using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,8 +17,7 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Iron Heart");
             Tooltip.SetDefault("Healing with potions and all positive life regen is disabled.\n" +
 				"Enemy damage scales with your max health.\n" +
-                "Can be toggled on and off.\n" +
-				"Using this while a boss is alive will instantly kill you and despawn the boss.");
+                "Can be toggled on and off.");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.width = 28;
             item.height = 28;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -35,15 +35,17 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
-			for (int doom = 0; doom < Main.npc.Length; doom++)
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-				if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-					Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-				{
-					player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-					Main.npc[doom].active = Main.npc[doom].friendly;
-					Main.npc[doom].netUpdate = true;
-				}
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.LightSkyBlue;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				return true;
 			}
 			if (!CalamityWorld.ironHeart)
             {
@@ -60,23 +62,8 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
-
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.IronHeartBoolSync);
-                netMessage.Write(CalamityWorld.ironHeart);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                netMessage.Send();
-            }
             return true;
         }
     }
