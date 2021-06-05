@@ -83,7 +83,8 @@ namespace CalamityMod.NPCs.Abyss
 					npc.Opacity = 0f;
 			}
 
-			bool shootShadowFireballs = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 6f && Main.npc[(int)npc.ai[2]].Calamity().newAI[2] > 0f;
+			bool shootShadowFireballs = (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 6f && Main.npc[(int)npc.ai[2]].Calamity().newAI[2] > 0f) ||
+				(Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 10f && Main.npc[(int)npc.ai[2]].Calamity().newAI[1] > 0f);
 			if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 320f)
