@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,14 +37,14 @@ namespace CalamityMod.Projectiles.Magic
 			Lighting.AddLight(projectile.Center, 0.6f, 0.5f, 0f);
 			if (projectile.timeLeft % 30 == 0)
 			{
-				int numProj = 2;
+				int numProj = 3;
 				float randomSpread = Main.rand.NextFloat(3f, 18f);
 				float rotation = MathHelper.ToRadians(randomSpread);
 				if (projectile.owner == Main.myPlayer)
 				{
-					for (int i = 0; i < numProj + 1; i++)
+					for (int i = -1; i < numProj - 1; i++)
 					{
-						Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+						Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i));
 						Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<Ancient2>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, projectile.ai[1]);
 					}
 				}
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 			if (projectile.ai[0] > 4f && projectile.numUpdates % 2 == 0)
 			{
-				int dustType = 32;
+				int dustType = 22;
 				int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
 				Dust dust = Main.dust[idx];
 				if (Main.rand.NextBool(2))
@@ -98,19 +99,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			//Changes the texture of the projectile
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			switch ((int)projectile.ai[1])
-			{
-				case 0:
-					break;
-				case 1:
-					texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AncientIban");
-					break;
-				default:
-					break;
-			}
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 
 			// Dust effects
 			Circle dustCircle = new Circle(projectile.Center, projectile.width / 2);
@@ -121,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
 				Vector2 dustPos = dustCircle.RandomPointInCircle();
 				if ((dustPos - projectile.Center).Length() > 48)
 				{
-					int dustIndex = Dust.NewDust(dustPos, 1, 1, 32);
+					int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
 					Main.dust[dustIndex].noGravity = true;
 					Main.dust[dustIndex].fadeIn = 1f;
 					Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;

@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 			if (projectile.ai[0] > 7f && projectile.numUpdates % 2 == 0)
 			{
-				int dustType = 32;
+				int dustType = 22;
 				int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
 				Dust dust = Main.dust[idx];
 				if (Main.rand.NextBool(2))
@@ -83,18 +84,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			//Changes the texture of the projectile
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			switch ((int)projectile.ai[1])
-			{
-				case 0:
-					break;
-				case 1:
-					texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AncientIban");
-					break;
-				default:
-					break;
-			}
 			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
 			int height = texture.Height / Main.projFrames[projectile.type];
 			int frameHeight = height * projectile.frame;
@@ -115,7 +105,7 @@ namespace CalamityMod.Projectiles.Magic
 				Vector2 dustPos = dustCircle.RandomPointInCircle();
 				if ((dustPos - projectile.Center).Length() > 48)
 				{
-					int dustIndex = Dust.NewDust(dustPos, 1, 1, 32);
+					int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
 					Main.dust[dustIndex].noGravity = true;
 					Main.dust[dustIndex].fadeIn = 1f;
 					Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;

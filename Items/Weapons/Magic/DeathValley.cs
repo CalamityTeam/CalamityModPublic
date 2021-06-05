@@ -35,15 +35,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 5f;
         }
 
-		public override bool AltFunctionUse(Player player) => true;
-
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			float ai1 = player.altFunctionUse == 2 ? 1f : 0f;
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, ai1);
-			return false;
-		}
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
