@@ -111,6 +111,9 @@ namespace CalamityMod.NPCs.Cryogen
 			if (enrageScale > 2f)
 				enrageScale = 2f;
 
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 3f;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 

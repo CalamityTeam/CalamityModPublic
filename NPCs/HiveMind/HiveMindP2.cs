@@ -322,6 +322,8 @@ namespace CalamityMod.NPCs.HiveMind
 				enrageScale += 1f;
 			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			if (npc.alpha != 0)
             {

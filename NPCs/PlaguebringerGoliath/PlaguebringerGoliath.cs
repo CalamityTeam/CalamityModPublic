@@ -180,6 +180,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (enrageScale > 1.5f)
 				enrageScale = 1.5f;
 
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 2f;
+
 			bool diagonalDash = revenge && phase2;
 
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
@@ -686,7 +689,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
-				int num650 = (calamityGlobalNPC.enraged > 0) ? 10 : (phase5 ? 20 : (phase3 ? 25 : 30));
+				int num650 = (calamityGlobalNPC.enraged > 0) ? 15 : (phase5 ? 20 : (phase3 ? 25 : 30));
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
@@ -946,7 +949,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			float deceleration = 0.98f;
 
 			acceleration *= 0.1f * enrageScale + 1f;
-			velocity *= 0.1f * enrageScale + 1f;
+			velocity *= 1f - enrageScale * 0.1f;
 			deceleration *= 1f - enrageScale * 0.1f;
 
 			if (npc.position.Y > player.position.Y - yPos)

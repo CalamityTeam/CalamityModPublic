@@ -151,10 +151,9 @@ namespace CalamityMod.NPCs.Ravager
 			return false;
 		}
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
+
+		public override bool PreNPCLoot() => false;
 
 		public override void HitEffect(int hitDirection, double damage)
         {

@@ -139,6 +139,8 @@ namespace CalamityMod.NPCs.Crabulon
 				enrageScale += 1f;
 			if (!player.ZoneGlowshroom || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
             {

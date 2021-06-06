@@ -155,6 +155,8 @@ namespace CalamityMod.NPCs.Leviathan
 			float enrageScale = 0f;
 			if (notOcean || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			npc.dontTakeDamage = spawnAnimation;
 

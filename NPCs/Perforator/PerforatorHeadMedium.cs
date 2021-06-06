@@ -63,6 +63,8 @@ namespace CalamityMod.NPCs.Perforator
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

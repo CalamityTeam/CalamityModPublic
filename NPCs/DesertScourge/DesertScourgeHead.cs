@@ -101,6 +101,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			float enrageScale = 0f;
 			if (!player.ZoneDesert || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

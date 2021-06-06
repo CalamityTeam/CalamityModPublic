@@ -149,10 +149,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

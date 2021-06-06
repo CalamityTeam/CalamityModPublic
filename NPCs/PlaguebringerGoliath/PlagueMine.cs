@@ -155,6 +155,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			return false;
 		}
 
+		public override bool PreNPCLoot() => false;
+
 		public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item14, npc.position);

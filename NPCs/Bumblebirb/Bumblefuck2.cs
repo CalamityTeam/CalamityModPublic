@@ -300,10 +300,11 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-		public override bool PreNPCLoot() => !CalamityPlayer.areThereAnyDamnBosses;
-
 		public override void NPCLoot()
 		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return;
+
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
 		}
 

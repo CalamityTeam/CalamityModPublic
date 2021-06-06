@@ -303,7 +303,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override bool CheckDead()
+		public override bool PreNPCLoot() => false;
+
+		public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);

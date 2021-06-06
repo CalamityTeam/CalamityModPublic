@@ -37,6 +37,7 @@ using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
@@ -146,6 +147,7 @@ namespace CalamityMod
         public static List<int> mossHornetList;
         public static List<int> bossMinionList;
         public static List<int> minibossList;
+		public static List<int> heartDropBlockList;
 
         public static List<int> legOverrideList;
 
@@ -2369,7 +2371,69 @@ namespace CalamityMod
                 NPCID.Mothron
             };
 
-            bossMinionList = new List<int>()
+			heartDropBlockList = new List<int>()
+			{
+				NPCID.BlueSlime,
+				NPCID.YellowSlime,
+				NPCID.RedSlime,
+				NPCID.PurpleSlime,
+				NPCID.GreenSlime,
+				NPCID.IceSlime,
+				NPCID.SlimeSpiked,
+				NPCID.UmbrellaSlime,
+				NPCID.RainbowSlime,
+				NPCID.Pinky,
+				NPCID.ServantofCthulhu,
+				NPCID.EaterofWorldsHead,
+				NPCID.EaterofWorldsBody,
+				NPCID.EaterofWorldsTail,
+				NPCID.Creeper,
+				NPCID.TheHungryII,
+				NPCID.LeechHead,
+				NPCID.LeechBody,
+				NPCID.LeechTail,
+				NPCID.Probe,
+				NPCID.Bee,
+				NPCID.BeeSmall,
+				NPCID.PlanterasTentacle,
+				NPCID.Sharkron,
+				NPCID.Sharkron2,
+				NPCType<DesertScourgeHeadSmall>(),
+				NPCType<DriedSeekerHead>(),
+				NPCType<CrabShroom>(),
+				NPCType<DankCreeper>(),
+				NPCID.DevourerHead,
+				NPCID.EaterofSouls,
+				NPCType<PerforatorHeadLarge>(),
+				NPCType<PerforatorHeadMedium>(),
+				NPCType<PerforatorHeadSmall>(),
+				NPCType<SlimeSpawnCorrupt2>(),
+				NPCType<SlimeSpawnCrimson>(),
+				NPCType<SlimeSpawnCrimson2>(),
+				NPCType<SlimeGod>(),
+				NPCType<SlimeGodRun>(),
+				NPCType<SlimeGodSplit>(),
+				NPCType<SlimeGodRunSplit>(),
+				NPCType<IceMass>(),
+				NPCType<Cryocore>(),
+				NPCType<Cryocore2>(),
+				NPCType<Parasea>(),
+				NPCType<AquaticAberration>(),
+				NPCType<PlagueBeeG>(),
+				NPCType<PlagueBeeLargeG>(),
+				NPCType<PlaguebringerShade>(),
+				NPCType<RavagerClawLeft>(),
+				NPCType<RavagerClawRight>(),
+				NPCType<Bumblefuck2>(),
+				NPCType<DarkEnergy>(),
+				NPCType<CosmicLantern>(),
+				NPCType<OldDukeSharkron>(),
+				NPCType<OldDukeToothBall>(),
+				NPCType<DetonatingFlare>(),
+				NPCType<DetonatingFlare2>()
+			};
+
+			bossMinionList = new List<int>()
             {
                 NPCType<DesertScourgeHeadSmall>(),
                 NPCType<DesertScourgeBodySmall>(),
@@ -2586,6 +2650,7 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
+			heartDropBlockList = null;
 
             legOverrideList = null;
 

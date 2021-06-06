@@ -520,6 +520,8 @@ namespace CalamityMod.NPCs
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1369,6 +1371,8 @@ namespace CalamityMod.NPCs
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCorrupt || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Total body segments
 			float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
@@ -1907,6 +1911,8 @@ namespace CalamityMod.NPCs
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Spawn Creepers
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
@@ -2433,6 +2439,8 @@ namespace CalamityMod.NPCs
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Creeper count, 0 to 20
 			int creeperCount = NPC.CountNPCS(NPCID.Creeper);
@@ -2570,6 +2578,9 @@ namespace CalamityMod.NPCs
 
 			if (enrageScale > 1f)
 				enrageScale = 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 2f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -3461,7 +3472,7 @@ namespace CalamityMod.NPCs
             // Skull shooting
             if (handsDead && npc.ai[1] == 0f)
             {
-                float num158 = malice ? 15f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
+                float num158 = BossRushEvent.BossRushActive ? 10f : malice ? 15f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
                 if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] >= num158)
                 {
 					calamityGlobalNPC.newAI[1] = 0f;
@@ -3596,7 +3607,7 @@ namespace CalamityMod.NPCs
 
                 // Increase speed while charging
                 npc.damage = (int)(npc.defDamage * 1.3);
-                float num176 = malice ? 6f : 4.5f;
+                float num176 = BossRushEvent.BossRushActive ? 9f : malice ? 6f : 4.5f;
 				float velocityBoost = death ? 1f : 1f - lifeRatio;
 				if (handsDead || malice)
 					num176 += velocityBoost;
@@ -4159,7 +4170,7 @@ namespace CalamityMod.NPCs
 			// NOTE: Max velocity is 8 in expert mode
 
 			float velocityBoost = 4f * (1f - lifeRatio);
-            float velocityX = (death ? 3.5f : 2f) + velocityBoost;
+            float velocityX = (BossRushEvent.BossRushActive ? 7f : death ? 3.5f : 2f) + velocityBoost;
             velocityX *= speedMult;
 
             // NOTE: Values below are based on Rev Mode only!
@@ -4438,7 +4449,7 @@ namespace CalamityMod.NPCs
 						int damage = npc.GetProjectileDamage(projectileType);
 
 						float laserSpawnDistance = fireAcceleratingLasers ? 30f : 10f;
-						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
+						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 40f : Vector2.Zero) - npc.Center) * velocity;
 						Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
 						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
@@ -4512,6 +4523,8 @@ namespace CalamityMod.NPCs
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			// Enrage variable if player is flying upside down
 			bool targetFloatingUp = player.gravDir == -1f;
@@ -5518,6 +5531,8 @@ namespace CalamityMod.NPCs
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 0.5f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -6235,6 +6250,8 @@ namespace CalamityMod.NPCs
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 0.5f;
 
 			// Enrage variable if player is floating upside down
 			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
@@ -7352,7 +7369,7 @@ namespace CalamityMod.NPCs
                     float num456 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector48.Y;
                     float num457 = (float)Math.Sqrt(num455 * num455 + num456 * num456);
 
-                    float speed = 6f;
+                    float speed = BossRushEvent.BossRushActive ? 9f : 6f;
                     if (phase2)
                         speed += 1f;
                     if (phase3)
@@ -7475,7 +7492,7 @@ namespace CalamityMod.NPCs
                     else
                     {
                         npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocity * -calamityGlobalNPC.newAI[0]);
-						float skullSpawnDivisor = death ? 30f - (float)Math.Round(10f * (1f - lifeRatio)) : 30f;
+						float skullSpawnDivisor = BossRushEvent.BossRushActive ? 15f : death ? 30f - (float)Math.Round(10f * (1f - lifeRatio)) : 30f;
                         if (npc.ai[2] % skullSpawnDivisor == 0f)
                         {
                             calamityGlobalNPC.newAI[1] += 1f;

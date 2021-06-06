@@ -112,19 +112,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (projectile.type == ModContent.ProjectileType<Celestus2>())
-            {
                 damage = (int)(damage * 0.66);
-            }
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-    }
+		public override bool CheckActive() => false;
+	}
 }

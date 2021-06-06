@@ -115,5 +115,5 @@ namespace CalamityMod.NPCs.Crabulon
                 }
             }
         }
-    }
+	}
 }

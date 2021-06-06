@@ -120,6 +120,8 @@ namespace CalamityMod.NPCs.HiveMind
 				enrageScale += 1f;
 			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -191,7 +193,7 @@ namespace CalamityMod.NPCs.HiveMind
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 60;
+                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 55;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;

@@ -114,6 +114,8 @@ namespace CalamityMod.NPCs.Leviathan
 			float enrageScale = 0f;
 			if (notOcean || malice)
 				enrageScale += 2f;
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 0.5f;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -571,7 +573,7 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 
 				float phaseTimer = 300f;
-				phaseTimer -= 60f * enrageScale;
+				phaseTimer -= 50f * enrageScale;
 				if (!leviAlive || phase4)
 					phaseTimer -= 150f * (1f - lifeRatio);
 
