@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Sacrifice");
             Tooltip.SetDefault("Releases a dagger that sticks to enemies\n" +
-                "Right clicking causes all stuck daggers to fly back at you and give you life" +
+                "Right clicking causes all stuck daggers to fly back at you and give you life\n" +
                 "Daggers stuck to enemies release bloodsplosions over time");
         }
 
