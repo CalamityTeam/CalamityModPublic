@@ -21,14 +21,13 @@ namespace CalamityMod.NPCs.TownNPCs
 		{
 			DisplayName.SetDefault("Brimstone Witch");
 
-			Main.npcFrameCount[npc.type] = 26;
+			Main.npcFrameCount[npc.type] = 27;
 			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
 			NPCID.Sets.AttackFrameCount[npc.type] = 4;
 			NPCID.Sets.DangerDetectRange[npc.type] = 700;
-			NPCID.Sets.AttackType[npc.type] = 2;
-			NPCID.Sets.AttackTime[npc.type] = 90;
-			NPCID.Sets.AttackAverageChance[npc.type] = 15;
-			NPCID.Sets.MagicAuraColor[npc.type] = new Color(250, 50, 50);
+			NPCID.Sets.AttackType[npc.type] = 1;
+			NPCID.Sets.AttackTime[npc.type] = 30;
+			NPCID.Sets.AttackAverageChance[npc.type] = 5;
 		}
 
 		public override void SetDefaults()
