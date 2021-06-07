@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.hide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath1;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(ChainEndpoints.Count);
+            for (int i = 0; i < ChainEndpoints.Count; i++)
+                writer.WriteVector2(ChainEndpoints[i]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            ChainEndpoints.Clear();
+            for (int i = 0; i < reader.ReadInt32(); i++)
+                ChainEndpoints.Add(reader.ReadVector2());
         }
 
         public override void AI()
