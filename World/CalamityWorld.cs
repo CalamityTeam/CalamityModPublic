@@ -304,6 +304,7 @@ namespace CalamityMod.World
         #region Save
         public override TagCompound Save()
         {
+            BossRushEvent.StartTimer = 0;
             var downed = new List<string>();
             if (downedDesertScourge)
                 downed.Add("desertScourge");
