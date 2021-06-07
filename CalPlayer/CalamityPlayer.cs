@@ -12,6 +12,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
@@ -574,10 +575,12 @@ namespace CalamityMod.CalPlayer
         public bool rustyMedal = false;
         public bool noStupidNaturalARSpawns = false;
         public bool burdenBreakerYeet = false;
-        public bool roverDrive = false;
-        public int roverDriveTimer = 0;
-        public int roverFrameCounter = 0;
-        public int roverFrame = 0;
+		public bool roverDrive = false;
+		public int roverDriveTimer = 0;
+		public int roverFrameCounter = 0;
+		public int roverFrame = 0;
+		public bool angelicAlliance = false;
+		public int angelicActivate = -1;
         #endregion
 
         #region Armor Set
@@ -742,6 +745,8 @@ namespace CalamityMod.CalPlayer
         public bool energyShellCooldown = false;
         public bool prismaticCooldown = false;
         public bool waterLeechBleeding = false;
+		public bool divineBlessCooldown = false;
+		public bool banishingFire = false;
         #endregion
 
         #region Buff
@@ -835,8 +840,9 @@ namespace CalamityMod.CalPlayer
         public bool hallowedRegen = false;
 		public bool hallowedPower = false;
         public bool kamiBoost = false;
-        public bool avertorBonus = false;
-        #endregion
+		public bool avertorBonus = false;
+		public bool divineBless = false;
+		#endregion
 
         #region Minion
         public bool wDroid = false;
@@ -1603,7 +1609,8 @@ namespace CalamityMod.CalPlayer
             rustyMedal = false;
             noStupidNaturalARSpawns = false;
             burdenBreakerYeet = false;
-            roverDrive = false;
+			roverDrive = false;
+			angelicAlliance = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1758,6 +1765,8 @@ namespace CalamityMod.CalPlayer
             energyShellCooldown = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
+			divineBlessCooldown = false;
+			banishingFire = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -1816,7 +1825,8 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
-            bloodPactBoost = false;
+			bloodPactBoost = false;
+			divineBless = false;
 
             killSpikyBalls = false;
 
@@ -2060,18 +2070,16 @@ namespace CalamityMod.CalPlayer
             nanoFlareCooldown = 0;
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
-            icicleCooldown = 0;
-            statisTimer = 0;
-            hallowedRuneCooldown = 0;
-            phantomicBulwarkCooldown = 0;
-            phantomicHeartRegen = 0;
-            sulphurBubbleCooldown = 0;
-            ladHearts = 0;
-            prismaticLasers = 0;
-            roverDriveTimer = 0;
-            resetHeightandWidth = false;
-            noLifeRegen = false;
-
+			icicleCooldown = 0;
+			statisTimer = 0;
+			hallowedRuneCooldown = 0;
+			sulphurBubbleCooldown = 0;
+			ladHearts = 0;
+			prismaticLasers = 0;
+			roverDriveTimer = 0;
+			angelicActivate = -1;
+			resetHeightandWidth = false;
+			noLifeRegen = false;
             alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
@@ -2117,6 +2125,8 @@ namespace CalamityMod.CalPlayer
             energyShellCooldown = false;
             prismaticCooldown = false;
             waterLeechBleeding = false;
+			divineBlessCooldown = false;
+			banishingFire = false;
             #endregion
 
             #region Rogue
@@ -2242,10 +2252,11 @@ namespace CalamityMod.CalPlayer
             revivify = false;
             healCounter = 300;
             danceOfLightCharge = 0;
-            bloodPactBoost = false;
-            rangedAmmoCost = 1f;
-            avertorBonus = false;
-            #endregion
+			bloodPactBoost = false;
+			rangedAmmoCost = 1f;
+			avertorBonus = false;
+			divineBless = false;
+			#endregion
 
             #region Armorbonuses
             flamethrowerBoost = false;
@@ -2723,12 +2734,39 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !divineBlessCooldown)
+            {
+				int seconds = CalamityUtils.SecondsToFrames(15f);
+                player.AddBuff(ModContent.BuffType<DivineBless>(), seconds, false);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngelicAllianceActivation"), player.Center);
+
+				// Spawn an archangel for every minion you have
+				float angelAmt = 0f;
+				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+				{
+					Projectile proj = Main.projectile[projIndex];
+					if (proj.minionSlots <= 0f || !proj.IsSummon())
+						continue;
+					if (proj.active && proj.owner == player.whoAmI)
+					{
+						angelAmt += 1f;
+					}
+				}
+				for (int projIndex = 0; projIndex < angelAmt; projIndex++)
+				{
+					Projectile proj = Main.projectile[projIndex];
+					float start = 360f / angelAmt;
+					Projectile.NewProjectile(new Vector2((int)(player.Center.X + (Math.Sin(projIndex * start) * 300)), (int)(player.Center.Y + (Math.Cos(projIndex * start) * 300))), Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 4, proj.knockBack / 4f, player.whoAmI, Main.rand.Next(120), projIndex * start);
+					player.statLife += 2;
+					player.HealEffect(2);
+				}
+            }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !sandCloakCooldown)
             {
                 player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 1800, false); //30 seconds
                 rogueStealth -= rogueStealthMax * 0.25f;
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI);
                 Main.PlaySound(SoundID.Item, player.position, 45);
             }
             if (CalamityMod.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
@@ -4321,7 +4359,7 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
                 }
-                if (hFlames)
+                if (hFlames || banishingFire)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
                 }

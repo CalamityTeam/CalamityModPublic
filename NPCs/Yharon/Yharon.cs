@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void SetDefaults()
         {
 			npc.Calamity().canBreakPlayerDefense = true;
-			npc.npcSlots = 50f;
+            npc.npcSlots = 50f;
 			npc.GetNPCDamage();
 			npc.width = 200;
             npc.height = 200;
@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Yharon
             aiType = -1;
             npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
-
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
@@ -603,7 +602,7 @@ namespace CalamityMod.NPCs.Yharon
 						}
 						else
 							npc.localAI[1] += 1f;
-					}
+                    }
 
                     npc.netUpdate = true;
                 }
@@ -629,7 +628,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Fireball breath
             else if (npc.ai[0] == 2f)
             {
-				if (npc.ai[1] == 0f)
+                if (npc.ai[1] == 0f)
 					npc.ai[1] = Math.Sign((vectorCenter - player.Center).X);
 
 				Vector2 destination = player.Center + new Vector2(npc.ai[1], 0);
@@ -747,7 +746,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Phase switch
             else if (npc.ai[0] == 6f && !player.dead)
             {
-				if (npc.ai[1] == 0f)
+                if (npc.ai[1] == 0f)
 					npc.ai[1] = Math.Sign((vectorCenter - player.Center).X);
 
 				Vector2 destination = player.Center + new Vector2(npc.ai[1], 0);
@@ -759,7 +758,7 @@ namespace CalamityMod.NPCs.Yharon
 				else
 					npc.velocity *= 0.98f;
 
-				int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
+                int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
                 if (num1477 != 0)
                 {
                     if (npc.ai[2] == 0f && num1477 != npc.direction)
@@ -902,7 +901,7 @@ namespace CalamityMod.NPCs.Yharon
 						}
 						else
 							npc.localAI[1] += 1f;
-					}
+                    }
                     else if (aiState == 6)
                     {
                         npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * spinPhaseVelocity;
@@ -1102,7 +1101,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Phase switch
             else if (npc.ai[0] == 13f && !player.dead)
             {
-				if (npc.ai[1] == 0f)
+                if (npc.ai[1] == 0f)
 					npc.ai[1] = Math.Sign((vectorCenter - player.Center).X);
 
 				Vector2 destination = player.Center + new Vector2(npc.ai[1], 0);
@@ -1114,7 +1113,7 @@ namespace CalamityMod.NPCs.Yharon
 				else
 					npc.velocity *= 0.98f;
 
-				int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
+                int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
                 if (num1477 != 0)
                 {
                     if (npc.ai[2] == 0f && num1477 != npc.direction)
@@ -1260,7 +1259,7 @@ namespace CalamityMod.NPCs.Yharon
 						}
 						else
 							npc.localAI[1] += 1f;
-					}
+                    }
                     else if (aiState == 6)
                     {
                         npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * spinPhaseVelocity;
@@ -1705,7 +1704,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             else if (npc.ai[0] == 1f)
             {
-				if (npc.ai[2] == 0f)
+                if (npc.ai[2] == 0f)
 					npc.ai[2] = (vectorCenter.X < targetData.Center.X) ? 1 : -1;
 
 				Vector2 destination = targetData.Center + new Vector2(-npc.ai[2], 0f);
@@ -1714,7 +1713,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (!targetDead)
 				{
 					if (Vector2.Distance(vectorCenter, destination) > reduceSpeedChargeDistance)
-						npc.SimpleFlyMovement(desiredVelocity, acceleration);
+					npc.SimpleFlyMovement(desiredVelocity, acceleration);
 					else
 						npc.velocity *= 0.98f;
 				}
@@ -3013,13 +3012,13 @@ namespace CalamityMod.NPCs.Yharon
 					}
 					if (npc.frame.Y >= frameHeight * 5)
 						npc.frame.Y = 0;
-				}
+					}
 				else
 				{
 					npc.frame.Y = frameHeight * 5;
 					if (doTelegraphRoarAnimation)
 						npc.frame.Y = frameHeight * 6;
-				}
+					}
 				return;
 			}
 

@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -2686,6 +2687,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Rejoice! Hybrid weapons are no more, so this list is no longer cluttered.
 			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
 				ModContent.ItemType<Animus>(),
+				ModContent.ItemType<AngelicAlliance>(),
 				ModContent.ItemType<Azathoth>(),
 				ModContent.ItemType<Contagion>(),
 				ModContent.ItemType<CrystylCrusher>(),

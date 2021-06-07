@@ -77,6 +77,7 @@ namespace CalamityMod
         public static ModHotKey SandCloakHotkey;
         public static ModHotKey SpectralVeilHotKey;
         public static ModHotKey PlaguePackHotKey;
+        public static ModHotKey AngelicAllianceHotKey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -173,6 +174,7 @@ namespace CalamityMod
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
+            AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 
             if (!Main.dedServ)
                 LoadClient();
@@ -303,6 +305,7 @@ namespace CalamityMod
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
+			AngelicAllianceHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;
