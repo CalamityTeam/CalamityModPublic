@@ -1059,7 +1059,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (modPlayer.shadowMinions)
 					player.maxMinions += 3;
-				else if (modPlayer.tearMinions)
+				else if (modPlayer.holyMinions)
 					player.maxMinions += 2;
 
 				if (modPlayer.starTaintedGenerator)

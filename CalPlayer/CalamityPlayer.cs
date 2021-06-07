@@ -470,7 +470,7 @@ namespace CalamityMod.CalPlayer
         public bool nanotech = false;
         public bool eQuiver = false;
         public bool shadowMinions = false;
-        public bool tearMinions = false;
+        public bool holyMinions = false;
         public bool alchFlask = false;
         public bool reducedPlagueDmg = false;
         public bool abaddon = false;
@@ -1543,7 +1543,7 @@ namespace CalamityMod.CalPlayer
             nuclearRod = false;
             heartOfDarkness = false;
             shadowMinions = false;
-            tearMinions = false;
+            holyMinions = false;
             alchFlask = false;
             reducedPlagueDmg = false;
             abaddon = false;

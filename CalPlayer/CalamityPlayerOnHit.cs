@@ -820,9 +820,9 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(BuffType<BanishingFire>(), 60);
 				}
 
-				if (modPlayer.tearMinions)
+				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 30);
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)
@@ -963,9 +963,9 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
 
-				if (modPlayer.tearMinions)
+				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 30);
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)
