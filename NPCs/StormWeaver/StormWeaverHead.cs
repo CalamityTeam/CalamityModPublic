@@ -80,6 +80,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
+			bool enraged = npc.Calamity().enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -177,11 +178,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     BoltCountdown--;
                     if (BoltCountdown == 0)
                     {
-                        int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            speed2 += 1;
-                        }
+                        int speed2 = enraged ? 10 : revenge ? 8 : 7;
                         float spawnX2 = Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
                         float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
                         Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
@@ -306,8 +303,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = malice ? 13f : revenge ? 11f : 10f;
-                num189 = malice ? 0.38f : revenge ? 0.31f : 0.28f;
+                num188 = enraged ? 15f : malice ? 13f : revenge ? 11f : 10f;
+                num189 = enraged ? 0.45f : malice ? 0.38f : revenge ? 0.31f : 0.28f;
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;

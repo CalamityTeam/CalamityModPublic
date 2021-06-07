@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles
 		// Boss projectile velocity multiplier in Malice Mode
 		public bool affectedByMaliceModeVelocityMultiplier = false;
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
-		public const float BossRushProjectileVelocityMultiplier = 1.5f;
+		public const float BossRushProjectileVelocityMultiplier = 1.35f;
 
 		#region SetDefaults
 		public override void SetDefaults(Projectile projectile)

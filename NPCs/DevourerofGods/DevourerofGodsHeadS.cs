@@ -163,6 +163,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Variables
 			Vector2 vector = npc.Center;
             bool flies = npc.ai[3] == 0f;
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -377,11 +378,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!phase4 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0))
+                if (!phase4 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                 {
                     float speed = 12f;
                     float spawnOffset = 1500f;
-                    float divisor = malice ? 100f : 120f;
+                    float divisor = enraged ? 80f : malice ? 100f : 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
@@ -529,7 +530,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
                 npc.active = false;
 
-            float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
+            float fallSpeed = enraged ? 21f : malice ? 19.5f : death ? 17.75f : 16f;
 
 			if (expertMode)
 				fallSpeed += 3.5f * (1f - lifeRatio);
@@ -596,10 +597,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 npc.localAI[1] = 0f;
 
-				float speed = malice ? 18f : death ? 16.5f : 15f;
-                float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
-                float homingSpeed = malice ? 36f : death ? 30f : 24f;
-                float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
+				float speed = enraged ? 20f : malice ? 18f : death ? 16.5f : 15f;
+                float turnSpeed = enraged ? 0.4f : malice ? 0.36f : death ? 0.33f : 0.3f;
+                float homingSpeed = enraged ? 40f : malice ? 36f : death ? 30f : 24f;
+                float homingTurnSpeed = enraged ? 0.55f : malice ? 0.48f : death ? 0.405f : 0.33f;
 
 				if (expertMode)
 				{
@@ -809,7 +810,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				calamityGlobalNPC.newAI[2] += 1f;
 
-                float turnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
+                float turnSpeed = enraged ? 0.36f : malice ? 0.3f : death ? 0.24f : 0.18f;
 
 				if (expertMode)
 				{
@@ -935,8 +936,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
-                    double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
+                    double maximumSpeed1 = enraged ? 0.6 : malice ? 0.52 : death ? 0.46 : 0.4;
+                    double maximumSpeed2 = enraged ? 1.4 : malice ? 1.25 : death ? 1.125 : 1D;
 
 					if (increaseSpeedMore)
 					{

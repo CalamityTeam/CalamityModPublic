@@ -65,6 +65,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
 				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
@@ -140,7 +141,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.localAI[0] += flag100 ? 0.5f : 1f;
+				npc.localAI[0] += enraged ? 3f : flag100 ? 0.5f : 1f;
 				if (revenge)
 					npc.localAI[0] += 0.5f;
 

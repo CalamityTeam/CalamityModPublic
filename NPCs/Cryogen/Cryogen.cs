@@ -99,6 +99,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 			Player player = Main.player[npc.target];
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -113,6 +114,9 @@ namespace CalamityMod.NPCs.Cryogen
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 3f;
+
+			if (enraged)
+				enrageScale = 4f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -298,7 +302,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 					float velocity = revenge ? 3.5f : 4f;
 					float acceleration = 0.15f;
-					velocity -= enrageScale;
+					velocity -= enrageScale * 0.8f;
 					acceleration += 0.07f * enrageScale;
 
 					if (npc.position.Y > player.position.Y - 375f)

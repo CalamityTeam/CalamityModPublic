@@ -315,6 +315,7 @@ namespace CalamityMod.NPCs.HiveMind
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			float enrageScale = 0f;
@@ -323,6 +324,8 @@ namespace CalamityMod.NPCs.HiveMind
 			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+			if (enraged)
 				enrageScale += 1f;
 
 			if (npc.alpha != 0)

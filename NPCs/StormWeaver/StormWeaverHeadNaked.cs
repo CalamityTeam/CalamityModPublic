@@ -108,6 +108,7 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -201,7 +202,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				if (expertMode && !phase4)
 				{
-					npc.localAI[0] += malice ? 1.5f : 1f;
+					npc.localAI[0] += enraged ? 2f : malice ? 1.5f : 1f;
 					if (npc.localAI[0] >= 450f)
 					{
 						npc.localAI[0] = 0f;
@@ -281,8 +282,8 @@ namespace CalamityMod.NPCs.StormWeaver
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-            float num188 = malice ? 15f : revenge ? 13f : 12f;
-            float num189 = malice ? 0.36f : revenge ? 0.31f : 0.28f;
+            float num188 = enraged ? 17f : malice ? 15f : revenge ? 13f : 12f;
+            float num189 = enraged ? 0.41f : malice ? 0.36f : revenge ? 0.31f : 0.28f;
 
 			// Start charging at the player when in phase 2
 			if (phase2 && !phase4)
@@ -396,10 +397,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int speed2 = revenge ? 8 : 7;
-						if (npc.Calamity().enraged > 0)
-							speed2 += 1;
-
+						int speed2 = enraged ? 10 : revenge ? 8 : 7;
 						float spawnX2 = npc.Center.X > Main.player[npc.target].Center.X ? 1000f : -1000f;
 						float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
 						Vector2 baseSpawn = new Vector2(spawnX2 + Main.player[npc.target].Center.X, spawnY2);

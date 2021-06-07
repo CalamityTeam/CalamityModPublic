@@ -174,7 +174,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int type = ModContent.NPCType<HiveBlob>();
-                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0)
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns)
                             {
                                 type = ModContent.NPCType<DankCreeper>();
                             }

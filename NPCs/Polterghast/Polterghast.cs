@@ -115,6 +115,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Variables
 			Vector2 vector = npc.Center;
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool speedBoost = false;
             bool despawnBoost = false;
@@ -292,18 +293,24 @@ namespace CalamityMod.NPCs.Polterghast
 			if (malice)
 				tileEnrageMult = 1.75f;
 
+			if (enraged)
+				tileEnrageMult = 2.25f;
+
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
 
 			// Increase projectile fire rate based on number of nearby active tiles
-			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.6f));
+			float amount = 1f - ((tileEnrageMult - 1f) / 0.75f);
+			if (amount < 0f)
+				amount = 0f;
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, amount);
 
 			// Increase projectile stats based on number of nearby active tiles
 			int baseProjectileTimeLeft = (int)(1200f * tileEnrageMult);
 			int baseProjectileAmt = (int)(4f * tileEnrageMult);
 			int baseProjectileSpread = (int)(45f * tileEnrageMult);
 			float baseProjectileVelocity = 5f * tileEnrageMult;
-			if (speedBoost || calamityGlobalNPC.enraged > 0)
+			if (speedBoost)
 				baseProjectileVelocity *= 1.25f;
 
 			// Look at target

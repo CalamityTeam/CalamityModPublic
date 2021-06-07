@@ -89,6 +89,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
@@ -402,7 +403,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float divisor = malice ? 10f : 15f;
+								float divisor = enraged ? 5f : malice ? 10f : 15f;
 								if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
@@ -463,7 +464,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % 40f == 0f)
+						if (npc.ai[1] % (enraged ? 20f : 40f) == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{
@@ -532,7 +533,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (calamityGlobalNPC.enraged > 0 || player.gravDir == -1f)
+            if (enraged || player.gravDir == -1f)
             {
                 num1372 += 8f;
             }

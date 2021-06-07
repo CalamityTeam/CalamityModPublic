@@ -143,6 +143,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -183,9 +184,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.spriteDirection = Math.Sign(npc.velocity.X);
             float num1000 = lifeRatio < 0.75f ? 14f : 16f;
             if (revenge)
-            {
                 num1000 *= 0.9f;
-            }
+			if (enraged)
+				num1000 *= 0.8f;
+
             float num1006 = 0.111111117f * num1000;
             int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
             int num1010 = (npc.ai[0] == 2f) ? 80 : 60;
@@ -201,7 +203,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-				float shootBoost = death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
+				float shootBoost = enraged ? 4f : death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
                 npc.localAI[0] += 1f + shootBoost;
                 if (npc.localAI[0] >= 240f && Vector2.Distance(vectorCenter, player.Center) > 160f)
                 {
@@ -247,7 +249,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
+                float scaleFactor6 = enraged ? 24f : malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
                 Vector2 center5 = player.Center;
                 Vector2 vector126 = center5 - vectorCenter;
                 Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
@@ -297,7 +299,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
+                    velocity *= enraged ? 18f : malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
                     npc.velocity = velocity;
                 }
             }

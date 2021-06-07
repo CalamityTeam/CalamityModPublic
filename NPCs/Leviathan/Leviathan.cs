@@ -84,6 +84,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
             bool revenge = CalamityWorld.revenge || malice;
@@ -156,6 +157,8 @@ namespace CalamityMod.NPCs.Leviathan
 			if (notOcean || malice)
 				enrageScale += 2f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+			if (enraged)
 				enrageScale += 1f;
 
 			npc.dontTakeDamage = spawnAnimation;
@@ -311,9 +314,6 @@ namespace CalamityMod.NPCs.Leviathan
                                     speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
 
 								speed += 2f * enrageScale;
-
-                                if (npc.Calamity().enraged > 0)
-                                    speed = 22f;
 
 								if (!sirenAlive || phase4)
 									speed += 3f * (1f - lifeRatio);
@@ -481,9 +481,6 @@ namespace CalamityMod.NPCs.Leviathan
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
-                            if (npc.Calamity().enraged > 0)
-                                num1044 += 4f;
-
                             Vector2 vector117 = vector;
                             float num1045 = player.Center.X - vector117.X;
                             float num1046 = player.Center.Y - vector117.Y;
@@ -511,12 +508,6 @@ namespace CalamityMod.NPCs.Leviathan
 							num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
-
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            num1048 += 3f;
-                            num1049 += 0.2f;
-                        }
 
                         if (vector.Y < player.Center.Y)
                             npc.velocity.Y += num1049;

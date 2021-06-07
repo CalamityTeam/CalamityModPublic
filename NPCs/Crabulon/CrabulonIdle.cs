@@ -75,6 +75,7 @@ namespace CalamityMod.NPCs.Crabulon
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -140,6 +141,8 @@ namespace CalamityMod.NPCs.Crabulon
 			if (!player.ZoneGlowshroom || malice)
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+			if (enraged)
 				enrageScale += 1f;
 
 			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
@@ -245,8 +248,6 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 1.75f;
 				if (death)
 					num823 += 2f * (1f - lifeRatio);
-                if (npc.Calamity().enraged > 0)
-                    num823 = 16f;
 				num823 += 4f * enrageScale;
 
 				bool flag51 = false;
@@ -534,10 +535,6 @@ namespace CalamityMod.NPCs.Crabulon
                         if (revenge)
                         {
                             num626 += 1f;
-                        }
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            num626 += 3f;
                         }
                         if (phase2)
                         {

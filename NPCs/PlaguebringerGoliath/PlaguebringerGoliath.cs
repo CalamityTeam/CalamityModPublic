@@ -121,6 +121,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool phase5 = lifeRatio < 0.1f;
 
 			// Mode variables
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -182,6 +183,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 2f;
+
+			if (enraged)
+				enrageScale = 2.5f;
 
 			bool diagonalDash = revenge && phase2;
 
@@ -281,8 +285,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					num1044 += 1f;
 				if (phase5)
 					num1044 += 1f;
-				if (calamityGlobalNPC.enraged > 0)
-					num1044 += 2f;
 
 				num1044 += 2f * enrageScale;
 
@@ -373,11 +375,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1048 += 1f;
                         num1049 += 0.05f;
                     }
-                    if (calamityGlobalNPC.enraged > 0)
-                    {
-                        num1048 += 2f;
-                        num1049 += 0.1f;
-                    }
 					num1048 += 1.5f * enrageScale;
 					num1049 += 0.25f * enrageScale;
 
@@ -421,9 +418,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (calamityGlobalNPC.enraged > 0)
-                        num1050 = 300;
-					else if (phase4)
+                    if (phase4)
 						num1050 = revenge ? 450 : 475;
 					else if (phase3)
                         num1050 = revenge ? 475 : 500;
@@ -689,7 +684,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
-				int num650 = (calamityGlobalNPC.enraged > 0) ? 15 : (phase5 ? 20 : (phase3 ? 25 : 30));
+				int num650 = phase5 ? 20 : (phase3 ? 25 : 30);
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
@@ -700,9 +695,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
 						projectileSpeed += 2f * enrageScale;
-
-						if (calamityGlobalNPC.enraged > 0)
-                            projectileSpeed += 10f;
 
                         float num1071 = player.position.X + player.width * 0.5f - vector121.X;
                         float num1072 = player.position.Y + player.height * 0.5f - vector121.Y;

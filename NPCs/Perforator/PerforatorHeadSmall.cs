@@ -55,6 +55,7 @@ namespace CalamityMod.NPCs.Perforator
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -66,6 +67,8 @@ namespace CalamityMod.NPCs.Perforator
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+			if (enraged)
 				enrageScale += 1f;
 
 			// Percent life remaining
@@ -84,12 +87,6 @@ namespace CalamityMod.NPCs.Perforator
 				speed += velocityScale * (1f - lifeRatio);
 				float accelerationScale = (death ? 0.12f : 0.1f) * enrageScale;
 				turnSpeed += accelerationScale * (1f - lifeRatio);
-			}
-
-			if (npc.Calamity().enraged > 0)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
 			}
 
 			if (npc.ai[3] > 0f)

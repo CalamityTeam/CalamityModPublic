@@ -98,6 +98,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			Player player = Main.player[npc.target];
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -119,6 +120,8 @@ namespace CalamityMod.NPCs.Perforator
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+			if (enraged)
 				enrageScale += 1f;
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
@@ -253,8 +256,8 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			// Movement velocities, increased while enraged
-			float velocityXEnrageIncrease = 1f * enrageScale;
-			float velocityYEnrageIncrease = 0.25f * enrageScale;
+			float velocityXEnrageIncrease = 0.8f * enrageScale;
+			float velocityYEnrageIncrease = 0.2f * enrageScale;
 
 			// When firing blobs, float above the target and don't call any other projectile firing or movement code
 			if (floatAboveToFireBlobs)
@@ -344,7 +347,7 @@ namespace CalamityMod.NPCs.Perforator
 				}
 			}
 			else
-				Movement(player, 2.5f + velocityXEnrageIncrease, 0.5f + velocityYEnrageIncrease, 0.1f, 160f, 300f, 400f, false);
+				Movement(player, 7f - velocityXEnrageIncrease, 3f - velocityYEnrageIncrease, 0.1f, 160f, 300f, 400f, false);
 		}
 
 		private void Movement(Player target, float velocityX, float velocityY, float acceleration, float x, float y, float y2, bool charging)

@@ -105,6 +105,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			// Variables
 			Player player = Main.player[npc.target];
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -113,8 +114,10 @@ namespace CalamityMod.NPCs.Leviathan
 
 			float enrageScale = 0f;
 			if (notOcean || malice)
-				enrageScale += 2f;
+				enrageScale += 1.5f;
 			if (BossRushEvent.BossRushActive)
+				enrageScale += 0.5f;
+			if (enraged)
 				enrageScale += 0.5f;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;

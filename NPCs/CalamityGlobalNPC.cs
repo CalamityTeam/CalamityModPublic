@@ -2031,7 +2031,7 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
-                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
+                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronHand:
                         return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
@@ -2059,13 +2059,13 @@ namespace CalamityMod.NPCs
                     case NPCID.SkeletronPrime:
                         return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
-                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
                     case NPCID.PrimeCannon:
-                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
                     case NPCID.PrimeVice:
-                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
                     case NPCID.PrimeSaw:
-                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
 
                     case NPCID.Plantera:
                         return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
@@ -3845,35 +3845,31 @@ namespace CalamityMod.NPCs
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-                // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
                     damage = (int)(damage * 0.795);
+
+				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
+					damage = (int)(damage * 0.6);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
             }
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 0.75);
-				}
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 1.35);
-				}
 			}
 		}
 
