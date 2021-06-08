@@ -41,7 +41,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerRanged = true;
             player.setBonus = "Allows you to dash for an immense distance\n" +
 				"Enemies you dash through take massive damage\n" +
-				"This dash has a 30 second cooldown\n" +
+				"During the dash you are immune to most debuffs\n" +
+				"The dash has a 30 second cooldown\n" +
 				"You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
 
 			if (!modPlayer.godSlayerCooldown)

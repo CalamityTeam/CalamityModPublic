@@ -41,7 +41,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerDamage = true;
             player.setBonus = "Allows you to dash for an immense distance\n" +
 				"Enemies you dash through take massive damage\n" +
-                "This dash has a 30 second cooldown\n" +
+				"During the dash you are immune to most debuffs\n" +
+				"The dash has a 30 second cooldown\n" +
                 "Enemies are more likely to target you\n" +
                 "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
                 "Enemies take a lot of damage when they hit you\n" +

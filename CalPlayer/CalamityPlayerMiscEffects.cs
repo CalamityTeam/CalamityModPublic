@@ -1202,13 +1202,19 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.auralisAuroraCooldown > 0)
 				modPlayer.auralisAuroraCooldown--;
 
+			// God Slayer Armor dash debuff immunity
+			if (modPlayer.dashMod == 9 && player.dashDelay < 0)
+			{
+				foreach (int debuff in CalamityLists.debuffList)
+					player.buffImmune[debuff] = true;
+			}
+
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
 			{
 				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 
-				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
 				modPlayer.silvaCountdown -= 1;
 				if (modPlayer.silvaCountdown <= 0)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);

@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Allows you to dash for an immense distance\n" +
 				"Enemies you dash through take massive damage\n" +
-				"This dash has a 30 second cooldown\n" +
+				"During the dash you are immune to most debuffs\n" +
+				"The dash has a 30 second cooldown\n" +
 				"While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +

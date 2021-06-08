@@ -4200,6 +4200,14 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
+			if (dashMod == 9 && player.dashDelay < 0)
+			{
+				if (player.statLife < 1)
+					player.statLife = 1;
+
+				return false;
+			}
+
             if (silvaSet && silvaCountdown > 0)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
@@ -7027,7 +7035,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet))
+            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -7982,56 +7990,53 @@ namespace CalamityMod.CalPlayer
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-                        {
-                            float num = 300f * player.AverageDamage();
-                            float num2 = 15f;
-                            bool crit = false;
-                            if (player.kbGlove)
-                            {
-                                num2 *= 2f;
-                            }
-                            if (player.kbBuff)
-                            {
-                                num2 *= 1.5f;
-                            }
-                            if (Main.rand.Next(100) < player.meleeCrit)
-                            {
-                                crit = true;
-                            }
-                            int direction = player.direction;
-                            if (player.velocity.X < 0f)
-                            {
-                                direction = -1;
-                            }
-                            if (player.velocity.X > 0f)
-                            {
-                                direction = 1;
-                            }
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(135 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(90 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-                            }
-                            if (npc.immune[player.whoAmI] < 6)
-                                npc.immune[player.whoAmI] = 6;
-                            npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-                            bool isImmune = false;
-                            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                            {
-                                if (player.hurtCooldowns[j] > 0)
-                                    isImmune = true;
-                            }
-                            if (!isImmune)
-                            {
-                                player.immune = true;
-                                player.immuneNoBlink = true;
-                                player.immuneTime += 4;
-                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                    player.hurtCooldowns[k] = player.immuneTime;
-                            }
-                        }
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							float num = 300f * player.AverageDamage();
+							float num2 = 15f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(135 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(90 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
                     }
                 }
             }
@@ -8044,55 +8049,52 @@ namespace CalamityMod.CalPlayer
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-                        {
-                            float num = 250f * player.AverageDamage();
-                            float num2 = 12f;
-                            bool crit = false;
-                            if (player.kbGlove)
-                            {
-                                num2 *= 2f;
-                            }
-                            if (player.kbBuff)
-                            {
-                                num2 *= 1.5f;
-                            }
-                            if (Main.rand.Next(100) < player.meleeCrit)
-                            {
-                                crit = true;
-                            }
-                            int direction = player.direction;
-                            if (player.velocity.X < 0f)
-                            {
-                                direction = -1;
-                            }
-                            if (player.velocity.X > 0f)
-                            {
-                                direction = 1;
-                            }
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(120 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(80 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-                            }
-                            if (npc.immune[player.whoAmI] < 6)
-                                npc.immune[player.whoAmI] = 6;
-                            bool isImmune = false;
-                            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                            {
-                                if (player.hurtCooldowns[j] > 0)
-                                    isImmune = true;
-                            }
-                            if (!isImmune)
-                            {
-                                player.immune = true;
-                                player.immuneNoBlink = true;
-                                player.immuneTime += 4;
-                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                    player.hurtCooldowns[k] = player.immuneTime;
-                            }
-                        }
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							float num = 250f * player.AverageDamage();
+							float num2 = 12f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(120 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(80 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
                     }
                 }
             }
@@ -8105,54 +8107,51 @@ namespace CalamityMod.CalPlayer
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-                        {
-                            float num = 100f * player.AverageDamage();
-                            float num2 = 9f;
-                            bool crit = false;
-                            if (player.kbGlove)
-                            {
-                                num2 *= 2f;
-                            }
-                            if (player.kbBuff)
-                            {
-                                num2 *= 1.5f;
-                            }
-                            if (Main.rand.Next(100) < player.meleeCrit)
-                            {
-                                crit = true;
-                            }
-                            int direction = player.direction;
-                            if (player.velocity.X < 0f)
-                            {
-                                direction = -1;
-                            }
-                            if (player.velocity.X > 0f)
-                            {
-                                direction = 1;
-                            }
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
-                            }
-                            if (npc.immune[player.whoAmI] < 6)
-                                npc.immune[player.whoAmI] = 6;
-                            bool isImmune = false;
-                            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                            {
-                                if (player.hurtCooldowns[j] > 0)
-                                    isImmune = true;
-                            }
-                            if (!isImmune)
-                            {
-                                player.immune = true;
-                                player.immuneNoBlink = true;
-                                player.immuneTime += 4;
-                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                    player.hurtCooldowns[k] = player.immuneTime;
-                            }
-                        }
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							float num = 100f * player.AverageDamage();
+							float num2 = 9f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
                     }
                 }
             }
@@ -8191,10 +8190,7 @@ namespace CalamityMod.CalPlayer
 							{
 								direction = 1;
 							}
-							if (player.whoAmI == Main.myPlayer)
-							{
-								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-							}
+							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
@@ -8239,10 +8235,7 @@ namespace CalamityMod.CalPlayer
                             {
                                 direction = 1;
                             }
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                            }
+                            player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
                             if (npc.immune[player.whoAmI] < 6)
                                 npc.immune[player.whoAmI] = 6;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
@@ -8314,10 +8307,7 @@ namespace CalamityMod.CalPlayer
 							{
 								direction = 1;
 							}
-							if (player.whoAmI == Main.myPlayer)
-							{
-								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-							}
+							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
