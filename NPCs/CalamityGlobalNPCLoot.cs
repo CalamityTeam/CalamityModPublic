@@ -50,8 +50,8 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, mod))
                 return false;
 
-            // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
-            if ((CalamityWorld.revenge || CalamityWorld.malice) && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+            // Do not provide free hearts for certain boss NPCs in Rev+.
+            if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type) && CalamityPlayer.areThereAnyDamnBosses)
                 NPCLoader.blockLoot.Add(ItemID.Heart);
 
             //

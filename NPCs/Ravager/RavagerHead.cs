@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 450000;
+                npc.lifeMax = 45000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -51,9 +51,9 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || malice;
 
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
@@ -100,17 +100,11 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
 
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life > 0)
             {

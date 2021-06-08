@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.lifeMax = 300;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -250,11 +250,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			return false;
 		}
-
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

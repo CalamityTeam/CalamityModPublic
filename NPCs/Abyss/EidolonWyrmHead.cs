@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;

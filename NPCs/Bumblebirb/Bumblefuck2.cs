@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(9000, 11250, 50000); // Old HP - 12000, 15000
+            npc.LifeMaxNERB(9000, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
             npc.lavaImmune = true;
             npc.noGravity = true;
@@ -300,10 +300,11 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-		public override bool PreNPCLoot() => !CalamityPlayer.areThereAnyDamnBosses;
-
 		public override void NPCLoot()
 		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return;
+
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
 		}
 

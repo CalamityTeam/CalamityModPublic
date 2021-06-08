@@ -31,10 +31,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.alpha = 255;
             npc.defense = 10;
             npc.lifeMax = 3000;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -101,7 +97,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     npc.life = 0;
                     return;
                 }
-                float num1372 = BossRushEvent.BossRushActive ? 24f : 18f;
+                float num1372 = 18f;
                 Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
                 float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -114,7 +110,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 return;
             }
 
-            float num1446 = BossRushEvent.BossRushActive ? 10f : 7f;
+            float num1446 = 7f;
             int num1447 = 480;
             if (npc.localAI[1] == 1f)
             {
@@ -307,7 +303,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override bool CheckDead()
+		public override bool PreNPCLoot() => false;
+
+		public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);

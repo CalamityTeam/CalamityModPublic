@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
@@ -729,6 +730,7 @@ namespace CalamityMod.CalPlayer
 		public static void NPCDebuffs(Player player, Mod mod, NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
+
             if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (modPlayer.eGauntlet)
@@ -813,10 +815,14 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
-
-				if (modPlayer.tearMinions)
+				if (modPlayer.divineBless)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 30);
+					target.AddBuff(BuffType<BanishingFire>(), 60);
+				}
+
+				if (modPlayer.holyMinions)
+				{
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)
@@ -957,9 +963,9 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
 
-				if (modPlayer.tearMinions)
+				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 30);
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)

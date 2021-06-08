@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 125;
+            item.damage = 100;
             item.width = 20;
             item.height = 12;
             item.useTime = 12;

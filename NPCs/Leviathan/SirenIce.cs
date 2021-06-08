@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 650;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 10000;
+                npc.lifeMax = 1000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;
@@ -113,7 +113,9 @@ namespace CalamityMod.NPCs.Leviathan
 			player.AddBuff(BuffID.Frostburn, 240, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreNPCLoot() => false;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

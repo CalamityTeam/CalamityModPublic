@@ -161,6 +161,7 @@ namespace CalamityMod.NPCs
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
+        public int banishingFire = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -207,77 +208,77 @@ namespace CalamityMod.NPCs
         public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
-            { NPCID.QueenBee, 3150000 }, // 30 seconds
+            { NPCID.QueenBee, 315000 }, // 30 seconds
 
-            { NPCID.BrainofCthulhu, 1000000 }, // 30 seconds with creepers
-            { NPCID.Creeper, 100000 },
+            { NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
+            { NPCID.Creeper, 10000 },
 
-            { NPCID.KingSlime, 3000000 }, // 30 seconds
-            { NPCID.BlueSlime, 36000 },
-            { NPCID.SlimeSpiked, 72000 },
-            { NPCID.GreenSlime, 27000 },
-            { NPCID.RedSlime, 54000 },
-            { NPCID.PurpleSlime, 72000 },
-            { NPCID.YellowSlime, 63000 },
-            { NPCID.IceSlime, 45000 },
-            { NPCID.UmbrellaSlime, 54000 },
-            { NPCID.RainbowSlime, 300000 },
-            { NPCID.Pinky, 150000 },
+            { NPCID.KingSlime, 300000 }, // 30 seconds
+            { NPCID.BlueSlime, 3600 },
+            { NPCID.SlimeSpiked, 7200 },
+            { NPCID.GreenSlime, 2700 },
+            { NPCID.RedSlime, 5400 },
+            { NPCID.PurpleSlime, 7200 },
+            { NPCID.YellowSlime, 6300 },
+            { NPCID.IceSlime, 4500 },
+            { NPCID.UmbrellaSlime, 5400 },
+            { NPCID.RainbowSlime, 30000 },
+            { NPCID.Pinky, 15000 },
 
-            { NPCID.EyeofCthulhu, 4500000 }, // 30 seconds
-            { NPCID.ServantofCthulhu, 60000 },
+            { NPCID.EyeofCthulhu, 450000 }, // 30 seconds
+            { NPCID.ServantofCthulhu, 6000 },
 
-            { NPCID.SkeletronPrime, 1100000 }, // 30 seconds
-            { NPCID.PrimeVice, 540000 },
-            { NPCID.PrimeCannon, 450000 },
-            { NPCID.PrimeSaw, 450000 },
-            { NPCID.PrimeLaser, 380000 },
+            { NPCID.SkeletronPrime, 110000 }, // 30 seconds
+            { NPCID.PrimeVice, 54000 },
+            { NPCID.PrimeCannon, 45000 },
+            { NPCID.PrimeSaw, 45000 },
+            { NPCID.PrimeLaser, 38000 },
 
-            { NPCID.Golem, 500000 }, // 30 seconds
-            { NPCID.GolemHead, 300000 },
-            { NPCID.GolemHeadFree, 300000 },
-            { NPCID.GolemFistLeft, 250000 },
-            { NPCID.GolemFistRight, 250000 },
+            { NPCID.Golem, 50000 }, // 30 seconds
+            { NPCID.GolemHead, 30000 },
+            { NPCID.GolemHeadFree, 30000 },
+            { NPCID.GolemFistLeft, 25000 },
+            { NPCID.GolemFistRight, 25000 },
 
-            { NPCID.EaterofWorldsHead, 100000 }, // 30 seconds + immunity timer at start
-            { NPCID.EaterofWorldsBody, 100000 },
-            { NPCID.EaterofWorldsTail, 100000 },
+            { NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
+            { NPCID.EaterofWorldsBody, 10000 },
+            { NPCID.EaterofWorldsTail, 10000 },
 
             // Tier 2
-            { NPCID.TheDestroyer, 2500000 }, // 30 seconds + immunity timer at start
-            { NPCID.TheDestroyerBody, 2500000 },
-            { NPCID.TheDestroyerTail, 2500000 },
-            { NPCID.Probe, 100000 },
+            { NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
+            { NPCID.TheDestroyerBody, 250000 },
+            { NPCID.TheDestroyerTail, 250000 },
+            { NPCID.Probe, 10000 },
 
-            { NPCID.Spazmatism, 1500000 }, // 30 seconds
-            { NPCID.Retinazer, 1250000 },
+            { NPCID.Spazmatism, 150000 }, // 30 seconds
+            { NPCID.Retinazer, 125000 },
 
-            { NPCID.WallofFlesh, 4500000 }, // 30 seconds
-            { NPCID.WallofFleshEye, 4500000 },
+            { NPCID.WallofFlesh, 450000 }, // 30 seconds
+            { NPCID.WallofFleshEye, 450000 },
 
-            { NPCID.SkeletronHead, 1600000 }, // 30 seconds
-            { NPCID.SkeletronHand, 600000 },
+            { NPCID.SkeletronHead, 160000 }, // 30 seconds
+            { NPCID.SkeletronHand, 60000 },
 
             // Tier 3
-            { NPCID.CultistBoss, 2200000 }, // 30 seconds
-            { NPCID.CultistDragonHead, 600000 },
-            { NPCID.CultistDragonBody1, 600000 },
-            { NPCID.CultistDragonBody2, 600000 },
-            { NPCID.CultistDragonBody3, 600000 },
-            { NPCID.CultistDragonBody4, 600000 },
-            { NPCID.CultistDragonTail, 600000 },
-            { NPCID.AncientCultistSquidhead, 500000 },
+            { NPCID.CultistBoss, 220000 }, // 30 seconds
+            { NPCID.CultistDragonHead, 60000 },
+            { NPCID.CultistDragonBody1, 60000 },
+            { NPCID.CultistDragonBody2, 60000 },
+            { NPCID.CultistDragonBody3, 60000 },
+            { NPCID.CultistDragonBody4, 60000 },
+            { NPCID.CultistDragonTail, 60000 },
+            { NPCID.AncientCultistSquidhead, 50000 },
 
-            { NPCID.Plantera, 1600000 }, // 30 seconds
-            { NPCID.PlanterasTentacle, 400000 },
+            { NPCID.Plantera, 160000 }, // 30 seconds
+            { NPCID.PlanterasTentacle, 40000 },
 
             // Tier 4
-            { NPCID.DukeFishron, 2900000 }, // 30 seconds
+            { NPCID.DukeFishron, 290000 }, // 30 seconds
 
-            { NPCID.MoonLordCore, 1600000 }, // 1 minute
-            { NPCID.MoonLordHand, 450000 },
-            { NPCID.MoonLordHead, 600000 },
-            { NPCID.MoonLordLeechBlob, 8000 }
+            { NPCID.MoonLordCore, 160000 }, // 1 minute
+            { NPCID.MoonLordHand, 45000 },
+            { NPCID.MoonLordHead, 60000 },
+            { NPCID.MoonLordLeechBlob, 800 }
 
 			// 8 minutes in total for vanilla Boss Rush bosses
         };
@@ -914,7 +915,7 @@ namespace CalamityMod.NPCs
 			// Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
@@ -945,6 +946,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 25000000)
+                ApplyDPSDebuff(banishingFire, 20000, 4000, ref npc.lifeRegen, ref damage);
+            else
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 2500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -2003,6 +2008,13 @@ namespace CalamityMod.NPCs
 			if (NPC.LunarApocalypseIsUp)
 				PillarEventProgressionEdit(npc);
 
+			// Adult Wyrm Ancient Doom
+			if (npc.type == NPCID.AncientDoom)
+			{
+				if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
+					return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+			}
+
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
@@ -2024,7 +2036,7 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
-                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
+                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronHand:
                         return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
@@ -2052,13 +2064,13 @@ namespace CalamityMod.NPCs
                     case NPCID.SkeletronPrime:
                         return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
-                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
                     case NPCID.PrimeCannon:
-                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
                     case NPCID.PrimeVice:
-                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
                     case NPCID.PrimeSaw:
-                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
 
                     case NPCID.Plantera:
                         return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
@@ -3496,6 +3508,8 @@ namespace CalamityMod.NPCs
 				GaussFluxTimer--;
 			if (ladHearts > 0)
 				ladHearts--;
+            if (banishingFire > 0)
+				banishingFire--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
 			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
@@ -3838,35 +3852,31 @@ namespace CalamityMod.NPCs
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-                // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
                     damage = (int)(damage * 0.795);
+
+				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
+					damage = (int)(damage * 0.6);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
             }
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 0.75);
-				}
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 1.35);
-				}
 			}
 		}
 
@@ -4388,7 +4398,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (hFlames > 0)
+            if (hFlames > 0 || banishingFire > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {

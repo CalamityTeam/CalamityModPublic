@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 30;
 			npc.DR_NERD(0.2f);
-            npc.LifeMaxNERB(18750, 26250, 200000); // Old HP - 25000, 35000
+            npc.LifeMaxNERB(18750, 26250, 20000); // Old HP - 25000, 35000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -84,8 +84,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
 

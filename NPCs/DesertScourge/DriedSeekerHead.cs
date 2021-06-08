@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.lifeMax = 100;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.aiStyle = 6;
             aiType = -1;
@@ -95,11 +95,6 @@ namespace CalamityMod.NPCs.DesertScourge
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
     }
 }

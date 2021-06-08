@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
-                        float num151 = (BossRushEvent.BossRushActive ? 14f : 10f) * tileEnrageMult;
+                        float num151 = 10f * tileEnrageMult;
 						int type = ModContent.ProjectileType<PhantomHookShot>();
 						int damage = npc.GetProjectileDamage(type);
 						num149 = num151 / num149;

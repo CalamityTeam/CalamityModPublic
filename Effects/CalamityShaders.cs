@@ -14,6 +14,7 @@ namespace CalamityMod.Effects
         public static Effect LightDistortionShader;
         public static Effect FadedUVMapStreakShader;
         public static Effect FlameStreakShader;
+        public static Effect SCalShieldShader;
 
         public static void LoadShaders()
         {
@@ -25,6 +26,7 @@ namespace CalamityMod.Effects
             LightDistortionShader = CalamityMod.Instance.GetEffect("Effects/DistortionShader");
             FadedUVMapStreakShader = CalamityMod.Instance.GetEffect("Effects/FadedUVMapStreak");
             FlameStreakShader = CalamityMod.Instance.GetEffect("Effects/Flame");
+            SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
@@ -35,6 +37,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
             GameShaders.Misc["CalamityMod:TrailStreak"] = new MiscShaderData(new Ref<Effect>(FadedUVMapStreakShader), "TrailPass");
             GameShaders.Misc["CalamityMod:Flame"] = new MiscShaderData(new Ref<Effect>(FlameStreakShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:SupremeShield"] = new MiscShaderData(new Ref<Effect>(SCalShieldShader), "ShieldPass");
         }
     }
 }

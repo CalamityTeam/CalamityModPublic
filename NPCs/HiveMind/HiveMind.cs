@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
-            npc.LifeMaxNERB(1200, 1800, 350000);
+            npc.LifeMaxNERB(1200, 1800, 35000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -109,10 +109,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noGravity = false;
             npc.noTileCollide = false;
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+            bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
 			float enrageScale = 0f;
@@ -120,9 +120,8 @@ namespace CalamityMod.NPCs.HiveMind
 				enrageScale += 1f;
 			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
-
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -175,7 +174,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int type = ModContent.NPCType<HiveBlob>();
-                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0)
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns)
                             {
                                 type = ModContent.NPCType<DankCreeper>();
                             }
@@ -194,7 +193,7 @@ namespace CalamityMod.NPCs.HiveMind
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 60;
+                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 55;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;

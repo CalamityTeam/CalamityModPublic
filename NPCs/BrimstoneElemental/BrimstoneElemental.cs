@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 12, 0, 0);
-            npc.LifeMaxNERB(30000, 41000, 6500000);
+            npc.LifeMaxNERB(30000, 41000, 650000);
 			npc.DR_NERD(0.15f);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {

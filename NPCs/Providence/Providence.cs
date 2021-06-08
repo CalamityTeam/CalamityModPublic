@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.LifeMaxNERB(330000, 375000, 12500000); // Old HP - 440000, 500000
+            npc.LifeMaxNERB(330000, 375000, 1250000); // Old HP - 440000, 500000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -483,13 +483,13 @@ namespace CalamityMod.NPCs.Providence
                     flightPath = 0;
 
 				// Velocity and acceleration
-				float speedIncreaseTimer = nightTime ? 90f : death ? 120f : 150f;
+				float speedIncreaseTimer = enraged ? 60f : nightTime ? 90f : death ? 120f : 150f;
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || nightTime)
+                if (BossRushEvent.BossRushActive || nightTime || enraged)
                 {
                     acceleration = 1.3f;
                     velocity = 20f;

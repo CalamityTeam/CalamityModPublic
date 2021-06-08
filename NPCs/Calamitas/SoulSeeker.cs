@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = CalamityWorld.death ? 1500 : 2500;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 15000;
             }
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             Vector2 velocity = Main.player[npc.target].Center - npc.Center;
             velocity.Normalize();
-            velocity *= BossRushEvent.BossRushActive ? 14f : 9f;
+            velocity *= 9f;
             npc.rotation = velocity.ToRotation() + MathHelper.Pi;
 
             timer++;
@@ -149,10 +149,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

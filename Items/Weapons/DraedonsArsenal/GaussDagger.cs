@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 target.Calamity().GaussFluxTimer = 0;
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
+                    Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), (int)(item.damage * player.MeleeDamage()), 0f, player.whoAmI, 0f, target.whoAmI);
                 }
             }
         }

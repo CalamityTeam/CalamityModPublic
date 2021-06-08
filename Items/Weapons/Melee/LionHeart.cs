@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 60;
             item.height = 62;
 
-            item.damage = 420;
+            item.damage = 380;
             item.knockBack = 5.5f;
             item.scale = 1.5f;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -54,9 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 if (!player.Calamity().energyShellCooldown && player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] <= 0)
-                {
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EnergyShell>(), 0, 0f, player.whoAmI, 0f, 0f);
-                }
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EnergyShell>(), 0, 0f, player.whoAmI);
             }
             return false;
         }
@@ -89,9 +87,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 132);
-            }
         }
     }
 }

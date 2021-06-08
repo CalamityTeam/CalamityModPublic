@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.DR_NERD(0.1f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(170625, 189375, 3000000); // Old HP - 227500, 252500
+			npc.LifeMaxNERB(170625, 189375, 300000); // Old HP - 227500, 252500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -104,6 +104,10 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
@@ -184,11 +188,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;

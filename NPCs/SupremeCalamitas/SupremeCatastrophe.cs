@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DR_NERD(0.25f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(240000, 276000);
+			npc.LifeMaxNERB(240000, 276000, 100000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -262,17 +263,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			return false;
 		}
 
-		public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

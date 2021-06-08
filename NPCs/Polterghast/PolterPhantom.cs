@@ -74,10 +74,10 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
 
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
@@ -129,9 +129,6 @@ namespace CalamityMod.NPCs.Polterghast
             }
             else
                 despawnTimer++;
-
-			if (BossRushEvent.BossRushActive)
-				speedBoost = false;
 
 			if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {

@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 44000;
+                npc.lifeMax = 4400;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -117,10 +117,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				npc.timeLeft = 1800;
 
 			// Difficulty modes
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Gets how enraged Ceaseless Void is
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];

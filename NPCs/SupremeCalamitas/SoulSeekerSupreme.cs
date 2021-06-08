@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -124,12 +125,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
