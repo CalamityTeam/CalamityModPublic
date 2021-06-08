@@ -690,8 +690,7 @@ namespace CalamityMod.CalPlayer
         public bool silvaMage = false;
         public bool silvaSummon = false;
         public bool hasSilvaEffect = false;
-        public int silvaCountdown = 600;
-        public int silvaHitCounter = 0;
+        public int silvaCountdown = 300;
         public bool auricSet = false;
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
@@ -2271,8 +2270,7 @@ namespace CalamityMod.CalPlayer
             silvaMage = false;
             silvaSummon = false;
             hasSilvaEffect = false;
-            silvaCountdown = 600;
-            silvaHitCounter = 0;
+            silvaCountdown = 300;
             auricSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -4202,62 +4200,13 @@ namespace CalamityMod.CalPlayer
                 return false;
             }
 
-            if (godSlayer && !godSlayerCooldown)
-            {
-                Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
-
-                for (int j = 0; j < 50; j++)
-                {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust dust = Main.dust[num];
-                    dust.position.X += Main.rand.Next(-20, 21);
-                    dust.position.Y += Main.rand.Next(-20, 21);
-                    dust.velocity *= 0.9f;
-                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-                    if (Main.rand.NextBool(2))
-                        dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                }
-
-                int heal = draconicSurge && !draconicSurgeCooldown ? (player.statLifeMax2 / 2) : 150;
-                player.statLife += heal;
-                player.HealEffect(heal);
-
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
-
-                if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
-                {
-                    player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                    player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
-
-                    // Additional potion sickness time
-                    int additionalTime = 0;
-                    for (int i = 0; i < Player.MaxBuffs; i++)
-                    {
-                        if (player.buffType[i] == BuffID.PotionSickness)
-                            additionalTime = player.buffTime[i];
-                    }
-
-                    float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
-                    player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
-                }
-
-                player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(45f));
-
-                return false;
-            }
-
             if (silvaSet && silvaCountdown > 0)
             {
-                if (hasSilvaEffect)
-                    silvaHitCounter++;
-
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), auricSet ? 300 : 600);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 300);
 
                     if (draconicSurge && !draconicSurgeCooldown)
                     {
@@ -8024,66 +7973,6 @@ namespace CalamityMod.CalPlayer
         #region Dash Stuff
         public void ModDashMovement()
         {
-			if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Ornate Shield
-			{
-				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
-					{
-						Rectangle rect = npc.getRect();
-						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-						{
-							float num = 50f * player.AverageDamage();
-							float num2 = 3f;
-							bool crit = false;
-							if (player.kbGlove)
-							{
-								num2 *= 2f;
-							}
-							if (player.kbBuff)
-							{
-								num2 *= 1.5f;
-							}
-							if (Main.rand.Next(100) < player.meleeCrit)
-							{
-								crit = true;
-							}
-							int direction = player.direction;
-							if (player.velocity.X < 0f)
-							{
-								direction = -1;
-							}
-							if (player.velocity.X > 0f)
-							{
-								direction = 1;
-							}
-							if (player.whoAmI == Main.myPlayer)
-							{
-								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-							}
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
-							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
-						}
-					}
-				}
-			}
 			if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Asgardian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
@@ -8267,7 +8156,67 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 8 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Plaguebringer Armor
+			if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Ornate Shield
+			{
+				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+					{
+						Rectangle rect = npc.getRect();
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							float num = 50f * player.AverageDamage();
+							float num2 = 3f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							if (player.whoAmI == Main.myPlayer)
+							{
+								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							}
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
+					}
+				}
+			}
+			if (dashMod == 8 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // Plaguebringer Armor
             {
                 Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5f - 4f), (int)(player.position.Y + player.velocity.Y * 0.5f - 4f), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -8315,7 +8264,82 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (player.dashDelay > 0)
+			if (dashMod == 9 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) // God Slayer Armor
+			{
+				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+					{
+						Rectangle rect = npc.getRect();
+						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
+						{
+							Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+
+							for (int j = 0; j < 30; j++)
+							{
+								int dust = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
+								Dust dust2 = Main.dust[dust];
+								dust2.position.X += Main.rand.Next(-20, 21);
+								dust2.position.Y += Main.rand.Next(-20, 21);
+								dust2.velocity *= 0.9f;
+								dust2.scale *= 1f + Main.rand.Next(40) * 0.01f;
+								dust2.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+								if (Main.rand.NextBool(2))
+									dust2.scale *= 1f + Main.rand.Next(40) * 0.01f;
+							}
+
+							float num = 5000f * player.AverageDamage();
+							float num2 = 15f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							if (player.whoAmI == Main.myPlayer)
+							{
+								player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
+							}
+							if (npc.immune[player.whoAmI] < 6)
+								npc.immune[player.whoAmI] = 6;
+							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							{
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
+					}
+				}
+			}
+			if (player.dashDelay > 0)
             {
                 return;
             }
@@ -8469,9 +8493,26 @@ namespace CalamityMod.CalPlayer
                     }
                     num7 = 12.5f;
                 }
-                if (dashMod > 0)
+				else if (dashMod == 9) // God Slayer Armor
+				{
+					for (int m = 0; m < 24; m++)
+					{
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2.75f);
+						Main.dust[num14].velocity *= 0.1f;
+						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+						Main.dust[num14].noGravity = true;
+						if (Main.rand.NextBool(2))
+						{
+							Main.dust[num14].fadeIn = 0.5f;
+						}
+					}
+					num7 = 20f;
+				}
+				if (dashMod > 0)
                 {
                     player.vortexStealthActive = false;
+
                     if (player.velocity.X > num7 || player.velocity.X < -num7)
                     {
                         player.velocity.X = player.velocity.X * num8;
@@ -8482,7 +8523,13 @@ namespace CalamityMod.CalPlayer
                         player.velocity.X = player.velocity.X * num10;
                         return;
                     }
+
                     player.dashDelay = delay;
+
+					// Cooldown for God Slayer Armor dash
+					if (dashMod == 9)
+						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(30f));
+
                     if (player.velocity.X < 0f)
                     {
                         player.velocity.X = -num9;
@@ -8637,7 +8684,27 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-            }
+				else if (dashMod == 9) // God Slayer Armor
+				{
+					if (DoADash(30f))
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+
+						for (int d = 0; d < 60; d++)
+						{
+							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+							Dust dust = Main.dust[idx];
+							dust.position.X += Main.rand.NextFloat(-5f, 5f);
+							dust.position.Y += Main.rand.NextFloat(-5f, 5f);
+							dust.velocity *= 0.2f;
+							dust.scale *= Main.rand.NextFloat(1f, 1.2f);
+							dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+							dust.noGravity = true;
+							dust.fadeIn = 0.5f;
+						}
+					}
+				}
+			}
         }
 
         private bool DoADash(float dashDistance)
@@ -8760,7 +8827,14 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num7].velocity.Y *= 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                }
+					else if (dashMod == 9)
+					{
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						Main.dust[num7].velocity.X *= 0.2f;
+						Main.dust[num7].velocity.Y *= 0.2f;
+						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
+				}
             }
             else if (player.controlRight && player.velocity.X < player.accRunSpeed && player.dashDelay >= 0)
             {
@@ -8827,7 +8901,14 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].velocity.Y *= 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                }
+					else if (dashMod == 9)
+					{
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						Main.dust[num12].velocity.X *= 0.2f;
+						Main.dust[num12].velocity.Y *= 0.2f;
+						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
+				}
             }
 
             if (player.mount.Active && player.mount.Type == ModContent.MountType<AlicornMount>() && Math.Abs(player.velocity.X) > player.mount.DashSpeed - player.mount.RunSpeed / 2f)

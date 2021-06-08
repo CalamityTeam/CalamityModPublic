@@ -1209,7 +1209,7 @@ namespace CalamityMod.CalPlayer
 					player.buffImmune[debuff] = true;
 
 				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
-				modPlayer.silvaCountdown -= modPlayer.auricSet ? 2 : 1;
+				modPlayer.silvaCountdown -= 1;
 				if (modPlayer.silvaCountdown <= 0)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
 
@@ -2019,24 +2019,6 @@ namespace CalamityMod.CalPlayer
 		#region Max Life And Mana Effects
 		private static void MaxLifeAndManaEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
-			// Silva invincibility effects
-			if (modPlayer.silvaHitCounter > 0)
-			{
-				player.statLifeMax2 -= modPlayer.silvaHitCounter * 100;
-				if (player.statLifeMax2 <= 400)
-				{
-					player.statLifeMax2 = 400;
-					if (modPlayer.silvaCountdown > 0)
-					{
-						if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) > -1)
-							player.ClearBuff(ModContent.BuffType<SilvaRevival>());
-
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
-					}
-					modPlayer.silvaCountdown = 0;
-				}
-			}
-
 			// New textures
 			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
 			{

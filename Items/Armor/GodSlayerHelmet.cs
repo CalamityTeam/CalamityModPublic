@@ -39,10 +39,13 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerRanged = true;
-            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
-                "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active all life regen is halved\n" +
-                "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
+            player.setBonus = "Allows you to dash for an immense distance\n" +
+				"Enemies you dash through take massive damage\n" +
+				"This dash has a 30 second cooldown\n" +
+				"You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
+
+			if (!modPlayer.godSlayerCooldown)
+				modPlayer.dashMod = 9;
         }
 
         public override void UpdateEquip(Player player)
