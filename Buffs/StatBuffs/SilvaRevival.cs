@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Silva Invulnerability");
-            Description.SetDefault("You are invulnerable");
+            DisplayName.SetDefault("Silva Immunity");
+            Description.SetDefault("You are unkillable and immune to most debuffs");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
