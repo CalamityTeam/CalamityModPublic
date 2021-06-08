@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void BossHeadSlot(ref int index)
         {
             bool inPhase2 = npc.ai[0] == 3f;
-            if (!CalamityWorld.downedSCal)
+            if (!CalamityWorld.downedSCal || BossRushEvent.BossRushActive)
                 index = inPhase2 ? hoodedHeadIconP2Index : hoodedHeadIconIndex;
             else
                 index = inPhase2 ? hoodlessHeadIconP2Index : hoodlessHeadIconIndex;
@@ -376,10 +376,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (!startText)
             {
-                string key = "Mods.CalamityMod.SCalSummonText";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalSummonText";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 startText = true;
             }
             #endregion
@@ -750,10 +753,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startSecondAttack && (npc.life <= npc.lifeMax * 0.75))
             {
-                string key = "Mods.CalamityMod.SCalBH2Text";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalBH2Text";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 startSecondAttack = true;
                 return;
             }
@@ -810,12 +816,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
                 music = CalamityMod.Instance.GetMusicFromMusicMod("SCL") ?? MusicID.Boss3;
-                string key = "Mods.CalamityMod.SCalBH3Text";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
-                if (CalamityWorld.downedSCal)
-                    CalamityUtils.DisplayLocalizedText(key + "2", textColor);
+
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalBH3Text";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (CalamityWorld.downedSCal)
+                        CalamityUtils.DisplayLocalizedText(key + "2", textColor);
+                }
                 startThirdAttack = true;
                 return;
             }
@@ -881,10 +891,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
 				// Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
 				music = CalamityMod.Instance.GetMusicFromMusicMod("SCE") ?? MusicID.LunarBoss;
-                string key = "Mods.CalamityMod.SCalBH4Text";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalBH4Text";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 startFourthAttack = true;
                 return;
             }
@@ -949,9 +963,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startFifthAttack && (npc.life <= npc.lifeMax * 0.1))
             {
                 string key = "Mods.CalamityMod.SCalBH5Text";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+
+                if (!BossRushEvent.BossRushActive)
+                {
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 startFifthAttack = true;
                 return;
             }
@@ -973,7 +991,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					if (!canDespawn)
 						npc.velocity.X *= 0.96f;
 
-                    if (CalamityWorld.downedSCal)
+                    if (CalamityWorld.downedSCal && !BossRushEvent.BossRushActive)
                     {
                         // TODO: Spawn the town NPC variant of SCal again here.
                         if (giveUpCounter == 720)
@@ -993,14 +1011,21 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPCLoot();
                         }
                     }
-                    else if (giveUpCounter == 900)
+                    else if (giveUpCounter == 900 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText1", textColor);
-                    else if(giveUpCounter == 600)
+                    else if(giveUpCounter == 600 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText2", textColor);
-                    else if(giveUpCounter == 300)
+                    else if(giveUpCounter == 300 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
+                        if (BossRushEvent.BossRushActive)
+                        {
+                            npc.chaseable = true;
+                            npc.dontTakeDamage = false;
+                            return;
+                        }
+
                         for (int i = 0; i < 24; i++)
                         {
                             Dust brimstoneFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
@@ -1033,37 +1058,49 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 					}
 
-                    string key = "Mods.CalamityMod.SCalDesparationText4";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (!BossRushEvent.BossRushActive)
+                    {
+                        string key = "Mods.CalamityMod.SCalDesparationText4";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                    }
                     gettingTired5 = true;
                     return;
                 }
                 else if (!gettingTired4 && (npc.life <= npc.lifeMax * 0.02))
                 {
-                    string key = "Mods.CalamityMod.SCalDesparationText3";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (!BossRushEvent.BossRushActive)
+                    {
+                        string key = "Mods.CalamityMod.SCalDesparationText3";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                    }
                     gettingTired4 = true;
                     return;
                 }
                 else if (!gettingTired3 && (npc.life <= npc.lifeMax * 0.04))
                 {
-                    string key = "Mods.CalamityMod.SCalDesparationText2";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (!BossRushEvent.BossRushActive)
+                    {
+                        string key = "Mods.CalamityMod.SCalDesparationText2";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                    }
                     gettingTired3 = true;
                     return;
                 }
                 else if (!gettingTired2 && (npc.life <= npc.lifeMax * 0.06))
                 {
-                    string key = "Mods.CalamityMod.SCalDesparationText1";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (!BossRushEvent.BossRushActive)
+                    {
+                        string key = "Mods.CalamityMod.SCalDesparationText1";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                    }
                     gettingTired2 = true;
                     return;
                 }
@@ -1126,10 +1163,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region TransformSeekerandBrotherTriggers
             if (!halfLife && (npc.life <= npc.lifeMax * 0.4))
             {
-                string key = "Mods.CalamityMod.SCalPhase2Text";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalPhase2Text";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 halfLife = true;
             }
 
@@ -1138,10 +1178,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!secondStage)
                 {
-                    string key = "Mods.CalamityMod.SCalSeekerRingText";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (!BossRushEvent.BossRushActive)
+                    {
+                        string key = "Mods.CalamityMod.SCalSeekerRingText";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                    }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Main.PlaySound(SoundID.Item74, npc.position);
@@ -2465,9 +2508,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (npc.life <= npc.lifeMax * 0.08)
                     key = "Mods.CalamityMod.SCalSepulcher2Text";
 
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (!BossRushEvent.BossRushActive)
+                {
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                }
                 foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
                 {
                     // Make the hearts appear in a burst of flame.
@@ -2579,13 +2625,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // And spawn them.
             if (attackCastDelay == 0)
             {
-                string key = "Mods.CalamityMod.SCalBrothersText";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
+                if (!BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.SCalBrothersText";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
 
-                CalamityUtils.DisplayLocalizedText(key, textColor);
-                if (CalamityWorld.downedSCal)
-                    CalamityUtils.DisplayLocalizedText(key + "2", textColor);
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    if (CalamityWorld.downedSCal)
+                        CalamityUtils.DisplayLocalizedText(key + "2", textColor);
+                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
@@ -2658,7 +2707,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
             if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
+                if (!BossRushEvent.BossRushActive)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
                 return true;
             }
 
@@ -2732,6 +2782,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         // Prevent the player from accidentally killing SCal instead of having her turn into a town NPC.
         public override bool CheckDead()
         {
+            if (BossRushEvent.BossRushActive)
+                return true;
+
             npc.life = 1;
             npc.active = true;
             npc.dontTakeDamage = true;
@@ -2800,7 +2853,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = CalamityWorld.downedSCal ? Main.npcTexture[npc.type] : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
+			Texture2D texture2D15 = CalamityWorld.downedSCal && !BossRushEvent.BossRushActive ? Main.npcTexture[npc.type] : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
 			Color color36 = Color.White;
