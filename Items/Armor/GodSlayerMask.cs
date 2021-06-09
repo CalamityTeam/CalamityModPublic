@@ -41,10 +41,10 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerThrowing = true;
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "Allows you to dash for an immense distance\n" +
+            player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
 				"Enemies you dash through take massive damage\n" +
 				"During the dash you are immune to most debuffs\n" +
-				"The dash has a 30 second cooldown\n" +
+				"The dash has a 15 second cooldown\n" +
 				"While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 
-			if (!modPlayer.godSlayerCooldown)
+			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
 				modPlayer.dashMod = 9;
 		}
 

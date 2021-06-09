@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Cooldowns
         public override void SetDefaults()
         {
             DisplayName.SetDefault("God Slayer Cooldown");
-            Description.SetDefault("Godslayer dash is recharging");
+            Description.SetDefault("God Slayer dash is recharging");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

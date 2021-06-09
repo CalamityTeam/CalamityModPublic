@@ -361,8 +361,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
             int bodyWidth = 44;
             int bodyHeight = 42;
+			int baseBulletHellProjectileGateValue = enraged ? 6 : 8;
 
-            Vector2 vectorCenter = npc.Center;
+			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -638,10 +639,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     bulletHellCounter += 1;
-					if (bulletHellCounter > (enraged ? 4 : 6))
+					if (bulletHellCounter >= baseBulletHellProjectileGateValue)
 					{
 						bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 3) == 0)
+						if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 3) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -724,10 +725,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 7 : 9))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 3) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -785,10 +786,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 9 : 11))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 3) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -860,10 +861,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 10 : 12))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 6)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 3) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -931,10 +932,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 12 : 14))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 8)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 3) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
