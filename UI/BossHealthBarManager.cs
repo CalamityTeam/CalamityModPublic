@@ -756,7 +756,9 @@ namespace CalamityMod.UI
                 if (_prevLife == _maxHealth)
                     percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
-                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
+
+                Color hpTextColor = Color.Lerp(OrangeColour, enrageColor, Utils.InverseLerp(0f, 75f, EnrageTimer, true) * 0.18f);
+                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), hpTextColor, OrangeBorderColour * 0.25f);
 
                 string name = _npc.FullName;
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
