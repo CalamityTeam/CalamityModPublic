@@ -3051,7 +3051,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed)
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight))
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
