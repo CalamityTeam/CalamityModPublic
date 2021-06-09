@@ -744,12 +744,11 @@ namespace CalamityMod.UI
                 }
 
                 // DRAW MAIN HEALTH BAR
-                Color enrageColor = Color.Lerp(Color.Red, Color.OrangeRed, (float)Math.Sin(Main.GlobalTime * 7.9f) * 0.5f + 0.5f);
-                Color mainHealthBarColor = Color.Lerp(Color.White, enrageColor, Utils.InverseLerp(0f, 75f, EnrageTimer, true) * 0.55f);
-                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), mainHealthBarColor);
+                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
 
                 // DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));
+                Color separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / 75f);
+                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), separatorColor);
 
                 // DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
@@ -757,11 +756,20 @@ namespace CalamityMod.UI
                     percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
 
-                Color hpTextColor = Color.Lerp(OrangeColour, enrageColor, Utils.InverseLerp(0f, 75f, EnrageTimer, true) * 0.18f);
-                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), hpTextColor, OrangeBorderColour * 0.25f);
+                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
 
                 string name = _npc.FullName;
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
+                if (EnrageTimer > 0)
+                {
+                    float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                    float outwardness = EnrageTimer / 75f * 1.5f + pulse * 2f;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                        DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                    }
+                }
                 DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
                 // TODO -- Make small text health a toggle in ModConfig.

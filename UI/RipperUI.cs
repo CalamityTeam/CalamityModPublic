@@ -258,6 +258,8 @@ namespace CalamityMod.UI
             if (rageHover && !adrenHover)
             {
                 // Add hover text if the mouse is over Rage bar
+                if (!CalamityConfig.Instance.MeterPosLock)
+                    Main.LocalPlayer.mouseInterface = true;
                 string rageStr = MakeRipperPercentString(modPlayer.rage, modPlayer.rageMax);
                 Main.instance.MouseText($"Rage: {rageStr}");
 
@@ -272,6 +274,8 @@ namespace CalamityMod.UI
             else if (adrenHover)
             {
                 // Add hover text if the mouse is over the bar
+                if (!CalamityConfig.Instance.MeterPosLock)
+                    Main.LocalPlayer.mouseInterface = true;
                 string adrenStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
                 Main.instance.MouseText($"Adrenaline: {adrenStr}");
 
