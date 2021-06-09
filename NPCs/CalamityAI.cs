@@ -1280,8 +1280,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				// Huge defense boost if brothers are alive
-				int num568 = 0;
+				// Huge DR boost if brothers are alive
 				if (expertMode)
 				{
 					if (CalamityGlobalNPC.cataclysm != -1)
@@ -1289,7 +1288,6 @@ namespace CalamityMod.NPCs
 						if (Main.npc[CalamityGlobalNPC.cataclysm].active)
 						{
 							brotherAlive = true;
-							num568 += 255;
 						}
 					}
 					if (CalamityGlobalNPC.catastrophe != -1)
@@ -1297,12 +1295,18 @@ namespace CalamityMod.NPCs
 						if (Main.npc[CalamityGlobalNPC.catastrophe].active)
 						{
 							brotherAlive = true;
-							num568 += 255;
 						}
 					}
-					npc.defense += num568 * 50;
-					if (!brotherAlive)
-						npc.defense = npc.defDefense;
+					if (brotherAlive)
+					{
+						calamityGlobalNPC.DR = 0.99f;
+						calamityGlobalNPC.unbreakableDR = true;
+					}
+					else
+					{
+						calamityGlobalNPC.DR = 0.15f;
+						calamityGlobalNPC.unbreakableDR = false;
+					}
 				}
 
 				// Disable homing if brothers are alive
@@ -1525,13 +1529,13 @@ namespace CalamityMod.NPCs
 
 						npc.ai[0] += 1f;
 						float hellblastGateValue = (expertMode ? 12f : 16f) - enrageScale;
-						if (npc.ai[0] > hellblastGateValue)
+						if (npc.ai[0] >= hellblastGateValue)
 						{
 							npc.ai[0] = 0f;
 							int type = ModContent.ProjectileType<BrimstoneHellblast2>();
 							int damage = npc.GetProjectileDamage(type);
 							float projSpeed = malice ? 5f : 4f;
-							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 3f) == 0f)
+							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 6f) == 0f)
 							{
 								float distance = Main.rand.NextBool() ? -1000f : 1000f;
 								float velocity = distance == -1000f ? projSpeed : -projSpeed;

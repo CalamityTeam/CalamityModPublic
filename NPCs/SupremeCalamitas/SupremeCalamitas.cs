@@ -642,7 +642,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					if (bulletHellCounter >= baseBulletHellProjectileGateValue)
 					{
 						bulletHellCounter = 0;
-						if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 3) == 0)
+						if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -728,7 +728,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -789,7 +789,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -864,7 +864,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 6)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -935,7 +935,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 8)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;

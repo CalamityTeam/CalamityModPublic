@@ -3332,7 +3332,9 @@ namespace CalamityMod.NPCs
             }
             bool handsDead = num156 == 0;
             npc.chaseable = handsDead;
-            npc.defense += num156 * (BossRushEvent.BossRushActive ? 2500 : 250);
+			calamityGlobalNPC.DR = 0.05f + num156 * 0.45f;
+			if (calamityGlobalNPC.DR > 0.95f)
+				calamityGlobalNPC.DR = 0.95f;
 
             // Teleport
             if (handsDead || phase2)
@@ -3640,7 +3642,8 @@ namespace CalamityMod.NPCs
             else if (npc.ai[1] == 2f)
             {
                 npc.damage = 1000;
-                npc.defense = 9999;
+				calamityGlobalNPC.DR = 0.99f;
+				calamityGlobalNPC.unbreakableDR = true;
                 npc.rotation += npc.direction * 0.3f;
                 Vector2 vector21 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num177 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector21.X;
@@ -5855,11 +5858,12 @@ namespace CalamityMod.NPCs
                         spazInPhase1 = Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 0f;
                 }
 
-                int defenseGain = spazInPhase1 ? 9999 : 10;
                 npc.chaseable = !spazInPhase1;
 
                 npc.damage = (int)(npc.defDamage * 1.5);
-                npc.defense = npc.defDefense + defenseGain;
+                npc.defense = npc.defDefense + 10;
+				calamityGlobalNPC.DR = spazInPhase1 ? 0.99f : 0.2f;
+				calamityGlobalNPC.unbreakableDR = spazInPhase1;
 
                 npc.HitSound = SoundID.NPCHit4;
 
@@ -6600,15 +6604,16 @@ namespace CalamityMod.NPCs
                         retInPhase1 = Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 0f;
                 }
 
-                int defenseGain = retInPhase1 ? 9999 : 18;
                 npc.chaseable = !retInPhase1;
 
                 // Increase defense and damage
                 npc.damage = (int)(npc.defDamage * 1.5);
-                npc.defense = npc.defDefense + defenseGain;
+                npc.defense = npc.defDefense + 18;
+				calamityGlobalNPC.DR = retInPhase1 ? 0.99f : 0.2f;
+				calamityGlobalNPC.unbreakableDR = retInPhase1;
 
-                // Change hit sound to metal
-                npc.HitSound = SoundID.NPCHit4;
+				// Change hit sound to metal
+				npc.HitSound = SoundID.NPCHit4;
 
                 // Shadowflamethrower phase
                 if (npc.ai[1] == 0f)
@@ -7402,7 +7407,8 @@ namespace CalamityMod.NPCs
                 if (npc.ai[1] == 2f)
                 {
                     npc.damage = 1000;
-                    npc.defense = 9999;
+					calamityGlobalNPC.DR = 0.99f;
+					calamityGlobalNPC.unbreakableDR = true;
 
                     npc.rotation += npc.direction * 0.3f;
 
@@ -9096,8 +9102,10 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-                // Adjust stats
-                npc.defense = 32;
+				// Adjust stats
+				calamityGlobalNPC.DR = 0.15f;
+				calamityGlobalNPC.unbreakableDR = false;
+				npc.defense = 32;
                 npc.damage = npc.defDamage;
 
                 // Fire projectiles
@@ -9177,8 +9185,10 @@ namespace CalamityMod.NPCs
             // Phase 2
             else
             {
-                // Adjust stats
-                npc.defense = 10;
+				// Adjust stats
+				calamityGlobalNPC.DR = 0.15f;
+				calamityGlobalNPC.unbreakableDR = false;
+				npc.defense = 10;
                 npc.damage = (int)(npc.defDamage * 1.4f);
 				npc.chaseable = true;
 
@@ -9413,9 +9423,8 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    npc.defense += 250;
-                    if (npc.defense > 9999)
-                        npc.defense = 9999;
+					calamityGlobalNPC.DR = 0.99f;
+					calamityGlobalNPC.unbreakableDR = true;
                 }
             }
 
@@ -10404,13 +10413,11 @@ namespace CalamityMod.NPCs
 
 			if (turboEnrage)
 			{
-				npc.defense = npc.defDefense * 50;
 				npc.Calamity().DR = 0.99f;
 				npc.Calamity().unbreakableDR = true;
 			}
 			else
 			{
-				npc.defense = npc.defDefense;
 				npc.Calamity().DR = 0.25f;
 				npc.Calamity().unbreakableDR = false;
 			}
