@@ -101,8 +101,10 @@ namespace CalamityMod.NPCs.Ravager
 			bool death = CalamityWorld.death || malice;
 			bool enraged = calamityGlobalNPC.enraged > 0;
 
-			// Percent life remaining
-			float lifeRatio = npc.life / (float)npc.lifeMax;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Increase aggression if player is taking a long time to kill the boss
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)

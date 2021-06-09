@@ -465,6 +465,8 @@ namespace CalamityMod.UI
             private bool _inCombo = false;
             private int _comboStartHealth;
             private int _damageCountdown;
+            public int EnrageTimer;
+
             private NPC _npc
             {
                 get
@@ -586,6 +588,7 @@ namespace CalamityMod.UI
                     return;
 
                 int currentLife = _npc.life;
+                bool enraged = _npc.Calamity().CurrentlyEnraged;
 
                 // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)
@@ -601,6 +604,9 @@ namespace CalamityMod.UI
                                 (Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
 
+                            if (Main.npc[i].Calamity().CurrentlyEnraged)
+                                enraged = true;
+
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
                         }
@@ -610,6 +616,9 @@ namespace CalamityMod.UI
                         _maxHealth = maxLife;
                     }
                 }
+
+                // Make the enrage counter go up/down based on whether the boss is enraged or not.
+                EnrageTimer = Utils.Clamp(EnrageTimer + enraged.ToDirectionInt(), 0, 75);
 
                 // Damage countdown
                 if (_damageCountdown > 0)
@@ -735,7 +744,9 @@ namespace CalamityMod.UI
                 }
 
                 // DRAW MAIN HEALTH BAR
-                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
+                Color enrageColor = Color.Lerp(Color.Red, Color.OrangeRed, (float)Math.Sin(Main.GlobalTime * 7.9f) * 0.5f + 0.5f);
+                Color mainHealthBarColor = Color.Lerp(Color.White, enrageColor, Utils.InverseLerp(0f, 75f, EnrageTimer, true) * 0.55f);
+                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), mainHealthBarColor);
 
                 // DRAW WHITE(ISH) LINE
                 sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));

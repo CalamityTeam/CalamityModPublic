@@ -154,12 +154,18 @@ namespace CalamityMod.NPCs.Leviathan
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
 			float enrageScale = 0f;
-			if (notOcean || malice)
-				enrageScale += 2f;
+            if (notOcean || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			npc.dontTakeDamage = spawnAnimation;
 

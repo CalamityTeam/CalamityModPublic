@@ -512,6 +512,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region Enrage and DR
             if (!player.Hitbox.Intersects(safeBox) || malice)
             {
+
                 if (uDieLul < 1.5f)
                 {
                     uDieLul *= 1.01f;
@@ -534,6 +535,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 protectionBoost = false;
             }
+            npc.Calamity().CurrentlyEnraged = protectionBoost;
 
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = npc.Calamity();

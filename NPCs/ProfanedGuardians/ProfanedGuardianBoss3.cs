@@ -94,6 +94,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
+                else
+                    npc.Calamity().CurrentlyEnraged = true;
             }
             else
                 immuneTimer = 300;

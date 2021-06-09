@@ -107,7 +107,10 @@ namespace CalamityMod.NPCs.Cryogen
 
 			float enrageScale = death ? 0.5f : 0f;
 			if (!player.ZoneSnow || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 
 			if (enrageScale > 2f)
 				enrageScale = 2f;
@@ -116,7 +119,10 @@ namespace CalamityMod.NPCs.Cryogen
 				enrageScale = 3f;
 
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale = 4f;
+			}
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

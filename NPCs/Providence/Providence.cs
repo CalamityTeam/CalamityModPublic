@@ -214,6 +214,8 @@ namespace CalamityMod.NPCs.Providence
 			if (nightTime)
 				projectileDamageMult = 2;
 
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged;
+
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
 			int crystalDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceCrystal>()) * projectileDamageMult;

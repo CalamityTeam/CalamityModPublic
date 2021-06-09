@@ -116,13 +116,22 @@ namespace CalamityMod.NPCs.Perforator
 
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
+			}
 			if (!Main.player[npc.target].ZoneCrimson || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{

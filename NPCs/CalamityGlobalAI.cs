@@ -41,9 +41,10 @@ namespace CalamityMod.NPCs
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
 
 			// Despawn safety, make sure to target another player if the current player target is too far away
@@ -518,12 +519,18 @@ namespace CalamityMod.NPCs
 			float num5 = (float)(death ? 20 - Math.Round(5f * (1f - lifeRatio)) : 20);
 
 			float enrageScale = 0f;
-			if (Main.dayTime || malice)
-				enrageScale += 2f;
+            if (Main.dayTime || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1369,10 +1376,16 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest();
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCorrupt || malice)
-				enrageScale += 2f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!Main.player[npc.target].ZoneCorrupt || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
@@ -1911,14 +1924,23 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest();
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson || malice)
-				enrageScale += 2f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!Main.player[npc.target].ZoneCrimson || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			// Spawn Creepers
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
@@ -2579,10 +2601,16 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || malice;
 
 			float enrageScale = death ? 0.25f : 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 0.5f;
-			if (!Main.player[npc.target].ZoneJungle || malice)
-				enrageScale += 0.5f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 0.5f;
+            }
+            if (!Main.player[npc.target].ZoneJungle || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 0.5f;
+            }
 
 			if (enrageScale > 1f)
 				enrageScale = 1f;
@@ -2590,8 +2618,11 @@ namespace CalamityMod.NPCs
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 2f;
 
-			if (enraged)
-				enrageScale = 3f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale = 3f;
+            }
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -3222,8 +3253,9 @@ namespace CalamityMod.NPCs
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
-			Vector2 vectorCenter = npc.Center;
+            Vector2 vectorCenter = npc.Center;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -3935,9 +3967,10 @@ namespace CalamityMod.NPCs
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
-			// Despawn
-			if (npc.position.X < 160f || npc.position.X > ((Main.maxTilesX - 10) * 16))
+            // Despawn
+            if (npc.position.X < 160f || npc.position.X > ((Main.maxTilesX - 10) * 16))
                 npc.active = false;
 
 			// Get a target
@@ -4532,12 +4565,18 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest();
 
 			float enrageScale = 0f;
-			if (Main.dayTime || malice)
-				enrageScale += 2f;
+            if (Main.dayTime || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			// Enrage variable if player is flying upside down
 			bool targetFloatingUp = player.gravDir == -1f;
@@ -5539,12 +5578,18 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest();
 
 			float enrageScale = 0f;
-			if (Main.dayTime || malice)
-				enrageScale += 1f;
+            if (Main.dayTime || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 0.5f;
-			if (enraged)
-				enrageScale += 0.5f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 0.5f;
+            }
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -7005,9 +7050,10 @@ namespace CalamityMod.NPCs
 
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
 
 			// Despawn safety, make sure to target another player if the current player target is too far away
@@ -8948,6 +8994,8 @@ namespace CalamityMod.NPCs
                 acceleration = 0.15f;
             }
 
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || enraged;
+
             // Detect active tiles around Plantera
             int radius = 20; // 20 tile radius
             int diameter = radius * 2;
@@ -9773,6 +9821,8 @@ namespace CalamityMod.NPCs
 
 			if (enraged)
 				turboEnrage = true;
+
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (enrage || turboEnrage)) || enraged;
 
             // Alpha
             if (npc.alpha > 0)
@@ -10806,6 +10856,8 @@ namespace CalamityMod.NPCs
                 (player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400)));
 
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || enraged;
+
             // If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
             if (!phase3AI)
                 npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
@@ -11749,8 +11801,10 @@ namespace CalamityMod.NPCs
                 idleTime = enraged ? 15 : 30;
             }
 
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            // Get a target
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(false);
 
 			// Center and target
@@ -12889,7 +12943,9 @@ namespace CalamityMod.NPCs
 			if (enraged)
 				aggressionLevel = 5;
 
-			if (npc.type == NPCID.MoonLordCore)
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            if (npc.type == NPCID.MoonLordCore)
             {
                 // Play a random Moon Lord sound
                 if (npc.ai[0] != -1f && npc.ai[0] != 2f && Main.rand.NextBool(200))

@@ -116,10 +116,16 @@ namespace CalamityMod.NPCs.HiveMind
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!player.ZoneCorrupt || malice)
-				enrageScale += 1f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!player.ZoneCorrupt || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 
