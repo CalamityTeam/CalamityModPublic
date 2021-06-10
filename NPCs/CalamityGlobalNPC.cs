@@ -3877,6 +3877,8 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ProjectileType<EndoBeam>())
 					damage = (int)(damage * 0.85);
+				if (projectile.type == ProjectileType<PoleWarperSummon>())
+					damage = (int)(damage * 0.8);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
