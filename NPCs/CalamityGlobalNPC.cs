@@ -3882,6 +3882,9 @@ namespace CalamityMod.NPCs
 				}
 				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
 					damage = (int)(damage * 0.8);
+
+				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
+					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
