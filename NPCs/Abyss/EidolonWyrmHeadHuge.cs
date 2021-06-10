@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.Abyss
 			npc.dontTakeDamage = invisiblePhase;
 			if (!invisiblePhase)
 			{
-				npc.Opacity += 0.1f;
+				npc.Opacity += 0.15f;
 				if (npc.Opacity > 1f)
 					npc.Opacity = 1f;
 			}

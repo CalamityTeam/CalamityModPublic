@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Abyss
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
-					npc.Opacity += 0.1f;
+					npc.Opacity += 0.15f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}
