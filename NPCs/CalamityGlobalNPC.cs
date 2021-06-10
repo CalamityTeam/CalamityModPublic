@@ -3867,7 +3867,12 @@ namespace CalamityMod.NPCs
 			{
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
-            }
+			}
+			else if (npc.type == NPCType<DarkEnergy>())
+			{
+				if (projectile.type == ProjectileType<WavePounderBoom>())
+					damage = (int)(damage * 0.5);
+			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
