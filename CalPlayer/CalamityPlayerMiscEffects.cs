@@ -121,6 +121,10 @@ namespace CalamityMod.CalPlayer
 					modPlayer.StandardSync();
 				}
 			}
+
+			// After everything, reset ranged crit if necessary.
+			if (modPlayer.spiritOrigin)
+				player.rangedCrit = 4;
 		}
 		#endregion
 
@@ -524,6 +528,31 @@ namespace CalamityMod.CalPlayer
 				player.width = 20;
 				player.height = 42;
 				modPlayer.resetHeightandWidth = false;
+			}
+
+			// Summon bullseyes on nearby targets.
+			if (player.Calamity().spiritOrigin)
+            {
+				int bullseyeType = ModContent.ProjectileType<SpiritOriginBullseye>();
+				List<int> alreadyTargetedNPCs = new List<int>();
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+						continue;
+
+					alreadyTargetedNPCs.Add((int)Main.projectile[i].ai[0]);
+				}
+
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+						continue;
+
+					if (Main.myPlayer == player.whoAmI && Main.npc[i].WithinRange(player.Center, 2000f))
+						Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, bullseyeType, 0, 0f, player.whoAmI, i);
+					if (player.Calamity().spiritOriginBullseyeShootCountdown <= 0)
+						player.Calamity().spiritOriginBullseyeShootCountdown = 45;
+				}
 			}
 
 			// Proficiency level ups
@@ -1078,6 +1107,8 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.spiritOriginBullseyeShootCountdown > 0)
+				modPlayer.spiritOriginBullseyeShootCountdown--;
 			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
 				modPlayer.phantomicHeartRegen--;
 			if (modPlayer.phantomicBulwarkCooldown > 0)

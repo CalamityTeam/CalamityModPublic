@@ -57,13 +57,15 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.DataStructures;
 
 namespace CalamityMod.NPCs
 {
 	public class CalamityGlobalNPC : GlobalNPC
     {
-        #region Variables
-        public float DR { get; set; } = 0f;
+		#region Variables
+
+		public float DR { get; set; } = 0f;
 
 		public int KillTime { get; set; } = 0;
 
@@ -1953,7 +1955,7 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
-            CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
 
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{
@@ -3658,6 +3660,53 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
+			int bullseyeType = ProjectileType<SpiritOriginBullseye>();
+			Projectile bullseye = null;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+				if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+					continue;
+
+				bullseye = Main.projectile[i];
+				break;
+			}
+
+			// Don't allow large hitbox projectiles or explosions to "snipe" enemies.
+			if (projectile.ranged && (projectile.width + projectile.height) / 2 <= 25 && projectile.velocity != Vector2.Zero)
+			{
+				if (bullseye != null)
+				{
+					float baseBullseyeRadius = npc.IsABoss() ? 116f : 54f;
+					bool hasCollidedWithBullseye;
+					if (projectile.penetrate <= 1 && projectile.penetrate != -1)
+						hasCollidedWithBullseye = projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
+					else
+					{
+						Vector2 directionToBullseye = projectile.SafeDirectionTo(bullseye.Center, Vector2.UnitY);
+						Vector2 orthogonalEdgeOffset = Vector2.UnitX.RotatedBy(directionToBullseye.ToRotation() + MathHelper.PiOver2) * baseBullseyeRadius;
+						Vector2 edgeVector = projectile.Center - bullseye.Center + orthogonalEdgeOffset;
+						float inaccuracyLimit = directionToBullseye.AngleBetween(edgeVector);
+						float orthogonalityToIdealDirection = directionToBullseye.AngleBetween(projectile.velocity);
+						hasCollidedWithBullseye = orthogonalityToIdealDirection < inaccuracyLimit && projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
+					}
+
+					// Do a very high amount of damage if hitting a bullseye.
+					if (hasCollidedWithBullseye && bullseye.ai[1] == 0f)
+					{
+						crit = true;
+						bullseye.ai[1] = 1f;
+						bullseye.netUpdate = true;
+						damage = (int)(damage * 1.85);
+					}
+				}
+
+				// TODO - Use the 1.4 spawn context system for this.
+				// This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this
+				// better without said system.
+				if (modPlayer.spiritOrigin && crit)
+					damage = (int)(damage * MathHelper.Lerp(1.2f, 1.85f, Utils.InverseLerp(6f, 72f, player.ActiveItem().useTime, true)));
+			}
+
 			if (modPlayer.camper && !player.StandingStill())
 				damage = (int)(damage * 0.1);
 
@@ -4876,8 +4925,8 @@ namespace CalamityMod.NPCs
         }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+		{
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				// His afterimages I can't get to work, so fuck it
 				if (npc.type == NPCID.SkeletronPrime)
