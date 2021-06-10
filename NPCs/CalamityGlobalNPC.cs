@@ -3856,7 +3856,7 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.795);
 
 				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
-					damage = (int)(damage * 0.6);
+					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
