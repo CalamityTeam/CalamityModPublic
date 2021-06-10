@@ -12712,6 +12712,13 @@ namespace CalamityMod.NPCs
 
 			if (npc.ai[0] >= 0f)
 			{
+				// Triple damage if the Adult Eidolon Wyrm is alive
+				if (npc.ai[0] == 0f)
+				{
+					if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
+						npc.damage *= 3;
+				}
+
 				npc.ai[0] += 1f;
 
 				float duration = 120f;
@@ -12748,8 +12755,12 @@ namespace CalamityMod.NPCs
 			// Percent life remaining for Cultist or Eidolon Wyrm
 			float lifeRatio = Main.npc[(int)npc.ai[0]].life / (float)Main.npc[(int)npc.ai[0]].lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > Main.npc[(int)npc.ai[0]].Calamity().killTimeRatio_IncreasedAggression)
+				lifeRatio = Main.npc[(int)npc.ai[0]].Calamity().killTimeRatio_IncreasedAggression;
+
 			bool phase2 = lifeRatio < 0.7f;
-			bool phase3 = lifeRatio < 0.55f;
+			bool phase3 = lifeRatio < (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>() ? 0.6f : 0.55f);
 			bool phase4 = lifeRatio < 0.4f;
 
 			bool kill = npc.ai[1] < 0f || !Main.npc[(int)npc.ai[0]].active;

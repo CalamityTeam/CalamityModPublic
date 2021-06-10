@@ -73,7 +73,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
+			bool adultWyrmAlive = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || adultWyrmAlive)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -146,31 +147,23 @@ namespace CalamityMod.NPCs.Abyss
                         npc.localAI[0] = 0f;
                         npc.TargetClosest(true);
                         npc.netUpdate = true;
-                        int damage = 80;
-                        if (Main.expertMode)
-                        {
-                            damage = 60;
-                        }
+                        int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
                         float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
                         int random = Main.rand.Next(3);
                         if (random == 0)
                         {
-                            Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         else if (random == 1)
                         {
                             Vector2 vec = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            vec = Vector2.Normalize(Main.player[npc.target].Center - npc.Center + Main.player[npc.target].velocity * 20f);
                             if (vec.HasNaNs())
                             {
-                                vec = new Vector2((float)npc.direction, 0f);
+                                vec = new Vector2(npc.direction, 0f);
                             }
-                            for (int n = 0; n < 1; n++)
-                            {
-                                Vector2 vector4 = vec * 4f;
-                                Projectile.NewProjectile(vector2.X, vector2.Y, vector4.X, vector4.Y, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
+                            Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
+                            Projectile.NewProjectile(vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {
@@ -279,6 +272,14 @@ namespace CalamityMod.NPCs.Abyss
                     num188 = 15f;
                     num189 = 0.25f;
                 }
+				if (adultWyrmAlive)
+				{
+					if (!Main.player[npc.target].Calamity().ZoneAbyssLayer4)
+					{
+						num188 = 22.5f;
+						num189 = 0.375f;
+					}
+				}
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
