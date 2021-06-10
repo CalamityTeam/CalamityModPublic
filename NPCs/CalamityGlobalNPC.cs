@@ -3875,7 +3875,8 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{
-				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>())
+				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
+					projectile.type == ProjectileType<PowerfulRaven>())
 				{
 					damage = (int)(damage * 0.85);
 				}
