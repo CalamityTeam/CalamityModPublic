@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			if (player.Calamity().StealthStrikeAvailable())
 			{
 				type = ModContent.ProjectileType<EclipsesStealth>();
-				damage = (int)(damage * 0.36);
+				damage = (int)(damage * 0.216);
 			}
 
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
