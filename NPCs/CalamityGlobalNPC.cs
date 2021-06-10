@@ -3880,7 +3880,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.85);
 				}
-				if (projectile.type == ProjectileType<PoleWarperSummon>())
+				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
 					damage = (int)(damage * 0.8);
 			}
 			else if (npc.type == NPCID.CultistBoss)
