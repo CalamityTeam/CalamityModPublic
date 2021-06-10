@@ -3873,6 +3873,11 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<WavePounderBoom>())
 					damage = (int)(damage * 0.5);
 			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
+			{
+				if (projectile.type == ProjectileType<EndoBeam>())
+					damage = (int)(damage * 0.85);
+			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
