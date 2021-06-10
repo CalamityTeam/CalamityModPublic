@@ -2,6 +2,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +11,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class OracleYoyo : ModProjectile
     {
+        public int Time;
+
         // projectile.localAI[1] is the Aura Charge of the red lightning aura
         // Minimum value is zero. Maximum value is 200.
         // The aura turns on and begins damaging enemies at 20 charge.
@@ -39,6 +42,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
+
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Time);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => Time = reader.ReadInt32();
 
         public override void SetDefaults()
         {
@@ -103,13 +110,18 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     Main.PlaySound(SoundID.Item93, (int)projectile.Center.X, (int)projectile.Center.Y);
                 }
 
-                // The aura's direct damage scales with its charge and with melee stats.
-				float chargeRatio = projectile.localAI[1] / MaxCharge;
-                int auraDamage = Oracle.AuraBaseDamage + (int)(chargeRatio * (Oracle.AuraMaxDamage - Oracle.AuraBaseDamage));
-                DealAuraDamage(auraRadius, auraDamage);
+                if (Time % 5 == 4)
+                {
+
+                    // The aura's direct damage scales with its charge and with melee stats.
+                    float chargeRatio = projectile.localAI[1] / MaxCharge;
+                    int auraDamage = Oracle.AuraBaseDamage + (int)(chargeRatio * (Oracle.AuraMaxDamage - Oracle.AuraBaseDamage));
+                    DealAuraDamage(auraRadius, auraDamage);
+                }
             }
             else
                 projectile.soundDelay = 2;
+            Time++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
