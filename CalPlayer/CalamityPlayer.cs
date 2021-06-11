@@ -8777,6 +8777,7 @@ namespace CalamityMod.CalPlayer
 
         private bool DoADash(float dashDistance)
         {
+			bool godSlayerDash = dashMod == 9;
             bool justDashed = false;
             int direction = 0;
 
@@ -8785,7 +8786,7 @@ namespace CalamityMod.CalPlayer
             if (dashTimeMod < 0)
                 dashTimeMod++;
 
-			if (dashMod == 9)
+			if (godSlayerDash)
 			{
 				if (player.controlUp && player.controlLeft)
 				{
@@ -8933,7 +8934,7 @@ namespace CalamityMod.CalPlayer
 
 					// Left
 					case -1:
-						player.velocity = possibleVelocities[6];
+						player.velocity = godSlayerDash ? possibleVelocities[6] : new Vector2(possibleVelocities[6].X, player.velocity.Y);
 						break;
 
 					// Nothing
@@ -8942,7 +8943,7 @@ namespace CalamityMod.CalPlayer
 
 					// Right
 					case 1:
-						player.velocity = possibleVelocities[2];
+						player.velocity = godSlayerDash ? possibleVelocities[2] : new Vector2(possibleVelocities[2].X, player.velocity.Y);
 						break;
 
 					// Down
@@ -8964,7 +8965,7 @@ namespace CalamityMod.CalPlayer
 				Point point5 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, player.gravDir * -player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
 				Point point6 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, 0f)).ToTileCoordinates();
 				if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-					player.velocity.X = player.velocity.X / 2f;
+					player.velocity.X /= 2f;
 
                 player.dashDelay = -1;
             }
