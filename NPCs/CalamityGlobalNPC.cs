@@ -946,10 +946,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
-            if (npc.lifeMax < 25000000)
-                ApplyDPSDebuff(banishingFire, 20000, 4000, ref npc.lifeRegen, ref damage);
-            else
-                ApplyDPSDebuff(banishingFire, npc.lifeMax / 2500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 1000000) // 2000 hp per second as minimum
+                ApplyDPSDebuff(banishingFire, 4000, 800, ref npc.lifeRegen, ref damage);
+            else // On big health enemies, do 0.2% hp per second
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
