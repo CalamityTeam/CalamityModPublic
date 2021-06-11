@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                int dust = Dust.NewDust(projectile.Center, 1, 1, 33, 0, 0, 0, default, 1.5f);
+                int dust = Dust.NewDust(projectile.Center, 1, 1, 5, 0, 0, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
         }
