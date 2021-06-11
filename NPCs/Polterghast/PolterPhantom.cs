@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					int numUpdates = reachedChargingPoint ? 10 : 1;
+					int numUpdates = reachedChargingPoint ? 10 : 2;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
@@ -353,10 +353,11 @@ namespace CalamityMod.NPCs.Polterghast
 						}
 						else
 						{
+							// Reduce velocity and acceleration to allow for smoother movement inside this loop
 							if (Vector2.Distance(vector, chargeVector) > 1200f)
-								npc.velocity = chargeLocationVelocity;
+								npc.velocity = chargeLocationVelocity * 0.5f;
 							else
-								npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+								npc.SimpleFlyMovement(chargeLocationVelocity * 0.5f, chargeAcceleration * 0.5f);
 						}
 					}
 				}
