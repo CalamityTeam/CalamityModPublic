@@ -143,11 +143,15 @@ namespace CalamityMod.NPCs.Polterghast
 				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
-			// Look at target
+			// Predictiveness
 			float chargePredictionAmt = 10f + 40f * (tileEnrageMult - 1f);
-			Vector2 lookAt = player.Center + (chargePhase ? (player.velocity * chargePredictionAmt) : Vector2.Zero);
+			Vector2 lookAt = player.Center + (chargePhase && revenge ? (player.velocity * chargePredictionAmt) : Vector2.Zero);
 			Vector2 rotationVector = lookAt - vector;
-			npc.rotation = (float)Math.Atan2(rotationVector.X, rotationVector.Y) + MathHelper.PiOver2;
+
+			// Rotation
+			float num740 = player.Center.X - vector.X;
+			float num741 = player.Center.Y - vector.Y;
+			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
 
@@ -263,7 +267,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					if (npc.Calamity().newAI[1] == 0f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center + player.velocity * chargePredictionAmt - vector) * chargeVelocity;
+						npc.velocity = Vector2.Normalize(rotationVector) * chargeVelocity;
 						npc.Calamity().newAI[1] = 1f;
 					}
 					else
@@ -338,7 +342,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					int numUpdates = reachedChargingPoint ? 5 : 1;
+					int numUpdates = reachedChargingPoint ? 10 : 1;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
