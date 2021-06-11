@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Divine Bless");
-            Description.SetDefault("+5% damage, increased health regen, attacks inflict Banishing Fire");
+            Description.SetDefault("Increased health regen and minions inflict Banishing Fire");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
