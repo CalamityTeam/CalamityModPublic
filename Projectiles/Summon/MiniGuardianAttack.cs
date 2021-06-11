@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
                         (CalamityWorld.downedDoG ? 75f : 0f) +
                         (CalamityWorld.downedYharon ? 75f : 0f) +
                         (modPlayer.profanedCrystalBuffs ? 420f : 0f));
-            projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
+            projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage() * 0.7f);
             ai = type;
             if (baseDamage >= 420f)
             {
@@ -98,8 +99,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.tileCollide = false;
                     int num17 = 100;
                     Vector2 vector3 = projectile.Center;
-                    float num18 = Main.player[projectile.owner].Center.X - vector3.X;
-                    float num19 = Main.player[projectile.owner].Center.Y - vector3.Y;
+                    float num18 = player.Center.X - vector3.X;
+                    float num19 = player.Center.Y - vector3.Y;
                     num19 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)(60 * -(float)Main.player[projectile.owner].direction);
@@ -107,8 +108,8 @@ namespace CalamityMod.Projectiles.Summon
                     float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
                     float num21 = 18f;
 
-                    if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
-                        projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height &&
+                    if (num20 < (float)num17 && player.velocity.Y == 0f &&
+                        projectile.position.Y + (float)projectile.height <= player.position.Y + (float)player.height &&
                         !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                     {
                         projectile.ai[0] = 0f;
@@ -119,8 +120,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     if (num20 > 2000f)
                     {
-                        projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                        projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                        projectile.position = player.position;
                         projectile.netUpdate = true;
                     }
                     if (num20 < 50f)
@@ -148,34 +148,34 @@ namespace CalamityMod.Projectiles.Summon
 
                     if (projectile.velocity.X < num18)
                     {
-                        projectile.velocity.X = projectile.velocity.X + num16;
+                        projectile.velocity.X += num16;
                         if (num16 > 0.05f && projectile.velocity.X < 0f)
                         {
-                            projectile.velocity.X = projectile.velocity.X + num16;
+                            projectile.velocity.X += num16;
                         }
                     }
                     if (projectile.velocity.X > num18)
                     {
-                        projectile.velocity.X = projectile.velocity.X - num16;
+                        projectile.velocity.X -= num16;
                         if (num16 > 0.05f && projectile.velocity.X > 0f)
                         {
-                            projectile.velocity.X = projectile.velocity.X - num16;
+                            projectile.velocity.X -= num16;
                         }
                     }
                     if (projectile.velocity.Y < num19)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y + num16;
+                        projectile.velocity.Y += num16;
                         if (num16 > 0.05f && projectile.velocity.Y < 0f)
                         {
-                            projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
+                            projectile.velocity.Y += num16 * 2f;
                         }
                     }
                     if (projectile.velocity.Y > num19)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y - num16;
+                        projectile.velocity.Y -= num16;
                         if (num16 > 0.05f && projectile.velocity.Y > 0f)
                         {
-                            projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
+                            projectile.velocity.Y -= num16 * 2f;
                         }
                     }
                     break;
@@ -246,6 +246,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
+			projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 3000f;
@@ -253,9 +254,9 @@ namespace CalamityMod.Projectiles.Summon
             NPC ownerMinionAttackTargetNPC2 = projectile.OwnerMinionAttackTargetNPC;
             if (ownerMinionAttackTargetNPC2 != null && ownerMinionAttackTargetNPC2.CanBeChasedBy(projectile, false))
             {
-                float num539 = ownerMinionAttackTargetNPC2.position.X + (float)(ownerMinionAttackTargetNPC2.width / 2);
-                float num540 = ownerMinionAttackTargetNPC2.position.Y + (float)(ownerMinionAttackTargetNPC2.height / 2);
-                float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
+                float num539 = ownerMinionAttackTargetNPC2.Center.X;
+                float num540 = ownerMinionAttackTargetNPC2.Center.Y;
+                float num541 = Math.Abs(projectile.Center.X - num539) + Math.Abs(projectile.Center.Y - num540);
                 if (num541 < num537)
                 {
                     num537 = num541;
@@ -271,9 +272,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Main.npc[num542].CanBeChasedBy(projectile, false))
                     {
-                        float num543 = Main.npc[num542].position.X + (float)(Main.npc[num542].width / 2);
-                        float num544 = Main.npc[num542].position.Y + (float)(Main.npc[num542].height / 2);
-                        float num545 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num543) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num544);
+                        float num543 = Main.npc[num542].Center.X;
+                        float num544 = Main.npc[num542].Center.Y;
+                        float num545 = Math.Abs(projectile.Center.X - num543) + Math.Abs(projectile.Center.Y - num544);
                         if (num545 < num537)
                         {
                             num537 = num545;
@@ -325,5 +326,17 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (Main.player[projectile.owner].Calamity().angelicAlliance)
+				target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			if (Main.player[projectile.owner].Calamity().angelicAlliance)
+				target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
+		}
     }
 }

@@ -223,7 +223,7 @@ namespace CalamityMod.Events
                         }
                     }
                     Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
-                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                    CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
                 }),
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
                 new Boss(ModContent.NPCType<DevourerofGodsHeadS>(), TimeChangeContext.Day, type =>

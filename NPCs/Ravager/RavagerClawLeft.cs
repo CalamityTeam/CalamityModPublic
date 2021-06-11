@@ -281,11 +281,6 @@ namespace CalamityMod.NPCs.Ravager
 			return false;
 		}
 
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
 			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);

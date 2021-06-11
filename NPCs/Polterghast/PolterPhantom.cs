@@ -74,10 +74,10 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
 
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
@@ -130,9 +130,6 @@ namespace CalamityMod.NPCs.Polterghast
             else
                 despawnTimer++;
 
-			if (BossRushEvent.BossRushActive)
-				speedBoost = false;
-
 			if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
 				velocity = 21f;
@@ -146,7 +143,12 @@ namespace CalamityMod.NPCs.Polterghast
 				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
-			// Look at target
+			// Predictiveness
+			float chargePredictionAmt = 10f + 40f * (tileEnrageMult - 1f);
+			Vector2 lookAt = player.Center + (chargePhase && revenge ? (player.velocity * chargePredictionAmt) : Vector2.Zero);
+			Vector2 rotationVector = lookAt - vector;
+
+			// Rotation
 			float num740 = player.Center.X - vector.X;
 			float num741 = player.Center.Y - vector.Y;
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
@@ -265,7 +267,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					if (npc.Calamity().newAI[1] == 0f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.velocity = Vector2.Normalize(rotationVector) * chargeVelocity;
 						npc.Calamity().newAI[1] = 1f;
 					}
 					else
@@ -340,7 +342,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					int numUpdates = reachedChargingPoint ? 5 : 1;
+					int numUpdates = reachedChargingPoint ? 10 : 2;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
@@ -351,10 +353,11 @@ namespace CalamityMod.NPCs.Polterghast
 						}
 						else
 						{
+							// Reduce velocity and acceleration to allow for smoother movement inside this loop
 							if (Vector2.Distance(vector, chargeVector) > 1200f)
-								npc.velocity = chargeLocationVelocity;
+								npc.velocity = chargeLocationVelocity * 0.5f;
 							else
-								npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+								npc.SimpleFlyMovement(chargeLocationVelocity * 0.5f, chargeAcceleration * 0.5f);
 						}
 					}
 				}

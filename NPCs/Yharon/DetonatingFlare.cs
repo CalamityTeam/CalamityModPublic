@@ -294,10 +294,5 @@ namespace CalamityMod.NPCs.Yharon
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
     }
 }

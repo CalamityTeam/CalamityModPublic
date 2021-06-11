@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Statis' Blessing");
             Tooltip.SetDefault("Increased max minions by 2 and 10% increased minion damage\n" +
                 "Increased minion knockback\n" +
-                "Minions cause enemies to cry on hit");
+                "Minions inflict holy flames on hit");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.tearMinions = true;
+            modPlayer.holyMinions = true;
             player.minionKB += 2.5f;
             player.minionDamage += 0.1f;
         }

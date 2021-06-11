@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
 				"10% increased minion damage\n" +
                 "Increased minion knockback\n" +
-                "Grants shadowflame powers to all minions\n" +
-                "Minions make enemies cry on hit");
+                "Minions inflict holy flames and shadowflames on hit");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadowMinions = true;
-            modPlayer.tearMinions = true;
+            modPlayer.holyMinions = true;
             player.minionKB += 2.75f;
             player.minionDamage += 0.1f;
         }

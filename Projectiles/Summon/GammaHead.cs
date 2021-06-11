@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.frame %= Main.projFrames[projectile.type];
 
             Vector2 spawnPosition = projectile.Center;
-            float shootSpeed = MathHelper.Lerp(8f, 20f, Utils.InverseLerp(90f, 850f, target.Distance(spawnPosition), true));
+            float shootSpeed = MathHelper.Lerp(8f, 29f, Utils.InverseLerp(90f, 850f, target.Distance(spawnPosition), true));
             Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, projectile.SafeDirectionTo(target.Center));
 
             float fireAngle = shootVelocity.ToRotation();

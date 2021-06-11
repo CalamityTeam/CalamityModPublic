@@ -99,11 +99,6 @@ namespace CalamityMod.NPCs.Cryogen
             player.AddBuff(BuffID.Chilled, 60, true);
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

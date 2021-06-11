@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.damage = 0;
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 2800);
+			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
@@ -124,12 +125,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;

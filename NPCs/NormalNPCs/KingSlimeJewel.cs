@@ -49,8 +49,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             npc.TargetClosest(true);
 
-            float velocity = BossRushEvent.BossRushActive ? 8f : 2f;
-            float acceleration = BossRushEvent.BossRushActive ? 0.4f : 0.1f;
+            float velocity = 2f;
+            float acceleration = 0.1f;
 
             if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
             {
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // Fire bolt every 1.5 seconds
-                npc.localAI[0] += BossRushEvent.BossRushActive ? 2f : 1f;
+                npc.localAI[0] += 1f;
                 if (npc.localAI[0] >= (CalamityWorld.malice ? 45f : CalamityWorld.death ? 60f : 75f))
                 {
                     npc.localAI[0] = 0f;
@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Vector2 projVector = new Vector2(xDist, yDist);
 					float projLength = projVector.Length();
 
-                    float speed = BossRushEvent.BossRushActive ? 18f : 9f;
+                    float speed = 9f;
 					int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;

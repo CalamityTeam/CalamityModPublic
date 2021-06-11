@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -12,7 +13,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -344,10 +344,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-			bool malice = CalamityWorld.malice;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 			bool enraged = npc.Calamity().enraged > 0;
 
 			// Projectile damage values
@@ -361,8 +361,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
             int bodyWidth = 44;
             int bodyHeight = 42;
+			int baseBulletHellProjectileGateValue = enraged ? 6 : 8;
 
-            Vector2 vectorCenter = npc.Center;
+			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -566,11 +567,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     forcefieldOpacity = Utils.InverseLerp(0.1f, 0.6f, npc.Opacity, true);
                     if (npc.alpha >= 230)
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient && !BossRushEvent.BossRushActive && CalamityWorld.downedSCal)
-                        {
-                            Dust.QuickDustLine(npc.Center, initialRitualPosition, 350f, Color.Red);
-                            NPC.NewNPC((int)initialRitualPosition.X, (int)initialRitualPosition.Y + 12, ModContent.NPCType<WITCH>());
-                        }
+                        // TODO: Spawn the town NPC variant of SCal here when it's on the public branch.
                         npc.active = false;
                         npc.netUpdate = true;
                     }
@@ -642,10 +639,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     bulletHellCounter += 1;
-					if (bulletHellCounter > (enraged ? 4 : 6))
+					if (bulletHellCounter >= baseBulletHellProjectileGateValue)
 					{
 						bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 4 : 6) * 3) == 0)
+						if (bulletHellCounter2 % (baseBulletHellProjectileGateValue * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -728,10 +725,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 7 : 9))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 7 : 9) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -789,10 +786,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 9 : 11))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 9 : 11) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 4) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -864,10 +861,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 10 : 12))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 6)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 10 : 12) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 6) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -935,10 +932,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > (enraged ? 12 : 14))
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 8)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((enraged ? 12 : 14) * 3) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 8) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -966,9 +963,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFifthAttack && (npc.life <= npc.lifeMax * 0.1))
             {
+                string key = "Mods.CalamityMod.SCalBH5Text";
+
                 if (!BossRushEvent.BossRushActive)
                 {
-                    string key = "Mods.CalamityMod.SCalBH5Text";
                     if (CalamityWorld.downedSCal)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
@@ -996,6 +994,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (CalamityWorld.downedSCal && !BossRushEvent.BossRushActive)
                     {
+                        // TODO: Spawn the town NPC variant of SCal again here.
                         if (giveUpCounter == 720)
                         {
                             for (int i = 0; i < 24; i++)
@@ -1015,9 +1014,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (giveUpCounter == 900 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText1", textColor);
-                    else if (giveUpCounter == 600 && !BossRushEvent.BossRushActive)
+                    else if(giveUpCounter == 600 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText2", textColor);
-                    else if (giveUpCounter == 300 && !BossRushEvent.BossRushActive)
+                    else if(giveUpCounter == 300 && !BossRushEvent.BossRushActive)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
@@ -1044,7 +1043,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         return;
                     }
                     giveUpCounter--;
-
                     npc.chaseable = false;
                     npc.dontTakeDamage = true;
                     return;
@@ -2507,17 +2505,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (attackCastDelay == 0)
             {
+                string key = "Mods.CalamityMod.SCalStartText";
+                if (npc.life <= npc.lifeMax * 0.08)
+                    key = "Mods.CalamityMod.SCalSepulcher2Text";
+
                 if (!BossRushEvent.BossRushActive)
                 {
-                    string key = "Mods.CalamityMod.SCalStartText";
-                    if (npc.life <= npc.lifeMax * 0.08)
-                        key = "Mods.CalamityMod.SCalSepulcher2Text";
-
                     if (CalamityWorld.downedSCal)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
                 }
-
                 foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
                 {
                     // Make the hearts appear in a burst of flame.
@@ -2639,7 +2636,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (CalamityWorld.downedSCal)
                         CalamityUtils.DisplayLocalizedText(key + "2", textColor);
                 }
-
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
@@ -2712,7 +2708,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
             if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
+                if (!BossRushEvent.BossRushActive)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
                 return true;
             }
 
@@ -2721,15 +2718,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void NPCLoot()
         {
-            if (BossRushEvent.BossRushActive)
-                return;
-
             // Create a teleport line effect
             Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
             npc.Center = initialRitualPosition;
-
-            // Make the town NPC spawn.
-            NPC.NewNPC((int)initialRitualPosition.X, (int)initialRitualPosition.Y + 12, ModContent.NPCType<WITCH>());
 
             // Increase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
@@ -2747,6 +2738,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Rejoice! Hybrid weapons are no more, so this list is no longer cluttered.
 			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
 				ModContent.ItemType<Animus>(),
+				ModContent.ItemType<AngelicAlliance>(),
 				ModContent.ItemType<Azathoth>(),
 				ModContent.ItemType<Contagion>(),
 				ModContent.ItemType<CrystylCrusher>(),
@@ -2793,6 +2785,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (BossRushEvent.BossRushActive)
                 return true;
+
             npc.life = 1;
             npc.active = true;
             npc.dontTakeDamage = true;

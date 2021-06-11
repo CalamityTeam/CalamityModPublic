@@ -70,15 +70,7 @@ namespace CalamityMod.NPCs.Ravager
 			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(-70f, 88f);
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
-
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

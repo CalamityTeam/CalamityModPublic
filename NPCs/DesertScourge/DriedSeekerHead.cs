@@ -96,10 +96,5 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
             }
         }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
     }
 }

@@ -89,10 +89,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+            bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -394,7 +395,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.ai[3] = 0f;
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
-								float chargeVelocity = BossRushEvent.BossRushActive ? 18f : death ? 12f : 9f;
+								float chargeVelocity = death ? 12f : 9f;
 								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
 								npc.TargetClosest();
 								return;
@@ -402,14 +403,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float divisor = malice ? 10f : 15f;
+								float divisor = enraged ? 5f : malice ? 10f : 15f;
 								if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
 										float num179 = revenge ? 2f : 3f;
-										if (BossRushEvent.BossRushActive)
-											num179 = 12f;
 										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 										float num180 = player.position.X + player.width * 0.5f - value9.X;
 										float num181 = Math.Abs(num180) * 0.1f;
@@ -434,8 +433,6 @@ namespace CalamityMod.NPCs.SlimeGod
 									else
 									{
 										float num179 = revenge ? 6f : 5f;
-										if (BossRushEvent.BossRushActive)
-											num179 = 12f;
 										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 										float num180 = player.position.X + player.width * 0.5f - value9.X;
 										float num181 = Math.Abs(num180) * 0.1f;
@@ -467,13 +464,11 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % 40f == 0f)
+						if (npc.ai[1] % (enraged ? 20f : 40f) == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{
 								float num179 = revenge ? 2f : 3f;
-								if (BossRushEvent.BossRushActive)
-									num179 = 12f;
 								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								float num180 = player.position.X + player.width * 0.5f - value9.X;
 								float num181 = Math.Abs(num180) * 0.1f;
@@ -498,8 +493,6 @@ namespace CalamityMod.NPCs.SlimeGod
 							else
 							{
 								float num179 = revenge ? 6f : 5f;
-								if (BossRushEvent.BossRushActive)
-									num179 = 12f;
 								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								float num180 = player.position.X + player.width * 0.5f - value9.X;
 								float num181 = Math.Abs(num180) * 0.1f;
@@ -536,11 +529,11 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = revenge ? 18f : expertMode ? 16f : 14f;
             }
-            if (BossRushEvent.BossRushActive || player.gravDir == -1f)
+            if (player.gravDir == -1f)
             {
                 num1372 = 22f;
             }
-            if (calamityGlobalNPC.enraged > 0 || player.gravDir == -1f)
+            if (enraged || player.gravDir == -1f)
             {
                 num1372 += 8f;
             }
