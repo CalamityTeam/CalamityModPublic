@@ -112,6 +112,17 @@ namespace CalamityMod.Projectiles.Ranged
 
         public void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
+            if (Main.myPlayer == projectile.owner)
+            {
+                Vector2 oldVelocity = projectile.velocity;
+                projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld);
+                if (projectile.velocity != oldVelocity)
+                {
+                    projectile.netSpam = 0;
+                    projectile.netUpdate = true;
+                }
+            }
+
             projectile.position = armPosition - projectile.Size * 0.5f;
             projectile.rotation = projectile.velocity.ToRotation();
             if (projectile.spriteDirection == -1)
