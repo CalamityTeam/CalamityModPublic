@@ -222,29 +222,6 @@ namespace CalamityMod.NPCs.Abyss
 				}
 			}
 
-			// Adjust opacity
-			bool invisiblePhase = calamityGlobalNPC.newAI[0] == (float)Phase.LightningRain || calamityGlobalNPC.newAI[0] == (float)Phase.IceMist || calamityGlobalNPC.newAI[0] == (float)Phase.AncientDoomSummon;
-			npc.dontTakeDamage = invisiblePhase;
-			if (!invisiblePhase)
-			{
-				npc.Opacity += 0.15f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
-			}
-			else
-			{
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
-
-			// Rotation and direction
-			npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
-			int direction = npc.direction;
-			npc.direction = npc.spriteDirection = (npc.velocity.X > 0f) ? 1 : (-1);
-			if (direction != npc.direction)
-				npc.netUpdate = true;
-
 			// General AI pattern
 			// Charge
 			// Charge : Phase 2 - Spin around target and summon Shadow Fireballs
@@ -269,6 +246,42 @@ namespace CalamityMod.NPCs.Abyss
 			// Phase 4 - 0, 6, 8, 1, 2, 3, 4, 7, 8, 5, 2, 9
 			// Phase 5 - 0, 6, 8, 1, 2, 2, 4, 7, 8, 5, 2, 2
 			// Phase 6 - 10
+
+			// Phase gate values
+			float velocityAdjustTime = 20f;
+			float chargePhaseGateValue = 180f;
+			float lightningRainDuration = 180f;
+			float eidolonWyrmPhaseDuration = 180f;
+			float iceMistDuration = 180f;
+			float spinPhaseDuration = 300f;
+			float ancientDoomPhaseGateValue = 30f;
+			float ancientDoomGateValue = 120f;
+			float lightningChargePhaseGateValue = 90f;
+
+			// Adjust opacity
+			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC.newAI[0] == (float)Phase.ChargeOne || calamityGlobalNPC.newAI[0] == (float)Phase.ChargeTwo || calamityGlobalNPC.newAI[0] == (float)Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC.newAI[0] == (float)Phase.LightningCharge;
+			bool invisiblePhase = calamityGlobalNPC.newAI[0] == (float)Phase.LightningRain || calamityGlobalNPC.newAI[0] == (float)Phase.IceMist || calamityGlobalNPC.newAI[0] == (float)Phase.AncientDoomSummon;
+			npc.dontTakeDamage = invisiblePhase;
+			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+			{
+				npc.Opacity += 0.15f;
+				if (npc.Opacity > 1f)
+					npc.Opacity = 1f;
+			}
+			else
+			{
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
+			}
+
+			// Rotation and direction
+			npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+			int direction = npc.direction;
+			npc.direction = npc.spriteDirection = (npc.velocity.X > 0f) ? 1 : (-1);
+			if (direction != npc.direction)
+				npc.netUpdate = true;
 
 			// Default vector to swim to
 			Vector2 destination = player.Center;
@@ -359,17 +372,6 @@ namespace CalamityMod.NPCs.Abyss
 			float fastChargeTurnSpeedMult = MathHelper.Lerp(1f, 12f, chargeVelocityScalar);
 			float chargeVelocityScalarIncrement = 0.025f;
 
-			// Phase gate values
-			float velocityAdjustTime = 20f;
-			float chargePhaseGateValue = 180f;
-			float lightningRainDuration = 180f;
-			float eidolonWyrmPhaseDuration = 180f;
-			float iceMistDuration = 180f;
-			float spinPhaseDuration = 300f;
-			float ancientDoomPhaseGateValue = 30f;
-			float ancientDoomGateValue = 120f;
-			float lightningChargePhaseGateValue = 90f;
-
 			// Phase switch
 			switch ((int)AIState)
 			{
@@ -378,6 +380,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -404,7 +408,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -576,6 +582,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -602,7 +610,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge very quickly
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -691,6 +701,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -717,7 +729,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -997,6 +1011,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -1023,7 +1039,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
