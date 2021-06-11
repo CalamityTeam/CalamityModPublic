@@ -155,7 +155,6 @@ namespace CalamityMod.Projectiles.Melee
 		public void ManipulatePlayerValues()
 		{
 			Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
-			Owner.heldProj = projectile.whoAmI;
 			Owner.itemTime = 2;
 			Owner.itemAnimation = 2;
 			Owner.ChangeDir(projectile.direction);
