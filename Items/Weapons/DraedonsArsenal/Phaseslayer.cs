@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -69,6 +70,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			blade.rotation = blade.AngleTo(Main.MouseWorld);
 			return false;
 		}
+
+		public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5);
 
 		public override void AddRecipes()
 		{

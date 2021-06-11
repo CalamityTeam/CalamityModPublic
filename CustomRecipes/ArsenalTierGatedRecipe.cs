@@ -13,6 +13,24 @@ namespace CalamityMod.CustomRecipes
             AllowedInOldWorlds = allowedInOldWorlds;
         }
 
+        public static bool HasTierBeenLearned(int tier)
+        {
+            switch (tier)
+            {
+                case 1:
+                    return RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes;
+                case 2:
+                    return RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes;
+                case 3:
+                    return RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes;
+                case 4:
+                    return RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes;
+                case 5:
+                    return RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes;
+            }
+            return false;
+        }
+
         public override bool RecipeAvailable()
         {
             if (AllowedInOldWorlds && !CalamityWorld.IsWorldAfterDraedonUpdate)

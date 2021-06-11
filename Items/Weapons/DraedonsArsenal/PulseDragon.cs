@@ -2,6 +2,7 @@ using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -58,6 +59,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             projectile.localAI[0] = -1f;
             return false;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
 
         public override void AddRecipes()
         {

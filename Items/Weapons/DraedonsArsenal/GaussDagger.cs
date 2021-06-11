@@ -2,6 +2,7 @@ using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,6 +44,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.MaxCharge = 50f;
             modItem.ChargePerUse = 0.05f;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {

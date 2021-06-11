@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.TileEntities;
 using CalamityMod.CustomRecipes;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -30,6 +31,8 @@ namespace CalamityMod.Items.DraedonMisc
         }
 
         public override bool UseItem(Player player) => true;
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
 
         public override bool ConsumeItem(Player player)
         {

@@ -181,7 +181,7 @@ namespace CalamityMod.Localization
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
-                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }
+                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
             };
         }
 

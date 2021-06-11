@@ -2,6 +2,7 @@ using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,6 +53,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(10f, 0f);
+
+		public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
 		public override void AddRecipes()
 		{

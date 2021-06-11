@@ -1,6 +1,7 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,6 +44,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			modItem.UsesCharge = true;
 			modItem.ChargePerUse = 0.05f;
 		}
+
+		public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
 
 		public override void AddRecipes()
 		{
