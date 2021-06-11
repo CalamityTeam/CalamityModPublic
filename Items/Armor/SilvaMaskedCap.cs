@@ -44,10 +44,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaMage = true;
             player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
-                "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
-                "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
-                "Your max life will return to normal if you die\n" +
+                "If you are reduced to 1 HP you will not die from any further damage for 5 seconds\n" +
+                "This effect only triggers once per life\n" +
                 "Magic projectiles have a 10% chance to cause a massive explosion on enemy hits\n" +
                 "After the silva invulnerability time your magic weapons will do 10% more damage";
         }

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
@@ -262,17 +263,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			return false;
 		}
 
-		public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

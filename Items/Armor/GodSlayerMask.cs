@@ -41,16 +41,22 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerThrowing = true;
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
-                "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active all life regen is halved\n" +
-                "While at full HP all of your rogue stats are boosted by 10%\n" +
+			string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
+			player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
+				"Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
+				"Enemies you dash through take massive damage\n" +
+				"During the dash you are immune to most debuffs\n" +
+				"The dash has a 15 second cooldown\n" +
+				"While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-        }
+
+			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+				modPlayer.dashMod = 9;
+		}
 
         public override void UpdateEquip(Player player)
         {

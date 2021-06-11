@@ -123,6 +123,7 @@ namespace CalamityMod.ILEditing
 			DisableTeleportersDuringBossFights();
             FixSplittingWormBannerDrops();
             UseCoolFireCursorEffect();
+            MakeMouseHoverItemsSupportAnimations();
         }
 
         /// <summary>
@@ -448,6 +449,33 @@ namespace CalamityMod.ILEditing
 
                 // If the block is equal to false (indicating the drop logic should stop), skip all the ahead banner drop logic.
                 cursor.Emit(OpCodes.Beq, afterBannerLogic);
+            };
+        }
+
+        private static void MakeMouseHoverItemsSupportAnimations()
+        {
+            IL.Terraria.Main.DrawInterface_40_InteractItemIcon += (il) =>
+            {
+                var cursor = new ILCursor(il);
+
+                // Locate the location where the frame rectangle is created.
+                if (!cursor.TryGotoNext(MoveType.After, i => i.MatchNewobj<Rectangle?>()))
+                    return;
+
+                int endIndex = cursor.Index;
+
+                // And then go back to where it began, right after the draw position vector.
+                if (!cursor.TryGotoPrev(MoveType.After, i => i.MatchNewobj<Vector2>()))
+                    return;
+
+                // And delete the range that creates the rectangle with intent to replace it.
+                cursor.RemoveRange(Math.Abs(endIndex - cursor.Index));
+
+                cursor.Emit(OpCodes.Ldloc_0);
+                cursor.EmitDelegate<Func<int, Rectangle?>>(itemType =>
+                {
+                    return Main.itemAnimations[itemType]?.GetFrame(Main.itemTexture[itemType]) ?? null;
+                });
             };
         }
 

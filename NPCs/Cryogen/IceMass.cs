@@ -73,11 +73,6 @@ namespace CalamityMod.NPCs.Cryogen
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.7f, 0.7f);
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

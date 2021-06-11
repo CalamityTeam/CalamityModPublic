@@ -75,10 +75,11 @@ namespace CalamityMod.NPCs.Crabulon
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+            bool expertMode = Main.expertMode || malice;
 
 			npc.spriteDirection = npc.direction;
 
@@ -139,9 +140,10 @@ namespace CalamityMod.NPCs.Crabulon
 				enrageScale += 1f;
 			if (!player.ZoneGlowshroom || malice)
 				enrageScale += 1f;
-
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
+			if (enraged)
+				enrageScale += 1f;
 
 			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
             {
@@ -153,11 +155,6 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     int num352 = 1;
                     npc.localAI[3] += 2f;
-                    if (BossRushEvent.BossRushActive)
-                    {
-                        npc.localAI[3] += 2f;
-                        num352 += 3;
-                    }
                     if (phase2)
                     {
                         npc.localAI[3] += 1f;
@@ -187,10 +184,6 @@ namespace CalamityMod.NPCs.Crabulon
                         float num353 = 10f;
                         int type = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
-                        if (BossRushEvent.BossRushActive)
-                        {
-                            num353 += 3f;
-                        }
                         if (phase2)
                         {
                             num353 += 1f;
@@ -255,10 +248,6 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 1.75f;
 				if (death)
 					num823 += 2f * (1f - lifeRatio);
-                if (BossRushEvent.BossRushActive)
-                    num823 = 12f;
-                if (npc.Calamity().enraged > 0)
-                    num823 = 16f;
 				num823 += 4f * enrageScale;
 
 				bool flag51 = false;
@@ -388,8 +377,8 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     else if (npc.ai[1] == -1f)
                     {
-						int velocityX = BossRushEvent.BossRushActive ? 12 : 4;
-						float velocityY = BossRushEvent.BossRushActive ? -16f : -12f;
+						int velocityX = 4;
+						float velocityY = -12f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
 						float speedMult = 1f;
@@ -526,7 +515,7 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
                         npc.velocity.X *= 0.9f;
-                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : death ? 0.18f : 0.15f;
+                        npc.velocity.Y += death ? 0.18f : 0.15f;
                     }
                     else
                     {
@@ -541,15 +530,11 @@ namespace CalamityMod.NPCs.Crabulon
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityX;
 
-                        float num626 = BossRushEvent.BossRushActive ? 5f : 2.5f;
+                        float num626 = 2.5f;
 						num626 += enrageScale;
                         if (revenge)
                         {
                             num626 += 1f;
-                        }
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            num626 += 3f;
                         }
                         if (phase2)
                         {

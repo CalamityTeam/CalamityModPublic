@@ -18,6 +18,7 @@ namespace CalamityMod.Effects
         public static Effect ScarletDevilShader;
         public static Effect BordernadoFireShader;
         public static Effect PrismCrystalShader;
+        public static Effect SCalShieldShader;
 
         public static void LoadShaders()
         {
@@ -33,6 +34,7 @@ namespace CalamityMod.Effects
             BordernadoFireShader = CalamityMod.Instance.GetEffect("Effects/BordernadoFire");
             PrismCrystalShader = CalamityMod.Instance.GetEffect("Effects/PrismCrystalStreak");
             FadedUVMapStreakShader = CalamityMod.Instance.GetEffect("Effects/FadedUVMapStreak");
+            SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
@@ -47,6 +49,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"] = new MiscShaderData(new Ref<Effect>(ScarletDevilShader), "TrailPass");
             GameShaders.Misc["CalamityMod:Bordernado"] = new MiscShaderData(new Ref<Effect>(BordernadoFireShader), "TrailPass");
             GameShaders.Misc["CalamityMod:PrismaticStreak"] = new MiscShaderData(new Ref<Effect>(PrismCrystalShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:SupremeShield"] = new MiscShaderData(new Ref<Effect>(SCalShieldShader), "ShieldPass");
         }
     }
 }

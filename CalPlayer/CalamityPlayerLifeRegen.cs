@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
@@ -27,7 +28,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
-			// Initial Debuffs
+            // Initial Debuffs
 
 			// Get fucked, Nebula Armor
 			player.nebulaLevelLife = 0;
@@ -207,6 +208,15 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
 				lifeRegenLost += 16;
             }
+
+            if (modPlayer.banishingFire)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+				lifeRegenLost += 60;
+			}
 
 			if (modPlayer.waterLeechBleeding)
 			{
@@ -396,6 +406,15 @@ namespace CalamityMod.CalPlayer
 
 			// Buffs
 
+			if (modPlayer.divineBless)
+			{
+				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0) // Flat 4 health per second
+                {
+					if (!modPlayer.noLifeRegen)
+						player.statLife += 1;
+                }
+            }
+
 			if (modPlayer.bloodfinBoost)
 			{
 				if (player.lifeRegen < 0)
@@ -564,7 +583,7 @@ namespace CalamityMod.CalPlayer
                     player.mount.Dismount(player);
             }
 
-            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet))
+            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet) || (modPlayer.dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -748,8 +767,8 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 7;
 
-				if (player.lifeRegenTime < 1800)
-					player.lifeRegenTime = 1800;
+                if (player.lifeRegenTime < 1800)
+                    player.lifeRegenTime = 1800;
 
 				player.lifeRegenTime += 4;
             }
@@ -931,12 +950,6 @@ namespace CalamityMod.CalPlayer
 						player.lifeRegen = defLifeRegen;
 					}
 				}
-			}
-
-			if (player.lifeRegen > 0)
-			{
-				if (modPlayer.godSlayerCooldown)
-					player.lifeRegen /= 2;
 			}
 
 			if (BossRushEvent.BossRushActive)

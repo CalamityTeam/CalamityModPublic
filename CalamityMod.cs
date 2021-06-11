@@ -77,6 +77,8 @@ namespace CalamityMod
         public static ModHotKey SandCloakHotkey;
         public static ModHotKey SpectralVeilHotKey;
         public static ModHotKey PlaguePackHotKey;
+        public static ModHotKey AngelicAllianceHotKey;
+		public static ModHotKey GodSlayerDashHotKey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -173,11 +175,11 @@ namespace CalamityMod
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
+            AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
+			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
 
-            if (!Main.dedServ)
-            {
+			if (!Main.dedServ)
                 LoadClient();
-            }
 
             ILChanges.Load();
             BossRushEvent.Load();
@@ -267,6 +269,8 @@ namespace CalamityMod
             RipperUI.Load();
             AstralArcanumUI.Load(this);
 
+            SupremeCalamitas.LoadHeadIcons();
+
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
@@ -303,6 +307,8 @@ namespace CalamityMod
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
+			AngelicAllianceHotKey = null;
+			GodSlayerDashHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;

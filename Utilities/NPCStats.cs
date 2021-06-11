@@ -794,9 +794,9 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
-				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossLightningOrb), new int[] { 500, 752, 788, 808, 1182 } },
-				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } },
-				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } }
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmBodyAltHuge>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
 			};
 		}
 

@@ -158,10 +158,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         {
                             num1044 += 2f;
                         }
-                        if (BossRushEvent.BossRushActive)
-                        {
-                            num1044 *= 1.5f;
-                        }
                         Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                         float num1045 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector117.X;
                         float num1046 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector117.Y;
@@ -180,11 +176,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         num1048 += 1f;
                         num1049 += 0.075f;
-                    }
-                    if (BossRushEvent.BossRushActive)
-                    {
-                        num1048 *= 1.5f;
-                        num1049 *= 1.5f;
                     }
                     if (npc.position.Y + (float)(npc.height / 2) < Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))
                     {
@@ -235,7 +226,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.direction = 1;
                     }
                     npc.spriteDirection = npc.direction;
-                    int num1050 = BossRushEvent.BossRushActive ? 400 : 500;
+                    int num1050 = 500;
                     int num1051 = 1;
                     if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
                     {
@@ -255,7 +246,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.localAI[0] = 0f;
                     npc.velocity *= 0.9f;
                     float num1052 = 0.105f;
-                    if (flag113 || BossRushEvent.BossRushActive)
+                    if (flag113)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.075f;
@@ -276,11 +267,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (flag113)
                 {
                     num1054 = 0.12f;
-                }
-                if (BossRushEvent.BossRushActive)
-                {
-                    num1053 *= 1.5f;
-                    num1054 *= 1.5f;
                 }
                 Vector2 vector118 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num1055 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector118.X;
@@ -373,11 +359,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     float num1063 = 14.5f;
                     float num1064 = 0.105f;
-                    if (BossRushEvent.BossRushActive)
-                    {
-                        num1063 *= 1.5f;
-                        num1064 *= 1.5f;
-                    }
                     vector120 = vector119;
                     num1058 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector120.X;
                     num1059 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector120.Y;
@@ -437,11 +418,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     num1066 = 0.09f;
                     num1065 = 8f;
                 }
-                if (BossRushEvent.BossRushActive)
-                {
-                    num1065 *= 1.5f;
-                    num1066 *= 1.5f;
-                }
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(40 * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
                 Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
@@ -476,7 +452,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 }
                 if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    num1066 = BossRushEvent.BossRushActive ? 0.12f : 0.105f;
+                    num1066 = 0.105f;
                     vector122 = vector121;
                     num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
                     num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector122.Y;
@@ -651,10 +627,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-		public override bool PreNPCLoot() => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
-
         public override void NPCLoot()
         {
+			if (NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()))
+				return;
+
 			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
 			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);

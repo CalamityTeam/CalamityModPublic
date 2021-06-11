@@ -265,7 +265,7 @@ namespace CalamityMod.CalPlayer
 
 			// If Revengeance Mode is not active, then set rippers to zero
 			else if (player.whoAmI == Main.myPlayer)
-			{
+					{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
 			}
@@ -289,8 +289,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.rageGainCooldown > 0)
 				--modPlayer.rageGainCooldown;
 			
-			// This is how much Rage will be changed by this frame.
-			float rageDiff = 0;
+						// This is how much Rage will be changed by this frame.
+						float rageDiff = 0;
 
 			// If the player equips multiple rage generation accessories they get the max possible effect without stacking any of them.
 			{
@@ -399,82 +399,82 @@ namespace CalamityMod.CalPlayer
 
 			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
 
-			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-			if (modPlayer.rageModeActive)
+						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+						if (modPlayer.rageModeActive)
 				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
 
 			// If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
 			else if (!modPlayer.rageModeActive && rageFading)
 				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
-			// Apply the rage change and cap rage in both directions.
-			modPlayer.rage += rageDiff;
-			if (modPlayer.rage < 0)
-				modPlayer.rage = 0;
+						// Apply the rage change and cap rage in both directions.
+						modPlayer.rage += rageDiff;
+						if (modPlayer.rage < 0)
+							modPlayer.rage = 0;
 
-			if (modPlayer.rage >= modPlayer.rageMax)
-			{
+						if (modPlayer.rage >= modPlayer.rageMax)
+						{
 				// Rage IS NOT capped while active. It can go above 100%.
 				if (!modPlayer.rageModeActive)
-					modPlayer.rage = modPlayer.rageMax;
+							modPlayer.rage = modPlayer.rageMax;
 
-				// Play a sound when the Rage Meter is full
-				if (modPlayer.playFullRageSound)
-				{
-					modPlayer.playFullRageSound = false;
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-				}
-			}
-			else
-				modPlayer.playFullRageSound = true;
+							// Play a sound when the Rage Meter is full
+							if (modPlayer.playFullRageSound)
+							{
+								modPlayer.playFullRageSound = false;
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+							}
+						}
+						else
+							modPlayer.playFullRageSound = true;
 
-			// This is how much Adrenaline will be changed by this frame.
-			float adrenalineDiff = 0;
-			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+						// This is how much Adrenaline will be changed by this frame.
+						float adrenalineDiff = 0;
+						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
 
-			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-			if (modPlayer.adrenalineModeActive)
+						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+						if (modPlayer.adrenalineModeActive)
 				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
 
-			else
-			{
-				// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
-				// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-				if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
-					!wofAndNotHell)
-				{
+						else
+						{
+							// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+							// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
+							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
+								!wofAndNotHell)
+							{
 					adrenalineDiff += modPlayer.adrenalineMax / modPlayer.AdrenalineChargeTime;
-				}
+							}
 
 				// If you aren't actively in a boss fight, adrenaline rapidly fades away.
-				else
+							else
 					adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineFadeTime;
-			}
+						}
 
 			// In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-			if (SCalAlive && adrenalineDiff > 0f)
-				adrenalineDiff *= 0.67f;
+						if (SCalAlive && adrenalineDiff > 0f)
+							adrenalineDiff *= 0.67f;
 
-			// Apply the adrenaline change and cap adrenaline in both directions.
-			modPlayer.adrenaline += adrenalineDiff;
-			if (modPlayer.adrenaline < 0)
-				modPlayer.adrenaline = 0;
+						// Apply the adrenaline change and cap adrenaline in both directions.
+						modPlayer.adrenaline += adrenalineDiff;
+						if (modPlayer.adrenaline < 0)
+							modPlayer.adrenaline = 0;
 
-			if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-			{
-				modPlayer.adrenaline = modPlayer.adrenalineMax;
+						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
+						{
+							modPlayer.adrenaline = modPlayer.adrenalineMax;
 
-				// Play a sound when the Adrenaline Meter is full
-				if (modPlayer.playFullAdrenalineSound)
-				{
-					modPlayer.playFullAdrenalineSound = false;
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
-				}
-			}
-			else
-				modPlayer.playFullAdrenalineSound = true;
-		}
+							// Play a sound when the Adrenaline Meter is full
+							if (modPlayer.playFullAdrenalineSound)
+							{
+								modPlayer.playFullAdrenalineSound = false;
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+							}
+						}
+						else
+							modPlayer.playFullAdrenalineSound = true;
+					}
 		#endregion
 
 		#region Misc Effects
@@ -1111,7 +1111,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (modPlayer.shadowMinions)
 					player.maxMinions += 3;
-				else if (modPlayer.tearMinions)
+				else if (modPlayer.holyMinions)
 					player.maxMinions += 2;
 
 				if (modPlayer.starTaintedGenerator)
@@ -1254,14 +1254,20 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.auralisAuroraCooldown > 0)
 				modPlayer.auralisAuroraCooldown--;
 
+			// God Slayer Armor dash debuff immunity
+			if (modPlayer.dashMod == 9 && player.dashDelay < 0)
+			{
+				foreach (int debuff in CalamityLists.debuffList)
+					player.buffImmune[debuff] = true;
+			}
+
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
 			{
 				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 
-				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
-				modPlayer.silvaCountdown -= modPlayer.auricSet ? 2 : 1;
+				modPlayer.silvaCountdown -= 1;
 				if (modPlayer.silvaCountdown <= 0)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
 
@@ -1839,6 +1845,13 @@ namespace CalamityMod.CalPlayer
 				modPlayer.prismaticLasers = 1800;
 				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
 			}
+			if (!modPlayer.angelicAlliance && modPlayer.divineBless)
+			{
+				modPlayer.divineBless = false;
+				player.ClearBuff(ModContent.BuffType<DivineBless>());
+				int seconds = CalamityUtils.SecondsToFrames(60f);
+				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
+			}
 		}
 		#endregion
 
@@ -2064,24 +2077,6 @@ namespace CalamityMod.CalPlayer
 		#region Max Life And Mana Effects
 		private static void MaxLifeAndManaEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
-			// Silva invincibility effects
-			if (modPlayer.silvaHitCounter > 0)
-			{
-				player.statLifeMax2 -= modPlayer.silvaHitCounter * 100;
-				if (player.statLifeMax2 <= 400)
-				{
-					player.statLifeMax2 = 400;
-					if (modPlayer.silvaCountdown > 0)
-					{
-						if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) > -1)
-							player.ClearBuff(ModContent.BuffType<SilvaRevival>());
-
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
-					}
-					modPlayer.silvaCountdown = 0;
-				}
-			}
-
 			// New textures
 			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
 			{
@@ -2504,7 +2499,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-				player.statDefense -= 10;
+					player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
@@ -2800,8 +2795,8 @@ namespace CalamityMod.CalPlayer
 			{
 				bool offenseBuffs = (Main.dayTime && !player.wet) || player.lavaWet;
 				if (offenseBuffs)
-					flightTimeMult += 0.1;
-			}
+						flightTimeMult += 0.1;
+				}
 
 			// Increase wing time
 			if (player.wingTimeMax > 0)
@@ -3363,15 +3358,16 @@ namespace CalamityMod.CalPlayer
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
 					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
+					int guardianAmt = 1;
 
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
 					if (crystal || player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 
@@ -3379,7 +3375,7 @@ namespace CalamityMod.CalPlayer
 					{
 						player.Calamity().gOffense = true;
 
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -3472,11 +3468,15 @@ namespace CalamityMod.CalPlayer
 				ModContent.ProjectileType<FungalClumpMinion>(),
 				ModContent.ProjectileType<HowlsHeartHowl>(),
 				ModContent.ProjectileType<HowlsHeartCalcifer>(),
-				ModContent.ProjectileType<HowlsHeartTurnipHead>()
+				ModContent.ProjectileType<HowlsHeartTurnipHead>(),
+				ModContent.ProjectileType<MiniGuardianAttack>(),
+				ModContent.ProjectileType<MiniGuardianDefense>(),
+				ModContent.ProjectileType<MiniGuardianHealer>()
 			};
+			int projAmt = 1;
 			for (int i = 0; i < summonDeleteList.Count; i++)
 			{
-				if (player.ownedProjectileCounts[summonDeleteList[i]] > 1)
+				if (player.ownedProjectileCounts[summonDeleteList[i]] > projAmt)
 				{
 					for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 					{
@@ -3633,6 +3633,30 @@ namespace CalamityMod.CalPlayer
 					Main.dust[dusty].noLight = true;
 					Main.dust[dusty].velocity = dustVel;
 				}
+			}
+
+			if (modPlayer.angelicAlliance && Main.myPlayer == player.whoAmI)
+			{
+				for (int l = 0; l < Player.MaxBuffs; l++)
+				{
+					int hasBuff = player.buffType[l];
+					if (hasBuff == ModContent.BuffType<DivineBless>())
+					{
+						modPlayer.angelicActivate = player.buffTime[l];
+					}
+					if (hasBuff == ModContent.BuffType<DivineBlessCooldown>())
+					{
+						if (player.buffTime[l] == 1)
+							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
+					}
+				}
+				if (modPlayer.angelicActivate == 1)
+				{
+					int seconds = CalamityUtils.SecondsToFrames(60f);
+					player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
+				}
+				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
+					modPlayer.angelicActivate = -1;
 			}
 
 			if (modPlayer.theBee)
@@ -4008,7 +4032,7 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
-
+			
 			// Do not apply reduced aggro if there are any bosses alive and it's singleplayer
 			if (CalamityPlayer.areThereAnyDamnBosses && Main.netMode == NetmodeID.SinglePlayer)
 			{
@@ -4025,7 +4049,7 @@ namespace CalamityMod.CalPlayer
 				player.endurance -= 0.1f;
 
 			if (modPlayer.irradiated)
-				player.endurance -= 0.1f;
+					player.endurance -= 0.1f;
 
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.05f;

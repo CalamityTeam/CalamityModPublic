@@ -166,6 +166,7 @@ namespace CalamityMod.NPCs
         public int sagePoisonTime = 0;
         public int sagePoisonDamage = 0;
         public int vulnerabilityHex = 0;
+        public int banishingFire = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -919,7 +920,7 @@ namespace CalamityMod.NPCs
 			// Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
@@ -952,6 +953,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 1000000) // 2000 hp per second as minimum
+                ApplyDPSDebuff(banishingFire, 4000, 800, ref npc.lifeRegen, ref damage);
+            else // On big health enemies, do 0.2% hp per second
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -2011,6 +2016,13 @@ namespace CalamityMod.NPCs
 			if (NPC.LunarApocalypseIsUp)
 				PillarEventProgressionEdit(npc);
 
+			// Adult Wyrm Ancient Doom
+			if (npc.type == NPCID.AncientDoom)
+			{
+				if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
+					return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+			}
+
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
@@ -2032,7 +2044,7 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
-                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
+                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronHand:
                         return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
@@ -2060,13 +2072,13 @@ namespace CalamityMod.NPCs
                     case NPCID.SkeletronPrime:
                         return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
-                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, enraged > 0, mod);
                     case NPCID.PrimeCannon:
-                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, enraged > 0, mod);
                     case NPCID.PrimeVice:
-                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, enraged > 0, mod);
                     case NPCID.PrimeSaw:
-                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
+                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, enraged > 0, mod);
 
                     case NPCID.Plantera:
                         return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
@@ -3510,6 +3522,8 @@ namespace CalamityMod.NPCs
 				ladHearts--;
             if (vulnerabilityHex > 0)
                 vulnerabilityHex--;
+            if (banishingFire > 0)
+				banishingFire--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
 			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
@@ -3854,35 +3868,54 @@ namespace CalamityMod.NPCs
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-                // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
                     damage = (int)(damage * 0.795);
+
+				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
+					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-                // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
-            }
+			}
+			else if (npc.type == NPCType<DarkEnergy>())
+			{
+				if (projectile.type == ProjectileType<WavePounderBoom>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
+			{
+				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
+					projectile.type == ProjectileType<PowerfulRaven>())
+				{
+					damage = (int)(damage * 0.85);
+				}
+				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
+					damage = (int)(damage * 0.8);
+
+				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
+					damage = (int)(damage * 0.9);
+			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCataclysm>() || npc.type == NPCType<SupremeCalamitas.SupremeCatastrophe>())
+			{
+				if (projectile.type == ProjectileType<HolyFlame>())
+					damage = (int)(damage * 0.9);
+			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 0.75);
-				}
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-				{
 					damage = (int)(damage * 1.35);
-				}
 			}
 		}
 
@@ -4404,7 +4437,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (hFlames > 0)
+            if (hFlames > 0 || banishingFire > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
