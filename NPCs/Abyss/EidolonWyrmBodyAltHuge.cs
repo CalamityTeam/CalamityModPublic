@@ -71,8 +71,8 @@ namespace CalamityMod.NPCs.Abyss
 
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
-			float chargePhaseGateValue = 180f;
-			float lightningChargePhaseGateValue = 90f;
+			float chargePhaseGateValue = 300f;
+			float lightningChargePhaseGateValue = 180f;
 
 			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
 			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
