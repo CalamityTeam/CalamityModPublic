@@ -1721,7 +1721,7 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			position += Vector2.One * 14f;
+			position += frame.Size() * 0.25f;
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
 			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
 

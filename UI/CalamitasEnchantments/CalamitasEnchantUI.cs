@@ -239,9 +239,6 @@ namespace CalamityMod.UI.CalamitasEnchants
 			itemScale *= inventoryScale * baseScale;
 			drawPosition += Vector2.One * 23f * baseScale;
 
-			if (EnchantmentManager.ItemUpgradeRelationship.ContainsKey(CurrentlyHeldItem.type))
-				drawPosition -= Vector2.One * 12f;
-
 			// Draw the item.
 			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
 			{

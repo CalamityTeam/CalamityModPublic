@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -180,7 +181,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().dischargingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 
-				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. The explosion can hurt both you and enemies. Minions do more damage the longer they live and idly explode.",
+				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
 					700,
 					null,
 					player => player.Calamity().explosiveMinionsEnchant = true,
@@ -223,6 +224,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
+
+				new Enchantment("Withering", "You heal when hurt based on damage dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
+					1000,
+					null,
+					player => player.Calamity().witheringWeaponEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
@@ -232,7 +239,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			ItemUpgradeRelationship = new Dictionary<int, int>()
 			{
-				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>()
+				[ModContent.ItemType<TheCommunity>()] = ModContent.ItemType<ShatteredCommunity>(),
+				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>(),
 			};
 		}
 

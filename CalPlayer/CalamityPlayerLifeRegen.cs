@@ -5,6 +5,7 @@ using CalamityMod.Events;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -408,7 +409,23 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
                 lifeRegenLost += 42; //the meaning of death
-            }
+			}
+			if (modPlayer.witheredDebuff)
+			{
+				modPlayer.witheredWeaponHoldTime += modPlayer.witheringWeaponEnchant.ToDirectionInt();
+				if (modPlayer.witheredWeaponHoldTime < 0)
+				{
+					modPlayer.witheredWeaponHoldTime = 0;
+				}
+				else
+				{
+					lifeRegenLost += (int)(4D * Math.Pow(1.5D, modPlayer.witheredWeaponHoldTime / 87D));
+					if (player.lifeRegen > 0)
+						player.lifeRegen = 0;
+				}
+			}
+			else
+				modPlayer.witheredWeaponHoldTime = 0;
 
 			player.lifeRegen -= (int)(lifeRegenLost * lifeRegenMult);
 
