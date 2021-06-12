@@ -65,6 +65,9 @@ namespace CalamityMod.NPCs.Abyss
 		// Used in the lerp to smoothly scale velocity up and down
 		private float chargeVelocityScalar = 0f;
 
+		// How much less time is needed before activating fast charge
+		private const float fastChargeGateValue = 120f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolon Wyrm");
@@ -567,7 +570,7 @@ namespace CalamityMod.NPCs.Abyss
 							{
 								npc.localAI[0] = 0f;
 								AIState = (float)Phase.FastCharge;
-								calamityGlobalNPC.newAI[2] = 90f;
+								calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
 								FinalPhaseCheck();
@@ -642,7 +645,7 @@ namespace CalamityMod.NPCs.Abyss
 												calamityGlobalNPC.newAI[2] = 0f;
 											}
 											else
-												calamityGlobalNPC.newAI[2] = 90f;
+												calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 										}
 
 										calamityGlobalNPC.newAI[1] += 1f;
@@ -876,7 +879,7 @@ namespace CalamityMod.NPCs.Abyss
 							{
 								npc.localAI[0] = 1f;
 								AIState = (float)Phase.FastCharge;
-								calamityGlobalNPC.newAI[2] = 90f;
+								calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
 								FinalPhaseCheck();
