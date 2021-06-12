@@ -161,6 +161,13 @@ namespace CalamityMod.World
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
         public const int DraedonSummonCountdownMax = 450;
 
+        // Draedon Lab Locations.
+        public static Vector2 SunkenSeaLabCenter;
+        public static Vector2 PlanetoidLabCenter;
+        public static Vector2 JungleLabCenter;
+        public static Vector2 HellLabCenter;
+        public static Vector2 IceLabCenter;
+
         #region Downed Bools
         public static bool downedDesertScourge = false;
         public static bool downedCrabulon = false;
@@ -471,21 +478,17 @@ namespace CalamityMod.World
 
             return new TagCompound
             {
-                {
-                    "downed", downed
-                },
-                {
-                    "abyssChasmBottom", abyssChasmBottom
-                },
-                {
-                    "acidRainPoints", acidRainPoints
-                },
-                {
-                    "Reforges", Reforges
-                },
-                {
-                    "MoneyStolenByBandit", MoneyStolenByBandit
-                }
+                ["downed"] = downed,
+                ["abyssChasmBottom"] = abyssChasmBottom,
+                ["acidRainPoints"] = acidRainPoints,
+                ["Reforges"] = Reforges,
+                ["MoneyStolenByBandit"] = MoneyStolenByBandit,
+
+                ["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
+                ["PlanetoidLabCenter"] = PlanetoidLabCenter,
+                ["JungleLabCenter"] = JungleLabCenter,
+                ["HellLabCenter"] = HellLabCenter,
+                ["IceLabCenter"] = IceLabCenter,
             };
         }
         #endregion
@@ -581,6 +584,12 @@ namespace CalamityMod.World
             acidRainPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
+
+            SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
+            PlanetoidLabCenter = tag.Get<Vector2>("PlanetoidLabCenter");
+            JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
+            HellLabCenter = tag.Get<Vector2>("HellLabCenter");
+            IceLabCenter = tag.Get<Vector2>("IceLabCenter");
         }
         #endregion
 

@@ -273,6 +273,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedMurasama = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    CalamityWorld.HellLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }
@@ -345,6 +346,7 @@ namespace CalamityMod.World
 
             bool hasPlacedLogAndSchematic = false;
             PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
         }
         #endregion
 
@@ -424,6 +426,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    CalamityWorld.IceLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }
@@ -503,6 +506,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    CalamityWorld.JungleLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }

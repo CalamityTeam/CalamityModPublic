@@ -728,7 +728,7 @@ namespace CalamityMod.Items
 
                     // If you have enough charge, decrement charge on the spot because this hook runs exactly once every time you use an item.
                     // Mana has to be checked separately or you'll fail to use the weapon on a mana check later and still have consumed charge.
-                    if (player.CheckMana(item))
+                    if (player.CheckMana(item) && item.modItem.CanUseItem(player))
                         Charge -= chargeNeeded;
                 }
             }
