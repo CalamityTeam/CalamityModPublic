@@ -180,9 +180,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().dischargingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 
-				new Enchantment("Damned", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. The explosion can hurt both you and enemies. Minions do more damage to compensate.",
+				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. The explosion can hurt both you and enemies. Minions do more damage the longer they live and idly explode.",
 					700,
-					item => item.damage = (int)(item.damage * 1.5),
+					null,
 					player => player.Calamity().explosiveMinionsEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.summon),
 

@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles
 
         // Enchantment variables.
         public int ExplosiveEnchantCountdown = 0;
-        public const int ExplosiveEnchantTime = 600;
+        public const int ExplosiveEnchantTime = 2400;
 
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
@@ -228,6 +228,9 @@ namespace CalamityMod.Projectiles
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
 			{
                 ExplosiveEnchantCountdown--;
+                if (defDamage == 0)
+                    defDamage = projectile.damage;
+                projectile.damage = (int)(defDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
 
                 // Make fizzle sounds and fire dust to indicate the impending explosion.
                 if (ExplosiveEnchantCountdown <= 300)
@@ -241,6 +244,12 @@ namespace CalamityMod.Projectiles
                     fire.fadeIn = 0.5f;
                     fire.noGravity = true;
 				}
+
+                if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
+                {
+                    int damage = (int)(Main.player[projectile.owner].MinionDamage() * 2000);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
+                }
 
                 if (ExplosiveEnchantCountdown <= 0)
 				{
