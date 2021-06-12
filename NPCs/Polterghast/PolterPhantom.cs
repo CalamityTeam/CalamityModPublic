@@ -157,6 +157,11 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (!chargePhase)
 			{
+				// Set this here to avoid despawn issues
+				reachedChargingPoint = false;
+
+				npc.ai[0] = 0f;
+
 				npc.Opacity += 0.02f;
 				if (npc.Opacity > 0.8f)
 					npc.Opacity = 0.8f;
@@ -286,6 +291,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Calamity().newAI[1] = 0f;
 							npc.Calamity().newAI[2] = 0f;
 							npc.Calamity().newAI[3] = 0f;
+							npc.ai[0] = 0f;
 							npc.ai[1] += 1f;
 
 							if (npc.ai[1] >= 3f)
@@ -304,6 +310,7 @@ namespace CalamityMod.NPCs.Polterghast
 					{
 						npc.velocity = Vector2.Zero;
 						npc.ai[0] = Main.rand.Next(2) + 1;
+						npc.netUpdate = true;
 					}
 
 					// Pick a charging location
@@ -342,23 +349,31 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					int numUpdates = reachedChargingPoint ? 10 : 2;
-					for (int i = 0; i < numUpdates; i++)
+					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue || reachedChargingPoint)
 					{
-						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+						// Emit dust
+						if (!reachedChargingPoint)
 						{
-							reachedChargingPoint = true;
+							Main.PlaySound(SoundID.Item125, npc.position);
+							for (int i = 0; i < 30; i++)
+							{
+								int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
+								Main.dust[dust].noGravity = true;
+								Main.dust[dust].velocity *= 5f;
+							}
+						}
 
-							npc.velocity *= 0.5f;
-						}
+						reachedChargingPoint = true;
+						npc.velocity = Vector2.Zero;
+						npc.Center = chargeVector;
+					}
+					else
+					{
+						// Reduce velocity and acceleration to allow for smoother movement inside this loop
+						if (Vector2.Distance(vector, chargeVector) > 1200f)
+							npc.velocity = chargeLocationVelocity;
 						else
-						{
-							// Reduce velocity and acceleration to allow for smoother movement inside this loop
-							if (Vector2.Distance(vector, chargeVector) > 1200f)
-								npc.velocity = chargeLocationVelocity * 0.5f;
-							else
-								npc.SimpleFlyMovement(chargeLocationVelocity * 0.5f, chargeAcceleration * 0.5f);
-						}
+							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 					}
 				}
 

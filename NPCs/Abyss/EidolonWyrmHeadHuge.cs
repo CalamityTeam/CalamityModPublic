@@ -16,9 +16,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class EidolonWyrmHeadHuge : ModNPC
+	[AutoloadBossHead]
+	public class EidolonWyrmHeadHuge : ModNPC
     {
-		private enum Phase
+		public enum Phase
 		{
 			ChargeOne = 0,
 			LightningRain = 1,
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.Abyss
 			FinalPhase = 10
 		}
 
-		private float AIState
+		public float AIState
 		{
 			get => npc.Calamity().newAI[0];
 			set => npc.Calamity().newAI[0] = value;
@@ -259,10 +260,10 @@ namespace CalamityMod.NPCs.Abyss
 			float lightningChargePhaseGateValue = 90f;
 
 			// Adjust opacity
-			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC.newAI[0] == (float)Phase.ChargeOne || calamityGlobalNPC.newAI[0] == (float)Phase.ChargeTwo || calamityGlobalNPC.newAI[0] == (float)Phase.FastCharge);
-			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC.newAI[0] == (float)Phase.LightningCharge;
-			bool invisiblePhase = calamityGlobalNPC.newAI[0] == (float)Phase.LightningRain || calamityGlobalNPC.newAI[0] == (float)Phase.IceMist || calamityGlobalNPC.newAI[0] == (float)Phase.AncientDoomSummon;
-			npc.dontTakeDamage = invisiblePhase;
+			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && AIState == (float)Phase.LightningCharge;
+			bool invisiblePhase = AIState == (float)Phase.LightningRain || AIState == (float)Phase.IceMist || AIState == (float)Phase.AncientDoomSummon;
+			npc.dontTakeDamage = invisiblePartOfChargePhase || invisiblePartOfLightningChargePhase || invisiblePhase;
 			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
 				npc.Opacity += 0.15f;
@@ -429,10 +430,10 @@ namespace CalamityMod.NPCs.Abyss
 										if (npc.ai[3] >= maxCharges)
 										{
 											npc.ai[3] = 0f;
-											calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.ShadowFireballSpin : (float)Phase.LightningRain;
+											AIState = phase4 ? (float)Phase.ShadowFireballSpin : (float)Phase.LightningRain;
 										}
 										else if (phase2)
-											calamityGlobalNPC.newAI[0] = (float)Phase.ShadowFireballSpin;
+											AIState = (float)Phase.ShadowFireballSpin;
 
 										calamityGlobalNPC.newAI[1] += 1f;
 										if (calamityGlobalNPC.newAI[1] > 7f)
@@ -565,7 +566,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 							{
 								npc.localAI[0] = 0f;
-								calamityGlobalNPC.newAI[0] = (float)Phase.FastCharge;
+								AIState = (float)Phase.FastCharge;
 								calamityGlobalNPC.newAI[2] = 90f;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
@@ -628,7 +629,7 @@ namespace CalamityMod.NPCs.Abyss
 									{
 										if (!phase5)
 										{
-											calamityGlobalNPC.newAI[0] = npc.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
+											AIState = npc.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
 											calamityGlobalNPC.newAI[2] = 0f;
 										}
 										else
@@ -637,7 +638,7 @@ namespace CalamityMod.NPCs.Abyss
 											if (npc.ai[3] >= 2f)
 											{
 												npc.ai[3] = 0f;
-												calamityGlobalNPC.newAI[0] = npc.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
+												AIState = npc.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
 												calamityGlobalNPC.newAI[2] = 0f;
 											}
 											else
@@ -688,7 +689,7 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= eidolonWyrmPhaseDuration)
 					{
-						calamityGlobalNPC.newAI[0] = (float)Phase.ChargeTwo;
+						AIState = (float)Phase.ChargeTwo;
 						calamityGlobalNPC.newAI[2] = 0f;
 						FinalPhaseCheck();
 						npc.TargetClosest();
@@ -750,10 +751,10 @@ namespace CalamityMod.NPCs.Abyss
 										if (npc.ai[3] >= maxCharges)
 										{
 											npc.ai[3] = 0f;
-											calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.AncientDoomSummon : (float)Phase.IceMist;
+											AIState = phase4 ? (float)Phase.AncientDoomSummon : (float)Phase.IceMist;
 										}
 										else if (phase3)
-											calamityGlobalNPC.newAI[0] = (float)Phase.AncientDoomSummon;
+											AIState = (float)Phase.AncientDoomSummon;
 
 										calamityGlobalNPC.newAI[1] += 1f;
 										if (calamityGlobalNPC.newAI[1] > 7f)
@@ -874,7 +875,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 							{
 								npc.localAI[0] = 1f;
-								calamityGlobalNPC.newAI[0] = (float)Phase.FastCharge;
+								AIState = (float)Phase.FastCharge;
 								calamityGlobalNPC.newAI[2] = 90f;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
@@ -940,7 +941,7 @@ namespace CalamityMod.NPCs.Abyss
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 								{
 									rotationDirection = 0;
-									calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeOne;
+									AIState = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeOne;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 1f;
 									chargeVelocityScalar = 0f;
@@ -997,7 +998,7 @@ namespace CalamityMod.NPCs.Abyss
 						if (npc.localAI[1] >= ancientDoomGateValue + maxAncientDoomRings)
 						{
 							npc.localAI[1] = 0f;
-							calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeTwo;
+							AIState = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeTwo;
 							calamityGlobalNPC.newAI[2] = 0f;
 							FinalPhaseCheck();
 							npc.TargetClosest();
@@ -1071,7 +1072,7 @@ namespace CalamityMod.NPCs.Abyss
 									calamityGlobalNPC.newAI[3] += 1f;
 									if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 									{
-										calamityGlobalNPC.newAI[0] = npc.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
+										AIState = npc.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
 										calamityGlobalNPC.newAI[2] = 0f;
 										calamityGlobalNPC.newAI[3] = 1f;
 
@@ -1146,7 +1147,7 @@ namespace CalamityMod.NPCs.Abyss
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] >= eidolonWyrmPhaseDuration)
 					{
-						calamityGlobalNPC.newAI[0] = (float)Phase.ChargeOne;
+						AIState = (float)Phase.ChargeOne;
 						calamityGlobalNPC.newAI[2] = 0f;
 						FinalPhaseCheck();
 						npc.TargetClosest();
@@ -1257,7 +1258,7 @@ namespace CalamityMod.NPCs.Abyss
 				if (phase6)
 				{
 					npc.localAI[1] = 0f;
-					calamityGlobalNPC.newAI[0] = (float)Phase.FinalPhase;
+					AIState = (float)Phase.FinalPhase;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					rotationDirection = 0;

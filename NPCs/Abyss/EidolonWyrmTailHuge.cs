@@ -69,8 +69,15 @@ namespace CalamityMod.NPCs.Abyss
 				npc.active = false;
 			}
 
-			bool invisiblePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 1f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 5f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 7f;
-			if (!invisiblePhase)
+			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
+
+			float chargePhaseGateValue = 180f;
+			float lightningChargePhaseGateValue = 90f;
+
+			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
+			bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{

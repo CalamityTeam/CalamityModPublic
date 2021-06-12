@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Polterghast
     public class Polterghast : ModNPC
     {
         private int despawnTimer = 600;
-		private const int chargeTelegraphTimerMax = 150;
+		private const int chargeTelegraphTimerMax = 15;
 		private int chargeTelegraphTimer = chargeTelegraphTimerMax;
 		private bool reachedChargingPoint = false;
 
@@ -164,6 +164,23 @@ namespace CalamityMod.NPCs.Polterghast
 				{
 					speedBoost = true;
 					despawnBoost = true;
+					reachedChargingPoint = false;
+					chargeTelegraphTimer = chargeTelegraphTimerMax;
+					npc.ai[1] = 0f;
+					calamityGlobalNPC.newAI[0] = 0f;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					calamityGlobalNPC.newAI[3] = 0f;
+
+					if (cloneAlive)
+					{
+						Main.npc[CalamityGlobalNPC.ghostBossClone].ai[0] = 0f;
+						Main.npc[CalamityGlobalNPC.ghostBossClone].ai[1] = 0f;
+						Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[0] = 0f;
+						Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
+						Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
+						Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 0f;
+					}
 				}
 			}
 
@@ -500,62 +517,59 @@ namespace CalamityMod.NPCs.Polterghast
 					float chargeDistanceGateValue = 40f;
 					bool clonePositionCheck = cloneAlive ? Vector2.Distance(Main.npc[CalamityGlobalNPC.ghostBossClone].Center, cloneChargeVector) <= chargeDistanceGateValue : true;
 
-					// Loop velocity code multiple times per frame if charge location is reached
-					// This effectively quadruples the velocity and acceleration while maintaining smooth movement
-					int numUpdates = reachedChargingPoint ? 10 : 2;
-					for (int i = 0; i < numUpdates; i++)
+					// Line up a charge
+					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue || reachedChargingPoint)
 					{
-						// Line up a charge
-						if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+						// Emit dust
+						if (!reachedChargingPoint)
 						{
-							reachedChargingPoint = true;
-
-							npc.velocity *= 0.5f;
-
-							if (clonePositionCheck)
+							Main.PlaySound(SoundID.Item125, npc.position);
+							for (int i = 0; i < 30; i++)
 							{
-								// Pause for 15 frames before actually charging
-								// This is 15 frames because this code runs 10 times per frame once a charge location is found
-								if (chargeTelegraphTimer > 0)
+								int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
+								Main.dust[dust].noGravity = true;
+								Main.dust[dust].velocity *= 5f;
+							}
+						}
+
+						reachedChargingPoint = true;
+						npc.velocity = Vector2.Zero;
+						npc.Center = chargeVector;
+
+						if (clonePositionCheck)
+						{
+							// Pause for 15 frames before actually charging
+							if (chargeTelegraphTimer > 0)
+							{
+								chargeTelegraphTimer--;
+							}
+							else
+							{
+								// Initiate charge
+								calamityGlobalNPC.newAI[1] = 0f;
+								calamityGlobalNPC.newAI[2] = 0f;
+								calamityGlobalNPC.newAI[3] = 1f;
+
+								// Tell clone to charge
+								if (cloneAlive)
 								{
-									chargeTelegraphTimer--;
-								}
-								else
-								{
-									// Initiate charge
-									npc.velocity = Vector2.Zero;
-									calamityGlobalNPC.newAI[1] = 0f;
-									calamityGlobalNPC.newAI[2] = 0f;
-									calamityGlobalNPC.newAI[3] = 1f;
+									Main.npc[CalamityGlobalNPC.ghostBossClone].ai[0] = 0f;
+									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
+									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
+									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
 
-									// Tell clone to charge
-									if (cloneAlive)
-									{
-										Main.npc[CalamityGlobalNPC.ghostBossClone].velocity = Vector2.Zero;
-										Main.npc[CalamityGlobalNPC.ghostBossClone].ai[0] = 0f;
-										Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
-										Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
-										Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
-
-										//
-										// CODE TWEAKED BY: OZZATRON
-										// September 21st, 2020
-										// reason: fixing Polter charge MP desync bug
-										//
-										// removed Polter syncing the clone's newAI array. The clone now auto syncs its own newAI every frame.
-									}
-
-									// Break because looping beyond this point is useless
-									break;
+									//
+									// CODE TWEAKED BY: OZZATRON
+									// September 21st, 2020
+									// reason: fixing Polter charge MP desync bug
+									//
+									// removed Polter syncing the clone's newAI array. The clone now auto syncs its own newAI every frame.
 								}
 							}
 						}
-						else
-						{
-							// Reduce velocity and acceleration to allow for smoother movement inside this loop
-							npc.SimpleFlyMovement(chargeLocationVelocity * 0.5f, chargeAcceleration * 0.5f);
-						}
 					}
+					else
+						npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 				}
 
 				npc.netUpdate = true;
@@ -667,7 +681,7 @@ namespace CalamityMod.NPCs.Polterghast
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
 
-					Main.PlaySound(SoundID.Item122, npc.position);
+					Main.PlaySound(SoundID.Item122, npc.Center);
 
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt2"), 1f);
@@ -688,10 +702,10 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                     for (int num623 = 0; num623 < 30; num623++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
+                        int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
                         Main.dust[num624].noGravity = true;
                         Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+                        num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
                         Main.dust[num624].velocity *= 2f;
                     }
                 }
@@ -815,7 +829,7 @@ namespace CalamityMod.NPCs.Polterghast
 						}
                     }
 
-                    Main.PlaySound(SoundID.Item122, npc.position);
+                    Main.PlaySound(SoundID.Item122, npc.Center);
 
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt2"), 1f);
@@ -836,10 +850,10 @@ namespace CalamityMod.NPCs.Polterghast
                     }
                     for (int num623 = 0; num623 < 30; num623++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
+                        int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
                         Main.dust[num624].noGravity = true;
                         Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+                        num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
                         Main.dust[num624].velocity *= 2f;
                     }
                 }
@@ -1120,7 +1134,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
+            Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Ectoplasm, hitDirection, -1f, 0, default, 1f);
             if (npc.life <= 0)
             {
                 npc.position.X = npc.position.X + (npc.width / 2);
@@ -1141,10 +1155,10 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 for (int num623 = 0; num623 < 60; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
