@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Ruinous Soul");
             Tooltip.SetDefault("A shard of the distant past");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
