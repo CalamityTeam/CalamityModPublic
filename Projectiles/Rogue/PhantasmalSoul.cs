@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         private const int NoHitFrames = 10;
         private const int NoDrawFrames = 5;
         
-        public override string Texture => "CalamityMod/Projectiles/Melee/GhastlySoulSmall";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Soul");
