@@ -63,7 +63,14 @@ namespace CalamityMod.Tiles.DraedonSummoner
             return true;
 		}
 
-		public override bool CreateDust(int i, int j, ref int type)
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.18f;
+            g = 0.8f;
+            b = 0.9f;
+        }
+
+        public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 182);
             return false;
