@@ -759,8 +759,9 @@ namespace CalamityMod
                 BuffType<Vaporfied>(),
                 BuffType<Eutrophication>(),
                 BuffType<LethalLavaBurn>(),
-                BuffType<Nightwither>()
-            };
+                BuffType<Nightwither>(),
+				BuffType<VulnerabilityHex>()
+			};
 
             fireWeaponList = new List<int>()
             {

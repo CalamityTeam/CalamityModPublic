@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					NPC npc = Main.npc[npcIndex];
 					//covers most edge cases like voodoo dolls
-					if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 &&
+					if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 && npc.Calamity().DR < 0.99f &&
 						((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) ||
 						(projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles)) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
 					{

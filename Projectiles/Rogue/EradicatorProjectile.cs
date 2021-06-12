@@ -59,6 +59,8 @@ namespace CalamityMod.Projectiles.Rogue
 				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 
 				int laserDamage = (int)(projectile.damage * 0.5);
+				if (projectile.Calamity().stealthStrike)
+					laserDamage /= 4;
 				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, 0f, projectile.owner);
 				if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
 				{

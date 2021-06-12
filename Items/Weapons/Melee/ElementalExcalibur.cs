@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class ElementalExcalibur : ModItem
     {
-        private static int BaseDamage = 10000;
+        private static int BaseDamage = 2000;
         private int BeamType = 0;
-        private int alpha = 50;
+        private const int alpha = 50;
 
         public override void SetStaticDefaults()
         {

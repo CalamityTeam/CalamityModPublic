@@ -946,10 +946,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
-            if (npc.lifeMax < 25000000)
-                ApplyDPSDebuff(banishingFire, 20000, 4000, ref npc.lifeRegen, ref damage);
-            else
-                ApplyDPSDebuff(banishingFire, npc.lifeMax / 2500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 1000000) // 2000 hp per second as minimum
+                ApplyDPSDebuff(banishingFire, 4000, 800, ref npc.lifeRegen, ref damage);
+            else // On big health enemies, do 0.2% hp per second
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -3856,7 +3856,7 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.795);
 
 				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
-					damage = (int)(damage * 0.6);
+					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
@@ -3867,7 +3867,30 @@ namespace CalamityMod.NPCs
 			{
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
-            }
+			}
+			else if (npc.type == NPCType<DarkEnergy>())
+			{
+				if (projectile.type == ProjectileType<WavePounderBoom>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
+			{
+				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
+					projectile.type == ProjectileType<PowerfulRaven>())
+				{
+					damage = (int)(damage * 0.85);
+				}
+				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
+					damage = (int)(damage * 0.8);
+
+				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
+					damage = (int)(damage * 0.9);
+			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCataclysm>() || npc.type == NPCType<SupremeCalamitas.SupremeCatastrophe>())
+			{
+				if (projectile.type == ProjectileType<HolyFlame>())
+					damage = (int)(damage * 0.9);
+			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())

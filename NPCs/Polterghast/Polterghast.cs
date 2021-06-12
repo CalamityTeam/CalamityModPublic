@@ -29,7 +29,8 @@ namespace CalamityMod.NPCs.Polterghast
     public class Polterghast : ModNPC
     {
         private int despawnTimer = 600;
-		private int chargeTelegraphTimer = 60;
+		private const int chargeTelegraphTimerMax = 150;
+		private int chargeTelegraphTimer = chargeTelegraphTimerMax;
 		private bool reachedChargingPoint = false;
 
         public override void SetStaticDefaults()
@@ -313,7 +314,12 @@ namespace CalamityMod.NPCs.Polterghast
 			if (speedBoost)
 				baseProjectileVelocity *= 1.25f;
 
-			// Look at target
+			// Predictiveness
+			float chargePredictionAmt = 10f + 40f * (tileEnrageMult - 1f);
+			Vector2 lookAt = player.Center + (chargePhase && revenge ? (player.velocity * chargePredictionAmt) : Vector2.Zero);
+			Vector2 rotationVector = lookAt - vector;
+
+			// Rotation
 			float num740 = player.Center.X - vector.X;
 			float num741 = player.Center.Y - vector.Y;
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
@@ -435,7 +441,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					if (calamityGlobalNPC.newAI[1] == 0f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.velocity = Vector2.Normalize(rotationVector) * chargeVelocity;
 						calamityGlobalNPC.newAI[1] = 1f;
 					}
 					else
@@ -451,7 +457,7 @@ namespace CalamityMod.NPCs.Polterghast
 						// Reset and either go back to normal or charge again
 						if (calamityGlobalNPC.newAI[2] >= totalChargeTime)
 						{
-							chargeTelegraphTimer = 15;
+							chargeTelegraphTimer = chargeTelegraphTimerMax;
 							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
@@ -496,7 +502,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					// Loop velocity code multiple times per frame if charge location is reached
 					// This effectively quadruples the velocity and acceleration while maintaining smooth movement
-					int numUpdates = reachedChargingPoint ? 5 : 1;
+					int numUpdates = reachedChargingPoint ? 10 : 2;
 					for (int i = 0; i < numUpdates; i++)
 					{
 						// Line up a charge
@@ -509,7 +515,7 @@ namespace CalamityMod.NPCs.Polterghast
 							if (clonePositionCheck)
 							{
 								// Pause for 15 frames before actually charging
-								// This is 15 frames because this code runs 4 times per frame once a charge location is found
+								// This is 15 frames because this code runs 10 times per frame once a charge location is found
 								if (chargeTelegraphTimer > 0)
 								{
 									chargeTelegraphTimer--;
@@ -545,7 +551,10 @@ namespace CalamityMod.NPCs.Polterghast
 							}
 						}
 						else
-							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
+						{
+							// Reduce velocity and acceleration to allow for smoother movement inside this loop
+							npc.SimpleFlyMovement(chargeLocationVelocity * 0.5f, chargeAcceleration * 0.5f);
+						}
 					}
 				}
 
