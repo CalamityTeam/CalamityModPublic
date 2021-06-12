@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
                         (CalamityWorld.downedDoG ? 75f : 0f) +
                         (CalamityWorld.downedYharon ? 75f : 0f) +
                         (modPlayer.profanedCrystalBuffs ? 420f : 0f));
-            projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
+            projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage() * 0.7f);
             ai = type;
             if (baseDamage >= 420f)
             {

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.localAI[1]);

@@ -632,6 +632,7 @@ namespace CalamityMod.CalPlayer
         public bool godSlayerRanged = false;
         public bool godSlayerThrowing = false;
         public bool godSlayerCooldown = false;
+		public bool godSlayerDashHotKeyPressed = false;
         public bool ataxiaBolt = false;
         public bool ataxiaFire = false;
         public bool ataxiaVolley = false;
@@ -2265,6 +2266,7 @@ namespace CalamityMod.CalPlayer
             godSlayerDamage = false;
             godSlayerRanged = false;
             godSlayerThrowing = false;
+			godSlayerDashHotKeyPressed = false;
             auricBoost = false;
             silvaSet = false;
             silvaMage = false;
@@ -3047,6 +3049,10 @@ namespace CalamityMod.CalPlayer
                     elysianGuard = !elysianGuard;
                 }
             }
+
+			// Trigger for pressing the God Slayer dash key
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight))
+				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
             if (CalamityMod.RageHotKey.JustPressed)
@@ -3917,7 +3923,12 @@ namespace CalamityMod.CalPlayer
             }
 
             // Neither scarf can be used if either is on cooldown
-            bool playerDashing = player.pulley || player.grappling[0] == -1 && !player.tongued;
+            bool playerDashing = player.pulley || (player.grappling[0] == -1 && !player.tongued);
+			if (playerDashing && dashMod == 9 && player.dashDelay < 0)
+			{
+				GodSlayerDodge();
+				return true;
+			}
             if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
             {
                 OnDodge();
@@ -3978,6 +3989,34 @@ namespace CalamityMod.CalPlayer
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
 
+		private void GodSlayerDodge()
+		{
+			player.immune = true;
+			player.immuneTime = player.longInvince ? 100 : 60;
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+				player.hurtCooldowns[k] = player.immuneTime;
+
+			Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+
+			for (int j = 0; j < 30; j++)
+			{
+				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+				Dust dust = Main.dust[num];
+				dust.position.X += Main.rand.Next(-20, 21);
+				dust.position.Y += Main.rand.Next(-20, 21);
+				dust.velocity *= 0.4f;
+				dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+				dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+				if (Main.rand.NextBool(2))
+				{
+					dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+					dust.noGravity = true;
+				}
+			}
+
+			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+		}
+
         private void OnDodge()
         {
             if (evasionScarf)
@@ -3990,27 +4029,28 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
                 player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
             }
+
             player.immune = true;
             player.immuneTime = player.longInvince ? 100 : 60;
             for (int k = 0; k < player.hurtCooldowns.Length; k++)
-            {
                 player.hurtCooldowns[k] = player.immuneTime;
-            }
+
             for (int j = 0; j < 100; j++)
             {
                 int num = Dust.NewDust(player.position, player.width, player.height, 235, 0f, 0f, 100, default, 2f);
                 Dust dust = Main.dust[num];
-                dust.position.X += (float)Main.rand.Next(-20, 21);
-                dust.position.Y += (float)Main.rand.Next(-20, 21);
+                dust.position.X += Main.rand.Next(-20, 21);
+                dust.position.Y += Main.rand.Next(-20, 21);
                 dust.velocity *= 0.4f;
-                dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                 if (Main.rand.NextBool(2))
                 {
-                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                     dust.noGravity = true;
                 }
             }
+
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
 
@@ -5399,7 +5439,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!heldItem.summon &&
                         (heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
-                        heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 && 
+                        heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 &&
                         !heldItem.accessory && heldItem.ammo == AmmoID.None)
                     {
                         damage = (int)(damage * summonNerfMult);
@@ -5415,7 +5455,7 @@ namespace CalamityMod.CalPlayer
                         damage = (int)(damage * 0.6);
                         break;
                     case ProjectileID.HallowStar:
-                        damage = (int)(damage * 0.7);
+                        damage = (int)(damage * 0.5);
                         break;
                 }
 
@@ -8280,7 +8320,7 @@ namespace CalamityMod.CalPlayer
 
 							for (int j = 0; j < 30; j++)
 							{
-								int dust = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
+								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
 								Dust dust2 = Main.dust[dust];
 								dust2.position.X += Main.rand.Next(-20, 21);
 								dust2.position.Y += Main.rand.Next(-20, 21);
@@ -8291,7 +8331,7 @@ namespace CalamityMod.CalPlayer
 									dust2.scale *= 1f + Main.rand.Next(40) * 0.01f;
 							}
 
-							float num = 5000f * player.AverageDamage();
+							float num = 3000f * player.AverageDamage();
 							float num2 = 15f;
 							bool crit = false;
 							if (player.kbGlove)
@@ -8493,6 +8533,7 @@ namespace CalamityMod.CalPlayer
                 }
 				else if (dashMod == 9) // God Slayer Armor
 				{
+					player.maxFallSpeed = 50f;
 					for (int m = 0; m < 24; m++)
 					{
 						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2.75f);
@@ -8505,39 +8546,76 @@ namespace CalamityMod.CalPlayer
 							Main.dust[num14].fadeIn = 0.5f;
 						}
 					}
-					num7 = 20f;
+					num7 = 40f;
 				}
 				if (dashMod > 0)
                 {
                     player.vortexStealthActive = false;
 
-                    if (player.velocity.X > num7 || player.velocity.X < -num7)
-                    {
-                        player.velocity.X = player.velocity.X * num8;
-                        return;
-                    }
-                    if (player.velocity.X > num9 || player.velocity.X < -num9)
-                    {
-                        player.velocity.X = player.velocity.X * num10;
-                        return;
-                    }
+					if (dashMod == 9)
+					{
+						if (player.velocity.Length() > num7)
+						{
+							player.velocity *= num8;
+							return;
+						}
+						if (player.velocity.Length() > num9)
+						{
+							player.velocity *= num10;
+							return;
+						}
+					}
+					else
+					{
+						if (player.velocity.X > num7 || player.velocity.X < -num7)
+						{
+							player.velocity.X *= num8;
+							return;
+						}
+						if (player.velocity.X > num9 || player.velocity.X < -num9)
+						{
+							player.velocity.X *= num10;
+							return;
+						}
+					}
 
                     player.dashDelay = delay;
 
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
-						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(30f));
+					{
+						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(15f));
+						godSlayerDashHotKeyPressed = false;
+					}
 
-                    if (player.velocity.X < 0f)
-                    {
-                        player.velocity.X = -num9;
-                        return;
-                    }
-                    if (player.velocity.X > 0f)
-                    {
-                        player.velocity.X = num9;
-                        return;
-                    }
+					if (dashMod == 9)
+					{
+						if (player.velocity.Length() < 0f)
+						{
+							player.velocity.Normalize();
+							player.velocity *= -num9;
+							return;
+						}
+						if (player.velocity.Length() > 0f)
+						{
+							player.velocity.Normalize();
+							player.velocity *= num9;
+							return;
+						}
+					}
+					else
+					{
+						if (player.velocity.X < 0f)
+						{
+							player.velocity.X = -num9;
+							return;
+						}
+						if (player.velocity.X > 0f)
+						{
+							player.velocity.X = num9;
+							return;
+						}
+					}
                 }
             }
             else if (dashMod > 0 && !player.mount.Active)
@@ -8684,7 +8762,7 @@ namespace CalamityMod.CalPlayer
                 }
 				else if (dashMod == 9) // God Slayer Armor
 				{
-					if (DoADash(30f))
+					if (DoADash(80f))
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
@@ -8707,53 +8785,199 @@ namespace CalamityMod.CalPlayer
 
         private bool DoADash(float dashDistance)
         {
+			bool godSlayerDash = dashMod == 9;
             bool justDashed = false;
             int direction = 0;
+
             if (dashTimeMod > 0)
-            {
                 dashTimeMod--;
-            }
             if (dashTimeMod < 0)
-            {
                 dashTimeMod++;
-            }
-            if (player.controlRight && player.releaseRight)
-            {
-                if (dashTimeMod > 0)
-                {
-                    direction = 1;
-                    justDashed = true;
-                    dashTimeMod = 0;
-                }
-                else
-                {
-                    dashTimeMod = 15;
-                }
-            }
-            else if (player.controlLeft && player.releaseLeft)
-            {
-                if (dashTimeMod < 0)
-                {
-                    direction = -1;
-                    justDashed = true;
-                    dashTimeMod = 0;
-                }
-                else
-                {
-                    dashTimeMod = -15;
-                }
-            }
+
+			if (godSlayerDash)
+			{
+				if (player.controlUp && player.controlLeft)
+				{
+					if (dashTimeMod < 0)
+					{
+						direction = -4;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = -15;
+				}
+				else if (player.controlUp && player.controlRight)
+				{
+					if (dashTimeMod > 0)
+					{
+						direction = 4;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = 15;
+				}
+				else if (player.controlDown && player.controlLeft)
+				{
+					if (dashTimeMod < 0)
+					{
+						direction = -3;
+						justDashed = true;
+						dashTimeMod = 0;
+						player.maxFallSpeed = 50f;
+					}
+					else
+						dashTimeMod = -15;
+				}
+				else if (player.controlDown && player.controlRight)
+				{
+					if (dashTimeMod > 0)
+					{
+						direction = 3;
+						justDashed = true;
+						dashTimeMod = 0;
+						player.maxFallSpeed = 50f;
+					}
+					else
+						dashTimeMod = 15;
+				}
+				else if (player.controlUp)
+				{
+					if (dashTimeMod < 0)
+					{
+						direction = -2;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = -15;
+				}
+				else if (player.controlDown)
+				{
+					if (dashTimeMod > 0)
+					{
+						direction = 2;
+						justDashed = true;
+						dashTimeMod = 0;
+						player.maxFallSpeed = 50f;
+					}
+					else
+						dashTimeMod = 15;
+				}
+				else if (player.controlLeft)
+				{
+					if (dashTimeMod < 0)
+					{
+						direction = -1;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = -15;
+				}
+				else if (player.controlRight)
+				{
+					if (dashTimeMod > 0)
+					{
+						direction = 1;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = 15;
+				}
+			}
+			else
+			{
+				if (player.controlRight && player.releaseRight)
+				{
+					if (dashTimeMod > 0)
+					{
+						direction = 1;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = 15;
+				}
+				else if (player.controlLeft && player.releaseLeft)
+				{
+					if (dashTimeMod < 0)
+					{
+						direction = -1;
+						justDashed = true;
+						dashTimeMod = 0;
+					}
+					else
+						dashTimeMod = -15;
+				}
+			}
+
             if (justDashed)
             {
-                player.velocity.X = dashDistance * (float)direction;
-                Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                {
-                    player.velocity.X = player.velocity.X / 2f;
-                }
+				int totalDirections = 8;
+				float radians = MathHelper.TwoPi / totalDirections;
+				Vector2 spinningPoint = new Vector2(0f, -dashDistance);
+				Vector2[] possibleVelocities = new Vector2[totalDirections];
+				for (int k = 0; k < totalDirections; k++)
+					possibleVelocities[k] = spinningPoint.RotatedBy(radians * k);
+
+				switch (direction)
+				{
+					// Up Left
+					case -4:
+						player.velocity = possibleVelocities[7];
+						break;
+
+					// Down Left
+					case -3:
+						player.velocity = possibleVelocities[5];
+						break;
+
+					// Up
+					case -2:
+						player.velocity = possibleVelocities[0];
+						break;
+
+					// Left
+					case -1:
+						player.velocity = godSlayerDash ? possibleVelocities[6] : new Vector2(possibleVelocities[6].X, player.velocity.Y);
+						break;
+
+					// Nothing
+					case 0:
+						break;
+
+					// Right
+					case 1:
+						player.velocity = godSlayerDash ? possibleVelocities[2] : new Vector2(possibleVelocities[2].X, player.velocity.Y);
+						break;
+
+					// Down
+					case 2:
+						player.velocity = possibleVelocities[4];
+						break;
+
+					// Down Right
+					case 3:
+						player.velocity = possibleVelocities[3];
+						break;
+
+					// Up Right
+					case 4:
+						player.velocity = possibleVelocities[1];
+						break;
+				}
+
+				Point point5 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, player.gravDir * -player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+				Point point6 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, 0f)).ToTileCoordinates();
+				if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
+					player.velocity.X /= 2f;
+
                 player.dashDelay = -1;
             }
+
             return justDashed;
         }
 

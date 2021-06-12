@@ -87,14 +87,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			bool death = CalamityWorld.death || malice;
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
-            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
-            {
-                npc.defense = 99999;
-            }
-            else
-            {
-                npc.defense = 0;
-            }
             if (!Main.raining && !BossRushEvent.BossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
 				CalamityUtils.StartRain();

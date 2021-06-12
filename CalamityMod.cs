@@ -78,6 +78,7 @@ namespace CalamityMod
         public static ModHotKey SpectralVeilHotKey;
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
+		public static ModHotKey GodSlayerDashHotKey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -175,8 +176,9 @@ namespace CalamityMod
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
+			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
 
-            if (!Main.dedServ)
+			if (!Main.dedServ)
                 LoadClient();
 
             ILChanges.Load();
@@ -306,6 +308,7 @@ namespace CalamityMod
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
 			AngelicAllianceHotKey = null;
+			GodSlayerDashHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;

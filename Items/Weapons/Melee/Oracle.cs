@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public const int YoyoBaseDamage = 115;
         public const int AuraBaseDamage = 40;
-        public const int AuraMaxDamage = 120;
+        public const int AuraMaxDamage = 105;
         
         public override void SetStaticDefaults()
         {

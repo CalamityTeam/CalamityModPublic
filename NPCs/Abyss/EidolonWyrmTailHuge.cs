@@ -47,24 +47,27 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
-            bool flag = false;
-            if (npc.ai[1] <= 0f)
-            {
-                flag = true;
-            }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
-            {
-                flag = true;
-            }
-            if (flag)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
-            }
-
-            if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
-                npc.active = false;
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+					shouldDespawn = false;
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] > 0f)
+					shouldDespawn = false;
+				else if (Main.npc[(int)npc.ai[1]].life > 0)
+					shouldDespawn = false;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
 
 			bool invisiblePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 1f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 5f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 7f;
 			if (!invisiblePhase)

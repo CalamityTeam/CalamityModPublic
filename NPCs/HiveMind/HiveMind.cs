@@ -142,23 +142,18 @@ namespace CalamityMod.NPCs.HiveMind
                 }
             }
 
-            bool flag100 = false;
-            int num568 = 0;
             if (expertMode)
             {
-                for (int num569 = 0; num569 < Main.maxNPCs; num569++)
-                {
-                    if (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<DankCreeper>())
-                    {
-                        flag100 = true;
-                        num568++;
-                    }
-                }
-
-                npc.defense += num568 * 25;
-
-				if (!flag100)
-					npc.defense = npc.defDefense;
+				if (NPC.AnyNPCs(ModContent.NPCType<DankCreeper>()))
+				{
+					npc.Calamity().DR = 0.99f;
+					npc.Calamity().unbreakableDR = true;
+				}
+				else
+				{
+					npc.Calamity().DR = 0f;
+					npc.Calamity().unbreakableDR = false;
+				}
 			}
 
             if (npc.ai[3] == 0f && npc.life > 0)
