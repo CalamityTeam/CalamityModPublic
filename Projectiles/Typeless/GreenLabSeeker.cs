@@ -47,8 +47,16 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, 1, lightColor, 3);
-            return false;
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            if (Time > 80f)
+            {
+                for (int i = 0; i < 24; i += 2)
+                {
+                    Vector2 drawPosition = projectile.Center - projectile.velocity.SafeNormalize(Vector2.Zero) * i * Utils.InverseLerp(80f, 125f, Time, true) * 25f - Main.screenPosition;
+                    spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(lightColor) * (1f - i / 24f), projectile.rotation, texture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                }
+            }
+            return true;
         }
     }
 }
