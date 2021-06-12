@@ -58,6 +58,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.NPCs.PlagueEnemies;
 
 namespace CalamityMod.NPCs
 {

@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlagueBee : ModNPC
     {
@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             animationType = NPCID.Bee;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
             npc.noGravity = true;
             npc.noTileCollide = false;
             banner = npc.type;
@@ -72,7 +71,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/PlagueBeeGlow");
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/PlagueEnemies/PlagueBeeGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -122,6 +121,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (npc.life <= 0)
             {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
