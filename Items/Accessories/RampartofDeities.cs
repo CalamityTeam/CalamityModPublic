@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
         public override void SetStaticDefaults()
