@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormlion Mandible");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
         }
 
         public override void SetDefaults()
