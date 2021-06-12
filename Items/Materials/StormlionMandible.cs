@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 24;
+            item.width = 36;
+            item.height = 38;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 1, copper: 40);
             item.rare = ItemRarityID.Blue;

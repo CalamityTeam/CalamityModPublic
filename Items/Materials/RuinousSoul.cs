@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 26;
+            item.height = 42;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 7, 0, 0);
             item.Calamity().customRarity = CalamityRarity.PureGreen;
