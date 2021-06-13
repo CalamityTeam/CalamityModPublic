@@ -12,7 +12,6 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
-using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
@@ -9379,8 +9378,17 @@ namespace CalamityMod.CalPlayer
                 ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
                 : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
 
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
-                ConsumeStealthByAttacking();
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+            {
+                bool canStealthStrike = StealthStrikeAvailable();
+
+                // If you can stealth strike, you do.
+                if (canStealthStrike)
+                    ConsumeStealthByAttacking();
+                // Otherwise you get a "partial stealth strike" (stealth damage is still added to the weapon) and return to normally attacking.
+                else
+                    rogueStealth = 0f;
+            }
         }
 
         private void ProvideStealthStatBonuses()
