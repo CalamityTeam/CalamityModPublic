@@ -94,6 +94,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

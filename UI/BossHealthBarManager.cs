@@ -465,6 +465,8 @@ namespace CalamityMod.UI
             private bool _inCombo = false;
             private int _comboStartHealth;
             private int _damageCountdown;
+            public int EnrageTimer;
+
             private NPC _npc
             {
                 get
@@ -586,6 +588,7 @@ namespace CalamityMod.UI
                     return;
 
                 int currentLife = _npc.life;
+                bool enraged = _npc.Calamity().CurrentlyEnraged;
 
                 // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)
@@ -601,6 +604,9 @@ namespace CalamityMod.UI
                                 (Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
 
+                            if (Main.npc[i].Calamity().CurrentlyEnraged)
+                                enraged = true;
+
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
                         }
@@ -610,6 +616,9 @@ namespace CalamityMod.UI
                         _maxHealth = maxLife;
                     }
                 }
+
+                // Make the enrage counter go up/down based on whether the boss is enraged or not.
+                EnrageTimer = Utils.Clamp(EnrageTimer + enraged.ToDirectionInt(), 0, 75);
 
                 // Damage countdown
                 if (_damageCountdown > 0)
@@ -738,17 +747,29 @@ namespace CalamityMod.UI
                 sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
 
                 // DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));
+                Color separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / 75f);
+                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), separatorColor);
 
                 // DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
                 if (_prevLife == _maxHealth)
                     percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
+
                 DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
 
                 string name = _npc.FullName;
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
+                if (EnrageTimer > 0)
+                {
+                    float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                    float outwardness = EnrageTimer / 75f * 1.5f + pulse * 2f;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                        DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                    }
+                }
                 DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
                 // TODO -- Make small text health a toggle in ModConfig.

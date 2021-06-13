@@ -352,6 +352,7 @@ namespace CalamityMod.NPCs.Yharon
             else
             {
                 enraged = !player.Hitbox.Intersects(safeBox);
+                npc.Calamity().CurrentlyEnraged = enraged;
                 if (enraged)
                 {
 					phaseSwitchTimer = 15;

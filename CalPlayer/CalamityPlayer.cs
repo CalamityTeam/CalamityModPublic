@@ -3501,6 +3501,7 @@ namespace CalamityMod.CalPlayer
             for (int n = 13; n < 18 + player.extraAccessorySlots; n++)
             {
                 Item item = player.armor[n];
+
                 if (item.type == ModContent.ItemType<Popo>())
                 {
                     snowmanHide = false;
@@ -3530,6 +3531,13 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            // Ankh Shield Mighty Wind immunity.
+            for (int i = 0; i < 8 + player.extraAccessorySlots; i++)
+            {
+                if (player.armor[i].type == ItemID.AnkhShield)
+                    player.buffImmune[BuffID.WindPushed] = true;
+            }
+
             if (CalamityConfig.Instance.BossHealthBar)
             {
                 drawBossHPBar = true;

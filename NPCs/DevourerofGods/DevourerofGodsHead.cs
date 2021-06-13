@@ -121,6 +121,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.2f;
 
+            npc.Calamity().CurrentlyEnraged = malice;
+
             // Light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 

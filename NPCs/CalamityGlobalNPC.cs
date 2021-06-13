@@ -204,6 +204,14 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
 
+		// Boss Enrage variable for use with the boss health UI.
+		// The logic behind this is as follows:
+		// 1 - For special cases with super-enrages (specifically Yharon/SCal with their arenas), go solely based on whether that enrage is active. That information is most important to the player.
+		// 2 - Otherwise, check if the demonshade enrage is active. If it is, register this as true. If not, go to step 3.
+		// 3 - Check if a specific enrage condition (such as Duke Fishron's Ocean check) is met. If it is, and Boss Rush is not active, set this to true. If not, go to step 4.
+		// 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
+		public bool CurrentlyEnraged;
+
         // Collections
         public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
@@ -689,7 +697,10 @@ namespace CalamityMod.NPCs
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
 
 			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
-        }
+
+			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
+			CurrentlyEnraged = false;
+		}
         #endregion
 
         #region Life Regen
