@@ -6910,7 +6910,7 @@ namespace CalamityMod.CalPlayer
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (rottenDogTooth && item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
-                damage = (int)(damage * RottenDogtooth.StealthStrikeDamageMultiplier);
+                damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
             if (veneratedLocket)
             {
@@ -9549,7 +9549,7 @@ namespace CalamityMod.CalPlayer
             stealthStrikeThisFrame = true;
             stealthAcceleration = 1f; // Reset acceleration when you attack
 
-            float lossReductionRatio = flatStealthLossReduction / rogueStealthMax;
+            float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
             if (stealthStrikeHalfCost)
             {
                 rogueStealth -= 0.5f * rogueStealthMax - lossReductionRatio;
