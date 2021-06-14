@@ -105,6 +105,13 @@ namespace CalamityMod.Projectiles.Summon
 			if (!projectile.WithinRange(destination, 20f))
 				projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(destination) * 16f) / 21f;
 
+			if (!projectile.WithinRange(Owner.Center, 1800f))
+			{
+				projectile.Center = Owner.Center;
+				projectile.velocity = -Vector2.UnitY * 4f;
+				projectile.netUpdate = true;
+			}
+
 			projectile.spriteDirection = (destination.X - projectile.Center.X > 0f).ToDirectionInt();
 		}
 

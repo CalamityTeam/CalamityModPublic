@@ -122,7 +122,8 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 destination = Owner.Top - Vector2.UnitY * MathHelper.Lerp(20f, 40f, (float)Math.Cos(projectile.timeLeft / 24f) * 0.5f + 0.5f);
             projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.025f);
             projectile.Center += (destination - projectile.Center).SafeNormalize(Vector2.Zero) * 3f;
-            if (projectile.WithinRange(destination, 5f))
+
+            if (projectile.WithinRange(destination, 5f) || !projectile.WithinRange(destination, 2200f))
                 projectile.Center = destination;
         }
 
