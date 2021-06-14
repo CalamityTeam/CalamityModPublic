@@ -10,7 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Odd Mushroom");
-            Tooltip.SetDefault("Trippy");
+            Tooltip.SetDefault("Causes you to see many fake, vibrant copies of all nearby entities\n" +
+                "These visual effects may be nauseating or otherwise bad for some\n" +
+                "Trippy");
         }
 
         public override void SetDefaults()

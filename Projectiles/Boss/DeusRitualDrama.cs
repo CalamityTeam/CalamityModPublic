@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Boss
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+        public bool CreatedWithStarcore => projectile.ai[1] == 1f;
         public const int TotalSinePeriods = 6;
         public const int PulseTime = 45;
         public const int TotalRitualTime = 420;
@@ -37,26 +38,28 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = TotalRitualTime;
         }
 
-		public override void AI()
-		{
-			Time++;
-			if (Time == TotalRitualTime - PulseTime)
-			{
-				int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
-				if (idx != -1)
-				{
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), projectile.Center);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						CalamityUtils.BossAwakenMessage(idx);
-					}
-					else
-					{
-						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
-					}
-				}
-			}
-		}
+        public override void AI()
+        {
+            projectile.extraUpdates = CreatedWithStarcore.ToInt();
+
+            Time++;
+            if (Time == TotalRitualTime - PulseTime)
+            {
+                int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+                if (idx != -1)
+                {
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), projectile.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        CalamityUtils.BossAwakenMessage(idx);
+                    }
+                    else
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
+                    }
+                }
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

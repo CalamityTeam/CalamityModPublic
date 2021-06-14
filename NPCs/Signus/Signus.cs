@@ -117,7 +117,9 @@ namespace CalamityMod.NPCs.Signus
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
 
-			npc.damage = npc.defDamage;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            npc.damage = npc.defDamage;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)

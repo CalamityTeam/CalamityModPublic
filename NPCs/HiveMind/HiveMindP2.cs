@@ -319,14 +319,23 @@ namespace CalamityMod.NPCs.HiveMind
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!player.ZoneCorrupt || malice)
-				enrageScale += 1f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!player.ZoneCorrupt || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			if (npc.alpha != 0)
             {

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,8 +51,11 @@ namespace CalamityMod.NPCs.Polterghast
 			{
 				start = false;
 
-				for (int num621 = 0; num621 < 5; num621++)
-					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+				for (int i = 0; i < 10; i++)
+				{
+					int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
+					Main.dust[dust].noGravity = true;
+				}
 
 				npc.ai[1] = npc.ai[0];
 			}

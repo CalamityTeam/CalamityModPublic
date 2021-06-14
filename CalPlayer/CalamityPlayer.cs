@@ -12,7 +12,6 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
-using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
@@ -3501,6 +3500,7 @@ namespace CalamityMod.CalPlayer
             for (int n = 13; n < 18 + player.extraAccessorySlots; n++)
             {
                 Item item = player.armor[n];
+
                 if (item.type == ModContent.ItemType<Popo>())
                 {
                     snowmanHide = false;
@@ -3530,6 +3530,13 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            // Ankh Shield Mighty Wind immunity.
+            for (int i = 0; i < 8 + player.extraAccessorySlots; i++)
+            {
+                if (player.armor[i].type == ItemID.AnkhShield)
+                    player.buffImmune[BuffID.WindPushed] = true;
+            }
+
             if (CalamityConfig.Instance.BossHealthBar)
             {
                 drawBossHPBar = true;
@@ -9371,8 +9378,17 @@ namespace CalamityMod.CalPlayer
                 ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
                 : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
 
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
-                ConsumeStealthByAttacking();
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+            {
+                bool canStealthStrike = StealthStrikeAvailable();
+
+                // If you can stealth strike, you do.
+                if (canStealthStrike)
+                    ConsumeStealthByAttacking();
+                // Otherwise you get a "partial stealth strike" (stealth damage is still added to the weapon) and return to normally attacking.
+                else
+                    rogueStealth = 0f;
+            }
         }
 
         private void ProvideStealthStatBonuses()
