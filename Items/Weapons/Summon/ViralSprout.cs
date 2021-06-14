@@ -39,10 +39,18 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                int sageSpirit = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
 
-                if (Main.projectile.IndexInRange(sageSpirit))
-                    Main.projectile[sageSpirit].localAI[0] = player.ownedProjectileCounts[type];
+                int minionCount = 0;
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].type != type || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+                        continue;
+
+                    Main.projectile[i].localAI[0] = minionCount;
+                    Main.projectile[i].netUpdate = true;
+                    minionCount++;
+                }
             }
             return false;
         }
