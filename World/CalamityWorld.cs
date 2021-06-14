@@ -53,37 +53,37 @@ namespace CalamityMod.World
         public static int Reforges;
         public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
-        //Boss Rush
+        // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
 
-        //Death Mode natural boss spawns
-        public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
-        public static int bossType = 0; //Death Mode natural boss spawn type
-        public static int deathBossSpawnCooldown = 0; //Cooldown between Death Mode natural boss spawns
+        // Death Mode natural boss spawns
+        public static int bossSpawnCountdown = 0; // Death Mode natural boss spawn countdown
+        public static int bossType = 0; // Death Mode natural boss spawn type
+        public static int deathBossSpawnCooldown = 0; // Cooldown between Death Mode natural boss spawns
 
-        //Modes
-        public static bool demonMode = false; //Spawn rate boost
-        public static bool onionMode = false; //Extra accessory from Moon Lord
-        public static bool revenge = false; //Revengeance Mode
-        public static bool death = false; //Death Mode
-        public static bool armageddon = false; //Armageddon Mode
-        public static bool ironHeart = false; //Iron Heart Mode
+        // Modes
+        public static bool demonMode = false; // Spawn rate boost
+        public static bool onionMode = false; // Extra accessory from Moon Lord
+        public static bool revenge = false; // Revengeance Mode
+        public static bool death = false; // Death Mode
+        public static bool armageddon = false; // Armageddon Mode
+        public static bool ironHeart = false; // Iron Heart Mode
 		public static bool malice = false; // Malice Mode, enrages all bosses and makes them drop good shit
 
         // New Temple Altar
         public static int newAltarX = 0;
         public static int newAltarY = 0;
 
-        //Evil Islands
+        // Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;
 
-        //Brimstone Crag
+        // Brimstone Crag
         public static int fuhX = 0;
         public static int fuhY = 0;
         public static int calamityTiles = 0;
 
-        //Abyss & Sulphur
+        // Abyss & Sulphur
         public static int numAbyssIslands = 0;
         public static int[] AbyssIslandX = new int[20];
         public static int[] AbyssIslandY = new int[20];
@@ -110,14 +110,14 @@ namespace CalamityMod.World
             }
         }
 
-        //Astral
+        // Astral
         public static int astralTiles = 0;
 
-        //Sunken Sea
+        // Sunken Sea
         public static int sunkenSeaTiles = 0;
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;
 
-        //Shrines
+        // Shrines
         public static int[] SChestX = new int[10];
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;

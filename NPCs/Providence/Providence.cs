@@ -934,10 +934,9 @@ namespace CalamityMod.NPCs.Providence
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity * 1.5f;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								int proj = Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
-								Main.projectile[proj].extraUpdates += 1;
+								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
 							}
 						}
 					}

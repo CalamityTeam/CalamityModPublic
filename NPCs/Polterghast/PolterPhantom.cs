@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -144,13 +142,14 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 
 			// Predictiveness
-			float chargePredictionAmt = 10f + 40f * (tileEnrageMult - 1f);
-			Vector2 lookAt = player.Center + (chargePhase && revenge ? (player.velocity * chargePredictionAmt) : Vector2.Zero);
+			float chargePredictionAmt = 10f + 20f * (tileEnrageMult - 1f);
+			Vector2 predictionVector = chargePhase && revenge ? player.velocity * chargePredictionAmt : Vector2.Zero;
+			Vector2 lookAt = player.Center + predictionVector;
 			Vector2 rotationVector = lookAt - vector;
 
 			// Rotation
-			float num740 = player.Center.X - vector.X;
-			float num741 = player.Center.Y - vector.Y;
+			float num740 = player.Center.X + predictionVector.X - vector.X;
+			float num741 = player.Center.Y + predictionVector.Y - vector.Y;
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
