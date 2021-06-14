@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
 			bool closeToPlayer = projectile.WithinRange(Owner.Center, 150f);
 			if (!closeToPlayer && SittingOnGround && HopTimer % 30f == 29f)
 			{
-				projectile.velocity = projectile.DirectionTo(Owner.Center) * 9f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -4f);
+				projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 9f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -9f);
 
 				// Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
 				projectile.tileCollide = false;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (SittingOnGround && HopTimer % 20f == 19f)
 			{
-				projectile.velocity = projectile.DirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -4f);
+				projectile.velocity = projectile.DirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -7f);
 
 				// Release a bunch of blood.
 				if (Main.myPlayer == projectile.owner)
@@ -148,8 +148,8 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
-		// Prevent immediate death on tile collision, and slow down on tile collision.
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        // Prevent immediate death on tile collision, and slow down on tile collision.
+        public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.velocity.X *= 0.9f;
 			return false;
