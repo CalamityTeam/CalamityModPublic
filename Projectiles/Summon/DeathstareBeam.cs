@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +45,9 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 drawPosition = projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Vector2 drawScale = new Vector2(0.55f, projectile.velocity.Length() / beamTexture.Height * 20f);
             Color color = Color.White * 2.1f * projectile.Opacity;
-            spriteBatch.Draw(beamTexture, drawPosition, null, color, projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
+
+            if (Math.Abs(projectile.rotation - MathHelper.PiOver2) > 0.008f)
+                spriteBatch.Draw(beamTexture, drawPosition, null, color, projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
             return false;
         }
     }
