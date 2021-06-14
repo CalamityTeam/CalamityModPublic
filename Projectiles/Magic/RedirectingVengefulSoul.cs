@@ -63,9 +63,8 @@ namespace CalamityMod.Projectiles.Magic
             float delayFactor = Utils.InverseLerp(20f, 35f, time, true);
             float homeSpeed = MathHelper.Lerp(0f, 0.075f, delayFactor);
 
-            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 16f, homeSpeed);
-            projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * oldSpeed;
-            projectile.position += (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * MathHelper.Lerp(25f, 1f, Utils.InverseLerp(100f, 360f, projectile.Distance(target.Center), true)) * delayFactor;
+            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(target.Center) * 16f, homeSpeed);
+            projectile.velocity = (projectile.velocity + projectile.SafeDirectionTo(target.Center) * 3f).SafeNormalize(Vector2.UnitY) * oldSpeed;
         }
 
         public override Color? GetAlpha(Color lightColor)

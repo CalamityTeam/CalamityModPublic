@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-            item.shoot = ModContent.ProjectileType<OmnibladeSwingNormal>();
+            item.shoot = ModContent.ProjectileType<OmnibladeSwing>();
             item.shootSpeed = 24f;
             item.rare = ItemRarityID.Yellow;
         }
