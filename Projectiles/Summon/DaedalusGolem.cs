@@ -266,7 +266,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            fallThrough = false;
+            fallThrough = projectile.Bottom.Y < Owner.Top.Y;
             return true;
         }
 
