@@ -69,6 +69,9 @@ namespace CalamityMod.Projectiles.Melee
 				AbsolutelyFuckingAnnihilateTrees(pointToCheck.X, pointToCheck.Y);
 			}
 
+			// Emit light.
+			Lighting.AddLight(projectile.Center, Vector3.One * 0.7f);
+
 			Time++;
 		}
 

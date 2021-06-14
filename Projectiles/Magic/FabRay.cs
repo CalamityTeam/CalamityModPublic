@@ -60,6 +60,9 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
+
+            // Emit light.
+            Lighting.AddLight(projectile.Center, Vector3.One * projectile.Opacity * 0.7f);
         }
 
         internal Color ColorFunction(float completionRatio)

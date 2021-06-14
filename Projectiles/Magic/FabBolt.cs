@@ -52,7 +52,10 @@ namespace CalamityMod.Projectiles.Magic
             else
                 projectile.velocity *= 1.004f;
             projectile.rotation = projectile.velocity.ToRotation();
-		}
+
+            // Emit light.
+            Lighting.AddLight(projectile.Center, Vector3.One * projectile.Opacity * 0.45f);
+        }
 
 		internal Color ColorFunction(float completionRatio)
         {
