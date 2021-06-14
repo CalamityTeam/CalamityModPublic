@@ -119,7 +119,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.netUpdate = true;
                 }
 
-                projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
+                if (MathHelper.Distance(potentialTarget.Center.X, projectile.Center.X) > 30f)
+                    projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
 
                 if (UsingChargedLaserAttack)
                 {
@@ -197,9 +198,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = true;
             // Don't bother moving any more if super close to the destination. 
             // Just slow down and face the player.
-            if (Math.Abs(projectile.Center.X - destination.X) < 35 + Math.Abs(projectile.velocity.X))
+            if (Math.Abs(projectile.Center.X - destination.X) < 55 + Math.Abs(projectile.velocity.X))
             {
-                projectile.spriteDirection = (Owner.Center.X - projectile.Center.X < 0).ToDirectionInt();
                 StuckJumpSpeed = 0f;
                 projectile.velocity.X *= 0.8f;
                 return true;
@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            projectile.spriteDirection = (projectile.velocity.X < 0).ToDirectionInt();
+            projectile.spriteDirection = (Owner.Center.X - projectile.Center.X < 0).ToDirectionInt();
             return false;
         }
         #endregion
@@ -296,7 +296,7 @@ namespace CalamityMod.Projectiles.Summon
 				else
                     projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.InverseLerp(0f, ChargedPelletAttackTime, AttackTimer, true));
             }
-            else if (Math.Abs(projectile.velocity.X) > 1f && tileBelow.IsTileSolidGround())
+            else if (Math.Abs(projectile.velocity.X) > 5f && Math.Abs(projectile.velocity.Y) < 2f && tileBelow.IsTileSolidGround())
 			{
                 if (projectile.frameCounter >= Utils.Clamp(2, 6, (int)Math.Abs(projectile.velocity.X * 0.8)))
 				{
