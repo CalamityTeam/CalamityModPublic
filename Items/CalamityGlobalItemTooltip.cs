@@ -264,6 +264,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.RodofDiscord)
 				EditTooltipByNum(0, (line) => line.text += "\nTeleportation is disabled while Chaos State is active");
 
+			// Indicate that the Ankh Shield provides sandstorm wind push immunity
+			if (item.type == ItemID.AnkhShield)
+				EditTooltipByNum(1, (line) => line.text += ", including Mighty Wind");
+
 			// Water removing items cannot be used in the Abyss
 			string noAbyssLine = "\nCannot be used in the Abyss";
 			if (item.type == ItemID.SuperAbsorbantSponge)

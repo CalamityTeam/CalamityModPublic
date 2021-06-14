@@ -136,14 +136,23 @@ namespace CalamityMod.NPCs.Crabulon
 				npc.timeLeft = 1800;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!player.ZoneGlowshroom || malice)
-				enrageScale += 1f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!player.ZoneGlowshroom || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
-			if (enraged)
-				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
             {

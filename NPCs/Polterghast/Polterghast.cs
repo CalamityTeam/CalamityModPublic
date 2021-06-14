@@ -314,6 +314,8 @@ namespace CalamityMod.NPCs.Polterghast
 			if (enraged)
 				tileEnrageMult = 2.25f;
 
+			npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
+
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
 

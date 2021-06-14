@@ -214,6 +214,8 @@ namespace CalamityMod.NPCs.Providence
 			if (nightTime)
 				projectileDamageMult = 2;
 
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged;
+
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
 			int crystalDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceCrystal>()) * projectileDamageMult;
@@ -1343,10 +1345,8 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.Top.Y >= (Main.maxTilesY - 240f) * 16f)
                 SpawnLootBox();
-            }
 
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!CalamityWorld.downedProvidence)
@@ -1379,7 +1379,7 @@ namespace CalamityMod.NPCs.Providence
         {
             int tileCenterX = (int)npc.Center.X / 16;
             int tileCenterY = (int)npc.Center.Y / 16;
-            int halfBox = npc.width / 2 / 16 + 1;
+            int halfBox = 5;
             for (int x = tileCenterX - halfBox; x <= tileCenterX + halfBox; x++)
             {
                 for (int y = tileCenterY - halfBox; y <= tileCenterY + halfBox; y++)
