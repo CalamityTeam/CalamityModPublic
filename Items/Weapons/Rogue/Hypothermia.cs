@@ -7,13 +7,16 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Hypothermia : RogueWeapon
+    public class Hypothermia : RogueWeapon
     {
+        // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
+        private bool throwTwo = true;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");
-            Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes additionally fire short ranged ice chunks that shatter into ice shards");
+            Tooltip.SetDefault("Throws a constant barrage of black ice shards\n" +
+                               "Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact");
         }
 
         public override void SafeSetDefaults()
@@ -24,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.noMelee = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item9;
+            item.UseSound = SoundID.Item7;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = ItemRarityID.Red;
 
@@ -40,33 +43,37 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
-                damage = (int)(damage * 1.55);
-
-            if (player.Calamity().StealthStrikeAvailable() && player.itemAnimation == item.useAnimation - 1) //setting up the stealth strikes
             {
-                damage = (int)(damage * 1.7);
-
-                for (int i = 0; i < 4; i++)
+                int stealthDamage = (int)(damage * 7f); // was 2.635x
+                for (int i = 0; i < 4; ++i)
                 {
-                    Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.13f) * Main.rand.NextFloat(1f, 1.1f);
-                    int stealth = Projectile.NewProjectile(position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
+                    Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.07f) * Main.rand.NextFloat(1.1f, 1.18f);
+                    int stealth = Projectile.NewProjectile(position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), stealthDamage, knockBack, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
+
+                // On a stealth strike, only the chunks are thrown.
+                return false;
             }
-			int projAmt = Main.rand.Next(1, 3);
-			for (int index = 0; index < projAmt; ++index)
-			{
-				float SpeedX = speedX + Main.rand.NextFloat(-2f, 2f);
-				float SpeedY = speedY + Main.rand.NextFloat(-2f, 2f);
-				Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
-			}
+
+            // Regular attacks alternate between throwing one and two shards at a time.
+            int projAmt = throwTwo ? 2 : 1;
+            throwTwo = !throwTwo;
+
+            for (int i = 0; i < projAmt; ++i)
+            {
+                float SpeedX = speedX + Main.rand.NextFloat(-2f, 2f);
+                float SpeedY = speedY + Main.rand.NextFloat(-2f, 2f);
+                int texID = Main.rand.Next(4);
+                Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI, texID, 0f);
+            }
 
             return false;
         }
