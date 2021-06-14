@@ -114,8 +114,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == projectile.owner)
             {
+                float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
                 if (projectile.velocity != oldVelocity)
                 {
                     projectile.netSpam = 0;
