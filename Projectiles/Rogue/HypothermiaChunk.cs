@@ -58,10 +58,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < Main.rand.Next(1,4); i++)
+                int numSplits = Main.rand.NextBool() ? 4 : 3;
+                for (int i = 0; i < numSplits; ++i)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<HypothermiaShard>(), (int)(projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(4), 1f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<HypothermiaShard>(), (int)(projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(4), 1f);
                 }
             }
         }

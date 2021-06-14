@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = ItemRarityID.Red;
 
-            item.damage = 206;
+            item.damage = 197;
             item.useAnimation = 21;
             item.useTime = 3;
             item.reuseDelay = 1;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealthDamage = (int)(damage * 7f); // was 2.635x
+                int stealthDamage = (int)(damage * 2.5f); // was 2.635x
                 for (int i = 0; i < 4; ++i)
                 {
                     Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.07f) * Main.rand.NextFloat(1.1f, 1.18f);
