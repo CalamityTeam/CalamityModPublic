@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
 						projectile.localAI[1] = Main.rand.Next(8, 14); // 8 to 13 frames between each spearfall
 
 						int type = ModContent.ProjectileType<EclipsesSmol>();
-						int smolDamage = (int)(projectile.damage * 0.14f); // SS overall used to have a 0.275x mult, meaning 0.11 to 0.165 damage here.
+						int smolDamage = (int)(projectile.damage * 0.28f);
 						float smolKB = 3f;
 						// Used to be a 50% chance each spearfall for 1 or 2. Now is consistent.
 						int numSpears = spawnTwoSpears ? 2 : 1;
