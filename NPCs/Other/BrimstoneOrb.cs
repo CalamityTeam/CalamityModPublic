@@ -92,14 +92,6 @@ namespace CalamityMod.NPCs.Other
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            // Minions do less damage to this project due to the fact that they can attack independantly from the player.
-            // The intent of this effect is for it to interfere with damage output in exchange for health.
-            if (projectile.minion)
-                damage = (int)(damage * 0.35);
-        }
-
         public override void NPCLoot()
         {
             for (int i = 0; i < 8; i++)
