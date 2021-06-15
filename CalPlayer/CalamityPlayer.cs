@@ -1025,6 +1025,8 @@ namespace CalamityMod.CalPlayer
 
         public bool persecutedEnchant = false;
         public int persecutedEnchantSummonTimer = 0;
+
+        public bool lecherousOrbEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -2020,6 +2022,7 @@ namespace CalamityMod.CalPlayer
             manaMonsterEnchant = false;
             witheringWeaponEnchant = false;
             persecutedEnchant = false;
+            lecherousOrbEnchant = false;
 
             lastProjectileHit = null;
 

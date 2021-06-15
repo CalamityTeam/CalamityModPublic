@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
@@ -11,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 using static Terraria.ModLoader.ModContent;
+using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -158,9 +160,22 @@ namespace CalamityMod.NPCs.TownNPCs
 			randExtraCooldown = 50;
 		}
 
-		//public override void TownNPCAttackMagic(ref float auraLightMultiplier)	
+        public override bool PreAI()
+        {
+			// Disappear if the SCal boss is active. She's supposed to be the boss.
+			// However, this doesn't happen in Boss Rush; the SCal there is a silent puppet created by Xeroc, not SCal herself.
+			if (NPC.AnyNPCs(NPCType<SCalBoss>()) && !BossRushEvent.BossRushActive)
+            {
+				npc.active = false;
+				npc.netUpdate = true;
+				return false;
+            }
+            return true;
+        }
 
-		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
+        //public override void TownNPCAttackMagic(ref float auraLightMultiplier)	
+
+        public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
 			projType = ProjectileType<SeethingDischargeBrimstoneHellblast>();
 			attackDelay = 1;

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Other;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -254,6 +255,34 @@ namespace CalamityMod.UI.CalamitasEnchants
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Persecuted",
 					null,
 					player => player.Calamity().persecutedEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
+
+				new Enchantment("Lecherous", "Spawns a resiliant brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
+					1200,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Lecherous",
+					null,
+					player =>
+					{
+						player.Calamity().lecherousOrbEnchant = true;
+
+						bool orbIsPresent = false;
+						int orbType = ModContent.NPCType<BrimstoneOrb>();
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							if (Main.npc[i].type != orbType || Main.npc[i].target != player.whoAmI || !Main.npc[i].active)
+								continue;
+
+							orbIsPresent = true;
+							break;
+						}
+
+						if (Main.myPlayer == player.whoAmI && !orbIsPresent)
+						{
+							int orb = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 5, orbType);
+							if (Main.npc.IndexInRange(orb))
+								Main.npc[orb].TargetClosest();
+						}
+					},
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
