@@ -226,6 +226,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Owner.itemAnimation > 0)
             {
                 GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/BladeTrailUVMap"));
+                GameShaders.Misc["CalamityMod:FadingSolidTrail"].Shader.Parameters["shouldFlip"].SetValue((float)(Owner.direction == -1).ToInt());
+
                 Vector2 bottom = BladeCenterPosition - BladeOffsetDirection * BladeFrame.Height * 0.5f - Main.screenPosition;
                 Vector2 top = BladeCenterPosition + BladeOffsetDirection * BladeFrame.Height * 0.5f - Main.screenPosition;
                 Vector2 offsetToBlade = (top - bottom).SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver2) * 5f;
@@ -244,7 +246,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (projectile.oldPos[i] == Vector2.Zero)
                         continue;
 
-                    drawPoints[i] = projectile.Center + perpendicularDirection.RotatedBy(i * -0.014f * Owner.direction) * i * -Owner.direction * 4f;
+                    drawPoints[i] = projectile.Center + perpendicularDirection.RotatedBy(i * -0.014f * Owner.direction) * i * -Owner.direction * 6f;
                 }
 
                 TrailDrawer.Draw(drawPoints, BladeCenterPosition - projectile.position - Main.screenPosition, 67);

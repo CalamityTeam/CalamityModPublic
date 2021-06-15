@@ -13,6 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 matrix uWorldViewProjection;
+float shouldFlip;
 
 struct VertexShaderInput
 {
@@ -46,6 +47,8 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = input.Color;
     float2 coords = input.TextureCoordinates;
+    if (shouldFlip == 1)
+        coords.y = 1 - coords.y;
     
     // Read the fade map as a streak.
     float4 fadeMapColor = tex2D(uImage1, coords);
