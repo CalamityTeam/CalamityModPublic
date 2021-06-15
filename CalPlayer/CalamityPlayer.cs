@@ -32,6 +32,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
@@ -1017,6 +1018,12 @@ namespace CalamityMod.CalPlayer
         public bool explosiveMinionsEnchant = false;
         public bool bladeArmEnchant = false;
         public bool manaMonsterEnchant = false;
+
+        public bool witheringWeaponEnchant = false;
+        public bool witheredDebuff = false;
+        public int witheredWeaponHoldTime = 0;
+
+        public bool persecutedEnchant = false;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -2010,6 +2017,8 @@ namespace CalamityMod.CalPlayer
             explosiveMinionsEnchant = false;
             bladeArmEnchant = false;
             manaMonsterEnchant = false;
+            witheringWeaponEnchant = false;
+            persecutedEnchant = false;
 
             lastProjectileHit = null;
 
@@ -7347,6 +7356,15 @@ namespace CalamityMod.CalPlayer
 
             if (player.whoAmI == Main.myPlayer)
             {
+                // Summon a portal if needed.
+                if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+                {
+                    Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
+                    if (Main.npc.IndexInRange(portal))
+                        Main.npc[portal].target = player.whoAmI;
+                }
+
 				if (revivify)
 				{
 					int healAmt = (int)(damage / 15D);

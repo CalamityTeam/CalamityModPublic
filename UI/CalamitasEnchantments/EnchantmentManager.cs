@@ -230,6 +230,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player => player.Calamity().witheringWeaponEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
+
+				new Enchantment("Persecuted", "You attract portals which summon demons on hit. The portal must be brought close to death or the demons will attack you. Otherwise they attack enemies.",
+					1100,
+					null,
+					player => player.Calamity().persecutedEnchant = true,
+					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
