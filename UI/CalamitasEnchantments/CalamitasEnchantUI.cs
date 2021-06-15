@@ -22,7 +22,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static bool CurrentlyViewing = false;
 
-		public static readonly Vector2 ReforgeUITopLeft = new Vector2(28f, 245f);
+		public static readonly Vector2 ReforgeUITopLeft = new Vector2(68f, 320f);
 		public static readonly float ResolutionRatio = Main.screenHeight / 1440f;
 
 		public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
@@ -87,10 +87,6 @@ namespace CalamityMod.UI.CalamitasEnchants
 			// Draw the background.
 			spriteBatch.Draw(backgroundTexture, ReforgeUITopLeft, null, Color.White, 0f, Vector2.Zero, backgroundScale, SpriteEffects.None, 0f);
 
-			// Draw the item icon.
-			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(30f, 50f) * backgroundScale;
-			Vector2 reforgeIconDrawPosition = ReforgeUITopLeft + new Vector2(88f, 60f) * backgroundScale;
-
 			// Prevent the player from say, firing a weapon while the mouse is hovering over the UI.
 			DisableMouseWhenOverUI(backgroundTexture, backgroundScale);
 
@@ -104,11 +100,20 @@ namespace CalamityMod.UI.CalamitasEnchants
 				Point costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(50f, 78f) * backgroundScale).ToPoint();
 				cost = DrawEnchantmentCost(spriteBatch, costDrawPositionTopLeft);
 				Point descriptionDrawPositionTopLeft = costDrawPositionTopLeft;
-				descriptionDrawPositionTopLeft.Y += 90;
+				descriptionDrawPositionTopLeft.Y += 70;
+				Vector2 iconDrawPositionTopLeft = costDrawPositionTopLeft.ToVector2() + new Vector2(270f, -24f);
 
 				DrawEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
+				if (!string.IsNullOrEmpty(SelectedEnchantment.Value.IconTexturePath))
+                {
+					Texture2D iconTexture = ModContent.GetTexture(SelectedEnchantment.Value.IconTexturePath);
+					DrawIcon(spriteBatch, iconDrawPositionTopLeft, iconTexture);
+                }
 			}
 
+			// Draw the item icon.
+			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(30f, 50f) * backgroundScale;
+			Vector2 reforgeIconDrawPosition = ReforgeUITopLeft + new Vector2(84f, 60f) * backgroundScale;
 			DrawItemIcon(spriteBatch, itemSlotDrawPosition, reforgeIconDrawPosition, backgroundScale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon);
 			if (isHoveringOverItemIcon)
 				InteractWithItemSlot();
@@ -167,7 +172,18 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 				cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
-			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
+			// Draw the coin costs.
+			string costText = "Cost: ";
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero);
+			costDrawPositionTopLeft.X += (int)(Main.fontMouseText.MeasureString(costText).X * 0.5f + 12f);
+
+			int[] coinsArray = Utils.CoinsSplit(cost);
+			for (int i = 0; i < 4; i++)
+			{
+				Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + ChatManager.GetStringSize(Main.fontMouseText, costText, Vector2.One, -1f).X + (24 * i) - 24f, costDrawPositionTopLeft.Y + 54f);
+				spriteBatch.Draw(Main.itemTexture[ItemID.PlatinumCoin - i], drawPosition, null, Color.White, 0f, Main.itemTexture[ItemID.PlatinumCoin - i].Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
+			}
 
 			return cost;
 		}
@@ -176,7 +192,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
 			Vector2 scale = new Vector2(0.67f, 0.7f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f);
-			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 10, out _))
+			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 465, 10, out _))
 			{
 				if (string.IsNullOrEmpty(line))
 					continue;
@@ -184,6 +200,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
 				vectorDrawPosition.Y += 16;
 			}
+		}
+
+		public static void DrawIcon(SpriteBatch spriteBatch, Vector2 drawPositionTopLeft, Texture2D texture)
+        {
+			spriteBatch.Draw(texture, drawPositionTopLeft, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 
 		public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
@@ -261,6 +282,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			// Attempt to exchange if the slot is clicked.
 			if (Main.mouseLeftRelease && Main.mouseLeft && (Main.mouseItem.CanBeEnchantedBySomething() || Main.mouseItem.IsAir))
 			{
+				EnchantIndex = 0;
 				Utils.Swap(ref Main.mouseItem, ref CurrentlyHeldItem);
 				Main.PlaySound(SoundID.Grab);
 			}

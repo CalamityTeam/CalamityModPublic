@@ -58,14 +58,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static void ConstructFromModcall(IEnumerable<object> parameters)
 		{
 			int secondaryArgumentCount = parameters.Count();
-			if (secondaryArgumentCount < 4)
+			if (secondaryArgumentCount < 5)
 				throw new ArgumentNullException("ERROR: A minimum of 4 arguments must be supplied to this command; a name, a description, an id, and a requirement predicate.");
-			if (secondaryArgumentCount > 6)
+			if (secondaryArgumentCount > 7)
 				throw new ArgumentNullException("ERROR: A maximum of 6 arguments can be supplied to this command.");
 
 			string name = string.Empty;
 			string description = string.Empty;
 			int id = -1;
+			string iconTexturePath = null;
 			Predicate<Item> requirement = null;
 			Action<Item> creationEffect = null;
 			Action<Player> holdEffect = null;
@@ -94,33 +95,39 @@ namespace CalamityMod.UI.CalamitasEnchants
 			else
 				throw new ArgumentException("The fourth argument to this command must be an Item Predicate.");
 
+			// Fifth element - the texture path. This determines what icon is drawn on the UI when selected. It may be null to specify that none should be drawn.
+			if (parameters.ElementAt(4) is string iconTexturePathElement)
+				iconTexturePath = iconTexturePathElement;
+			else
+				throw new ArgumentException("The fifth argument to this command must be a string.");
+
 			// Optional elements - creation and hold effects.
 			switch (secondaryArgumentCount)
 			{
-				case 5:
-					object fifthElement = parameters.ElementAt(4);
-					if (fifthElement is Action<Item> creationElement)
+				case 6:
+					object sixthElement = parameters.ElementAt(4);
+					if (sixthElement is Action<Item> creationElement)
 						creationEffect = creationElement;
-					else if (fifthElement is Action<Player> holdElement)
+					else if (sixthElement is Action<Player> holdElement)
 						holdEffect = holdElement;
 					else
-						throw new ArgumentException("The fifth argument to this command must be an Item or Player Action.");
+						throw new ArgumentException("The sixth argument to this command must be an Item or Player Action.");
 					break;
-				case 6:
-					fifthElement = parameters.ElementAt(4);
-					object sixthElement = parameters.ElementAt(5);
-					if (fifthElement is Action<Item> creationElement2)
+				case 7:
+					sixthElement = parameters.ElementAt(4);
+					object seventhElement = parameters.ElementAt(5);
+					if (sixthElement is Action<Item> creationElement2)
 					{
 						creationEffect = creationElement2;
-						holdEffect = sixthElement as Action<Player>;
+						holdEffect = seventhElement as Action<Player>;
 					}
-					else if (fifthElement is Action<Player> holdElement2)
+					else if (sixthElement is Action<Player> holdElement2)
 					{
-						creationEffect = sixthElement as Action<Item>;
+						creationEffect = seventhElement as Action<Item>;
 						holdEffect = holdElement2;
 					}
 					else
-						throw new ArgumentException("The fifth argument to this command must be an Item or Player Action and the sixth must be the other action type.");
+						throw new ArgumentException("The sixth argument to this command must be an Item or Player Action and the sixth must be the other action type.");
 					break;
 			}
 
@@ -128,33 +135,37 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (EnchantmentList.Any(enchant => enchant.ID == id) || id == ClearEnchantmentID)
 				throw new ArgumentException("An enchantment with this ID already exists. Another one must be specified.");
 
-			EnchantmentList.Add(new Enchantment(name, description, id, creationEffect, holdEffect, requirement));
+			EnchantmentList.Add(new Enchantment(name, description, id, iconTexturePathElement, creationEffect, holdEffect, requirement));
 		}
 
 		internal static void LoadAllEnchantments()
 		{
 			EnchantmentList = new List<Enchantment>
 			{
-				new Enchantment(UpgradeEnchantName, "Transforms this item into something significantly better.",
+				new Enchantment(UpgradeEnchantName, "Transforms this item into something significantly stronger.",
 					1,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Exhumed",
 					null,
 					null,
 					item => ItemUpgradeRelationship.ContainsKey(item.type)),
 
-				new Enchantment("Cursed", "Summons demons that harm you but drop healing items on death on item usage.",
+				new Enchantment("Indignant", "Summons demons that harm you but drop healing items on death on item usage.",
 					100,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Indignant",
 					null,
 					player => player.Calamity().cursedSummonsEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.summon),
 
 				new Enchantment("Aflame", "Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.",
 					200,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Aflame",
 					null,
 					player => player.Calamity().flamingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 
 				new Enchantment("Oblatory", "Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.",
 					300,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Oblatory",
 					item =>
 					{
 						item.damage = (int)(item.damage * 1.5);
@@ -165,30 +176,35 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 				new Enchantment("Resentful", "Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.",
 					400,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Resentful",
 					null,
 					player => player.Calamity().farProximityRewardEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
 				new Enchantment("Bloodthirsty", "Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.",
 					500,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Bloodthirsty",
 					null,
 					player => player.Calamity().closeProximityRewardEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
 				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used.",
 					600,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
 					null,
 					player => player.Calamity().dischargingItemEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 
 				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
 					700,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Hellbound",
 					null,
 					player => player.Calamity().explosiveMinionsEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.summon),
 
 				new Enchantment("Tainted", "Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.",
 					800,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Tainted",
 					item => item.useTime = item.useAnimation = 25,
 					player =>
 					{
@@ -219,27 +235,33 @@ namespace CalamityMod.UI.CalamitasEnchants
 					},
 					item => item.damage > 0 && item.maxStack == 1 && item.melee && !item.noUseGraphic && item.shoot > ProjectileID.None),
 
-				new Enchantment("Treacherous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
+				new Enchantment("Traitorous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
 					900,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Traitorous",
 					null,
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
 
 				new Enchantment("Withering", "You heal when hurt based on damage dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
 					1000,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
 					null,
 					player => player.Calamity().witheringWeaponEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && !item.summon),
 
-				new Enchantment("Persecuted", "You attract portals which summon demons on hit. The portal must be brought close to death or the demons will attack you. Otherwise they attack enemies.",
+				new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you. If sufficiently damaged they are friendly; otherwise they attack you.",
 					1100,
+					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Persecuted",
 					null,
 					player => player.Calamity().persecutedEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
-			ClearEnchantment = new Enchantment("Disenchant", string.Empty, ClearEnchantmentID,
+			ClearEnchantment = new Enchantment("Disenchant", 
+				string.Empty, 
+				ClearEnchantmentID,
+				null,
 				item => item.Calamity().AppliedEnchantment = null,
 				item => item.maxStack == 1 && item.shoot >= ProjectileID.None);
 

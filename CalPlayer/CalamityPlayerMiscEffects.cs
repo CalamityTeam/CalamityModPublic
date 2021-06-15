@@ -22,6 +22,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Environment;
@@ -1180,6 +1181,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.aBulwarkRareTimer--;
 			if (modPlayer.hellbornBoost > 0)
 				modPlayer.hellbornBoost--;
+			if (modPlayer.persecutedEnchantSummonTimer < 1800)
+				modPlayer.persecutedEnchantSummonTimer++;
+            else
+            {
+				modPlayer.persecutedEnchantSummonTimer = 0;
+				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+				{
+					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+					int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
+					if (Main.npc.IndexInRange(portal))
+						Main.npc[portal].target = player.whoAmI;
+				}
+			}
 			if (player.miscCounter % 20 == 0)
 				modPlayer.canFireAtaxiaRangedProjectile = true;
 			if (player.miscCounter % 100 == 0)

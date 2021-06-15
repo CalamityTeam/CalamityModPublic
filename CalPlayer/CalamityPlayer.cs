@@ -1024,6 +1024,7 @@ namespace CalamityMod.CalPlayer
         public int witheredWeaponHoldTime = 0;
 
         public bool persecutedEnchant = false;
+        public int persecutedEnchantSummonTimer = 0;
         #endregion Calamitas Enchant Effects
 
         #endregion
@@ -2427,6 +2428,7 @@ namespace CalamityMod.CalPlayer
             animusBoost = 1f;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
+            persecutedEnchantSummonTimer = 0;
 
             if (BossRushEvent.BossRushActive)
             {

@@ -7,6 +7,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 	{
 		public string Name;
 		public string Description;
+		public string IconTexturePath;
 		public Action<Item> CreationEffect;
 		public Action<Player> HoldEffect;
 
@@ -15,7 +16,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		// This is internal because CanBeAppliedTo should be used over this field directly.
 		// Using that has the benefit of null checks and is objectively superior to using the raw delegate.
 		internal Predicate<Item> ApplyRequirement;
-		public Enchantment(string name, string description, int id, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, string iconTexturePath, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
@@ -23,8 +24,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 			HoldEffect = holdEffect;
 			ApplyRequirement = requirement;
 			ID = id;
+			IconTexturePath = iconTexturePath;
 		}
-		public Enchantment(string name, string description, int id, Action<Player> holdEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, string iconTexturePath, Action<Player> holdEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
@@ -32,8 +34,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 			HoldEffect = holdEffect;
 			ApplyRequirement = requirement;
 			ID = id;
+			IconTexturePath = iconTexturePath;
 		}
-		public Enchantment(string name, string description, int id, Action<Item> creationEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, string iconTexturePath, Action<Item> creationEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
@@ -41,6 +44,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			HoldEffect = null;
 			ApplyRequirement = requirement;
 			ID = id;
+			IconTexturePath = iconTexturePath;
 		}
 
 		public bool CanBeAppliedTo(Item item)
