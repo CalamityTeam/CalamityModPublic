@@ -113,6 +113,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
             if (invinceTime > 0)
             {

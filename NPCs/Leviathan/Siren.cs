@@ -114,11 +114,17 @@ namespace CalamityMod.NPCs.Leviathan
 
 			float enrageScale = 0f;
 			if (notOcean || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1.5f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 0.5f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 0.5f;
+			}
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 

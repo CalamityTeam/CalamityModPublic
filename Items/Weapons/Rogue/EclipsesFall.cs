@@ -40,10 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (player.Calamity().StealthStrikeAvailable())
-			{
 				type = ModContent.ProjectileType<EclipsesStealth>();
-				damage = (int)(damage * 0.216);
-			}
 
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (proj.WithinBounds(Main.maxProjectiles))
@@ -57,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.AddIngredient(ModContent.ItemType<NightsGaze>());
 			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
