@@ -12,8 +12,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SCalWormBody : ModNPC
     {
 		private bool setAlpha = false;
+        public NPC AheadSegment => Main.npc[(int)npc.ai[1]];
+        public NPC HeadSegment => Main.npc[(int)npc.ai[2]];
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sepulcher");
         }
@@ -22,8 +24,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             npc.damage = 0; //70
             npc.npcSlots = 5f;
-            npc.width = 20; //28
-            npc.height = 20; //28
+            npc.width = npc.height = 48;
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
@@ -73,85 +74,49 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				npc.realLife = (int)npc.ai[2];
 			}
 
-			bool flag = false;
-			if (npc.ai[1] <= 0f)
-			{
-				flag = true;
-			}
-			else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
-			{
-				flag = true;
-			}
-			if (flag)
-			{
-				npc.life = 0;
-				npc.HitEffect(0, 10.0);
-				npc.checkDead();
-			}
+            bool shouldDie = false;
+            if (npc.ai[1] <= 0f)
+                shouldDie = true;
+            else if (AheadSegment.life <= 0 || !AheadSegment.active || npc.life <= 0)
+                shouldDie = true;
 
-			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
-			{
-				if (npc.alpha != 0)
-				{
-					for (int num934 = 0; num934 < 2; num934++)
-					{
-						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-						Main.dust[num935].noGravity = true;
-						Main.dust[num935].noLight = true;
-					}
-				}
-				npc.alpha -= 42;
-				if (npc.alpha <= 0)
-				{
-					setAlpha = true;
-					npc.alpha = 0;
-				}
-			}
-			else
-			{
-				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
-			}
+            if (shouldDie)
+            {
+                npc.life = 0;
+                npc.HitEffect(0, 10.0);
+                npc.checkDead();
+            }
 
-			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
-			float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-			num191 = (int)(num191 / 16f) * 16;
-			num192 = (int)(num192 / 16f) * 16;
-			vector18.X = (int)(vector18.X / 16f) * 16;
-			vector18.Y = (int)(vector18.Y / 16f) * 16;
-			num191 -= vector18.X;
-			num192 -= vector18.Y;
-			float num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
-			if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
-			{
-				try
-				{
-					vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-					num191 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-					num192 = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-				}
-				catch
-				{
-				}
-				npc.rotation = (float)System.Math.Atan2(num192, num191) + 1.57f;
-				num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
-				int num194 = npc.width;
-				num193 = (num193 - num194) / num193;
-				num191 *= num193;
-				num192 *= num193;
-				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num191;
-				npc.position.Y = npc.position.Y + num192;
-				if (num191 < 0f)
-				{
-					npc.spriteDirection = -1;
-				}
-				else if (num191 > 0f)
-				{
-					npc.spriteDirection = 1;
-				}
-			}
-		}
+            if (AheadSegment.alpha < 128 && !setAlpha)
+            {
+                if (npc.alpha != 0)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Dust fire = Dust.NewDustDirect(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                        fire.noGravity = true;
+                        fire.noLight = true;
+                    }
+                }
+                npc.alpha -= 42;
+                if (npc.alpha <= 0)
+                {
+                    setAlpha = true;
+                    npc.alpha = 0;
+                }
+            }
+            else
+                npc.alpha = HeadSegment.alpha;
+
+            if (Main.npc.IndexInRange((int)npc.ai[1]))
+            {
+                Vector2 offsetToAheadSegment = AheadSegment.Center - npc.Center;
+                npc.rotation = offsetToAheadSegment.ToRotation() + MathHelper.PiOver2;
+                npc.velocity = Vector2.Zero;
+                npc.Center = AheadSegment.Center - offsetToAheadSegment.SafeNormalize(Vector2.UnitY) * 52f;
+                npc.spriteDirection = (offsetToAheadSegment.X > 0f).ToDirectionInt();
+            }
+        }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -174,21 +139,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[npc.type];
+			Texture2D texture2D15 = npc.localAI[3] / 2f % 2f == 0f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[npc.type];
 			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			if (npc.localAI[3] == 1f)
-			{
-				texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAltGlow");
-				Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-			}
 
 			return false;
 		}

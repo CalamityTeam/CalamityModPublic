@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.damage = 0; //150
             npc.npcSlots = 5f;
             npc.width = 62; //324
-            npc.height = 78; //216
+            npc.height = 64; //216
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
@@ -36,12 +36,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
-            npc.scale = 1.2f;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.35f;
-            }
-            npc.alpha = 255;
+            npc.scale = Main.expertMode ? 1.35f : 1.2f;
+			npc.scale *= 1.25f;
+
+			npc.alpha = 255;
             npc.chaseable = false;
             npc.behindTiles = true;
             npc.noGravity = true;
@@ -81,44 +79,50 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
-			Player player = Main.player[npc.target];
-
 			if (npc.ai[2] > 0f)
-			{
 				npc.realLife = (int)npc.ai[2];
-			}
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+                    for (int i = 0; i < maxLength; i++)
                     {
                         int lol;
-                        if (num36 >= 0 && num36 < minLength && num36 % 2 == 0)
+                        if (i >= 0 && i < minLength && i % 2 == 1)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormBodyWeak>(), npc.whoAmI);
                             Main.npc[lol].localAI[0] += passedVar;
                             passedVar += 36f;
                         }
-                        else if (num36 >= 0 && num36 < minLength)
+                        else if (i >= 0 && i < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormBody>(), npc.whoAmI);
-                            if (npc.localAI[0] % 2 == 0)
-                            {
-                                Main.npc[lol].localAI[3] = 1f;
-                                npc.localAI[0] = 1f;
-                            }
-                            else
-                            {
-                                npc.localAI[0] = 2f;
-                            }
-                        }
+							Main.npc[lol].localAI[3] = i;
+						}
                         else
-                        {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormTail>(), npc.whoAmI);
-                        }
+						
+						// Create arms.
+						if (i >= 3 && i % 4 == 0)
+                        {
+							NPC segment = Main.npc[lol];
+							int arm = NPC.NewNPC((int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+							if (Main.npc.IndexInRange(arm))
+							{
+								Main.npc[arm].ai[0] = lol;
+								Main.npc[arm].direction = 1;
+							}
+
+							arm = NPC.NewNPC((int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+							if (Main.npc.IndexInRange(arm))
+							{
+								Main.npc[arm].ai[0] = lol;
+								Main.npc[arm].direction = -1;
+							}
+						}
+
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = npc.whoAmI;
                         Main.npc[lol].ai[1] = Previous;
@@ -133,7 +137,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            if (Main.player[npc.target].dead || !NPC.AnyNPCs(ModContent.NPCType<SCalWormHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (Main.player[npc.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.TargetClosest(false);
                 npc.alpha += 5;
@@ -303,11 +307,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormHeadGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

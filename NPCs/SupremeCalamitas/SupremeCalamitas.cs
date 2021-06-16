@@ -2540,10 +2540,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     List<int> hearts = new List<int>();
                     for (int x = 0; x < 5; x++)
                     {
-                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX += spawnXAdd;
 
-                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX2 -= spawnXAdd;
                         tempSpawnY += spawnYAdd;
                     }
@@ -2649,7 +2649,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public void ConnectAllBrimstoneHearts(List<int> heartIndices)
         {
-            int heartType = ModContent.NPCType<SCalWormHeart>();
+            int heartType = ModContent.NPCType<BrimstoneHeart>();
 
             // Ensure that the hearts go in order based on the arena.
             IEnumerable<NPC> hearts = heartIndices.Select(i => Main.npc[i]);
@@ -2682,14 +2682,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (tries >= 100)
                         endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
 
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 if (Main.rand.NextBool(2))
                 {
                     endpoint.X = heart.Center.X + Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
                     endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 heart.netUpdate = true;
