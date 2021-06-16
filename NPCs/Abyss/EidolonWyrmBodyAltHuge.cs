@@ -100,13 +100,13 @@ namespace CalamityMod.NPCs.Abyss
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
 					npc.ai[3] += 1f;
-					float shootProjectile = 200f;
-					float timer = npc.ai[0] + 10f;
-					float divisor = timer + shootProjectile;
-					if (npc.ai[3] % divisor == 0f)
+					float shootShadowFireballGateValue = 90f;
+					float divisor = 5f;
+					if (npc.ai[3] % divisor == 0f && npc.ai[3] >= shootShadowFireballGateValue)
 					{
+						npc.ai[3] = 0f;
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
-						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 4f : 8f) + distanceVelocityBoost;
+						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
 						Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
 						int type = ProjectileID.CultistBossFireBallClone;
