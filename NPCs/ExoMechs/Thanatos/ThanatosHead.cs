@@ -66,6 +66,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		// Used in the lerp to smoothly scale velocity up and down
 		private float chargeVelocityScalar = 0f;
 
+		// Total duration of the deathray telegraph
+		private const float deathrayTelegraphDuration = 120f;
+
+		// Total duration of the deathray
+		private const float deathrayDuration = 180f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thanatos");
@@ -352,8 +358,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float laserBarragePhaseTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
-			float invisiblePhaseVelocityMult = MathHelper.Lerp(1f, 3f, chargeVelocityScalar);
-			float invisiblePhaseTurnSpeedMult = MathHelper.Lerp(1f, 12f, chargeVelocityScalar);
+			float deathrayVelocityMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
+			float deathrayTurnSpeedMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
 
 			// Base scale on total time spent in phase
 			float chargeVelocityScalarIncrement = 1f / speedUpTime;
@@ -362,6 +368,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Scalar to use during laser barrage, passive and immune phases
 			float laserBarrageVelocityScalarIncrement = 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
+
+			// Distance from target
+			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -474,6 +483,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					turnSpeed *= chargeTurnSpeedMult;
 					turnDistance = chargeLocationDistance;
 
+					// Gradually turn slower if within 20 tiles of the target
+					if (distanceFromTarget < 320f)
+						turnSpeed *= distanceFromTarget / 320f;
+
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
@@ -533,11 +546,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					break;
 
-				// Move close to target, reduce velocity and increase turn speed when close enough, create telegraph beams, reduce turn speed, fire deathray
+				// Move close to target, reduce velocity and turn speed when close enough, create telegraph beams, reduce turn speed, fire deathray
 				case (int)Phase.Deathray:
 
 					// Head is vulnerable while charging and firing deathray
 					vulnerable = true;
+
+					// If close enough to the target, prepare to fire deathray
+					bool readyToFireDeathray = distanceFromTarget < 800f;
+					if (readyToFireDeathray)
+						npc.localAI[2] = 1f;
 
 					// Use a lerp to smoothly scale up velocity and turn speed
 					if (calamityGlobalNPC.newAI[3] == 0f)
@@ -546,7 +564,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						if (chargeVelocityScalar >= 1f)
 						{
 							chargeVelocityScalar = 1f;
-							calamityGlobalNPC.newAI[3] = 1f;
+
+							// If ready to fire deathray, start reducing the velocity scalar
+							if (npc.localAI[2] == 1f)
+								calamityGlobalNPC.newAI[3] = 1f;
 						}
 					}
 					else
@@ -556,18 +577,44 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							chargeVelocityScalar = 0f;
 					}
 
-					baseVelocity *= chargeVelocityMult;
-					turnSpeed *= chargeTurnSpeedMult;
+					baseVelocity *= deathrayVelocityMult;
+					turnSpeed *= deathrayTurnSpeedMult;
 					turnDistance = chargeLocationDistance;
 
-					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
+					// Gradually turn and move slower if within 50 tiles of the target
+					if (npc.localAI[2] == 1f)
 					{
-						AIState = (float)Phase.UndergroundLaserBarrage;
-						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
-						chargeVelocityScalar = 0f;
-						npc.TargetClosest();
+						baseVelocity *= distanceFromTarget / 800f;
+						turnSpeed *= distanceFromTarget / 800f;
+
+						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
+						{
+							// Fire deathray telegraph beams
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+
+							}
+						}
+						else
+						{
+							// Fire deathray
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+
+							}
+						}
+
+						if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
+						{
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							AIState = (float)Phase.Charge;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+						}
+						calamityGlobalNPC.newAI[2] += 1f;
 					}
 
 					break;
