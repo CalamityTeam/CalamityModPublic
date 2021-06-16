@@ -10,6 +10,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod
 {
@@ -235,7 +236,9 @@ namespace CalamityMod
 				{
 					velocityMult = 1f;
 				}
-				int smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				Mod mod = ModContent.GetInstance<CalamityMod>();
+				int type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				int smoke = Gore.NewGore(source, default, type, 1f);
 				Gore gore = Main.gore[smoke];
 				if (thanatos)
 				{
@@ -244,7 +247,8 @@ namespace CalamityMod
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
 				if (thanatos)
 				{
@@ -253,7 +257,8 @@ namespace CalamityMod
 				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
 				if (thanatos)
 				{
@@ -262,7 +267,8 @@ namespace CalamityMod
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y -= 1f;
-				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
 				if (thanatos)
 				{

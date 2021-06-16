@@ -247,17 +247,30 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 										for (int i = 0; i < numProjectiles; i++)
 										{
-											// Predictive laser
-											Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-											Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
-											int type = ModContent.ProjectileType<ExoDestroyerLaser>();
-											int damage = npc.GetProjectileDamage(type);
-											Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+											// Fire normal lasers if head is in passive state
+											if (calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive)
+											{
+												// Normal laser
+												Vector2 projectileDestination = targetCenterArray[i] - npc.Center;
+												Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
+												int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+												int damage = npc.GetProjectileDamage(type);
+												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+											}
+											else
+											{
+												// Predictive laser
+												Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+												Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
+												int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+												int damage = npc.GetProjectileDamage(type);
+												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
 
-											// Opposite laser
-											projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-											projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * laserVelocity;
-											Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+												// Opposite laser
+												projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+												projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
+												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+											}
 										}
 									}
 								}
