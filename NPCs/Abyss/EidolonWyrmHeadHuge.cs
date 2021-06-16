@@ -134,6 +134,8 @@ namespace CalamityMod.NPCs.Abyss
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
+
 			// Difficulty modes
 			bool malice = CalamityWorld.malice;
 			bool death = CalamityWorld.death || malice;

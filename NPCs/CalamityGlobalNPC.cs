@@ -204,6 +204,7 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
+		public static int adultEidolonWyrmHead = -1;
 
 		// Boss Enrage variable for use with the boss health UI.
 		// The logic behind this is as follows:
@@ -696,6 +697,8 @@ namespace CalamityMod.NPCs
 			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+
+			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
 			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
 

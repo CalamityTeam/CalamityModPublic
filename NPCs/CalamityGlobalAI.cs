@@ -12769,8 +12769,11 @@ namespace CalamityMod.NPCs
 				// Triple damage if the Adult Eidolon Wyrm is alive
 				if (npc.ai[0] == 0f)
 				{
-					if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
-						npc.damage *= 3;
+					if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+					{
+						if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+							npc.damage *= 3;
+					}
 				}
 
 				npc.ai[0] += 1f;
@@ -12905,7 +12908,7 @@ namespace CalamityMod.NPCs
 				int damage = npc.GetProjectileDamage(type);
 
 				// Triple damage if the Adult Eidolon Wyrm is alive
-				if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
+				if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
 					damage *= 3;
 
 				kill = true;
