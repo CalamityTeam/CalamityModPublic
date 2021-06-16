@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Abyss
 			npc.DR_NERD(0.4f);
 			CalamityGlobalNPC global = npc.Calamity();
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs.Abyss
 								}
 
 								float predictionAmt = targetDownDeep ? 30f : 60f;
-								float lightningVelocity = targetDownDeep ? 4f : 8f;
+								float lightningVelocity = targetDownDeep ? 6f : 8f;
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
@@ -1397,7 +1397,8 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
+			if (npc.Opacity == 1f)
+				player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }
 }

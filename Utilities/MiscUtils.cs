@@ -221,34 +221,53 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="goreSource">The spot to spawn the explosion clouds</param>
 		/// <param name="goreAmt">Number of times it loops to spawn gores</param>
-		public static void ExplosionGores(Vector2 goreSource, int goreAmt)
+		public static void ExplosionGores(Vector2 goreSource, int goreAmt, bool thanatos = false, Vector2 thanatosVelocity = default)
 		{
 			Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
 			{
 				float velocityMult = 0.33f;
-				if (goreIndex < (int)(goreAmt / 3))
+				if (goreIndex < (goreAmt / 3))
 				{
 					velocityMult = 0.66f;
 				}
-				if (goreIndex >= (int)((2 * goreAmt) / 3))
+				if (goreIndex >= (2 * goreAmt / 3))
 				{
 					velocityMult = 1f;
 				}
 				int smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
 				Gore gore = Main.gore[smoke];
+				if (thanatos)
+				{
+					gore.velocity = thanatosVelocity * -0.5f;
+				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore = Main.gore[smoke];
+				if (thanatos)
+				{
+					gore.velocity = thanatosVelocity * -0.5f;
+				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore = Main.gore[smoke];
+				if (thanatos)
+				{
+					gore.velocity = thanatosVelocity * -0.5f;
+				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y -= 1f;
 				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore = Main.gore[smoke];
+				if (thanatos)
+				{
+					gore.velocity = thanatosVelocity * -0.5f;
+				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y -= 1f;
