@@ -124,10 +124,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							{
 								Main.npc[arm].ai[0] = lol;
 								Main.npc[arm].direction = -1;
-								Main.npc[arm].rotation = rotationalOffset;
+								Main.npc[arm].rotation = rotationalOffset + MathHelper.Pi;
 							}
 
 							rotationalOffset += MathHelper.Pi / 6f;
+							rotationalOffset = MathHelper.WrapAngle(rotationalOffset);
 						}
 
                         Main.npc[lol].realLife = npc.whoAmI;
