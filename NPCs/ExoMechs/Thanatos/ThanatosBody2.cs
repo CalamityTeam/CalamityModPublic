@@ -47,7 +47,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.netAlways = true;
             npc.dontCountMe = true;
             npc.chaseable = false;
-        }
+			npc.boss = true;
+			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{

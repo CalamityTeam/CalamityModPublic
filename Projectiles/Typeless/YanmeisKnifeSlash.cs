@@ -4,6 +4,7 @@ using CalamityMod.Events;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -20,7 +21,11 @@ namespace CalamityMod.Projectiles.Typeless
 			bool validBoss = npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()
 				&& npc.type != ModContent.NPCType<DevourerofGodsBody>()
 				&& npc.type != ModContent.NPCType<DevourerofGodsBodyS>()
-				&& npc.type != ModContent.NPCType<AstrumDeusBodySpectral>();
+				&& npc.type != ModContent.NPCType<AstrumDeusBodySpectral>()
+				&& npc.type != ModContent.NPCType<ThanatosHead>()
+				&& npc.type != ModContent.NPCType<ThanatosBody1>()
+				&& npc.type != ModContent.NPCType<ThanatosBody2>()
+				&& npc.type != ModContent.NPCType<ThanatosTail>();
 			if (validBoss)
 				return true;
 			bool bossMinion = CalamityLists.bossMinionList.Contains(npc.type);
