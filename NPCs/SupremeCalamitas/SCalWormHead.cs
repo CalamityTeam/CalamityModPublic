@@ -86,6 +86,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
+					float rotationalOffset = 0f;
                     int Previous = npc.whoAmI;
                     for (int i = 0; i < maxLength; i++)
                     {
@@ -113,14 +114,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							{
 								Main.npc[arm].ai[0] = lol;
 								Main.npc[arm].direction = 1;
+								Main.npc[arm].rotation = rotationalOffset;
 							}
+
+							rotationalOffset += MathHelper.Pi / 6f;
 
 							arm = NPC.NewNPC((int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
 							if (Main.npc.IndexInRange(arm))
 							{
 								Main.npc[arm].ai[0] = lol;
 								Main.npc[arm].direction = -1;
+								Main.npc[arm].rotation = rotationalOffset;
 							}
+
+							rotationalOffset += MathHelper.Pi / 6f;
 						}
 
                         Main.npc[lol].realLife = npc.whoAmI;

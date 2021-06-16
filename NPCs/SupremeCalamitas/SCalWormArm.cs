@@ -51,6 +51,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
         public ref float Time => ref npc.localAI[0];
+        public bool ReelingBack
+        {
+            get => npc.localAI[1] == 0f;
+            set => npc.localAI[1] = 1f - value.ToInt();
+        }
         public Player Target => Main.player[npc.target];
         public SepulcherArmLimb[] Limbs = new SepulcherArmLimb[4];
 
@@ -93,12 +98,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             for (int i = 0; i < Limbs.Length; i++)
                 Limbs[i].SendData(writer);
+            writer.Write(npc.rotation);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             for (int i = 0; i < Limbs.Length; i++)
                 Limbs[i].ReceiveData(reader);
+            npc.rotation = reader.ReadSingle();
         }
 
         public override void AI()
@@ -115,23 +122,26 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.TargetClosest(false);
 
             Vector2 idealMovePosition = SegmentToAttachTo.Center;
-            float rotationalOffset = (float)Math.Sin(Time / 60f + npc.whoAmI * 0.6f) * 0.69f;
-            idealMovePosition += (SegmentToAttachTo.rotation - MathHelper.PiOver2).ToRotationVector2() * npc.scale * 290f;
-            idealMovePosition += (SegmentToAttachTo.rotation - MathHelper.PiOver2 + MathHelper.PiOver2 * npc.direction + rotationalOffset).ToRotationVector2() * npc.scale * 120f;
+            float sideFactor = MathHelper.Lerp(200f, 18f, Utils.InverseLerp(-0.51f, -0.06f, npc.rotation, true));
+            float aheadFactor = MathHelper.Lerp(284f, 680f, Utils.InverseLerp(-0.51f, -0.06f, npc.rotation, true));
+            idealMovePosition += (SegmentToAttachTo.rotation + npc.rotation * npc.direction - MathHelper.PiOver2).ToRotationVector2() * npc.scale * aheadFactor;
+            idealMovePosition += (SegmentToAttachTo.rotation + npc.rotation * npc.direction - MathHelper.PiOver2 + MathHelper.PiOver2 * npc.direction).ToRotationVector2() * npc.scale * sideFactor;
+            npc.Center = idealMovePosition;
             UpdateLimbs();
 
-            if (CurrentlyMoving)
-                MoveToDestination();
-
-            MoveDestination = idealMovePosition;
-            if (!CurrentlyMoving && !npc.WithinRange(idealMovePosition, 205f))
+            if (ReelingBack)
             {
-                CurrentlyMoving = true;
-                npc.netUpdate = true;
+                npc.rotation -= 0.066f;
+                if (npc.rotation < -0.55f)
+                    ReelingBack = false;
             }
-            Vector2 center = npc.Center;
-            CalamityUtils.DistanceClamp(ref center, ref idealMovePosition, 290f);
-            npc.Center = center;
+            else
+            {
+                npc.rotation += 0.029f;
+                if (npc.rotation > 0.77f)
+                    ReelingBack = true;
+            }
+
             Time++;
         }
 
@@ -154,12 +164,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             Vector2 offsetFromSegment = Vector2.Zero;
 
-            offsetFromSegment += new Vector2(npc.direction * 80f, 55f).RotatedBy(SegmentToAttachTo.rotation - (MathHelper.PiOver2 - 0.5f) * npc.direction).SafeNormalize(Vector2.UnitY) * 92f;
+            offsetFromSegment += new Vector2(npc.direction * 60f, 55f).RotatedBy(SegmentToAttachTo.rotation - (MathHelper.PiOver2 - npc.rotation * 1.7f - 0.77f) * npc.direction).SafeNormalize(Vector2.UnitY) * 92f;
             Limbs[0].Center = SegmentToAttachTo.Center + offsetFromSegment;
             Limbs[0].Rotation = offsetFromSegment.ToRotation();
 
-            Limbs[1].Center = SegmentToAttachTo.Center + offsetFromSegment * 1.5f + (npc.Center - Limbs[0].Center).SafeNormalize(Vector2.UnitY) * 84f;
             Limbs[1].Rotation = npc.AngleFrom(Limbs[0].Center);
+            Limbs[1].Center = Limbs[0].Center + offsetFromSegment * 0.5f + (npc.Center - Limbs[0].Center).SafeNormalize(Vector2.UnitY) * 84f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -177,7 +187,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), npc.scale, SpriteEffects.None, 0f);
 
             Vector2 handDrawPosition = armDrawPosition;
-            SpriteEffects handDirection = npc.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects handDirection = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(handTexture, handDrawPosition, null, drawColor, Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), npc.scale, handDirection, 0f);
 
             return false;
