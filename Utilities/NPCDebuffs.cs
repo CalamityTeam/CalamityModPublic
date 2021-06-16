@@ -12,6 +12,7 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -193,6 +194,11 @@ namespace CalamityMod
 				{ ModContent.NPCType<SCalWormBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
+
+				{ ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<ThanatosBody2>(), new Tuple<bool, int[]>(true, new int[] { }) },
+				{ ModContent.NPCType<ThanatosTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
 				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 				{ ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },

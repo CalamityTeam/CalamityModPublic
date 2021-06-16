@@ -12903,6 +12903,11 @@ namespace CalamityMod.NPCs
             {
 				int type = ProjectileID.AncientDoomProjectile;
 				int damage = npc.GetProjectileDamage(type);
+
+				// Triple damage if the Adult Eidolon Wyrm is alive
+				if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
+					damage *= 3;
+
 				kill = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

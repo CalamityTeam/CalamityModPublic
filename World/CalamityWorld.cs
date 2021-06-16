@@ -216,6 +216,10 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
             CalamityGlobalNPC.signus = -1;
+			CalamityGlobalNPC.draedonExoMechPrime = -1;
+			CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
+			CalamityGlobalNPC.draedonExoMechTwinRed = -1;
+			CalamityGlobalNPC.draedonExoMechWorm = -1;
             BossRushEvent.BossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
@@ -1625,7 +1629,7 @@ namespace CalamityMod.World
 
             if (modPlayer.ZoneAbyss)
             {
-                if (player.chaosState)
+                if (player.chaosState && !player.dead)
                 {
                     if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()) && Main.netMode != NetmodeID.MultiplayerClient)
                         NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<EidolonWyrmHeadHuge>());
