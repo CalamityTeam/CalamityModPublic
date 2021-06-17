@@ -82,7 +82,7 @@ namespace CalamityMod.Items
 		{
 			// Apply standard post-ML rarities to the item's color first.
 			Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
-			if (standardRarityColor.HasValue)
+			if (!item.expert && standardRarityColor.HasValue)
 				nameLine.overrideColor = standardRarityColor.Value;
 
 			#region Uniquely Colored Developer Items
