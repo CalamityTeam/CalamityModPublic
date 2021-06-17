@@ -215,6 +215,8 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
+			if (item.type == ItemID.CelestialSigil)
+				item.consumable = false;
         }
         #endregion
 
