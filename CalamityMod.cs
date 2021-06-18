@@ -22,6 +22,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.OldDuke;
@@ -579,6 +580,10 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<ThanatosHead>(), 21600 },
+				{ ModContent.NPCType<ThanatosBody1>(), 21600 },
+				{ ModContent.NPCType<ThanatosBody2>(), 21600 },
+				{ ModContent.NPCType<ThanatosTail>(), 21600 },
 				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
 			};
         }
@@ -703,6 +708,10 @@ namespace CalamityMod
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
 				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
 			};
         }

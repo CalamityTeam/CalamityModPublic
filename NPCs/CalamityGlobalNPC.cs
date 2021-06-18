@@ -21,6 +21,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -205,6 +206,7 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
+		public static int adultEidolonWyrmHead = -1;
 
 		// Drawing variables.
 		public FireParticleSet VulnerabilityHexFireDrawer = null;
@@ -696,10 +698,12 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
-			/*ResetSavedIndex(ref draedonExoMechWorm, NPCType<ExoWormHead>());
-			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
+			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
+			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+
+			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
 			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
 

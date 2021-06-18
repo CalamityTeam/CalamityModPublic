@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Abyss
 			npc.DR_NERD(0.4f);
 			CalamityGlobalNPC global = npc.Calamity();
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -133,6 +133,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice;
@@ -510,8 +512,8 @@ namespace CalamityMod.NPCs.Abyss
 									}
 								}
 
-								float predictionAmt = targetDownDeep ? 30f : 60f;
-								float lightningVelocity = targetDownDeep ? 4f : 8f;
+								float predictionAmt = targetDownDeep ? 45f : 60f;
+								float lightningVelocity = targetDownDeep ? 6f : 8f;
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
@@ -800,7 +802,7 @@ namespace CalamityMod.NPCs.Abyss
 
 					if ((destination - npc.Center).Length() < iceMistLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
 					{
-						if (calamityGlobalNPC.newAI[2] % 45f == 0f && calamityGlobalNPC.newAI[2] < iceMistDuration && Main.netMode != NetmodeID.MultiplayerClient)
+						if (calamityGlobalNPC.newAI[2] % 60f == 0f && calamityGlobalNPC.newAI[2] < iceMistDuration && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int maxTargets = 2;
 							int[] whoAmIArray = new int[maxTargets];
@@ -826,8 +828,8 @@ namespace CalamityMod.NPCs.Abyss
 								}
 							}
 
-							float predictionAmt = targetDownDeep ? 60f : 120f;
-							float iceMistVelocity = targetDownDeep ? 8f : 16f;
+							float predictionAmt = targetDownDeep ? 90f : 120f;
+							float iceMistVelocity = targetDownDeep ? 12f : 16f;
 							for (int i = 0; i < numProjectiles; i++)
 							{
 								// Predictive mist
@@ -1397,7 +1399,8 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
+			if (npc.Opacity == 1f)
+				player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }
 }

@@ -35,6 +35,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -1719,7 +1720,10 @@ namespace CalamityMod
                 NPCType<DevourerofGodsTail>(),
                 NPCType<DevourerofGodsBodyS>(),
                 NPCType<DevourerofGodsTailS>(),
-            };
+				NPCType<ThanatosBody1>(),
+				NPCType<ThanatosBody2>(),
+				NPCType<ThanatosTail>()
+			};
 
             needsDebuffIconDisplayList = new List<int>()
             {
