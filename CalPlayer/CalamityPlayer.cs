@@ -934,6 +934,7 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public bool sepulcher = false;
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
         // Due to the way vanilla summons work, the buff must be applied manually for it to properly register, since
@@ -1986,6 +1987,7 @@ namespace CalamityMod.CalPlayer
             plaguebringerPatronSummon = false;
             howlTrio = false;
             mountedScanner = false;
+            sepulcher = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
