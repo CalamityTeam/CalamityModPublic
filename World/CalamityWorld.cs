@@ -12,6 +12,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -2075,10 +2076,7 @@ namespace CalamityMod.World
 			}
             
             if (DraedonSummonCountdown == 0)
-			{
-                Main.NewText("John Wulfrum has awoken!", new Color(175, 75, 255));
-                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<WulfrumHovercraft>());
-			}
+                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
 		}
         #endregion
 

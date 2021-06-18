@@ -117,7 +117,11 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-				new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+                new [] { "DraedonIntroductionText1", "Something seems... very off." },
+                new [] { "DraedonIntroductionText2", "Well, whatever." },
+                new [] { "DraedonIntroductionText3", "Here's your exo mechs lol" },
+
+                new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
 				new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
 				new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },

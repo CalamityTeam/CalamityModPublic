@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             new Color(242, 112, 73),
             new Color(199, 62, 62),
         };
+        public const float LaserLength = 3800f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -90,14 +91,19 @@ namespace CalamityMod.Projectiles.Boss
 
             Vector2[] basePoints = new Vector2[8];
             for (int i = 0; i < basePoints.Length; i++)
-                basePoints[i] = projectile.Center - Vector2.UnitY * i / basePoints.Length * 3800f;
+                basePoints[i] = projectile.Center - Vector2.UnitY * i / basePoints.Length * LaserLength;
 
             Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
             RayDrawer.Draw(basePoints, overallOffset, 92);
             return false;
         }
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center - Vector2.UnitY * LaserLength);
+        }
+
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 		{
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
