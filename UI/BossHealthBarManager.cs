@@ -6,6 +6,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
@@ -192,8 +193,11 @@ namespace CalamityMod.UI
                 ModContent.NPCType<DevourerofGodsBody>(),
                 ModContent.NPCType<DevourerofGodsTail>(),
                 ModContent.NPCType<DevourerofGodsBodyS>(),
-                ModContent.NPCType<DevourerofGodsTailS>()
-            };
+                ModContent.NPCType<DevourerofGodsTailS>(),
+				ModContent.NPCType<ThanatosBody1>(),
+				ModContent.NPCType<ThanatosBody2>(),
+				ModContent.NPCType<ThanatosTail>()
+			};
         }
 
         private static void SetupMinibossHPBarList()

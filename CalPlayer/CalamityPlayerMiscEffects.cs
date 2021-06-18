@@ -2905,7 +2905,19 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.gState)
 			{
 				player.statDefense -= GlacialState.DefenseReduction;
-				player.velocity = Vector2.Zero;
+				player.velocity.X *= 0.5f;
+				player.velocity.Y += 0.05f;
+				if (player.velocity.Y > 15f)
+					player.velocity.Y = 15f;
+			}
+
+			if (modPlayer.eFreeze)
+			{
+				player.statDefense -= GlacialState.DefenseReduction;
+				player.velocity.X *= 0.5f;
+				player.velocity.Y += 0.1f;
+				if (player.velocity.Y > 15f)
+					player.velocity.Y = 15f;
 			}
 
 			if (modPlayer.eFreeze || modPlayer.silvaStun || modPlayer.eutrophication)

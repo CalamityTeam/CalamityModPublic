@@ -73,7 +73,12 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-			bool adultWyrmAlive = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
 			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || adultWyrmAlive)
             {
                 detectsPlayer = true;

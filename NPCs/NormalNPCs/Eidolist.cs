@@ -56,7 +56,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-			bool adultWyrmAlive = NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
 
 			npc.Opacity += 0.15f;
 			if (npc.Opacity > 1f)

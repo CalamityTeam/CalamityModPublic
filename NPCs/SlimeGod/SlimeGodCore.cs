@@ -648,7 +648,6 @@ namespace CalamityMod.NPCs.SlimeGod
         // This loot code is shared with every other Slime God component.
         public static void DropSlimeGodLoot(NPC npc)
         {
-            CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 60;
             npc.height = 88;
             npc.defense = 0;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -100,13 +100,13 @@ namespace CalamityMod.NPCs.Abyss
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
 					npc.ai[3] += 1f;
-					float shootProjectile = 200f;
-					float timer = npc.ai[0] + 15f;
-					float divisor = timer + shootProjectile;
-					if (npc.ai[3] % divisor == 0f)
+					float spawnAncientLightGateValue = 180f;
+					float divisor = 10f;
+					if (npc.ai[0] % divisor == 0f && npc.ai[3] >= spawnAncientLightGateValue)
 					{
+						npc.ai[3] = 0f;
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
-						float lightVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 4f : 8f) + distanceVelocityBoost;
+						float lightVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
 						Vector2 velocity = Vector2.Normalize(destination) * lightVelocity;
 						int type = NPCID.AncientLight;

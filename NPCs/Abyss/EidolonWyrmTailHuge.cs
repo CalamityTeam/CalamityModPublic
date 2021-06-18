@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 86;
             npc.height = 120;
             npc.defense = 0;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;

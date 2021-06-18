@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			if (mp.StealthStrikeAvailable())
 			{
-				int stealthDamage = (int)(2.4f * damage);
+				int stealthDamage = damage * 2;
 				float stealthSpeedMult = 1.4f;
 				Vector2 stealthVelocity = new Vector2(speedX, speedY) * stealthSpeedMult;
 				int stealth = Projectile.NewProjectile(position, stealthVelocity, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
