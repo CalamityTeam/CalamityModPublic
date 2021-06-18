@@ -3901,9 +3901,19 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
 					damage = (int)(damage * 0.81);
 			}
-			else if (npc.type == NPCType<SupremeCalamitas.SupremeCataclysm>() || npc.type == NPCType<SupremeCalamitas.SupremeCatastrophe>())
+			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
 			{
 				if (projectile.type == ProjectileType<HolyFlame>())
+					damage = (int)(damage * 0.9);
+			}
+			else if (npc.type == NPCType<SCalWormHeart>())
+			{
+				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+					damage = (int)(damage * 0.8);
+			}
+			else if (npc.type == NPCType<SoulSeekerSupreme>())
+			{
+				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)
