@@ -3899,7 +3899,7 @@ namespace CalamityMod.NPCs
 					damage = (int)(damage * 0.8);
 
 				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
-					damage = (int)(damage * 0.9);
+					damage = (int)(damage * 0.81);
 			}
 			else if (npc.type == NPCType<SupremeCalamitas.SupremeCataclysm>() || npc.type == NPCType<SupremeCalamitas.SupremeCatastrophe>())
 			{
