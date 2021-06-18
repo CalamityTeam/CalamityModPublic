@@ -44,8 +44,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.dontCountMe = true;
         }
@@ -164,29 +162,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+                int variant = (int)(npc.localAI[3] / 2f % 2f);
+                if (variant == 0)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
+                    for (int i = 1; i <= 9; i++)
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        if (!Main.rand.NextBool(3))
+                            continue;
+
+                        Vector2 goreSpawnPosition = npc.Center;
+                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody1_Gore{i}"), npc.scale);
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                else
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    for (int i = 1; i <= 7; i++)
+                    {
+                        if (!Main.rand.NextBool(3))
+                            continue;
+
+                        Vector2 goreSpawnPosition = npc.Center;
+                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody2_Gore{i}"), npc.scale);
+                    }
                 }
             }
         }

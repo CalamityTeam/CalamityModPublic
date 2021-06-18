@@ -85,8 +85,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.dontCountMe = true;
 
@@ -113,8 +111,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Die if the segment is not present.
             if (!Main.npc.IndexInRange((int)npc.ai[0]) || !Main.npc[(int)npc.ai[0]].active)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                npc.life = 0;
+                npc.HitEffect(0, 10.0);
+                npc.checkDead();
                 return;
             }
 
@@ -184,7 +183,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             Vector2 armDrawPosition = Limbs[1].Center - Main.screenPosition;
             drawColor = Lighting.GetColor((int)(Limbs[1].Center.X / 16), (int)(Limbs[1].Center.Y / 16));
-            spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), npc.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), npc.scale, SpriteEffects.FlipVertically, 0f);
 
             Vector2 handDrawPosition = armDrawPosition;
             SpriteEffects handDirection = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -192,6 +191,22 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             return false;
 		}
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                Vector2 forearmGoreSpawnPosition = Limbs[0].Center + Main.rand.NextVector2Circular(6f, 6f);
+                Vector2 armGoreSpawnPosition = Limbs[1].Center + Main.rand.NextVector2Circular(6f, 6f);
+                Vector2 handGoreSpawnPosition = armGoreSpawnPosition + Main.rand.NextVector2Circular(6f, 6f);
+
+                Gore.NewGorePerfect(armGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherArm_Gore"), npc.scale);
+                for (int i = 1; i <= 2; i++)
+                    Gore.NewGorePerfect(forearmGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherForearm_Gore{i}"), npc.scale);
+                for (int i = 1; i <= 2; i++)
+                    Gore.NewGorePerfect(handGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherHand_Gore{i}"), npc.scale);
+            }
+        }
 
         public override bool CheckActive() => false;
 

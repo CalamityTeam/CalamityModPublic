@@ -2530,11 +2530,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // And play a fire-like sound effect.
-                Main.PlaySound(SoundID.DD2_BetsyWindAttack, target.Center);
                 hasSummonedSepulcher1 = true;
                 hasSummonedSepulcher2 = npc.life <= npc.lifeMax * 0.08;
 
-                // TODO: Resprite brimstone hearts a bit.
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     List<int> hearts = new List<int>();
@@ -2556,6 +2554,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
                     npc.netUpdate = true;
                 }
+
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
             }
         }
 

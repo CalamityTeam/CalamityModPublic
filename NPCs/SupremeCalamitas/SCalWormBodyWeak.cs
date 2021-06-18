@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -38,8 +39,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit13;
-            npc.DeathSound = SoundID.NPCDeath13;
             npc.netAlways = true;
             npc.dontCountMe = true;
 
@@ -150,6 +149,21 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.frameCounter++;
 			npc.frame.Y = ((int)(npc.frameCounter / 5) + npc.whoAmI) % Main.npcFrameCount[npc.type] * frameHeight;
         }
+
+        public override void HitEffect(int hitDirection, double damage)
+		{
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0)
+			{
+				for (int i = 0; i < Main.rand.Next(1, 3 + 1); i++)
+                {
+					if (!Main.rand.NextBool(3))
+						continue;
+
+					Vector2 soulVelocity = -Vector2.UnitY.RotatedByRandom(0.53f) * Main.rand.NextFloat(2.5f, 4f);
+					Projectile.NewProjectile(npc.Center, soulVelocity, ModContent.ProjectileType<SepulcherSoul>(), 0, 0f);
+				}
+			}
+		}
 
         public override bool CheckActive()
         {

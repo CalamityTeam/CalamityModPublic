@@ -123,6 +123,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (npc.life <= 0)
             {
+                for (int i = 1; i <= 2; i++)
+                {
+                    Vector2 heartGoreVelocity = new Vector2((i == 1).ToDirectionInt() * 3f, Main.rand.NextFloat(-2f, 0f));
+                    Gore.NewGorePerfect(npc.Center, heartGoreVelocity, mod.GetGoreSlot($"Gores/SupremeCalamitas/BrimstoneHeart_Gore{i}"), npc.scale);
+                }
                 for (int i = 0; i < ChainEndpoints.Count; i++)
                     TendrilDestructionEffects(i);
             }

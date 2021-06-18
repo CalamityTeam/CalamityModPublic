@@ -45,9 +45,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
+			npc.netAlways = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -145,30 +143,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            if (Main.player[npc.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
-            {
-                npc.TargetClosest(false);
-                npc.alpha += 5;
-                if (npc.alpha >= 255)
-                {
-                    npc.alpha = 255;
-					for (int i = 0; i < Main.maxNPCs; i++)
-					{
-						if (Main.npc[i].type == npc.type || Main.npc[i].type == ModContent.NPCType<SCalWormBody>() || Main.npc[i].type == ModContent.NPCType<SCalWormBodyWeak>() || Main.npc[i].type == ModContent.NPCType<SCalWormTail>())
-						{
-							Main.npc[i].active = false;
-						}
-					}
-				}
-            }
-            else
-            {
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
+			if (Main.player[npc.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+			{
+				npc.TargetClosest(false);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/SepulcherDeath"), Main.player[npc.target].Center);
+				npc.life = 0;
+				npc.HitEffect();
+				npc.active = false;
+				npc.netUpdate = true;
+			}
+			else
+				npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.165f, 0f, 1f);
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
@@ -341,33 +326,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
-            {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+			if (npc.life <= 0)
+			{
+				for (int i = 1; i <= 3; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                    }
+					Vector2 goreSpawnPosition = npc.Center;
+
+					// Spawn at a slight offset when spawning mandibles.
+					if (i == 2)
+						goreSpawnPosition += npc.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver4) * 16f;
+					if (i == 3)
+						goreSpawnPosition += npc.velocity.SafeNormalize(Vector2.Zero).RotatedBy(-MathHelper.PiOver4) * 16f;
+					Gore.NewGorePerfect(goreSpawnPosition, npc.velocity, mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherHead_Gore{i}"), npc.scale);
                 }
-                for (int num623 = 0; num623 < 10; num623++)
-                {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
-                }
-            }
+			}
         }
     }
 }
