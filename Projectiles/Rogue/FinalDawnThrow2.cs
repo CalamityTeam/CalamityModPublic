@@ -87,11 +87,9 @@ namespace CalamityMod.Projectiles.Rogue
             player.heldProj = projectile.whoAmI;
             player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
-            player.immuneTime = 10;
-			for (int k = 0; k < player.hurtCooldowns.Length; k++)
-			{
-				player.hurtCooldowns[k] = player.immuneTime;
-			}
+            player.immuneTime = 6;
+            for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                player.hurtCooldowns[k] = player.immuneTime;
 
             // This is to make sure the player doesn't get yeeted out of the world, which crashes the game pretty much all of the time
             bool worldEdge = projectile.Center.X < 1000 || projectile.Center.Y < 1000 || projectile.Center.X > Main.maxTilesX * 16 - 1000 || projectile.Center.Y > Main.maxTilesY * 16 - 1000;

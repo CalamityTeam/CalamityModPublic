@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Only perform hit effects after reaching approximately 75% of the way out.
-            if (projectile.WithinRange(Main.player[projectile.owner].Center, 1100f))
+            if (Main.player[projectile.owner].WithinRange(target.Center, 620f))
                 return;
 
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 8 seconds on-hit

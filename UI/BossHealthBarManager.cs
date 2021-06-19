@@ -103,11 +103,6 @@ namespace CalamityMod.UI
             OneToMany[NPCID.BrainofCthulhu] = BoC;
             OneToMany[NPCID.Creeper] = BoC;
 
-			int[] PerfWorm = new int[] { ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>() };
-			OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = PerfWorm;
-			OneToMany[ModContent.NPCType<PerforatorBodyMedium>()] = PerfWorm;
-			OneToMany[ModContent.NPCType<PerforatorTailMedium>()] = PerfWorm;
-
 			int[] Skele = new int[] { NPCID.SkeletronHead, NPCID.SkeletronHand };
             OneToMany[NPCID.SkeletronHead] = Skele;
             OneToMany[NPCID.SkeletronHand] = Skele;
@@ -389,10 +384,10 @@ namespace CalamityMod.UI
                     break;
                 }
 
-                // Sort out the eater of worlds or medium perf worm splitting into multiple segments and multiple of them being heads
-                if (type == NPCID.EaterofWorldsHead || type == ModContent.NPCType<PerforatorHeadMedium>())
+                // Sort out the eater of worlds splitting into multiple segments and multiple of them being heads
+                if (type == NPCID.EaterofWorldsHead)
                 {
-                    if (Main.npc[id].type == NPCID.EaterofWorldsHead || Main.npc[id].type == ModContent.NPCType<PerforatorHeadMedium>())
+                    if (Main.npc[id].type == NPCID.EaterofWorldsHead)
                     {
                         hasBar = true;
                     }
@@ -470,6 +465,7 @@ namespace CalamityMod.UI
             private int _comboStartHealth;
             private int _damageCountdown;
             public int EnrageTimer;
+            public int AttachedNPCType = -1;
 
             private NPC _npc
             {
@@ -534,6 +530,7 @@ namespace CalamityMod.UI
                 _npcLocation = id;
 
                 _maxHealth = Main.npc[id].lifeMax;
+                AttachedNPCType = Main.npc[id].type;
 
                 if (OneToMany.ContainsKey(Main.npc[id].type))
                 {
@@ -564,7 +561,10 @@ namespace CalamityMod.UI
                     dead = true;
 
                 int life = _npc.life;
-                if (life < 0 || !_npc.active || _npc.lifeMax < 800)
+
+                // NPCs appear to be able to occasionally be replaced by a new NPC faster than the bar can register the death of the last NPC.
+                // To midigate this, a special type check is put in place to catch unusual NPCs occupying the space of a would-be dead bar.
+                if (life < 0 || !_npc.active || _npc.lifeMax < 100 || _npc.type != AttachedNPCType)
                     dead = true;
 
                 if (_oneToMany)
@@ -592,7 +592,7 @@ namespace CalamityMod.UI
                     return;
 
                 int currentLife = _npc.life;
-                bool enraged = _npc.Calamity().CurrentlyEnraged;
+                bool enraged = _npc.Calamity()?.CurrentlyEnraged ?? false;
 
                 // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)

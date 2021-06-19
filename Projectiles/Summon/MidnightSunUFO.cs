@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 destination = potentialTarget.Center - new Vector2((float)Math.Cos(angle) * potentialTarget.width * 0.65f, 250f);
                     projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 24f, 0.03f);
 
-                    if (projectile.ai[0] % 3f == 2f && potentialTarget.Top.Y > projectile.Bottom.Y)
+                    if (projectile.ai[0] % 4f == 3f && potentialTarget.Top.Y > projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
                         Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunLaser>(), projectile.damage, projectile.knockBack, projectile.owner);

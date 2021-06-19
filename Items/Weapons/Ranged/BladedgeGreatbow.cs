@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Bladedge Railbow");
             Tooltip.SetDefault("Fires 4 arrows at once\n" +
-                "Fires 2 additional leafs");
+                "Fires 2 additional leaves");
         }
 
         public override void SetDefaults()
