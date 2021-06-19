@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,7 +20,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos");
+            DisplayName.SetDefault("XM-05 Thanatos");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 
@@ -32,7 +34,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.defense = 100;
 			npc.DR_NERD(0.99f);
 			npc.Calamity().unbreakableDR = true;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1000000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -80,6 +82,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
 			// Check if other segments are still alive, if not, die
 			bool shouldDespawn = true;
 			for (int i = 0; i < Main.maxNPCs; i++)
@@ -113,7 +121,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
-					npc.Opacity += 0.15f;
+					npc.Opacity += 0.2f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}
@@ -134,11 +142,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.ai[3] += 1f;
+					// Only charge up lasers if not venting or firing lasers
+					if (npc.Calamity().newAI[0] == 0f)
+						npc.ai[3] += 1f;
+
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
-						float divisor = 180f;
-						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % 10f == 0f) || npc.Calamity().newAI[0] > 0f)
+						float divisor = 120f;
+						int numSegments = ThanatosHead.minLength;
+						double numSegmentsAbleToFire = malice ? 25D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
+						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -175,15 +189,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float laserVelocity = 12f;
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
-											Vector2 projectileDestination = targetCenterArray[i] - npc.Center;
-											Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
 											int type = ModContent.ProjectileType<ExoDestroyerLaser>();
 											int damage = npc.GetProjectileDamage(type);
-											Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+											Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 										}
 									}
 								}
@@ -202,7 +213,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					else
 					{
 						npc.ai[3] += 1f;
-						float shootProjectile = 60f;
+						float shootProjectile = 120f;
 						float timer = npc.ai[0] + 15f;
 						float divisor = timer + shootProjectile;
 						if (npc.ai[3] % divisor == 0f || npc.Calamity().newAI[0] > 0f)
@@ -242,8 +253,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = 20f;
-										float laserVelocity = 12f;
+										float predictionAmt = malice ? 40f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 										for (int i = 0; i < numProjectiles; i++)
 										{
@@ -251,25 +263,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											if (calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive)
 											{
 												// Normal laser
-												Vector2 projectileDestination = targetCenterArray[i] - npc.Center;
-												Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
-												int type = ModContent.ProjectileType<ExoDestroyerLaser>();
-												int damage = npc.GetProjectileDamage(type);
-												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+												Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 											}
 											else
 											{
 												// Predictive laser
-												Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-												Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
-												int type = ModContent.ProjectileType<ExoDestroyerLaser>();
-												int damage = npc.GetProjectileDamage(type);
-												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+												Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
+												Projectile.NewProjectile(npc.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
 												// Opposite laser
-												projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-												projectileVelocity = Vector2.Normalize(projectileDestination) * laserVelocity;
-												Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
+												projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt;
+												Projectile.NewProjectile(npc.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 											}
 										}
 									}

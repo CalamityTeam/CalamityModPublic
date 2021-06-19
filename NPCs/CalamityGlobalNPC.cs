@@ -102,6 +102,10 @@ namespace CalamityMod.NPCs
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
+		// Dash damage immunity timer
+		public const int maxPlayerImmunities = Main.maxPlayers + 1;
+		public int[] dashImmunityTime = new int[maxPlayerImmunities];
+
 		// Town NPC shop alert animation variables
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
@@ -1969,6 +1973,13 @@ namespace CalamityMod.NPCs
         public override bool PreAI(NPC npc)
         {
             CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+
+			// Decrement each immune timer if it's greater than 0.
+			for (int i = 0; i < maxPlayerImmunities; i++)
+			{
+				if (dashImmunityTime[i] > 0)
+					dashImmunityTime[i]--;
+			}
 
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{

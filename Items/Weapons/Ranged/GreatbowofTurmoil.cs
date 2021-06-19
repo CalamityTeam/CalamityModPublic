@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 31;
+            item.damage = 34;
             item.ranged = true;
             item.width = 18;
             item.height = 36;
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				{
 					type = ProjectileID.FireArrow;
 				}
-                int num121 = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 					ProjectileID.HellfireArrow,
 					ProjectileID.IchorArrow
 				});
-                int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;
                 Main.projectile[index].localNPCHitCooldown = 10;

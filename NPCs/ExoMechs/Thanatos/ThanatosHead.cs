@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -57,7 +58,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		private const float soundDistance = 2800f;
 
 		// Length variables
-		private const int minLength = 100;
+		public const int minLength = 100;
         private const int maxLength = 101;
 
 		// Variable used to stop the segment spawning loop
@@ -67,14 +68,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		private float chargeVelocityScalar = 0f;
 
 		// Total duration of the deathray telegraph
-		private const float deathrayTelegraphDuration = 120f;
+		private const float deathrayTelegraphDuration = 180f;
 
 		// Total duration of the deathray
 		private const float deathrayDuration = 180f;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos");
+            DisplayName.SetDefault("XM-05 Thanatos");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 
@@ -88,7 +89,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.defense = 80;
 			npc.DR_NERD(0.99f);
 			npc.Calamity().unbreakableDR = true;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1000000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -322,7 +323,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.dontTakeDamage = invisiblePhase;
 			if (!invisiblePhase)
 			{
-				npc.Opacity += 0.15f;
+				npc.Opacity += 0.2f;
 				if (npc.Opacity > 1f)
 					npc.Opacity = 1f;
 			}
@@ -352,8 +353,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageLocationDistance = turnDistance * 5f;
 
 			// Velocity and turn speed values
-			float baseVelocity = 9f;
-			float turnSpeed = MathHelper.ToRadians(1f);
+			float baseVelocity = malice ? 12f : death ? 11f : revenge ? 10.5f : expertMode ? 10f : 9f;
+			float turnDegrees = malice ? 1.33f : death ? 1.22f : revenge ? 1.17f : expertMode ? 1.11f : 1f;
+			if (berserk)
+			{
+				baseVelocity *= 1.2f;
+				turnDegrees *= 1.2f;
+			}
+			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
@@ -590,17 +597,38 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							if (calamityGlobalNPC.newAI[2] == 0f)
 							{
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
+									for (int b = 0; b < 6; b++)
+									{
+										int beam = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
 
+										// Determine the initial offset angle of telegraph. It will be smoothened to give a "stretch" effect.
+										if (Main.projectile.IndexInRange(beam))
+										{
+											float squishedRatio = (float)Math.Pow((float)Math.Sin(MathHelper.Pi * b / 6f), 2D);
+											float smoothenedRatio = MathHelper.SmoothStep(0f, 1f, squishedRatio);
+											Main.projectile[beam].ai[1] = MathHelper.Lerp(-0.74f, 0.74f, smoothenedRatio);
+										}
+									}
+									Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
+								}
 							}
 						}
 						else
 						{
 							// Fire deathray
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
 							{
-
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
+									int damage = npc.GetProjectileDamage(type);
+									Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, 255, npc.whoAmI);
+								}
 							}
 						}
 

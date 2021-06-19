@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 28;
             item.ranged = true;
             item.width = 74;
             item.height = 24;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-60, 61) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-60, 61) * 0.05f;
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
             }
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

@@ -292,6 +292,10 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text += immunityLine);
 			}
 
+			// Nerfed Archery Potion tooltip
+			if (item.type == ItemID.ArcheryPotion)
+				EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
+
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
 			{
