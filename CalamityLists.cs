@@ -22,6 +22,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
@@ -549,14 +550,18 @@ namespace CalamityMod
                 NPCType<SlimeGodRun>(),
                 NPCType<SlimeGodSplit>(),
                 NPCType<SlimeGodRunSplit>(),
+				NPCType<Horse>(),
+				NPCType<ThiccWaifu>(),
 				NPCType<CryogenIce>(),
 				NPCType<AquaticScourgeHead>(),
 				NPCType<AquaticScourgeBody>(),
 				NPCType<AquaticScourgeBodyAlt>(),
 				NPCType<AquaticScourgeTail>(),
+				NPCType<CragmawMire>(),
 				NPCType<CalamitasRun>(),
 				NPCType<CalamitasRun2>(),
 				NPCType<SoulSeeker>(),
+				NPCType<GreatSandShark>(),
 				NPCType<SirenIce>(),
 				NPCType<AureusSpawn>(),
 				NPCType<PlaguebringerShade>(),
@@ -573,6 +578,11 @@ namespace CalamityMod
 				NPCType<ProvSpawnHealer>(),
 				NPCType<ProvSpawnOffense>(),
 				NPCType<BobbitWormHead>(),
+				NPCType<Mauler>(),
+				NPCType<ColossalSquid>(),
+				NPCType<Reaper>(),
+				NPCType<EidolonWyrmHead>(),
+				NPCType<NuclearTerror>(),
 				NPCType<OldDukeToothBall>(),
 				NPCType<OldDukeSharkron>(),
 				NPCType<DetonatingFlare>(),
