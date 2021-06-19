@@ -989,7 +989,10 @@ namespace CalamityMod.NPCs
         #region Set Defaults
         public override void SetDefaults(NPC npc)
         {
-            for (int m = 0; m < maxAIMod; m++)
+			for (int i = 0; i < maxPlayerImmunities; i++)
+				dashImmunityTime[i] = 0;
+
+			for (int m = 0; m < maxAIMod; m++)
                 newAI[m] = 0f;
 
 			// Apply DR to vanilla NPCs.
