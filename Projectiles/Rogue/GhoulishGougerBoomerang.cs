@@ -137,9 +137,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.numHits > 0)
                 return;
 
-            int numSouls = 3;
+            int numSouls = 8;
             int projID = ModContent.ProjectileType<PhantasmalSoul>();
-            int soulDamage = (int)(projectile.damage * 0.85f);
+            int soulDamage = projectile.damage;
             float soulKB = 0f;
             float speed = 6f;
             Vector2 velocity = Main.rand.NextVector2CircularEdge(speed, speed);
@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float ai1 = Main.rand.NextFloat() + 0.5f;
                 Projectile.NewProjectile(projectile.Center, velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
 
-                // Rotate direction for the next pair of souls.
+                // Rotate direction for the next soul
                 velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);
             }
         }

@@ -9,6 +9,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class BobbitHead : ModProjectile
 	{
+		public const float PullSpeed = 24f;
+		public const float ReelbackSpeed = 28f;
+		public const float LaunchSpeed = 25f;
+		public const float GrappleRangInTiles = 40f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bobbit Head");
@@ -38,10 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
 		}
 
 		// Amethyst Hook is 300, Static Hook is 600, 16f = 1 tile
-		public override float GrappleRange()
-		{
-			return 640f; //40 tiles
-		}
+		public override float GrappleRange() => GrappleRangInTiles * 16f;
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
@@ -51,12 +52,12 @@ namespace CalamityMod.Projectiles.Typeless
 		// default is 11, Lunar is 24
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			speed = 28f;
+			speed = ReelbackSpeed;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			speed = 24;
+			speed = PullSpeed;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

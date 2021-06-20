@@ -12,7 +12,6 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
-using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
@@ -3506,6 +3505,7 @@ namespace CalamityMod.CalPlayer
             for (int n = 13; n < 18 + player.extraAccessorySlots; n++)
             {
                 Item item = player.armor[n];
+
                 if (item.type == ModContent.ItemType<Popo>())
                 {
                     snowmanHide = false;
@@ -3535,6 +3535,13 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            // Ankh Shield Mighty Wind immunity.
+            for (int i = 0; i < 8 + player.extraAccessorySlots; i++)
+            {
+                if (player.armor[i].type == ItemID.AnkhShield)
+                    player.buffImmune[BuffID.WindPushed] = true;
+            }
+
             if (CalamityConfig.Instance.BossHealthBar)
             {
                 drawBossHPBar = true;
@@ -7428,7 +7435,7 @@ namespace CalamityMod.CalPlayer
                         player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
                 }
 
-                if (fBarrier || (sirenBoobs && NPC.downedBoss3))
+                if ((fBarrier || (sirenBoobs && NPC.downedBoss3)) && !areThereAnyDamnBosses)
                 {
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
                     for (int m = 0; m < Main.maxNPCs; m++)
@@ -8032,7 +8039,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
 						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8064,8 +8071,8 @@ namespace CalamityMod.CalPlayer
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(135 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(90 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
+							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -8091,7 +8098,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
 						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8123,8 +8130,8 @@ namespace CalamityMod.CalPlayer
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(120 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(80 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
+							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
@@ -8149,7 +8156,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
 						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8180,8 +8187,8 @@ namespace CalamityMod.CalPlayer
 							}
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
+							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
@@ -8206,7 +8213,7 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
 					{
 						Rectangle rect = npc.getRect();
 						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8236,8 +8243,8 @@ namespace CalamityMod.CalPlayer
 								direction = 1;
 							}
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
+							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -8263,7 +8270,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
                     {
                         Rectangle rect = npc.getRect();
                         if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8281,8 +8288,8 @@ namespace CalamityMod.CalPlayer
                                 direction = 1;
                             }
                             player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                            if (npc.immune[player.whoAmI] < 6)
-                                npc.immune[player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
                             bool isImmune = false;
                             for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -8308,7 +8315,7 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.immune[player.whoAmI] <= 0)
+					if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Calamity().dashImmunityTime[player.whoAmI] <= 0)
 					{
 						Rectangle rect = npc.getRect();
 						if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -8353,8 +8360,8 @@ namespace CalamityMod.CalPlayer
 								direction = 1;
 							}
 							player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-							if (npc.immune[player.whoAmI] < 6)
-								npc.immune[player.whoAmI] = 6;
+							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
+								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
 							bool isImmune = false;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -8782,6 +8789,7 @@ namespace CalamityMod.CalPlayer
 
         private bool DoADash(float dashDistance)
         {
+			bool godSlayerDash = dashMod == 9;
             bool justDashed = false;
             int direction = 0;
 
@@ -8790,7 +8798,7 @@ namespace CalamityMod.CalPlayer
             if (dashTimeMod < 0)
                 dashTimeMod++;
 
-			if (dashMod == 9)
+			if (godSlayerDash)
 			{
 				if (player.controlUp && player.controlLeft)
 				{
@@ -8938,7 +8946,7 @@ namespace CalamityMod.CalPlayer
 
 					// Left
 					case -1:
-						player.velocity = possibleVelocities[6];
+						player.velocity = godSlayerDash ? possibleVelocities[6] : new Vector2(possibleVelocities[6].X, player.velocity.Y);
 						break;
 
 					// Nothing
@@ -8947,7 +8955,7 @@ namespace CalamityMod.CalPlayer
 
 					// Right
 					case 1:
-						player.velocity = possibleVelocities[2];
+						player.velocity = godSlayerDash ? possibleVelocities[2] : new Vector2(possibleVelocities[2].X, player.velocity.Y);
 						break;
 
 					// Down
@@ -8969,7 +8977,7 @@ namespace CalamityMod.CalPlayer
 				Point point5 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, player.gravDir * -player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
 				Point point6 = (player.Center + new Vector2(MathHelper.Clamp(direction, -1f, 1f) * player.width / 2 + 2, 0f)).ToTileCoordinates();
 				if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-					player.velocity.X = player.velocity.X / 2f;
+					player.velocity.X /= 2f;
 
                 player.dashDelay = -1;
             }
@@ -9184,7 +9192,7 @@ namespace CalamityMod.CalPlayer
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC nPC = Main.npc[i];
-                if (nPC.active && !nPC.dontTakeDamage && !nPC.friendly && nPC.immune[player.whoAmI] == 0)
+                if (nPC.active && !nPC.dontTakeDamage && !nPC.friendly && nPC.Calamity().dashImmunityTime[player.whoAmI] <= 0)
                 {
                     Rectangle rect = nPC.getRect();
                     if (myRect.Intersects(rect) && (nPC.noTileCollide || Collision.CanHit(player.position, player.width, player.height, nPC.position, nPC.width, nPC.height)))
@@ -9202,7 +9210,7 @@ namespace CalamityMod.CalPlayer
                         {
                             player.ApplyDamageToNPC(nPC, (int)Damage, Knockback, direction, false);
                         }
-                        nPC.immune[player.whoAmI] = NPCImmuneTime;
+						nPC.Calamity().dashImmunityTime[player.whoAmI] = NPCImmuneTime;
                         bool isImmune = false;
                         for (int j = 0; j < player.hurtCooldowns.Length; j++)
                         {
@@ -9375,8 +9383,17 @@ namespace CalamityMod.CalPlayer
                 ? player.itemAnimation == player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
                 : player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
 
-            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon && StealthStrikeAvailable())
-                ConsumeStealthByAttacking();
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
+            {
+                bool canStealthStrike = StealthStrikeAvailable();
+
+                // If you can stealth strike, you do.
+                if (canStealthStrike)
+                    ConsumeStealthByAttacking();
+                // Otherwise you get a "partial stealth strike" (stealth damage is still added to the weapon) and return to normally attacking.
+                else
+                    rogueStealth = 0f;
+            }
         }
 
         private void ProvideStealthStatBonuses()

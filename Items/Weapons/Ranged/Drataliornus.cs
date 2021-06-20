@@ -24,7 +24,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void SetDefaults()
         {
-            item.damage = 210;
+            item.damage = 231;
             item.knockBack = 1f;
             item.shootSpeed = 18f;
             item.useStyle = ItemUseStyleID.HoldingOut;

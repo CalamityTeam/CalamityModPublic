@@ -408,7 +408,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.divineBless)
 			{
-				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0)
+				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0) // Flat 4 health per second
                 {
 					if (!modPlayer.noLifeRegen)
 						player.statLife += 1;
@@ -796,41 +796,6 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
 					player.statLife += 1;
 			}
-
-			if (modPlayer.divineBless)
-			{
-				player.lifeRegenTime++;
-
-				int lifeRegenMaxBoost2 = 1;
-				float lifeRegenLifeRegenTimeMaxBoost2 = 4f;
-
-				player.lifeRegen += lifeRegenMaxBoost2;
-
-				float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
-				num3 /= 300f;
-				if (num3 > 0f)
-				{
-					if (num3 > lifeRegenLifeRegenTimeMaxBoost2)
-						num3 = lifeRegenLifeRegenTimeMaxBoost2;
-
-					player.lifeRegen += (int)num3;
-				}
-				if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
-				{
-					player.lifeRegenCount++;
-					if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
-					{
-						int regen = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 200, default, 1f);
-						Main.dust[regen].noGravity = true;
-						Main.dust[regen].fadeIn = 1.3f;
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
-						Main.dust[regen].velocity = velocity;
-						velocity.Normalize();
-						velocity *= 34f;
-						Main.dust[regen].position = player.Center - velocity;
-					}
-				}
-            }
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)

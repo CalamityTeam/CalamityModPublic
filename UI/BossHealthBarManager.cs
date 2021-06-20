@@ -6,6 +6,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
@@ -102,11 +103,6 @@ namespace CalamityMod.UI
             OneToMany[NPCID.BrainofCthulhu] = BoC;
             OneToMany[NPCID.Creeper] = BoC;
 
-			int[] PerfWorm = new int[] { ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>() };
-			OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = PerfWorm;
-			OneToMany[ModContent.NPCType<PerforatorBodyMedium>()] = PerfWorm;
-			OneToMany[ModContent.NPCType<PerforatorTailMedium>()] = PerfWorm;
-
 			int[] Skele = new int[] { NPCID.SkeletronHead, NPCID.SkeletronHand };
             OneToMany[NPCID.SkeletronHead] = Skele;
             OneToMany[NPCID.SkeletronHand] = Skele;
@@ -192,8 +188,11 @@ namespace CalamityMod.UI
                 ModContent.NPCType<DevourerofGodsBody>(),
                 ModContent.NPCType<DevourerofGodsTail>(),
                 ModContent.NPCType<DevourerofGodsBodyS>(),
-                ModContent.NPCType<DevourerofGodsTailS>()
-            };
+                ModContent.NPCType<DevourerofGodsTailS>(),
+				ModContent.NPCType<ThanatosBody1>(),
+				ModContent.NPCType<ThanatosBody2>(),
+				ModContent.NPCType<ThanatosTail>()
+			};
         }
 
         private static void SetupMinibossHPBarList()
@@ -385,10 +384,10 @@ namespace CalamityMod.UI
                     break;
                 }
 
-                // Sort out the eater of worlds or medium perf worm splitting into multiple segments and multiple of them being heads
-                if (type == NPCID.EaterofWorldsHead || type == ModContent.NPCType<PerforatorHeadMedium>())
+                // Sort out the eater of worlds splitting into multiple segments and multiple of them being heads
+                if (type == NPCID.EaterofWorldsHead)
                 {
-                    if (Main.npc[id].type == NPCID.EaterofWorldsHead || Main.npc[id].type == ModContent.NPCType<PerforatorHeadMedium>())
+                    if (Main.npc[id].type == NPCID.EaterofWorldsHead)
                     {
                         hasBar = true;
                     }
@@ -465,6 +464,9 @@ namespace CalamityMod.UI
             private bool _inCombo = false;
             private int _comboStartHealth;
             private int _damageCountdown;
+            public int EnrageTimer;
+            public int AttachedNPCType = -1;
+
             private NPC _npc
             {
                 get
@@ -528,6 +530,7 @@ namespace CalamityMod.UI
                 _npcLocation = id;
 
                 _maxHealth = Main.npc[id].lifeMax;
+                AttachedNPCType = Main.npc[id].type;
 
                 if (OneToMany.ContainsKey(Main.npc[id].type))
                 {
@@ -558,7 +561,10 @@ namespace CalamityMod.UI
                     dead = true;
 
                 int life = _npc.life;
-                if (life < 0 || !_npc.active || _npc.lifeMax < 800)
+
+                // NPCs appear to be able to occasionally be replaced by a new NPC faster than the bar can register the death of the last NPC.
+                // To midigate this, a special type check is put in place to catch unusual NPCs occupying the space of a would-be dead bar.
+                if (life < 0 || !_npc.active || _npc.lifeMax < 100 || _npc.type != AttachedNPCType)
                     dead = true;
 
                 if (_oneToMany)
@@ -586,6 +592,7 @@ namespace CalamityMod.UI
                     return;
 
                 int currentLife = _npc.life;
+                bool enraged = _npc.Calamity().CurrentlyEnraged;
 
                 // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)
@@ -601,6 +608,9 @@ namespace CalamityMod.UI
                                 (Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
 
+                            if (Main.npc[i].Calamity().CurrentlyEnraged)
+                                enraged = true;
+
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
                         }
@@ -610,6 +620,9 @@ namespace CalamityMod.UI
                         _maxHealth = maxLife;
                     }
                 }
+
+                // Make the enrage counter go up/down based on whether the boss is enraged or not.
+                EnrageTimer = Utils.Clamp(EnrageTimer + enraged.ToDirectionInt(), 0, 75);
 
                 // Damage countdown
                 if (_damageCountdown > 0)
@@ -738,17 +751,29 @@ namespace CalamityMod.UI
                 sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
 
                 // DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));
+                Color separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / 75f);
+                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), separatorColor);
 
                 // DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
                 if (_prevLife == _maxHealth)
                     percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
+
                 DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
 
                 string name = _npc.FullName;
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
+                if (EnrageTimer > 0)
+                {
+                    float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                    float outwardness = EnrageTimer / 75f * 1.5f + pulse * 2f;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                        DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
+                    }
+                }
                 DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
                 // TODO -- Make small text health a toggle in ModConfig.

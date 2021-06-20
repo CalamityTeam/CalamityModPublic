@@ -21,6 +21,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -102,6 +103,10 @@ namespace CalamityMod.NPCs
 
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
+
+		// Dash damage immunity timer
+		public const int maxPlayerImmunities = Main.maxPlayers + 1;
+		public int[] dashImmunityTime = new int[maxPlayerImmunities];
 
 		// Town NPC shop alert animation variables
 		public int shopAlertAnimTimer = 0;
@@ -205,6 +210,15 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
+		public static int adultEidolonWyrmHead = -1;
+
+		// Boss Enrage variable for use with the boss health UI.
+		// The logic behind this is as follows:
+		// 1 - For special cases with super-enrages (specifically Yharon/SCal with their arenas), go solely based on whether that enrage is active. That information is most important to the player.
+		// 2 - Otherwise, check if the demonshade enrage is active. If it is, register this as true. If not, go to step 3.
+		// 3 - Check if a specific enrage condition (such as Duke Fishron's Ocean check) is met. If it is, and Boss Rush is not active, set this to true. If not, go to step 4.
+		// 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
+		public bool CurrentlyEnraged;
 
         // Collections
         public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
@@ -685,13 +699,18 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
-			/*ResetSavedIndex(ref draedonExoMechWorm, NPCType<ExoWormHead>());
-			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
+			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
+			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
 
+			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
+
 			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
-        }
+
+			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
+			CurrentlyEnraged = false;
+		}
         #endregion
 
         #region Life Regen
@@ -948,10 +967,10 @@ namespace CalamityMod.NPCs
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
-            if (npc.lifeMax < 25000000)
-                ApplyDPSDebuff(banishingFire, 20000, 4000, ref npc.lifeRegen, ref damage);
-            else
-                ApplyDPSDebuff(banishingFire, npc.lifeMax / 2500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
+            if (npc.lifeMax < 1000000) // 2000 hp per second as minimum
+                ApplyDPSDebuff(banishingFire, 4000, 800, ref npc.lifeRegen, ref damage);
+            else // On big health enemies, do 0.2% hp per second
+                ApplyDPSDebuff(banishingFire, npc.lifeMax / 500, npc.lifeMax / 2500, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -972,7 +991,10 @@ namespace CalamityMod.NPCs
         #region Set Defaults
         public override void SetDefaults(NPC npc)
         {
-            for (int m = 0; m < maxAIMod; m++)
+			for (int i = 0; i < maxPlayerImmunities; i++)
+				dashImmunityTime[i] = 0;
+
+			for (int m = 0; m < maxAIMod; m++)
                 newAI[m] = 0f;
 
 			// Apply DR to vanilla NPCs.
@@ -1956,6 +1978,13 @@ namespace CalamityMod.NPCs
         public override bool PreAI(NPC npc)
         {
 			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+
+			// Decrement each immune timer if it's greater than 0.
+			for (int i = 0; i < maxPlayerImmunities; i++)
+			{
+				if (dashImmunityTime[i] > 0)
+					dashImmunityTime[i]--;
+			}
 
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{
@@ -3905,7 +3934,7 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.795);
 
 				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
-					damage = (int)(damage * 0.6);
+					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
@@ -3916,7 +3945,40 @@ namespace CalamityMod.NPCs
 			{
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
-            }
+			}
+			else if (npc.type == NPCType<DarkEnergy>())
+			{
+				if (projectile.type == ProjectileType<WavePounderBoom>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
+			{
+				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
+					projectile.type == ProjectileType<PowerfulRaven>())
+				{
+					damage = (int)(damage * 0.85);
+				}
+				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
+					damage = (int)(damage * 0.8);
+
+				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
+					damage = (int)(damage * 0.81);
+			}
+			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
+			{
+				if (projectile.type == ProjectileType<HolyFlame>())
+					damage = (int)(damage * 0.9);
+			}
+			else if (npc.type == NPCType<SCalWormHeart>())
+			{
+				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+					damage = (int)(damage * 0.8);
+			}
+			else if (npc.type == NPCType<SoulSeekerSupreme>())
+			{
+				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+					damage = (int)(damage * 0.9);
+			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())

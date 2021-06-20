@@ -18,6 +18,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.CalPlayer
 {
@@ -558,15 +559,18 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.moonCrown && modProj.stealthStrike && modPlayer.moonCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
+				int lunarFlareDamage = (int)(MoonstoneCrown.BaseDamage * player.RogueDamage());
+				float lunarFlareKB = 3f;
 				for (int i = 0; i < 3; i++)
 				{
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 10f;
-					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, (int)(60 * player.RogueDamage()), 3, proj.owner);
+					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, lunarFlareDamage, lunarFlareKB, proj.owner);
 					if (flare.WithinBounds(Main.maxProjectiles))
 						Main.projectile[flare].Calamity().forceTypeless = true;
-					modPlayer.moonCrownCooldown = 60;
 				}
+
+				modPlayer.moonCrownCooldown = 60;
 			}
 
 			if (modPlayer.nanotech && modProj.stealthStrike && modPlayer.nanoFlareCooldown <= 0 && modProj.stealthStrikeHitCount < 5)

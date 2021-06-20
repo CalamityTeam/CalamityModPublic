@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 100;
-            item.damage = 170;
+            item.damage = 145;
             item.knockBack = 4f;
             item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();

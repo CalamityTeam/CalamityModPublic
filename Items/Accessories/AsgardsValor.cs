@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.statDefense += 16; }

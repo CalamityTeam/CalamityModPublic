@@ -215,6 +215,8 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
+			if (item.type == ItemID.CelestialSigil)
+				item.consumable = false;
         }
         #endregion
 
@@ -810,7 +812,11 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (item.type < ItemID.Count)
+			// Nerf archery potion damage buff from 1.2x to 1.05x
+			if (item.useAmmo == AmmoID.Arrow && player.archery)
+				mult *= 0.875f;
+
+			if (item.type < ItemID.Count)
                 return;
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.

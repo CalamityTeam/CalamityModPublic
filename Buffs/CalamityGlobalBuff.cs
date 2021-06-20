@@ -89,6 +89,10 @@ namespace CalamityMod.Buffs
 			//Vanilla buffs
             switch (type)
             {
+				case BuffID.Archery:
+					tip = "20% increased arrow speed and 1.05x arrow damage";
+					break;
+
 				case BuffID.Swiftness:
 					tip = "15% increased movement speed";
 					break;
