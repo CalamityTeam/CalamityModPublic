@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Boss
 				float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
 				float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
 				Vector2 dustVel = new Vector2((float)Math.Cos(dustRot) * dustVelMult, (float)Math.Sin(dustRot) * dustVelMult);
-				int dust = Dust.NewDust(dustPos, 0, 0, dustType, dustVel.X, dustVel.Y, 0, default, 1f);
+				int dust = Dust.NewDust(dustPos, 0, 0, dustType, -dustVel.X, -dustVel.Y, 0, default, 1f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 1.7f;
 			}
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Boss
 				Vector2 dustRot = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
 				int dust = Dust.NewDust(dustPos + dustRot - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
 				Main.dust[dust].velocity *= 0.5f;
-				Main.dust[dust].velocity.Y = -Math.Abs(Main.dust[dust].velocity.Y);
+				Main.dust[dust].velocity.Y = Math.Abs(Main.dust[dust].velocity.Y);
 			}
 
 			// Spawn dust at the end of the beam

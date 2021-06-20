@@ -592,7 +592,7 @@ namespace CalamityMod.UI
                     return;
 
                 int currentLife = _npc.life;
-                bool enraged = _npc.Calamity()?.CurrentlyEnraged ?? false;
+                bool enraged = _npc.Calamity().CurrentlyEnraged;
 
                 // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)
