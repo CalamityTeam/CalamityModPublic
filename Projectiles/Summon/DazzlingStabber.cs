@@ -128,6 +128,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
             }
 
+            if (projectile.WithinRange(target.Center, 25f))
+                projectile.velocity.Y -= 0.7f;
+
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
