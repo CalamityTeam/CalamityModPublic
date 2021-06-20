@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Pets
 
         public void DoMovement()
         {
-            if (projectile.WithinRange(Owner.Center, 100f) || Owner.Calamity().spiritOriginBullseyeShootCountdown > 0)
+            if (projectile.WithinRange(Owner.Center, 100f))
                 projectile.velocity *= 0.975f;
             else
             {
