@@ -84,8 +84,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 5f;
 			npc.GetNPCDamage();
-			npc.width = 104;
-            npc.height = 174;
+			npc.width = 164;
+            npc.height = 164;
             npc.defense = 80;
 			npc.DR_NERD(0.99f);
 			npc.Calamity().unbreakableDR = true;
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = 300f;
+			float speedUpTime = 480f;
 			float slowDownTime = 120f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
 
@@ -353,24 +353,28 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageLocationDistance = turnDistance * 5f;
 
 			// Velocity and turn speed values
-			float baseVelocity = malice ? 12f : death ? 11f : revenge ? 10.5f : expertMode ? 10f : 9f;
-			float turnDegrees = malice ? 1.33f : death ? 1.22f : revenge ? 1.17f : expertMode ? 1.11f : 1f;
+			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
+			float baseVelocity = 7f * baseVelocityMult;
+			float turnDegrees = baseVelocity * 0.11f;
 			if (berserk)
 			{
 				baseVelocity *= 1.2f;
 				turnDegrees *= 1.2f;
 			}
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
-			float chargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
-			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
-			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
-			float laserBarragePhaseTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
+			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
+			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
+			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
+			float laserBarragePhaseTurnSpeedMult = MathHelper.Lerp(1f, 3f, chargeVelocityScalar);
 			float deathrayVelocityMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
 			float deathrayTurnSpeedMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
 
 			// Base scale on total time spent in phase
 			float chargeVelocityScalarIncrement = 1f / speedUpTime;
 			float chargeVelocityScalarDecrement = 1f / slowDownTime;
+
+			// Scalar to use during deathray phase
+			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
 			float laserBarrageVelocityScalarIncrement = 0.01f;
@@ -567,7 +571,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Use a lerp to smoothly scale up velocity and turn speed
 					if (calamityGlobalNPC.newAI[3] == 0f)
 					{
-						chargeVelocityScalar += chargeVelocityScalarIncrement;
+						chargeVelocityScalar += deathrayVelocityScalarIncrement;
 						if (chargeVelocityScalar >= 1f)
 						{
 							chargeVelocityScalar = 1f;
@@ -579,7 +583,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						chargeVelocityScalar -= chargeVelocityScalarDecrement;
+						// Reduce velocity scalar very quickly
+						chargeVelocityScalar -= deathrayVelocityScalarIncrement * 5f;
 						if (chargeVelocityScalar < 0f)
 							chargeVelocityScalar = 0f;
 					}
@@ -665,10 +670,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// Steam
 				float maxSteamTime = 180f;
 				int maxGores = 4;
-				if (npc.localAI[1] < maxSteamTime)
+				npc.localAI[0] += 1f;
+				if (npc.localAI[0] < maxSteamTime && npc.localAI[0] % 18f == 0f)
 				{
-					npc.localAI[1] += 1f;
-					int goreAmt = maxGores - (int)Math.Round(npc.localAI[1] / 60f);
+					int goreAmt = maxGores - (int)Math.Round(npc.localAI[0] / 60f);
 					CalamityUtils.ExplosionGores(npc.Center, goreAmt, true, npc.velocity);
 				}
 			}
@@ -732,9 +737,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		public override void FindFrame(int frameHeight) // 5 total frames
 		{
 			// Swap between venting and non-venting frames
+			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Charge || AIState == (float)Phase.UndergroundLaserBarrage)
 			{
-				npc.frameCounter += 1D;
 				if (npc.frameCounter >= 12D)
 				{
 					npc.frame.Y -= frameHeight;
@@ -745,14 +750,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				npc.frameCounter += 1D;
 				if (npc.frameCounter >= 12D)
 				{
 					npc.frame.Y += frameHeight;
 					npc.frameCounter = 0D;
 				}
-				if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
-					npc.frame.Y = frameHeight * Main.npcFrameCount[npc.type];
+				int finalFrame = Main.npcFrameCount[npc.type] - 1;
+				if (npc.frame.Y >= frameHeight * finalFrame)
+					npc.frame.Y = frameHeight * finalFrame;
 			}
 		}
 

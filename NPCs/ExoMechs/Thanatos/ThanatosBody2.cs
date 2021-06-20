@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 5f;
 			npc.GetNPCDamage();
-			npc.width = 136;
-            npc.height = 100;
+			npc.width = 90;
+            npc.height = 90;
             npc.defense = 100;
 			npc.DR_NERD(0.99f);
 			npc.Calamity().unbreakableDR = true;
@@ -332,9 +332,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// Steam
 				float maxSteamTime = 180f;
 				int maxGores = 4;
-				if (npc.localAI[0] < maxSteamTime)
+				npc.localAI[0] += 1f;
+				if (npc.localAI[0] < maxSteamTime && npc.localAI[0] % 18f == 0f)
 				{
-					npc.localAI[0] += 1f;
 					int goreAmt = maxGores - (int)Math.Round(npc.localAI[0] / 60f);
 					CalamityUtils.ExplosionGores(npc.Center, goreAmt, true, npc.velocity);
 				}
@@ -413,22 +413,22 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 			bool shootTrackingLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			npc.frameCounter += 1D;
 			if (shootTrackingLasers)
 			{
-				npc.frameCounter += 1D;
-				if (npc.Calamity().newAI[1] == 0f)
+				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
 				{
 					if (npc.frameCounter >= 12D)
 					{
 						npc.frame.Y += frameHeight;
 						npc.frameCounter = 0D;
 					}
-					if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
-						npc.frame.Y = frameHeight * Main.npcFrameCount[npc.type];
+					int finalFrame = Main.npcFrameCount[npc.type] - 1;
+					if (npc.frame.Y > frameHeight * finalFrame)
+						npc.frame.Y = frameHeight * finalFrame;
 				}
 				else
 				{
-					npc.frameCounter += 1D;
 					if (npc.frameCounter >= 12D)
 					{
 						npc.frame.Y -= frameHeight;
@@ -440,7 +440,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				npc.frameCounter += 1D;
 				if (npc.frameCounter >= 12D)
 				{
 					npc.frame.Y -= frameHeight;
@@ -514,7 +513,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				int duration = vulnerable ? 120 : 60;
 				player.AddBuff(BuffID.Ichor, duration);
 				player.AddBuff(BuffID.CursedInferno, duration);
-				player.AddBuff(ModContent.BuffType<ExoFreeze>(), duration / 4);
 				player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
 				player.AddBuff(ModContent.BuffType<Plague>(), duration);
 				player.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
