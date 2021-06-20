@@ -545,7 +545,7 @@ namespace CalamityMod.CalPlayer
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+					if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
 						continue;
 
 					if (Main.myPlayer == player.whoAmI && Main.npc[i].WithinRange(player.Center, 2000f))
