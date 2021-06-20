@@ -51,7 +51,16 @@ namespace CalamityMod.Projectiles.Pets
             if (projectile.WithinRange(Owner.Center, 100f) || Owner.Calamity().spiritOriginBullseyeShootCountdown > 0)
                 projectile.velocity *= 0.975f;
             else
-                projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(Owner.Center) * 11f, 0.17f);
+            {
+                float flySpeed = MathHelper.Clamp(11f + projectile.Distance(Owner.Center) * 0.015f, 11f, 25f);
+                projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(Owner.Center) * flySpeed, flySpeed * 0.02f);
+                if (!projectile.WithinRange(Owner.Center, 2200f))
+                {
+                    projectile.Center = Owner.Center;
+                    projectile.velocity = -Vector2.UnitY * 4f;
+                    projectile.netUpdate = true;
+                }
+            }
 
             if (MathHelper.Distance(projectile.Center.X, Owner.Center.X) > 80f)
                 projectile.spriteDirection = (projectile.Center.X > Owner.Center.X).ToDirectionInt();
