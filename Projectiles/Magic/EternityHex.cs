@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile proj = Main.projectile[i];
                 if (!proj.active)
                     continue;
-                if (proj.whoAmI != projectile.whoAmI)
+                if (proj.owner != projectile.owner)
                     continue;
                 if (proj.type != ModContent.ProjectileType<EternityCrystal>() && proj.type != ModContent.ProjectileType<EternityCircle>())
                     continue;
