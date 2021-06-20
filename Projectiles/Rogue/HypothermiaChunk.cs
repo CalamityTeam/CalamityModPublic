@@ -6,14 +6,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class HypothermiaChunk : ModProjectile
+    public class HypothermiaChunk : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ice Chunk");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ice Chunk");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 80;
-            projectile.extraUpdates = 3;
+            projectile.extraUpdates = 4;
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
             projectile.tileCollide = false;
@@ -58,18 +58,24 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-				for (int i = 0; i < Main.rand.Next(1,4); i++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<HypothermiaShard>(), (int)(projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(4), 1f);
-				}
-			}
+                int numSplits = Main.rand.NextBool() ? 4 : 3;
+                int type = ModContent.ProjectileType<HypothermiaShard>();
+                int shardDamage = (int)(projectile.damage * 0.5f);
+                float shardKB = projectile.knockBack * 0.75f;
+
+                for (int i = 0; i < numSplits; ++i)
+                {
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    int texID = Main.rand.Next(4);
+                    Projectile.NewProjectile(projectile.Center, velocity, type, shardDamage, shardKB, Main.myPlayer, texID, 1f);
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-		}
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {

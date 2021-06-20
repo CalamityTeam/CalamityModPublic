@@ -97,11 +97,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if ((!player.Calamity().ZoneSulphur && notOcean) || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -662,11 +668,17 @@ namespace CalamityMod.NPCs
 			if (!player.ZoneUnderworldHeight || malice)
 				enrageScale += 1f;
 			if (!modPlayer.ZoneCalamity || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			npc.Calamity().DR = npc.ai[0] == 4f ? 0.6f : 0.15f;
 
@@ -1360,11 +1372,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			// Rotation
 			float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
@@ -2049,11 +2067,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			float num840 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
 			float num841 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
@@ -2336,11 +2360,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			float num840 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
 			float num841 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
@@ -2617,11 +2647,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 1f;
+			}
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -3253,11 +3289,17 @@ namespace CalamityMod.NPCs
 
 			float enrageScale = 0f;
 			if (Main.dayTime || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1.5f;
+			}
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 0.5f;
 			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
 				enrageScale += 0.5f;
+			}
 
 			// Deus cannot hit for 3 seconds
 			if (calamityGlobalNPC.newAI[1] < 180f || npc.dontTakeDamage)
@@ -4050,6 +4092,7 @@ namespace CalamityMod.NPCs
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = enraged ? 1.5f : BossRushEvent.BossRushActive ? 1.375f : malice  ? 1.25f : 1f;
+			npc.Calamity().CurrentlyEnraged = (tileEnrageMult > 1f && !BossRushEvent.BossRushActive) || enraged;
 
 			// Set AI variable to be used by Dark Energies
 			npc.ai[1] = tileEnrageMult;
@@ -4566,9 +4609,15 @@ namespace CalamityMod.NPCs
 			// Enrage scale
 			float enrageScale = death ? 1.5f : 1f;
 			if (npc.localAI[1] >= 300f || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
+			}
 			if (npc.localAI[2] > 0f || malice)
 				enrageScale += 1f;
+
+			if (enraged)
+				npc.Calamity().CurrentlyEnraged = true;
 
 			if (enrageScale > 3f)
 				enrageScale = 3f;
@@ -5433,6 +5482,7 @@ namespace CalamityMod.NPCs
 			bool enrage = !BossRushEvent.BossRushActive &&
 				(player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
 				(player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
+			npc.Calamity().CurrentlyEnraged = enrage || enraged;
 
 			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
 			if (!phase3AI)

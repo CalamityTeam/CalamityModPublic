@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 86;
             npc.height = 120;
             npc.defense = 0;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -69,12 +69,19 @@ namespace CalamityMod.NPCs.Abyss
 				npc.active = false;
 			}
 
-			bool invisiblePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 1f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 5f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 7f;
-			if (!invisiblePhase)
+			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
+
+			float chargePhaseGateValue = 300f;
+			float lightningChargePhaseGateValue = 180f;
+
+			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
+			bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
-					npc.Opacity += 0.15f;
+					npc.Opacity += 0.2f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}

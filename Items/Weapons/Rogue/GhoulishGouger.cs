@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Ghoulish Gouger");
             Tooltip.SetDefault("Throws sets of four ghoulish scythes at ultra high velocity\n" +
-                "Stealth strikes spawn tormented souls on hit");
+                "Stealth strikes summon a flurry of tormented souls on hit");
         }
 
         public override void SafeSetDefaults()

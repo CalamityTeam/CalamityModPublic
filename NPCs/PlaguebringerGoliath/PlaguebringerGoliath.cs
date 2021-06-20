@@ -175,8 +175,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			// Enrage
 			float enrageScale = death ? 0.5f : 0f;
-			if (!player.ZoneJungle || malice)
-				enrageScale += 1.5f;
+            if (!player.ZoneJungle || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1.5f;
+            }
 
 			if (enrageScale > 1.5f)
 				enrageScale = 1.5f;
@@ -184,8 +187,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 2f;
 
-			if (enraged)
-				enrageScale = 2.5f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale = 2.5f;
+            }
 
 			bool diagonalDash = revenge && phase2;
 

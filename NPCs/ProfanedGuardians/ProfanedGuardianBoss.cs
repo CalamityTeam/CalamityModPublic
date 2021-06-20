@@ -154,9 +154,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
+                else
+                    npc.Calamity().CurrentlyEnraged = true;
             }
             else
                 immuneTimer = 300;
+
+            if (enraged)
+                npc.Calamity().CurrentlyEnraged = true;
 
             // Take damage or not
             npc.dontTakeDamage = immuneTimer <= 0;

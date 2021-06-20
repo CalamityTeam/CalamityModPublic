@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 60;
             npc.height = 88;
             npc.defense = 0;
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -69,12 +69,19 @@ namespace CalamityMod.NPCs.Abyss
 				npc.active = false;
 			}
 
-			bool invisiblePhase = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 1f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 5f || Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 7f;
-			if (!invisiblePhase)
+			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
+
+			float chargePhaseGateValue = 300f;
+			float lightningChargePhaseGateValue = 180f;
+
+			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
+			bool invisiblePhase = calamityGlobalNPC_Head.newAI[0] == 1f || calamityGlobalNPC_Head.newAI[0] == 5f || calamityGlobalNPC_Head.newAI[0] == 7f;
+			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
-					npc.Opacity += 0.15f;
+					npc.Opacity += 0.2f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}
@@ -86,20 +93,20 @@ namespace CalamityMod.NPCs.Abyss
 					npc.Opacity = 0f;
 			}
 
-			bool shootShadowFireballs = (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 6f && Main.npc[(int)npc.ai[2]].Calamity().newAI[2] > 0f) ||
-				(Main.npc[(int)npc.ai[2]].Calamity().newAI[0] == 10f && Main.npc[(int)npc.ai[2]].Calamity().newAI[1] > 0f);
+			bool shootShadowFireballs = (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
+				(calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
 			if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
 					npc.ai[3] += 1f;
-					float shootProjectile = 200f;
-					float timer = npc.ai[0] + 10f;
-					float divisor = timer + shootProjectile;
-					if (npc.ai[3] % divisor == 0f)
+					float shootShadowFireballGateValue = 90f;
+					float divisor = 5f;
+					if (npc.ai[3] % divisor == 0f && npc.ai[3] >= shootShadowFireballGateValue)
 					{
+						npc.ai[3] = 0f;
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
-						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 4f : 8f) + distanceVelocityBoost;
+						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
 						Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
 						int type = ProjectileID.CultistBossFireBallClone;

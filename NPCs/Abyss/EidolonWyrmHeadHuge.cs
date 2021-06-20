@@ -16,9 +16,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class EidolonWyrmHeadHuge : ModNPC
+	[AutoloadBossHead]
+	public class EidolonWyrmHeadHuge : ModNPC
     {
-		private enum Phase
+		public enum Phase
 		{
 			ChargeOne = 0,
 			LightningRain = 1,
@@ -33,14 +34,14 @@ namespace CalamityMod.NPCs.Abyss
 			FinalPhase = 10
 		}
 
-		private float AIState
+		public float AIState
 		{
 			get => npc.Calamity().newAI[0];
 			set => npc.Calamity().newAI[0] = value;
 		}
 
 		// Base distance from the target for most attacks
-		private const float baseDistance = 960f;
+		private const float baseDistance = 1000f;
 
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
@@ -64,6 +65,9 @@ namespace CalamityMod.NPCs.Abyss
 		// Used in the lerp to smoothly scale velocity up and down
 		private float chargeVelocityScalar = 0f;
 
+		// How much less time is needed before activating fast charge
+		private const float fastChargeGateValue = 120f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolon Wyrm");
@@ -80,7 +84,7 @@ namespace CalamityMod.NPCs.Abyss
 			npc.DR_NERD(0.4f);
 			CalamityGlobalNPC global = npc.Calamity();
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1000000, 1150000);
+			npc.LifeMaxNERB(1750000, 2012500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -129,6 +133,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice;
@@ -222,29 +228,6 @@ namespace CalamityMod.NPCs.Abyss
 				}
 			}
 
-			// Adjust opacity
-			bool invisiblePhase = calamityGlobalNPC.newAI[0] == (float)Phase.LightningRain || calamityGlobalNPC.newAI[0] == (float)Phase.IceMist || calamityGlobalNPC.newAI[0] == (float)Phase.AncientDoomSummon;
-			npc.dontTakeDamage = invisiblePhase;
-			if (!invisiblePhase)
-			{
-				npc.Opacity += 0.15f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
-			}
-			else
-			{
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
-
-			// Rotation and direction
-			npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
-			int direction = npc.direction;
-			npc.direction = npc.spriteDirection = (npc.velocity.X > 0f) ? 1 : (-1);
-			if (direction != npc.direction)
-				npc.netUpdate = true;
-
 			// General AI pattern
 			// Charge
 			// Charge : Phase 2 - Spin around target and summon Shadow Fireballs
@@ -269,6 +252,42 @@ namespace CalamityMod.NPCs.Abyss
 			// Phase 4 - 0, 6, 8, 1, 2, 3, 4, 7, 8, 5, 2, 9
 			// Phase 5 - 0, 6, 8, 1, 2, 2, 4, 7, 8, 5, 2, 2
 			// Phase 6 - 10
+
+			// Phase gate values
+			float velocityAdjustTime = 20f;
+			float chargePhaseGateValue = 300f;
+			float lightningRainDuration = 180f;
+			float eidolonWyrmPhaseDuration = 180f;
+			float iceMistDuration = 180f;
+			float spinPhaseDuration = 300f;
+			float ancientDoomPhaseGateValue = 30f;
+			float ancientDoomGateValue = 120f;
+			float lightningChargePhaseGateValue = 180f;
+
+			// Adjust opacity
+			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);
+			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && AIState == (float)Phase.LightningCharge;
+			bool invisiblePhase = AIState == (float)Phase.LightningRain || AIState == (float)Phase.IceMist || AIState == (float)Phase.AncientDoomSummon;
+			npc.dontTakeDamage = invisiblePartOfChargePhase || invisiblePartOfLightningChargePhase || invisiblePhase;
+			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 1f)
+					npc.Opacity = 1f;
+			}
+			else
+			{
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
+			}
+
+			// Rotation and direction
+			npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+			int direction = npc.direction;
+			npc.direction = npc.spriteDirection = (npc.velocity.X > 0f) ? 1 : (-1);
+			if (direction != npc.direction)
+				npc.netUpdate = true;
 
 			// Default vector to swim to
 			Vector2 destination = player.Center;
@@ -339,7 +358,7 @@ namespace CalamityMod.NPCs.Abyss
 			float maxAncientDoomRings = 3f;
 
 			// Lightning charge variables
-			Vector2 lightningChargeVector = npc.localAI[2] == 0f ? new Vector2(1000f, 0f) : new Vector2(-1000f, 0f);
+			Vector2 lightningChargeVector = npc.localAI[2] == 0f ? new Vector2(baseDistance, 0f) : new Vector2(-baseDistance, 0f);
 			float lightningChargeLocationDistance = turnDistance * 0.2f;
 			Vector2 lightningChargeLocation = destination + lightningChargeVector;
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
@@ -359,17 +378,6 @@ namespace CalamityMod.NPCs.Abyss
 			float fastChargeTurnSpeedMult = MathHelper.Lerp(1f, 12f, chargeVelocityScalar);
 			float chargeVelocityScalarIncrement = 0.025f;
 
-			// Phase gate values
-			float velocityAdjustTime = 20f;
-			float chargePhaseGateValue = 180f;
-			float lightningRainDuration = 180f;
-			float eidolonWyrmPhaseDuration = 180f;
-			float iceMistDuration = 180f;
-			float spinPhaseDuration = 300f;
-			float ancientDoomPhaseGateValue = 30f;
-			float ancientDoomGateValue = 120f;
-			float lightningChargePhaseGateValue = 90f;
-
 			// Phase switch
 			switch ((int)AIState)
 			{
@@ -378,6 +386,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -396,7 +406,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
 							{
 								if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), Main.player[Main.myPlayer].Center);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
@@ -404,7 +414,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -423,10 +435,10 @@ namespace CalamityMod.NPCs.Abyss
 										if (npc.ai[3] >= maxCharges)
 										{
 											npc.ai[3] = 0f;
-											calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.ShadowFireballSpin : (float)Phase.LightningRain;
+											AIState = phase4 ? (float)Phase.ShadowFireballSpin : (float)Phase.LightningRain;
 										}
 										else if (phase2)
-											calamityGlobalNPC.newAI[0] = (float)Phase.ShadowFireballSpin;
+											AIState = (float)Phase.ShadowFireballSpin;
 
 										calamityGlobalNPC.newAI[1] += 1f;
 										if (calamityGlobalNPC.newAI[1] > 7f)
@@ -469,64 +481,64 @@ namespace CalamityMod.NPCs.Abyss
 
 					if ((destination - npc.Center).Length() < lightningRainLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
 					{
-						if (calamityGlobalNPC.newAI[2] == 0f)
+						if (calamityGlobalNPC.newAI[2] % 30f == 0f && calamityGlobalNPC.newAI[2] < lightningRainDuration)
 						{
 							if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
-						}
 
-						if (calamityGlobalNPC.newAI[2] % 30f == 0f && calamityGlobalNPC.newAI[2] < lightningRainDuration && Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							int maxTargets = 2;
-							int[] whoAmIArray = new int[maxTargets];
-							Vector2[] targetCenterArray = new Vector2[maxTargets];
-							int numProjectiles = 0;
-							float maxDistance = 2400f;
-
-							for (int i = 0; i < Main.maxPlayers; i++)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (!Main.player[i].active || Main.player[i].dead)
-									continue;
+								int maxTargets = 2;
+								int[] whoAmIArray = new int[maxTargets];
+								Vector2[] targetCenterArray = new Vector2[maxTargets];
+								int numProjectiles = 0;
+								float maxDistance = 2400f;
 
-								Vector2 playerCenter = Main.player[i].Center;
-								float distance = Vector2.Distance(playerCenter, npc.Center);
-								if (distance < maxDistance)
+								for (int i = 0; i < Main.maxPlayers; i++)
 								{
-									whoAmIArray[numProjectiles] = i;
-									targetCenterArray[numProjectiles] = playerCenter;
-									int projectileLimit = numProjectiles + 1;
-									numProjectiles = projectileLimit;
-									if (projectileLimit >= targetCenterArray.Length)
-										break;
+									if (!Main.player[i].active || Main.player[i].dead)
+										continue;
+
+									Vector2 playerCenter = Main.player[i].Center;
+									float distance = Vector2.Distance(playerCenter, npc.Center);
+									if (distance < maxDistance)
+									{
+										whoAmIArray[numProjectiles] = i;
+										targetCenterArray[numProjectiles] = playerCenter;
+										int projectileLimit = numProjectiles + 1;
+										numProjectiles = projectileLimit;
+										if (projectileLimit >= targetCenterArray.Length)
+											break;
+									}
 								}
-							}
 
-							float predictionAmt = targetDownDeep ? 30f : 60f;
-							float lightningVelocity = targetDownDeep ? 4f : 8f;
-							for (int i = 0; i < numProjectiles; i++)
-							{
-								// Predictive bolt
-								Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-								float ai = Main.rand.Next(100);
-								Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-								int type = ProjectileID.CultistBossLightningOrbArc;
-								int damage = npc.GetProjectileDamage(type);
-								int proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
-								Main.projectile[proj].tileCollide = false;
+								float predictionAmt = targetDownDeep ? 45f : 60f;
+								float lightningVelocity = targetDownDeep ? 6f : 8f;
+								for (int i = 0; i < numProjectiles; i++)
+								{
+									// Predictive bolt
+									Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+									float ai = Main.rand.Next(100);
+									Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									int type = ProjectileID.CultistBossLightningOrbArc;
+									int damage = npc.GetProjectileDamage(type);
+									int proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+									Main.projectile[proj].tileCollide = false;
 
-								// Opposite bolt
-								projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
-								ai = Main.rand.Next(100);
-								projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-								proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
-								Main.projectile[proj].tileCollide = false;
+									// Opposite bolt
+									projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+									ai = Main.rand.Next(100);
+									projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+									Main.projectile[proj].tileCollide = false;
 
-								// Normal bolt
-								projectileDestination = targetCenterArray[i] - npc.Center;
-								ai = Main.rand.Next(100);
-								projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-								proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
-								Main.projectile[proj].tileCollide = false;
+									// Normal bolt
+									projectileDestination = targetCenterArray[i] - npc.Center;
+									ai = Main.rand.Next(100);
+									projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
+									proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+									Main.projectile[proj].tileCollide = false;
+								}
 							}
 						}
 
@@ -559,8 +571,8 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 							{
 								npc.localAI[0] = 0f;
-								calamityGlobalNPC.newAI[0] = (float)Phase.FastCharge;
-								calamityGlobalNPC.newAI[2] = 90f;
+								AIState = (float)Phase.FastCharge;
+								calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
 								FinalPhaseCheck();
@@ -576,6 +588,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -594,7 +608,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
 							{
 								if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), Main.player[Main.myPlayer].Center);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
@@ -602,7 +616,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge very quickly
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -618,7 +634,7 @@ namespace CalamityMod.NPCs.Abyss
 									{
 										if (!phase5)
 										{
-											calamityGlobalNPC.newAI[0] = npc.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
+											AIState = npc.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
 											calamityGlobalNPC.newAI[2] = 0f;
 										}
 										else
@@ -627,11 +643,11 @@ namespace CalamityMod.NPCs.Abyss
 											if (npc.ai[3] >= 2f)
 											{
 												npc.ai[3] = 0f;
-												calamityGlobalNPC.newAI[0] = npc.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
+												AIState = npc.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
 												calamityGlobalNPC.newAI[2] = 0f;
 											}
 											else
-												calamityGlobalNPC.newAI[2] = 90f;
+												calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 										}
 
 										calamityGlobalNPC.newAI[1] += 1f;
@@ -678,7 +694,7 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= eidolonWyrmPhaseDuration)
 					{
-						calamityGlobalNPC.newAI[0] = (float)Phase.ChargeTwo;
+						AIState = (float)Phase.ChargeTwo;
 						calamityGlobalNPC.newAI[2] = 0f;
 						FinalPhaseCheck();
 						npc.TargetClosest();
@@ -691,6 +707,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -709,7 +727,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
 							{
 								if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), Main.player[Main.myPlayer].Center);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
@@ -717,7 +735,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -736,10 +756,10 @@ namespace CalamityMod.NPCs.Abyss
 										if (npc.ai[3] >= maxCharges)
 										{
 											npc.ai[3] = 0f;
-											calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.AncientDoomSummon : (float)Phase.IceMist;
+											AIState = phase4 ? (float)Phase.AncientDoomSummon : (float)Phase.IceMist;
 										}
 										else if (phase3)
-											calamityGlobalNPC.newAI[0] = (float)Phase.AncientDoomSummon;
+											AIState = (float)Phase.AncientDoomSummon;
 
 										calamityGlobalNPC.newAI[1] += 1f;
 										if (calamityGlobalNPC.newAI[1] > 7f)
@@ -782,7 +802,7 @@ namespace CalamityMod.NPCs.Abyss
 
 					if ((destination - npc.Center).Length() < iceMistLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
 					{
-						if (calamityGlobalNPC.newAI[2] % 45f == 0f && calamityGlobalNPC.newAI[2] < iceMistDuration && Main.netMode != NetmodeID.MultiplayerClient)
+						if (calamityGlobalNPC.newAI[2] % 60f == 0f && calamityGlobalNPC.newAI[2] < iceMistDuration && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int maxTargets = 2;
 							int[] whoAmIArray = new int[maxTargets];
@@ -808,8 +828,8 @@ namespace CalamityMod.NPCs.Abyss
 								}
 							}
 
-							float predictionAmt = targetDownDeep ? 60f : 120f;
-							float iceMistVelocity = targetDownDeep ? 8f : 16f;
+							float predictionAmt = targetDownDeep ? 90f : 120f;
+							float iceMistVelocity = targetDownDeep ? 12f : 16f;
 							for (int i = 0; i < numProjectiles; i++)
 							{
 								// Predictive mist
@@ -860,8 +880,8 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 							{
 								npc.localAI[0] = 1f;
-								calamityGlobalNPC.newAI[0] = (float)Phase.FastCharge;
-								calamityGlobalNPC.newAI[2] = 90f;
+								AIState = (float)Phase.FastCharge;
+								calamityGlobalNPC.newAI[2] = fastChargeGateValue;
 								calamityGlobalNPC.newAI[3] = 1f;
 								chargeVelocityScalar = 0f;
 								FinalPhaseCheck();
@@ -926,7 +946,7 @@ namespace CalamityMod.NPCs.Abyss
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 								{
 									rotationDirection = 0;
-									calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeOne;
+									AIState = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeOne;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 1f;
 									chargeVelocityScalar = 0f;
@@ -983,7 +1003,7 @@ namespace CalamityMod.NPCs.Abyss
 						if (npc.localAI[1] >= ancientDoomGateValue + maxAncientDoomRings)
 						{
 							npc.localAI[1] = 0f;
-							calamityGlobalNPC.newAI[0] = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeTwo;
+							AIState = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeTwo;
 							calamityGlobalNPC.newAI[2] = 0f;
 							FinalPhaseCheck();
 							npc.TargetClosest();
@@ -997,6 +1017,8 @@ namespace CalamityMod.NPCs.Abyss
 
 					if (calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue)
 					{
+						ChargeDust(7, (float)Math.PI);
+
 						// Use a lerp to smoothly scale up velocity and turn speed
 						if (calamityGlobalNPC.newAI[3] == 1f)
 						{
@@ -1015,7 +1037,7 @@ namespace CalamityMod.NPCs.Abyss
 							if (calamityGlobalNPC.newAI[2] == lightningChargePhaseGateValue + 1f)
 							{
 								if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), Main.player[Main.myPlayer].Center);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
 								chargeDestination = destination + lightningChargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
@@ -1023,7 +1045,9 @@ namespace CalamityMod.NPCs.Abyss
 							else
 							{
 								// Charge
-								ChargeDust(7, (float)Math.PI);
+
+								// Become totally visible
+								npc.Opacity = 1f;
 
 								destination = chargeDestination;
 
@@ -1053,7 +1077,7 @@ namespace CalamityMod.NPCs.Abyss
 									calamityGlobalNPC.newAI[3] += 1f;
 									if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime + 1f)
 									{
-										calamityGlobalNPC.newAI[0] = npc.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
+										AIState = npc.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
 										calamityGlobalNPC.newAI[2] = 0f;
 										calamityGlobalNPC.newAI[3] = 1f;
 
@@ -1128,7 +1152,7 @@ namespace CalamityMod.NPCs.Abyss
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] >= eidolonWyrmPhaseDuration)
 					{
-						calamityGlobalNPC.newAI[0] = (float)Phase.ChargeOne;
+						AIState = (float)Phase.ChargeOne;
 						calamityGlobalNPC.newAI[2] = 0f;
 						FinalPhaseCheck();
 						npc.TargetClosest();
@@ -1239,7 +1263,7 @@ namespace CalamityMod.NPCs.Abyss
 				if (phase6)
 				{
 					npc.localAI[1] = 0f;
-					calamityGlobalNPC.newAI[0] = (float)Phase.FinalPhase;
+					AIState = (float)Phase.FinalPhase;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					rotationDirection = 0;
@@ -1375,7 +1399,8 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
+			if (npc.Opacity == 1f)
+				player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }
 }

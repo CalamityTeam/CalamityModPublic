@@ -70,7 +70,9 @@ namespace CalamityMod.NPCs.SlimeGod
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || npc.localAI[1] == 1f || malice;
-			Vector2 vector = npc.Center;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            Vector2 vector = npc.Center;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
