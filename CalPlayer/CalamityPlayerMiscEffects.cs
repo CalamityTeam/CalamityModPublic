@@ -1100,6 +1100,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gSabatonFall--;
 			if (modPlayer.astralStarRainCooldown > 0)
 				modPlayer.astralStarRainCooldown--;
+			if (modPlayer.tarraRangedCooldown > 0)
+				modPlayer.tarraRangedCooldown--;
 			if (modPlayer.bloodflareMageCooldown > 0)
 				modPlayer.bloodflareMageCooldown--;
 			if (modPlayer.tarraMageHealCooldown > 0)

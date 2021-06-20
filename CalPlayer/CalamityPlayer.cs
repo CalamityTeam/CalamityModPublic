@@ -608,7 +608,8 @@ namespace CalamityMod.CalPlayer
         public int tarraMageHealCooldown = 0;
         public int tarraCrits = 0;
         public bool tarraRanged = false;
-        public bool tarraThrowing = false;
+		public int tarraRangedCooldown = 0;
+		public bool tarraThrowing = false;
         public bool tarragonImmunityCooldown = false;
         public bool tarragonImmunity = false;
         public int tarraThrowingCrits = 0;
@@ -2049,7 +2050,8 @@ namespace CalamityMod.CalPlayer
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
-            tarraMageHealCooldown = 0;
+			tarraRangedCooldown = 0;
+			tarraMageHealCooldown = 0;
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;

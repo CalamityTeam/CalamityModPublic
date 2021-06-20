@@ -63,8 +63,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-                "Ranged critical strikes will cause an explosion of leaves\n" +
-                "Ranged projectiles have a chance to split into life energy on death by hitting an enemy";
+				"Ranged projectiles split into homing life energy and leaves on death";
         }
 
         public override void UpdateEquip(Player player)
