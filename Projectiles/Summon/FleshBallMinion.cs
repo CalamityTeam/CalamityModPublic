@@ -154,5 +154,11 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.velocity.X *= 0.9f;
 			return false;
 		}
+
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			fallThrough = projectile.Bottom.Y < Owner.Top.Y;
+			return true;
+		}
 	}
 }
