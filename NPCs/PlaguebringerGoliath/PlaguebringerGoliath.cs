@@ -127,8 +127,22 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
 
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[0] == 0f || npc.ai[0] == 4f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
             if (!halfLife && phase3 && expertMode)

@@ -6,22 +6,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    // Code used in the demonstration video.
-    // This comment should be removed when implemented.
-    /*for (int b = 0; b < 6; b++)
-     * {
-                        int beam = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<ExoDestroyerBeamTelegraph>(), 0, 0f, 255, npc.whoAmI);
-
-                        // Determine the initial offset angle of telegraph. It will be smoothened to give a "stretch" effect.
-                        if (Main.projectile.IndexInRange(beam))
-                        {
-                            float squishedRatio = (float)Math.Pow((float)Math.Sin(MathHelper.Pi * b / 6f), 2D);
-                            float smoothenedRatio = MathHelper.SmoothStep(0f, 1f, squishedRatio);
-                            Main.projectile[beam].ai[1] = MathHelper.Lerp(-0.74f, 0.74f, smoothenedRatio);
-                        }
-                    }
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<ExoDestroyerBeamTelegraph>(), 0, 0f, 255, npc.whoAmI);
-     */
     public class ExoDestroyerBeamTelegraph : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -33,7 +17,8 @@ namespace CalamityMod.Projectiles.Boss
         public ref float Time => ref projectile.localAI[1];
         public const int Lifetime = 180;
         public const float TelegraphWidth = 3600f;
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Telegraph");
+		public const float BeamPosOffset = 16f;
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Telegraph");
 
         public override void SetDefaults()
         {
@@ -67,10 +52,21 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            projectile.Center = ThingToAttachTo.Center;
+			// The direction of the host NPC.
+			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
-            // May want to change the ThingToAttachTo.velocity.ToRotation() part to instead just point towards a certain destination vector.
-            projectile.rotation = StartingRotationalOffset.AngleLerp(ConvergenceAngle, ConvergenceRatio) + ThingToAttachTo.velocity.ToRotation();
+			// Offset to move the beam forward so that it starts inside the NPC's mouth.
+			float beamStartForwardsOffset = -18f;
+
+			// Set the starting location of the beam to the center of the NPC.
+			projectile.Center = ThingToAttachTo.Center;
+			// Add a fixed offset to align with the NPC's spritesheet (?)
+			projectile.position += hostNPCDirection * BeamPosOffset + new Vector2(0f, -ThingToAttachTo.gfxOffY);
+			// Add the forwards offset, measured in pixels.
+			projectile.position += hostNPCDirection * beamStartForwardsOffset;
+
+			projectile.rotation = StartingRotationalOffset.AngleLerp(ConvergenceAngle, ConvergenceRatio) + ThingToAttachTo.velocity.ToRotation();
+
             Time++;
         }
 

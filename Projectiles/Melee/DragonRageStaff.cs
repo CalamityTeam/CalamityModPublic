@@ -174,7 +174,7 @@ namespace CalamityMod.Projectiles.Melee
 					modPlayer.dragonRageHits = 0;
 				}
 
-				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				Main.projectile[proj].Calamity().forceMelee = true;
 			}
 		}
@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles.Melee
 				Vector2 velocity = new Vector2(0f, speed);
 				velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
 
-				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 3, projectile.knockBack / 3f, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 8, projectile.knockBack / 3f, projectile.owner);
 			}
 		}
 

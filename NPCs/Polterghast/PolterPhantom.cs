@@ -418,7 +418,7 @@ namespace CalamityMod.NPCs.Polterghast
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -430,7 +430,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterPhantomGlow");
@@ -442,7 +442,7 @@ namespace CalamityMod.NPCs.Polterghast
 				{
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					Color color43 = color42;
 					color43 = Color.Lerp(color43, color36, amount9);
 					color43 = npc.GetAlpha(color43);

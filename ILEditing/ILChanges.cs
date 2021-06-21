@@ -104,6 +104,7 @@ namespace CalamityMod.ILEditing
 
             ApplyLifeBytesChanges();
 			AdjustChlorophyteBullets();
+			AdjustCultistCloneFireballDust();
 			RemoveAerialBaneDamageBoost();
 			AdjustDamageVariance();
 			RemoveExpertHardmodeScaling();
@@ -149,6 +150,19 @@ namespace CalamityMod.ILEditing
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(300f)); // The 300 unit distance required to home in.
 				cursor.Remove();
 				cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
+			};
+		}
+
+		private static void AdjustCultistCloneFireballDust()
+		{
+			// Reduce dust from 10 to 5 and homing range.
+			IL.Terraria.Projectile.AI_001 += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(468)); // The ID of Cultist Clone Fireballs.
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The gate value for spawning dust circles.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 60f); // Increase to 60f.
 			};
 		}
 

@@ -18,14 +18,18 @@ namespace CalamityMod.Projectiles.Boss
             set => projectile.ai[0] = value;
         }
 
-        public Vector2 OldVelocity;
+		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+
+		public Vector2 Destination;
+		public Vector2 Velocity;
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 4200f;
+		public const float LaserVelocity = 12f;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death Beam");
+            DisplayName.SetDefault("Thanatos Beam");
 			Main.projFrames[projectile.type] = 4;
 		}
 
@@ -46,23 +50,25 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.WriteVector2(OldVelocity);
-        }
+            writer.WriteVector2(Destination);
+			writer.WriteVector2(Velocity);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            OldVelocity = reader.ReadVector2();
-        }
+			Destination = reader.ReadVector2();
+			Velocity = reader.ReadVector2();
+		}
 
         public override void AI()
         {
-            // Determine the relative opacities for each player based on their distance.
-            // This has a lower bound of 0.35 to prevent the laser from going completely invisible and players getting hit by cheap shots.
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
-            }
+			// Determine the relative opacities for each player based on their distance.
+			// This has a lower bound of 0.35 to prevent the laser from going completely invisible and players getting hit by cheap shots.
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+				projectile.netUpdate = true;
+			}
 
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 8)
@@ -75,6 +81,68 @@ namespace CalamityMod.Projectiles.Boss
 
 			Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 
+			// If there is no NPC to attach to, run this instead.
+			if (projectile.ai[1] == -1f)
+			{
+				// Fade in after telegraphs have faded.
+				if (TelegraphDelay > TelegraphTotalTime)
+				{
+					if (projectile.alpha > 0)
+						projectile.alpha -= 25;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					// If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
+					if (Velocity != Vector2.Zero)
+					{
+						projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
+						Velocity = Vector2.Zero;
+						projectile.netUpdate = true;
+					}
+
+					// Direction and rotation.
+					if (projectile.velocity.X < 0f)
+					{
+						projectile.spriteDirection = -1;
+						projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+					}
+					else
+					{
+						projectile.spriteDirection = 1;
+						projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+					}
+				}
+				else if (Velocity == Vector2.Zero)
+				{
+					Velocity = projectile.velocity;
+					projectile.velocity = Vector2.Zero;
+					projectile.netUpdate = true;
+
+					// Direction and rotation.
+					if (projectile.velocity.X < 0f)
+					{
+						projectile.spriteDirection = -1;
+						projectile.rotation = (float)Math.Atan2((double)-(double)Velocity.Y, (double)-(double)Velocity.X);
+					}
+					else
+					{
+						projectile.spriteDirection = 1;
+						projectile.rotation = (float)Math.Atan2((double)Velocity.Y, (double)Velocity.X);
+					}
+				}
+
+				TelegraphDelay++;
+
+				return;
+			}
+
+			// Die if the thing to attach to disappears.
+			if (ThingToAttachTo is null || !ThingToAttachTo.active)
+			{
+				projectile.Kill();
+				return;
+			}
+
 			// Fade in after telegraphs have faded.
 			if (TelegraphDelay > TelegraphTotalTime)
             {
@@ -83,14 +151,15 @@ namespace CalamityMod.Projectiles.Boss
                 if (projectile.alpha < 0)
                     projectile.alpha = 0;
 
-                // If an old velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
-                if (OldVelocity != Vector2.Zero)
+                // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
+                if (Velocity != Vector2.Zero)
                 {
-                    projectile.velocity = OldVelocity * (CalamityWorld.malice ? 1.25f : 1f);
-                    OldVelocity = Vector2.Zero;
+                    projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
+					Velocity = Vector2.Zero;
                     projectile.netUpdate = true;
                 }
 
+				// Direction and rotation.
 				if (projectile.velocity.X < 0f)
 				{
 					projectile.spriteDirection = -1;
@@ -102,22 +171,53 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 				}
 			}
-            // Otherwise, be sure to save the velocity the projectile started with. It will be set again when the telegraph is over.
-            else if (OldVelocity == Vector2.Zero)
+            else if (Destination == Vector2.Zero)
             {
-                OldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Zero;
+				// Set start of telegraph to the npc center.
+				projectile.Center = ThingToAttachTo.Center;
+
+				// Set destination of the laser, the target's center.
+				Destination = projectile.velocity;
+
+				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
+				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
+				Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+
+				// Set velocity to zero.
+				projectile.velocity = Vector2.Zero;
                 projectile.netUpdate = true;
 
+				// Direction and rotation.
 				if (projectile.velocity.X < 0f)
 				{
 					projectile.spriteDirection = -1;
-					projectile.rotation = (float)Math.Atan2((double)-(double)OldVelocity.Y, (double)-(double)OldVelocity.X);
+					projectile.rotation = (float)Math.Atan2((double)-(double)Velocity.Y, (double)-(double)Velocity.X);
 				}
 				else
 				{
 					projectile.spriteDirection = 1;
-					projectile.rotation = (float)Math.Atan2((double)OldVelocity.Y, (double)OldVelocity.X);
+					projectile.rotation = (float)Math.Atan2((double)Velocity.Y, (double)Velocity.X);
+				}
+			}
+			else
+			{
+				// Set start of telegraph to the npc center.
+				projectile.Center = ThingToAttachTo.Center;
+
+				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
+				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
+				Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+
+				// Direction and rotation.
+				if (projectile.velocity.X < 0f)
+				{
+					projectile.spriteDirection = -1;
+					projectile.rotation = (float)Math.Atan2((double)-(double)Velocity.Y, (double)-(double)Velocity.X);
+				}
+				else
+				{
+					projectile.spriteDirection = 1;
+					projectile.rotation = (float)Math.Atan2((double)Velocity.Y, (double)Velocity.X);
 				}
 			}
 
@@ -168,8 +268,8 @@ namespace CalamityMod.Projectiles.Boss
             colorOuter *= 0.7f;
             colorInner *= 0.7f;
 
-            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorInner, OldVelocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0f);
-            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorOuter, OldVelocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0f);
+            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorInner, Velocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0f);
+            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorOuter, Velocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0f);
             return false;
         }
     }

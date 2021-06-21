@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color39 *= 1f - num157;
 					Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 					vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector42 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			color2 = npc.GetAlpha(color2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (phase2)
@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 						color41 *= (float)(num153 - num163) / 15f;
 						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 						vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-						vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 
@@ -372,7 +372,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 						color42 *= 1f - num157;
 						Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 						vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-						vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector45 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 				}
