@@ -455,7 +455,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
@@ -472,6 +472,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosBody1Glow");
 			spriteBatch.Draw(texture, center, npc.frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 			SmokeDrawer.DrawSet(npc.Center);
+
+			return false;
 		}
 
 		public override bool CheckActive() => false;
