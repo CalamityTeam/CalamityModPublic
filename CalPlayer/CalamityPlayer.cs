@@ -4489,24 +4489,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Use Time Mult
-        public override float UseTimeMultiplier(Item item)
-        {
-			if (auricSet && godSlayerRanged)
-			{
-				if (item.ranged && item.useTime > 3)
-					return 1.05f;
-			}
-			if (auricSet && godSlayerThrowing)
-			{
-				if (player.statLife > (int)(player.statLifeMax2 * 0.5) &&
-					item.Calamity().rogue && item.useTime > 3)
-					return 1.05f;
-			}
-			return 1f;
-        }
-        #endregion
-
         #region Get Heal Life
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
@@ -5181,10 +5163,6 @@ namespace CalamityMod.CalPlayer
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
-			if (auricSet && godSlayerDamage && item.melee)
-			{
-				damageMult += 0.15;
-			}
 			if (item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>())
             {
                 damageMult += trueMeleeDamage;
@@ -5312,9 +5290,6 @@ namespace CalamityMod.CalPlayer
                     damageMult += 0.05;
             }
 
-			if (auricSet && godSlayerDamage && isTrueMelee)
-				damageMult += 0.15;
-
 			if (enraged)
                 damageMult += 1.25;
 
@@ -5323,12 +5298,6 @@ namespace CalamityMod.CalPlayer
 
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
                 damageMult += 0.1;
-
-            if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
-            {
-                if (target.buffImmune[ModContent.BuffType<GlacialState>()])
-                    damageMult += 0.1;
-            }
 
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {
