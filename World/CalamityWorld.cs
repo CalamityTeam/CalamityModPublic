@@ -220,6 +220,7 @@ namespace CalamityMod.World
 			CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
 			CalamityGlobalNPC.draedonExoMechTwinRed = -1;
 			CalamityGlobalNPC.draedonExoMechWorm = -1;
+			CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
@@ -1631,7 +1632,14 @@ namespace CalamityMod.World
             {
                 if (player.chaosState && !player.dead)
                 {
-                    if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()) && Main.netMode != NetmodeID.MultiplayerClient)
+					bool adultWyrmAlive = false;
+					if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+					{
+						if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+							adultWyrmAlive = true;
+					}
+
+					if (!adultWyrmAlive && Main.netMode != NetmodeID.MultiplayerClient)
                         NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<EidolonWyrmHeadHuge>());
                 }
             }

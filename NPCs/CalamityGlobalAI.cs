@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -2660,6 +2662,20 @@ namespace CalamityMod.NPCs
 			}
 			if (Main.player[npc.target].dead)
 				npc.ai[0] = 5f;
+
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[0] == 0f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
 			if (npc.ai[0] == 5f)
 			{
@@ -7199,8 +7215,22 @@ namespace CalamityMod.NPCs
                 Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
             }
 
-            // Float near player
-            if (npc.ai[1] == 0f || npc.ai[1] == 4f)
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[1] == 5f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
+			// Float near player
+			if (npc.ai[1] == 0f || npc.ai[1] == 4f)
             {
                 // Start other phases if arms are dead, start with spinning phase
                 if (allArmsDead)
@@ -12769,8 +12799,11 @@ namespace CalamityMod.NPCs
 				// Triple damage if the Adult Eidolon Wyrm is alive
 				if (npc.ai[0] == 0f)
 				{
-					if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
-						npc.damage *= 3;
+					if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+					{
+						if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+							npc.damage *= 3;
+					}
 				}
 
 				npc.ai[0] += 1f;
@@ -12905,7 +12938,7 @@ namespace CalamityMod.NPCs
 				int damage = npc.GetProjectileDamage(type);
 
 				// Triple damage if the Adult Eidolon Wyrm is alive
-				if (NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()))
+				if (Main.npc[(int)npc.ai[0]].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
 					damage *= 3;
 
 				kill = true;

@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
             if (usingStealth)
-                damage = (int)(damage * 4.1);
+                damage = (int)(damage * 3.61);
 
             int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))

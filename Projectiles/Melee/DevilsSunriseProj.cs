@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class DevilsSunriseProj : ModProjectile
     {
         private int red;
-        private int greenAndBlue = 100;
+        private const int greenAndBlue = 100;
 
         public override void SetStaticDefaults()
         {

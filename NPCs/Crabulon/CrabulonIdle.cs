@@ -625,7 +625,7 @@ namespace CalamityMod.NPCs.Crabulon
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(Main.npcTexture[npc.type].Width, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
 			if (npc.ai[0] > 2f)
@@ -633,7 +633,7 @@ namespace CalamityMod.NPCs.Crabulon
 				vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
 				vector43 = npc.Center - Main.screenPosition;
 				vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 				spriteBatch.Draw(textureAttack, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -644,7 +644,7 @@ namespace CalamityMod.NPCs.Crabulon
 				vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
 				vector43 = npc.Center - Main.screenPosition;
 				vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 				spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 

@@ -82,7 +82,7 @@ namespace CalamityMod.Items
 		{
 			// Apply standard post-ML rarities to the item's color first.
 			Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
-			if (standardRarityColor.HasValue)
+			if (!item.expert && standardRarityColor.HasValue)
 				nameLine.overrideColor = standardRarityColor.Value;
 
 			#region Uniquely Colored Developer Items
@@ -292,6 +292,10 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text += immunityLine);
 			}
 
+			// Nerfed Archery Potion tooltip
+			if (item.type == ItemID.ArcheryPotion)
+				EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
+
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
 			{
@@ -322,7 +326,7 @@ namespace CalamityMod.Items
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
-				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown} second cooldown which is shared with all other dodges and reflects";
+				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
 			if (item.type == ItemID.BlackBelt)
 				EditTooltipByNum(0, (line) => line.text = beltDodgeLine);
 			if (item.type == ItemID.MasterNinjaGear)
