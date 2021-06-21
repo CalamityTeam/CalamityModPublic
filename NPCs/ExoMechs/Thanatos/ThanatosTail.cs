@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			Vector2 center = npc.Center - Main.screenPosition;
 			center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			center += vector * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			center += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture, center, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosTailGlow");
