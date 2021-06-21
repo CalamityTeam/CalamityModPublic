@@ -8,7 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+
+namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlaguedDerpling : ModNPC
     {
@@ -31,7 +32,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit22;
-            npc.DeathSound = SoundID.NPCDeath25;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VirulingBanner>();
         }
@@ -169,6 +169,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (npc.life <= 0)
             {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);

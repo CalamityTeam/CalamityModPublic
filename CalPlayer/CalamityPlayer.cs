@@ -32,6 +32,7 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
