@@ -2474,17 +2474,6 @@ namespace CalamityMod.CalPlayer
 				player.meleeDamage += 0.2f;
 			}
 
-			if (modPlayer.eScarfBoost)
-			{
-				player.allDamage += 0.1f;
-				modPlayer.AllCritBoost(10);
-			}
-			if (modPlayer.sMeleeBoost)
-			{
-				player.allDamage += 0.1f;
-				modPlayer.AllCritBoost(5);
-			}
-
 			if (modPlayer.tFury)
 			{
 				player.meleeDamage += 0.3f;
@@ -3640,8 +3629,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.GetStatBonuses();
 
 			// True melee damage bonuses
-			double damageAdd = (modPlayer.dodgeScarf ? 0.15 : 0) +
-					(modPlayer.evasionScarf ? 0.1 : 0) +
+			double damageAdd = (modPlayer.dodgeScarf ? 0.1 : 0) +
+					(modPlayer.evasionScarf ? 0.05 : 0) +
 					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
 					(modPlayer.fungalSymbiote ? 0.15 : 0) +
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +

@@ -761,8 +761,6 @@ namespace CalamityMod.CalPlayer
         public bool xWrath = false;
         public bool graxDefense = false;
         public bool encased = false;
-        public bool sMeleeBoost = false;
-        public bool eScarfBoost = false;
         public bool tFury = false;
         public bool cadence = false;
         public bool omniscience = false;
@@ -1778,8 +1776,6 @@ namespace CalamityMod.CalPlayer
             xWrath = false;
             graxDefense = false;
             encased = false;
-            sMeleeBoost = false;
-            eScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -2172,8 +2168,6 @@ namespace CalamityMod.CalPlayer
             kamiBoost = false;
             graxDefense = false;
             encased = false;
-            sMeleeBoost = false;
-            eScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -3583,14 +3577,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.1f;
             }
-            if (sMeleeBoost)
-            {
-                meleeSpeedMult += 0.05f;
-            }
-            if (eScarfBoost)
-            {
-                meleeSpeedMult += 0.15f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;
@@ -4021,15 +4007,9 @@ namespace CalamityMod.CalPlayer
         private void OnDodge()
         {
             if (evasionScarf)
-            {
-                player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(9f));
                 player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
-            }
             else
-            {
-                player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
                 player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
-            }
 
             player.immune = true;
             player.immuneTime = player.longInvince ? 100 : 60;
