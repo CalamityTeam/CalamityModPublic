@@ -326,8 +326,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (vulnerable)
 			{
 				// Noise
+				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.25f : 1f;
 				if (npc.localAI[0] == 0f)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
 
 				// Steam
 				float maxSteamTime = 180f;
