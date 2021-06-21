@@ -169,6 +169,7 @@ namespace CalamityMod.NPCs.Abyss
 			Player player = Main.player[npc.target];
 
 			bool targetDownDeep = player.Calamity().ZoneAbyssLayer4;
+			bool targetOnMount = player.mount.Active;
 
 			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
@@ -543,7 +544,7 @@ namespace CalamityMod.NPCs.Abyss
 								}
 
 								float predictionAmt = targetDownDeep ? 45f : 60f;
-								float lightningVelocity = targetDownDeep ? 6f : 8f;
+								float lightningVelocity = (targetDownDeep && !targetOnMount) ? 6f : 8f;
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
