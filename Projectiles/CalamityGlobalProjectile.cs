@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles
@@ -332,7 +334,305 @@ namespace CalamityMod.Projectiles
                 return false;
 			}
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			if (adultWyrmAlive)
+			{
+				if (projectile.type == ProjectileID.CultistBossFireBallClone)
+				{
+					if (projectile.ai[1] == 0f)
+					{
+						projectile.ai[1] = 1f;
+						Main.PlaySound(SoundID.Item34, projectile.position);
+					}
+					else if (projectile.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int num13 = -1;
+						float num14 = 2000f;
+						for (int num15 = 0; num15 < Main.maxPlayers; num15++)
+						{
+							if (Main.player[num15].active && !Main.player[num15].dead)
+							{
+								Vector2 center2 = Main.player[num15].Center;
+								float num16 = Vector2.Distance(center2, projectile.Center);
+								if ((num16 < num14 || num13 == -1) && Collision.CanHit(projectile.Center, 1, 1, center2, 1, 1))
+								{
+									num14 = num16;
+									num13 = num15;
+								}
+							}
+						}
+
+						if (num14 < 20f)
+						{
+							projectile.Kill();
+							return false;
+						}
+
+						if (num13 != -1)
+						{
+							projectile.ai[1] = 21f;
+							projectile.ai[0] = num13;
+							projectile.netUpdate = true;
+						}
+					}
+					else if (projectile.ai[1] > 20f && projectile.ai[1] < 200f)
+					{
+						projectile.ai[1] += 1f;
+						int num17 = (int)projectile.ai[0];
+						if (!Main.player[num17].active || Main.player[num17].dead)
+						{
+							projectile.ai[1] = 1f;
+							projectile.ai[0] = 0f;
+							projectile.netUpdate = true;
+						}
+						else
+						{
+							float num18 = projectile.velocity.ToRotation();
+							Vector2 vector2 = Main.player[num17].Center - projectile.Center;
+							if (vector2.Length() < 20f)
+							{
+								projectile.Kill();
+								return false;
+							}
+
+							float targetAngle2 = vector2.ToRotation();
+							if (vector2 == Vector2.Zero)
+								targetAngle2 = num18;
+
+							float num19 = num18.AngleLerp(targetAngle2, 0.01f);
+							projectile.velocity = new Vector2(projectile.velocity.Length(), 0f).RotatedBy(num19);
+						}
+					}
+
+					if (projectile.ai[1] >= 1f && projectile.ai[1] < 20f)
+					{
+						projectile.ai[1] += 1f;
+						if (projectile.ai[1] == 20f)
+							projectile.ai[1] = 1f;
+					}
+
+					projectile.alpha -= 40;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					projectile.spriteDirection = projectile.direction;
+
+					projectile.frameCounter++;
+					if (projectile.frameCounter >= 3)
+					{
+						projectile.frame++;
+						projectile.frameCounter = 0;
+						if (projectile.frame >= 4)
+							projectile.frame = 0;
+					}
+
+					if (Main.rand.Next(4) == 0)
+					{
+						Vector2 value4 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy(projectile.velocity.ToRotation());
+						int num23 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100);
+						Main.dust[num23].velocity *= 0.1f;
+						Main.dust[num23].position = projectile.Center + value4 * projectile.width / 2f;
+						Main.dust[num23].fadeIn = 0.9f;
+					}
+
+					if (Main.rand.Next(32) == 0)
+					{
+						Vector2 value5 = -Vector2.UnitX.RotatedByRandom(0.39269909262657166).RotatedBy(projectile.velocity.ToRotation());
+						int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 155, default, 0.8f);
+						Main.dust[num25].velocity *= 0.3f;
+						Main.dust[num25].position = projectile.Center + value5 * projectile.width / 2f;
+						if (Main.rand.Next(2) == 0)
+							Main.dust[num25].fadeIn = 1.4f;
+					}
+
+					if (Main.rand.Next(2) == 0)
+					{
+						Vector2 value6 = -Vector2.UnitX.RotatedByRandom(0.78539818525314331).RotatedBy(projectile.velocity.ToRotation());
+						int num27 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 0, default, 1.2f);
+						Main.dust[num27].velocity *= 0.3f;
+						Main.dust[num27].noGravity = true;
+						Main.dust[num27].position = projectile.Center + value6 * projectile.width / 2f;
+						if (Main.rand.Next(2) == 0)
+							Main.dust[num27].fadeIn = 1.4f;
+					}
+
+					return false;
+				}
+				else if (projectile.type == ProjectileID.CultistBossIceMist)
+				{
+					if (projectile.localAI[1] == 0f)
+					{
+						projectile.localAI[1] = 1f;
+						Main.PlaySound(SoundID.Item120, projectile.position);
+					}
+
+					projectile.ai[0] += 1f;
+
+					// Main projectile
+					float duration = 300f;
+					if (projectile.ai[1] == 1f)
+					{
+						if (projectile.ai[0] >= duration - 20f)
+							projectile.alpha += 10;
+						else
+							projectile.alpha -= 10;
+
+						if (projectile.alpha < 0)
+							projectile.alpha = 0;
+						if (projectile.alpha > 255)
+							projectile.alpha = 255;
+
+						if (projectile.ai[0] >= duration)
+						{
+							projectile.Kill();
+							return false;
+						}
+
+						int num103 = Player.FindClosest(projectile.Center, 1, 1);
+						Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+						float scaleFactor2 = projectile.velocity.Length();
+						vector11.Normalize();
+						vector11 *= scaleFactor2;
+						projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
+						projectile.velocity.Normalize();
+						projectile.velocity *= scaleFactor2;
+
+						if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							Vector2 vector50 = projectile.rotation.ToRotationVector2();
+							Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+						}
+
+						projectile.rotation += (float)Math.PI / 30f;
+
+						return false;
+					}
+
+					// Split projectiles
+					projectile.position -= projectile.velocity;
+
+					if (projectile.ai[0] >= duration - 260f)
+						projectile.alpha += 3;
+					else
+						projectile.alpha -= 40;
+
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+					if (projectile.alpha > 255)
+						projectile.alpha = 255;
+
+					if (projectile.ai[0] >= duration - 255f)
+					{
+						projectile.Kill();
+						return false;
+					}
+
+					Vector2 value39 = new Vector2(0f, -720f).RotatedBy(projectile.velocity.ToRotation());
+					float scaleFactor3 = projectile.ai[0] % (duration - 255f) / (duration - 255f);
+					Vector2 spinningpoint13 = value39 * scaleFactor3;
+
+					for (int num724 = 0; num724 < 6; num724++)
+					{
+						Vector2 vector51 = projectile.Center + spinningpoint13.RotatedBy(num724 * ((float)Math.PI * 2f) / 6f);
+						int num726 = Dust.NewDust(vector51 + Utils.RandomVector2(Main.rand, -8f, 8f) / 2f, 8, 8, 197, 0f, 0f, 100, Color.Transparent);
+						Main.dust[num726].noGravity = true;
+					}
+
+					return false;
+				}
+				else if (projectile.type == ProjectileID.CultistBossLightningOrbArc)
+				{
+					projectile.frameCounter++;
+					if (projectile.velocity == Vector2.Zero)
+					{
+						if (projectile.frameCounter >= projectile.extraUpdates * 2)
+						{
+							projectile.frameCounter = 0;
+							bool flag30 = true;
+							for (int num742 = 1; num742 < projectile.oldPos.Length; num742++)
+							{
+								if (projectile.oldPos[num742] != projectile.oldPos[0])
+									flag30 = false;
+							}
+
+							if (flag30)
+							{
+								projectile.Kill();
+								return false;
+							}
+						}
+					}
+					else
+					{
+						if (projectile.frameCounter < projectile.extraUpdates * 2)
+							return false;
+
+						projectile.frameCounter = 0;
+						float num748 = projectile.velocity.Length();
+						UnifiedRandom unifiedRandom = new UnifiedRandom((int)projectile.ai[1]);
+						int num749 = 0;
+						Vector2 spinningpoint14 = -Vector2.UnitY;
+						while (true)
+						{
+							int num750 = unifiedRandom.Next();
+							projectile.ai[1] = num750;
+							num750 %= 100;
+							float f = (float)num750 / 100f * ((float)Math.PI * 2f);
+							Vector2 vector55 = f.ToRotationVector2();
+							if (vector55.Y > 0f)
+							{
+								vector55.Y *= -1f;
+							}
+
+							bool flag31 = false;
+							if (vector55.Y > -0.02f)
+							{
+								flag31 = true;
+							}
+							if (vector55.X * (float)(projectile.extraUpdates + 1) * 2f * num748 + projectile.localAI[0] > 40f)
+							{
+								flag31 = true;
+							}
+							if (vector55.X * (float)(projectile.extraUpdates + 1) * 2f * num748 + projectile.localAI[0] < -40f)
+							{
+								flag31 = true;
+							}
+
+							if (flag31)
+							{
+								if (num749++ >= 100)
+								{
+									projectile.velocity = Vector2.Zero;
+									projectile.localAI[1] = 1f;
+									break;
+								}
+								continue;
+							}
+
+							spinningpoint14 = vector55;
+
+							break;
+						}
+
+						if (projectile.velocity != Vector2.Zero)
+						{
+							projectile.localAI[0] += spinningpoint14.X * (float)(projectile.extraUpdates + 1) * 2f * num748;
+							projectile.velocity = spinningpoint14.RotatedBy(projectile.ai[0] + (float)Math.PI / 2f) * num748;
+							projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2f;
+						}
+					}
+
+					return false;
+				}
+			}
+
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				if (projectile.type == ProjectileID.DemonSickle && CalamityPlayer.areThereAnyDamnBosses)
 				{

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,6 +38,16 @@ namespace CalamityMod.NPCs.Abyss
             npc.dontTakeDamage = true;
             npc.chaseable = false;
         }
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.localAI[0] = reader.ReadSingle();
+		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
@@ -93,18 +104,18 @@ namespace CalamityMod.NPCs.Abyss
 					npc.Opacity = 0f;
 			}
 
-			bool shootShadowFireballs = (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
+			bool spawnAncientLights = (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ShadowFireballSpin && calamityGlobalNPC_Head.newAI[2] > 0f) ||
 				(calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FinalPhase && calamityGlobalNPC_Head.newAI[1] > 0f);
-			if (shootShadowFireballs && Main.netMode != NetmodeID.MultiplayerClient)
+			if (spawnAncientLights && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
-					npc.ai[3] += 1f;
+					npc.localAI[0] += 1f;
 					float spawnAncientLightGateValue = 180f;
 					float divisor = 10f;
-					if (npc.ai[0] % divisor == 0f && npc.ai[3] >= spawnAncientLightGateValue)
+					if (npc.ai[3] % divisor == 0f && npc.localAI[0] >= spawnAncientLightGateValue)
 					{
-						npc.ai[3] = 0f;
+						npc.localAI[0] = 0f;
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
 						float lightVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;

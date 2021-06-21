@@ -76,6 +76,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
+			float totalLifeRatio = npc.life / (float)npc.lifeMax;
+			if (CalamityGlobalNPC.SCalCataclysm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.SCalCataclysm].active)
+					totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCataclysm].life / (float)Main.npc[CalamityGlobalNPC.SCalCataclysm].lifeMax;
+			}
+
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -94,9 +101,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				num677 *= 0.5f;
 			}
 
-			bool deadBrother = !NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>());
-			int scale = deadBrother ? 5 : 2;
-            if (npc.ai[3] < distanceX)
+			int scale = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, totalLifeRatio * 0.5f));
+			if (npc.ai[3] < distanceX)
             {
                 npc.ai[3] += scale;
                 distanceY -= scale;
@@ -155,11 +161,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (npc.localAI[0] >= 120f)
             {
-                npc.ai[1] += 1f;
-				if (deadBrother || CalamityWorld.malice)
-				{
-					npc.ai[1] += 1f;
-				}
+				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, totalLifeRatio * 0.5f);
+				npc.ai[1] += fireRate;
 				if (npc.ai[1] >= 45f)
                 {
                     npc.ai[1] = 0f;
@@ -171,12 +174,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(npc.Center, new Vector2(4f, 0f), type, damage, 0f, Main.myPlayer);
                     }
                 }
-                npc.ai[2] += 1f;
-                if (deadBrother || CalamityWorld.malice)
-                {
-                    npc.ai[2] += 2f;
-                }
-                if (npc.ai[2] >= 300f)
+				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, totalLifeRatio * 0.5f);
+				npc.ai[2] += fireRate;
+				if (npc.ai[2] >= 300f)
                 {
                     npc.ai[2] = 0f;
                     float speed = 7f;

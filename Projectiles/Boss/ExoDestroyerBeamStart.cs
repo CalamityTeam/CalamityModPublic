@@ -96,12 +96,10 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.scale > scale)
                 projectile.scale = scale;
 
-            float num804 = projectile.velocity.ToRotation();
-            num804 += projectile.ai[0];
-            projectile.rotation = num804 - MathHelper.PiOver2;
-            projectile.velocity = num804.ToRotationVector2();
+			projectile.rotation = ThingToAttachTo.velocity.ToRotation();
+			projectile.velocity = projectile.rotation.ToRotationVector2();
 
-            float arraySize = 3f;
+			float arraySize = 3f;
             Vector2 samplingPoint = projectile.Center;
             float[] samples = new float[(int)arraySize];
             Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, 2400f, samples);
