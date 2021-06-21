@@ -613,7 +613,8 @@ namespace CalamityMod.CalPlayer
         public int tarraMageHealCooldown = 0;
         public int tarraCrits = 0;
         public bool tarraRanged = false;
-        public bool tarraThrowing = false;
+		public int tarraRangedCooldown = 0;
+		public bool tarraThrowing = false;
         public bool tarragonImmunityCooldown = false;
         public bool tarragonImmunity = false;
         public int tarraThrowingCrits = 0;
@@ -765,8 +766,6 @@ namespace CalamityMod.CalPlayer
         public bool xWrath = false;
         public bool graxDefense = false;
         public bool encased = false;
-        public bool sMeleeBoost = false;
-        public bool eScarfBoost = false;
         public bool tFury = false;
         public bool cadence = false;
         public bool omniscience = false;
@@ -1796,8 +1795,6 @@ namespace CalamityMod.CalPlayer
             xWrath = false;
             graxDefense = false;
             encased = false;
-            sMeleeBoost = false;
-            eScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -2080,7 +2077,8 @@ namespace CalamityMod.CalPlayer
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
-            tarraMageHealCooldown = 0;
+			tarraRangedCooldown = 0;
+			tarraMageHealCooldown = 0;
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
@@ -2201,8 +2199,6 @@ namespace CalamityMod.CalPlayer
             kamiBoost = false;
             graxDefense = false;
             encased = false;
-            sMeleeBoost = false;
-            eScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -3612,14 +3608,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.1f;
             }
-            if (sMeleeBoost)
-            {
-                meleeSpeedMult += 0.05f;
-            }
-            if (eScarfBoost)
-            {
-                meleeSpeedMult += 0.15f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;
@@ -4050,15 +4038,9 @@ namespace CalamityMod.CalPlayer
         private void OnDodge()
         {
             if (evasionScarf)
-            {
-                player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(9f));
                 player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
-            }
             else
-            {
-                player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
                 player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
-            }
 
             player.immune = true;
             player.immuneTime = player.longInvince ? 100 : 60;
@@ -4515,24 +4497,6 @@ namespace CalamityMod.CalPlayer
 
             // The player rotation can be off if the player dies at the right time when using Final Dawn.
             player.fullRotation = 0f;
-        }
-        #endregion
-
-        #region Use Time Mult
-        public override float UseTimeMultiplier(Item item)
-        {
-			if (auricSet && godSlayerRanged)
-			{
-				if (item.ranged && item.useTime > 3)
-					return 1.05f;
-			}
-			if (auricSet && godSlayerThrowing)
-			{
-				if (player.statLife > (int)(player.statLifeMax2 * 0.5) &&
-					item.Calamity().rogue && item.useTime > 3)
-					return 1.05f;
-			}
-			return 1f;
         }
         #endregion
 
@@ -5210,10 +5174,6 @@ namespace CalamityMod.CalPlayer
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
-			if (auricSet && godSlayerDamage && item.melee)
-			{
-				damageMult += 0.15;
-			}
 			if (item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>())
             {
                 damageMult += trueMeleeDamage;
@@ -5341,9 +5301,6 @@ namespace CalamityMod.CalPlayer
                     damageMult += 0.05;
             }
 
-			if (auricSet && godSlayerDamage && isTrueMelee)
-				damageMult += 0.15;
-
 			if (enraged)
                 damageMult += 1.25;
 
@@ -5352,12 +5309,6 @@ namespace CalamityMod.CalPlayer
 
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
                 damageMult += 0.1;
-
-            if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
-            {
-                if (target.buffImmune[ModContent.BuffType<GlacialState>()])
-                    damageMult += 0.1;
-            }
 
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {

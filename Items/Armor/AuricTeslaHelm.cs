@@ -41,8 +41,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Melee Tarragon, Bloodflare and God Slayer effects\n" +
                 "Enemies are more likely to target you\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 10%\n" +
-                "Your melee damage is multiplied based on how high your HP is; at full HP this effect is at max";
+                "Max run speed and acceleration boosted by 10%";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
