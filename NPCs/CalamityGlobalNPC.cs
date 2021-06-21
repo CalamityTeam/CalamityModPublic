@@ -3920,7 +3920,7 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<HolyFlame>())
 					damage = (int)(damage * 0.9);
 			}
-			else if (npc.type == NPCType<SCalWormHeart>())
+			else if (npc.type == NPCType<BrimstoneHeart>())
 			{
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
