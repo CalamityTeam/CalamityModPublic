@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.width = 88;
             npc.height = 88;
             npc.defense = 100;
-			npc.DR_NERD(0.99f);
+			npc.DR_NERD(0.9999f);
 			npc.Calamity().unbreakableDR = true;
 			npc.LifeMaxNERB(1000000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -317,11 +317,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 
+			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
+				npc.Calamity().newAI[2] += 1f;
+
 			// Homing only works if vulnerable is true
 			npc.chaseable = vulnerable;
 
 			// Adjust DR based on vulnerable
-			npc.Calamity().DR = vulnerable ? 0f : 0.99f;
+			npc.Calamity().DR = vulnerable ? 0f : 0.9999f;
 			npc.Calamity().unbreakableDR = !vulnerable;
 
 			// Vent noise and steam
@@ -410,6 +413,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
+			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
+				damage *= 0.01;
+
 			return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
 		}
 
@@ -471,6 +477,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosBody1Glow");
 			spriteBatch.Draw(texture, center, npc.frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+
 			SmokeDrawer.DrawSet(npc.Center);
 
 			return false;
