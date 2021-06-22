@@ -149,6 +149,30 @@ namespace CalamityMod.Projectiles
                     projectile.idStaticNPCHitCooldown = 12;
                     break;
 
+				case ProjectileID.WoodYoyo:
+				case ProjectileID.CorruptYoyo:
+				case ProjectileID.CrimsonYoyo:
+				case ProjectileID.JungleYoyo:
+				case ProjectileID.RedsYoyo:
+				case ProjectileID.ValkyrieYoyo:
+				case ProjectileID.Kraken:
+				case ProjectileID.Rally:
+				case ProjectileID.Code1:
+				case ProjectileID.Code2:
+				case ProjectileID.Valor:
+				case ProjectileID.Cascade:
+				case ProjectileID.Chik:
+				case ProjectileID.FormatC:
+				case ProjectileID.HelFire:
+				case ProjectileID.Amarok:
+				case ProjectileID.Gradient:
+				case ProjectileID.Yelets:
+				case ProjectileID.TheEyeOfCthulhu:
+				case ProjectileID.Terrarian:
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
 				case ProjectileID.DD2BetsyFireball:
 				case ProjectileID.DD2BetsyFlameBreath:
 				case ProjectileID.CultistBossLightningOrbArc:
