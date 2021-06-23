@@ -58,7 +58,7 @@ namespace CalamityMod.Items.DraedonMisc
             if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.type == ModContent.TileType<CodebreakerTile>())
             {
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
-                if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsCoolingCell)
+                if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsCoolingCell || codebreakerTileEntity.DecryptionCountdown > 0)
                     return false;
 
                 codebreakerTileEntity.ContainsCoolingCell = true;
