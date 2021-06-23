@@ -158,10 +158,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoPrimeAlive = false;
@@ -551,7 +547,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
-									npc.localAI[0] = 1f;
+									npc.localAI[0] = /*berserk ? 1f : 0f*/ 1f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 0f;
