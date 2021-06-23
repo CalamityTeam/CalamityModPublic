@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
         public override void SetStaticDefaults()
@@ -26,8 +27,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 44;
+            item.width = 64;
+            item.height = 62;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.defense = 12;
             item.accessory = true;

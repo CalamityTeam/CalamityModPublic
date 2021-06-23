@@ -76,6 +76,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
+			float totalLifeRatio = npc.life / (float)npc.lifeMax;
+			if (CalamityGlobalNPC.SCalCataclysm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.SCalCataclysm].active)
+					totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCataclysm].life / (float)Main.npc[CalamityGlobalNPC.SCalCataclysm].lifeMax;
+			}
+
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -94,9 +101,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				num677 *= 0.5f;
 			}
 
-			bool deadBrother = !NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>());
-			int scale = deadBrother ? 5 : 2;
-            if (npc.ai[3] < distanceX)
+			int scale = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, totalLifeRatio * 0.5f));
+			if (npc.ai[3] < distanceX)
             {
                 npc.ai[3] += scale;
                 distanceY -= scale;
@@ -155,11 +161,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (npc.localAI[0] >= 120f)
             {
-                npc.ai[1] += 1f;
-				if (deadBrother || CalamityWorld.malice)
-				{
-					npc.ai[1] += 1f;
-				}
+				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, totalLifeRatio * 0.5f);
+				npc.ai[1] += fireRate;
 				if (npc.ai[1] >= 45f)
                 {
                     npc.ai[1] = 0f;
@@ -171,12 +174,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(npc.Center, new Vector2(4f, 0f), type, damage, 0f, Main.myPlayer);
                     }
                 }
-                npc.ai[2] += 1f;
-                if (deadBrother || CalamityWorld.malice)
-                {
-                    npc.ai[2] += 2f;
-                }
-                if (npc.ai[2] >= 300f)
+				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, totalLifeRatio * 0.5f);
+				npc.ai[2] += fireRate;
+				if (npc.ai[2] >= 300f)
                 {
                     npc.ai[2] = 0f;
                     float speed = 7f;
@@ -231,14 +231,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCatastropheGlow");
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}

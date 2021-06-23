@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 24;
             item.ranged = true;
             item.width = 34;
             item.height = 50;
@@ -87,17 +87,17 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i, 0f, 0f);
+                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i);
                     Main.projectile[num121].noDropItem = true;
-                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i, 0f, 0f);
+                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i);
                     Main.projectile[num122].noDropItem = true;
-                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i, 0f, 0f);
+                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i);
                     Main.projectile[num123].noDropItem = true;
                 }
             }

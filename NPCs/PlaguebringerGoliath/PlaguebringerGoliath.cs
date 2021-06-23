@@ -127,8 +127,22 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
 
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[0] == 0f || npc.ai[0] == 4f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
             if (!halfLife && phase3 && expertMode)
@@ -136,6 +150,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), npc.Center);
 
                 halfLife = true;
             }
@@ -276,6 +291,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -306,6 +322,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
 
                     return;
                 }
@@ -362,7 +379,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.netUpdate = true;
                         npc.netSpam -= 5;
 
-						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGDash"), npc.Center);
                         return;
                     }
 
@@ -518,6 +535,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -599,6 +617,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -680,6 +699,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -752,6 +772,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -775,6 +796,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -790,7 +812,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 116);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), npc.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {

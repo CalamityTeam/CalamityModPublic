@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,6 +38,16 @@ namespace CalamityMod.NPCs.Abyss
             npc.dontTakeDamage = true;
             npc.chaseable = false;
         }
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.localAI[0] = reader.ReadSingle();
+		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
@@ -81,7 +92,7 @@ namespace CalamityMod.NPCs.Abyss
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
-					npc.Opacity += 0.15f;
+					npc.Opacity += 0.2f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}
@@ -99,12 +110,12 @@ namespace CalamityMod.NPCs.Abyss
 			{
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
-					npc.ai[3] += 1f;
+					npc.localAI[0] += 1f;
 					float shootShadowFireballGateValue = 90f;
 					float divisor = 5f;
-					if (npc.ai[3] % divisor == 0f && npc.ai[3] >= shootShadowFireballGateValue)
+					if (npc.ai[3] % divisor == 0f && npc.localAI[0] >= shootShadowFireballGateValue)
 					{
-						npc.ai[3] = 0f;
+						npc.localAI[0] = 0f;
 						float distanceVelocityBoost = MathHelper.Clamp((Vector2.Distance(Main.npc[(int)npc.ai[2]].Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) - 1600f) * 0.025f, 0f, 16f);
 						float fireballVelocity = (Main.player[Main.npc[(int)npc.ai[2]].target].Calamity().ZoneAbyssLayer4 ? 6f : 8f) + distanceVelocityBoost;
 						Vector2 destination = Main.player[Main.npc[(int)npc.ai[2]].target].Center - npc.Center;
@@ -163,7 +174,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmBodyAltGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmBodyAltGlowHuge").Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmBodyAltGlowHuge"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);

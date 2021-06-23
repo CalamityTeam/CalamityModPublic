@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private int extraUpdateCounter = 0;
-        private const int UpdatesPerFrame = 3;
+        private const int UpdatesPerFrame = 2;
 
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = UpdatesPerFrame;
-
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
         }

@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -168,6 +170,7 @@ namespace CalamityMod.NPCs.Abyss
 			Player player = Main.player[npc.target];
 
 			bool targetDownDeep = player.Calamity().ZoneAbyssLayer4;
+			bool targetOnMount = player.mount.Active;
 
 			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
@@ -185,12 +188,12 @@ namespace CalamityMod.NPCs.Abyss
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
 					int Previous = npc.whoAmI;
-					for (int num36 = 0; num36 < maxLength; num36++)
+					for (int i = 0; i < maxLength; i++)
 					{
 						int lol;
-						if (num36 >= 0 && num36 < minLength)
+						if (i >= 0 && i < minLength)
 						{
-							if (num36 % 2 == 0)
+							if (i % 2 == 0)
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), npc.whoAmI);
 							else
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), npc.whoAmI);
@@ -204,6 +207,7 @@ namespace CalamityMod.NPCs.Abyss
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
+						Main.npc[Previous].ai[3] = i;
 					}
 					TailSpawned = true;
 				}
@@ -213,17 +217,32 @@ namespace CalamityMod.NPCs.Abyss
             if (player.dead)
             {
                 npc.TargetClosest(false);
-
-				npc.velocity.Y += 2f;
-				if (npc.position.Y > Main.worldSurface * 16.0)
-					npc.velocity.Y += 2f;
-
-				if (npc.position.Y > Main.rockLayer * 16.0)
+				player = Main.player[npc.target];
+				if (player.dead)
 				{
-					for (int a = 0; a < Main.maxNPCs; a++)
+					npc.ai[3] = 0f;
+					npc.localAI[0] = 0f;
+					npc.localAI[1] = 0f;
+					npc.localAI[2] = 0f;
+					npc.localAI[3] = 0f;
+					AIState = (float)Phase.ChargeOne;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					calamityGlobalNPC.newAI[3] = 1f;
+					chargeVelocityScalar = 0f;
+					rotationDirection = 0;
+
+					npc.velocity.Y += 2f;
+					if (npc.position.Y > Main.worldSurface * 16.0)
+						npc.velocity.Y += 2f;
+
+					if (npc.position.Y > Main.rockLayer * 16.0)
 					{
-						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
-							Main.npc[a].active = false;
+						for (int a = 0; a < Main.maxNPCs; a++)
+						{
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
+								Main.npc[a].active = false;
+						}
 					}
 				}
 			}
@@ -264,6 +283,20 @@ namespace CalamityMod.NPCs.Abyss
 			float ancientDoomGateValue = 120f;
 			float lightningChargePhaseGateValue = 180f;
 
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
 			// Adjust opacity
 			bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);
 			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC.newAI[2] <= lightningChargePhaseGateValue + 1f && AIState == (float)Phase.LightningCharge;
@@ -271,7 +304,7 @@ namespace CalamityMod.NPCs.Abyss
 			npc.dontTakeDamage = invisiblePartOfChargePhase || invisiblePartOfLightningChargePhase || invisiblePhase;
 			if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
 			{
-				npc.Opacity += 0.15f;
+				npc.Opacity += 0.2f;
 				if (npc.Opacity > 1f)
 					npc.Opacity = 1f;
 			}
@@ -513,7 +546,7 @@ namespace CalamityMod.NPCs.Abyss
 								}
 
 								float predictionAmt = targetDownDeep ? 45f : 60f;
-								float lightningVelocity = targetDownDeep ? 6f : 8f;
+								float lightningVelocity = (targetDownDeep && !targetOnMount) ? 6f : 8f;
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
@@ -1357,13 +1390,18 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlowHuge"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
-        public override void NPCLoot()
+		public override void BossLoot(ref string name, ref int potionType)
+		{
+			potionType = ModContent.ItemType<OmegaHealingPotion>();
+		}
+
+		public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());

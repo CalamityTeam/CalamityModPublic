@@ -23,6 +23,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Environment;
@@ -1105,8 +1106,12 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gSabatonFall--;
 			if (modPlayer.astralStarRainCooldown > 0)
 				modPlayer.astralStarRainCooldown--;
+			if (modPlayer.tarraRangedCooldown > 0)
+				modPlayer.tarraRangedCooldown--;
 			if (modPlayer.bloodflareMageCooldown > 0)
 				modPlayer.bloodflareMageCooldown--;
+			if (modPlayer.silvaMageCooldown > 0)
+				modPlayer.silvaMageCooldown--;
 			if (modPlayer.tarraMageHealCooldown > 0)
 				modPlayer.tarraMageHealCooldown--;
 			if (modPlayer.featherCrownCooldown > 0)
@@ -2477,17 +2482,6 @@ namespace CalamityMod.CalPlayer
 				player.meleeDamage += 0.2f;
 			}
 
-			if (modPlayer.eScarfBoost)
-			{
-				player.allDamage += 0.1f;
-				modPlayer.AllCritBoost(10);
-			}
-			if (modPlayer.sMeleeBoost)
-			{
-				player.allDamage += 0.1f;
-				modPlayer.AllCritBoost(5);
-			}
-
 			if (modPlayer.tFury)
 			{
 				player.meleeDamage += 0.3f;
@@ -3643,8 +3637,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.GetStatBonuses();
 
 			// True melee damage bonuses
-			double damageAdd = (modPlayer.dodgeScarf ? 0.15 : 0) +
-					(modPlayer.evasionScarf ? 0.1 : 0) +
+			double damageAdd = (modPlayer.dodgeScarf ? 0.1 : 0) +
+					(modPlayer.evasionScarf ? 0.05 : 0) +
 					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
 					(modPlayer.fungalSymbiote ? 0.15 : 0) +
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +

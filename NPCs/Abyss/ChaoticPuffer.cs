@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
