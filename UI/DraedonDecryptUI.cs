@@ -19,6 +19,7 @@ namespace CalamityMod.UI
         public static int ViewedTileEntityID = -1;
         public static bool AwaitingDecryptionTextClose = false;
         public static float VerificationButtonScale = 1f;
+        public static float CancelButtonScale = 0.75f;
         public static float ContactButtonScale = 1f;
         public static readonly Vector2 BackgroundCenter = new Vector2(500f, Main.screenHeight * 0.5f);
 
@@ -30,6 +31,7 @@ namespace CalamityMod.UI
             if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || !(TileEntity.ByID[ViewedTileEntityID] is TECodebreaker codebreakerTileEntity))
             {
                 VerificationButtonScale = 1f;
+                CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
                 return;
@@ -39,6 +41,7 @@ namespace CalamityMod.UI
             if (!Main.LocalPlayer.WithinRange(codebreakerTileEntity.Center, 270f))
             {
                 VerificationButtonScale = 1f;
+                CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
                 return;
@@ -48,6 +51,7 @@ namespace CalamityMod.UI
             if (!Main.playerInventory)
             {
                 VerificationButtonScale = 1f;
+                CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
                 return;
@@ -70,22 +74,24 @@ namespace CalamityMod.UI
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * 60f;
 
             Vector2 schematicSlotDrawCenter = cellDrawCenter + Vector2.UnitY * 70f;
+            Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
+            Vector2 costVerificationLocation = costDisplayLocation + Vector2.UnitY * 60f;
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
-                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter);
+                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 30f));
 
             // Handle decryption costs.
             else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
             {
                 int cost = codebreakerTileEntity.DecryptionCellCost;
-                Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
-                Vector2 costVerificationLocation = costDisplayLocation + Vector2.UnitY * 60f;
                 DisplayCostText(costDisplayLocation, cost);
 
                 if (codebreakerTileEntity.InputtedCellCount >= cost)
                     DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation);
             }
+            else if (codebreakerTileEntity.DecryptionCountdown > 0)
+                DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * 30f);
 
             Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 48f);
             if (codebreakerTileEntity.ReadyToSummonDreadon)
@@ -275,6 +281,37 @@ namespace CalamityMod.UI
 
             // Draw the confirmation icon.
             Main.spriteBatch.Draw(confirmationTexture, drawPosition, null, Color.White, 0f, confirmationTexture.Size() * 0.5f, VerificationButtonScale, SpriteEffects.None, 0f);
+        }
+
+        public static void DisplayDecryptCancelButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
+        {
+            Texture2D cancelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptCancelIcon");
+            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, cancelTexture.Size() * CancelButtonScale * 1.2f);
+            // Click if the mouse is hovering over the contact button area.
+            if (MouseScreenArea.Intersects(clickArea))
+            {
+                // If so, cause the button to inflate a little bit.
+                CancelButtonScale = MathHelper.Clamp(CancelButtonScale + 0.035f, 0.75f, 1.2f);
+
+                // If a click is done, cancel the decryption process.
+                // This will cause already consumed cells to be lost.
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                {
+                    Main.PlaySound(SoundID.Item94, Main.LocalPlayer.Center);
+                    AwaitingDecryptionTextClose = false;
+                    codebreakerTileEntity.InitialCellCountBeforeDecrypting = 0;
+                    codebreakerTileEntity.DecryptionCountdown = 0;
+                    codebreakerTileEntity.SyncContainedStuff();
+                    codebreakerTileEntity.SyncDecryptCountdown();
+                }
+            }
+
+            // Otherwise, if not hovering, cause the button to deflate back to its normal size.
+            else
+                CancelButtonScale = MathHelper.Clamp(VerificationButtonScale - 0.05f, 0.75f, 1.2f);
+
+            // Draw the cancel icon.
+            Main.spriteBatch.Draw(cancelTexture, drawPosition, null, Color.White, 0f, cancelTexture.Size() * 0.5f, CancelButtonScale, SpriteEffects.None, 0f);
         }
 
         public static void HandleDecryptionStuff(TECodebreaker codebreakerTileEntity, Texture2D backgroundTexture, Vector2 backgroundTopLeft, Vector2 barCenter)
