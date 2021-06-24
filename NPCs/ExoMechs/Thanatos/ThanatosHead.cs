@@ -619,10 +619,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										{
 											float squishedRatio = (float)Math.Pow((float)Math.Sin(MathHelper.Pi * b / 6f), 2D);
 											float smoothenedRatio = MathHelper.SmoothStep(0f, 1f, squishedRatio);
+											Main.projectile[beam].ai[0] = npc.whoAmI;
 											Main.projectile[beam].ai[1] = MathHelper.Lerp(-0.74f, 0.74f, smoothenedRatio);
 										}
 									}
-									Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
+									int beam2 = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
+									if (Main.projectile.IndexInRange(beam2))
+										Main.projectile[beam2].ai[0] = npc.whoAmI;
 								}
 							}
 						}
@@ -635,7 +638,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								{
 									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, 255, npc.whoAmI);
+									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, 255, npc.whoAmI);
+									if (Main.projectile.IndexInRange(laser))
+										Main.projectile[laser].ai[0] = npc.whoAmI;
 								}
 							}
 						}
