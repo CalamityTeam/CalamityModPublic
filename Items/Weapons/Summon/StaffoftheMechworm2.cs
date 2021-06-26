@@ -8,6 +8,9 @@ namespace CalamityMod.Items.Weapons.Summon
 {
 	public class StaffoftheMechworm2 : ModItem
     {
+        // This is unfinished atm.
+        public override bool Autoload(ref string name) => false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of the Mechworm (But Exhumed!)");
