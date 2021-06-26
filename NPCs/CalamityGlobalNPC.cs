@@ -3944,6 +3944,8 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
+				if (projectile.type == ProjectileType<YharimsCrystalBeam>())
+					damage = (int)(damage * 0.75);
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.9);
 			}
