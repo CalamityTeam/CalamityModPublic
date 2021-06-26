@@ -214,10 +214,7 @@ namespace CalamityMod
 			if (EnchantmentManager.ItemUpgradeRelationship.ContainsValue(item.type))
 				return true;
 
-			if (item.Calamity().AppliedEnchantment.HasValue)
-				return true;
-
-			return false;
+			return item.Calamity().AppliedEnchantment.HasValue;
 		}
 
 		public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
