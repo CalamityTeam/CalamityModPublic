@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                         Main.PlaySound(SoundID.Item122, ArmPosition);
                         if (Main.myPlayer == projectile.owner)
                         {
-                            Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center) * 2f;
+                            Vector2 initialVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
                             if (Main.rand.NextBool(2))
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == projectile.owner)
                 {
-                    Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
+                    Vector2 initialVelocity = projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
                     Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.tileCollide = false;
 
                 if (projectile.DistanceSQ(destination - Vector2.UnitY * 16f) > 10f * 10f)
-                    projectile.velocity = projectile.DirectionTo(destination - Vector2.UnitY * 16f) * 6f;
+                    projectile.velocity = projectile.SafeDirectionTo(destination - Vector2.UnitY * 16f) * 6f;
                 else
                     StuckWalkThroughWallsTimer = 0;
 

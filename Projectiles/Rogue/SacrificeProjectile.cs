@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (ReturningToOwner)
             {
                 projectile.timeLeft = 2;
-                projectile.velocity = projectile.DirectionTo(Owner.Center) * 24f;
+                projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 24f;
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
 
                 // Heal the player and disappear when touching them.

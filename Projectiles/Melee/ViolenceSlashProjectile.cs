@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Main.myPlayer == projectile.owner && !projectile.WithinRange(Main.MouseWorld, projectile.height + 15f))
             {
-                projectile.velocity = projectile.DirectionTo(Main.MouseWorld);
+                projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld);
                 projectile.netSpam = 0;
                 projectile.netUpdate = true;
             }

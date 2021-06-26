@@ -210,7 +210,7 @@ namespace CalamityMod.Projectiles.Magic
 
             FlyAcceleration = MathHelper.Lerp(FlyAcceleration, idealFlyAcceleration, 0.3f);
 
-            float directionToTargetOrthogonality = Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(destination));
+            float directionToTargetOrthogonality = Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.SafeDirectionTo(destination));
 
             // Fly towards the target if it's far.
             if (distanceFromDestination > 320f)

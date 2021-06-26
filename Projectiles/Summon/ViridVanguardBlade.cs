@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Summon
                 else if (FiringTime == 80f)
                 {
                     PostSliceDeathTimer = 80;
-                    projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * 30f;
+                    projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld) * 30f;
                 }
                 else if (FiringTime == 1f)
                 {

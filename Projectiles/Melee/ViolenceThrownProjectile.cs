@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 ReturnToOwner();
 
-                float idealAngle = projectile.AngleTo(Owner.Center) - MathHelper.PiOver4 + MathHelper.Pi;
+                float idealAngle = projectile.AngleTo(Owner.Center) - MathHelper.PiOver4;
                 projectile.rotation = projectile.rotation.AngleLerp(idealAngle, 0.1f);
                 projectile.rotation = projectile.rotation.AngleTowards(idealAngle, 0.25f);
             }
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.WithinRange(Main.MouseWorld, projectile.velocity.Length() * 0.7f))
                 projectile.Center = Main.MouseWorld;
             else
-                projectile.velocity = (projectile.velocity * 6f + projectile.DirectionTo(Main.MouseWorld) * 14f) / 7f;
+                projectile.velocity = (projectile.velocity * 3f + projectile.DirectionTo(Main.MouseWorld) * 19f) / 4f;
             projectile.netSpam = 0;
             projectile.netUpdate = true;
         }
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
         internal void ReturnToOwner()
         {
             projectile.Center = Vector2.Lerp(projectile.Center, Owner.Center, 0.02f);
-            projectile.velocity = projectile.DirectionTo(Owner.Center) * 15f;
+            projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 22f;
             if (projectile.Hitbox.Intersects(Owner.Hitbox))
             {
                 for (int i = 0; i < 75; i++)

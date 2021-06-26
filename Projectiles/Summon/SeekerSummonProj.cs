@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.03f);
 
 			if (!projectile.WithinRange(destination, 20f))
-				projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(destination) * 16f) / 21f;
+				projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(destination) * 16f) / 21f;
 
 			if (!projectile.WithinRange(Owner.Center, 1800f))
 			{
@@ -142,9 +142,9 @@ namespace CalamityMod.Projectiles.Summon
 
 			projectile.spriteDirection = (projectile.velocity.X > 0f).ToDirectionInt();
 			if (!projectile.WithinRange(target.Center, 400f))
-				projectile.velocity = (projectile.velocity * 10f + projectile.DirectionTo(target.Center) * 22f) / 11f;
+				projectile.velocity = (projectile.velocity * 10f + projectile.SafeDirectionTo(target.Center) * 22f) / 11f;
 			else if (projectile.velocity.Length() < 28f)
-				projectile.velocity = projectile.DirectionTo(target.Center) * 29f;
+				projectile.velocity = projectile.SafeDirectionTo(target.Center) * 29f;
 		}
 	}
 }

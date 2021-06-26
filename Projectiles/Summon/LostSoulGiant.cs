@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
         public static void HomeInOnTarget(Projectile projectile, NPC target)
         {
             float speed = MathHelper.Lerp(11f, 21f, (float)Math.Sin(projectile.identity % 7f / 7f * MathHelper.TwoPi) * 0.5f + 0.5f);
-            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * speed, 0.075f);
+            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(target.Center) * speed, 0.075f);
         }
 
         public override Color? GetAlpha(Color lightColor)

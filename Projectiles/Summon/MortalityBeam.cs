@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             Time++;
             NPC potentialTarget = projectile.Center.MinionHoming(1000f, Main.player[projectile.owner], false);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 13f) / 6f;
+                projectile.velocity = (projectile.velocity * 5f + projectile.SafeDirectionTo(potentialTarget.Center) * 13f) / 6f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

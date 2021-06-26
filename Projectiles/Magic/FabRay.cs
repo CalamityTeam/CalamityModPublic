@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(180f, false);
                 if (potentialTarget != null)
                 {
-                    Vector2 shootVelocity = projectile.DirectionTo(potentialTarget.Center) * 13f;
+                    Vector2 shootVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 13f;
                     Projectile.NewProjectile(projectile.Center - shootVelocity * 2.5f, shootVelocity, ModContent.ProjectileType<FabBolt>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
 

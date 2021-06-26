@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (!projectile.WithinRange(target.Center, 30f))
             {
-                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(target.Center) * newSpeed) / 6f;
+                projectile.velocity = (projectile.velocity * 5f + projectile.SafeDirectionTo(target.Center) * newSpeed) / 6f;
                 projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(target.Center), 0.15f).ToRotationVector2() * newSpeed;
             }
 		}

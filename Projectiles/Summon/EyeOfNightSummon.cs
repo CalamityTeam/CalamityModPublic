@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
         internal void FlyNearOwner()
         {
             Vector2 destination = Owner.Top - Vector2.UnitY * 45f + (projectile.identity * 0.9f).ToRotationVector2() * 16f;
-            Vector2 idealVelocity = projectile.DirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.InverseLerp(16f, 160f, projectile.Distance(destination)));
+            Vector2 idealVelocity = projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.InverseLerp(16f, 160f, projectile.Distance(destination)));
             if (projectile.velocity.Length() < 0.4f)
                 projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool(2).ToDirectionInt()) * -3.6f;
             else if (!projectile.WithinRange(destination, 20f))
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == projectile.owner && HoverTime % 30 == 29)
             {
-                Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), projectile.damage, projectile.knockBack, projectile.owner);
                 HoverTime++;
             }
 

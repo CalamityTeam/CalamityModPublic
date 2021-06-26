@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 laserOrigin = frame.Size() * 0.5f;
                 while (remainingDistance > frame.Height * laserScale)
 				{
-                    Vector2 laserDrawPosition = projectile.Center + projectile.DirectionTo(destination) * remainingDistance - Main.screenPosition;
+                    Vector2 laserDrawPosition = projectile.Center + projectile.SafeDirectionTo(destination, -Vector2.UnitY) * remainingDistance - Main.screenPosition;
                     spriteBatch.Draw(laserTexture, laserDrawPosition, frame, laserColor, rotation, laserOrigin, laserScale, SpriteEffects.None, 0f);
                     remainingDistance -= frame.Height * laserScale;
                 }

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Violence");
-            Tooltip.SetDefault("Does things");
+            Tooltip.SetDefault("Releases a blazing fork which stays near the mouse and shreds enemies");
         }
 
         public override void SetDefaults()
@@ -37,17 +37,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 15f;
         }
 
-        public override bool AltFunctionUse(Player player) => true;
-
         public override bool CanUseItem(Player player) => player.altFunctionUse == 2 || player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse != 2)
-                return true;
-
             Vector2 shootVelocity = new Vector2(speedX, speedY);
-            Projectile.NewProjectile(position, shootVelocity, ModContent.ProjectileType<ViolenceSlashProjectile>(), damage, knockBack, player.whoAmI, 0f, shootVelocity.ToRotation());
+            Projectile.NewProjectile(position, shootVelocity, type, damage, knockBack, player.whoAmI, 0f, shootVelocity.ToRotation());
             return false;
         }
     }

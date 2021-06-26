@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity = projectile.velocity.RotatedBy(MathHelper.Clamp(angleOffset, -0.2f, 0.2f));
             projectile.velocity = projectile.velocity.SafeNormalize(-Vector2.UnitY) * (projectile.velocity.Length() + HomingAcceleration);
 
-            if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(target.Center)) < 0.75f)
+            if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.SafeDirectionTo(target.Center)) < 0.75f)
                 projectile.velocity *= 0.75f;
         }
         #endregion

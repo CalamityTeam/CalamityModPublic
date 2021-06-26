@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Magic
                     return false;
             }
 
-            Vector2 spawnOffset = player.DirectionTo(Main.MouseWorld).RotatedBy(offsetAngle) * -Main.rand.NextFloat(40f, 96f);
+            Vector2 spawnOffset = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedBy(offsetAngle) * -Main.rand.NextFloat(40f, 96f);
             Vector2 shootDirection = (Main.MouseWorld - (position + spawnOffset)).SafeNormalize(Vector2.UnitX * player.direction);
             int beam = Projectile.NewProjectile(position + spawnOffset, shootDirection * shootSpeed, type, damage, knockBack, player.whoAmI);
 

@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (SittingOnGround && HopTimer % 20f == 19f)
 			{
-				projectile.velocity = projectile.DirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -7f);
+				projectile.velocity = projectile.SafeDirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -7f);
 
 				// Release a bunch of blood.
 				if (Main.myPlayer == projectile.owner)

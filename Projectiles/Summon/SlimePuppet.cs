@@ -48,14 +48,14 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 destination = Owner.Center - Vector2.UnitY.RotatedBy(destinationAngularOffset) * 160f;
 
                 if (projectile.DistanceSQ(destination) > 18f * 18f)
-                    projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(destination) * 9f) / 21f;
+                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(destination) * 9f) / 21f;
             }
             else
             {
                 float nudgedVelocityDirection = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(potentialTarget.Center), 0.078f);
                 projectile.velocity = nudgedVelocityDirection.ToRotationVector2() * MathHelper.Lerp(projectile.velocity.Length(), 16f, 0.25f);
-                if (projectile.DistanceSQ(potentialTarget.Center) < 120f * 120f)
-                    projectile.Center += projectile.DirectionTo(potentialTarget.Center) * 3f;
+                if (projectile.WithinRange(potentialTarget.Center, 120f))
+                    projectile.Center += projectile.SafeDirectionTo(potentialTarget.Center) * 3f;
             }
             if (projectile.ai[0] > 0f)
             {
