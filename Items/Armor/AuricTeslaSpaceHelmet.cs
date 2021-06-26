@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor
             player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
-            player.minionDamage += 1.2f;
+            player.minionDamage += 0.9f;
             player.maxMinions += 8;
             if (player.lavaWet)
             {
