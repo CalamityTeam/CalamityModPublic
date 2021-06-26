@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rainbow Party Cannon");
-            Tooltip.SetDefault("You should never see this lol");
+            Tooltip.SetDefault("Let the rainbow remind you that together we will always shine...");
         }
 
         public override void SetDefaults()
@@ -51,12 +51,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 20f;
         }
 
-        public static string DiscoHex => $"c/{(int)MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f):X2}{108:X2}{251:X2}:";
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            tt2.text = $"[" + DiscoHex + "Let the rainbow remind you that together we will always shine...]";
+            tt2.overrideColor = new Color(MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f), 108f, 251f);
         }
 
         public override void AddRecipes()
