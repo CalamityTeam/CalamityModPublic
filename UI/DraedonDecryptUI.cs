@@ -358,13 +358,10 @@ namespace CalamityMod.UI
                 return;
 
             // Draw a small bar at the bottom to indicate how much work is left.
-            Texture2D borderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeterBorder");
-            Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeter");
+            Texture2D borderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBar");
+            Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBarCharge");
             Main.spriteBatch.Draw(borderTexture, barCenter, null, Color.White, 0f, borderTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
-
-            // Only 90% is displayed on completion. 100% causes the bar to appear as though it's already complete at around 85%.
-            // This happens since the final section of the bar is obscured by the border.
-            Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion * 0.9f), barTexture.Width);
+            Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion), barTexture.Width);
             Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, barTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 
             // Display a completion percentage below the bar as a more precise indicator.
