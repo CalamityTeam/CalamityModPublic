@@ -3922,17 +3922,6 @@ namespace CalamityMod.NPCs
 				// For Onyxia.
 				if (projectile.type == ProjectileID.BlackBolt)
 					damage = (int)(damage * 0.9);
-
-				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
-					projectile.type == ProjectileType<PowerfulRaven>())
-				{
-					damage = (int)(damage * 0.85);
-				}
-				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
-					damage = (int)(damage * 0.8);
-
-				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
-					damage = (int)(damage * 0.81);
 			}
 			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
 			{
