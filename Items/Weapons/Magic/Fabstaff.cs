@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FabRay>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 13.5f;
         }
 
         public override Vector2? HoldoutOrigin()

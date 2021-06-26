@@ -421,7 +421,7 @@ namespace CalamityMod
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<GhastlyVisageProj>(),
-                // ProjectileType<ApotheosisWorm>(), // TODO: ADD THE APOTHEOSIS WORM HERE LATER. IT IS IN A DIFFERENT BRANCH AS OF WRITING THIS.
+                ProjectileType<ApotheosisWorm>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<SylvanSlashAttack>(),
@@ -429,6 +429,8 @@ namespace CalamityMod
                 ProjectileType<MurasamaSlash>(),
                 ProjectileType<PhaseslayerProjectile>(),
                 ProjectileType<TaintedBladeSlasher>(),
+                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileType<SpineOfThanatosProjectile>(),
 
                 //Some hostile boss projectiles
                 ProjectileType<BrimstoneMonster>(),
