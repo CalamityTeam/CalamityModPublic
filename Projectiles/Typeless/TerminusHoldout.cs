@@ -68,13 +68,13 @@ namespace CalamityMod.Projectiles.Typeless
             CreateIdleMagicDust();
             float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.InverseLerp(Lifetime * 0.725f, Lifetime, Time, true));
             currentShakePower *= 1f - Utils.InverseLerp(1000f, 3100f, Main.LocalPlayer.Distance(projectile.Center), true);
-            Main.LocalPlayer.Calamity().ScreenShakePower = currentShakePower;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
 		}
 
         public void CreateEffectsHandler()
 		{
             Main.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, Main.LocalPlayer.Center);
-            Main.LocalPlayer.Calamity().ScreenShakePower = 16f;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower = 16f;
             if (Main.myPlayer == projectile.owner)
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEffectThing>(), 0, 0f, projectile.owner);
         }

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
             BossRushEvent.SyncEndTimer((int)Time);
 
             float currentShakePower = MathHelper.Lerp(1f, 20f, Utils.InverseLerp(140f, 180f, Time, true) * Utils.InverseLerp(10f, 40f, projectile.timeLeft, true));
-            Main.LocalPlayer.Calamity().ScreenShakePower = currentShakePower;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
 
             MoonlordDeathDrama.RequestLight(Utils.InverseLerp(220f, 265f, Time, true) * Utils.InverseLerp(10f, 30f, projectile.timeLeft, true), Main.LocalPlayer.Center);
 
