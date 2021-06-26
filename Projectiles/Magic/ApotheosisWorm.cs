@@ -301,7 +301,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Portal drawing at the start of the devourer's lifetime.
-            // This is extremely similar to the 
+            // This is extremely similar to the portal created when DoG teleports.
             if (Time < 60f)
             {
                 float currentFade = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(60f, 52f, Time, true);
