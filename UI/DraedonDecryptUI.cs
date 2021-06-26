@@ -405,7 +405,7 @@ namespace CalamityMod.UI
             // Display a completion percentage below the bar as a more precise indicator.
             string completionText = $"{codebreakerTileEntity.DecryptionCompletion * 100f:n2}%";
             Vector2 textDrawPosition = barCenter + new Vector2(-Main.fontMouseText.MeasureString(completionText).X * 0.5f, 10f);
-            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, completionText, textDrawPosition.X, textDrawPosition.Y, Color.Red * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, 1f);
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, completionText, textDrawPosition.X, textDrawPosition.Y, Color.Cyan * 1.2f, Color.Black, Vector2.Zero, 1f);
         }
 
         public static void HandleDraedonSummonButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
