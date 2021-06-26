@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (flag10 && Main.myPlayer == projectile.owner)
             {
-                bool flag11 = !flag9 || player.CheckMana(player.ActiveItem().mana, true, false);
+                bool flag11 = !flag9 || player.CheckMana(player.ActiveItem(), -1, true, false);
                 bool flag12 = player.channel && flag11 && !player.noItems && !player.CCed;
                 if (flag12)
                 {

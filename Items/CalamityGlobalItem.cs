@@ -6,8 +6,10 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -15,8 +17,10 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -50,10 +54,26 @@ namespace CalamityMod.Items
 				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
 			}
 		}
-        #endregion
+		#endregion
 
-        // Miscellaneous stuff
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		#region Enchantment Variables
+		public Enchantment? AppliedEnchantment = null;
+		public float DischargeEnchantExhaustion = 0;
+		public float DischargeExhaustionRatio
+		{
+			get
+			{
+				float ratio = DischargeEnchantExhaustion / DischargeEnchantExhaustionCap;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+		public const float DischargeEnchantExhaustionCap = 1600f;
+		public const float DischargeEnchantMinDamageFactor = 0.77f;
+		public const float DischargeEnchantMaxDamageFactor = 1.26f;
+		#endregion
+
+		// Miscellaneous stuff
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
         public int reforgeTier = 0;
         public bool donorItem = false;
@@ -83,6 +103,7 @@ namespace CalamityMod.Items
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 			myClone.StealthGenBonus = StealthGenBonus;
+			myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 			myClone.Charge = Charge;
 			return myClone;
 		}
@@ -236,6 +257,7 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			CalamityPlayer modPlayer = player.Calamity();
+
             if (rogue)
             {
                 speedX *= modPlayer.throwingVelocity;
@@ -476,10 +498,10 @@ namespace CalamityMod.Items
 			}
             return true;
         }
-        #endregion
+		#endregion
 
-        #region SavingAndLoading
-        public override bool NeedsSaving(Item item)
+		#region SavingAndLoading
+		public override bool NeedsSaving(Item item)
         {
             return true;
         }
@@ -492,8 +514,10 @@ namespace CalamityMod.Items
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
-				["reforgeTier"] = reforgeTier
-            };
+				["reforgeTier"] = reforgeTier,
+				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
+				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion
+			};
         }
 
         public override void Load(Item item, TagCompound tag)
@@ -508,8 +532,16 @@ namespace CalamityMod.Items
             else
                 Charge = tag.GetFloat("charge");
 
+			DischargeEnchantExhaustion = tag.GetFloat("DischargeEnchantExhaustion");
 			reforgeTier = tag.GetInt("reforgeTimer");
-        }
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				item.Calamity().AppliedEnchantment.Value.CreationEffect?.Invoke(item);
+			}
+		}
 
         public override void LoadLegacy(Item item, BinaryReader reader)
         {
@@ -540,7 +572,9 @@ namespace CalamityMod.Items
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
-        }
+			writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+			writer.Write(DischargeEnchantExhaustion);
+		}
 
         public override void NetReceive(Item item, BinaryReader reader)
         {
@@ -551,7 +585,17 @@ namespace CalamityMod.Items
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
-        }
+
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				if (hasCreationEffect)
+					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+			}
+			DischargeEnchantExhaustion = reader.ReadSingle();
+		}
         #endregion
 
         #region Pickup Item Changes
@@ -597,7 +641,7 @@ namespace CalamityMod.Items
 				NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
 			}
 
-            return base.UseItem(item, player);
+			return base.UseItem(item, player);
         }
 
         public override bool AltFunctionUse(Item item, Player player)
@@ -706,7 +750,22 @@ namespace CalamityMod.Items
             if (PopupGUIManager.AnyGUIsActive)
                 return false;
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+			if (player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+			{
+				Point spawnPosition = Main.MouseWorld.ToPoint();
+				NPC.NewNPC(spawnPosition.X, spawnPosition.Y, ModContent.NPCType<CalamitasEnchantDemon>(), Target: player.whoAmI);
+				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+			}
+
+			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
+			if (player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+			{
+				int damage = (int)(165000 * player.MagicDamage());
+				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
+				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), damage, 0f, player.whoAmI);
+			}
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
                 return false; // Don't use weapons if you're charging with a spear
@@ -727,6 +786,15 @@ namespace CalamityMod.Items
             // Conversion for Profaned Soul Crystal
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
+
+			// Exhaust the weapon if it has the necessary enchant.
+			if (!item.IsAir && modPlayer.dischargingItemEnchant)
+			{
+				float exhaustionCost = item.useTime * 2.25f;
+				if (exhaustionCost < 10f)
+					exhaustionCost = 10f;
+				DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+			}
 
             // Check for sufficient charge if this item uses charge.
             if (item.type >= ItemID.Count && modItem.UsesCharge)
@@ -837,7 +905,11 @@ namespace CalamityMod.Items
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
             CalamityGlobalItem modItem = item.Calamity();
-            if (!item.summon && (modItem?.UsesCharge ?? false))
+
+			if (!item.summon && modItem.DischargeEnchantExhaustion > 0f)
+				mult *= DischargeEnchantmentDamageFormula();
+
+			if (!item.summon && (modItem?.UsesCharge ?? false))
             {
                 // At exactly zero charge, do not perform any multiplication.
                 // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
@@ -847,9 +919,20 @@ namespace CalamityMod.Items
             }
         }
 
-        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
-        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
-        internal float ChargeDamageFormula()
+		internal float DischargeEnchantmentDamageFormula()
+		{
+			// This exponential has the properties of beginning at 0 and ending at 1, yet also has their signature rising curve.
+			// It is therefore perfect for a potential interpolant.
+			float interpolant = (float)Math.Pow(2D, DischargeExhaustionRatio) - 1f;
+
+			// No further smoothening is required in the form of a Smoothstep remap.
+			// A linear interpolation works fine; the exponential already has the desired curve shape.
+			return MathHelper.Lerp(DischargeEnchantMinDamageFactor, DischargeEnchantMaxDamageFactor, interpolant);
+		}
+
+		// This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+		// Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+		internal float ChargeDamageFormula()
         {
             float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
             float y = 1.087f - 0.08f / (x + 0.07f);
@@ -1630,6 +1713,48 @@ namespace CalamityMod.Items
 		{
 			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
 				CalamityUtils.ForceItemIntoWorld(item);
+		}
+		#endregion
+
+		#region Inventory Drawing
+		internal static ChargingEnergyParticleSet EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
+
+		internal static void UpdateAllParticleSets()
+		{
+			EnchantmentEnergyParticles.Update();
+		}
+
+		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			void drawItemManually(Color color, float generalScale)
+			{
+				Texture2D itemTexture = Main.itemTexture[item.type];
+				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
+			}
+
+			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
+				return true;
+
+			// Draw all particles.
+			float currentPower = 0f;
+			int calamitasNPCIndex = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			if (calamitasNPCIndex != -1)
+				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
+
+			position += frame.Size() * 0.25f;
+			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
+			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
+
+			float pulse = Main.GlobalTime * 0.79f % 1f;
+			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
+			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
+			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
+			drawItemManually(pulseColor, pulseScale);
+			drawItemManually(drawColor, 1f);
+
+			return false;
 		}
 		#endregion
 

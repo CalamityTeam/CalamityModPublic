@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -568,7 +569,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     forcefieldOpacity = Utils.InverseLerp(0.1f, 0.6f, npc.Opacity, true);
                     if (npc.alpha >= 230)
                     {
-                        // TODO: Spawn the town NPC variant of SCal here when it's on the public branch.
+                        if (CalamityWorld.downedSCal && !BossRushEvent.BossRushActive)
+                        {
+                            // Create a teleport line effect
+                            Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
+                            npc.Center = initialRitualPosition;
+
+                            // Make the town NPC spawn.
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
+                        }
+
                         npc.active = false;
                         npc.netUpdate = true;
                     }
@@ -995,7 +1006,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (CalamityWorld.downedSCal && !BossRushEvent.BossRushActive)
                     {
-                        // TODO: Spawn the town NPC variant of SCal again here.
                         if (giveUpCounter == 720)
                         {
                             for (int i = 0; i < 24; i++)
@@ -2722,6 +2732,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Create a teleport line effect
             Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
             npc.Center = initialRitualPosition;
+
+            // Make the town NPC spawn.
+            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
 
             // Increase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)

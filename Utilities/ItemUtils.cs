@@ -1,6 +1,8 @@
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.ID;
@@ -196,6 +198,25 @@ namespace CalamityMod
 			return moved;
 		}
 
+		/// <summary>
+		/// Determines if a given item is enchanted based on Calamitas' special system.
+		/// </summary>
+		/// <param name="item">The item to check.</param>
+		public static bool IsEnchanted(this Item item)
+		{
+			// If the item is air just immediately return false.
+			// It will not have a CalamityGlobalItem instance to use and attempting to do anything with it
+			// would just result in errors.
+			if (item.IsAir)
+				return false;
+
+			// If the item is contained in the enchant upgrade result relationship, return true.
+			if (EnchantmentManager.ItemUpgradeRelationship.ContainsValue(item.type))
+				return true;
+
+			return item.Calamity().AppliedEnchantment.HasValue;
+		}
+
 		public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
 		{
 			Player player = Main.player[Main.myPlayer];
@@ -362,6 +383,12 @@ namespace CalamityMod
 			return null;
 		}
 		#endregion
+
+		/// <summary>
+		/// Determines if an item can be enchanted by any item at all via Calamitas' enchantment system.
+		/// </summary>
+		/// <param name="item">The item to check.</param>
+		public static bool CanBeEnchantedBySomething(this Item item) => EnchantmentManager.EnchantmentList.Any(enchantment => enchantment.ApplyRequirement(item));
 
 		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
 		{

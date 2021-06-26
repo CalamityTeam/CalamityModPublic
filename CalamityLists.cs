@@ -355,7 +355,8 @@ namespace CalamityMod
                 ProjectileType<SausageMakerSpear>(),
                 ProjectileType<YateveoBloomSpear>(),
                 ProjectileType<HydraulicVoltCrasherProjectile>(),
-                ProjectileType<DragonRageStaff>()
+                ProjectileType<DragonRageStaff>(),
+                ProjectileType<TaintedBladeSlasher>()
             };
 
             rangedProjectileExceptionList = new List<int>()
@@ -427,6 +428,7 @@ namespace CalamityMod
                 ProjectileType<InfernadoFriendly>(),
                 ProjectileType<MurasamaSlash>(),
                 ProjectileType<PhaseslayerProjectile>(),
+                ProjectileType<TaintedBladeSlasher>(),
                 ProjectileType<PhotonRipperProjectile>(),
                 ProjectileType<SpineOfThanatosProjectile>(),
 

@@ -31,6 +31,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
@@ -121,6 +122,7 @@ namespace CalamityMod.CalPlayer
         public bool ableToDrawBlazingMouse = false;
         public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
+        public bool GivenBrimstoneLocus = false;
         #endregion
 
         #region Tile Entity Trackers
@@ -160,6 +162,7 @@ namespace CalamityMod.CalPlayer
         public bool newCirrusInventory = false;
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
+        public bool newCalamitasInventory = false;
         #endregion
 
         #region Stat Meter
@@ -723,6 +726,7 @@ namespace CalamityMod.CalPlayer
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
+        public bool weakBrimstoneFlames = false;
         public bool aFlames = false;
         public bool gsInferno = false;
         public bool astralInfection = false;
@@ -936,6 +940,7 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public bool sepulcher = false;
         public bool daedalusGolem = false;
         public bool deathstareEyeball = false;
         public bool witherBlossom = false;
@@ -1020,6 +1025,27 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformationPower;
         #endregion
 
+        #region Calamitas Enchant Effects
+        public bool cursedSummonsEnchant = false;
+        public bool flamingItemEnchant = false;
+        public bool lifeManaEnchant = false;
+        public bool farProximityRewardEnchant = false;
+        public bool closeProximityRewardEnchant = false;
+        public bool dischargingItemEnchant = false;
+        public bool explosiveMinionsEnchant = false;
+        public bool bladeArmEnchant = false;
+        public bool manaMonsterEnchant = false;
+
+        public bool witheringWeaponEnchant = false;
+        public bool witheredDebuff = false;
+        public int witheredWeaponHoldTime = 0;
+
+        public bool persecutedEnchant = false;
+        public int persecutedEnchantSummonTimer = 0;
+
+        public bool lecherousOrbEnchant = false;
+        #endregion Calamitas Enchant Effects
+
         #endregion
 
         #region SavingAndLoading
@@ -1067,6 +1093,7 @@ namespace CalamityMod.CalPlayer
             newCirrusInventory = false;
             newAmidiasInventory = false;
             newBanditInventory = false;
+            newCalamitasInventory = false;
         }
 
         public override TagCompound Save()
@@ -1115,6 +1142,8 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
             boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
+            boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
+            boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             return new TagCompound
             {
@@ -1190,6 +1219,8 @@ namespace CalamityMod.CalPlayer
             newCirrusInventory = boost.Contains("newCirrusInventory");
             newAmidiasInventory = boost.Contains("newAmidiasInventory");
             newBanditInventory = boost.Contains("newBanditInventory");
+            newCalamitasInventory = boost.Contains("newCalamitasInventory");
+            GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
             // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
             if (tag.ContainsKey("stress"))
@@ -1323,8 +1354,9 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-				finalTierAccessoryReforge = flags6[1];
-			}
+                finalTierAccessoryReforge = flags6[1];
+                newCalamitasInventory = flags6[2];
+            }
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -1754,6 +1786,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -1972,6 +2005,7 @@ namespace CalamityMod.CalPlayer
             plaguebringerPatronSummon = false;
             howlTrio = false;
             mountedScanner = false;
+            sepulcher = false;
             daedalusGolem = false;
             deathstareEyeball = false;
             witherBlossom = false;
@@ -2006,9 +2040,23 @@ namespace CalamityMod.CalPlayer
             RageDuration = DefaultRageDuration;
             RageDamageBoost = DefaultRageDamageBoost;
 
+            cursedSummonsEnchant = false;
+            flamingItemEnchant = false;
+            lifeManaEnchant = false;
+            farProximityRewardEnchant = false;
+            closeProximityRewardEnchant = false;
+            dischargingItemEnchant = false;
+            explosiveMinionsEnchant = false;
+            bladeArmEnchant = false;
+            manaMonsterEnchant = false;
+            witheringWeaponEnchant = false;
+            persecutedEnchant = false;
+            lecherousOrbEnchant = false;
             flatStealthLossReduction = 0;
 
             lastProjectileHit = null;
+
+            CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
         #endregion
 
@@ -2118,6 +2166,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -2412,6 +2461,7 @@ namespace CalamityMod.CalPlayer
             animusBoost = 1f;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
+            persecutedEnchantSummonTimer = 0;
 
             if (BossRushEvent.BossRushActive)
             {
@@ -4402,7 +4452,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
                 }
-                if (bFlames || aFlames)
+                if (bFlames || aFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
                 }
@@ -4548,7 +4598,7 @@ namespace CalamityMod.CalPlayer
             else
                 acidRoundMultiplier = 1D;
 
-            //Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
+            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
                 flat += 1f;
         }
@@ -6863,6 +6913,9 @@ namespace CalamityMod.CalPlayer
         #region Shoot
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (bladeArmEnchant)
+                return false;
+
             if (rottenDogTooth && item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
                 damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
@@ -7297,6 +7350,15 @@ namespace CalamityMod.CalPlayer
 
             if (player.whoAmI == Main.myPlayer)
             {
+                // Summon a portal if needed.
+                if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+                {
+                    Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
+                    if (Main.npc.IndexInRange(portal))
+                        Main.npc[portal].target = player.whoAmI;
+                }
+
 				if (revivify)
 				{
 					int healAmt = (int)(damage / 15D);
@@ -10657,6 +10719,33 @@ namespace CalamityMod.CalPlayer
             return light;
         }
 
+        #endregion
+
+        #region Mana Consumption Effects
+        public override void OnConsumeMana(Item item, int manaConsumed)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            if (Main.rand.NextBool(4) && modPlayer.lifeManaEnchant)
+            {
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.HealEffect(-5);
+                    player.statLife -= 5;
+                    if (player.statLife <= 0)
+                        player.KillMe(PlayerDeathReason.ByCustomReason($"{player.name} converted all of their life to mana."), 1000, -1);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Dust life = Dust.NewDustPerfect(player.Top + Main.rand.NextVector2Circular(player.width * 0.5f, 6f), 267);
+                    life.color = Color.Red;
+                    life.velocity = -Vector2.UnitY.RotatedByRandom(0.48f) * Main.rand.NextFloat(3f, 4.4f);
+                    life.scale = Main.rand.NextFloat(1.5f, 1.72f);
+                    life.fadeIn = 0.7f;
+                    life.noGravity = true;
+                }
+            }
+        }
         #endregion
     }
 }
