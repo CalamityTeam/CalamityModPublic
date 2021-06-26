@@ -56,7 +56,7 @@ namespace CalamityMod.TileEntities
 		}
 
 		public float DecryptionCompletion => 1f - DecryptionCountdown / (float)DecryptionTotalTime;
-		public bool ReadyToSummonDreadon => ContainsCoolingCell;
+		public bool ReadyToSummonDreadon => ContainsCoolingCell && DecryptionCountdown <= 0;
 
 		public bool ContainsDecryptionComputer;
 		public bool ContainsSensorArray;

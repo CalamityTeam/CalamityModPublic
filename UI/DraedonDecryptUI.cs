@@ -17,6 +17,7 @@ namespace CalamityMod.UI
     public static class DraedonDecryptUI
     {
         public static int ViewedTileEntityID = -1;
+        public static bool AwaitingCloseConfirmation = false;
         public static bool AwaitingDecryptionTextClose = false;
         public static float VerificationButtonScale = 1f;
         public static float CancelButtonScale = 0.75f;
@@ -34,6 +35,7 @@ namespace CalamityMod.UI
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
+                AwaitingCloseConfirmation = false;
                 return;
             }
 
@@ -44,6 +46,7 @@ namespace CalamityMod.UI
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
+                AwaitingCloseConfirmation = false;
                 return;
             }
 
@@ -54,6 +57,7 @@ namespace CalamityMod.UI
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
+                AwaitingCloseConfirmation = false;
                 return;
 			}
 
@@ -70,12 +74,14 @@ namespace CalamityMod.UI
             // Draw the cell payment slot icon.
             Texture2D emptyCellIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
             Texture2D occupiedCellIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
+            Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
             Texture2D cellTexture = codebreakerTileEntity.InputtedCellCount > 0 ? occupiedCellIconTexture : emptyCellIconTexture;
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * 60f;
 
             Vector2 schematicSlotDrawCenter = cellDrawCenter + Vector2.UnitY * 70f;
             Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
             Vector2 costVerificationLocation = costDisplayLocation + Vector2.UnitY * 60f;
+            Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f);
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
@@ -91,7 +97,12 @@ namespace CalamityMod.UI
                     DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation);
             }
             else if (codebreakerTileEntity.DecryptionCountdown > 0)
-                DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * 30f);
+            {
+                if (!AwaitingCloseConfirmation)
+                    DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * 30f);
+                else
+                    DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * 110f);
+            }
 
             Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 48f);
             if (codebreakerTileEntity.ReadyToSummonDreadon)
@@ -99,6 +110,8 @@ namespace CalamityMod.UI
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
                 HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * 80f);
+            if (codebreakerTileEntity.DecryptionCountdown > 0 && AwaitingCloseConfirmation)
+                DrawDecryptCancelConfirmationText(textPanelCenter);
 
             // Draw the schematic icon.
             Texture2D emptySchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlot_Empty");
@@ -255,7 +268,8 @@ namespace CalamityMod.UI
         {
             Texture2D confirmationTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, confirmationTexture.Size() * VerificationButtonScale);
-            // Click if the mouse is hovering over the contact button area.
+
+            // Click if the mouse is hovering over the cost button area.
             if (MouseScreenArea.Intersects(clickArea))
             {
                 // If so, cause the button to inflate a little bit.
@@ -285,33 +299,57 @@ namespace CalamityMod.UI
 
         public static void DisplayDecryptCancelButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
+            bool clickingMouse = Main.mouseLeft && Main.mouseLeftRelease;
             Texture2D cancelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptCancelIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, cancelTexture.Size() * CancelButtonScale * 1.2f);
-            // Click if the mouse is hovering over the contact button area.
+
+            // Click if the mouse is hovering over the decrypt button area.
             if (MouseScreenArea.Intersects(clickArea))
             {
                 // If so, cause the button to inflate a little bit.
-                CancelButtonScale = MathHelper.Clamp(CancelButtonScale + 0.035f, 0.75f, 1.2f);
+                CancelButtonScale = MathHelper.Clamp(CancelButtonScale + 0.035f, 0.9f, 1.2f);
 
                 // If a click is done, cancel the decryption process.
                 // This will cause already consumed cells to be lost.
-                if (Main.mouseLeft && Main.mouseLeftRelease)
+                if (clickingMouse)
                 {
-                    Main.PlaySound(SoundID.Item94, Main.LocalPlayer.Center);
-                    AwaitingDecryptionTextClose = false;
-                    codebreakerTileEntity.InitialCellCountBeforeDecrypting = 0;
-                    codebreakerTileEntity.DecryptionCountdown = 0;
-                    codebreakerTileEntity.SyncContainedStuff();
-                    codebreakerTileEntity.SyncDecryptCountdown();
+                    if (AwaitingCloseConfirmation)
+                    {
+                        Main.PlaySound(SoundID.Item94, Main.LocalPlayer.Center);
+
+                        AwaitingDecryptionTextClose = false;
+                        codebreakerTileEntity.InitialCellCountBeforeDecrypting = 0;
+                        codebreakerTileEntity.DecryptionCountdown = 0;
+                        codebreakerTileEntity.SyncContainedStuff();
+                        codebreakerTileEntity.SyncDecryptCountdown();
+                        AwaitingCloseConfirmation = false;
+                    }
+                    else
+                        AwaitingCloseConfirmation = true;
                 }
             }
 
             // Otherwise, if not hovering, cause the button to deflate back to its normal size.
             else
-                CancelButtonScale = MathHelper.Clamp(VerificationButtonScale - 0.05f, 0.75f, 1.2f);
+            {
+                CancelButtonScale = MathHelper.Clamp(CancelButtonScale - 0.05f, 0.9f, 1.2f);
+                if (clickingMouse)
+                    AwaitingCloseConfirmation = false;
+            }
 
             // Draw the cancel icon.
             Main.spriteBatch.Draw(cancelTexture, drawPosition, null, Color.White, 0f, cancelTexture.Size() * 0.5f, CancelButtonScale, SpriteEffects.None, 0f);
+        }
+
+        public static void DrawDecryptCancelConfirmationText(Vector2 drawPosition)
+        {
+            Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
+            Vector2 scale = new Vector2(1f, 0.3f);
+            Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
+
+            string confirmationText = "Are you sure?";
+            Vector2 confirmationTextPosition = drawPosition - Main.fontMouseText.MeasureString(confirmationText) * 0.5f + Vector2.UnitY * 4f;
+            ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, confirmationText, confirmationTextPosition, Color.Red, 0f, Vector2.Zero, Vector2.One);
         }
 
         public static void HandleDecryptionStuff(TECodebreaker codebreakerTileEntity, Texture2D backgroundTexture, Vector2 backgroundTopLeft, Vector2 barCenter)
