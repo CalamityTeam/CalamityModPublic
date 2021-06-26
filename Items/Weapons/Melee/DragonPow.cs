@@ -29,7 +29,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.width = 76;
             item.height = 82;
             item.melee = true;
-            item.damage = 4500;
+            item.damage = 660;
             item.knockBack = 9f;
             item.useAnimation = 20;
             item.useTime = 20;

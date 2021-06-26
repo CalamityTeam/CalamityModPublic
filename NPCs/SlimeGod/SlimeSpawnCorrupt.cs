@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax = 180;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.knockBackResist = 0f;
             animationType = 121;
@@ -37,12 +37,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.DeathSound = SoundID.NPCDeath1;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0)
             {

@@ -50,9 +50,9 @@ namespace CalamityMod.Projectiles.Summon
         /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
-        public const int LaserBaseDamage = 21000;
-        public const int RegicideBaseDamageSmall = 9487;
-        public const int RegicideBaseDamageLarge = 26000;
+        public const int LaserBaseDamage = 4200;
+        public const int RegicideBaseDamageSmall = 1897;
+        public const int RegicideBaseDamageLarge = 5200;
 
         public override void SetStaticDefaults()
         {

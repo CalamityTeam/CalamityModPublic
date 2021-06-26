@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.DR_NERD(0.35f);
-            npc.LifeMaxNERB(42700, 53500, 4600000);
+            npc.LifeMaxNERB(42700, 53500, 460000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage = (int)(npc.damage * 1.5);
@@ -99,9 +99,12 @@ namespace CalamityMod.NPCs.Ravager
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
 
-			// Percent life remaining
-			float lifeRatio = npc.life / (float)npc.lifeMax;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Increase aggression if player is taking a long time to kill the boss
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
@@ -167,10 +170,6 @@ namespace CalamityMod.NPCs.Ravager
 
 			bool immunePhase = headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive;
 			bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive && expertMode;
-
-			bool enrage = false;
-            if (player.position.Y + (player.height / 2) > npc.position.Y + (npc.height / 2) + 10f)
-                enrage = true;
 
 			if (immunePhase)
 			{
@@ -326,11 +325,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || calamityGlobalNPC.enraged > 0)
+						if ((!rightClawActive && !leftClawActive) || enraged)
                             npc.ai[1] += 1f;
-                        if (!headActive || calamityGlobalNPC.enraged > 0)
+                        if (!headActive || enraged)
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || calamityGlobalNPC.enraged > 0)
+                        if ((!rightLegActive && !leftLegActive) || enraged)
                             npc.ai[1] += 1f;
                     }
 
@@ -342,7 +341,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-						float velocityX = ((enrage || calamityGlobalNPC.enraged > 0) ? 8f : 4f) + velocityXBoost;
+						float velocityX = (enraged ? 8f : 4f) + velocityXBoost;
 						velocityY = -16f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
@@ -552,7 +551,7 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
-						if (calamityGlobalNPC.enraged > 0)
+						if (enraged)
 							velocityX += 3f;
 						if (!rightClawActive)
 							velocityX += 1f;
@@ -637,7 +636,7 @@ namespace CalamityMod.NPCs.Ravager
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Height / Main.npcFrameCount[npc.type]) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Blue);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow"), vector,
                 npc.frame, color, npc.rotation, vector11, 1f, spriteEffects, 0f);

@@ -1,4 +1,6 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -46,7 +48,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 450;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
-            npc.LifeMaxNERB(55200, 72560, 6000000);
+            npc.LifeMaxNERB(55200, 72560, 600000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -84,10 +86,11 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+            bool revenge = CalamityWorld.revenge || malice;
+            bool expertMode = Main.expertMode || malice;
             Vector2 vector = npc.Center;
 
 			// Is in spawning animation
@@ -153,15 +156,36 @@ namespace CalamityMod.NPCs.Leviathan
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
 			float enrageScale = 0f;
-			if (notOcean || malice)
-				enrageScale += 2f;
-
+            if (notOcean || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 2f;
+            }
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			npc.dontTakeDamage = spawnAnimation;
 
-            if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[0] == 2f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
+			if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -230,12 +254,6 @@ namespace CalamityMod.NPCs.Leviathan
 						num412 += death ? 6f * (1f - lifeRatio) : 3.5f * (1f - lifeRatio);
 						num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 					}
-
-                    if (BossRushEvent.BossRushActive)
-                    {
-                        num412 *= 1.5f;
-                        num413 *= 1.5f;
-                    }
 
                     int num414 = 1;
                     if (vector.X < player.position.X + player.width)
@@ -319,14 +337,8 @@ namespace CalamityMod.NPCs.Leviathan
 
 								speed += 2f * enrageScale;
 
-                                if (npc.Calamity().enraged > 0)
-                                    speed = 22f;
-
 								if (!sirenAlive || phase4)
 									speed += 3f * (1f - lifeRatio);
-
-								if (BossRushEvent.BossRushActive)
-                                    speed *= 1.5f;
 
                                 num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
                                 num417 = speed / num417;
@@ -399,12 +411,6 @@ namespace CalamityMod.NPCs.Leviathan
 							num1063 += death ? 7f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 							num1064 += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
 						}
-
-						if (BossRushEvent.BossRushActive)
-                        {
-                            num1063 *= 1.5f;
-                            num1064 *= 1.5f;
-                        }
 
                         vector120 = vector119;
                         num1058 = player.Center.X - vector120.X;
@@ -497,12 +503,6 @@ namespace CalamityMod.NPCs.Leviathan
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
-                            if (npc.Calamity().enraged > 0)
-                                num1044 += 4f;
-
-                            if (BossRushEvent.BossRushActive)
-                                num1044 *= 1.25f;
-
                             Vector2 vector117 = vector;
                             float num1045 = player.Center.X - vector117.X;
                             float num1046 = player.Center.Y - vector117.Y;
@@ -530,18 +530,6 @@ namespace CalamityMod.NPCs.Leviathan
 							num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
-
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            num1048 += 3f;
-                            num1049 += 0.2f;
-                        }
-
-                        if (BossRushEvent.BossRushActive)
-                        {
-                            num1048 *= 1.25f;
-                            num1049 *= 1.25f;
-                        }
 
                         if (vector.Y < player.Center.Y)
                             npc.velocity.Y += num1049;

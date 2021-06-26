@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Eternity : ModItem
     {
-        public const int BaseDamage = 4200;
-        public const int ExplosionDamage = 42000;
+        public const int BaseDamage = 840;
+        public const int ExplosionDamage = 8400;
         public const int MaxHomers = 40;
         public const int DustID = 16;
         public static readonly Color BlueColor = new Color(34, 34, 160);
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<SlitheringEels>());
             recipe.AddIngredient(ModContent.ItemType<GammaFusillade>());
             recipe.AddIngredient(ModContent.ItemType<PrimordialAncient>());
-            recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
+            recipe.AddIngredient(ModContent.ItemType<Heresy>());
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 20);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 10);
             recipe.AddIngredient(ItemID.UnicornHorn, 5);

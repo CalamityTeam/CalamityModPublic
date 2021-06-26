@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Evergreen Gin");
             Tooltip.SetDefault(@"It tastes like a Christmas tree if you can imagine that
-Boosts nature-based weapon damage by 15% and damage reduction by 5%
+Multiplies nature-based weapon damage by 1.1 and increases damage reduction by 5%
 Reduces life regen by 1");
         }
 

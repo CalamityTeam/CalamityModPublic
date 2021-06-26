@@ -74,6 +74,7 @@ namespace CalamityMod.Projectiles.Boss
 				int type = ModContent.ProjectileType<InfernadoRevenge>();
 				int damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
 				int nado = Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, damage, 4f, Main.myPlayer, 16f, 50f);
+                Main.projectile[nado].Bottom = projectile.Center;
                 Main.projectile[nado].netUpdate = true;
             }
         }

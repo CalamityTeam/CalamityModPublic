@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
@@ -17,6 +18,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.CalPlayer
 {
@@ -240,21 +242,12 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			if (modPlayer.tarraRanged && Main.rand.Next(0, 100) >= 88 && player.ownedProjectileCounts[ProjectileType<TarraEnergy>()] < 5 && (proj.timeLeft <= 2 || proj.penetrate <= 1))
-			{
-				int projAmt = Main.rand.Next(2, 4);
-				for (int projCount = 0; projCount < projAmt; projCount++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(proj.Center, velocity, ProjectileType<TarraEnergy>(), CalamityUtils.DamageSoftCap(proj.damage * 0.33, 65), 0f, proj.owner);
-				}
-			}
 			if (npcCheck)
 			{
-                if (modPlayer.tarraRanged && crit && proj.ranged)
+                if (modPlayer.tarraRanged && proj.ranged && modPlayer.tarraRangedCooldown <= 0)
                 {
-                    int leafAmt = Main.rand.Next(2, 4);
-                    for (int l = 0; l < leafAmt; l++)
+					modPlayer.tarraRangedCooldown = 60;
+					for (int l = 0; l < 2; l++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int FUCKYOU = Projectile.NewProjectile(position, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(proj.damage * 0.25, 60), 0f, player.whoAmI);
@@ -264,7 +257,15 @@ namespace CalamityMod.CalPlayer
 							Main.projectile[FUCKYOU].netUpdate = true;
 						}
                     }
-                }
+					if (player.ownedProjectileCounts[ProjectileType<TarraEnergy>()] < 2)
+					{
+						for (int projCount = 0; projCount < 2; projCount++)
+						{
+							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+							Projectile.NewProjectile(proj.Center, velocity, ProjectileType<TarraEnergy>(), CalamityUtils.DamageSoftCap(proj.damage * 0.33, 65), 0f, proj.owner);
+						}
+					}
+				}
                 if (proj.type == ProjectileType<PolarStar>())
                 {
                     modPlayer.polarisBoostCounter += 1;
@@ -304,8 +305,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 			}
-			if (modPlayer.silvaMage && proj.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
+			if (modPlayer.silvaMage && modPlayer.silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
 			{
+				modPlayer.silvaMageCooldown = 300;
 				Main.PlaySound(SoundID.Zombie, (int)proj.position.X, (int)proj.position.Y, 103);
 				CalamityGlobalProjectile.ExpandHitboxBy(proj, 96);
 				for (int d = 0; d < 3; d++)
@@ -325,6 +327,7 @@ namespace CalamityMod.CalPlayer
 				proj.localNPCHitCooldown = 10;
 				proj.usesLocalNPCImmunity = true;
 				proj.Damage();
+				proj.Kill();
 			}
 		}
 		#endregion
@@ -557,15 +560,18 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.moonCrown && modProj.stealthStrike && modPlayer.moonCrownCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
 			{
+				int lunarFlareDamage = (int)(MoonstoneCrown.BaseDamage * player.RogueDamage());
+				float lunarFlareKB = 3f;
 				for (int i = 0; i < 3; i++)
 				{
 					Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 					Vector2 velocity = (position - source) / 10f;
-					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, (int)(60 * player.RogueDamage()), 3, proj.owner);
+					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, lunarFlareDamage, lunarFlareKB, proj.owner);
 					if (flare.WithinBounds(Main.maxProjectiles))
 						Main.projectile[flare].Calamity().forceTypeless = true;
-					modPlayer.moonCrownCooldown = 60;
 				}
+
+				modPlayer.moonCrownCooldown = 60;
 			}
 
 			if (modPlayer.nanotech && modProj.stealthStrike && modPlayer.nanoFlareCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
@@ -729,6 +735,7 @@ namespace CalamityMod.CalPlayer
 		public static void NPCDebuffs(Player player, Mod mod, NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
+
             if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (modPlayer.eGauntlet)
@@ -743,10 +750,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
                     target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(BuffType<GlacialState>(), duration, false);
-                    }
                 }
                 if (modPlayer.cryogenSoul || modPlayer.frostFlare)
                 {
@@ -764,9 +767,6 @@ namespace CalamityMod.CalPlayer
 				{
 					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<AbyssalFlames>());
 				}
-
-				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -820,10 +820,14 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
-
-				if (modPlayer.tearMinions)
+				if (modPlayer.divineBless)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 60);
+					target.AddBuff(BuffType<BanishingFire>(), 60);
+				}
+
+				if (modPlayer.holyMinions)
+				{
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)
@@ -896,10 +900,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
                     target.AddBuff(BuffType<Plague>(), duration, false);
                     target.AddBuff(BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(BuffType<GlacialState>(), duration, false);
-                    }
                 }
                 if (modPlayer.aWeapon)
                 {
@@ -917,8 +917,6 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
-				if (modPlayer.auricSet && modPlayer.godSlayerDamage && Main.rand.NextBool(4) && proj)
-					target.AddBuff(BuffType<SilvaStun>(), 60);
 			}
             if (modPlayer.armorCrumbling || modPlayer.armorShattering)
             {
@@ -970,9 +968,9 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
 				}
 
-				if (modPlayer.tearMinions)
+				if (modPlayer.holyMinions)
 				{
-					target.AddBuff(BuffType<TemporalSadness>(), 60);
+					target.AddBuff(BuffType<HolyFlames>(), 300);
 				}
 
 				if (modPlayer.shadowMinions)

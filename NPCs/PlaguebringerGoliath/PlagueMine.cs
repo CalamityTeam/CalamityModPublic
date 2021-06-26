@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.width = 42;
             npc.height = 42;
             npc.defense = 10;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 30000 : 300;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 return;
             }
             npc.TargetClosest(true);
-            float num1372 = BossRushEvent.BossRushActive ? 10f : 7f;
+            float num1372 = 7f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -154,6 +154,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			return false;
 		}
+
+		public override bool PreNPCLoot() => false;
 
 		public override bool CheckDead()
         {

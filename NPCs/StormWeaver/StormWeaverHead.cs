@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.StormWeaver
             global.DR = 0.999999f;
             global.unbreakableDR = true;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
 
             // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
@@ -80,18 +80,13 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
-            {
-                npc.defense = 99999;
-            }
-            else
-            {
-                npc.defense = 0;
-            }
+			bool enraged = npc.Calamity().enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
             if (!Main.raining && !BossRushEvent.BossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
 				CalamityUtils.StartRain();
@@ -177,11 +172,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     BoltCountdown--;
                     if (BoltCountdown == 0)
                     {
-                        int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0)
-                        {
-                            speed2 += 1;
-                        }
+                        int speed2 = enraged ? 10 : revenge ? 8 : 7;
                         float spawnX2 = Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
                         float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
                         Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
@@ -306,8 +297,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = malice ? 13f : revenge ? 11f : 10f;
-                num189 = malice ? 0.38f : revenge ? 0.31f : 0.28f;
+                num188 = enraged ? 15f : malice ? 13f : revenge ? 11f : 10f;
+                num189 = enraged ? 0.45f : malice ? 0.38f : revenge ? 0.31f : 0.28f;
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
@@ -531,12 +522,9 @@ namespace CalamityMod.NPCs.StormWeaver
             return true;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => false;
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
         }

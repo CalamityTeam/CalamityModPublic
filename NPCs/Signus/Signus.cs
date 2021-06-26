@@ -42,10 +42,9 @@ namespace CalamityMod.NPCs.Signus
 			npc.width = 130;
             npc.height = 130;
             npc.defense = 60;
-            
 
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
-			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);
+			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 240000);
 
             // If fought alone, Signus plays his own theme
             if (notDoGFight)
@@ -95,6 +94,7 @@ namespace CalamityMod.NPCs.Signus
 
 			CalamityGlobalNPC.signus = npc.whoAmI;
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
@@ -111,13 +111,15 @@ namespace CalamityMod.NPCs.Signus
 			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
-			float inertia = malice ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
-			float chargeVelocity = malice ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+			float inertia = enraged ? 8f : malice ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
+			float chargeVelocity = enraged ? 18f : malice ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
 			bool phase2 = lifeRatio < 0.75f && expertMode;
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
 
-			npc.damage = npc.defDamage;
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            npc.damage = npc.defDamage;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -202,12 +204,9 @@ namespace CalamityMod.NPCs.Signus
                 if (phase3 || revenge)
                     npc.knockBackResist = 0f;
 
-                float speed = malice ? 20f : revenge ? 15f : expertMode ? 14f : 12f;
+                float speed = enraged ? 24f : malice ? 20f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (expertMode)
                     speed += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
-
-                if (calamityGlobalNPC.enraged > 0)
-                    speed += 3f;
 
                 float num795 = player.Center.X - vectorCenter.X;
                 float num796 = player.Center.Y - vectorCenter.Y;
@@ -239,7 +238,7 @@ namespace CalamityMod.NPCs.Signus
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += malice ? 1.5f : 1f;
+                    npc.localAI[1] += enraged ? 2f : malice ? 1.5f : 1f;
 
 					if (expertMode)
 						npc.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
@@ -413,10 +412,7 @@ namespace CalamityMod.NPCs.Signus
 					{
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							float num1070 = 15f;
-							if (calamityGlobalNPC.enraged > 0)
-								num1070 += 3f;
-
+							float num1070 = enraged ? 18f : 15f;
 							float num1071 = player.Center.X - vectorCenter.X;
 							float num1072 = player.Center.Y - vectorCenter.Y;
 							float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
@@ -438,7 +434,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.975f;
 
-                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.Y -= death ? 0.12f : 0.1f;
 
                     if (npc.velocity.Y > maxVelocityY)
                         npc.velocity.Y = maxVelocityY;
@@ -448,7 +444,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.Y < 0f)
                         npc.velocity.Y *= 0.975f;
 
-                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.Y += death ? 0.12f : 0.1f;
 
                     if (npc.velocity.Y < -maxVelocityY)
                         npc.velocity.Y = -maxVelocityY;
@@ -459,7 +455,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.X > 0f)
                         npc.velocity.X *= 0.98f;
 
-                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.X -= death ? 0.12f : 0.1f;
 
                     if (npc.velocity.X > maxVelocityX)
                         npc.velocity.X = maxVelocityX;
@@ -470,7 +466,7 @@ namespace CalamityMod.NPCs.Signus
                     if (npc.velocity.X < 0f)
                         npc.velocity.X *= 0.98f;
 
-                    npc.velocity.X += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    npc.velocity.X += death ? 0.12f : 0.1f;
 
                     if (npc.velocity.X < -maxVelocityX)
                         npc.velocity.X = -maxVelocityX;
@@ -522,7 +518,7 @@ namespace CalamityMod.NPCs.Signus
 
                 if (calamityGlobalNPC.newAI[0] == 0f) // Line up the charge
                 {
-                    float velocity = malice ? 18f : revenge ? 16f : expertMode ? 15f : 14f;
+                    float velocity = enraged ? 20f : malice ? 18f : revenge ? 16f : expertMode ? 15f : 14f;
 					if (expertMode)
 						velocity += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 

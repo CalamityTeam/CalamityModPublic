@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Gravistar Sabaton");
             Tooltip.SetDefault("Tap the DOWN key to increase your fall speed for 5 seconds\n" +
-                               "This has a 8 second cooldown\n" +
+                               "This has an 8 second cooldown\n" +
                                "Striking the ground with increased fall speed will cause an astral explosion");
         }
 

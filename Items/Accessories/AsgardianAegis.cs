@@ -66,6 +66,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 91;
+        private static int damage = 98;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()
@@ -69,6 +69,7 @@ Right click to delete all existing spiky balls");
 			modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 1.345);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;

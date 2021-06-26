@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 15;
             projectile.height = 15;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
 			projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.penetrate = -1;
@@ -40,26 +41,19 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
             if (Main.rand.NextBool(2))
             {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                Dust flame = Dust.NewDustDirect(projectile.position, 1, 1, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 0.5f);
+                flame.alpha = projectile.alpha;
+                flame.velocity = Vector2.Zero;
+                flame.noGravity = true;
             }
 
             projectile.StickyProjAI(50);
 
             if (projectile.ai[0] == 1f)
             {
-				if (projectile.Calamity().stealthStrike)
-				{
-					kunaiStabbing += 2;
-				}
-				else
-				{
-					kunaiStabbing++;
-				}
-				if (kunaiStabbing >= 20)
-				{
+                kunaiStabbing++;
+                if (kunaiStabbing >= 20)
+                {
 					kunaiStabbing = 0;
 					float startOffsetX = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
 					float startOffsetY = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);

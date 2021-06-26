@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 400000;
+                npc.lifeMax = 40000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -70,15 +70,7 @@ namespace CalamityMod.NPCs.Ravager
 			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
 		}
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
-
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

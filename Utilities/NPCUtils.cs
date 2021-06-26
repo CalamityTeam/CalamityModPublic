@@ -471,12 +471,13 @@ namespace CalamityMod
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
 			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<GlacialState>(), (int)(60 * multiplier));
 			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 		}
+
+		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;
 
 		/// <summary>
 		/// Summons a boss near a particular area depending on a specific spawn context.

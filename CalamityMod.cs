@@ -10,6 +10,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -21,6 +22,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.OldDuke;
@@ -76,6 +78,8 @@ namespace CalamityMod
         public static ModHotKey SandCloakHotkey;
         public static ModHotKey SpectralVeilHotKey;
         public static ModHotKey PlaguePackHotKey;
+        public static ModHotKey AngelicAllianceHotKey;
+		public static ModHotKey GodSlayerDashHotKey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -172,11 +176,11 @@ namespace CalamityMod
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
+            AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
+			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
 
-            if (!Main.dedServ)
-            {
+			if (!Main.dedServ)
                 LoadClient();
-            }
 
             ILChanges.Load();
             BossRushEvent.Load();
@@ -251,7 +255,10 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
+
+			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
             Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
@@ -259,11 +266,14 @@ namespace CalamityMod
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+            SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
+
+            SupremeCalamitas.LoadHeadIcons();
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
@@ -301,6 +311,8 @@ namespace CalamityMod
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
+			AngelicAllianceHotKey = null;
+			GodSlayerDashHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;
@@ -552,12 +564,11 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
                 { ModContent.NPCType<Bumblefuck>(), 7200 },
                 { ModContent.NPCType<Providence>(), 14400 },
-                { ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<DarkEnergy2>(), 1200 },
-                { ModContent.NPCType<DarkEnergy3>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
+				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -568,8 +579,13 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
-                { ModContent.NPCType<SupremeCalamitas>(), 18000 }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<ThanatosHead>(), 21600 },
+				{ ModContent.NPCType<ThanatosBody1>(), 21600 },
+				{ ModContent.NPCType<ThanatosBody2>(), 21600 },
+				{ ModContent.NPCType<ThanatosTail>(), 21600 },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
+			};
         }
         #endregion
 
@@ -668,8 +684,6 @@ namespace CalamityMod
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
                 { ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
-                { ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
@@ -693,8 +707,13 @@ namespace CalamityMod
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
-                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
-            };
+                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
+				{ ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+			};
         }
         #endregion
 

@@ -38,23 +38,20 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int d = 0; d < 20; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 2.5f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
             }
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;

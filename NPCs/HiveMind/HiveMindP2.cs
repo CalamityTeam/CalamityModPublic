@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 177;
             npc.height = 142;
             npc.defense = 5;
-            npc.LifeMaxNERB(5800, 7560, 3000000);
+            npc.LifeMaxNERB(5800, 7560, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -123,14 +123,6 @@ namespace CalamityMod.NPCs.HiveMind
 				driftSpeed = 6f;
 				driftBoost = 1f;
 			}
-            if (BossRushEvent.BossRushActive)
-            {
-                lungeRots = 0.4;
-                minimumDriftTime = 20;
-                reelbackFade = 15;
-                lungeTime = 10;
-                driftSpeed = 12f;
-            }
             phase2timer = minimumDriftTime;
             rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
         }
@@ -323,16 +315,27 @@ namespace CalamityMod.NPCs.HiveMind
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
-			bool malice = CalamityWorld.malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
-				enrageScale += 1f;
-			if (!player.ZoneCorrupt || malice)
-				enrageScale += 1f;
-
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!player.ZoneCorrupt || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
 
 			if (npc.alpha != 0)
             {
@@ -350,9 +353,9 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
 						npc.TargetClosest();
-						if ((CalamityWorld.revenge || BossRushEvent.BossRushActive || malice) && lifeRatio < 0.66f)
+						if ((CalamityWorld.revenge || malice) && lifeRatio < 0.66f)
                         {
-							if (CalamityWorld.death || BossRushEvent.BossRushActive || malice)
+							if (CalamityWorld.death || malice)
 							{
 								do
 									nextState = Main.rand.Next(3, 6);
@@ -376,7 +379,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                         else
                         {
-                            if ((CalamityWorld.revenge || BossRushEvent.BossRushActive || malice) && (Main.rand.NextBool(3) || reelCount == 2))
+                            if ((CalamityWorld.revenge || malice) && (Main.rand.NextBool(3) || reelCount == 2))
                             {
                                 reelCount = 0;
                                 nextState = 2;
@@ -446,7 +449,7 @@ namespace CalamityMod.NPCs.HiveMind
                     else
                     {
                         npc.velocity.Normalize();
-                        if (Main.expertMode || BossRushEvent.BossRushActive || malice) //variable velocity in expert and up
+                        if (Main.expertMode || malice) //variable velocity in expert and up
                         {
                             npc.velocity *= driftSpeed + enrageScale + driftBoost * lifeRatio;
                         }
@@ -496,7 +499,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if ((CalamityWorld.revenge || BossRushEvent.BossRushActive || malice) && lifeRatio < 0.66f)
+                        if ((CalamityWorld.revenge || malice) && lifeRatio < 0.66f)
                         {
 							state = nextState;
                             nextState = 0;
@@ -593,7 +596,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || BossRushEvent.BossRushActive || malice) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
+                                        if ((Main.expertMode || malice) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                         {
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }

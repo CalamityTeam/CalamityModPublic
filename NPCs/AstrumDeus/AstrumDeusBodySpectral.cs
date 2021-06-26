@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.width = 38;
             npc.height = 44;
             npc.defense = 50;
-			npc.LifeMaxNERB(187500, 225000, 6500000);
+			npc.LifeMaxNERB(187500, 225000, 650000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -97,14 +97,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltGlow") : ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow");
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 					color41 *= (num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					if (npc.localAI[3] != 1f)

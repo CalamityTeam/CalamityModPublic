@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 40;
 			npc.DR_NERD(0.3f);
-            npc.LifeMaxNERB(76875, 84375, 1650000); // Old HP - 102500, 112500
+            npc.LifeMaxNERB(76875, 84375, 165000); // Old HP - 102500, 112500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -143,19 +143,25 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
+                else
+                    npc.Calamity().CurrentlyEnraged = true;
             }
             else
                 immuneTimer = 300;
+
+            if (enraged)
+                npc.Calamity().CurrentlyEnraged = true;
 
             // Take damage or not
             npc.dontTakeDamage = immuneTimer <= 0;
@@ -183,9 +189,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.spriteDirection = Math.Sign(npc.velocity.X);
             float num1000 = lifeRatio < 0.75f ? 14f : 16f;
             if (revenge)
-            {
                 num1000 *= 0.9f;
-            }
+			if (enraged)
+				num1000 *= 0.8f;
+
             float num1006 = 0.111111117f * num1000;
             int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
             int num1010 = (npc.ai[0] == 2f) ? 80 : 60;
@@ -201,9 +208,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-				float shootBoost = death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
+				float shootBoost = enraged ? 4f : death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
                 npc.localAI[0] += 1f + shootBoost;
-                if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 210f : 240f) && Vector2.Distance(vectorCenter, player.Center) > 160f)
+                if (npc.localAI[0] >= 240f && Vector2.Distance(vectorCenter, player.Center) > 160f)
                 {
                     npc.localAI[0] = 0f;
 
@@ -247,7 +254,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
+                float scaleFactor6 = enraged ? 24f : malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
                 Vector2 center5 = player.Center;
                 Vector2 vector126 = center5 - vectorCenter;
                 Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
@@ -297,7 +304,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
+                    velocity *= enraged ? 18f : malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
                     npc.velocity = velocity;
                 }
             }
@@ -378,14 +385,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
@@ -401,7 +408,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					color41 *= (num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = CalamityWorld.death ? 1500 : 2500;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 15000;
             }
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             Vector2 velocity = Main.player[npc.target].Center - npc.Center;
             velocity.Normalize();
-            velocity *= BossRushEvent.BossRushActive ? 14f : 9f;
+            velocity *= 9f;
             npc.rotation = velocity.ToRotation() + MathHelper.Pi;
 
             timer++;
@@ -149,10 +149,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -176,14 +173,14 @@ namespace CalamityMod.NPCs.Calamitas
 					afterImageColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					afterimagePos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, npc.frame, afterImageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 drawPos = npc.Center - Main.screenPosition;
 			drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
@@ -198,7 +195,7 @@ namespace CalamityMod.NPCs.Calamitas
 					glowColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					afterimagePos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, npc.frame, glowColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}

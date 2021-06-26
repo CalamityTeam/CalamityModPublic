@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.height = 198;
             npc.defense = 40;
 			npc.DR_NERD(0.3f);
-			npc.LifeMaxNERB(81000, 106500, 3700000);
+			npc.LifeMaxNERB(81000, 106500, 370000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -121,13 +121,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			bool phase5 = lifeRatio < 0.1f;
 
 			// Mode variables
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+            bool expertMode = Main.expertMode || malice;
 
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
+			// Adjust slowing debuff immunity
+			bool immuneToSlowingDebuffs = npc.ai[0] == 0f || npc.ai[0] == 4f;
+			npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
             if (!halfLife && phase3 && expertMode)
@@ -135,6 +150,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), npc.Center);
 
                 halfLife = true;
             }
@@ -174,14 +190,23 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			// Enrage
 			float enrageScale = death ? 0.5f : 0f;
-			if (!player.ZoneJungle || malice)
-				enrageScale += 1.5f;
+            if (!player.ZoneJungle || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1.5f;
+            }
 
 			if (enrageScale > 1.5f)
 				enrageScale = 1.5f;
 
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale = 2f;
+
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale = 2.5f;
+            }
 
 			bool diagonalDash = revenge && phase2;
 
@@ -266,6 +291,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -281,8 +307,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					num1044 += 1f;
 				if (phase5)
 					num1044 += 1f;
-				if (calamityGlobalNPC.enraged > 0)
-					num1044 += 2f;
 
 				num1044 += 2f * enrageScale;
 
@@ -298,6 +322,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
 
                     return;
                 }
@@ -354,7 +379,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.netUpdate = true;
                         npc.netSpam -= 5;
 
-						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGDash"), npc.Center);
                         return;
                     }
 
@@ -372,11 +397,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         num1048 += 1f;
                         num1049 += 0.05f;
-                    }
-                    if (calamityGlobalNPC.enraged > 0)
-                    {
-                        num1048 += 2f;
-                        num1049 += 0.1f;
                     }
 					num1048 += 1.5f * enrageScale;
 					num1049 += 0.25f * enrageScale;
@@ -421,11 +441,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (calamityGlobalNPC.enraged > 0)
-                        num1050 = 300;
-                    else if (BossRushEvent.BossRushActive)
-                        num1050 = 400;
-					else if (phase4)
+                    if (phase4)
 						num1050 = revenge ? 450 : 475;
 					else if (phase3)
                         num1050 = revenge ? 475 : 500;
@@ -519,6 +535,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -570,7 +587,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 							Main.npc[num1062].velocity = player.Center - npc.Center;
 							Main.npc[num1062].velocity.Normalize();
-							Main.npc[num1062].velocity *= BossRushEvent.BossRushActive ? 12f : 6f;
+							Main.npc[num1062].velocity *= 6f;
 
 							Main.npc[num1062].localAI[0] = 60f;
                             Main.npc[num1062].netUpdate = true;
@@ -600,6 +617,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -641,8 +659,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
                         float projectileSpeed = (revenge ? 8f : 7f) + enrageScale * 2f;
-						if (BossRushEvent.BossRushActive)
-							projectileSpeed *= 2f;
 
                         float num1071 = player.position.X + player.width * 0.5f - vector119.X;
                         float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
@@ -683,6 +699,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -693,7 +710,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
-				int num650 = (calamityGlobalNPC.enraged > 0) ? 10 : (phase5 ? 20 : (phase3 ? 25 : 30));
+				int num650 = phase5 ? 20 : (phase3 ? 25 : 30);
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
@@ -704,12 +721,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
 						projectileSpeed += 2f * enrageScale;
-
-						if (calamityGlobalNPC.enraged > 0)
-                            projectileSpeed += 10f;
-
-						if (BossRushEvent.BossRushActive)
-                            projectileSpeed *= 1.5f;
 
                         float num1071 = player.position.X + player.width * 0.5f - vector121.X;
                         float num1072 = player.position.Y + player.height * 0.5f - vector121.Y;
@@ -761,6 +772,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -768,8 +780,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 4f)
             {
 				float num1044 = revenge ? 28f : 26f;
-				if (BossRushEvent.BossRushActive)
-					num1044 = 32f;
 
 				num1044 += 3f * enrageScale;
 
@@ -786,6 +796,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -801,11 +812,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 116);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), npc.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float speed = BossRushEvent.BossRushActive ? 12f : revenge ? 6f : 5f;
+                                float speed = revenge ? 6f : 5f;
 								speed += 2f * enrageScale;
 
 								int type = ModContent.ProjectileType<HiveBombGoliath>();
@@ -856,11 +867,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     float num1049 = revenge ? 0.2f : 0.18f;
 					num1048 += 1.5f * enrageScale;
 					num1049 += 0.25f * enrageScale;
-					if (BossRushEvent.BossRushActive)
-                    {
-                        num1048 *= 1.5f;
-                        num1049 *= 1.5f;
-                    }
 
                     if (vectorCenter.Y < player.Center.Y - 500f)
                         npc.velocity.Y += num1049;
@@ -958,12 +964,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         private void Movement(float xPos, float yPos, float yPos2, Player player, float enrageScale)
         {
-			Vector2 acceleration = new Vector2(BossRushEvent.BossRushActive ? 0.2f : 0.1f, BossRushEvent.BossRushActive ? 0.2f : 0.15f);
+			Vector2 acceleration = new Vector2(0.1f, 0.15f);
 			Vector2 velocity = new Vector2(8f, 5f);
 			float deceleration = 0.98f;
 
 			acceleration *= 0.1f * enrageScale + 1f;
-			velocity *= 0.1f * enrageScale + 1f;
+			velocity *= 1f - enrageScale * 0.1f;
 			deceleration *= 1f - enrageScale * 0.1f;
 
 			if (npc.position.Y > player.position.Y - yPos)

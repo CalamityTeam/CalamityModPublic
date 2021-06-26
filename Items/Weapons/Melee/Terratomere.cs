@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 160;
+            item.damage = 260;
             item.melee = true;
             item.useAnimation = 21;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
             if (!target.canGhostHeal || player.moonLeech)
                 return;
@@ -92,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
 			if (player.moonLeech)
 				return;

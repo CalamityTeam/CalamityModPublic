@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			Vector2 drawPos = npc.Center - Main.screenPosition;
 			drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(drawTex, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			drawTex = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");

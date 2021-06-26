@@ -75,7 +75,7 @@ namespace CalamityMod.Tiles.Astral
             ritualSpawnPosition += new Vector2(0f, -24f);
 
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
-            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
+            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<TitanHeart>(), true);

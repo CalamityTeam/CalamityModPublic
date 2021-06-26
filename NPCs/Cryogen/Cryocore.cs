@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 220;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -97,11 +97,6 @@ namespace CalamityMod.NPCs.Cryogen
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

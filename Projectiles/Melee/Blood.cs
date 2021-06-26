@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (player.moonLeech)
 				return;
 
-			int healAmt = projectile.ai[0] == 1f ? 3 : 5;
+			int healAmt = 2;
 			player.statLife += healAmt;
             player.HealEffect(healAmt);
         }

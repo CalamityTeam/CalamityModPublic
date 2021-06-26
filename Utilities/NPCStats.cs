@@ -1,4 +1,5 @@
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -10,6 +11,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -280,7 +282,14 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<Yharon>(), 0.8 },
 
-				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
+				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 },
+
+				{ ModContent.NPCType<ThanatosHead>(), 0.8 },
+				{ ModContent.NPCType<ThanatosBody1>(), 0.8 },
+				{ ModContent.NPCType<ThanatosBody2>(), 0.8 },
+				{ ModContent.NPCType<ThanatosTail>(), 0.8 },
+
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 0.8 }
 			};
 
 			EnemyStats.ContactDamageValues = new SortedDictionary<int, int[]>
@@ -490,8 +499,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
 				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
-				{ ModContent.NPCType<DarkEnergy2>(), new int[] { 120, 240, 264, 278, 360 } },
-				{ ModContent.NPCType<DarkEnergy3>(), new int[] { 120, 240, 264, 278, 360 } },
 
 				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
 				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
@@ -535,7 +542,14 @@ namespace CalamityMod
 				{ ModContent.NPCType<DetonatingFlare>(), new int[] { 100, 200, 220, 232, 300 } },
 				{ ModContent.NPCType<DetonatingFlare2>(), new int[] { 220, 440, 462, 476, 540 } },
 
-				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
+				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } },
+
+				{ ModContent.NPCType<ThanatosHead>(), new int[] { 400, 640, 680, 704, 864 } },
+				{ ModContent.NPCType<ThanatosBody1>(), new int[] { 330, 528, 560, 576, 690 } },
+				{ ModContent.NPCType<ThanatosBody2>(), new int[] { 330, 528, 560, 576, 690 } },
+				{ ModContent.NPCType<ThanatosTail>(), new int[] { 260, 416, 446, 464, 570 } },
+
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new int[] { 400, 800, 850, 880, 1000 } }
 			};
 
 			EnemyStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
@@ -558,7 +572,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<BloodGeyser>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorShot>()), new int[] { 36, 56, 68, 76, 102 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorSporeCloud>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
 
 				{ new Tuple<int, int>(NPCID.QueenBee, ProjectileID.Stinger), new int[] { 22, 44, 64, 72, 96 } }, // 66 damage in non-rev master mode
 
@@ -788,7 +802,18 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } }
+				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
+
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmBodyAltHuge>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
 			};
 		}
 

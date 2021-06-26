@@ -114,10 +114,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
 			projectile.ai[1] = 1f;
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
             return false;
         }
 

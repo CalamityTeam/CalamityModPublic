@@ -60,9 +60,21 @@ namespace CalamityMod.Items
         public bool devItem = false;
 		public bool challengeDrop = false;
 
-		// See RogueWeapon.cs for rogue modifier shit
-		#region Modifiers
-		public CalamityGlobalItem()
+        public static readonly Color[] ExoPalette = new Color[]
+        {
+            new Color(250, 255, 112),
+            new Color(211, 235, 108),
+            new Color(166, 240, 105),
+            new Color(105, 240, 220),
+            new Color(64, 130, 145),
+            new Color(145, 96, 145),
+            new Color(242, 112, 73),
+            new Color(199, 62, 62),
+        };
+
+        // See RogueWeapon.cs for rogue modifier shit
+        #region Modifiers
+        public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
 		}
@@ -215,6 +227,8 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
+			if (item.type == ItemID.CelestialSigil)
+				item.consumable = false;
         }
         #endregion
 
@@ -810,7 +824,15 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (item.type < ItemID.Count)
+			// Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
+			if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
+				mult *= 0.66f;
+
+			// Nerf archery potion damage buff from 1.2x to 1.05x.
+			if (item.useAmmo == AmmoID.Arrow && player.archery)
+				mult *= 0.875f;
+
+			if (item.type < ItemID.Count)
                 return;
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
@@ -1487,7 +1509,7 @@ namespace CalamityMod.Items
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0015f;
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.001f;
 
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +

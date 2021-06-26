@@ -4,8 +4,11 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -57,7 +60,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Phaseslayer");
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 13;
 		}
 
 		public override void SetDefaults()
@@ -167,7 +170,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			// These lines ensure the player and their arm are rotated the correct direction to hold the sword.
 			projectile.direction = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
 			player.ChangeDir(projectile.direction);
-			player.heldProj = projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			player.itemRotation = projectile.rotation * projectile.direction;
@@ -271,6 +273,28 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			}
 		}
 
+		internal PrimitiveTrail TrailDrawer;
+		internal Color ColorFunction(float completionRatio)
+		{
+			float averageRotation = projectile.oldRot.Take(20).Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
+			float deltaAngle = Math.Abs(averageRotation - (MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi));
+			float opacity = projectile.Opacity;
+			opacity *= Utils.InverseLerp(StandardSwingSpeed * 0.7f, StandardSwingSpeed, AngularDamageFactor, true);
+			opacity *= (float)Math.Pow(Utils.InverseLerp(1f, 0.45f, completionRatio, true), 4D);
+			opacity *= (float)Math.Pow(Utils.InverseLerp(0.9f, 1.1f, deltaAngle, true), 2D);
+
+			float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
+			float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
+			deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
+
+			if (deltaAngle < 0.04f)
+				opacity = 0f;
+
+			return Color.Lerp(Color.Red, Color.PaleVioletRed * completionRatio, MathHelper.Clamp(completionRatio * 0.8f, 0f, 1f)) * opacity;
+		}
+
+		internal float WidthFunction(float completionRatio) => (IsSmall ? 101f : 127f) * (1f - completionRatio);
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D bladeTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBlade");
@@ -280,19 +304,35 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			Vector2 bladeOffset = projectile.rotation.ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale;
 			Vector2 origin = bladeTexture.Size() * 0.5f;
 			origin /= IsSmall ? new Vector2(1f, 3f) : new Vector2(3f, 7f);
+
 			Rectangle frame = IsSmall ? bladeTexture.Frame(1, 3, 0, BladeFrameY) : bladeTexture.Frame(3, 7, BladeFrameX, BladeFrameY);
 
-			// TODO: Update this afterimage drawcode to be more cool.
-			for (int i = 1; i < projectile.oldRot.Length; i++)
-			{
-				float angleDelta = MathHelper.Clamp(projectile.rotation - projectile.oldRot[i], -0.26f, 0.26f);
-				float angle = projectile.rotation + angleDelta;
-				angle += MathHelper.PiOver2;
-				Color color = Color.White * (float)Math.Pow(1f - i / (float)projectile.oldRot.Length, 3f);
-				Rectangle afterimageFrame = IsSmall ? bladeTexture.Frame(1, 3, 0, 2) : bladeTexture.Frame(3, 7, 2, 6);
-				spriteBatch.Draw(bladeTexture, projectile.Center + bladeOffset - Main.screenPosition, afterimageFrame, color, angle, origin, projectile.scale, SpriteEffects.None, 0f);
-			}
+			if (TrailDrawer is null)
+				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
+			GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SwordSlashTexture"));
+
+			Player player = Main.player[projectile.owner];
+			List<Vector2> positions = new List<Vector2>();
+
+			float swingAngularDirection = Math.Sign(projectile.rotation - projectile.oldRot[1]);
+			projectile.oldRot[0] += swingAngularDirection * 0.1f;
+			for (int i = 0; i < projectile.oldPos.Length; i++)
+			{
+				if (projectile.oldPos[i] == Vector2.Zero)
+					continue;
+
+				// Skip over any very points going in the wrong direction, to prevent "nets" from the primitive.
+				if (i > 1 && Math.Sign(projectile.oldRot[i - 1] - projectile.oldRot[i]) != swingAngularDirection)
+					continue;
+
+				Vector2 position = projectile.position + projectile.oldRot[i].ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale;
+
+				positions.Add(position);
+			}
+			projectile.oldRot[0] -= swingAngularDirection * 0.1f;
+
+			TrailDrawer.Draw(positions, projectile.Size * 0.5f - Main.screenPosition, 50);
 			spriteBatch.Draw(bladeTexture, projectile.Center + bladeOffset - Main.screenPosition, frame, Color.White, projectile.rotation + MathHelper.PiOver2, origin, projectile.scale, SpriteEffects.None, 0f);
 			spriteBatch.Draw(hiltTexture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation + MathHelper.PiOver2, hiltTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
 

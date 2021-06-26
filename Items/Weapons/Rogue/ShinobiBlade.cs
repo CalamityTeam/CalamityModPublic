@@ -17,7 +17,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
+            item.width = 16;
+            item.height = 42;
             item.damage = 15;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 34;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Green;

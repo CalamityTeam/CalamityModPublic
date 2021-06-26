@@ -28,12 +28,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
-            npc.aiStyle = -1; //new
+			npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
@@ -183,7 +179,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (npc.localAI[3] == 1f)

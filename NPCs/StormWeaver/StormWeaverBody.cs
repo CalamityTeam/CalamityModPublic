@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.StormWeaver
             global.DR = 0.999999f;
             global.unbreakableDR = true;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
 
             // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
@@ -66,11 +66,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
-                npc.defense = 99999;
-            else
-                npc.defense = 0;
-
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[2] > 0f)
             {
@@ -194,7 +189,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					projectile.penetrate = 1;
 				}
 			}
-
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax = 150;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 18000;
+                npc.lifeMax = 1800;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -118,11 +118,6 @@ namespace CalamityMod.NPCs.HiveMind
 					Projectile.NewProjectile(num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

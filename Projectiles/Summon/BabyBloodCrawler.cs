@@ -100,16 +100,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			//1 spider = 15 frames, 5 spiders, 10 frames
 			int immuneTime = 16 - spiderCount;

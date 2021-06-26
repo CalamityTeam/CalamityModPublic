@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DR_NERD(0.25f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(1200000, 1500000);
+			npc.LifeMaxNERB(240000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -75,6 +76,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
+			float totalLifeRatio = npc.life / (float)npc.lifeMax;
+			if (CalamityGlobalNPC.SCalCatastrophe != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.SCalCatastrophe].active)
+					totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCatastrophe].life / (float)Main.npc[CalamityGlobalNPC.SCalCatastrophe].lifeMax;
+			}
+			totalLifeRatio *= 0.5f;
+
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -93,8 +102,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				num677 *= 0.5f;
 			}
 
-			bool deadBrother = !NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>());
-			int scale = deadBrother ? 5 : 2;
+			int scale = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
 			if (npc.ai[3] < distanceX)
 			{
 				npc.ai[3] += scale;
@@ -154,11 +162,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (npc.localAI[0] >= 120f)
             {
-                npc.ai[1] += 1f;
-				if (deadBrother || CalamityWorld.malice)
-				{
-					npc.ai[1] += 1f;
-				}
+				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+				npc.ai[1] += fireRate;
 				if (npc.ai[1] >= 60f)
                 {
                     npc.ai[1] = 0f;
@@ -170,11 +175,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(npc.Center, new Vector2(-8f, 0f), type, damage, 0f, Main.myPlayer);
                     }
                 }
-                npc.ai[2] += 1f;
-                if (deadBrother || CalamityWorld.malice)
-                {
-                    npc.ai[2] += 2f;
-                }
+				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+				npc.ai[2] += fireRate;
                 if (npc.ai[2] >= 300f)
                 {
                     npc.ai[2] = 0f;
@@ -200,14 +202,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f);
                     }
                 }
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
-            {
-                damage /= 2;
             }
         }
 
@@ -238,14 +232,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow");
@@ -260,7 +254,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -270,17 +264,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			return false;
 		}
 
-		public override bool CheckActive()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

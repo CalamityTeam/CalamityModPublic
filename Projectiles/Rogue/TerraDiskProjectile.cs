@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void SetDefaults()
 		{
 			projectile.width = projectile.height = 46;
+			projectile.ignoreWater = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;

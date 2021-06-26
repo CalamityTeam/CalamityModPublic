@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 140;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -66,6 +65,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 250, 250);
+        }
+
+        public override bool CanDamage()
+        {
+            if (projectile.Calamity().stealthStrike && projectile.ai[0] < 60f)
+                return false;
+            return base.CanDamage();
         }
     }
 }

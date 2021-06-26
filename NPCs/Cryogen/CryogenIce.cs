@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 1400;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;
@@ -78,7 +78,9 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreNPCLoot() => false;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -112,7 +114,7 @@ namespace CalamityMod.NPCs.Cryogen
 					double radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
-					float velocity = BossRushEvent.BossRushActive ? 12f : 9f;
+					float velocity = 9f;
 					double angleA = radians * 0.5;
 					double angleB = MathHelper.ToRadians(90f) - angleA;
 					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

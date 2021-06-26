@@ -23,11 +23,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.npcSlots = 5f;
             npc.width = 20;
             npc.height = 20;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
+            npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

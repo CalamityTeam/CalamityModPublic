@@ -98,9 +98,6 @@ namespace CalamityMod.Projectiles.Environment
 			return true;
 		}
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 	}
 }

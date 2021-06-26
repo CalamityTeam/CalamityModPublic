@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 186;
             npc.height = 186;
             npc.defense = 50;
-			npc.LifeMaxNERB(517500, 621000, 9200000);
+			npc.LifeMaxNERB(517500, 621000, 920000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.1f;
@@ -163,17 +163,20 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Variables
 			Vector2 vector = npc.Center;
             bool flies = npc.ai[3] == 0f;
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
             bool phase2 = lifeRatio < 0.8f;
 			bool phase3 = lifeRatio < 0.6f;
             bool phase4 = lifeRatio < 0.3f;
             bool phase5 = lifeRatio < 0.15f;
 
-			// Light
-			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
+
+            // Light
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
 			// Worm shit again
 			if (npc.ai[2] > 0f)
@@ -377,11 +380,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!phase4 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0))
+                if (!phase4 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                 {
                     float speed = 12f;
                     float spawnOffset = 1500f;
-                    float divisor = malice ? 100f : 120f;
+                    float divisor = enraged ? 80f : malice ? 100f : 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
@@ -529,7 +532,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
                 npc.active = false;
 
-            float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
+            float fallSpeed = enraged ? 21f : malice ? 19.5f : death ? 17.75f : 16f;
 
 			if (expertMode)
 				fallSpeed += 3.5f * (1f - lifeRatio);
@@ -596,10 +599,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 npc.localAI[1] = 0f;
 
-				float speed = malice ? 18f : death ? 16.5f : 15f;
-                float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
-                float homingSpeed = malice ? 36f : death ? 30f : 24f;
-                float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
+				float speed = enraged ? 20f : malice ? 18f : death ? 16.5f : 15f;
+                float turnSpeed = enraged ? 0.4f : malice ? 0.36f : death ? 0.33f : 0.3f;
+                float homingSpeed = enraged ? 40f : malice ? 36f : death ? 30f : 24f;
+                float homingTurnSpeed = enraged ? 0.55f : malice ? 0.48f : death ? 0.405f : 0.33f;
 
 				if (expertMode)
 				{
@@ -809,7 +812,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				calamityGlobalNPC.newAI[2] += 1f;
 
-                float turnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
+                float turnSpeed = enraged ? 0.36f : malice ? 0.3f : death ? 0.24f : 0.18f;
 
 				if (expertMode)
 				{
@@ -935,8 +938,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
-                    double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
+                    double maximumSpeed1 = enraged ? 0.6 : malice ? 0.52 : death ? 0.46 : 0.4;
+                    double maximumSpeed2 = enraged ? 1.4 : malice ? 1.25 : death ? 1.125 : 1D;
 
 					if (increaseSpeedMore)
 					{
@@ -1079,7 +1082,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
 
-			teleportTimer = BossRushEvent.BossRushActive ? 100 : (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 		}
 
 		private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase3)
@@ -1120,7 +1123,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			npc.TargetClosest();
 			npc.position = newPosition;
-			float chargeVelocity = BossRushEvent.BossRushActive ? 36f : malice ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
+			float chargeVelocity = malice ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
 			float maxChargeDistance = 1600f;
 			postTeleportTimer = (int)Math.Round(maxChargeDistance / chargeVelocity);
 			npc.alpha = postTeleportTimer;
@@ -1170,7 +1173,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (!npc.dontTakeDamage)

@@ -31,10 +31,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.alpha = 255;
             npc.defense = 10;
             npc.lifeMax = 3000;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -101,7 +97,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     npc.life = 0;
                     return;
                 }
-                float num1372 = BossRushEvent.BossRushActive ? 24f : 18f;
+                float num1372 = 18f;
                 Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
                 float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -114,7 +110,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 return;
             }
 
-            float num1446 = BossRushEvent.BossRushActive ? 10f : 7f;
+            float num1446 = 7f;
             int num1447 = 480;
             if (npc.localAI[1] == 1f)
             {
@@ -247,14 +243,14 @@ namespace CalamityMod.NPCs.AstrumAureus
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AureusSpawnGlow");
@@ -269,7 +265,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -307,7 +303,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override bool CheckDead()
+		public override bool PreNPCLoot() => false;
+
+		public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);

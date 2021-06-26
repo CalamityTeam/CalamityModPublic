@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 220;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.knockBackResist = 0f;
             npc.canGhostHeal = false;
@@ -71,11 +71,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.7f, 0.7f);
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
