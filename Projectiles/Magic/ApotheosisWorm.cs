@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 300;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 9;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.tileCollide = false;
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
             // Reset the jaw's rotation slowly over time.
             JawRotation = MathHelper.Lerp(JawRotation, 0f, 0.08f);
 
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(7200f);
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(4200f);
             if (potentialTarget != null)
                 AttackTarget(potentialTarget);
         }
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     Segment segmentToShootFrom = Segments[Main.rand.Next(Segments.Length)];
                     Vector2 shootVelocity = (target.Center - segmentToShootFrom.Center).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.25f) * 18f;
-                    Projectile.NewProjectile(segmentToShootFrom.Center, shootVelocity, ModContent.ProjectileType<ApotheosisEnergy>(), projectile.damage, 0f, projectile.owner);
+                    Projectile.NewProjectile(segmentToShootFrom.Center, shootVelocity, ModContent.ProjectileType<ApotheosisEnergy>(), projectile.damage / 2, 0f, projectile.owner);
                 }
 
                 if (Main.rand.NextBool(10))
