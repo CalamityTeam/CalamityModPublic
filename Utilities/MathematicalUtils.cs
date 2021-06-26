@@ -20,6 +20,14 @@ namespace CalamityMod
 		/// <param name="v2">The second vector.</param>
 		public static float AngleBetween(this Vector2 v1, Vector2 v2) => (float)Math.Acos(Vector2.Dot(v1.SafeNormalize(Vector2.Zero), v2.SafeNormalize(Vector2.Zero)));
 
+		// NOTE: A similar function to this one exists in 1.4, but it is not the same underlying function. Check Turn01ToCyclic010 in Utils.cs to see the effect.
+
+		/// <summary>
+		/// Converts a 0-1 bound to a 0-1-0 bump. This function automatically clamps the value to the necessary 0-1 range.
+		/// </summary>
+		/// <param name="value">The value to convert.</param>
+		public static float Convert01To010(float value) => (float)Math.Sin(MathHelper.Pi * MathHelper.Clamp(value, 0f, 1f));
+
 		/// <summary>
 		/// Uses a rewritten horizontal range formula to determine the direction to fire a projectile in order for it to hit a destination. Falls back on a certain value if no such direction can exist. If no fallback is provided, a clamp is used.
 		/// </summary>

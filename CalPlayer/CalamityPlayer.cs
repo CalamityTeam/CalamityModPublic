@@ -117,6 +117,9 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool blazingMouseDamageEffects = false;
+        public bool ableToDrawBlazingMouse = false;
+        public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
         #endregion
 
@@ -278,6 +281,7 @@ namespace CalamityMod.CalPlayer
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
         public float stealthGenMoving = 1f;
+        public int flatStealthLossReduction = 0;
         public const float StealthAccelerationCap = 2f;
         public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
@@ -579,6 +583,7 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+        public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
         #endregion
@@ -931,6 +936,17 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public bool daedalusGolem = false;
+        public bool deathstareEyeball = false;
+        public bool witherBlossom = false;
+        public bool flowersOfMortality = false;
+        public bool viridVanguard = false;
+        public bool sageSpirit = false;
+        public bool fleshBall = false;
+        public bool eyeOfNight = false;
+        public bool soulSeeker = false;
+        public bool perditionBeacon = false;
+
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
         // Due to the way vanilla summons work, the buff must be applied manually for it to properly register, since
@@ -1493,6 +1509,8 @@ namespace CalamityMod.CalPlayer
 
             noWings = false;
             blockAllDashes = false;
+            blazingMouseDamageEffects = false;
+            ableToDrawBlazingMouse = false;
 
             luxorsGift = false;
             fungalSymbiote = false;
@@ -1610,6 +1628,7 @@ namespace CalamityMod.CalPlayer
             noStupidNaturalARSpawns = false;
             burdenBreakerYeet = false;
 			roverDrive = false;
+            rottenDogTooth = false;
 			angelicAlliance = false;
 
             daedalusReflect = false;
@@ -1953,6 +1972,16 @@ namespace CalamityMod.CalPlayer
             plaguebringerPatronSummon = false;
             howlTrio = false;
             mountedScanner = false;
+            daedalusGolem = false;
+            deathstareEyeball = false;
+            witherBlossom = false;
+            flowersOfMortality = false;
+            viridVanguard = false;
+            sageSpirit = false;
+            fleshBall = false;
+            eyeOfNight = false;
+            soulSeeker = false;
+            perditionBeacon = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1976,6 +2005,8 @@ namespace CalamityMod.CalPlayer
             adrenalineModeActive = false;
             RageDuration = DefaultRageDuration;
             RageDamageBoost = DefaultRageDamageBoost;
+
+            flatStealthLossReduction = 0;
 
             lastProjectileHit = null;
         }
@@ -6832,6 +6863,9 @@ namespace CalamityMod.CalPlayer
         #region Shoot
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (rottenDogTooth && item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
+                damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
+
             if (veneratedLocket)
             {
                 if (item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
@@ -9479,20 +9513,21 @@ namespace CalamityMod.CalPlayer
             stealthStrikeThisFrame = true;
             stealthAcceleration = 1f; // Reset acceleration when you attack
 
+            float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
             if (stealthStrikeHalfCost)
             {
-                rogueStealth -= 0.5f * rogueStealthMax;
+                rogueStealth -= 0.5f * rogueStealthMax - lossReductionRatio;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
             else if (stealthStrike75Cost)
-            {
-                rogueStealth -= 0.75f * rogueStealthMax;
+			{
+                rogueStealth -= 0.75f * rogueStealthMax - lossReductionRatio;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
-            else
-                rogueStealth = 0f;
+			else
+                rogueStealth = lossReductionRatio;
         }
         #endregion
 
