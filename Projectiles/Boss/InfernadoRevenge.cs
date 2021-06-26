@@ -54,17 +54,17 @@ namespace CalamityMod.Projectiles.Boss
 
         internal Color ColorFunction(float completionRatio)
 		{
-            return Color.Lerp(Color.Orange, Color.Yellow, completionRatio);
+            return Color.Lerp(Color.Yellow, Color.Yellow, completionRatio);
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
             float _ = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), 
-                targetHitbox.Size(), 
-                projectile.Bottom, 
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
+                targetHitbox.Size(),
+                projectile.Bottom,
                 projectile.Bottom - Vector2.UnitY * TornadoHeight,
-                72, 
+                72,
                 ref _);
         }
 
@@ -73,6 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             if (TornadoDrawer is null)
                 TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
 
+            GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
             GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.GetTexture("Terraria/Misc/Perlin"));
             Vector2[] drawPoints = new Vector2[5];
             Vector2 upwardAscent = Vector2.UnitY * TornadoHeight;

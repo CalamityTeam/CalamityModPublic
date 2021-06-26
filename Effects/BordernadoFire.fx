@@ -30,7 +30,7 @@ struct VertexShaderOutput
 
 VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 {
-    VertexShaderOutput output = (VertexShaderOutput)0;
+    VertexShaderOutput output = (VertexShaderOutput) 0;
     float4 pos = mul(input.Position, uWorldViewProjection);
     output.Position = pos;
     
@@ -48,23 +48,17 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float2 coords = input.TextureCoordinates;
     
     // Read the fade map as a streak.
-    float4 fadeMapColor = tex2D(uImage1, float2(frac(coords.x + uTime / 4.16), coords.y));
-    fadeMapColor.r *= pow(coords.x, 0.4);
-    float opacity = 1;
+    float4 fadeMapColor = tex2D(uImage1, float2(frac(coords.y + cos(uTime) * 0.01), frac(coords.x - uTime * 1.4 * uSaturation)));
+    fadeMapColor.r *= pow(coords.x, 0.2);
     
-    // Fading out.
-    if (fadeMapColor.r < 0.31)
-        opacity = fadeMapColor.r / 0.31;
+    float opacity = lerp(1.45, 1.95, fadeMapColor.r) * color.a;
+    opacity *= pow(sin(coords.y * 3.141), lerp(1, 4, pow(coords.x, 2)));
+    opacity *= fadeMapColor.r * 1.5 + 1;
+    opacity *= lerp(0.4, 0.9, fadeMapColor.r);
     
-    // Redish burn fade if close but not close enough to fading out.
-    else if (fadeMapColor.r < 0.44)
-        color.rgb = lerp(color.rgb, float3(1, 0.1, 0.2), 0.7 - (fadeMapColor.r - 0.31) / 0.13 * 0.7);
-    
-    float bloomPower = lerp(2.1, 7.4, saturate(1 - coords.x + sin(uTime * 2.3 + coords.x * 6.283) * 0.2));
-    opacity *= pow(sin(coords.y * 3.141), bloomPower);
-    
-    color.rgb = lerp(color.rgb, float3(1, 1, 1), 0.5);
-    return color * opacity;
+    float3 transformColor = lerp(float3(1, 205 / 255.0, 119 / 255.0), float3(1, 76 / 255.0, 79 / 255.0), fadeMapColor.r);
+    color.rgb = lerp(color.rgb, transformColor, fadeMapColor.r);
+    return color * opacity * 1.6;
 }
 
 technique Technique1
