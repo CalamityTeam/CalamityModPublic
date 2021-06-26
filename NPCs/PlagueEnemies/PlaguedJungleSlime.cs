@@ -8,7 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+
+namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlaguedJungleSlime : ModNPC
     {
@@ -36,7 +37,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = false;
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PestilentSlimeBanner>();
         }
@@ -114,6 +114,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (npc.life <= 0)
             {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);

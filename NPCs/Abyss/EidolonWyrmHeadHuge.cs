@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -187,12 +188,12 @@ namespace CalamityMod.NPCs.Abyss
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
 					int Previous = npc.whoAmI;
-					for (int num36 = 0; num36 < maxLength; num36++)
+					for (int i = 0; i < maxLength; i++)
 					{
 						int lol;
-						if (num36 >= 0 && num36 < minLength)
+						if (i >= 0 && i < minLength)
 						{
-							if (num36 % 2 == 0)
+							if (i % 2 == 0)
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), npc.whoAmI);
 							else
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), npc.whoAmI);
@@ -206,6 +207,7 @@ namespace CalamityMod.NPCs.Abyss
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
+						Main.npc[Previous].ai[3] = i / 2;
 					}
 					TailSpawned = true;
 				}
@@ -1394,7 +1396,12 @@ namespace CalamityMod.NPCs.Abyss
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
-        public override void NPCLoot()
+		public override void BossLoot(ref string name, ref int potionType)
+		{
+			potionType = ModContent.ItemType<OmegaHealingPotion>();
+		}
+
+		public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());

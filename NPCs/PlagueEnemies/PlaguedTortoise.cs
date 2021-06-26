@@ -5,7 +5,8 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+
+namespace CalamityMod.NPCs.PlagueEnemies
 {
     public class PlaguedTortoise : ModNPC
     {
@@ -28,7 +29,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             animationType = NPCID.GiantTortoise;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.HitSound = SoundID.NPCHit24;
-            npc.DeathSound = SoundID.NPCDeath27;
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PlagueshellBanner>();
@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (npc.life <= 0)
             {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
