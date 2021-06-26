@@ -50,7 +50,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             ChainEndpoints.Clear();
-            for (int i = 0; i < reader.ReadInt32(); i++)
+            int endpointCount = reader.ReadInt32();
+            for (int i = 0; i < endpointCount; i++)
                 ChainEndpoints.Add(reader.ReadVector2());
         }
 
