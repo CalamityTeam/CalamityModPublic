@@ -60,6 +60,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.NPCs.PlagueEnemies;
 
 namespace CalamityMod.NPCs
 {
@@ -391,6 +392,14 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyer,
 			NPCID.TheDestroyerBody,
 			NPCID.TheDestroyerTail
+		};
+
+		public static List<int> ThanatosIDs = new List<int>
+		{
+			NPCType<ThanatosHead>(),
+			NPCType<ThanatosBody1>(),
+			NPCType<ThanatosBody2>(),
+			NPCType<ThanatosTail>()
 		};
 
 		public static List<int> SkeletronPrimeIDs = new List<int>
@@ -1863,7 +1872,8 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
 				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
+					ThanatosIDs.Contains(npc.type))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -3719,7 +3729,12 @@ namespace CalamityMod.NPCs
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
 			{
-				if (AstrumDeusIDs.Contains(npc.type))
+				if (ThanatosIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (AstrumDeusIDs.Contains(npc.type))
 				{
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);

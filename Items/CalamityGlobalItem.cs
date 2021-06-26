@@ -824,7 +824,11 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-			// Nerf archery potion damage buff from 1.2x to 1.05x
+			// Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
+			if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
+				mult *= 0.66f;
+
+			// Nerf archery potion damage buff from 1.2x to 1.05x.
 			if (item.useAmmo == AmmoID.Arrow && player.archery)
 				mult *= 0.875f;
 

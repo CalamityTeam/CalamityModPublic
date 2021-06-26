@@ -32,6 +32,7 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
@@ -694,9 +695,10 @@ namespace CalamityMod.CalPlayer
         public int prismaticLasers = 0;
         public bool silvaSet = false;
         public bool silvaMage = false;
-        public bool silvaSummon = false;
+		public int silvaMageCooldown = 0;
+		public bool silvaSummon = false;
         public bool hasSilvaEffect = false;
-        public int silvaCountdown = 300;
+        public int silvaCountdown = 480;
         public bool auricSet = false;
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
@@ -2076,7 +2078,8 @@ namespace CalamityMod.CalPlayer
             gSabatonFall = 0;
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
-            bloodflareMageCooldown = 0;
+			silvaMageCooldown = 0;
+			bloodflareMageCooldown = 0;
 			tarraRangedCooldown = 0;
 			tarraMageHealCooldown = 0;
             bossRushImmunityFrameCurseTimer = 0;
@@ -2298,7 +2301,7 @@ namespace CalamityMod.CalPlayer
             silvaMage = false;
             silvaSummon = false;
             hasSilvaEffect = false;
-            silvaCountdown = 300;
+            silvaCountdown = 480;
             auricSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -4274,7 +4277,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 300);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 480);
 
                     if (draconicSurge && !draconicSurgeCooldown)
                     {
@@ -5304,16 +5307,9 @@ namespace CalamityMod.CalPlayer
 			if (enraged)
                 damageMult += 1.25;
 
-            if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
-                damageMult += 0.1;
-
-            if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
-                damageMult += 0.1;
-
-            else if (proj.type == ProjectileID.InfernoFriendlyBlast)
-            {
+            if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
-            }
+
             if (brimflameFrenzy && brimflameSet)
             {
                 if (proj.magic)

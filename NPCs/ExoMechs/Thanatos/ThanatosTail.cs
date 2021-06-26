@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,6 +17,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
     {
 		// Whether the tail is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
 
 		public override void SetStaticDefaults()
         {
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.width = 76;
             npc.height = 110;
             npc.defense = 120;
-			npc.DR_NERD(0.99f);
+			npc.DR_NERD(0.9999f);
 			npc.Calamity().unbreakableDR = true;
 			npc.LifeMaxNERB(1000000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -315,14 +316,18 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 
+			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
+				npc.Calamity().newAI[2] += 1f;
+
 			// Homing only works if vulnerable is true
 			npc.chaseable = vulnerable;
 
 			// Adjust DR based on vulnerable
-			npc.Calamity().DR = vulnerable ? 0f : 0.99f;
+			npc.Calamity().DR = vulnerable ? 0f : 0.9999f;
 			npc.Calamity().unbreakableDR = !vulnerable;
 
 			// Vent noise and steam
+			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
 				// Noise
@@ -332,16 +337,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 				// Steam
 				float maxSteamTime = 180f;
-				int maxGores = 4;
 				npc.localAI[0] += 1f;
-				if (npc.localAI[0] < maxSteamTime && npc.localAI[0] % 18f == 0f)
+				if (npc.localAI[0] < maxSteamTime)
 				{
-					int goreAmt = maxGores - (int)Math.Round(npc.localAI[0] / 60f);
-					CalamityUtils.ExplosionGores(npc.Center, goreAmt, true, npc.velocity);
+					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;
+					SmokeDrawer.ParticleSpawnRate = 3;
 				}
 			}
 			else
 				npc.localAI[0] = 0f;
+
+			SmokeDrawer.Update();
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
@@ -406,6 +412,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
+			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
+				damage *= 0.01;
+
 			return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
 		}
 
@@ -467,6 +476,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosTailGlow");
 			spriteBatch.Draw(texture, center, npc.frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+
+			SmokeDrawer.DrawSet(npc.Center);
 
 			return false;
 		}

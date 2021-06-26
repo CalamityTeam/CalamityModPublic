@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 14f;
             item.shoot = ModContent.ProjectileType<DragonRageStaff>();
 
-            item.width = 68;
-            item.height = 82;
+            item.width = 128;
+            item.height = 140;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.DD2_SkyDragonsFurySwing;

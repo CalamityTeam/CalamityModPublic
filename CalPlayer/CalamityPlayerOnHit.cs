@@ -305,8 +305,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 			}
-			if (modPlayer.silvaMage && proj.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
+			if (modPlayer.silvaMage && modPlayer.silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
 			{
+				modPlayer.silvaMageCooldown = 300;
 				Main.PlaySound(SoundID.Zombie, (int)proj.position.X, (int)proj.position.Y, 103);
 				CalamityGlobalProjectile.ExpandHitboxBy(proj, 96);
 				for (int d = 0; d < 3; d++)
@@ -326,6 +327,7 @@ namespace CalamityMod.CalPlayer
 				proj.localNPCHitCooldown = 10;
 				proj.usesLocalNPCImmunity = true;
 				proj.Damage();
+				proj.Kill();
 			}
 		}
 		#endregion

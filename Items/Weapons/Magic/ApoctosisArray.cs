@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Magic
 			if (injectionNerf)
 				manaRatio = MathHelper.Min(manaRatio, 0.65f);
 
-			// 20% to 220% damage. Astral Injection caps it at 124% damage.
-			float damageRatio = 0.2f + 1.6f * manaRatio;
+			// 20% to 160% damage. Astral Injection caps it at 111% damage.
+			float damageRatio = 0.2f + 1.4f * manaRatio;
 			int finalDamage = (int)(damage * damageRatio);
 
 			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, finalDamage, knockBack, player.whoAmI);

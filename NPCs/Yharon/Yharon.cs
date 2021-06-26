@@ -2070,6 +2070,7 @@ namespace CalamityMod.NPCs.Yharon
                     int direction = (targetData.Center.X > vectorCenter.X) ? 1 : -1;
                     npc.velocity = new Vector2(direction, 0f) * fireballBreathPhaseVelocity;
                     npc.direction = npc.spriteDirection = direction;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), npc.Center);
                 }
 
                 if (npc.ai[1] >= fireballBreathTimer)
@@ -2131,6 +2132,7 @@ namespace CalamityMod.NPCs.Yharon
                         npc.rotation += pie;
 
                     npc.velocity = vector6 * splittingFireballBreathPhaseVelocity;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), npc.Center);
                 }
                 else
                 {

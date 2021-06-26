@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static int hoodlessHeadIconIndex;
         public static int hoodlessHeadIconP2Index;
         public static float normalDR = 0.25f;
-        public static float enragedDR = 0.99f;
+        public static float enragedDR = 0.9999f;
 
         private static readonly Color textColor = Color.Orange;
         private const int sepulcherSpawnCastTime = 75;

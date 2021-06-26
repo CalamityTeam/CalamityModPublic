@@ -21,6 +21,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Environment;
@@ -1156,6 +1157,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.tarraRangedCooldown--;
 			if (modPlayer.bloodflareMageCooldown > 0)
 				modPlayer.bloodflareMageCooldown--;
+			if (modPlayer.silvaMageCooldown > 0)
+				modPlayer.silvaMageCooldown--;
 			if (modPlayer.tarraMageHealCooldown > 0)
 				modPlayer.tarraMageHealCooldown--;
 			if (modPlayer.featherCrownCooldown > 0)
