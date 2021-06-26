@@ -148,7 +148,6 @@ namespace CalamityMod.NPCs
         public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
-		public int vulnerabilityHex = 0;
 		public int marked = 0;
         public int irradiated = 0;
         public int bFlames = 0;
