@@ -114,6 +114,9 @@ namespace CalamityMod.NPCs
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
 
+		// Rage interactions
+		public bool DoesNotGenerateRage = false;
+
         // NewAI
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
