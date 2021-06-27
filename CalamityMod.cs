@@ -552,7 +552,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 },
                 { ModContent.NPCType<Calamitas>(), 1200 },
-                { ModContent.NPCType<CalamitasRun3>(), 11400 },
+                { ModContent.NPCType<CalamitasRun3>(), 13200 },
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<Siren>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 },
