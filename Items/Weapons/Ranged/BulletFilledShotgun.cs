@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Bullet-Filled Shotgun");
             Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
-							   "Consumes five ammo per fire\n" +
+							   "Consumes five bullets per-use\n" +
                                "Aim? What's that?");
         }
         public override void SetDefaults()
