@@ -1402,11 +1402,14 @@ namespace CalamityMod.CalPlayer
 
 			// Ambrosial Ampoule bonus and other light-granting bonuses
 			float[] light = new float[3];
-			if (modPlayer.aAmpoule)
+			if ((modPlayer.rOoze && !Main.dayTime) || modPlayer.aAmpoule)
 			{
 				light[0] += 1f;
 				light[1] += 1f;
 				light[2] += 0.6f;
+			}
+			if (modPlayer.aAmpoule)
+			{
 				player.endurance += 0.05f;
 				player.pickSpeed -= 0.25f;
 				player.buffImmune[BuffID.Venom] = true;
