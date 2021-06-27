@@ -130,7 +130,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe)
                 item.maxStack = 20;
 
-            if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
+			if (item.type == ItemID.CelestialSigil)
+				item.maxStack = 1;
+
+			if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
 			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
