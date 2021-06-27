@@ -209,6 +209,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 					item => item.useTime = item.useAnimation = 25,
 					player =>
 					{
+						if (Main.gameMenu)
+							return;
+
 						player.Calamity().bladeArmEnchant = true;
 						bool armsArePresent = false;
 						int armType = ModContent.ProjectileType<TaintedBladeSlasher>();
@@ -263,6 +266,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 					null,
 					player =>
 					{
+						if (Main.gameMenu)
+							return;
+
 						player.Calamity().lecherousOrbEnchant = true;
 
 						bool orbIsPresent = false;
