@@ -112,6 +112,17 @@ namespace CalamityMod
 			}
 		}
 
+		/// <summary>
+		/// Sets a <see cref="SpriteBatch"/>'s <see cref="BlendState"/> arbitrarily.
+		/// </summary>
+		/// <param name="spriteBatch">The sprite batch.</param>
+		/// <param name="blendState">The blend state to use.</param>
+		public static void SetBlendState(this SpriteBatch spriteBatch, BlendState blendState)
+		{
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+		}
+
 		// Used for bullets. This lets you draw afterimages while keeping the hitbox at the front of the projectile.
 		// This supports type 0 and type 2 afterimages. Vanilla bullets never have type 2 afterimages.
 		public static void DrawAfterimagesFromEdge(Projectile proj, int mode, Color lightColor, Texture2D texture = null)

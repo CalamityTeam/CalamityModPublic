@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			Tooltip.SetDefault("There will be blood!\n" +
 				"ID and power-level locked\n" +
 				"Prove your strength or have the correct user ID to wield this sword");
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 13));
 		}
 
 		public override void SetDefaults()

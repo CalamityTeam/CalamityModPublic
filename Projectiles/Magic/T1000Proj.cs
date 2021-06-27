@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (flag && Main.myPlayer == projectile.owner)
                 {
                     int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
-                    bool flag2 = player.channel && player.CheckMana(player.ActiveItem().mana, true, false) && !player.noItems && !player.CCed;
+                    bool flag2 = player.channel && player.CheckMana(player.ActiveItem(), -1, true, false) && !player.noItems && !player.CCed;
                     if (flag2)
                     {
                         float speed = player.ActiveItem().shootSpeed * projectile.scale;

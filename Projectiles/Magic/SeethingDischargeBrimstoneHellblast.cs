@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneHellblast : ModProjectile
     {
+		private bool initialized = false;
         public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellblast";
 
         public override void SetStaticDefaults()
@@ -35,6 +36,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			if (!initialized)
+			{
+				if (projectile.npcProj)
+				{
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 5;
+					projectile.penetrate = 10;
+				}
+				initialized = true;
+			}
             projectile.frameCounter++;
             if (projectile.frameCounter >= 10)
             {

@@ -374,7 +374,9 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
             nextSlot++;
-			shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
 			nextSlot++;
 			shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
@@ -383,7 +385,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
 			nextSlot++;
-			if (CalamityWorld.downedDesertScourge)
+            if (CalamityWorld.downedDesertScourge)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DriedSeafood>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);

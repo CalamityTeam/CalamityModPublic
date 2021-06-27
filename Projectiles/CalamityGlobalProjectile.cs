@@ -1,11 +1,15 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,6 +21,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
+
+using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 
 namespace CalamityMod.Projectiles
 {
@@ -108,8 +114,12 @@ namespace CalamityMod.Projectiles
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
 		public const float BossRushProjectileVelocityMultiplier = 1.35f;
 
-		#region SetDefaults
-		public override void SetDefaults(Projectile projectile)
+        // Enchantment variables.
+        public int ExplosiveEnchantCountdown = 0;
+        public const int ExplosiveEnchantTime = 2400;
+
+        #region SetDefaults
+        public override void SetDefaults(Projectile projectile)
         {
             if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
                 trueMelee = true;
@@ -245,6 +255,47 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+            if (projectile.minion && ExplosiveEnchantCountdown > 0)
+			{
+                ExplosiveEnchantCountdown--;
+                if (defDamage == 0)
+                    defDamage = projectile.damage;
+                projectile.damage = (int)(defDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
+
+                // Make fizzle sounds and fire dust to indicate the impending explosion.
+                if (ExplosiveEnchantCountdown <= 300)
+				{
+                    if (Main.rand.NextBool(24))
+                        Main.PlaySound(SoundID.DD2_BetsyFireballShot, projectile.Center);
+
+                    Dust fire = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(projectile.width, projectile.height) * 0.42f, 267);
+                    fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.45f, 1f));
+                    fire.scale = Main.rand.NextFloat(1.4f, 1.65f);
+                    fire.fadeIn = 0.5f;
+                    fire.noGravity = true;
+				}
+
+                if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
+                {
+                    int damage = (int)(Main.player[projectile.owner].MinionDamage() * 2000);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
+                }
+
+                if (ExplosiveEnchantCountdown <= 0)
+				{
+                    Main.PlaySound(SoundID.DD2_KoboldExplosion, projectile.Center);
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        if (projectile.minionSlots > 0f)
+                        {
+                            int damage = (int)(Main.player[projectile.owner].MinionDamage() * 6000);
+                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
+                        }
+                        projectile.Kill();
+                    }
+				}
+            }
+
             if (RequiresManualResurrection)
             {
                 // Reactivate the projectile the instant it's created. This is dirty as fuck, but
@@ -1776,9 +1827,9 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 5)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
@@ -2025,6 +2076,9 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
+            if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
+                target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
+
             // Super dummies have nearly 10 million max HP (which is used in damage calculations).
             // This can very easily cause damage numbers that are unrealistic for the weapon.
             // As a result, they are omitted in this code.
@@ -2047,6 +2101,23 @@ namespace CalamityMod.Projectiles
                     damage += (int)(target.lifeMax * organicEnemyHitBoost);
                     organicEnemyHitEffect?.Invoke(target);
                 }
+            }
+            
+            if (modPlayer.flamingItemEnchant && !projectile.minion)
+                target.AddBuff(BuffType<VulnerabilityHex>(), 420);
+
+            if (modPlayer.farProximityRewardEnchant)
+			{
+                float proximityDamageInterpolant = Utils.InverseLerp(250f, 2400f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.7f, 1.45f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+            }
+
+            if (modPlayer.closeProximityRewardEnchant)
+            {
+                float proximityDamageInterpolant = Utils.InverseLerp(400f, 175f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
