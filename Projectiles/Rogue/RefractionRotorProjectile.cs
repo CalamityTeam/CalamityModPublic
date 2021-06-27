@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
             // If this projectile is a stealth strike, don't create the blades as a gore-- create them as a projectile instead.
             if (!Main.dedServ)
 			{
-                for (int i = 0; i < 80; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Dust rainbowBurst = Dust.NewDustPerfect(projectile.Center, 267);
                     rainbowBurst.color = Main.hslToRgb(i / 80f, 0.9f, 0.6f);
