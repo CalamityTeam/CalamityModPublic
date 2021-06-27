@@ -678,6 +678,11 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 1;
 				player.lifeRegen += 2;
 			}
+			else if (modPlayer.rOoze)
+			{
+				if (!Main.dayTime)
+					player.lifeRegen += 4;
+			}
 
 			if (modPlayer.ursaSergeant)
 			{
