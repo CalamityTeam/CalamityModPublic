@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 80;
-            item.damage = 90;
+            item.width = 106;
+            item.damage = 153;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 22;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 64;
+            item.height = 104;
             item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
@@ -42,6 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 0.8);
+
                 int spread = 10;
                 for (int i = 0; i < 4; i++)
                 {

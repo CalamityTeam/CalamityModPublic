@@ -78,9 +78,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.life <= 0)
             {
                 if (projectile.owner == Main.myPlayer)
-                {
 					CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 8, ModContent.ProjectileType<EssenceFlame>(), 1200f, 0f);
-                }
             }
         }
     }

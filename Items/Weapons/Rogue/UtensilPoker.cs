@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			Tooltip.SetDefault("Space chickens, that is all.\n" +
 				"Fires random utensils in bursts of three\n" +
 				"Grants Well Fed on enemy hits\n" +
-				"Stealth strikes replace the first utensil with a powerful butcher knife");
+				"Stealth strikes replace any utensil with a powerful butcher knife");
 		}
 
 		public override void SafeSetDefaults()
@@ -44,11 +44,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			CalamityPlayer mp = player.Calamity();
 
-			// On a stealth strike, the first projectile is replaced with a butcher knife.
-			if (mp.StealthStrikeAvailable() && counter == 0)
+			if (mp.StealthStrikeAvailable())
 			{
-				int stealthDamage = damage;
-				int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
+				int stealthDamage = damage * 2;
+				float stealthSpeedMult = 1.4f;
+				Vector2 stealthVelocity = new Vector2(speedX, speedY) * stealthSpeedMult;
+				int stealth = Projectile.NewProjectile(position, stealthVelocity, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}

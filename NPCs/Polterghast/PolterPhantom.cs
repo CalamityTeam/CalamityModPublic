@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -74,10 +72,10 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
-			bool malice = CalamityWorld.malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
 
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
@@ -130,9 +128,6 @@ namespace CalamityMod.NPCs.Polterghast
             else
                 despawnTimer++;
 
-			if (BossRushEvent.BossRushActive)
-				speedBoost = false;
-
 			if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
 				velocity = 21f;
@@ -146,15 +141,26 @@ namespace CalamityMod.NPCs.Polterghast
 				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
-			// Look at target
-			float num740 = player.Center.X - vector.X;
-			float num741 = player.Center.Y - vector.Y;
+			// Predictiveness
+			float chargePredictionAmt = 10f + 20f * (tileEnrageMult - 1f);
+			Vector2 predictionVector = chargePhase && revenge ? player.velocity * chargePredictionAmt : Vector2.Zero;
+			Vector2 lookAt = player.Center + predictionVector;
+			Vector2 rotationVector = lookAt - vector;
+
+			// Rotation
+			float num740 = player.Center.X + predictionVector.X - vector.X;
+			float num741 = player.Center.Y + predictionVector.Y - vector.Y;
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
 
 			if (!chargePhase)
 			{
+				// Set this here to avoid despawn issues
+				reachedChargingPoint = false;
+
+				npc.ai[0] = 0f;
+
 				npc.Opacity += 0.02f;
 				if (npc.Opacity > 0.8f)
 					npc.Opacity = 0.8f;
@@ -265,7 +271,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 					if (npc.Calamity().newAI[1] == 0f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.velocity = Vector2.Normalize(rotationVector) * chargeVelocity;
 						npc.Calamity().newAI[1] = 1f;
 					}
 					else
@@ -284,6 +290,7 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Calamity().newAI[1] = 0f;
 							npc.Calamity().newAI[2] = 0f;
 							npc.Calamity().newAI[3] = 0f;
+							npc.ai[0] = 0f;
 							npc.ai[1] += 1f;
 
 							if (npc.ai[1] >= 3f)
@@ -302,6 +309,7 @@ namespace CalamityMod.NPCs.Polterghast
 					{
 						npc.velocity = Vector2.Zero;
 						npc.ai[0] = Main.rand.Next(2) + 1;
+						npc.netUpdate = true;
 					}
 
 					// Pick a charging location
@@ -319,13 +327,6 @@ namespace CalamityMod.NPCs.Polterghast
 
 					// Do not deal damage during movement to avoid cheap bullshit hits
 					npc.damage = 0;
-
-					// Greatly increase velocity and acceleration in order to stick to a position once one is found
-					if (reachedChargingPoint)
-					{
-						chargeAcceleration *= 4f;
-						chargeVelocity *= 2f;
-					}
 
 					// Charge location
 					Vector2 chargeVector = new Vector2(npc.Calamity().newAI[1], npc.Calamity().newAI[2]);
@@ -347,14 +348,27 @@ namespace CalamityMod.NPCs.Polterghast
 							npc.Opacity = 0f;
 					}
 
-					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
+					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue || reachedChargingPoint)
 					{
-						reachedChargingPoint = true;
+						// Emit dust
+						if (!reachedChargingPoint)
+						{
+							Main.PlaySound(SoundID.Item125, npc.position);
+							for (int i = 0; i < 30; i++)
+							{
+								int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 3f);
+								Main.dust[dust].noGravity = true;
+								Main.dust[dust].velocity *= 5f;
+							}
+						}
 
-						npc.velocity *= 0.25f;
+						reachedChargingPoint = true;
+						npc.velocity = Vector2.Zero;
+						npc.Center = chargeVector;
 					}
 					else
 					{
+						// Reduce velocity and acceleration to allow for smoother movement inside this loop
 						if (Vector2.Distance(vector, chargeVector) > 1200f)
 							npc.velocity = chargeLocationVelocity;
 						else
@@ -404,7 +418,7 @@ namespace CalamityMod.NPCs.Polterghast
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -416,7 +430,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterPhantomGlow");
@@ -428,7 +442,7 @@ namespace CalamityMod.NPCs.Polterghast
 				{
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					Color color43 = color42;
 					color43 = Color.Lerp(color43, color36, amount9);
 					color43 = npc.GetAlpha(color43);

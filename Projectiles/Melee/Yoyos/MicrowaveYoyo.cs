@@ -38,9 +38,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = 2;
-
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(soundCooldown);

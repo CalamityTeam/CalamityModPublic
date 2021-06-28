@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else
 			{
-				target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+				target.AddBuff(BuffID.Frostburn, 300);
 			}
         }
 

@@ -53,37 +53,37 @@ namespace CalamityMod.World
         public static int Reforges;
         public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
-        //Boss Rush
+        // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
 
-        //Death Mode natural boss spawns
-        public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
-        public static int bossType = 0; //Death Mode natural boss spawn type
-        public static int deathBossSpawnCooldown = 0; //Cooldown between Death Mode natural boss spawns
+        // Death Mode natural boss spawns
+        public static int bossSpawnCountdown = 0; // Death Mode natural boss spawn countdown
+        public static int bossType = 0; // Death Mode natural boss spawn type
+        public static int deathBossSpawnCooldown = 0; // Cooldown between Death Mode natural boss spawns
 
-        //Modes
-        public static bool demonMode = false; //Spawn rate boost
-        public static bool onionMode = false; //Extra accessory from Moon Lord
-        public static bool revenge = false; //Revengeance Mode
-        public static bool death = false; //Death Mode
-        public static bool armageddon = false; //Armageddon Mode
-        public static bool ironHeart = false; //Iron Heart Mode
+        // Modes
+        public static bool demonMode = false; // Spawn rate boost
+        public static bool onionMode = false; // Extra accessory from Moon Lord
+        public static bool revenge = false; // Revengeance Mode
+        public static bool death = false; // Death Mode
+        public static bool armageddon = false; // Armageddon Mode
+        public static bool ironHeart = false; // Iron Heart Mode
 		public static bool malice = false; // Malice Mode, enrages all bosses and makes them drop good shit
 
         // New Temple Altar
         public static int newAltarX = 0;
         public static int newAltarY = 0;
 
-        //Evil Islands
+        // Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;
 
-        //Brimstone Crag
+        // Brimstone Crag
         public static int fuhX = 0;
         public static int fuhY = 0;
         public static int calamityTiles = 0;
 
-        //Abyss & Sulphur
+        // Abyss & Sulphur
         public static int numAbyssIslands = 0;
         public static int[] AbyssIslandX = new int[20];
         public static int[] AbyssIslandY = new int[20];
@@ -110,14 +110,14 @@ namespace CalamityMod.World
             }
         }
 
-        //Astral
+        // Astral
         public static int astralTiles = 0;
 
-        //Sunken Sea
+        // Sunken Sea
         public static int sunkenSeaTiles = 0;
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;
 
-        //Shrines
+        // Shrines
         public static int[] SChestX = new int[10];
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
@@ -181,6 +181,7 @@ namespace CalamityMod.World
         public static bool downedBumble = false;
         public static bool downedYharon = false;
         public static bool downedSCal = false;
+		public static bool downedAdultEidolonWyrm = false;
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedCLAMHardMode = false;
@@ -196,9 +197,8 @@ namespace CalamityMod.World
         public override void Initialize()
         {
             if (CalamityConfig.Instance.NerfExpertPillars)
-            {
                 NPC.LunarShieldPowerExpert = 100;
-            }
+
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
             CalamityGlobalNPC.voidBoss = -1;
@@ -216,6 +216,11 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
             CalamityGlobalNPC.signus = -1;
+			CalamityGlobalNPC.draedonExoMechPrime = -1;
+			CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
+			CalamityGlobalNPC.draedonExoMechTwinRed = -1;
+			CalamityGlobalNPC.draedonExoMechWorm = -1;
+			CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
@@ -276,6 +281,7 @@ namespace CalamityMod.World
             downedSentinel3 = false;
             downedYharon = false;
             downedSCal = false;
+			downedAdultEidolonWyrm = false;
             downedCLAM = false;
             downedCLAMHardMode = false;
             downedBumble = false;
@@ -343,6 +349,8 @@ namespace CalamityMod.World
                 downed.Add("yharon");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
+			if (downedAdultEidolonWyrm)
+				downed.Add("adultEidolonWyrm");
             if (downedBumble)
                 downed.Add("bumblebirb");
             if (downedCrabulon)
@@ -500,6 +508,7 @@ namespace CalamityMod.World
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
             downedSCal = downed.Contains("supremeCalamitas");
+			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
@@ -681,6 +690,8 @@ namespace CalamityMod.World
 
 				BitsByte flags11 = reader.ReadByte();
 				malice = flags11[0];
+				HasGeneratedLuminitePlanetoids = flags11[1];
+				downedAdultEidolonWyrm = flags11[2];
             }
             else
             {
@@ -787,13 +798,18 @@ namespace CalamityMod.World
             flags10[0] = anglerName;
             flags10[1] = clothierName;
             flags10[2] = encounteredOldDuke;
-            flags10[3] = malice;
-            flags10[4] = HasGeneratedLuminitePlanetoids;
+            flags10[3] = false;
+            flags10[4] = false;
             flags10[5] = false;
             flags10[6] = false;
             flags10[7] = false;
 
-            writer.Write(flags);
+			BitsByte flags11 = new BitsByte();
+			flags11[0] = malice;
+			flags11[1] = HasGeneratedLuminitePlanetoids;
+			flags11[2] = downedAdultEidolonWyrm;
+
+			writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
             writer.Write(flags4);
@@ -803,6 +819,7 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
+            writer.Write(flags11);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -908,13 +925,18 @@ namespace CalamityMod.World
             anglerName = flags10[0];
             clothierName = flags10[1];
             encounteredOldDuke = flags10[2];
-            malice = flags10[3];
-            HasGeneratedLuminitePlanetoids = flags10[4];
+            _ = flags10[3];
+            _ = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
             _ = flags10[7];
 
-            abyssChasmBottom = reader.ReadInt32();
+			BitsByte flags11 = reader.ReadByte();
+			malice = flags11[0];
+			HasGeneratedLuminitePlanetoids = flags11[1];
+			downedAdultEidolonWyrm = flags11[2];
+
+			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
@@ -1608,9 +1630,16 @@ namespace CalamityMod.World
 
             if (modPlayer.ZoneAbyss)
             {
-                if (player.chaosState)
+                if (player.chaosState && !player.dead)
                 {
-                    if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()) && Main.netMode != NetmodeID.MultiplayerClient)
+					bool adultWyrmAlive = false;
+					if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+					{
+						if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+							adultWyrmAlive = true;
+					}
+
+					if (!adultWyrmAlive && Main.netMode != NetmodeID.MultiplayerClient)
                         NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<EidolonWyrmHeadHuge>());
                 }
             }

@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.width = 34;
 			projectile.height = 34;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.timeLeft = 180;
 			projectile.penetrate = 4;
 			projectile.extraUpdates = 1;

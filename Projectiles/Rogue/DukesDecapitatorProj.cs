@@ -8,12 +8,9 @@ using CalamityMod.CalPlayer;
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class DukesDecapitatorProj : ModProjectile
-    {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DukesDecapitator";
-
-		bool stealthBubbles = false;
+	{
 		float rotationAmount = 1.5f;
-
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/DukesDecapitator";
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Decapitator");
@@ -26,7 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.timeLeft = 600;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 20;
@@ -37,31 +35,25 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void AI()
         {
             CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if(projectile.velocity.X != 0 || projectile.velocity.Y != 0)
+			if (projectile.velocity.X != 0 || projectile.velocity.Y != 0)
 			{
-				projectile.velocity.X *= 0.99f;
-				projectile.velocity.Y *= 0.99f;
+				projectile.velocity *= 0.99f;
 			}
 			projectile.ai[0] += 1f;
-			if(projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
-			{
-				stealthBubbles = true;
-                projectile.Calamity().stealthStrike = true;
-			}
 			if (projectile.ai[0] == 5f)
 				projectile.tileCollide = true;
 
         	if ((projectile.ai[0] % 15f) == 0f && rotationAmount > 0)
         	{
 				rotationAmount -= 0.05f;
-				if(stealthBubbles == true && projectile.owner == Main.myPlayer)
+				if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer)
         		{
 					float velocityX = Main.rand.NextFloat(-0.8f, 0.8f);
 					float velocityY = Main.rand.NextFloat(-0.8f, -0.8f);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<DukesDecapitatorBubble>(), (int)((double)projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<DukesDecapitatorBubble>(), (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner);
 				}
 			}
-			if(rotationAmount <= 0f)
+			if (rotationAmount <= 0f)
 				projectile.Kill();
 
 			projectile.rotation += rotationAmount;
@@ -69,8 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.velocity.X = 0f;
-			projectile.velocity.Y = 0f;
+			projectile.velocity = Vector2.Zero;
 			rotationAmount -= 0.05f;
 		}
 

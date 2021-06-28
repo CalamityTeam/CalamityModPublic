@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
             projectile.aiStyle = 113;
             projectile.timeLeft = 180;
             aiType = ProjectileID.BoneJavelin;
@@ -116,14 +117,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             hitEnemy = true;
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
     }
 }

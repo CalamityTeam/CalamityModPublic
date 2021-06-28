@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
             double dist = 550;
             projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
             projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
-            projectile.ai[1] += 1f; //1f
+            projectile.ai[1] += 1f;
             if (spawnDust)
             {
                 for (int num621 = 0; num621 < 10; num621++)

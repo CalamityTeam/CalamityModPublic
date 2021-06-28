@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 70;
             npc.height = 84;
             npc.defense = 4;
-			npc.LifeMaxNERB(2500, 2700, 800000);
+			npc.LifeMaxNERB(2500, 2700, 80000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
@@ -69,19 +69,21 @@ namespace CalamityMod.NPCs.Perforator
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
-
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
+			if (enraged)
+				enrageScale += 1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -111,18 +113,6 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			if (lungeUpward)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (npc.Calamity().enraged > 0)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -512,7 +502,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorHeadLargeGlow");

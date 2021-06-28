@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.damage = 0;
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(Main.expertMode ? 90000 : 50000, 170000);
+			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
@@ -124,12 +125,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
@@ -181,7 +177,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
@@ -195,15 +191,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color38 = npc.GetAlpha(color38);
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SoulSeekerSupremeGlow");
@@ -217,8 +213,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}

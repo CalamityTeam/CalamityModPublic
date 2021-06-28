@@ -1,6 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.StormWeaver;
@@ -53,6 +54,9 @@ namespace CalamityMod.Items.TreasureBags
 				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerHornedHelm>());
 				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerVisage>());
 			}
+
+            // Light pet.
+            DropHelper.DropItemChance(player, ModContent.ItemType<LittleLight>(), 8);
         }
     }
 }

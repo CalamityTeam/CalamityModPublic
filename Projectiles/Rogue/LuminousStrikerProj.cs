@@ -24,17 +24,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = 120;
             projectile.Calamity().rogue = true;
 		}
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if (projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
+			if (projectile.ai[0] == 0f && projectile.Calamity().stealthStrike)
 			{
-                projectile.Calamity().stealthStrike = true;
 				projectile.timeLeft = 600;
 				projectile.ai[0] = 1f;
 			}

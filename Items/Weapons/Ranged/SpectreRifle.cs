@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item40;
             item.autoReuse = false;
             item.shoot = ProjectileID.LostSoulFriendly;
-            item.shootSpeed = 24f;
+            item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
         }
 
@@ -44,8 +44,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
 			if (type == ProjectileID.Bullet)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 2f, 0f);
 				Main.projectile[proj].Calamity().forceRanged = true;
+				Main.projectile[proj].extraUpdates += 2;
 			}
 			else
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);

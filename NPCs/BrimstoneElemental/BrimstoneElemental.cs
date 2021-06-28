@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -17,7 +16,6 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.BrimstoneElemental
@@ -39,7 +37,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 12, 0, 0);
-            npc.LifeMaxNERB(30000, 41000, 6500000);
+            npc.LifeMaxNERB(30000, 41000, 650000);
 			npc.DR_NERD(0.15f);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
@@ -59,11 +57,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
-            else
-                music = MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeftAlone") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
         }
 
@@ -95,7 +89,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180, true);
         }
 
-        public override void FindFrame(int frameHeight) //9 total frames
+        public override void FindFrame(int frameHeight) // 9 total frames
         {
             npc.frameCounter += 1.0;
             if (npc.ai[0] <= 2f)
@@ -160,7 +154,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 

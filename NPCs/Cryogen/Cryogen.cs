@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.height = 88;
             npc.defense = 12;
 			npc.DR_NERD(0.1f);
-            npc.LifeMaxNERB(18795, 27615, 3000000);
+            npc.LifeMaxNERB(18795, 27615, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -59,11 +59,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
-            else
-                music = MusicID.FrostMoon;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
             bossBag = ModContent.ItemType<CryogenBag>();
         }
 
@@ -103,20 +99,30 @@ namespace CalamityMod.NPCs.Cryogen
 
 			Player player = Main.player[npc.target];
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			float enrageScale = death ? 0.5f : 0f;
 			if (!player.ZoneSnow || malice)
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
+			}
 
 			if (enrageScale > 2f)
 				enrageScale = 2f;
 
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale = 3f;
+
+			if (enraged)
+			{
+				npc.Calamity().CurrentlyEnraged = true;
+				enrageScale = 4f;
+			}
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -203,7 +209,7 @@ namespace CalamityMod.NPCs.Cryogen
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBomb>();
 					int damage = npc.GetProjectileDamage(type);
-					float velocity = BossRushEvent.BossRushActive ? 12f : 4f;
+					float velocity = 4f;
 					double angleA = radians * 0.5;
 					double angleB = MathHelper.ToRadians(90f) - angleA;
 					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -234,7 +240,7 @@ namespace CalamityMod.NPCs.Cryogen
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
-							float velocity = (BossRushEvent.BossRushActive ? 12f : 9f) + enrageScale;
+							float velocity = 9f + enrageScale;
 							Vector2 spinningPoint = new Vector2(0f, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
@@ -252,8 +258,6 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float num1246 = revenge ? 5f : 4f;
 				num1246 += 2f * enrageScale;
-                if (BossRushEvent.BossRushActive)
-                    num1246 = 14f;
 
                 num1245 = num1246 / num1245;
                 num1243 *= num1245;
@@ -291,7 +295,7 @@ namespace CalamityMod.NPCs.Cryogen
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity2 = (BossRushEvent.BossRushActive ? 12f : 9f) + enrageScale;
+								float velocity2 = 9f + enrageScale;
 								Vector2 spinningPoint = new Vector2(0f, -velocity2);
 								for (int k = 0; k < totalProjectiles; k++)
 								{
@@ -304,13 +308,8 @@ namespace CalamityMod.NPCs.Cryogen
 
 					float velocity = revenge ? 3.5f : 4f;
 					float acceleration = 0.15f;
-					velocity -= enrageScale;
+					velocity -= enrageScale * 0.8f;
 					acceleration += 0.07f * enrageScale;
-					if (BossRushEvent.BossRushActive)
-					{
-						velocity = 3f;
-						acceleration *= 1.5f;
-					}
 
 					if (npc.position.Y > player.position.Y - 375f)
 					{
@@ -369,7 +368,7 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					if (npc.ai[1] == 390f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : 18f + enrageScale * 2f);
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (18f + enrageScale * 2f);
 
 						npc.ai[1] = 450f;
 						calamityGlobalNPC.newAI[0] = 0f;
@@ -381,7 +380,7 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								float velocity = 9f + enrageScale;
 								for (int i = 0; i < 2; i++)
 								{
 									int totalProjectiles = 10;
@@ -453,7 +452,7 @@ namespace CalamityMod.NPCs.Cryogen
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								float velocity = 9f + enrageScale;
 								Vector2 spinningPoint = new Vector2(0f, -velocity);
 								for (int k = 0; k < totalProjectiles; k++)
 								{
@@ -471,8 +470,6 @@ namespace CalamityMod.NPCs.Cryogen
 
 					float num1246 = revenge ? 7f : 6f;
 					num1246 += 2f * enrageScale;
-					if (BossRushEvent.BossRushActive)
-						num1246 = 20f;
 
 					num1245 = num1246 / num1245;
 					num1243 *= num1245;
@@ -495,7 +492,7 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					if (npc.ai[1] == 380f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : 18f + enrageScale * 2f);
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (18f + enrageScale * 2f);
 
 						npc.ai[1] = 440f;
 						calamityGlobalNPC.newAI[0] = 0f;
@@ -507,7 +504,7 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								float velocity = 9f + enrageScale;
 								for (int i = 0; i < 3; i++)
 								{
 									int totalProjectiles = 8;
@@ -579,7 +576,7 @@ namespace CalamityMod.NPCs.Cryogen
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
-							float velocity = (BossRushEvent.BossRushActive ? 15f : 10f) + enrageScale;
+							float velocity = 10f + enrageScale;
 							Vector2 spinningPoint = new Vector2(0f, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
@@ -597,8 +594,6 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float speed = revenge ? 5.5f : 5f;
 				speed += 1.5f * enrageScale;
-				if (BossRushEvent.BossRushActive)
-                    speed = 15f;
 
                 num1245 = speed / num1245;
                 num1243 *= num1245;
@@ -611,7 +606,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.localAI[2] += 1f;
-                        if (npc.localAI[2] >= (BossRushEvent.BossRushActive ? 90f : 180f))
+                        if (npc.localAI[2] >= 180f)
                         {
 							npc.TargetClosest();
 							npc.localAI[2] = 0f;
@@ -681,7 +676,7 @@ namespace CalamityMod.NPCs.Cryogen
 								Main.PlaySound(SoundID.Item28, npc.Center);
 								int type = ModContent.ProjectileType<IceRain>();
 								int damage = npc.GetProjectileDamage(type);
-								float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+								float velocity = 9f + enrageScale;
 								for (int i = 0; i < 3; i++)
 								{
 									int totalProjectiles = 6;
@@ -752,7 +747,7 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					if (npc.ai[1] == 60f)
 					{
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : 18f + enrageScale * 2f);
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (18f + enrageScale * 2f);
 
 						if (phase7)
 						{
@@ -763,7 +758,7 @@ namespace CalamityMod.NPCs.Cryogen
 									Main.PlaySound(SoundID.Item28, npc.Center);
 									int type = ModContent.ProjectileType<IceRain>();
 									int damage = npc.GetProjectileDamage(type);
-									float velocity = (BossRushEvent.BossRushActive ? 14f : 9f) + enrageScale;
+									float velocity = 9f + enrageScale;
 									for (int i = 0; i < 4; i++)
 									{
 										int totalProjectiles = 4;
@@ -819,8 +814,6 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 
 				float num1372 = 16f + enrageScale * 2f;
-				if (BossRushEvent.BossRushActive)
-                    num1372 = 32f;
 
                 Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = player.position.X + player.width * 0.5f - vector167.X;
@@ -868,7 +861,7 @@ namespace CalamityMod.NPCs.Cryogen
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBomb>();
 					int damage = npc.GetProjectileDamage(type);
-					float velocity2 = BossRushEvent.BossRushActive ? 16f : 6f;
+					float velocity2 = 6f;
 					double angleA = radians * 0.5;
 					double angleB = MathHelper.ToRadians(90f) - angleA;
 					float velocityX = (float)(velocity2 * Math.Sin(angleA) / Math.Sin(angleB));
@@ -895,11 +888,6 @@ namespace CalamityMod.NPCs.Cryogen
 				float acceleration = 0.2f;
 				velocity -= enrageScale;
 				acceleration += 0.07f * enrageScale;
-				if (BossRushEvent.BossRushActive)
-				{
-					velocity = 2f;
-					acceleration *= 1.5f;
-				}
 
 				if (npc.position.Y > player.position.Y - 375f)
 				{
@@ -1021,7 +1009,7 @@ namespace CalamityMod.NPCs.Cryogen
 				Vector2 origin = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 				Vector2 drawPos = npc.Center - Main.screenPosition;
 				drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-				drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 				spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(drawColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				return false;
             }
@@ -1084,7 +1072,6 @@ namespace CalamityMod.NPCs.Cryogen
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
 
             if (!Main.expertMode)
             {

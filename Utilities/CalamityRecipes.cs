@@ -1048,7 +1048,7 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyIceBlock", group);
 
-			group = new RecipeGroup(() => "Any Snow Block", new int[]
+            group = new RecipeGroup(() => "Any Snow Block", new int[]
             {
                 ItemID.SnowBlock,
                 ModContent.ItemType<AstralSnow>()
@@ -1062,6 +1062,33 @@ namespace CalamityMod
                 ModContent.ItemType<AstralSilt>()
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
+
+            group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
+            {
+                ItemID.HallowedHelmet,
+                ItemID.HallowedHeadgear,
+                ItemID.HallowedMask/*,
+				ItemID.HallowedHood,
+                ItemID.AncientHallowedHelmet,
+                ItemID.AncientHallowedHeadgear,
+                ItemID.AncientHallowedMask,
+				ItemID.AncientHallowedHood*/
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
+
+            /*group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
+            {
+                ItemID.HallowedPlateMail,
+                ItemID.AncientHallowedPlateMail
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
+
+            group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
+            {
+                ItemID.HallowedGreaves,
+                ItemID.AncientHallowedGreaves
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);*/
 
             group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
@@ -1130,43 +1157,43 @@ namespace CalamityMod
 
             group = new RecipeGroup(() => "Any Wings", new int[]
             {
-				ItemID.DemonWings,
-				ItemID.AngelWings,
-				ItemID.RedsWings,
-				ItemID.ButterflyWings,
-				ItemID.FairyWings,
-				ItemID.HarpyWings,
-				ItemID.BoneWings,
-				ItemID.FlameWings,
-				ItemID.FrozenWings,
-				ItemID.GhostWings,
-				ItemID.SteampunkWings,
-				ItemID.LeafWings,
-				ItemID.BatWings,
-				ItemID.BeeWings,
-				ItemID.DTownsWings,
-				ItemID.WillsWings,
-				ItemID.CrownosWings,
-				ItemID.CenxsWings,
-				ItemID.TatteredFairyWings,
-				ItemID.SpookyWings,
-				ItemID.Hoverboard,
-				ItemID.FestiveWings,
-				ItemID.BeetleWings,
-				ItemID.FinWings,
-				ItemID.FishronWings,
-				ItemID.MothronWings,
-				ItemID.WingsSolar,
-				ItemID.WingsVortex,
-				ItemID.WingsNebula,
-				ItemID.WingsStardust,
-				ItemID.Yoraiz0rWings,
-				ItemID.JimsWings,
-				ItemID.SkiphsWings,
-				ItemID.LokisWings,
-				ItemID.BetsyWings,
-				ItemID.ArkhalisWings,
-				ItemID.LeinforsWings,
+                ItemID.DemonWings,
+                ItemID.AngelWings,
+                ItemID.RedsWings,
+                ItemID.ButterflyWings,
+                ItemID.FairyWings,
+                ItemID.HarpyWings,
+                ItemID.BoneWings,
+                ItemID.FlameWings,
+                ItemID.FrozenWings,
+                ItemID.GhostWings,
+                ItemID.SteampunkWings,
+                ItemID.LeafWings,
+                ItemID.BatWings,
+                ItemID.BeeWings,
+                ItemID.DTownsWings,
+                ItemID.WillsWings,
+                ItemID.CrownosWings,
+                ItemID.CenxsWings,
+                ItemID.TatteredFairyWings,
+                ItemID.SpookyWings,
+                ItemID.Hoverboard,
+                ItemID.FestiveWings,
+                ItemID.BeetleWings,
+                ItemID.FinWings,
+                ItemID.FishronWings,
+                ItemID.MothronWings,
+                ItemID.WingsSolar,
+                ItemID.WingsVortex,
+                ItemID.WingsNebula,
+                ItemID.WingsStardust,
+                ItemID.Yoraiz0rWings,
+                ItemID.JimsWings,
+                ItemID.SkiphsWings,
+                ItemID.LokisWings,
+                ItemID.BetsyWings,
+                ItemID.ArkhalisWings,
+                ItemID.LeinforsWings,
 				ItemID.BejeweledValkyrieWing,
 				/*
 				ItemID.GhostarsWings,
@@ -1177,14 +1204,14 @@ namespace CalamityMod
 				ItemID.RainbowWings,
 				ItemID.LongRainbowTrailWings,
 				*/
-				ModContent.ItemType<SkylineWings>(),
-				ModContent.ItemType<StarlightWings>(),
-				ModContent.ItemType<AureateWings>(),
-				ModContent.ItemType<DiscordianWings>(),
-				ModContent.ItemType<TarragonWings>(),
-				ModContent.ItemType<XerocWings>(),
-				ModContent.ItemType<HadarianWings>(),
-				ModContent.ItemType<SilvaWings>()
+                ModContent.ItemType<SkylineWings>(),
+                ModContent.ItemType<StarlightWings>(),
+                ModContent.ItemType<AureateWings>(),
+                ModContent.ItemType<DiscordianWings>(),
+                ModContent.ItemType<TarragonWings>(),
+                ModContent.ItemType<XerocWings>(),
+                ModContent.ItemType<HadarianWings>(),
+                ModContent.ItemType<SilvaWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

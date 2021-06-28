@@ -62,23 +62,35 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+
 			float healAmt = damage * 0.015f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 3f);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+
 			float healAmt = damage * 0.015f;
 			if ((int)healAmt == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 3f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

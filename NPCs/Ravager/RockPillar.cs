@@ -118,10 +118,9 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
+
+		public override bool PreNPCLoot() => false;
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{

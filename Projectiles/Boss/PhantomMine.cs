@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             if (projectile.velocity.Length() < projectile.ai[0])
-                projectile.velocity *= 1.05f;
+                projectile.velocity *= projectile.ai[1];
         }
 
         public override Color? GetAlpha(Color lightColor)

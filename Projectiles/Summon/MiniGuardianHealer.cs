@@ -57,13 +57,14 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
+			projectile.MinionAntiClump();
             Player projOwner = Main.player[projectile.owner];
             float num16 = 0.5f;
             projectile.tileCollide = false;
             int num17 = 100;
-            Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num18 = projOwner.position.X + (float)(projOwner.width / 2) - vector3.X;
-            float num19 = projOwner.position.Y + (float)(projOwner.height / 2) - vector3.Y;
+            Vector2 vector3 = projectile.Center;
+            float num18 = projOwner.Center.X - vector3.X;
+            float num19 = projOwner.Center.Y - vector3.Y;
             num19 += (float)Main.rand.Next(-10, 21);
             num18 += (float)Main.rand.Next(-10, 21);
             num18 += (float)(60 * -(float)projOwner.direction);
@@ -83,8 +84,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (num20 > 2000f)
             {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                projectile.position = projOwner.position;
                 projectile.netUpdate = true;
             }
             if (num20 < 50f)
@@ -112,46 +112,46 @@ namespace CalamityMod.Projectiles.Summon
 
             if (projectile.velocity.X < num18)
             {
-                projectile.velocity.X = projectile.velocity.X + num16;
+                projectile.velocity.X += num16;
                 if (num16 > 0.05f && projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X + num16;
+                    projectile.velocity.X += num16;
                 }
             }
             if (projectile.velocity.X > num18)
             {
-                projectile.velocity.X = projectile.velocity.X - num16;
+                projectile.velocity.X -= num16;
                 if (num16 > 0.05f && projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X - num16;
+                    projectile.velocity.X -= num16;
                 }
             }
             if (projectile.velocity.Y < num19)
             {
-                projectile.velocity.Y = projectile.velocity.Y + num16;
+                projectile.velocity.Y += num16;
                 if (num16 > 0.05f && projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
+                    projectile.velocity.Y += num16 * 2f;
                 }
             }
             if (projectile.velocity.Y > num19)
             {
-                projectile.velocity.Y = projectile.velocity.Y - num16;
+                projectile.velocity.Y -= num16;
                 if (num16 > 0.05f && projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
+                    projectile.velocity.Y -= num16 * 2f;
                 }
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if (projectile.velocity.X > 0.25f)
             {
                 projectile.direction = -1;
             }
-            else if ((double)projectile.velocity.X < -0.25)
+            else if (projectile.velocity.X < -0.25f)
             {
                 projectile.direction = 1;
             }
 
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }

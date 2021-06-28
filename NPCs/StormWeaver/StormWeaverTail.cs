@@ -25,19 +25,15 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.defense = 0;
             npc.takenDamageMultiplier = 3f;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
-			Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
+
+            // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
-            {
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
-                else
-                    music = MusicID.Boss3;
-            }
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -217,7 +213,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverTailGlow");

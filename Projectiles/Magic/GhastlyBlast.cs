@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Magic
                 // Undocumented, unrefactored homing. Will not home through walls.
                 // Apparently has two different homing distances.
                 Vector2 vector145 = projectile.Center;
-                float num1015 = 800f;
+                float num1015 = 500f;
                 bool flag59 = false;
                 int num1016 = 0;
                 if (projectile.ai[1] == 0f)

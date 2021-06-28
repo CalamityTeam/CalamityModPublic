@@ -30,7 +30,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = 36;
             projectile.height = 36;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 16;
             projectile.tileCollide = true;

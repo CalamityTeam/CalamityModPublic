@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 88;
-            projectile.height = 90;
+            projectile.width = 40;
+            projectile.height = 40;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.Calamity().rogue = true;
@@ -23,6 +25,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 20;
         }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+			return false;
+		}
 
 		public override void AI()
 		{

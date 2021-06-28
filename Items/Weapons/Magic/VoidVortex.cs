@@ -18,13 +18,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 195;
+            item.damage = 82;
             item.magic = true;
             item.mana = 60;
             item.width = 130;
             item.height = 130;
-            item.useTime = 41;
-            item.useAnimation = 41;
+            item.useTime = 80;
+            item.useAnimation = 80;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0f;

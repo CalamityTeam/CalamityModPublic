@@ -25,19 +25,15 @@ namespace CalamityMod.NPCs.StormWeaver
             global.DR = 0.999999f;
             global.unbreakableDR = true;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
-			Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 17000);
+
+            // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
-            {
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
-                else
-                    music = MusicID.Boss3;
-            }
+                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+            // If fought as a DoG interlude, keep the DoG music playing
+            else
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -70,11 +66,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
-                npc.defense = 99999;
-            else
-                npc.defense = 0;
-
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[2] > 0f)
             {
@@ -198,7 +189,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					projectile.penetrate = 1;
 				}
 			}
-
         }
 
         public override void HitEffect(int hitDirection, double damage)

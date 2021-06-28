@@ -394,27 +394,6 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Drops finite use "Resident Evil" ammunition from the given NPC, if the downed boolean isn't already true.
-        /// </summary>
-        /// <param name="theBoss">The NPC to drop ammo from.</param>
-        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
-        /// <param name="magnum">The number of Magnum Rounds to drop.</param>
-        /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
-        /// <param name="hydra">The number of Explosive Shells to drop.</param>
-        /// <returns>The total amount of ammunition dropped.</returns>
-        public static int DropResidentEvilAmmo(NPC theBoss, bool alreadyKilled, int magnum, int bazooka, int hydra)
-        {
-            if (alreadyKilled)
-                return 0;
-
-            int dropped = 0;
-            dropped += DropItem(theBoss, ModContent.ItemType<MagnumRounds>(), magnum);
-            dropped += DropItem(theBoss, ModContent.ItemType<GrenadeRounds>(), bazooka);
-            dropped += DropItem(theBoss, ModContent.ItemType<ExplosiveShells>(), hydra);
-            return dropped;
-        }
-
-        /// <summary>
         /// Randomly peppers stacks of 1 of the specified item all across the given NPC's hitbox.<br></br>
         /// Makes it appear as though the NPC "explodes" into a cloud of many identical items. Best used with floating items such as Souls.
         /// </summary>

@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -14,6 +15,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
@@ -261,6 +263,26 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Syncs <see cref="CalamityGlobalNPC.newAI"/>. This exists specifically for AIs manipulated in a global context, as <see cref="GlobalNPC"/> has no netUpdate related hooks.
+		/// </summary>
+		/// <param name="npc"></param>
+		public static void SyncExtraAI(this NPC npc)
+        {
+			// Don't bother attempting to send packets in singleplayer.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+
+			ModPacket packet = CalamityMod.Instance.GetPacket();
+			packet.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+			packet.Write((byte)npc.whoAmI);
+
+			for (int i = 0; i < npc.Calamity().newAI.Length; i++)
+				packet.Write(npc.Calamity().newAI[i]);
+
+			packet.Send();
+		}
+
+		/// <summary>
 		/// Detects nearby hostile NPCs from a given point
 		/// </summary>
 		/// <param name="origin">The position where we wish to check for nearby NPCs</param>
@@ -449,12 +471,13 @@ namespace CalamityMod
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
 			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 		}
+
+		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;
 
 		/// <summary>
 		/// Summons a boss near a particular area depending on a specific spawn context.

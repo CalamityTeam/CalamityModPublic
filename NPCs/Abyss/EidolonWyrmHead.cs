@@ -73,7 +73,13 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState || adultWyrmAlive)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -146,31 +152,23 @@ namespace CalamityMod.NPCs.Abyss
                         npc.localAI[0] = 0f;
                         npc.TargetClosest(true);
                         npc.netUpdate = true;
-                        int damage = 80;
-                        if (Main.expertMode)
-                        {
-                            damage = 60;
-                        }
+                        int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 60 : 80);
                         float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
                         int random = Main.rand.Next(3);
                         if (random == 0)
                         {
-                            Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         else if (random == 1)
                         {
                             Vector2 vec = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                            vec = Vector2.Normalize(Main.player[npc.target].Center - npc.Center + Main.player[npc.target].velocity * 20f);
                             if (vec.HasNaNs())
                             {
-                                vec = new Vector2((float)npc.direction, 0f);
+                                vec = new Vector2(npc.direction, 0f);
                             }
-                            for (int n = 0; n < 1; n++)
-                            {
-                                Vector2 vector4 = vec * 4f;
-                                Projectile.NewProjectile(vector2.X, vector2.Y, vector4.X, vector4.Y, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
+                            Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
+                            Projectile.NewProjectile(vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {
@@ -279,6 +277,14 @@ namespace CalamityMod.NPCs.Abyss
                     num188 = 15f;
                     num189 = 0.25f;
                 }
+				if (adultWyrmAlive)
+				{
+					if (!Main.player[npc.target].Calamity().ZoneAbyssLayer4)
+					{
+						num188 = 22.5f;
+						num189 = 0.375f;
+					}
+				}
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
@@ -425,7 +431,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmHeadGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
@@ -453,7 +459,6 @@ namespace CalamityMod.NPCs.Abyss
 				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
 				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);

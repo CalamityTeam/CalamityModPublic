@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffTime / 2);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffTime / 3);
             }
             else if (beach)
             {
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), debuffTime);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), debuffTime / 3);
             }
             else if (hell)
             {

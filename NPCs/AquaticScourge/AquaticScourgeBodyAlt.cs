@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.behindTiles = true;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
 			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))

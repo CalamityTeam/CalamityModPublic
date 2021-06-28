@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			projectile.damage = (int)(projectile.damage * 0.8);
+			projectile.damage = (int)(projectile.damage * 0.75);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

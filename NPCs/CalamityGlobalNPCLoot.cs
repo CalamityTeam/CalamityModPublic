@@ -50,8 +50,8 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, mod))
                 return false;
 
-            // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
-            if ((CalamityWorld.revenge || CalamityWorld.malice) && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+            // Do not provide free hearts for certain boss NPCs in Rev+.
+            if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type) && CalamityPlayer.areThereAnyDamnBosses)
                 NPCLoader.blockLoot.Add(ItemID.Heart);
 
             //
@@ -95,7 +95,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedSlimeKing, 2, 0, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
 			}
 			else if (npc.type == NPCID.EyeofCthulhu)
@@ -107,7 +106,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CounterScarf>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss1);
 			}
 			else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
@@ -116,7 +114,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEaterofWorlds>(), true, !WorldGen.crimson && !NPC.downedBoss2);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrainofCthulhu>(), true, WorldGen.crimson && !NPC.downedBoss2);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss2, 2, 0, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedBoss2);
 			}
 			else if (npc.type == NPCID.QueenBee)
@@ -141,7 +138,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
 			}
 			else if (npc.type == NPCID.SkeletronHead)
@@ -152,7 +148,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss3, 3, 1, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss3);
 			}
 			else if (npc.type == NPCID.WallofFlesh)
@@ -199,7 +194,6 @@ namespace CalamityMod.NPCs
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
-				DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.DyeTrader, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
 
 				// First kill text (this is not a loot function)
@@ -236,7 +230,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellVanillaSummons);
@@ -257,7 +250,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<SHPC>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellVanillaSummons);
@@ -279,7 +271,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellVanillaSummons);
@@ -315,7 +306,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<ThornBlossom>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
 
 				// Spawn Perennial Ore if Plantera has never been killed
@@ -382,7 +372,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<LeadWizard>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
 
 				// If Golem has never been killed, send a message about the Plague.
@@ -410,8 +399,6 @@ namespace CalamityMod.NPCs
 					DropHelper.BlockDrops(betsyWeapons);
 				}
 
-				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBetsy, 4, 2, 1);
-
 				// Mark Betsy as dead (Vanilla does not keep track of her)
 				CalamityWorld.downedBetsy = true;
 				CalamityNetcode.SyncWorld();
@@ -438,7 +425,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<BrinyBaron>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityConfig.Instance.SellVanillaSummons);
 			}
 			else if (npc.type == NPCID.CultistBoss)
@@ -449,7 +435,6 @@ namespace CalamityMod.NPCs
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBloodMoon>(), true, Main.bloodMoon);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
 
 				// Deus text (this is not a loot function)
 				if (!NPC.downedAncientCultist)
@@ -494,7 +479,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Infinity>(), true, CalamityWorld.malice);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
-				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityConfig.Instance.SellVanillaSummons);
 

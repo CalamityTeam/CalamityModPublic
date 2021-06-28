@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
@@ -144,10 +144,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 3; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-            }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
@@ -156,12 +152,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/Wyrm4"), 1f);
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Bleeding, 60, true);
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 60, true);
         }
     }
 }

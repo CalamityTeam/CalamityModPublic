@@ -42,8 +42,8 @@ namespace CalamityMod
 		public MiscShaderData SpecialShader;
 		public TrailPointRetrievalFunction TrailPointFunction;
 
-		public DynamicIndexBuffer IndexBuffer = null;
-		public DynamicVertexBuffer VertexBuffer = null;
+		public Vector2 OverridingStickPointStart = Vector2.Zero;
+		public Vector2 OverridingStickPointEnd = Vector2.Zero;
 
 		public delegate List<Vector2> TrailPointRetrievalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null);
 
@@ -96,7 +96,7 @@ namespace CalamityMod
 			BaseEffect.Projection = effectProjection;
 		}
 
-		public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
+		public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> _ = null)
 		{
 			List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
 			List<Vector2> endPoints = new List<Vector2>();
@@ -194,16 +194,20 @@ namespace CalamityMod
 				// This doesn't use RotatedBy for the sake of performance (there can potentially be a lot of trail points).
 				Vector2 sideDirection = new Vector2(-directionToAhead.Y, directionToAhead.X);
 
+				Vector2 left = currentPosition - sideDirection * widthAtVertex;
+				Vector2 right = currentPosition + sideDirection * widthAtVertex;
+				if (i == 0 && OverridingStickPointStart != Vector2.Zero)
+                {
+					left = OverridingStickPointStart;
+					right = OverridingStickPointEnd;
+				}
+
 				// What this is doing, at its core, is defining a rectangle based on two triangles.
 				// These triangles are defined based on the width of the strip at that point.
 				// The resulting rectangles combined are what make the trail itself.
-				vertices[i * 2] = new VertexPosition2DColor(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord);
-				vertices[i * 2 + 1] = new VertexPosition2DColor(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord);
+				vertices[i * 2] = new VertexPosition2DColor(left, vertexColor, leftCurrentTextureCoord);
+				vertices[i * 2 + 1] = new VertexPosition2DColor(right, vertexColor, rightCurrentTextureCoord);
 			}
-
-			if (VertexBuffer is null || vertices.Length != VertexBuffer.VertexCount)
-				VertexBuffer = new DynamicVertexBuffer(Main.instance.GraphicsDevice, typeof(VertexPosition2DColor), vertices.Length, BufferUsage.WriteOnly);
-			VertexBuffer.SetData(vertices);
 
 			return vertices.ToArray();
 		}
@@ -230,10 +234,6 @@ namespace CalamityMod
 				indices[startingTriangleIndex + 5] = (short)(connectToIndex + 3);
 			}
 
-			if (IndexBuffer is null || indices.Length != IndexBuffer.IndexCount)
-				IndexBuffer = new DynamicIndexBuffer(Main.instance.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
-			IndexBuffer.SetData(indices);
-
 			return indices;
 		}
 
@@ -243,11 +243,15 @@ namespace CalamityMod
 			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (originalPositions.Count() <= 2 || trailPoints.Count <= 2)
+			if (trailPoints.Count <= 2)
 				return;
 
-			// If the trail point has any NaN positions, don't draw anything.
+			// If the trail points have any NaN positions, don't draw anything.
 			if (trailPoints.Any(point => point.HasNaNs()))
+				return;
+
+			// If the trail points are all equal, don't draw anything.
+			if (trailPoints.All(point => point == trailPoints[0]))
 				return;
 
 			UpdateBaseEffect(out Matrix projection, out Matrix view);
@@ -268,10 +272,7 @@ namespace CalamityMod
 			else
 				BaseEffect.CurrentTechnique.Passes[0].Apply();
 
-			Main.instance.GraphicsDevice.Indices = IndexBuffer;
-			Main.instance.GraphicsDevice.SetVertexBuffer(VertexBuffer);
-			Main.instance.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.Length, 0, triangleIndices.Length / 3);
-
+			Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, triangleIndices, 0, triangleIndices.Length / 3);
 			Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 		}
 	}

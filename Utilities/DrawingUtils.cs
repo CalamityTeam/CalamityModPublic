@@ -4,8 +4,10 @@ using System;
 using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod
 {
@@ -108,6 +110,17 @@ namespace CalamityMod
 				Vector2 startPos = drawCentered ? proj.Center : proj.position;
 				Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, proj.gfxOffY), rectangle, proj.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
 			}
+		}
+
+		/// <summary>
+		/// Sets a <see cref="SpriteBatch"/>'s <see cref="BlendState"/> arbitrarily.
+		/// </summary>
+		/// <param name="spriteBatch">The sprite batch.</param>
+		/// <param name="blendState">The blend state to use.</param>
+		public static void SetBlendState(this SpriteBatch spriteBatch, BlendState blendState)
+		{
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		// Used for bullets. This lets you draw afterimages while keeping the hitbox at the front of the projectile.
@@ -436,6 +449,30 @@ namespace CalamityMod
 		{
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+		}
+
+		public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
+		{
+            float time = Main.GlobalTime % 3f / 3f;
+            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
+            for (int i = 0; i < auroraCount; i++)
+            {
+                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
+                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
+                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
+                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
+                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
+                DrawData drawData = new DrawData(auroraTexture,
+                                 player.Top + offset - Main.screenPosition,
+                                 null,
+                                 color * opacity,
+                                 rotation + MathHelper.PiOver2,
+                                 auroraTexture.Size() * 0.5f,
+                                 0.135f,
+                                 SpriteEffects.None,
+                                 1);
+                Main.playerDrawData.Add(drawData);
+            }
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -10,6 +11,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -42,8 +44,8 @@ namespace CalamityMod
 		private const double NormalProjectileVanillaMultiplier = 2D;
 		private const double ExpertProjectileVanillaMultiplier = 4D;
 
-		#region Boss Stats Container Struct
-		internal partial struct BossStats
+		#region Enemy Stats Container Struct
+		internal partial struct EnemyStats
 		{
 			public static SortedDictionary<int, double> ExpertDamageMultiplier;
 			public static SortedDictionary<int, int[]> ContactDamageValues;
@@ -57,7 +59,7 @@ namespace CalamityMod
 			double damageAdjustment = GetExpertDamageMultiplier(npc) * ExpertContactVanillaMultiplier;
 
 			// Safety check: If for some reason the contact damage array is not initialized yet, set the NPC's damage to 1.
-			bool exists = BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
+			bool exists = EnemyStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
 			if (!exists)
 				npc.damage = 1;
 
@@ -82,7 +84,7 @@ namespace CalamityMod
 			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
 			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
 			if (!exists)
 				return 1;
 
@@ -106,7 +108,7 @@ namespace CalamityMod
 			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
 			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
 			if (!exists)
 				return 1;
 
@@ -127,7 +129,7 @@ namespace CalamityMod
 		// That is, this doesn't adjust the value to compensate for Terraria's internal spaghetti scaling.
 		public static int GetProjectileDamageNoScaling(this NPC npc, int projType)
 		{
-			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
 			return !exists ? 1 // Base case for safety, in case the array is not initialized yet.
 				: (CalamityWorld.death || CalamityWorld.malice) ? projectileDamage[3]
 				: CalamityWorld.revenge ? projectileDamage[2]
@@ -144,7 +146,7 @@ namespace CalamityMod
 		/// <returns></returns>
 		public static double GetExpertDamageMultiplier(this NPC npc, bool? master = null)
 		{
-			bool exists = BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
+			bool exists = EnemyStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
 			return exists ? damageMult : 1D;
 		}
 		#endregion
@@ -152,20 +154,20 @@ namespace CalamityMod
 		#region Load/Unload
 		internal static void Load()
 		{
-			LoadBossStats();
+			LoadEnemyStats();
 			LoadDebuffs();
 		}
 		internal static void Unload()
 		{
-			UnloadBossStats();
+			UnloadEnemyStats();
 			UnloadDebuffs();
 		}
 
-		// A static function, called exactly once, which initializes the BossStats struct at a predictable time.
+		// A static function, called exactly once, which initializes the EnemyStats struct at a predictable time.
 		// This is necessary to ensure this dictionary is populated as early as possible.
-		internal static void LoadBossStats()
+		internal static void LoadEnemyStats()
 		{
-			BossStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
+			EnemyStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
 				{ NPCID.KingSlime, 0.8 },
 
@@ -280,10 +282,17 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<Yharon>(), 0.8 },
 
-				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
+				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 },
+
+				{ ModContent.NPCType<ThanatosHead>(), 0.8 },
+				{ ModContent.NPCType<ThanatosBody1>(), 0.8 },
+				{ ModContent.NPCType<ThanatosBody2>(), 0.8 },
+				{ ModContent.NPCType<ThanatosTail>(), 0.8 },
+
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 0.8 }
 			};
 
-			BossStats.ContactDamageValues = new SortedDictionary<int, int[]>
+			EnemyStats.ContactDamageValues = new SortedDictionary<int, int[]>
 			{
 				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
 
@@ -490,8 +499,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
 				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
-				{ ModContent.NPCType<DarkEnergy2>(), new int[] { 120, 240, 264, 278, 360 } },
-				{ ModContent.NPCType<DarkEnergy3>(), new int[] { 120, 240, 264, 278, 360 } },
 
 				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
 				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
@@ -535,10 +542,17 @@ namespace CalamityMod
 				{ ModContent.NPCType<DetonatingFlare>(), new int[] { 100, 200, 220, 232, 300 } },
 				{ ModContent.NPCType<DetonatingFlare2>(), new int[] { 220, 440, 462, 476, 540 } },
 
-				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
+				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } },
+
+				{ ModContent.NPCType<ThanatosHead>(), new int[] { 400, 640, 680, 704, 864 } },
+				{ ModContent.NPCType<ThanatosBody1>(), new int[] { 330, 528, 560, 576, 690 } },
+				{ ModContent.NPCType<ThanatosBody2>(), new int[] { 330, 528, 560, 576, 690 } },
+				{ ModContent.NPCType<ThanatosTail>(), new int[] { 260, 416, 446, 464, 570 } },
+
+				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), new int[] { 400, 800, 850, 880, 1000 } }
 			};
 
-			BossStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
+			EnemyStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
 			{
 				{ new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 22, 36, 44, 48, 66 } },
 
@@ -558,6 +572,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<BloodGeyser>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorShot>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorBlob>()), new int[] { 36, 56, 68, 76, 102 } },
 
 				{ new Tuple<int, int>(NPCID.QueenBee, ProjectileID.Stinger), new int[] { 22, 44, 64, 72, 96 } }, // 66 damage in non-rev master mode
 
@@ -787,16 +802,27 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } }
+				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
+
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmBodyAltHuge>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
 			};
 		}
 
-		// Destroys the BossStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
-		internal static void UnloadBossStats()
+		// Destroys the EnemyStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
+		internal static void UnloadEnemyStats()
 		{
-			BossStats.ExpertDamageMultiplier = null;
-			BossStats.ContactDamageValues = null;
-			BossStats.ProjectileDamageValues = null;
+			EnemyStats.ExpertDamageMultiplier = null;
+			EnemyStats.ContactDamageValues = null;
+			EnemyStats.ProjectileDamageValues = null;
 		}
 		#endregion
 	}

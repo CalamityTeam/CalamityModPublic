@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 3;
             projectile.timeLeft = 90;
 			projectile.coldDamage = true;
+			projectile.ignoreWater = true;
 			projectile.alpha = 255;
         }
 
@@ -121,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(BuffID.Frostburn, 360);
         }
     }

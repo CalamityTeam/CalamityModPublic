@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.LifeMaxNERB(330000, 375000, 12500000); // Old HP - 440000, 500000
+            npc.LifeMaxNERB(330000, 375000, 1250000); // Old HP - 440000, 500000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -104,11 +104,7 @@ namespace CalamityMod.NPCs.Providence
             npc.netAlways = true;
             npc.chaseable = true;
             npc.canGhostHeal = false;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
-            else
-                music = MusicID.LunarBoss;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("ProvidenceTheme") ?? MusicID.LunarBoss;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
         }
@@ -217,6 +213,8 @@ namespace CalamityMod.NPCs.Providence
 			int projectileDamageMult = 1;
 			if (nightTime)
 				projectileDamageMult = 2;
+
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged;
 
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -487,13 +485,13 @@ namespace CalamityMod.NPCs.Providence
                     flightPath = 0;
 
 				// Velocity and acceleration
-				float speedIncreaseTimer = nightTime ? 90f : death ? 120f : 150f;
+				float speedIncreaseTimer = enraged ? 60f : nightTime ? 90f : death ? 120f : 150f;
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || nightTime)
+                if (BossRushEvent.BossRushActive || nightTime || enraged)
                 {
                     acceleration = 1.3f;
                     velocity = 20f;
@@ -938,10 +936,9 @@ namespace CalamityMod.NPCs.Providence
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity * 1.5f;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								int proj = Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
-								Main.projectile[proj].extraUpdates += 1;
+								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
 							}
 						}
 					}
@@ -1309,7 +1306,6 @@ namespace CalamityMod.NPCs.Providence
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 
@@ -1349,10 +1345,8 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.Top.Y >= (Main.maxTilesY - 240f) * 16f)
                 SpawnLootBox();
-            }
 
             // If Providence has not been killed, notify players of Uelibloom Ore
             if (!CalamityWorld.downedProvidence)
@@ -1385,7 +1379,7 @@ namespace CalamityMod.NPCs.Providence
         {
             int tileCenterX = (int)npc.Center.X / 16;
             int tileCenterY = (int)npc.Center.Y / 16;
-            int halfBox = npc.width / 2 / 16 + 1;
+            int halfBox = 5;
             for (int x = tileCenterX - halfBox; x <= tileCenterX + halfBox; x++)
             {
                 for (int y = tileCenterY - halfBox; y <= tileCenterY + halfBox; y++)
@@ -1496,14 +1490,14 @@ namespace CalamityMod.NPCs.Providence
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			Color color37 = Color.Lerp(Color.White, nightTime ? Color.Cyan : Color.Yellow, 0.5f) * npc.Opacity;
@@ -1519,7 +1513,7 @@ namespace CalamityMod.NPCs.Providence
 					color41 *= (num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(textureGlow.Width, textureGlow.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(textureGlow, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					Color color43 = color42;

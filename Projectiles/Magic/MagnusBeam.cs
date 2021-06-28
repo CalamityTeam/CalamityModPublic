@@ -205,9 +205,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
                 return;
-            }
+
             Player player = Main.player[projectile.owner];
             player.statLife += 1;
             player.statMana += 25;

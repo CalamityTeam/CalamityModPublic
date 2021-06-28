@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -492,6 +493,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<GammaHeart>(), 3);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PhosphorescentGauntlet>(), 3);
         }
     }
 }

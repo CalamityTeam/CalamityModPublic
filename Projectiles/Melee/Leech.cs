@@ -44,18 +44,17 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 14, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (Main.player[projectile.owner].moonLeech)
 				return;
+
             Player player = Main.player[projectile.owner];
-            player.statLife += 5;
-            player.HealEffect(5);
+            player.statLife += 2;
+            player.HealEffect(2);
         }
     }
 }

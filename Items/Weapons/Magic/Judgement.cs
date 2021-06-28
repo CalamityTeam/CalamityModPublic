@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class Judgement : ModItem
     {
         public const int HitsPerFlash = 300;
-        public const int FlashBaseDamage = 80000;
+        public const int FlashBaseDamage = 16000;
         
         private const float SpawnAngleSpread = 0.4f * MathHelper.Pi;
         private const float SpeedRandomness = 0.08f;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.width = 40;
             item.height = 42;
-            item.damage = 2077;
+            item.damage = 415;
             item.knockBack = 4f;
             item.magic = true;
             item.mana = 6;

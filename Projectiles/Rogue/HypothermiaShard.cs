@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HypothermiaShard : ModProjectile
     {
-		private float counter = 0f;
+        private float counter = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Shard");
@@ -20,11 +20,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 6;
             projectile.scale = 1f;
             projectile.friendly = true;
+            projectile.ignoreWater = true;
             projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 3;
+            projectile.extraUpdates = 3;
         }
 
         public override void AI()
@@ -54,14 +55,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			if (projectile.velocity.X != oldVelocity.X)
-			{
-				projectile.velocity.X = -oldVelocity.X;
-			}
-			if (projectile.velocity.Y != oldVelocity.Y)
-			{
-				projectile.velocity.Y = -oldVelocity.Y;
-			}
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+            }
             return false;
         }
 
@@ -99,8 +100,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HypothermiaShard4");
             }
-			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
-			return false;
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
+            return false;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.Calamity().rogue = true;
+			projectile.ignoreWater = true;
 		}
 
 		public override void AI()

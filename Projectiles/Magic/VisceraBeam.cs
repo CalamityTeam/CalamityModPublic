@@ -40,7 +40,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -56,9 +55,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
                 return;
-            }
+
             healAmt *= 1.25f;
             Player player = Main.player[projectile.owner];
             player.statLife += (int)healAmt;
