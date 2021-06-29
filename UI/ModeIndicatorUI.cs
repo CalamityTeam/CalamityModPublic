@@ -39,7 +39,7 @@ namespace CalamityMod.UI
 			// Rev/Death active text.
 			if (mouseRectangle.Intersects(Utils.CenteredRectangle(drawCenter + DifficultyIconOffset, difficultyIconToUse.Size())))
 			{
-				Main.instance.MouseText($"{(CalamityWorld.death ? "Death" : "Revengeance")} mode is {(modeIsActive ? "active" : "not active")}.");
+				Main.instance.MouseText($"{(CalamityWorld.death ? "Death" : "Revengeance")} Mode is {(modeIsActive ? "active" : "not active")}.");
 				renderingText = true;
 			}
 
@@ -51,7 +51,7 @@ namespace CalamityMod.UI
 			// Armageddon active text.
 			if (!renderingText && mouseRectangle.Intersects(Utils.CenteredRectangle(drawCenter + ArmageddonIconOffset, armageddonIconTexture.Size())))
 			{
-				Main.instance.MouseText($"Armageddon mode is {(CalamityWorld.armageddon ? "active" : "not active")}.");
+				Main.instance.MouseText($"Armageddon is {(CalamityWorld.armageddon ? "active" : "not active")}.");
 				renderingText = true;
 			}
 
@@ -61,7 +61,7 @@ namespace CalamityMod.UI
 			// Malice active text.
 			if (!renderingText && mouseRectangle.Intersects(Utils.CenteredRectangle(drawCenter + MaliceIconOffset, armageddonIconTexture.Size())))
 			{
-				Main.instance.MouseText($"Malice mode is {(CalamityWorld.malice ? "active" : "not active")}.");
+				Main.instance.MouseText($"Malice Mode is {(CalamityWorld.malice ? "active" : "not active")}.");
 				renderingText = true;
 			}
 
