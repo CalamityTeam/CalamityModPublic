@@ -915,6 +915,7 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
                 {
                     DraedonDecryptUI.Draw(Main.spriteBatch);
+                    return true;
                 }, InterfaceScaleType.None));
 
                 // Popup GUIs.
