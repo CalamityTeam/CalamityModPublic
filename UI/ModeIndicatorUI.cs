@@ -9,7 +9,7 @@ namespace CalamityMod.UI
 	public class ModeIndicatorUI
 	{
 		public static readonly Vector2 OffsetToAreaCenter = new Vector2(0f, 4f);
-		public static Vector2 DifficultyIconOffset => new Vector2(0f, -16f);
+		public static Vector2 DifficultyIconOffset => new Vector2(0f, -13f);
 		public static Vector2 ArmageddonIconOffset => new Vector2(12f, 7f);
 		public static Vector2 MaliceIconOffset => new Vector2(-12f, 7f);
 		public static void Draw(SpriteBatch spriteBatch)
@@ -31,14 +31,14 @@ namespace CalamityMod.UI
 			if (CalamityWorld.revenge)
 			{
 				Texture2D difficultyIconToUse = CalamityWorld.death ? deathIconTexture : revengeanceIconTexture;
-				spriteBatch.Draw(difficultyIconToUse, drawCenter + DifficultyIconOffset, null, Color.White, 0f, difficultyIconToUse.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(difficultyIconToUse, drawCenter + DifficultyIconOffset, null, Color.White, 0f, difficultyIconToUse.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 			}
 
 			if (CalamityWorld.armageddon)
-				spriteBatch.Draw(armageddonIconTexture, drawCenter + ArmageddonIconOffset, null, Color.White, 0f, armageddonIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(armageddonIconTexture, drawCenter + ArmageddonIconOffset, null, Color.White, 0f, armageddonIconTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 
 			if (CalamityWorld.malice)
-				spriteBatch.Draw(maliceIconTexture, drawCenter + MaliceIconOffset, null, Color.White, 0f, maliceIconTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(maliceIconTexture, drawCenter + MaliceIconOffset, null, Color.White, 0f, maliceIconTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 		}
 	}
 }
