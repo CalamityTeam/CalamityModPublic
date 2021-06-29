@@ -828,6 +828,9 @@ namespace CalamityMod
 		#region Lighting Effects
 		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
 		{
+            if (Main.gameMenu)
+                BossRushEvent.StartTimer = 0;
+
             if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
             {
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
