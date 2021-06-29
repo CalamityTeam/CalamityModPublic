@@ -29,6 +29,7 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
@@ -40,6 +41,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -60,7 +62,6 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.NPCs.PlagueEnemies;
 
 namespace CalamityMod.NPCs
 {
@@ -113,6 +114,9 @@ namespace CalamityMod.NPCs
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
 
+		// Rage interactions
+		public bool DoesNotGenerateRage = false;
+
         // NewAI
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
@@ -147,7 +151,7 @@ namespace CalamityMod.NPCs
         public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
-        public int marked = 0;
+		public int marked = 0;
         public int irradiated = 0;
         public int bFlames = 0;
         public int hFlames = 0;
@@ -215,6 +219,9 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
 		public static int adultEidolonWyrmHead = -1;
+
+		// Drawing variables.
+		public FireParticleSet VulnerabilityHexFireDrawer = null;
 
 		// Boss Enrage variable for use with the boss health UI.
 		// The logic behind this is as follows:
@@ -969,7 +976,8 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(pShred, 1500, 300, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(vulnerabilityHex, 44440, 4444, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(vulnerabilityHex, 44440, 4444, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
@@ -1993,7 +2001,9 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
-            CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+			if (VulnerabilityHexFireDrawer != null)
+				VulnerabilityHexFireDrawer.Update();
+			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
 
 			// Decrement each immune timer if it's greater than 0.
 			for (int i = 0; i < maxPlayerImmunities; i++)
@@ -3513,6 +3523,8 @@ namespace CalamityMod.NPCs
 				bBlood--;
 			if (dFlames > 0)
 				dFlames--;
+			if (vulnerabilityHex > 0)
+				vulnerabilityHex--;
 			if (marked > 0)
 				marked--;
 			if (irradiated > 0)
@@ -4939,6 +4951,24 @@ namespace CalamityMod.NPCs
                     Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(position9.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
                 }
             }
+			else
+			{
+				if (npc.Calamity().vulnerabilityHex > 0)
+				{
+					float compactness = npc.width * 0.6f;
+					if (compactness < 10f)
+						compactness = 10f;
+					float power = npc.height / 100f;
+					if (power > 2.75f)
+						power = 2.75f;
+					if (VulnerabilityHexFireDrawer is null || VulnerabilityHexFireDrawer.LocalTimer >= VulnerabilityHexFireDrawer.SetLifetime)
+						VulnerabilityHexFireDrawer = new FireParticleSet(npc.Calamity().vulnerabilityHex, 1, Color.Red * 1.25f, Color.Red, compactness, power);
+					else
+						VulnerabilityHexFireDrawer.DrawSet(npc.Bottom - Vector2.UnitY * (12f - npc.gfxOffY));
+				}
+				else
+					VulnerabilityHexFireDrawer = null;
+			}
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
             if (npc.type == NPCID.DD2EterniaCrystal)

@@ -3,6 +3,7 @@ using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.DifficultyItems
             Tooltip.SetDefault("Enrages every boss and allows them to drop special items.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +
                 "Effect can be toggled on and off.");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
         }
 
         public override void SetDefaults()
@@ -27,6 +29,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item119;
+            item.noUseGraphic = true;
             item.consumable = false;
         }
 

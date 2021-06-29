@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.beeResist = true;
             modPlayer.aAmpoule = true;
+			modPlayer.rOoze = true;
         }
 
         public override void AddRecipes()

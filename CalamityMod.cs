@@ -42,6 +42,7 @@ using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -187,6 +188,7 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             CalamityLists.LoadLists();
+            EnchantmentManager.LoadAllEnchantments();
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
@@ -325,6 +327,7 @@ namespace CalamityMod
             bossVelocityDamageScaleValues?.Clear();
             bossVelocityDamageScaleValues = null;
 
+            EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
 
@@ -552,7 +555,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 },
                 { ModContent.NPCType<Calamitas>(), 1200 },
-                { ModContent.NPCType<CalamitasRun3>(), 11400 },
+                { ModContent.NPCType<CalamitasRun3>(), 13200 },
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<Siren>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 },
@@ -918,6 +921,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
                 {
                     ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Calamitas Enchantment UI
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Calamitas Enchantment", () =>
+                {
+                    CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 
