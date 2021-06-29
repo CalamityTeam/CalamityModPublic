@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.Abyss
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
-						Main.npc[Previous].ai[3] = i;
+						Main.npc[Previous].ai[3] = i / 2;
 					}
 					TailSpawned = true;
 				}

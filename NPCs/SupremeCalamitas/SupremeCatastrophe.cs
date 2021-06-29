@@ -82,6 +82,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.npc[CalamityGlobalNPC.SCalCataclysm].active)
 					totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCataclysm].life / (float)Main.npc[CalamityGlobalNPC.SCalCataclysm].lifeMax;
 			}
+			totalLifeRatio *= 0.5f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -101,7 +102,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				num677 *= 0.5f;
 			}
 
-			int scale = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, totalLifeRatio * 0.5f));
+			int scale = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
 			if (npc.ai[3] < distanceX)
             {
                 npc.ai[3] += scale;
@@ -161,7 +162,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (npc.localAI[0] >= 120f)
             {
-				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, totalLifeRatio * 0.5f);
+				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
 				npc.ai[1] += fireRate;
 				if (npc.ai[1] >= 45f)
                 {
@@ -174,7 +175,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(npc.Center, new Vector2(4f, 0f), type, damage, 0f, Main.myPlayer);
                     }
                 }
-				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, totalLifeRatio * 0.5f);
+				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
 				npc.ai[2] += fireRate;
 				if (npc.ai[2] >= 300f)
                 {

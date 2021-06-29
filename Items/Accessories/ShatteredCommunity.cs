@@ -238,30 +238,5 @@ namespace CalamityMod.Items.Accessories
 			level = reader.ReadInt32();
 			totalRageDamage = reader.ReadInt64();
 		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe r = new ShatteredCommunityRecipe(mod);
-			r.SetResult(this);
-			r.AddIngredient(ModContent.ItemType<TheCommunity>());
-			r.AddIngredient(ModContent.ItemType<HeartofDarkness>());
-			r.AddIngredient(ModContent.ItemType<CalamitousEssence>(), 120);
-			r.AddRecipe();
-		}
-
-		// The Shattered Community can only be crafted with a full-power Community.
-		// That is, in a world where all relevant bosses have been defeated.
-		private class ShatteredCommunityRecipe : ModRecipe
-		{
-			public ShatteredCommunityRecipe(Mod mod) : base(mod) { }
-
-			public override bool RecipeAvailable()
-			{
-				bool vanillaBosses = NPC.downedSlimeKing && NPC.downedBoss1 && NPC.downedBoss2 && NPC.downedQueenBee && NPC.downedBoss3 && Main.hardMode;
-				vanillaBosses &= NPC.downedMechBossAny && NPC.downedPlantBoss && NPC.downedGolemBoss && NPC.downedFishron && NPC.downedAncientCultist && NPC.downedMoonlord;
-				bool calamityBosses = CalamityWorld.downedProvidence && CalamityWorld.downedDoG && CalamityWorld.downedYharon;
-				return vanillaBosses && calamityBosses;
-			}
-		}
 	}
 }

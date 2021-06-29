@@ -458,5 +458,11 @@ namespace CalamityMod
 			SetMerge(type, TileType<AshenSlab>());
 			SetMerge(type, TileType<VoidstoneSlab>());
 		}
+
+		/// <summary>
+		/// Determines if a tile is solid ground based on whether it's active and not actuated or if the tile is solid in any way, including just the top.
+		/// </summary>
+		/// <param name="tile">The tile to check.</param>
+		public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]);
 	}
 }

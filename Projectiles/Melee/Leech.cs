@@ -53,8 +53,8 @@ namespace CalamityMod.Projectiles.Melee
 				return;
 
             Player player = Main.player[projectile.owner];
-            player.statLife += 5;
-            player.HealEffect(5);
+            player.statLife += 2;
+            player.HealEffect(2);
         }
     }
 }

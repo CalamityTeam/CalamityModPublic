@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 if (flag && Main.myPlayer == projectile.owner)
                 {
-                    bool flag2 = player.channel && player.CheckMana(player.ActiveItem().mana, true, false) && !player.noItems && !player.CCed;
+                    bool flag2 = player.channel && !player.noItems && !player.CCed;
                     if (flag2)
                     {
                         float speed = player.ActiveItem().shootSpeed * projectile.scale;

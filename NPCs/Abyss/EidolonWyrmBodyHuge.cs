@@ -111,8 +111,8 @@ namespace CalamityMod.NPCs.Abyss
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
 					npc.localAI[0] += 1f;
-					float spawnAncientLightGateValue = 180f;
-					float divisor = 10f;
+					float spawnAncientLightGateValue = 120f;
+					float divisor = 4f;
 					if (npc.ai[3] % divisor == 0f && npc.localAI[0] >= spawnAncientLightGateValue)
 					{
 						npc.localAI[0] = 0f;

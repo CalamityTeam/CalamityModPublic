@@ -8,6 +8,7 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DraedonMisc;
@@ -23,6 +24,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
@@ -78,6 +80,10 @@ namespace CalamityMod.CalPlayer
 			// Bool for any existing events, true if any event is active
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
+			// Hurt the nearest NPC to the mouse if using the burning mouse.
+			if (modPlayer.blazingMouseDamageEffects)
+				HandleBlazingMouseEffects(player, modPlayer);
+
 			// Revengeance effects
 			RevengeanceModeMiscEffects(player, modPlayer, mod);
 
@@ -116,6 +122,11 @@ namespace CalamityMod.CalPlayer
 
 			// Check if schematics are present on the mouse, for the sake of registering their recipes.
 			CheckIfMouseItemIsSchematic(player);
+
+			// Update all particle sets for items.
+			// This must be done here instead of in the item logic because these sets are not properly instanced
+			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
+			CalamityGlobalItem.UpdateAllParticleSets();
 
 			// Regularly sync player stats during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
@@ -345,7 +356,7 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
 					NPC npc = Main.npc[i];
-					if (npc is null || !npc.IsAnEnemy())
+					if (npc is null || !npc.IsAnEnemy() || npc.Calamity().DoesNotGenerateRage)
 						continue;
 
 					// Take the longer of the two directions for the NPC's hitbox to be generous.
@@ -480,8 +491,56 @@ namespace CalamityMod.CalPlayer
 		#endregion
 
 		#region Misc Effects
+
+		private static void HandleBlazingMouseEffects(Player player, CalamityPlayer modPlayer)
+		{
+			Rectangle auraRectangle = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
+			modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade - 0.025f, 0.25f, 1f);
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (!Main.npc[i].CanBeChasedBy() || !Main.npc[i].Hitbox.Intersects(auraRectangle) || !Main.rand.NextBool(2))
+					continue;
+
+				harmNPC(Main.npc[i]);
+				modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade + 0.15f, 0.25f, 1f);
+			}
+
+			void harmNPC(NPC npc)
+			{
+				int damage = (int)(player.AverageDamage() * Main.rand.Next(1950, 2050));
+				npc.StrikeNPC(damage, 0f, 0);
+
+				player.addDPS(damage);
+				npc.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 900);
+
+				for (int i = 0; i < 4; i++)
+				{
+					Dust fire = Dust.NewDustDirect(npc.position, npc.width, npc.height, 267);
+					fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.45f);
+					fire.scale = 1f + fire.velocity.Length() / 6f;
+					fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.85f));
+					fire.noGravity = true;
+				}
+			}
+		}
+
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			// Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
+			int blazingMouseItem = ModContent.ItemType<Calamity>();
+			for (int i = 13; i < 18 + player.extraAccessorySlots; i++)
+			{
+				if (player.armor[i].type == blazingMouseItem)
+				{
+					modPlayer.ableToDrawBlazingMouse = true;
+					break;
+				}
+			}
+
+			// Dust on hand when holding the phosphorescent gauntlet.
+			if (player.ActiveItem().type == ModContent.ItemType<PhosphorescentGauntlet>())
+				PhosphorescentGauntletPunches.GenerateDustOnOwnerHand(player);
+
 			if (modPlayer.stealthUIAlpha > 0f && (modPlayer.rogueStealth <= 0f || modPlayer.rogueStealthMax <= 0f))
 			{
 				modPlayer.stealthUIAlpha -= 0.035f;
@@ -1184,6 +1243,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.aBulwarkRareTimer--;
 			if (modPlayer.hellbornBoost > 0)
 				modPlayer.hellbornBoost--;
+			if (modPlayer.persecutedEnchantSummonTimer < 1800)
+				modPlayer.persecutedEnchantSummonTimer++;
+            else
+            {
+				modPlayer.persecutedEnchantSummonTimer = 0;
+				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+				{
+					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+					int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
+					if (Main.npc.IndexInRange(portal))
+						Main.npc[portal].target = player.whoAmI;
+				}
+			}
 			if (player.miscCounter % 20 == 0)
 				modPlayer.canFireAtaxiaRangedProjectile = true;
 			if (player.miscCounter % 100 == 0)
@@ -1407,11 +1479,14 @@ namespace CalamityMod.CalPlayer
 
 			// Ambrosial Ampoule bonus and other light-granting bonuses
 			float[] light = new float[3];
-			if (modPlayer.aAmpoule)
+			if ((modPlayer.rOoze && !Main.dayTime) || modPlayer.aAmpoule)
 			{
 				light[0] += 1f;
 				light[1] += 1f;
 				light[2] += 0.6f;
+			}
+			if (modPlayer.aAmpoule)
+			{
 				player.endurance += 0.05f;
 				player.pickSpeed -= 0.25f;
 				player.buffImmune[BuffID.Venom] = true;
@@ -2029,6 +2104,43 @@ namespace CalamityMod.CalPlayer
 				modPlayer.abyssBreathCD = 0;
 				modPlayer.abyssDeath = false;
 			}
+		}
+		#endregion
+
+		#region Calamitas Enchantment Held Item Effects
+		public static void EnchantHeldItemEffects(Player player, CalamityPlayer modPlayer, Item heldItem)
+		{
+			if (heldItem.IsAir)
+				return;
+
+			// Exhaustion recharge effects.
+			foreach (Item item in player.inventory)
+			{
+				if (item.IsAir)
+					continue;
+
+				if (item.Calamity().AppliedEnchantment.HasValue && item.Calamity().AppliedEnchantment.Value.ID == 600)
+				{
+					// Initialize the exhaustion if it is currently not defined.
+					if (item.Calamity().DischargeEnchantExhaustion <= 0f)
+						item.Calamity().DischargeEnchantExhaustion = CalamityGlobalItem.DischargeEnchantExhaustionCap;
+
+					// Slowly recharge the weapon over time. This is depleted when the item is actaully used.
+					else if (item.Calamity().DischargeEnchantExhaustion < CalamityGlobalItem.DischargeEnchantExhaustionCap)
+						item.Calamity().DischargeEnchantExhaustion++;
+				}
+				else
+					item.Calamity().DischargeEnchantExhaustion = 0f;
+			}
+
+			if (!heldItem.Calamity().AppliedEnchantment.HasValue || heldItem.Calamity().AppliedEnchantment.Value.HoldEffect is null)
+				return;
+
+			heldItem.Calamity().AppliedEnchantment.Value.HoldEffect(player);
+
+			// Weak brimstone flame hold curse effect.
+			if (modPlayer.flamingItemEnchant)
+				player.AddBuff(ModContent.BuffType<WeakBrimstoneFlames>(), 10);
 		}
 		#endregion
 

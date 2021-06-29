@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace CalamityMod.Items
 {
@@ -41,6 +43,10 @@ namespace CalamityMod.Items
 			// If the item has a stealth generation prefix, show that on the tooltip.
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
+
+			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
+			// tooltip list.
+			EnchantmentTooltips(item, tooltips);
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
@@ -225,6 +231,19 @@ namespace CalamityMod.Items
 				overrideColor = lineColor
 			};
 			tooltips.Add(line);
+		}
+		#endregion
+
+		#region Enchantment Tooltips
+		private void EnchantmentTooltips(Item item, IList<TooltipLine> tooltips)
+		{
+			if (!item.IsAir && AppliedEnchantment.HasValue)
+			{
+				tooltips[0].text = $"{AppliedEnchantment.Value.Name} {tooltips[0].text}";
+
+				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
+				tooltips.Add(descriptionLine);
+			}
 		}
 		#endregion
 
@@ -962,6 +981,39 @@ namespace CalamityMod.Items
 				};
 				tooltips.Add(StealthGen);
 			}
+		}
+		#endregion
+
+		#region Enchanted Rarity Text Drawing
+		public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
+		{
+			// Special enchantment line color.
+			if (line.Name == "ItemName" && line.mod == "Terraria" && item.IsEnchanted())
+			{
+				Color rarityColor = line.overrideColor ?? line.color;
+				Vector2 basePosition = new Vector2(line.X, line.Y);
+
+				float backInterpolant = (float)Math.Pow(Main.GlobalTime * 0.81f % 1f, 1.5f);
+				Vector2 backScale = line.baseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
+				Color backColor = Color.Lerp(rarityColor, Color.DarkRed, backInterpolant) * (float)Math.Pow(1f - backInterpolant, 0.46f);
+				Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+				// Draw the back text as an ominous pulse.
+				for (int i = 0; i < 2; i++)
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, backPosition, backColor, line.rotation, line.origin, backScale, line.maxWidth, line.spread);
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin();
+
+				// Draw the front text as usual.
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, basePosition, rarityColor, line.rotation, line.origin, line.baseScale, line.maxWidth, line.spread);
+
+				return false;
+			}
+			return true;
 		}
 		#endregion
 

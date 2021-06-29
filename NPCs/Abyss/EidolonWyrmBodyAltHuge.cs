@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Abyss
 				{
 					npc.localAI[0] += 1f;
 					float shootShadowFireballGateValue = 90f;
-					float divisor = 5f;
+					float divisor = 2f;
 					if (npc.ai[3] % divisor == 0f && npc.localAI[0] >= shootShadowFireballGateValue)
 					{
 						npc.localAI[0] = 0f;
