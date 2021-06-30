@@ -1525,7 +1525,12 @@ namespace CalamityMod
             tenDamageNerfList = new List<int>()
             {
 				ItemID.DaedalusStormbow,
-				ItemID.StarWrath
+				ItemID.StarWrath,
+
+                ItemID.OrichalcumHalberd,
+                ItemID.OrichalcumSword,
+                ItemID.MythrilHalberd,
+                ItemID.MythrilSword
             };
 
             quarterDamageNerfList = new List<int>()
@@ -1538,7 +1543,12 @@ namespace CalamityMod
                 ItemID.Xenopopper,
                 ItemID.OpticStaff, //Note: got local i frames so it should be better
 				ItemID.RocketIII,
-				ItemID.RocketIV
+				ItemID.RocketIV,
+
+                ItemID.TitaniumTrident,
+                ItemID.TitaniumSword,
+                ItemID.AdamantiteGlaive,
+                ItemID.AdamantiteSword,
 			};
 
             pumpkinMoonBuffList = new List<int>()
