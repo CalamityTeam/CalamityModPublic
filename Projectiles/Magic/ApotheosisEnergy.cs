@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
                 baseColor = Color.Lerp(baseColor, Color.Fuchsia, (completionRatio - 0.66f) / 0.33f);
             else
             {
-                float whiteFade = (float)Math.Sin(Utils.InverseLerp(0.1f, 0.56f, completionRatio, true) * MathHelper.Pi + Main.GlobalTime * 10f) * 0.85f;
+                float whiteFade = (float)Math.Sin(Utils.InverseLerp(0.0f, 0.2f, completionRatio, true) * MathHelper.Pi + Main.GlobalTime * 3f) * 0.45f;
                 baseColor = Color.Lerp(baseColor, Color.White, whiteFade);
             }
 

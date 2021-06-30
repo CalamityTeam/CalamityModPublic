@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float rotation = projectile.AngleTo(destination);
                 float remainingDistance = projectile.Distance(destination) - 30f;
                 float laserScale = 0.5f;
-                Rectangle frame = laserTexture.Frame(1, 7, 0, (int)(Main.GlobalTime * 17f + projectile.identity * 3f) % 7);
+                Rectangle frame = laserTexture.Frame(1, 7, 0, (int)(Main.GlobalTime * 10f + projectile.identity * 3f) % 7);
                 Vector2 laserOrigin = frame.Size() * 0.5f;
                 while (remainingDistance > frame.Height * laserScale)
 				{

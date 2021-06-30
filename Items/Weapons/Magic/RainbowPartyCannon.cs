@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<RainbowPartyCannonProjectile>();
             item.channel = true;
             item.shootSpeed = 20f;
+            item.Calamity().devItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

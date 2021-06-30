@@ -611,7 +611,7 @@ namespace CalamityMod.ILEditing
                     Main.spriteBatch.Draw(Main.cursorTextures[cursorIndex], drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
 
                     Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.UIScaleMatrix);
                     GameShaders.Misc["CalamityMod:FireMouse"].UseColor(Color.Red);
                     GameShaders.Misc["CalamityMod:FireMouse"].UseSecondaryColor(Color.Lerp(Color.Red, Color.Orange, 0.75f));
                     GameShaders.Misc["CalamityMod:FireMouse"].Apply();

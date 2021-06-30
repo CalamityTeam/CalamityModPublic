@@ -351,7 +351,7 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
 					NPC npc = Main.npc[i];
-					if (npc is null || !npc.IsAnEnemy())
+					if (npc is null || !npc.IsAnEnemy() || npc.Calamity().DoesNotGenerateRage)
 						continue;
 
 					// Take the longer of the two directions for the NPC's hitbox to be generous.
