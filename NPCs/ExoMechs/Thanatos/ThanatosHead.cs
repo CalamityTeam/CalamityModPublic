@@ -573,7 +573,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					vulnerable = true;
 
 					// If close enough to the target, prepare to fire deathray
-					bool readyToFireDeathray = distanceFromTarget < 960f;
+					float slowDownDistance = 800f;
+					bool readyToFireDeathray = distanceFromTarget < slowDownDistance;
 					if (readyToFireDeathray)
 						npc.localAI[2] = 1f;
 
@@ -605,7 +606,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Gradually turn and move slower if within 50 tiles of the target
 					if (npc.localAI[2] == 1f)
 					{
-						float velocityScale = distanceFromTarget / 960f;
+						// Exponentially scale down velocity if close to the target
+						float velocityScale = distanceFromTarget / slowDownDistance;
+						if (velocityScale < 1f)
+							velocityScale *= velocityScale;
+
 						baseVelocity *= velocityScale;
 						turnSpeed *= velocityScale;
 
