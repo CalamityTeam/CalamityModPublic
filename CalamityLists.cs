@@ -1339,7 +1339,9 @@ namespace CalamityMod
                 ItemID.AntlionClaw,
                 ItemID.Katana,
                 ItemID.FalconBlade,
-                ItemID.Seedler
+                ItemID.Seedler,
+                ItemID.Amarok,
+                ItemID.HelFire,
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1376,7 +1378,8 @@ namespace CalamityMod
                 ItemID.ChainGuillotines,
                 ItemID.FlowerofFrost,
                 ItemID.PoisonStaff,
-                ItemID.TacticalShotgun
+                ItemID.TacticalShotgun,
+                ItemID.Chik
             };
 
             tenDamageBuffList = new List<int>()
