@@ -194,18 +194,18 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D beamMiddle = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ExoDestroyerBeamMiddle");
             Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ExoDestroyerBeamEnd");
 
-            float drawLength = LengthOfLaser;
+			float drawLength = LengthOfLaser;
             Color color = new Color(250, 100, 100, 0);
 
 			// Draw start of beam
             Vector2 vector = projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamStart.Width, 30);
-			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, beamStart.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, new Vector2(32f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
 			// Draw middle of beam
-			drawLength -= (beamStart.Height / 2 + beamEnd.Height) * projectile.scale;
+			drawLength -= (beamStart.Height / 4 / 2 + beamEnd.Height / 4) * projectile.scale;
             Vector2 center = projectile.Center;
-			center += projectile.velocity * projectile.scale * beamStart.Height / 2f;
+			center += projectile.velocity * projectile.scale * beamStart.Height / 4f / 2f;
             if (drawLength > 0f)
             {
                 float i = 0f;
@@ -215,13 +215,13 @@ namespace CalamityMod.Projectiles.Boss
                     if (drawLength - i < rectangle.Height)
                         rectangle.Height = (int)(drawLength - i);
 
-                    spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), projectile.scale, SpriteEffects.None, 0f);
 
 					i += rectangle.Height * projectile.scale;
 					center += projectile.velocity * rectangle.Height * projectile.scale;
 
                     rectangle.Y += 30;
-                    if (rectangle.Y + rectangle.Height > beamMiddle.Height)
+                    if (rectangle.Y + rectangle.Height > beamMiddle.Height / 4)
                         rectangle.Y = 0;
                 }
             }
@@ -229,7 +229,7 @@ namespace CalamityMod.Projectiles.Boss
 			// Draw end of beam
             Vector2 vector2 = center - Main.screenPosition;
             sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamEnd.Width, 30);
-			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, beamEnd.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, new Vector2(28f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }

@@ -190,6 +190,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon").WithVolume(0.1f), npc.Center);
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
@@ -331,7 +332,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (vulnerable)
 			{
 				// Noise
-				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.15f : 1f;
+				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
 				if (npc.localAI[0] == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
 
