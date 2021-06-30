@@ -332,17 +332,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (vulnerable)
 			{
 				// Noise
-				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.25f : 1f;
+				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.15f : 1f;
 				if (npc.localAI[0] == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
 
 				// Steam
-				float maxSteamTime = 180f;
 				npc.localAI[0] += 1f;
-				if (npc.localAI[0] < maxSteamTime)
+				if (npc.localAI[0] < ThanatosHead.ventDuration)
 				{
 					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;
-					SmokeDrawer.ParticleSpawnRate = 3;
+					SmokeDrawer.ParticleSpawnRate = ThanatosHead.ventCloudSpawnRate;
 				}
 			}
 			else

@@ -52,6 +52,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		// Whether the head is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
 
+		// Max time in vent phase
+		public const float ventDuration = 180f;
+
+		// Spawn rate for vent clouds
+		public const int ventCloudSpawnRate = 5;
+
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
 
@@ -315,11 +321,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = 480f;
-			float slowDownTime = 120f;
+			float speedUpTime = berserk ? 360f : 480f;
+			float slowDownTime = berserk ? 90f : 120f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
 
-			float laserBarrageDuration = 420f;
+			float laserBarrageDuration = berserk ? 330f : 420f;
 
 			// Adjust opacity
 			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
@@ -361,8 +367,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float turnDegrees = baseVelocity * 0.11f;
 			if (berserk)
 			{
-				baseVelocity *= 1.2f;
-				turnDegrees *= 1.2f;
+				baseVelocity *= 1.25f;
+				turnDegrees *= 1.25f;
 			}
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -380,7 +386,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
-			float laserBarrageVelocityScalarIncrement = 0.01f;
+			float laserBarrageVelocityScalarIncrement = berserk ? 0.02f : 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Distance from target
@@ -547,7 +553,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
-									npc.localAI[0] = /*berserk ? 1f : 0f*/ 1f;
+									npc.localAI[0] = (berserk || otherExoMechsAlive == 0) ? 1f : 0f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 0f;
@@ -567,7 +573,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					vulnerable = true;
 
 					// If close enough to the target, prepare to fire deathray
-					bool readyToFireDeathray = distanceFromTarget < 800f;
+					bool readyToFireDeathray = distanceFromTarget < 960f;
 					if (readyToFireDeathray)
 						npc.localAI[2] = 1f;
 
@@ -599,8 +605,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Gradually turn and move slower if within 50 tiles of the target
 					if (npc.localAI[2] == 1f)
 					{
-						baseVelocity *= distanceFromTarget / 800f;
-						turnSpeed *= distanceFromTarget / 800f;
+						float velocityScale = distanceFromTarget / 960f;
+						baseVelocity *= velocityScale;
+						turnSpeed *= velocityScale;
 
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
@@ -638,7 +645,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								{
 									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, 255, npc.whoAmI);
+									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
 										Main.projectile[laser].ai[0] = npc.whoAmI;
 								}
@@ -680,12 +687,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
 
 				// Steam
-				float maxSteamTime = 180f;
 				npc.localAI[1] += 1f;
-				if (npc.localAI[1] < maxSteamTime)
+				if (npc.localAI[1] < ventDuration)
 				{
 					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;
-					SmokeDrawer.ParticleSpawnRate = 3;
+					SmokeDrawer.ParticleSpawnRate = ventCloudSpawnRate;
 				}
 			}
 			else

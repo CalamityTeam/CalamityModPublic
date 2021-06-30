@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
 			// Offset to move the beam forward so that it starts inside the NPC's mouth.
-			float beamStartForwardsOffset = -18f;
+			float beamStartForwardsOffset = -8f;
 
 			// Set the starting location of the beam to the center of the NPC.
 			projectile.Center = ThingToAttachTo.Center;

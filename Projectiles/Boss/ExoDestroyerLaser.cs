@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 100, 100, projectile.alpha);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
