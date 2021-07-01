@@ -16,7 +16,16 @@ namespace CalamityMod.Projectiles.Melee
         public ref float SwordItemID => ref projectile.ai[1];
         public ref float VerticalOffset => ref projectile.localAI[0];
         public ref float Time => ref projectile.localAI[1];
-        public float AttackCompletionRatio => 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
+        public float AttackCompletionRatio
+        {
+            get
+            {
+                float completionRatio = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
+                if (float.IsNaN(completionRatio) || float.IsInfinity(completionRatio))
+                    completionRatio = 0f;
+                return completionRatio;
+            }
+        }
         public Player Owner => Main.player[projectile.owner];
         public int Variant => (int)projectile.ai[0] % 2;
 
@@ -123,6 +132,9 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Kill();
                 return;
             }
+
+            if (Owner.itemAnimationMax == 0)
+                Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
 
             float swingOffsetAngle = MathHelper.SmoothStep(-1.87f, 3.79f, AttackCompletionRatio);
 
