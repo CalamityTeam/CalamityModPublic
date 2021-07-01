@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos Beam");
+            DisplayName.SetDefault("T Hanos Beam");
 			Main.projFrames[projectile.type] = 4;
 		}
 

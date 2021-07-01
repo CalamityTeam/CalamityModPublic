@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos Deathray");
+            DisplayName.SetDefault("T Hanos Deathray");
 		}
 
         public override void SetDefaults()
