@@ -274,20 +274,31 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 
 			// Despawn if target is dead
-            if (player.dead)
-            {
-                npc.TargetClosest(false);
-
-				npc.velocity.Y += 2f;
-				if (npc.position.Y > Main.worldSurface * 16.0)
-					npc.velocity.Y += 2f;
-
-				if (npc.position.Y > Main.rockLayer * 16.0)
+			bool targetDead = false;
+			if (player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (player.dead)
 				{
-					for (int a = 0; a < Main.maxNPCs; a++)
+					targetDead = true;
+					npc.localAI[0] = 0f;
+					npc.localAI[2] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					calamityGlobalNPC.newAI[3] = 0f;
+					chargeVelocityScalar = 0f;
+
+					npc.velocity.Y += 2f;
+					if (npc.position.Y > Main.worldSurface * 16.0)
+						npc.velocity.Y += 2f;
+
+					if (npc.position.Y > Main.rockLayer * 16.0)
 					{
-						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
-							Main.npc[a].active = false;
+						for (int a = 0; a < Main.maxNPCs; a++)
+						{
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
+								Main.npc[a].active = false;
+						}
 					}
 				}
 			}
@@ -754,25 +765,28 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			SmokeDrawer.Update();
 
-			// Increase velocity if velocity is ever zero
-			if (npc.velocity == Vector2.Zero)
-				npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Acceleration
-			if (!((destination - npc.Center).Length() < turnDistance))
+			if (!targetDead)
 			{
-				float targetAngle = npc.AngleTo(destination);
-				float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-				npc.velocity = f.ToRotationVector2() * baseVelocity;
+				// Increase velocity if velocity is ever zero
+				if (npc.velocity == Vector2.Zero)
+					npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Acceleration
+				if (!((destination - npc.Center).Length() < turnDistance))
+				{
+					float targetAngle = npc.AngleTo(destination);
+					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
+					npc.velocity = f.ToRotationVector2() * baseVelocity;
+				}
+
+				// Velocity upper limit
+				if (npc.velocity.Length() > baseVelocity)
+					npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Reduce Y velocity if it's less than 1
+				if (Math.Abs(npc.velocity.Y) < 1f)
+					npc.velocity.Y -= 0.1f;
 			}
-
-			// Velocity upper limit
-			if (npc.velocity.Length() > baseVelocity)
-				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

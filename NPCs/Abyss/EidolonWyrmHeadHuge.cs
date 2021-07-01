@@ -214,12 +214,14 @@ namespace CalamityMod.NPCs.Abyss
 			}
 
 			// Despawn if target is dead
+			bool targetDead = false;
             if (player.dead)
             {
                 npc.TargetClosest(false);
 				player = Main.player[npc.target];
 				if (player.dead)
 				{
+					targetDead = true;
 					npc.ai[3] = 0f;
 					npc.localAI[0] = 0f;
 					npc.localAI[1] = 0f;
@@ -1303,25 +1305,28 @@ namespace CalamityMod.NPCs.Abyss
 				}
 			}
 
-			// Increase velocity if velocity is ever zero
-			if (npc.velocity == Vector2.Zero)
-				npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Acceleration
-			if (!((destination - npc.Center).Length() < turnDistance))
+			if (!targetDead)
 			{
-				float targetAngle = npc.AngleTo(destination);
-				float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-				npc.velocity = f.ToRotationVector2() * baseVelocity;
+				// Increase velocity if velocity is ever zero
+				if (npc.velocity == Vector2.Zero)
+					npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Acceleration
+				if (!((destination - npc.Center).Length() < turnDistance))
+				{
+					float targetAngle = npc.AngleTo(destination);
+					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
+					npc.velocity = f.ToRotationVector2() * baseVelocity;
+				}
+
+				// Velocity upper limit
+				if (npc.velocity.Length() > baseVelocity)
+					npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Reduce Y velocity if it's less than 1
+				if (Math.Abs(npc.velocity.Y) < 1f)
+					npc.velocity.Y -= 0.1f;
 			}
-
-			// Velocity upper limit
-			if (npc.velocity.Length() > baseVelocity)
-				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
 
 			// Storm code
 			if (calamityGlobalNPC.newAI[3] == 0f)
