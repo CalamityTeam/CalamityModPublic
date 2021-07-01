@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 			bool expertMode = Main.expertMode || malice;
 
 			// Die if the thing to attach to disappears.
-			if (ThingToAttachTo is null || !ThingToAttachTo.active)
+			if (ThingToAttachTo is null || !ThingToAttachTo.active || ThingToAttachTo.Calamity().newAI[0] != 2f)
 			{
 				projectile.Kill();
 				return;

@@ -139,8 +139,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.localAI[2] == 0f)
 				npc.localAI[2] = npc.ai[0];
 
-			bool shootTrackingLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
-			if (shootTrackingLasers)
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -423,9 +423,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		{
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
-			bool shootTrackingLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			npc.frameCounter += 1D;
-			if (shootTrackingLasers)
+			if (shootLasers && !invisiblePhase)
 			{
 				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
 				{

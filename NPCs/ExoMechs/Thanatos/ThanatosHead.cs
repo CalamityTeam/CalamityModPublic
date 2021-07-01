@@ -402,7 +402,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					{
 						if (phase2 && !berserk)
 						{
+							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								// Spawn code here
@@ -416,14 +424,29 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						// Do not run this if any exo mech is dead
 						if ((anyOtherExoMechPassive || lessThan70PercentLife) && !berserk && totalOtherExoMechLifeRatio < 5f)
 						{
-							// Tells Thanatos to return to the battle in passive state
+							// Tells Thanatos to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
 						// This is only called if two exo mechs are alive
 						if (otherMechIsBerserk)
+						{
+							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+						}
 					}
 
 					break;
@@ -436,13 +459,28 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
 					if (otherMechIsBerserk)
+					{
+						// Reset everything
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
+					}
 
 					// If Thanatos is the first mech to go berserk
 					if (berserk)
 					{
-						// Reset
+						// Reset everything
 						AIState = (float)Phase.Charge;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -459,15 +497,27 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
 					if ((exoPrimeLifeRatio < 0.7f || exoSpazLifeRatio < 0.7f || exoRetLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
-						// Tells Thanatos to return to the battle in passive state
+						// Tells Thanatos to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 					}
 
 					if (berserk)
 					{
-						// Reset
+						// Reset everything
 						AIState = (float)Phase.Charge;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
