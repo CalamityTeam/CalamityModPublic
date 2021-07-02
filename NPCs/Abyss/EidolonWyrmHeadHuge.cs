@@ -1318,15 +1318,15 @@ namespace CalamityMod.NPCs.Abyss
 					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
 					npc.velocity = f.ToRotationVector2() * baseVelocity;
 				}
-
-				// Velocity upper limit
-				if (npc.velocity.Length() > baseVelocity)
-					npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-				// Reduce Y velocity if it's less than 1
-				if (Math.Abs(npc.velocity.Y) < 1f)
-					npc.velocity.Y -= 0.1f;
 			}
+
+			// Velocity upper limit
+			if (npc.velocity.Length() > baseVelocity)
+				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+
+			// Reduce Y velocity if it's less than 1
+			if (Math.Abs(npc.velocity.Y) < 1f)
+				npc.velocity.Y -= 0.1f;
 
 			// Storm code
 			if (calamityGlobalNPC.newAI[3] == 0f)
