@@ -1,3 +1,4 @@
+using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -259,6 +260,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			itemScale *= inventoryScale * baseScale;
 			drawPosition += Vector2.One * 23f * baseScale;
+
+			if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()) && EnchantmentManager.ItemUpgradeRelationship.ContainsKey(CurrentlyHeldItem.type))
+				drawPosition -= itemFrame.Size() * 0.25f;
 
 			// Draw the item.
 			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
