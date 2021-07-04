@@ -506,7 +506,7 @@ namespace CalamityMod.Items
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
         {
-            return true;
+            return rogue || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
