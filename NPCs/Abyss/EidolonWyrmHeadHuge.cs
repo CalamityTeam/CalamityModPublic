@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
 			float lightningSpawnY = 540f;
 			Vector2 lightningSpawnLocation = new Vector2(lightningChargeVector.X, -lightningSpawnY);
-			int numLightningBolts = 10;
+			int numLightningBolts = 8;
 			float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
 			// Velocity and turn speed values
@@ -1089,16 +1089,21 @@ namespace CalamityMod.NPCs.Abyss
 								// Lightning barrage
 								if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[3] == 0f)
 								{
+									if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+
 									npc.localAI[3] = 1f;
 									int type = ProjectileID.CultistBossLightningOrbArc;
 									int damage = npc.GetProjectileDamage(type);
 									for (int i = 0; i < numLightningBolts; i++)
 									{
-										lightningSpawnLocation.Y += distanceBetweenBolts * i;
 										Vector2 projectileDestination = player.Center - lightningSpawnLocation;
 										float ai = Main.rand.Next(100);
 										int proj = Projectile.NewProjectile(lightningSpawnLocation, npc.velocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
 										Main.projectile[proj].tileCollide = false;
+										lightningSpawnLocation.Y += distanceBetweenBolts;
+										if (i == numLightningBolts / 2)
+											lightningSpawnLocation.Y += distanceBetweenBolts;
 									}
 								}
 

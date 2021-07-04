@@ -7390,7 +7390,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-				evilSmasherBoost = 0;
+				if (evilSmasherBoost > 0)
+					evilSmasherBoost -= 1;
+
 				hellbornBoost = 0;
 
                 if (amidiasBlessing)
