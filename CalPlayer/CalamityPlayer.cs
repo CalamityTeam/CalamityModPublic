@@ -1042,6 +1042,7 @@ namespace CalamityMod.CalPlayer
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
         public int witheredWeaponHoldTime = 0;
+        public int witheringDamageDone = 0;
 
         public bool persecutedEnchant = false;
         public int persecutedEnchantSummonTimer = 0;
@@ -1790,6 +1791,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            witheredDebuff = false;
             weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
@@ -2170,6 +2172,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            witheredDebuff = false;
             weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
@@ -4826,6 +4829,9 @@ namespace CalamityMod.CalPlayer
             if (player.whoAmI != Main.myPlayer)
                 return;
 
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+
             switch (item.type)
             {
                 case ItemID.CobaltSword:
@@ -4929,6 +4935,9 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI != Main.myPlayer)
                 return;
+
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
             switch (proj.type)
             {
@@ -7402,7 +7411,19 @@ namespace CalamityMod.CalPlayer
 					player.HealEffect(healAmt);
 				}
 
-				if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+                if (witheringDamageDone > 0)
+                {
+                    double healCompenstationRatio = Math.Log(witheringDamageDone) * Math.Pow(witheringDamageDone, 2D / 3D) / 177000D;
+                    if (healCompenstationRatio > 1D)
+                        healCompenstationRatio = 1D;
+                    int healCompensation = (int)(healCompenstationRatio * damage);
+                    player.statLife += (int)(healCompenstationRatio * damage);
+                    player.HealEffect(healCompensation);
+                    player.AddBuff(ModContent.BuffType<Withered>(), 1080);
+                    witheringDamageDone = 0;
+                }
+
+                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
