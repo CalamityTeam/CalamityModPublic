@@ -297,8 +297,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.rageGainCooldown > 0)
 				--modPlayer.rageGainCooldown;
 			
-						// This is how much Rage will be changed by this frame.
-						float rageDiff = 0;
+			// This is how much Rage will be changed by this frame.
+			float rageDiff = 0;
 
 			// If the player equips multiple rage generation accessories they get the max possible effect without stacking any of them.
 			{
@@ -407,42 +407,47 @@ namespace CalamityMod.CalPlayer
 
 			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
 
-						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-						if (modPlayer.rageModeActive)
+			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+			if (modPlayer.rageModeActive)
 				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
 
 			// If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
 			else if (!modPlayer.rageModeActive && rageFading)
 				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
-						// Apply the rage change and cap rage in both directions.
-						modPlayer.rage += rageDiff;
-						if (modPlayer.rage < 0)
-							modPlayer.rage = 0;
+			// Apply the rage change and cap rage in both directions.
+			modPlayer.rage += rageDiff;
+			if (modPlayer.rage < 0)
+				modPlayer.rage = 0;
 
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-				// Rage IS NOT capped while active. It can go above 100%.
+			if (modPlayer.rage >= modPlayer.rageMax)
+			{
+				// If Rage is not active, it is capped at 100%.
 				if (!modPlayer.rageModeActive)
-							modPlayer.rage = modPlayer.rageMax;
+					modPlayer.rage = modPlayer.rageMax;
 
-							// Play a sound when the Rage Meter is full
-							if (modPlayer.playFullRageSound)
-							{
-								modPlayer.playFullRageSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullRageSound = true;
+				// If using the Shattered Community, Rage is capped at 200% while it's active.
+				// This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
+				else if (modPlayer.shatteredCommunity && modPlayer.rage >= 2f * modPlayer.rageMax)
+					modPlayer.rage = 2f * modPlayer.rageMax;
 
-						// This is how much Adrenaline will be changed by this frame.
-						float adrenalineDiff = 0;
-						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+				// Play a sound when the Rage Meter is full
+				if (modPlayer.playFullRageSound)
+				{
+					modPlayer.playFullRageSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullRageSound = true;
 
-						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-						if (modPlayer.adrenalineModeActive)
+			// This is how much Adrenaline will be changed by this frame.
+			float adrenalineDiff = 0;
+			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+
+			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+			if (modPlayer.adrenalineModeActive)
 				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
 
 						else
