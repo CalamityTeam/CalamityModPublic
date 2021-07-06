@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -79,9 +80,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
-            }
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
         }
 
         public override void FindFrame(int frameHeight)

@@ -3712,9 +3712,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 if (Main.bloodMoon)
-                {
                     meleeSpeedMult += 0.15f;
-                }
             }
             if (community)
             {
@@ -3747,6 +3745,11 @@ namespace CalamityMod.CalPlayer
                 else
                     meleeSpeedMult += 0.05f;
             }
+			if (player.beetleOffense && player.beetleOrbs > 0)
+			{
+				player.meleeDamage -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+			}
             if (CalamityConfig.Instance.Proficiency)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
@@ -6798,15 +6801,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
 			{
-				player.AddBuff(BuffID.Poisoned, 180);
-				player.AddBuff(BuffID.Venom, 180);
-				player.AddBuff(BuffID.Bleeding, 300);
+				player.AddBuff(BuffID.Poisoned, 300);
 			}
 			else if (npc.type == NPCID.PlanterasTentacle)
 			{
-				player.AddBuff(BuffID.Poisoned, 120);
-				player.AddBuff(BuffID.Venom, 120);
-				player.AddBuff(BuffID.Bleeding, 180);
+				player.AddBuff(BuffID.Poisoned, 180);
 			}
 			else if (npc.type == NPCID.AncientDoom)
 			{
@@ -6860,7 +6859,6 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.ThornBall)
                 {
                     player.AddBuff(BuffID.Poisoned, 240);
-                    player.AddBuff(BuffID.Venom, 120);
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {

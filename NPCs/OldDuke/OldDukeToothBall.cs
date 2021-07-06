@@ -178,9 +178,7 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(BuffID.Venom, 180, true);
-			player.AddBuff(BuffID.Poisoned, 180, true);
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
 		}
 
         public override bool CheckDead()
