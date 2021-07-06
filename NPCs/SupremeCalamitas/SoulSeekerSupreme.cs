@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcFrameCount[npc.type] = 6;
             NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
@@ -41,8 +41,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath52;
+            npc.DeathSound = SoundID.DD2_SkeletonDeath;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -74,7 +73,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return false;
             }
 
-            bool expertMode = Main.expertMode;
             if (start)
             {
                 for (int i = 0; i < 10; i++)
@@ -157,16 +155,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker3"), npc.scale);
+
+                for (int i = 1; i <= 5; i++)
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/SoulSeekerSupremeGores/SupremeSoulSeeker_Gore{i}"), npc.scale);
             }
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+        public override bool CheckActive() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
