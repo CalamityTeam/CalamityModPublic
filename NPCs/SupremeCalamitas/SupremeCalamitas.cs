@@ -412,7 +412,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (!npc.dontTakeDamage && ((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
             {
                 if (npc.ai[1] != 2f)
                 {
