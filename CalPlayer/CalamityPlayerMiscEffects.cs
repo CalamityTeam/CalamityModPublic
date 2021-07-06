@@ -3054,33 +3054,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				player.meleeDamage += damageBoost;
-			}
+				player.meleeDamage += modPlayer.warBannerBonus;
 
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
@@ -3756,35 +3730,8 @@ namespace CalamityMod.CalPlayer
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
 					(player.kbGlove ? 0.1 : 0) +
 					(modPlayer.eGauntlet ? 0.1 : 0) +
-					(modPlayer.yInsignia ? 0.1 : 0);
-			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				damageAdd += damageBoost;
-			}
+					(modPlayer.yInsignia ? 0.1 : 0) +
+					(modPlayer.badgeOfBraveryRare ? modPlayer.warBannerBonus : 0);
 			modPlayer.trueMeleeDamage += damageAdd;
 
 			// Amalgam boosts

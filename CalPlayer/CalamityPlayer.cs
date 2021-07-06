@@ -419,7 +419,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool badgeOfBraveryRare = false;
-        public bool scarfCooldown = false;
+		public float warBannerBonus = 0f;
+		private const float maxWarBannerBonus = 0.2f;
+		private const float maxWarBannerDistance = 480f;
+		public bool scarfCooldown = false;
         public bool eScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
@@ -1440,6 +1443,7 @@ namespace CalamityMod.CalPlayer
             accStealthGenBoost = 0f;
 
             trueMeleeDamage = 0D;
+			warBannerBonus = 0f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -3675,31 +3679,51 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                float maxDistance = 480f; // 30 tile distance
-                float meleeSpeedBoost = 0f;
-                for (int l = 0; l < Main.maxNPCs; l++)
-                {
-                    NPC nPC = Main.npc[l];
+				int closestNPC = -1;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC nPC = Main.npc[i];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						closestNPC = i;
+						break;
+					}
+				}
+				float distance = -1f;
+				for (int j = 0; j < Main.maxNPCs; j++)
+				{
+					NPC nPC = Main.npc[j];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (player.position.X + (float)(player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (player.position.Y + (float)(player.height / 2)));
+						if (distance == -1f || distance2 < distance)
+						{
+							distance = distance2;
+							closestNPC = j;
+						}
+					}
+				}
 
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+				if (closestNPC != -1)
+				{
+					NPC actualClosestNPC = Main.npc[closestNPC];
+
+					float generousHitboxWidth = Math.Max(actualClosestNPC.Hitbox.Width / 2f, actualClosestNPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = actualClosestNPC.Distance(player.Center) - generousHitboxWidth;
 
 					if (hitboxEdgeDist < 0)
 						hitboxEdgeDist = 0;
 
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-                    {
-                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
+					if (hitboxEdgeDist < maxWarBannerDistance)
+					{
+						warBannerBonus = MathHelper.Lerp(0f, maxWarBannerBonus, 1f - (hitboxEdgeDist / maxWarBannerDistance));
 
-                        if (meleeSpeedBoost >= 0.3f)
-                        {
-                            meleeSpeedBoost = 0.3f;
-                            break;
-                        }
-                    }
-                }
-                meleeSpeedMult += meleeSpeedBoost;
+						if (warBannerBonus > maxWarBannerBonus)
+							warBannerBonus = maxWarBannerBonus;
+					}
+
+					meleeSpeedMult += warBannerBonus;
+				}
             }
             if (eGauntlet)
             {
