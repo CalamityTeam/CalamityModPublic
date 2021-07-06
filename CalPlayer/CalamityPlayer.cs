@@ -345,8 +345,8 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(2);
+        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
+        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
         public int RageDuration = DefaultRageDuration;
         public int rageGainCooldown = 0;
         public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason

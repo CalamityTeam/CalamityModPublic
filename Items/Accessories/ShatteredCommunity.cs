@@ -20,8 +20,6 @@ namespace CalamityMod.Items.Accessories
 		private static readonly Color rarityColorOne = new Color(128, 62, 128);
 		private static readonly Color rarityColorTwo = new Color(245, 105, 245);
 
-		private bool everInInventory = false;
-
 		// Base level cost is 400,000 damage dealt while Rage is active.
 		// Each successive level costs (400,000 * level) MORE damage, so the total required goes up quadratically.
 		// Total required to reach level 60 is 732,000,000 damage dealt.
@@ -61,7 +59,6 @@ namespace CalamityMod.Items.Accessories
 		public override ModItem Clone()
 		{
 			var clone = (ShatteredCommunity)base.Clone();
-			clone.everInInventory = everInInventory;
 			clone.level = level;
 			clone.totalRageDamage = totalRageDamage;
 			return clone;
@@ -69,7 +66,6 @@ namespace CalamityMod.Items.Accessories
 		public override ModItem Clone(Item item)
 		{
 			var clone = (ShatteredCommunity)base.Clone();
-			clone.everInInventory = everInInventory;
 			clone.level = level;
 			clone.totalRageDamage = totalRageDamage;
 			return clone;
@@ -98,8 +94,6 @@ namespace CalamityMod.Items.Accessories
 		// Community and Shattered Community are mutually exclusive
 		public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().community;
 		public override bool CanUseItem(Player player) => false;
-
-		public override void UpdateInventory(Player player) => everInInventory = true;
 
 		// Produces purple light while in the world.
 		public override void PostUpdate()
@@ -164,16 +158,6 @@ namespace CalamityMod.Items.Accessories
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			// Shattered Community hides its full tooltip when viewed via Recipe Browser or similar.
-			// Instead, it notifies the player that it must be crafted with a full-power Community.
-			// Once it has entered a player's inventory, it permanently behaves normally.
-			if (!everInInventory)
-			{
-				tooltips.RemoveAll(line => line.Name != "Tooltip0" && line.Name != "Tooltip1" && line.Name != "Tooltip2" && line.Name.StartsWith("Tooltip"));
-				tooltips.Find(line => line.Name == "Tooltip2").text = "Must be crafted with a fully powered Community";
-				return;
-			}
-
 			// Stat tooltips are added dynamically.
 			StringBuilder sb = new StringBuilder(256);
 
@@ -211,7 +195,6 @@ namespace CalamityMod.Items.Accessories
 		{
 			TagCompound tag = new TagCompound
 			{
-				{ "real", everInInventory },
 				{ "level", level },
 				{ "totalDamage", totalRageDamage }
 			};
@@ -220,21 +203,18 @@ namespace CalamityMod.Items.Accessories
 
 		public override void Load(TagCompound tag)
 		{
-			everInInventory = tag.GetBool("real");
 			level = tag.GetInt("level");
 			totalRageDamage = tag.GetLong("totalDamage");
 		}
 
 		public override void NetSend(BinaryWriter writer)
 		{
-			writer.Write(everInInventory);
 			writer.Write(level);
 			writer.Write(totalRageDamage);
 		}
 
 		public override void NetRecieve(BinaryReader reader)
 		{
-			everInInventory = reader.ReadBoolean();
 			level = reader.ReadInt32();
 			totalRageDamage = reader.ReadInt64();
 		}
