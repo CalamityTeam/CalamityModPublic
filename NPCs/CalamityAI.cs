@@ -1326,7 +1326,7 @@ namespace CalamityMod.NPCs
 					}
 					if (brotherAlive)
 					{
-						calamityGlobalNPC.DR = 0.99f;
+						calamityGlobalNPC.DR = 0.9999f;
 						calamityGlobalNPC.unbreakableDR = true;
 					}
 					else

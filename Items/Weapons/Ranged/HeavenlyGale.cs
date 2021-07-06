@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-			float dmgMult = 1f;
 			float piOver10 = MathHelper.Pi * 0.1f;
 			int arrowAmt = 5;
 			Vector2 speed = new Vector2(speedX, speedY);
@@ -98,6 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 							break;
 					}
 
+					float dmgMult = 1f;
 					if (arrowTypes[i] == ProjectileType<TealExoArrow>())
 						dmgMult = 0.5f;
 

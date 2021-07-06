@@ -627,7 +627,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
         }
 
         public override void NPCLoot()

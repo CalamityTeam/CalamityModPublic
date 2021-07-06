@@ -781,11 +781,6 @@ namespace CalamityMod.NPCs.Leviathan
                 Leviathan.DropSirenLeviLoot(npc);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.Wet, 120, true);
-        }
-
         public override bool CheckActive()
         {
             return false;

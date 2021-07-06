@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -36,6 +37,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
 		}
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (Main.projectile.IndexInRange(proj))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
 
         public override void AddRecipes()
         {

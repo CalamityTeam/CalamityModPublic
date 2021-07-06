@@ -99,12 +99,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Chilled, 120, true);
-            player.AddBuff(BuffID.Electrified, 90, true);
-        }
-
         public override bool CheckActive()
         {
             return false;

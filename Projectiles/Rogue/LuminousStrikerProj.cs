@@ -32,10 +32,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if (projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
+			if (projectile.ai[0] == 0f && projectile.Calamity().stealthStrike)
 			{
-                projectile.Calamity().stealthStrike = true;
 				projectile.timeLeft = 600;
 				projectile.ai[0] = 1f;
 			}

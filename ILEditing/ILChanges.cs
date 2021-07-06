@@ -1,16 +1,21 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
+using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.GameInput;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Gamepad;
 using Terraria.Utilities;
 using Terraria.World.Generation;
 
@@ -103,7 +108,6 @@ namespace CalamityMod.ILEditing
 
             ApplyLifeBytesChanges();
 			AdjustChlorophyteBullets();
-			AdjustCultistCloneFireballDust();
 			RemoveAerialBaneDamageBoost();
 			AdjustDamageVariance();
 			RemoveExpertHardmodeScaling();
@@ -119,6 +123,8 @@ namespace CalamityMod.ILEditing
 			DisableDemonAltarGeneration();
 			DisableTeleportersDuringBossFights();
             FixSplittingWormBannerDrops();
+            IncorporateMinionExplodingCountdown();
+            UseCoolFireCursorEffect();
             MakeMouseHoverItemsSupportAnimations();
         }
 
@@ -148,19 +154,6 @@ namespace CalamityMod.ILEditing
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(300f)); // The 300 unit distance required to home in.
 				cursor.Remove();
 				cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
-			};
-		}
-
-		private static void AdjustCultistCloneFireballDust()
-		{
-			// Reduce dust from 10 to 5 and homing range.
-			IL.Terraria.Projectile.AI_001 += (il) =>
-			{
-				var cursor = new ILCursor(il);
-				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(468)); // The ID of Cultist Clone Fireballs.
-				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The gate value for spawning dust circles.
-				cursor.Remove();
-				cursor.Emit(OpCodes.Ldc_R4, 60f); // Increase to 60f.
 			};
 		}
 
@@ -461,6 +454,25 @@ namespace CalamityMod.ILEditing
             };
         }
 
+        private static void IncorporateMinionExplodingCountdown()
+		{
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += (orig, x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1) =>
+            {
+                // This is unfortunately not something that can be done via SetDefaults since owner is set
+                // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
+                int proj = orig(x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
+                Projectile projectile = Main.projectile[proj];
+                if (projectile.minion)
+                {
+                    Player player = Main.player[projectile.owner];
+                    CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+                    if (player.Calamity().explosiveMinionsEnchant)
+                        projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
+                }
+                return proj;
+            };
+		}
+
         private static void MakeMouseHoverItemsSupportAnimations()
         {
             IL.Terraria.Main.DrawInterface_40_InteractItemIcon += (il) =>
@@ -490,8 +502,8 @@ namespace CalamityMod.ILEditing
 
         #endregion
 
-        #region IL Editing Injected/Hooked Functions
-        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+		#region IL Editing Injected/Hooked Functions
+		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)
@@ -538,7 +550,104 @@ namespace CalamityMod.ILEditing
             return orig(i, j, forced);
         }
 
-		private static void PreventSmashAltarCode(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
+        private static void UseCoolFireCursorEffect()
+        {
+            On.Terraria.Main.DrawCursor += (orig, bonus, smart) =>
+            {
+                // Do nothing special if the player has a regular mouse or is on the menu.
+                if (Main.gameMenu || !Main.LocalPlayer.Calamity().ableToDrawBlazingMouse)
+                {
+                    orig(bonus, smart);
+                    return;
+                }
+
+                if (Main.LocalPlayer.dead)
+                {
+                    Main.SmartInteractShowingGenuine = false;
+                    Main.SmartInteractShowingFake = false;
+                    Main.SmartInteractNPC = -1;
+                    Main.SmartInteractNPCsNearby.Clear();
+                    Main.SmartInteractTileCoords.Clear();
+                    Main.SmartInteractTileCoordsSelected.Clear();
+                    Main.TileInteractionLX = (Main.TileInteractionHX = (Main.TileInteractionLY = (Main.TileInteractionHY = -1)));
+                }
+
+                Color flameColor = Color.Lerp(Color.DarkRed, Color.OrangeRed, (float)Math.Cos(Main.GlobalTime * 7.4f) * 0.5f + 0.5f);
+                Color cursorColor = flameColor * 1.9f;
+                Vector2 baseDrawPosition = Main.MouseScreen + bonus;
+
+                // Draw the mouse as usual if the player isn't using the gamepad.
+                if (!PlayerInput.UsingGamepad)
+                {
+                    int cursorIndex = smart.ToInt();
+
+                    Color desaturatedCursorColor = cursorColor;
+                    desaturatedCursorColor.R /= 5;
+                    desaturatedCursorColor.G /= 5;
+                    desaturatedCursorColor.B /= 5;
+                    desaturatedCursorColor.A /= 2;
+
+                    Vector2 drawPosition = baseDrawPosition;
+                    Vector2 desaturatedDrawPosition = drawPosition + Vector2.One;
+
+                    // If the blazing mouse is actually going to do damage, draw an indicator aura.
+                    if (Main.LocalPlayer.Calamity().blazingMouseDamageEffects && !Main.mapFullscreen)
+                    {
+                        Texture2D auraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamityAura");
+                        Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTime * 12.3f) % 6);
+                        float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTime * 1.1f) * 0.5f + 0.5f);
+
+                        for (int i = 0; i < 12; i++)
+                        {
+                            Color auraColor = Color.Orange * Main.LocalPlayer.Calamity().blazingMouseAuraFade * 0.125f;
+                            auraColor.A = 0;
+                            Vector2 offsetDrawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f + Main.GlobalTime * 5f).ToRotationVector2() * 2.5f;
+                            offsetDrawPosition.Y -= 18f;
+
+                            Main.spriteBatch.Draw(auraTexture, offsetDrawPosition, auraFrame, auraColor, 0f, auraFrame.Size() * 0.5f, Main.cursorScale * auraScale, SpriteEffects.None, 0f);
+                        }
+                    }
+
+                    Main.spriteBatch.Draw(Main.cursorTextures[cursorIndex], drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.UIScaleMatrix);
+                    GameShaders.Misc["CalamityMod:FireMouse"].UseColor(Color.Red);
+                    GameShaders.Misc["CalamityMod:FireMouse"].UseSecondaryColor(Color.Lerp(Color.Red, Color.Orange, 0.75f));
+                    GameShaders.Misc["CalamityMod:FireMouse"].Apply();
+
+                    Main.spriteBatch.Draw(Main.cursorTextures[cursorIndex], desaturatedDrawPosition, null, cursorColor, 0f, Vector2.Zero, Main.cursorScale * 1.075f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+                    return;
+                }
+
+                // Don't bother doing any more drawing if the player is dead.
+                if (Main.LocalPlayer.dead && !Main.LocalPlayer.ghost && !Main.gameMenu)
+                    return;
+
+                if (PlayerInput.InvisibleGamepadInMenus)
+                    return;
+
+                // Draw a white circle instead if using the smart cursor.
+                if (smart && !(UILinkPointNavigator.Available && !PlayerInput.InBuildingMode))
+                {
+                    cursorColor = Color.White * Main.GamepadCursorAlpha;
+                    int frameX = 0;
+                    Texture2D smartCursorTexture = Main.cursorTextures[13];
+                    Rectangle frame = smartCursorTexture.Frame(2, 1, frameX, 0);
+                    Main.spriteBatch.Draw(smartCursorTexture, baseDrawPosition, frame, cursorColor, 0f, frame.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
+                    return;
+                }
+
+                // Otherwise draw an ordinary crosshair at the mouse position.
+                cursorColor = Color.White;
+                Texture2D crosshairTexture = Main.cursorTextures[15];
+                Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
+            };
+        }
+
+        private static void PreventSmashAltarCode(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
 		{
 			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 				return;

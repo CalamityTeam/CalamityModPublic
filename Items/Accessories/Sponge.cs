@@ -78,6 +78,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
             modPlayer.aAmpoule = true;
+			modPlayer.rOoze = true;
             player.statManaMax2 += 20;
         }
 

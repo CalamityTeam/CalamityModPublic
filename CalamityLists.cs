@@ -44,6 +44,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
@@ -354,7 +355,8 @@ namespace CalamityMod
                 ProjectileType<SausageMakerSpear>(),
                 ProjectileType<YateveoBloomSpear>(),
                 ProjectileType<HydraulicVoltCrasherProjectile>(),
-                ProjectileType<DragonRageStaff>()
+                ProjectileType<DragonRageStaff>(),
+                ProjectileType<TaintedBladeSlasher>()
             };
 
             rangedProjectileExceptionList = new List<int>()
@@ -419,13 +421,16 @@ namespace CalamityMod
                 ProjectileType<YharimsCrystalBeam>(),
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<GhastlyVisageProj>(),
-                // ProjectileType<ApotheosisWorm>(), // TODO: ADD THE APOTHEOSIS WORM HERE LATER. IT IS IN A DIFFERENT BRANCH AS OF WRITING THIS.
+                ProjectileType<ApotheosisWorm>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<SylvanSlashAttack>(),
                 ProjectileType<InfernadoFriendly>(),
                 ProjectileType<MurasamaSlash>(),
                 ProjectileType<PhaseslayerProjectile>(),
+                ProjectileType<TaintedBladeSlasher>(),
+                ProjectileType<PhotonRipperProjectile>(),
+                ProjectileType<SpineOfThanatosProjectile>(),
 
                 //Some hostile boss projectiles
                 ProjectileType<BrimstoneMonster>(),

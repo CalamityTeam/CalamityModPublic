@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Wet, 120, true);
+            player.AddBuff(BuffID.Bleeding, 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

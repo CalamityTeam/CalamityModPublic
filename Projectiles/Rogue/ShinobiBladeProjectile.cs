@@ -20,8 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = projectile.height = 16;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
@@ -31,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(45) * projectile.direction;
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.PiOver2 * projectile.spriteDirection;
 
             if (Main.rand.NextBool(5))
             {

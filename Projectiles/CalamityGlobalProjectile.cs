@@ -1,10 +1,15 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -14,7 +19,10 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
+
+using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 
 namespace CalamityMod.Projectiles
 {
@@ -106,8 +114,12 @@ namespace CalamityMod.Projectiles
 		public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
 		public const float BossRushProjectileVelocityMultiplier = 1.35f;
 
-		#region SetDefaults
-		public override void SetDefaults(Projectile projectile)
+        // Enchantment variables.
+        public int ExplosiveEnchantCountdown = 0;
+        public const int ExplosiveEnchantTime = 2400;
+
+        #region SetDefaults
+        public override void SetDefaults(Projectile projectile)
         {
             if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
                 trueMelee = true;
@@ -146,6 +158,30 @@ namespace CalamityMod.Projectiles
                     projectile.usesIDStaticNPCImmunity = true;
                     projectile.idStaticNPCHitCooldown = 12;
                     break;
+
+				case ProjectileID.WoodYoyo:
+				case ProjectileID.CorruptYoyo:
+				case ProjectileID.CrimsonYoyo:
+				case ProjectileID.JungleYoyo:
+				case ProjectileID.RedsYoyo:
+				case ProjectileID.ValkyrieYoyo:
+				case ProjectileID.Kraken:
+				case ProjectileID.Rally:
+				case ProjectileID.Code1:
+				case ProjectileID.Code2:
+				case ProjectileID.Valor:
+				case ProjectileID.Cascade:
+				case ProjectileID.Chik:
+				case ProjectileID.FormatC:
+				case ProjectileID.HelFire:
+				case ProjectileID.Amarok:
+				case ProjectileID.Gradient:
+				case ProjectileID.Yelets:
+				case ProjectileID.TheEyeOfCthulhu:
+				case ProjectileID.Terrarian:
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
 
 				case ProjectileID.DD2BetsyFireball:
 				case ProjectileID.DD2BetsyFlameBreath:
@@ -219,6 +255,47 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+            if (projectile.minion && ExplosiveEnchantCountdown > 0)
+			{
+                ExplosiveEnchantCountdown--;
+                if (defDamage == 0)
+                    defDamage = projectile.damage;
+                projectile.damage = (int)(defDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
+
+                // Make fizzle sounds and fire dust to indicate the impending explosion.
+                if (ExplosiveEnchantCountdown <= 300)
+				{
+                    if (Main.rand.NextBool(24))
+                        Main.PlaySound(SoundID.DD2_BetsyFireballShot, projectile.Center);
+
+                    Dust fire = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(projectile.width, projectile.height) * 0.42f, 267);
+                    fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.45f, 1f));
+                    fire.scale = Main.rand.NextFloat(1.4f, 1.65f);
+                    fire.fadeIn = 0.5f;
+                    fire.noGravity = true;
+				}
+
+                if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
+                {
+                    int damage = (int)(Main.player[projectile.owner].MinionDamage() * 2000);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
+                }
+
+                if (ExplosiveEnchantCountdown <= 0)
+				{
+                    Main.PlaySound(SoundID.DD2_KoboldExplosion, projectile.Center);
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        if (projectile.minionSlots > 0f)
+                        {
+                            int damage = (int)(Main.player[projectile.owner].MinionDamage() * 6000);
+                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
+                        }
+                        projectile.Kill();
+                    }
+				}
+            }
+
             if (RequiresManualResurrection)
             {
                 // Reactivate the projectile the instant it's created. This is dirty as fuck, but
@@ -332,7 +409,305 @@ namespace CalamityMod.Projectiles
                 return false;
 			}
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			if (adultWyrmAlive || (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses))
+			{
+				if (projectile.type == ProjectileID.CultistBossFireBallClone)
+				{
+					if (projectile.ai[1] == 0f)
+					{
+						projectile.ai[1] = 1f;
+						Main.PlaySound(SoundID.Item34, projectile.position);
+					}
+					else if (projectile.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int num13 = -1;
+						float num14 = 2000f;
+						for (int num15 = 0; num15 < Main.maxPlayers; num15++)
+						{
+							if (Main.player[num15].active && !Main.player[num15].dead)
+							{
+								Vector2 center2 = Main.player[num15].Center;
+								float num16 = Vector2.Distance(center2, projectile.Center);
+								if ((num16 < num14 || num13 == -1) && Collision.CanHit(projectile.Center, 1, 1, center2, 1, 1))
+								{
+									num14 = num16;
+									num13 = num15;
+								}
+							}
+						}
+
+						if (num14 < 20f)
+						{
+							projectile.Kill();
+							return false;
+						}
+
+						if (num13 != -1)
+						{
+							projectile.ai[1] = 21f;
+							projectile.ai[0] = num13;
+							projectile.netUpdate = true;
+						}
+					}
+					else if (projectile.ai[1] > 20f && projectile.ai[1] < 200f)
+					{
+						projectile.ai[1] += 1f;
+						int num17 = (int)projectile.ai[0];
+						if (!Main.player[num17].active || Main.player[num17].dead)
+						{
+							projectile.ai[1] = 1f;
+							projectile.ai[0] = 0f;
+							projectile.netUpdate = true;
+						}
+						else
+						{
+							float num18 = projectile.velocity.ToRotation();
+							Vector2 vector2 = Main.player[num17].Center - projectile.Center;
+							if (vector2.Length() < 20f)
+							{
+								projectile.Kill();
+								return false;
+							}
+
+							float targetAngle2 = vector2.ToRotation();
+							if (vector2 == Vector2.Zero)
+								targetAngle2 = num18;
+
+							float num19 = num18.AngleLerp(targetAngle2, 0.01f);
+							projectile.velocity = new Vector2(projectile.velocity.Length(), 0f).RotatedBy(num19);
+						}
+					}
+
+					if (projectile.ai[1] >= 1f && projectile.ai[1] < 20f)
+					{
+						projectile.ai[1] += 1f;
+						if (projectile.ai[1] == 20f)
+							projectile.ai[1] = 1f;
+					}
+
+					projectile.alpha -= 40;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					projectile.spriteDirection = projectile.direction;
+
+					projectile.frameCounter++;
+					if (projectile.frameCounter >= 3)
+					{
+						projectile.frame++;
+						projectile.frameCounter = 0;
+						if (projectile.frame >= 4)
+							projectile.frame = 0;
+					}
+
+					if (Main.rand.Next(4) == 0)
+					{
+						Vector2 value4 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy(projectile.velocity.ToRotation());
+						int num23 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100);
+						Main.dust[num23].velocity *= 0.1f;
+						Main.dust[num23].position = projectile.Center + value4 * projectile.width / 2f;
+						Main.dust[num23].fadeIn = 0.9f;
+					}
+
+					if (Main.rand.Next(32) == 0)
+					{
+						Vector2 value5 = -Vector2.UnitX.RotatedByRandom(0.39269909262657166).RotatedBy(projectile.velocity.ToRotation());
+						int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 155, default, 0.8f);
+						Main.dust[num25].velocity *= 0.3f;
+						Main.dust[num25].position = projectile.Center + value5 * projectile.width / 2f;
+						if (Main.rand.Next(2) == 0)
+							Main.dust[num25].fadeIn = 1.4f;
+					}
+
+					if (Main.rand.Next(2) == 0)
+					{
+						Vector2 value6 = -Vector2.UnitX.RotatedByRandom(0.78539818525314331).RotatedBy(projectile.velocity.ToRotation());
+						int num27 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 0, default, 1.2f);
+						Main.dust[num27].velocity *= 0.3f;
+						Main.dust[num27].noGravity = true;
+						Main.dust[num27].position = projectile.Center + value6 * projectile.width / 2f;
+						if (Main.rand.Next(2) == 0)
+							Main.dust[num27].fadeIn = 1.4f;
+					}
+
+					return false;
+				}
+				else if (projectile.type == ProjectileID.CultistBossIceMist)
+				{
+					if (projectile.localAI[1] == 0f)
+					{
+						projectile.localAI[1] = 1f;
+						Main.PlaySound(SoundID.Item120, projectile.position);
+					}
+
+					projectile.ai[0] += 1f;
+
+					// Main projectile
+					float duration = 300f;
+					if (projectile.ai[1] == 1f)
+					{
+						if (projectile.ai[0] >= duration - 20f)
+							projectile.alpha += 10;
+						else
+							projectile.alpha -= 10;
+
+						if (projectile.alpha < 0)
+							projectile.alpha = 0;
+						if (projectile.alpha > 255)
+							projectile.alpha = 255;
+
+						if (projectile.ai[0] >= duration)
+						{
+							projectile.Kill();
+							return false;
+						}
+
+						int num103 = Player.FindClosest(projectile.Center, 1, 1);
+						Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+						float scaleFactor2 = projectile.velocity.Length();
+						vector11.Normalize();
+						vector11 *= scaleFactor2;
+						projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
+						projectile.velocity.Normalize();
+						projectile.velocity *= scaleFactor2;
+
+						if (projectile.ai[0] % 60f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							Vector2 vector50 = projectile.rotation.ToRotationVector2();
+							Projectile.NewProjectile(projectile.Center, vector50, projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+						}
+
+						projectile.rotation += (float)Math.PI / 30f;
+
+						return false;
+					}
+
+					// Split projectiles
+					projectile.position -= projectile.velocity;
+
+					if (projectile.ai[0] >= duration - 260f)
+						projectile.alpha += 3;
+					else
+						projectile.alpha -= 40;
+
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+					if (projectile.alpha > 255)
+						projectile.alpha = 255;
+
+					if (projectile.ai[0] >= duration - 255f)
+					{
+						projectile.Kill();
+						return false;
+					}
+
+					Vector2 value39 = new Vector2(0f, -720f).RotatedBy(projectile.velocity.ToRotation());
+					float scaleFactor3 = projectile.ai[0] % (duration - 255f) / (duration - 255f);
+					Vector2 spinningpoint13 = value39 * scaleFactor3;
+
+					for (int num724 = 0; num724 < 6; num724++)
+					{
+						Vector2 vector51 = projectile.Center + spinningpoint13.RotatedBy(num724 * ((float)Math.PI * 2f) / 6f);
+						int num726 = Dust.NewDust(vector51 + Utils.RandomVector2(Main.rand, -8f, 8f) / 2f, 8, 8, 197, 0f, 0f, 100, Color.Transparent);
+						Main.dust[num726].noGravity = true;
+					}
+
+					return false;
+				}
+				else if (projectile.type == ProjectileID.CultistBossLightningOrbArc)
+				{
+					projectile.frameCounter++;
+					if (projectile.velocity == Vector2.Zero)
+					{
+						if (projectile.frameCounter >= projectile.extraUpdates * 2)
+						{
+							projectile.frameCounter = 0;
+							bool flag30 = true;
+							for (int num742 = 1; num742 < projectile.oldPos.Length; num742++)
+							{
+								if (projectile.oldPos[num742] != projectile.oldPos[0])
+									flag30 = false;
+							}
+
+							if (flag30)
+							{
+								projectile.Kill();
+								return false;
+							}
+						}
+					}
+					else
+					{
+						if (projectile.frameCounter < projectile.extraUpdates * 2)
+							return false;
+
+						projectile.frameCounter = 0;
+						float num748 = projectile.velocity.Length();
+						UnifiedRandom unifiedRandom = new UnifiedRandom((int)projectile.ai[1]);
+						int num749 = 0;
+						Vector2 spinningpoint14 = -Vector2.UnitY;
+						while (true)
+						{
+							int num750 = unifiedRandom.Next();
+							projectile.ai[1] = num750;
+							num750 %= 100;
+							float f = (float)num750 / 100f * ((float)Math.PI * 2f);
+							Vector2 vector55 = f.ToRotationVector2();
+							if (vector55.Y > 0f)
+							{
+								vector55.Y *= -1f;
+							}
+
+							bool flag31 = false;
+							if (vector55.Y > -0.02f)
+							{
+								flag31 = true;
+							}
+							if (vector55.X * (float)(projectile.extraUpdates + 1) * 2f * num748 + projectile.localAI[0] > 40f)
+							{
+								flag31 = true;
+							}
+							if (vector55.X * (float)(projectile.extraUpdates + 1) * 2f * num748 + projectile.localAI[0] < -40f)
+							{
+								flag31 = true;
+							}
+
+							if (flag31)
+							{
+								if (num749++ >= 100)
+								{
+									projectile.velocity = Vector2.Zero;
+									projectile.localAI[1] = 1f;
+									break;
+								}
+								continue;
+							}
+
+							spinningpoint14 = vector55;
+
+							break;
+						}
+
+						if (projectile.velocity != Vector2.Zero)
+						{
+							projectile.localAI[0] += spinningpoint14.X * (float)(projectile.extraUpdates + 1) * 2f * num748;
+							projectile.velocity = spinningpoint14.RotatedBy(projectile.ai[0] + (float)Math.PI / 2f) * num748;
+							projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2f;
+						}
+					}
+
+					return false;
+				}
+			}
+
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				if (projectile.type == ProjectileID.DemonSickle && CalamityPlayer.areThereAnyDamnBosses)
 				{
@@ -1452,9 +1827,9 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 5)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
@@ -1701,6 +2076,9 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
+            if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
+                target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
+
             // Super dummies have nearly 10 million max HP (which is used in damage calculations).
             // This can very easily cause damage numbers that are unrealistic for the weapon.
             // As a result, they are omitted in this code.
@@ -1723,6 +2101,23 @@ namespace CalamityMod.Projectiles
                     damage += (int)(target.lifeMax * organicEnemyHitBoost);
                     organicEnemyHitEffect?.Invoke(target);
                 }
+            }
+            
+            if (modPlayer.flamingItemEnchant && !projectile.minion)
+                target.AddBuff(BuffType<VulnerabilityHex>(), 420);
+
+            if (modPlayer.farProximityRewardEnchant)
+			{
+                float proximityDamageInterpolant = Utils.InverseLerp(250f, 2400f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.7f, 1.45f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
+            }
+
+            if (modPlayer.closeProximityRewardEnchant)
+            {
+                float proximityDamageInterpolant = Utils.InverseLerp(400f, 175f, target.Distance(player.Center), true);
+                float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
+                damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
             if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)

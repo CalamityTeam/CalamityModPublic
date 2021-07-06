@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
 				return;
 
-			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
     }
 }

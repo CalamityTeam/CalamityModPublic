@@ -42,6 +42,7 @@ using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -187,6 +188,7 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             CalamityLists.LoadLists();
+            EnchantmentManager.LoadAllEnchantments();
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
@@ -322,6 +324,7 @@ namespace CalamityMod
             bossVelocityDamageScaleValues?.Clear();
             bossVelocityDamageScaleValues = null;
 
+            EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
 
@@ -407,14 +410,14 @@ namespace CalamityMod
                 { NPCID.Crab, 0.05f },
                 { NPCID.Crawdad, 0.2f },
                 { NPCID.Crawdad2, 0.2f },
-                { NPCID.CultistBoss, 0.1f },
+                { NPCID.CultistBoss, 0.15f },
                 { NPCID.DD2Betsy, 0.1f },
                 { NPCID.DD2OgreT2, 0.1f },
                 { NPCID.DD2OgreT3, 0.15f },
                 { NPCID.DeadlySphere, 0.4f },
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
-                { NPCID.DukeFishron, 0.1f },
+                { NPCID.DukeFishron, 0.15f },
                 { NPCID.DungeonGuardian, 0.999999f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
@@ -448,9 +451,9 @@ namespace CalamityMod
                 { NPCID.MartianTurret, 0.2f },
                 { NPCID.MartianWalker, 0.35f },
                 { NPCID.Mimic, 0.3f },
-                { NPCID.MoonLordCore, 0.05f },
-                { NPCID.MoonLordHand, 0.05f },
-                { NPCID.MoonLordHead, 0.05f },
+                { NPCID.MoonLordCore, 0.15f },
+                { NPCID.MoonLordHand, 0.15f },
+                { NPCID.MoonLordHead, 0.15f },
                 { NPCID.Mothron, 0.2f },
                 { NPCID.MothronEgg, 0.5f },
                 { NPCID.MourningWood, 0.1f },
@@ -549,7 +552,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 },
                 { ModContent.NPCType<Calamitas>(), 1200 },
-                { ModContent.NPCType<CalamitasRun3>(), 11400 },
+                { ModContent.NPCType<CalamitasRun3>(), 13200 },
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<Siren>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 },
@@ -898,6 +901,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
                 {
                     ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Calamitas Enchantment UI
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Calamitas Enchantment", () =>
+                {
+                    CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 

@@ -5,6 +5,8 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -27,6 +29,7 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
@@ -38,6 +41,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -110,6 +114,9 @@ namespace CalamityMod.NPCs
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
 
+		// Rage interactions
+		public bool DoesNotGenerateRage = false;
+
         // NewAI
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
@@ -144,7 +151,7 @@ namespace CalamityMod.NPCs
         public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
-        public int marked = 0;
+		public int marked = 0;
         public int irradiated = 0;
         public int bFlames = 0;
         public int hFlames = 0;
@@ -166,6 +173,9 @@ namespace CalamityMod.NPCs
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
+        public int sagePoisonTime = 0;
+        public int sagePoisonDamage = 0;
+        public int vulnerabilityHex = 0;
         public int banishingFire = 0;
 
         // whoAmI Variables
@@ -209,6 +219,9 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
 		public static int adultEidolonWyrmHead = -1;
+
+		// Drawing variables.
+		public FireParticleSet VulnerabilityHexFireDrawer = null;
 
 		// Boss Enrage variable for use with the boss health UI.
 		// The logic behind this is as follows:
@@ -386,6 +399,14 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyer,
 			NPCID.TheDestroyerBody,
 			NPCID.TheDestroyerTail
+		};
+
+		public static List<int> ThanatosIDs = new List<int>
+		{
+			NPCType<ThanatosHead>(),
+			NPCType<ThanatosBody1>(),
+			NPCType<ThanatosBody2>(),
+			NPCType<ThanatosTail>()
 		};
 
 		public static List<int> SkeletronPrimeIDs = new List<int>
@@ -955,11 +976,14 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(pShred, 1500, 300, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(vulnerabilityHex, 44440, 4444, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(vulnerabilityHex, 44440, 4444, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(sagePoisonTime, 90, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
 
-			int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
+            int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
 			int displayedValue = electrifiedDamage / 5;
 			if (npc.velocity.X == 0)
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
@@ -1013,6 +1037,7 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.WallofFleshEye)
 				npc.netAlways = true;
 
+            sagePoisonDamage = 0;
 			if (npc.type == NPCID.Golem && (CalamityWorld.revenge || CalamityWorld.malice))
 				npc.noGravity = true;
 
@@ -1076,9 +1101,9 @@ namespace CalamityMod.NPCs
 			// Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
 
-			// Extra Notes:
-			// Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
-			// The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
+            // Extra Notes:
+            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
@@ -1193,7 +1218,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 3.5);
+                npc.lifeMax = (int)(npc.lifeMax * 4.0);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
@@ -1207,7 +1232,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.35);
+                npc.lifeMax = (int)(npc.lifeMax * 2.6);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
@@ -1855,7 +1880,8 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
 				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
+					ThanatosIDs.Contains(npc.type))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -1975,7 +2001,9 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
-            CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
+			if (VulnerabilityHexFireDrawer != null)
+				VulnerabilityHexFireDrawer.Update();
+			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
 
 			// Decrement each immune timer if it's greater than 0.
 			for (int i = 0; i < maxPlayerImmunities; i++)
@@ -3495,6 +3523,8 @@ namespace CalamityMod.NPCs
 				bBlood--;
 			if (dFlames > 0)
 				dFlames--;
+			if (vulnerabilityHex > 0)
+				vulnerabilityHex--;
 			if (marked > 0)
 				marked--;
 			if (irradiated > 0)
@@ -3529,14 +3559,20 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
-			if (relicOfResilienceCooldown > 0)
-				relicOfResilienceCooldown--;
-			if (relicOfResilienceWeakness > 0)
-				relicOfResilienceWeakness--;
-			if (GaussFluxTimer > 0)
-				GaussFluxTimer--;
-			if (ladHearts > 0)
+            if (sagePoisonTime > 0)
+                sagePoisonTime--;
+            if (kamiFlu > 0)
+                kamiFlu--;
+            if (relicOfResilienceCooldown > 0)
+                relicOfResilienceCooldown--;
+            if (relicOfResilienceWeakness > 0)
+                relicOfResilienceWeakness--;
+            if (GaussFluxTimer > 0)
+                GaussFluxTimer--;
+            if (ladHearts > 0)
 				ladHearts--;
+            if (vulnerabilityHex > 0)
+                vulnerabilityHex--;
             if (banishingFire > 0)
 				banishingFire--;
 
@@ -3554,12 +3590,14 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.85f;
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 						npc.velocity *= 0.9f;
+					else if (vulnerabilityHex > 0)
+						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-Calamity.MaxNPCSpeed), new Vector2(Calamity.MaxNPCSpeed, 10f));
 					else if (kamiFlu > 420)
 						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
 				}
 			}
 
-			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
+            if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;
@@ -3703,7 +3741,12 @@ namespace CalamityMod.NPCs
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
 			{
-				if (AstrumDeusIDs.Contains(npc.type))
+				if (ThanatosIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (AstrumDeusIDs.Contains(npc.type))
 				{
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
@@ -3904,16 +3947,9 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{
-				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
-					projectile.type == ProjectileType<PowerfulRaven>())
-				{
-					damage = (int)(damage * 0.85);
-				}
-				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
-					damage = (int)(damage * 0.8);
-
-				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
-					damage = (int)(damage * 0.81);
+				// For Onyxia.
+				if (projectile.type == ProjectileID.BlackBolt)
+					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
 			{
@@ -3927,6 +3963,10 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
+				if (projectile.type == ProjectileType<MurasamaSlash>())
+					damage = (int)(damage * 0.7);
+				if (projectile.type == ProjectileType<YharimsCrystalBeam>())
+					damage = (int)(damage * 0.75);
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.9);
 			}
@@ -4723,7 +4763,9 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff"));
 					if (sulphurPoison > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning"));
-					if (vaporfied > 0)
+                    if (sagePoisonTime > 0)
+                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SagePoison"));
+                    if (vaporfied > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Vaporfied"));
 
 					// Stat debuffs
@@ -4909,6 +4951,24 @@ namespace CalamityMod.NPCs
                     Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(position9.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
                 }
             }
+			else
+			{
+				if (npc.Calamity().vulnerabilityHex > 0)
+				{
+					float compactness = npc.width * 0.6f;
+					if (compactness < 10f)
+						compactness = 10f;
+					float power = npc.height / 100f;
+					if (power > 2.75f)
+						power = 2.75f;
+					if (VulnerabilityHexFireDrawer is null || VulnerabilityHexFireDrawer.LocalTimer >= VulnerabilityHexFireDrawer.SetLifetime)
+						VulnerabilityHexFireDrawer = new FireParticleSet(npc.Calamity().vulnerabilityHex, 1, Color.Red * 1.25f, Color.Red, compactness, power);
+					else
+						VulnerabilityHexFireDrawer.DrawSet(npc.Bottom - Vector2.UnitY * (12f - npc.gfxOffY));
+				}
+				else
+					VulnerabilityHexFireDrawer = null;
+			}
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
             if (npc.type == NPCID.DD2EterniaCrystal)

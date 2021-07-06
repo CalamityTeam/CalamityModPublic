@@ -335,10 +335,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 300, true);
-            player.AddBuff(BuffID.Venom, 300, true);
-            player.AddBuff(BuffID.Rabies, 300, true);
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
+		}
 
         public override void NPCLoot()
         {

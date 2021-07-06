@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
-                damage /= 2;
+                damage = (int)(damage * 0.4);
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))

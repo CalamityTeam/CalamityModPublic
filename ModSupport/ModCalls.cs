@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using System;
 using System.Collections.Generic;
@@ -1705,6 +1706,11 @@ namespace CalamityMod
 						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be ints.");
 
 					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument => Convert.ToInt32(argument)));
+					return null;
+
+				case "CreateEnchantment":
+				case "RegisterEnchantment":
+					EnchantmentManager.ConstructFromModcall(args.Skip(1));
 					return null;
 
 				default:

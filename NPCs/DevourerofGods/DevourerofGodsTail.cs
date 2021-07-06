@@ -247,7 +247,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
-            player.AddBuff(BuffID.Frostburn, 180, true);
 
 			if (player.Calamity().dogTextCooldown <= 0)
 			{

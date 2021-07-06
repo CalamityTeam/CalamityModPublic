@@ -45,10 +45,9 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "75% increased minion damage and +5 max minions\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 1 HP you will not die from any further damage for 5 seconds\n" +
+                "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
                 "This effect only triggers once per life\n" +
-                "Summons an ancient leaf prism to blast your enemies with life energy\n" +
-                "After the silva invulnerability time your minions will deal 10% more damage";
+                "Summons an ancient leaf prism to blast your enemies with life energy";
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)

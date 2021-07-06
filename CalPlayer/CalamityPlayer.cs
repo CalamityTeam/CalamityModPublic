@@ -31,7 +31,9 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
@@ -116,7 +118,11 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool blazingMouseDamageEffects = false;
+        public bool ableToDrawBlazingMouse = false;
+        public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
+        public bool GivenBrimstoneLocus = false;
         #endregion
 
         #region Tile Entity Trackers
@@ -156,6 +162,7 @@ namespace CalamityMod.CalPlayer
         public bool newCirrusInventory = false;
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
+        public bool newCalamitasInventory = false;
         #endregion
 
         #region Stat Meter
@@ -277,6 +284,7 @@ namespace CalamityMod.CalPlayer
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
         public float stealthGenMoving = 1f;
+        public int flatStealthLossReduction = 0;
         public const float StealthAccelerationCap = 2f;
         public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
@@ -337,8 +345,8 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(2);
+        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
+        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
         public int RageDuration = DefaultRageDuration;
         public int rageGainCooldown = 0;
         public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
@@ -411,7 +419,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool badgeOfBraveryRare = false;
-        public bool scarfCooldown = false;
+		public float warBannerBonus = 0f;
+		private const float maxWarBannerBonus = 0.2f;
+		private const float maxWarBannerDistance = 480f;
+		public bool scarfCooldown = false;
         public bool eScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
@@ -578,6 +589,7 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+        public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
         #endregion
@@ -689,9 +701,10 @@ namespace CalamityMod.CalPlayer
         public int prismaticLasers = 0;
         public bool silvaSet = false;
         public bool silvaMage = false;
-        public bool silvaSummon = false;
+		public int silvaMageCooldown = 0;
+		public bool silvaSummon = false;
         public bool hasSilvaEffect = false;
-        public int silvaCountdown = 300;
+        public int silvaCountdown = 480;
         public bool auricSet = false;
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
@@ -716,6 +729,7 @@ namespace CalamityMod.CalPlayer
         public bool aCrunch = false;
         public bool irradiated = false;
         public bool bFlames = false;
+        public bool weakBrimstoneFlames = false;
         public bool aFlames = false;
         public bool gsInferno = false;
         public bool astralInfection = false;
@@ -929,6 +943,18 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public bool sepulcher = false;
+        public bool daedalusGolem = false;
+        public bool deathstareEyeball = false;
+        public bool witherBlossom = false;
+        public bool flowersOfMortality = false;
+        public bool viridVanguard = false;
+        public bool sageSpirit = false;
+        public bool fleshBall = false;
+        public bool eyeOfNight = false;
+        public bool soulSeeker = false;
+        public bool perditionBeacon = false;
+
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
         // Due to the way vanilla summons work, the buff must be applied manually for it to properly register, since
@@ -1002,6 +1028,27 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformationPower;
         #endregion
 
+        #region Calamitas Enchant Effects
+        public bool cursedSummonsEnchant = false;
+        public bool flamingItemEnchant = false;
+        public bool lifeManaEnchant = false;
+        public bool farProximityRewardEnchant = false;
+        public bool closeProximityRewardEnchant = false;
+        public bool dischargingItemEnchant = false;
+        public bool explosiveMinionsEnchant = false;
+        public bool bladeArmEnchant = false;
+        public bool manaMonsterEnchant = false;
+
+        public bool witheringWeaponEnchant = false;
+        public bool witheredDebuff = false;
+        public int witheredWeaponHoldTime = 0;
+
+        public bool persecutedEnchant = false;
+        public int persecutedEnchantSummonTimer = 0;
+
+        public bool lecherousOrbEnchant = false;
+        #endregion Calamitas Enchant Effects
+
         #endregion
 
         #region SavingAndLoading
@@ -1049,6 +1096,7 @@ namespace CalamityMod.CalPlayer
             newCirrusInventory = false;
             newAmidiasInventory = false;
             newBanditInventory = false;
+            newCalamitasInventory = false;
         }
 
         public override TagCompound Save()
@@ -1097,6 +1145,8 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
             boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
+            boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
+            boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             return new TagCompound
             {
@@ -1172,6 +1222,8 @@ namespace CalamityMod.CalPlayer
             newCirrusInventory = boost.Contains("newCirrusInventory");
             newAmidiasInventory = boost.Contains("newAmidiasInventory");
             newBanditInventory = boost.Contains("newBanditInventory");
+            newCalamitasInventory = boost.Contains("newCalamitasInventory");
+            GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
             // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
             if (tag.ContainsKey("stress"))
@@ -1305,8 +1357,9 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-				finalTierAccessoryReforge = flags6[1];
-			}
+                finalTierAccessoryReforge = flags6[1];
+                newCalamitasInventory = flags6[2];
+            }
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -1390,6 +1443,7 @@ namespace CalamityMod.CalPlayer
             accStealthGenBoost = 0f;
 
             trueMeleeDamage = 0D;
+			warBannerBonus = 0f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -1491,6 +1545,8 @@ namespace CalamityMod.CalPlayer
 
             noWings = false;
             blockAllDashes = false;
+            blazingMouseDamageEffects = false;
+            ableToDrawBlazingMouse = false;
 
             luxorsGift = false;
             fungalSymbiote = false;
@@ -1608,6 +1664,7 @@ namespace CalamityMod.CalPlayer
             noStupidNaturalARSpawns = false;
             burdenBreakerYeet = false;
 			roverDrive = false;
+            rottenDogTooth = false;
 			angelicAlliance = false;
 
             daedalusReflect = false;
@@ -1733,6 +1790,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -1951,6 +2009,17 @@ namespace CalamityMod.CalPlayer
             plaguebringerPatronSummon = false;
             howlTrio = false;
             mountedScanner = false;
+            sepulcher = false;
+            daedalusGolem = false;
+            deathstareEyeball = false;
+            witherBlossom = false;
+            flowersOfMortality = false;
+            viridVanguard = false;
+            sageSpirit = false;
+            fleshBall = false;
+            eyeOfNight = false;
+            soulSeeker = false;
+            perditionBeacon = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1975,7 +2044,23 @@ namespace CalamityMod.CalPlayer
             RageDuration = DefaultRageDuration;
             RageDamageBoost = DefaultRageDamageBoost;
 
+            cursedSummonsEnchant = false;
+            flamingItemEnchant = false;
+            lifeManaEnchant = false;
+            farProximityRewardEnchant = false;
+            closeProximityRewardEnchant = false;
+            dischargingItemEnchant = false;
+            explosiveMinionsEnchant = false;
+            bladeArmEnchant = false;
+            manaMonsterEnchant = false;
+            witheringWeaponEnchant = false;
+            persecutedEnchant = false;
+            lecherousOrbEnchant = false;
+            flatStealthLossReduction = 0;
+
             lastProjectileHit = null;
+
+            CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }
         #endregion
 
@@ -2045,7 +2130,8 @@ namespace CalamityMod.CalPlayer
             gSabatonFall = 0;
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
-            bloodflareMageCooldown = 0;
+			silvaMageCooldown = 0;
+			bloodflareMageCooldown = 0;
 			tarraRangedCooldown = 0;
 			tarraMageHealCooldown = 0;
             bossRushImmunityFrameCurseTimer = 0;
@@ -2084,6 +2170,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
             astralInfection = false;
@@ -2267,7 +2354,7 @@ namespace CalamityMod.CalPlayer
             silvaMage = false;
             silvaSummon = false;
             hasSilvaEffect = false;
-            silvaCountdown = 300;
+            silvaCountdown = 480;
             auricSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2378,6 +2465,7 @@ namespace CalamityMod.CalPlayer
             animusBoost = 1f;
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
+            persecutedEnchantSummonTimer = 0;
 
             if (BossRushEvent.BossRushActive)
             {
@@ -3591,31 +3679,51 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                float maxDistance = 480f; // 30 tile distance
-                float meleeSpeedBoost = 0f;
-                for (int l = 0; l < Main.maxNPCs; l++)
-                {
-                    NPC nPC = Main.npc[l];
+				int closestNPC = -1;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC nPC = Main.npc[i];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						closestNPC = i;
+						break;
+					}
+				}
+				float distance = -1f;
+				for (int j = 0; j < Main.maxNPCs; j++)
+				{
+					NPC nPC = Main.npc[j];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (player.position.X + (float)(player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (player.position.Y + (float)(player.height / 2)));
+						if (distance == -1f || distance2 < distance)
+						{
+							distance = distance2;
+							closestNPC = j;
+						}
+					}
+				}
 
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+				if (closestNPC != -1)
+				{
+					NPC actualClosestNPC = Main.npc[closestNPC];
+
+					float generousHitboxWidth = Math.Max(actualClosestNPC.Hitbox.Width / 2f, actualClosestNPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = actualClosestNPC.Distance(player.Center) - generousHitboxWidth;
 
 					if (hitboxEdgeDist < 0)
 						hitboxEdgeDist = 0;
 
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-                    {
-                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
+					if (hitboxEdgeDist < maxWarBannerDistance)
+					{
+						warBannerBonus = MathHelper.Lerp(0f, maxWarBannerBonus, 1f - (hitboxEdgeDist / maxWarBannerDistance));
 
-                        if (meleeSpeedBoost >= 0.3f)
-                        {
-                            meleeSpeedBoost = 0.3f;
-                            break;
-                        }
-                    }
-                }
-                meleeSpeedMult += meleeSpeedBoost;
+						if (warBannerBonus > maxWarBannerBonus)
+							warBannerBonus = maxWarBannerBonus;
+					}
+
+					meleeSpeedMult += warBannerBonus;
+				}
             }
             if (eGauntlet)
             {
@@ -3628,9 +3736,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 if (Main.bloodMoon)
-                {
                     meleeSpeedMult += 0.15f;
-                }
             }
             if (community)
             {
@@ -3663,6 +3769,11 @@ namespace CalamityMod.CalPlayer
                 else
                     meleeSpeedMult += 0.05f;
             }
+			if (player.beetleOffense && player.beetleOrbs > 0)
+			{
+				player.meleeDamage -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+			}
             if (CalamityConfig.Instance.Proficiency)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
@@ -4243,7 +4354,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 300);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 480);
 
                     if (draconicSurge && !draconicSurgeCooldown)
                     {
@@ -4368,7 +4479,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
                 }
-                if (bFlames || aFlames)
+                if (bFlames || aFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
                 }
@@ -4514,7 +4625,7 @@ namespace CalamityMod.CalPlayer
             else
                 acidRoundMultiplier = 1D;
 
-            //Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
+            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
                 flat += 1f;
         }
@@ -5261,7 +5372,7 @@ namespace CalamityMod.CalPlayer
             {
 				// Add more true melee damage to the true melee projectile that scales with melee speed
 				// This is done because melee speed does nothing to melee weapons that are purely projectiles
-                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
+                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f * 0.25f);
             }
 
             if (screwdriver)
@@ -5273,16 +5384,9 @@ namespace CalamityMod.CalPlayer
 			if (enraged)
                 damageMult += 1.25;
 
-            if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
-                damageMult += 0.1;
-
-            if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
-                damageMult += 0.1;
-
-            else if (proj.type == ProjectileID.InfernoFriendlyBlast)
-            {
+            if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
-            }
+
             if (brimflameFrenzy && brimflameSet)
             {
                 if (proj.magic)
@@ -6721,15 +6825,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
 			{
-				player.AddBuff(BuffID.Poisoned, 180);
-				player.AddBuff(BuffID.Venom, 180);
-				player.AddBuff(BuffID.Bleeding, 300);
+				player.AddBuff(BuffID.Poisoned, 300);
 			}
 			else if (npc.type == NPCID.PlanterasTentacle)
 			{
-				player.AddBuff(BuffID.Poisoned, 120);
-				player.AddBuff(BuffID.Venom, 120);
-				player.AddBuff(BuffID.Bleeding, 180);
+				player.AddBuff(BuffID.Poisoned, 180);
 			}
 			else if (npc.type == NPCID.AncientDoom)
 			{
@@ -6783,7 +6883,6 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.ThornBall)
                 {
                     player.AddBuff(BuffID.Poisoned, 240);
-                    player.AddBuff(BuffID.Venom, 120);
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
@@ -6836,6 +6935,12 @@ namespace CalamityMod.CalPlayer
         #region Shoot
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (bladeArmEnchant)
+                return false;
+
+            if (rottenDogTooth && item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
+                damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
+
             if (veneratedLocket)
             {
                 if (item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
@@ -7267,6 +7372,15 @@ namespace CalamityMod.CalPlayer
 
             if (player.whoAmI == Main.myPlayer)
             {
+                // Summon a portal if needed.
+                if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
+                {
+                    Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
+                    if (Main.npc.IndexInRange(portal))
+                        Main.npc[portal].target = player.whoAmI;
+                }
+
 				if (revivify)
 				{
 					int healAmt = (int)(damage / 15D);
@@ -7298,7 +7412,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-				evilSmasherBoost = 0;
+				if (evilSmasherBoost > 0)
+					evilSmasherBoost -= 1;
+
 				hellbornBoost = 0;
 
                 if (amidiasBlessing)
@@ -9483,20 +9599,21 @@ namespace CalamityMod.CalPlayer
             stealthStrikeThisFrame = true;
             stealthAcceleration = 1f; // Reset acceleration when you attack
 
+            float lossReductionRatio = flatStealthLossReduction / (rogueStealthMax * 100f);
             if (stealthStrikeHalfCost)
             {
-                rogueStealth -= 0.5f * rogueStealthMax;
+                rogueStealth -= 0.5f * rogueStealthMax - lossReductionRatio;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
             else if (stealthStrike75Cost)
-            {
-                rogueStealth -= 0.75f * rogueStealthMax;
+			{
+                rogueStealth -= 0.75f * rogueStealthMax - lossReductionRatio;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
-            else
-                rogueStealth = 0f;
+			else
+                rogueStealth = lossReductionRatio;
         }
         #endregion
 
@@ -10626,6 +10743,33 @@ namespace CalamityMod.CalPlayer
             return light;
         }
 
+        #endregion
+
+        #region Mana Consumption Effects
+        public override void OnConsumeMana(Item item, int manaConsumed)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            if (Main.rand.NextBool(4) && modPlayer.lifeManaEnchant)
+            {
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.HealEffect(-5);
+                    player.statLife -= 5;
+                    if (player.statLife <= 0)
+                        player.KillMe(PlayerDeathReason.ByCustomReason($"{player.name} converted all of their life to mana."), 1000, -1);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Dust life = Dust.NewDustPerfect(player.Top + Main.rand.NextVector2Circular(player.width * 0.5f, 6f), 267);
+                    life.color = Color.Red;
+                    life.velocity = -Vector2.UnitY.RotatedByRandom(0.48f) * Main.rand.NextFloat(3f, 4.4f);
+                    life.scale = Main.rand.NextFloat(1.5f, 1.72f);
+                    life.fadeIn = 0.7f;
+                    life.noGravity = true;
+                }
+            }
+        }
         #endregion
     }
 }

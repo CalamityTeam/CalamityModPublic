@@ -25,7 +25,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+		}
 
         public override void AI()
         {

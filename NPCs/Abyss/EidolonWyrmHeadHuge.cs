@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -187,12 +188,12 @@ namespace CalamityMod.NPCs.Abyss
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
 					int Previous = npc.whoAmI;
-					for (int num36 = 0; num36 < maxLength; num36++)
+					for (int i = 0; i < maxLength; i++)
 					{
 						int lol;
-						if (num36 >= 0 && num36 < minLength)
+						if (i >= 0 && i < minLength)
 						{
-							if (num36 % 2 == 0)
+							if (i % 2 == 0)
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), npc.whoAmI);
 							else
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), npc.whoAmI);
@@ -206,18 +207,21 @@ namespace CalamityMod.NPCs.Abyss
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
+						Main.npc[Previous].ai[3] = i / 2;
 					}
 					TailSpawned = true;
 				}
 			}
 
 			// Despawn if target is dead
+			bool targetDead = false;
             if (player.dead)
             {
                 npc.TargetClosest(false);
 				player = Main.player[npc.target];
 				if (player.dead)
 				{
+					targetDead = true;
 					npc.ai[3] = 0f;
 					npc.localAI[0] = 0f;
 					npc.localAI[1] = 0f;
@@ -395,7 +399,7 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
 			float lightningSpawnY = 540f;
 			Vector2 lightningSpawnLocation = new Vector2(lightningChargeVector.X, -lightningSpawnY);
-			int numLightningBolts = 10;
+			int numLightningBolts = 8;
 			float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
 			// Velocity and turn speed values
@@ -1085,16 +1089,21 @@ namespace CalamityMod.NPCs.Abyss
 								// Lightning barrage
 								if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[3] == 0f)
 								{
+									if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+
 									npc.localAI[3] = 1f;
 									int type = ProjectileID.CultistBossLightningOrbArc;
 									int damage = npc.GetProjectileDamage(type);
 									for (int i = 0; i < numLightningBolts; i++)
 									{
-										lightningSpawnLocation.Y += distanceBetweenBolts * i;
 										Vector2 projectileDestination = player.Center - lightningSpawnLocation;
 										float ai = Main.rand.Next(100);
 										int proj = Projectile.NewProjectile(lightningSpawnLocation, npc.velocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
 										Main.projectile[proj].tileCollide = false;
+										lightningSpawnLocation.Y += distanceBetweenBolts;
+										if (i == numLightningBolts / 2)
+											lightningSpawnLocation.Y += distanceBetweenBolts;
 									}
 								}
 
@@ -1301,16 +1310,19 @@ namespace CalamityMod.NPCs.Abyss
 				}
 			}
 
-			// Increase velocity if velocity is ever zero
-			if (npc.velocity == Vector2.Zero)
-				npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Acceleration
-			if (!((destination - npc.Center).Length() < turnDistance))
+			if (!targetDead)
 			{
-				float targetAngle = npc.AngleTo(destination);
-				float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-				npc.velocity = f.ToRotationVector2() * baseVelocity;
+				// Increase velocity if velocity is ever zero
+				if (npc.velocity == Vector2.Zero)
+					npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Acceleration
+				if (!((destination - npc.Center).Length() < turnDistance))
+				{
+					float targetAngle = npc.AngleTo(destination);
+					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
+					npc.velocity = f.ToRotationVector2() * baseVelocity;
+				}
 			}
 
 			// Velocity upper limit
@@ -1394,7 +1406,12 @@ namespace CalamityMod.NPCs.Abyss
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
-        public override void NPCLoot()
+		public override void BossLoot(ref string name, ref int potionType)
+		{
+			potionType = ModContent.ItemType<OmegaHealingPotion>();
+		}
+
+		public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());

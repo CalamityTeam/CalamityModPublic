@@ -150,6 +150,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), npc.Center);
 
                 halfLife = true;
             }
@@ -290,6 +291,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -320,6 +322,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
 
                     return;
                 }
@@ -376,7 +379,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.netUpdate = true;
                         npc.netSpam -= 5;
 
-						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGDash"), npc.Center);
                         return;
                     }
 
@@ -532,6 +535,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -613,6 +617,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -694,6 +699,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -766,6 +772,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
 
@@ -789,6 +796,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                     return;
                 }
 
@@ -804,7 +812,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 116);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), npc.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {

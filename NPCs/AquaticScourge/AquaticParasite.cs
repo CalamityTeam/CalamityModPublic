@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -193,7 +194,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Venom, 120, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

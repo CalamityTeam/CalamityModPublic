@@ -6,6 +6,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -3690,7 +3691,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[1] == 2f)
             {
                 npc.damage = 1000;
-				calamityGlobalNPC.DR = 0.99f;
+				calamityGlobalNPC.DR = 0.9999f;
 				calamityGlobalNPC.unbreakableDR = true;
                 npc.rotation += npc.direction * 0.3f;
                 Vector2 vector21 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -5923,7 +5924,7 @@ namespace CalamityMod.NPCs
 
                 npc.damage = (int)(npc.defDamage * 1.5);
                 npc.defense = npc.defDefense + 10;
-				calamityGlobalNPC.DR = spazInPhase1 ? 0.99f : 0.2f;
+				calamityGlobalNPC.DR = spazInPhase1 ? 0.9999f : 0.2f;
 				calamityGlobalNPC.unbreakableDR = spazInPhase1;
 
                 npc.HitSound = SoundID.NPCHit4;
@@ -6670,7 +6671,7 @@ namespace CalamityMod.NPCs
                 // Increase defense and damage
                 npc.damage = (int)(npc.defDamage * 1.5);
                 npc.defense = npc.defDefense + 18;
-				calamityGlobalNPC.DR = retInPhase1 ? 0.99f : 0.2f;
+				calamityGlobalNPC.DR = retInPhase1 ? 0.9999f : 0.2f;
 				calamityGlobalNPC.unbreakableDR = retInPhase1;
 
 				// Change hit sound to metal
@@ -7483,7 +7484,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[1] == 2f)
                 {
                     npc.damage = 1000;
-					calamityGlobalNPC.DR = 0.99f;
+					calamityGlobalNPC.DR = 0.9999f;
 					calamityGlobalNPC.unbreakableDR = true;
 
                     npc.rotation += npc.direction * 0.3f;
@@ -9501,7 +9502,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-					calamityGlobalNPC.DR = 0.99f;
+					calamityGlobalNPC.DR = 0.9999f;
 					calamityGlobalNPC.unbreakableDR = true;
                 }
             }
@@ -10493,7 +10494,7 @@ namespace CalamityMod.NPCs
 
 			if (turboEnrage)
 			{
-				npc.Calamity().DR = 0.99f;
+				npc.Calamity().DR = 0.9999f;
 				npc.Calamity().unbreakableDR = true;
 			}
 			else

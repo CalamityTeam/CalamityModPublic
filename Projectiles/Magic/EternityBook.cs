@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             Time++;
 
             // Summon a bunch of cool things the moment the book is created, assuming an NPC is near the mouse position.
-            if (Time == 1f)
+            if (Main.myPlayer == projectile.owner && Time == 1f)
             {
                 NPC target = Main.MouseWorld.ClosestNPCAt(4400f, true, true);
 
