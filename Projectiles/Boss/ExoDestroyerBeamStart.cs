@@ -256,7 +256,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-			target.AddBuff(BuffID.OnFire, 360);
 		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

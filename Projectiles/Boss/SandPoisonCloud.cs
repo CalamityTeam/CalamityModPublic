@@ -1,5 +1,5 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
 			if (projectile.timeLeft >= 180)
-				target.AddBuff(BuffID.Venom, 300);
-        }
+				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
+		}
     }
 }

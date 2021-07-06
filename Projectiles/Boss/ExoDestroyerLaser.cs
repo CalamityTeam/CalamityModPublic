@@ -231,7 +231,6 @@ namespace CalamityMod.Projectiles.Boss
 			if (TelegraphDelay > TelegraphTotalTime)
 			{
 				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-				target.AddBuff(BuffID.OnFire, 180);
 			}
         }
 
