@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public List<Vector2> MinesToConnectTo = new List<Vector2>();
         public ref float Time => ref projectile.ai[0];
-        public const float MineConnectDistanceMax = 850f;
+        public const float MineConnectDistanceMax = 1200f;
     	public override void SetStaticDefaults() => DisplayName.SetDefault("Mine");
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void AI()
 		{
-			projectile.velocity *= 0.94f;
+			projectile.velocity *= 0.96f;
             Lighting.AddLight(projectile.Center, Color.Cyan.ToVector3());
 
             float idealScale = MathHelper.Lerp(0.93f, 1.07f, (float)Math.Sin(MathHelper.TwoPi * projectile.timeLeft / 14f) * 0.5f + 0.5f);
