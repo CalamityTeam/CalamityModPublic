@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 60)
 				return;
 
-			target.AddBuff(BuffID.Cursed, 90);
+			target.AddBuff(BuffID.Cursed, 45);
         }
     }
 }

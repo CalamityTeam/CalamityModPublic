@@ -78,12 +78,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), knockback, player.whoAmI);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), item.knockBack, player.whoAmI);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI);
         }
     }
 }

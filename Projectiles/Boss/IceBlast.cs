@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(BuffID.Frostburn, 90, true);
             target.AddBuff(BuffID.Chilled, 60, true);
-            target.AddBuff(BuffID.Frozen, 30, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

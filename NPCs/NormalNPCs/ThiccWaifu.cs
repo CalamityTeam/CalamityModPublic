@@ -280,7 +280,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Sky.Chance * 0.1f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Electrified, 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

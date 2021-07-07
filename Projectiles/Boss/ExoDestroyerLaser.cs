@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos Beam");
+            DisplayName.SetDefault("T Hanos Beam");
 			Main.projFrames[projectile.type] = 4;
 		}
 
@@ -231,13 +231,12 @@ namespace CalamityMod.Projectiles.Boss
 			if (TelegraphDelay > TelegraphTotalTime)
 			{
 				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-				target.AddBuff(BuffID.OnFire, 180);
 			}
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 100, 100, projectile.alpha);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

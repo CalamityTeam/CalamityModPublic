@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Warbanner of the Sun");
             Tooltip.SetDefault("Increases melee damage, true melee damage and melee speed the closer you are to enemies\n" +
-				"Max boost is 30% increased melee damage, true melee damage and melee speed");
+				"Max boost is 20% increased melee damage, true melee damage and melee speed");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
 

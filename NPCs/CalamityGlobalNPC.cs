@@ -1218,7 +1218,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 3.5);
+                npc.lifeMax = (int)(npc.lifeMax * 4.0);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
@@ -1232,7 +1232,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.35);
+                npc.lifeMax = (int)(npc.lifeMax * 2.6);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)

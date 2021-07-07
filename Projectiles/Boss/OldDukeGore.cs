@@ -89,7 +89,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 180, true);
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
 		}
 

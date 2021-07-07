@@ -46,7 +46,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Cavern.Chance * 0.08f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Frostburn, 120, true);
+			player.AddBuff(BuffID.Chilled, 90, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             // TODO -- This dust was an invalid dust. Replaced with a random dust.
             int dustType = 91;

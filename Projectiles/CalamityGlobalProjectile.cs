@@ -416,7 +416,7 @@ namespace CalamityMod.Projectiles
 					adultWyrmAlive = true;
 			}
 
-			if (adultWyrmAlive)
+			if (adultWyrmAlive || (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses))
 			{
 				if (projectile.type == ProjectileID.CultistBossFireBallClone)
 				{

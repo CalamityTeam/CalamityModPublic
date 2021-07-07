@@ -217,7 +217,6 @@ namespace CalamityMod.NPCs.Perforator
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 120, true);
-            player.AddBuff(BuffID.Bleeding, 120, true);
         }
     }
 }

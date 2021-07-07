@@ -56,8 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num112 = 3;
-            for (int num113 = 0; num113 < num112; num113++)
+            for (int num113 = 0; num113 < 2; num113++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);

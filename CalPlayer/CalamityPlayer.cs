@@ -345,8 +345,8 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(2);
+        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
+        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
         public int RageDuration = DefaultRageDuration;
         public int rageGainCooldown = 0;
         public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
@@ -419,7 +419,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool badgeOfBraveryRare = false;
-        public bool scarfCooldown = false;
+		public float warBannerBonus = 0f;
+		private const float maxWarBannerBonus = 0.2f;
+		private const float maxWarBannerDistance = 480f;
+		public bool scarfCooldown = false;
         public bool eScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
@@ -1440,6 +1443,7 @@ namespace CalamityMod.CalPlayer
             accStealthGenBoost = 0f;
 
             trueMeleeDamage = 0D;
+			warBannerBonus = 0f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -3675,31 +3679,51 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                float maxDistance = 480f; // 30 tile distance
-                float meleeSpeedBoost = 0f;
-                for (int l = 0; l < Main.maxNPCs; l++)
-                {
-                    NPC nPC = Main.npc[l];
+				int closestNPC = -1;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC nPC = Main.npc[i];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						closestNPC = i;
+						break;
+					}
+				}
+				float distance = -1f;
+				for (int j = 0; j < Main.maxNPCs; j++)
+				{
+					NPC nPC = Main.npc[j];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (player.position.X + (float)(player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (player.position.Y + (float)(player.height / 2)));
+						if (distance == -1f || distance2 < distance)
+						{
+							distance = distance2;
+							closestNPC = j;
+						}
+					}
+				}
 
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+				if (closestNPC != -1)
+				{
+					NPC actualClosestNPC = Main.npc[closestNPC];
+
+					float generousHitboxWidth = Math.Max(actualClosestNPC.Hitbox.Width / 2f, actualClosestNPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = actualClosestNPC.Distance(player.Center) - generousHitboxWidth;
 
 					if (hitboxEdgeDist < 0)
 						hitboxEdgeDist = 0;
 
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-                    {
-                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
+					if (hitboxEdgeDist < maxWarBannerDistance)
+					{
+						warBannerBonus = MathHelper.Lerp(0f, maxWarBannerBonus, 1f - (hitboxEdgeDist / maxWarBannerDistance));
 
-                        if (meleeSpeedBoost >= 0.3f)
-                        {
-                            meleeSpeedBoost = 0.3f;
-                            break;
-                        }
-                    }
-                }
-                meleeSpeedMult += meleeSpeedBoost;
+						if (warBannerBonus > maxWarBannerBonus)
+							warBannerBonus = maxWarBannerBonus;
+					}
+
+					meleeSpeedMult += warBannerBonus;
+				}
             }
             if (eGauntlet)
             {
@@ -3712,9 +3736,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 if (Main.bloodMoon)
-                {
                     meleeSpeedMult += 0.15f;
-                }
             }
             if (community)
             {
@@ -3747,6 +3769,11 @@ namespace CalamityMod.CalPlayer
                 else
                     meleeSpeedMult += 0.05f;
             }
+			if (player.beetleOffense && player.beetleOrbs > 0)
+			{
+				player.meleeDamage -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+			}
             if (CalamityConfig.Instance.Proficiency)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
@@ -5345,7 +5372,7 @@ namespace CalamityMod.CalPlayer
             {
 				// Add more true melee damage to the true melee projectile that scales with melee speed
 				// This is done because melee speed does nothing to melee weapons that are purely projectiles
-                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
+                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f * 0.25f);
             }
 
             if (screwdriver)
@@ -6798,15 +6825,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
 			{
-				player.AddBuff(BuffID.Poisoned, 180);
-				player.AddBuff(BuffID.Venom, 180);
-				player.AddBuff(BuffID.Bleeding, 300);
+				player.AddBuff(BuffID.Poisoned, 300);
 			}
 			else if (npc.type == NPCID.PlanterasTentacle)
 			{
-				player.AddBuff(BuffID.Poisoned, 120);
-				player.AddBuff(BuffID.Venom, 120);
-				player.AddBuff(BuffID.Bleeding, 180);
+				player.AddBuff(BuffID.Poisoned, 180);
 			}
 			else if (npc.type == NPCID.AncientDoom)
 			{
@@ -6860,7 +6883,6 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.ThornBall)
                 {
                     player.AddBuff(BuffID.Poisoned, 240);
-                    player.AddBuff(BuffID.Venom, 120);
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
@@ -7390,7 +7412,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-				evilSmasherBoost = 0;
+				if (evilSmasherBoost > 0)
+					evilSmasherBoost -= 1;
+
 				hellbornBoost = 0;
 
                 if (amidiasBlessing)

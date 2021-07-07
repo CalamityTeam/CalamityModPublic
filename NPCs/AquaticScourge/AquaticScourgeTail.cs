@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -136,8 +137,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 120, true);
-            player.AddBuff(BuffID.Venom, 120, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
     }
 }

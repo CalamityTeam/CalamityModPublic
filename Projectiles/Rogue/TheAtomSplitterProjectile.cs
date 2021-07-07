@@ -158,9 +158,12 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             ReleaseHitDust(target.Center - projectile.velocity * 3f);
-            HitTargetIndex = target.whoAmI;
-            projectile.timeLeft = projectile.Calamity().stealthStrike ? 100 : 60;
-            projectile.netUpdate = true;
+            if (!Main.npc.IndexInRange((int)HitTargetIndex))
+            {
+                HitTargetIndex = target.whoAmI;
+                projectile.timeLeft = projectile.Calamity().stealthStrike ? 100 : 60;
+                projectile.netUpdate = true;
+            }
         }
     }
 }
