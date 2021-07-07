@@ -5271,6 +5271,10 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 1.25;
             }
+
+            if (witheredDebuff)
+                damageMult += 0.6;
+
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
@@ -5401,6 +5405,9 @@ namespace CalamityMod.CalPlayer
                 if (proj.magic)
                     damageMult += 0.3;
             }
+
+            if (witheredDebuff)
+                damageMult += 0.6;
 
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
