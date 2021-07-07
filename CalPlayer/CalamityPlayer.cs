@@ -10092,48 +10092,48 @@ namespace CalamityMod.CalPlayer
             #region MeleeLevelBoosts
             if (meleeLevel >= 12500)
             {
-                player.meleeDamage += 0.12f;
-                player.meleeCrit += 6;
+                player.meleeDamage += 0.06f;
+                player.meleeCrit += 3;
             }
             else if (meleeLevel >= 10500)
-            {
-                player.meleeDamage += 0.1f;
-                player.meleeCrit += 5;
-            }
-            else if (meleeLevel >= 9100)
-            {
-                player.meleeDamage += 0.09f;
-                player.meleeCrit += 5;
-            }
-            else if (meleeLevel >= 7800)
-            {
-                player.meleeDamage += 0.08f;
-                player.meleeCrit += 4;
-            }
-            else if (meleeLevel >= 6600)
-            {
-                player.meleeDamage += 0.07f;
-                player.meleeCrit += 4;
-            }
-            else if (meleeLevel >= 5500) //hm limit
             {
                 player.meleeDamage += 0.06f;
                 player.meleeCrit += 3;
             }
-            else if (meleeLevel >= 4500)
+            else if (meleeLevel >= 9100)
+            {
+                player.meleeDamage += 0.06f;
+                player.meleeCrit += 3;
+            }
+            else if (meleeLevel >= 7800)
             {
                 player.meleeDamage += 0.05f;
                 player.meleeCrit += 3;
             }
-            else if (meleeLevel >= 3600)
+            else if (meleeLevel >= 6600)
             {
                 player.meleeDamage += 0.05f;
+                player.meleeCrit += 3;
+            }
+            else if (meleeLevel >= 5500) //hm limit
+            {
+                player.meleeDamage += 0.05f;
+                player.meleeCrit += 2;
+            }
+            else if (meleeLevel >= 4500)
+            {
+                player.meleeDamage += 0.05f;
+                player.meleeCrit += 2;
+            }
+            else if (meleeLevel >= 3600)
+            {
+                player.meleeDamage += 0.04f;
                 player.meleeCrit += 2;
             }
             else if (meleeLevel >= 2800)
             {
                 player.meleeDamage += 0.04f;
-                player.meleeCrit += 2;
+                player.meleeCrit += 1;
             }
             else if (meleeLevel >= 2100)
             {
@@ -10147,7 +10147,7 @@ namespace CalamityMod.CalPlayer
             }
             else if (meleeLevel >= 1000)
             {
-                player.meleeDamage += 0.03f;
+                player.meleeDamage += 0.02f;
                 player.meleeCrit += 1;
             }
             else if (meleeLevel >= 600)
@@ -10163,73 +10163,73 @@ namespace CalamityMod.CalPlayer
             #region RangedLevelBoosts
             if (rangedLevel >= 12500)
             {
-                player.rangedDamage += 0.12f;
+                player.rangedDamage += 0.06f;
                 player.moveSpeed += 0.06f;
-                player.rangedCrit += 6;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 10500)
             {
-                player.rangedDamage += 0.1f;
-                player.moveSpeed += 0.05f;
-                player.rangedCrit += 5;
+                player.rangedDamage += 0.05f;
+                player.moveSpeed += 0.06f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 9100)
             {
-                player.rangedDamage += 0.09f;
-                player.moveSpeed += 0.04f;
-                player.rangedCrit += 5;
+                player.rangedDamage += 0.05f;
+                player.moveSpeed += 0.05f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 7800)
             {
-                player.rangedDamage += 0.08f;
-                player.moveSpeed += 0.04f;
-                player.rangedCrit += 4;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.05f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 6600)
             {
-                player.rangedDamage += 0.07f;
-                player.moveSpeed += 0.03f;
-                player.rangedCrit += 4;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 5500)
             {
-                player.rangedDamage += 0.06f;
-                player.moveSpeed += 0.03f;
-                player.rangedCrit += 3;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 2;
             }
             else if (rangedLevel >= 4500)
             {
-                player.rangedDamage += 0.05f;
-                player.moveSpeed += 0.02f;
-                player.rangedCrit += 3;
+                player.rangedDamage += 0.03f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 2;
             }
             else if (rangedLevel >= 3600)
             {
-                player.rangedDamage += 0.05f;
-                player.moveSpeed += 0.02f;
+                player.rangedDamage += 0.03f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 2;
             }
             else if (rangedLevel >= 2800)
             {
-                player.rangedDamage += 0.04f;
-                player.moveSpeed += 0.02f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 2;
             }
             else if (rangedLevel >= 2100)
             {
-                player.rangedDamage += 0.04f;
-                player.moveSpeed += 0.01f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 1;
             }
             else if (rangedLevel >= 1500)
             {
-                player.rangedDamage += 0.03f;
-                player.moveSpeed += 0.01f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.02f;
                 player.rangedCrit += 1;
             }
             else if (rangedLevel >= 1000)
             {
-                player.rangedDamage += 0.03f;
+                player.rangedDamage += 0.02f;
                 player.moveSpeed += 0.01f;
                 player.rangedCrit += 1;
             }
@@ -10247,73 +10247,73 @@ namespace CalamityMod.CalPlayer
             #region MagicLevelBoosts
             if (magicLevel >= 12500)
             {
-                player.magicDamage += 0.12f;
-                player.manaCost *= 0.88f;
-                player.magicCrit += 6;
-            }
-            else if (magicLevel >= 10500)
-            {
-                player.magicDamage += 0.1f;
-                player.manaCost *= 0.9f;
-                player.magicCrit += 5;
-            }
-            else if (magicLevel >= 9100)
-            {
-                player.magicDamage += 0.09f;
-                player.manaCost *= 0.91f;
-                player.magicCrit += 5;
-            }
-            else if (magicLevel >= 7800)
-            {
-                player.magicDamage += 0.08f;
-                player.manaCost *= 0.92f;
-                player.magicCrit += 4;
-            }
-            else if (magicLevel >= 6600)
-            {
-                player.magicDamage += 0.07f;
-                player.manaCost *= 0.93f;
-                player.magicCrit += 4;
-            }
-            else if (magicLevel >= 5500)
-            {
                 player.magicDamage += 0.06f;
                 player.manaCost *= 0.94f;
                 player.magicCrit += 3;
             }
-            else if (magicLevel >= 4500)
+            else if (magicLevel >= 10500)
+            {
+                player.magicDamage += 0.05f;
+                player.manaCost *= 0.94f;
+                player.magicCrit += 3;
+            }
+            else if (magicLevel >= 9100)
             {
                 player.magicDamage += 0.05f;
                 player.manaCost *= 0.95f;
                 player.magicCrit += 3;
             }
-            else if (magicLevel >= 3600)
+            else if (magicLevel >= 7800)
             {
-                player.magicDamage += 0.05f;
+                player.magicDamage += 0.04f;
                 player.manaCost *= 0.95f;
-                player.magicCrit += 2;
+                player.magicCrit += 3;
             }
-            else if (magicLevel >= 2800)
+            else if (magicLevel >= 6600)
+            {
+                player.magicDamage += 0.04f;
+                player.manaCost *= 0.96f;
+                player.magicCrit += 3;
+            }
+            else if (magicLevel >= 5500)
             {
                 player.magicDamage += 0.04f;
                 player.manaCost *= 0.96f;
                 player.magicCrit += 2;
             }
-            else if (magicLevel >= 2100)
+            else if (magicLevel >= 4500)
             {
                 player.magicDamage += 0.04f;
                 player.manaCost *= 0.97f;
-                player.magicCrit += 1;
+                player.magicCrit += 2;
             }
-            else if (magicLevel >= 1500)
+            else if (magicLevel >= 3600)
+            {
+                player.magicDamage += 0.03f;
+                player.manaCost *= 0.97f;
+                player.magicCrit += 2;
+            }
+            else if (magicLevel >= 2800)
+            {
+                player.magicDamage += 0.03f;
+                player.manaCost *= 0.98f;
+                player.magicCrit += 2;
+            }
+            else if (magicLevel >= 2100)
             {
                 player.magicDamage += 0.03f;
                 player.manaCost *= 0.98f;
                 player.magicCrit += 1;
             }
+            else if (magicLevel >= 1500)
+            {
+                player.magicDamage += 0.02f;
+                player.manaCost *= 0.98f;
+                player.magicCrit += 1;
+            }
             else if (magicLevel >= 1000)
             {
-                player.magicDamage += 0.03f;
+                player.magicDamage += 0.02f;
                 player.manaCost *= 0.99f;
                 player.magicCrit += 1;
             }
@@ -10333,43 +10333,36 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.12f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 2;
             }
             else if (summonLevel >= 10500)
             {
                 player.minionDamage += 0.1f;
                 player.minionKB += 3.0f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 9100)
             {
                 player.minionDamage += 0.09f;
                 player.minionKB += 2.7f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 7800)
             {
                 player.minionDamage += 0.08f;
                 player.minionKB += 2.4f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 6600)
             {
                 player.minionDamage += 0.07f;
                 player.minionKB += 2.1f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 5500)
             {
-                player.minionDamage += 0.06f;
+                player.minionDamage += 0.07f;
                 player.minionKB += 1.8f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 4500)
             {
                 player.minionDamage += 0.06f;
                 player.minionKB += 1.8f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 3600)
             {
@@ -10410,73 +10403,73 @@ namespace CalamityMod.CalPlayer
             #region RogueLevelBoosts
             if (rogueLevel >= 12500)
             {
-                throwingDamage += 0.12f;
-                throwingVelocity += 0.12f;
-                throwingCrit += 6;
-            }
-            else if (rogueLevel >= 10500)
-            {
-                throwingDamage += 0.1f;
-                throwingVelocity += 0.1f;
-                throwingCrit += 5;
-            }
-            else if (rogueLevel >= 9100)
-            {
-                throwingDamage += 0.09f;
-                throwingVelocity += 0.09f;
-                throwingCrit += 5;
-            }
-            else if (rogueLevel >= 7800)
-            {
-                throwingDamage += 0.08f;
-                throwingVelocity += 0.08f;
-                throwingCrit += 4;
-            }
-            else if (rogueLevel >= 6600)
-            {
-                throwingDamage += 0.07f;
-                throwingVelocity += 0.07f;
-                throwingCrit += 4;
-            }
-            else if (rogueLevel >= 5500)
-            {
                 throwingDamage += 0.06f;
                 throwingVelocity += 0.06f;
                 throwingCrit += 3;
             }
-            else if (rogueLevel >= 4500)
+            else if (rogueLevel >= 10500)
+            {
+                throwingDamage += 0.05f;
+                throwingVelocity += 0.06f;
+                throwingCrit += 3;
+            }
+            else if (rogueLevel >= 9100)
             {
                 throwingDamage += 0.05f;
                 throwingVelocity += 0.05f;
                 throwingCrit += 3;
             }
-            else if (rogueLevel >= 3600)
+            else if (rogueLevel >= 7800)
             {
-                throwingDamage += 0.05f;
+                throwingDamage += 0.04f;
                 throwingVelocity += 0.05f;
-                throwingCrit += 2;
+                throwingCrit += 3;
             }
-            else if (rogueLevel >= 2800)
+            else if (rogueLevel >= 6600)
+            {
+                throwingDamage += 0.04f;
+                throwingVelocity += 0.04f;
+                throwingCrit += 3;
+            }
+            else if (rogueLevel >= 5500)
             {
                 throwingDamage += 0.04f;
                 throwingVelocity += 0.04f;
                 throwingCrit += 2;
             }
+            else if (rogueLevel >= 4500)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.04f;
+                throwingCrit += 2;
+            }
+            else if (rogueLevel >= 3600)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.03f;
+                throwingCrit += 2;
+            }
+            else if (rogueLevel >= 2800)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.03f;
+                throwingCrit += 1;
+            }
             else if (rogueLevel >= 2100)
             {
-                throwingDamage += 0.04f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.03f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1500)
             {
-                throwingDamage += 0.03f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.02f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1000)
             {
-                throwingDamage += 0.03f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.01f;
                 throwingCrit += 1;
             }
@@ -10497,47 +10490,47 @@ namespace CalamityMod.CalPlayer
             float meleeSpeedBonus = 0f;
             if (meleeLevel >= 12500)
             {
-                meleeSpeedBonus += 0.12f;
+                meleeSpeedBonus += 0.06f;
             }
             else if (meleeLevel >= 10500)
             {
-                meleeSpeedBonus += 0.1f;
+                meleeSpeedBonus += 0.05f;
             }
             else if (meleeLevel >= 9100)
             {
-                meleeSpeedBonus += 0.09f;
+                meleeSpeedBonus += 0.04f;
             }
             else if (meleeLevel >= 7800)
             {
-                meleeSpeedBonus += 0.08f;
+                meleeSpeedBonus += 0.04f;
             }
             else if (meleeLevel >= 6600)
             {
-                meleeSpeedBonus += 0.07f;
+                meleeSpeedBonus += 0.03f;
             }
             else if (meleeLevel >= 5500) //hm limit
             {
-                meleeSpeedBonus += 0.06f;
+                meleeSpeedBonus += 0.03f;
             }
             else if (meleeLevel >= 4500)
             {
-                meleeSpeedBonus += 0.05f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 3600)
             {
-                meleeSpeedBonus += 0.05f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 2800)
             {
-                meleeSpeedBonus += 0.04f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 2100)
             {
-                meleeSpeedBonus += 0.03f;
+                meleeSpeedBonus += 0.01f;
             }
             else if (meleeLevel >= 1500) //prehm limit
             {
-                meleeSpeedBonus += 0.02f;
+                meleeSpeedBonus += 0.01f;
             }
             else if (meleeLevel >= 1000)
             {
