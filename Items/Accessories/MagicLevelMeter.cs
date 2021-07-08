@@ -45,64 +45,64 @@ namespace CalamityMod.Items.Accessories
                     manaUsage = 1;
                     break;
                 case 4:
-                    damageGain = 3;
+                    damageGain = 2;
                     manaUsage = 1;
                     critGain = 1;
                     break;
                 case 5:
-                    damageGain = 3;
+                    damageGain = 2;
                     manaUsage = 2;
                     critGain = 1;
                     break;
                 case 6:
-                    damageGain = 4;
-                    manaUsage = 3;
+                    damageGain = 3;
+                    manaUsage = 2;
                     critGain = 1;
                     break;
                 case 7:
+                    damageGain = 3;
+                    manaUsage = 2;
+                    critGain = 2;
+                    break;
+                case 8:
+                    damageGain = 3;
+                    manaUsage = 3;
+                    critGain = 2;
+                    break;
+                case 9:
+                    damageGain = 4;
+                    manaUsage = 3;
+                    critGain = 2;
+                    break;
+                case 10:
                     damageGain = 4;
                     manaUsage = 4;
                     critGain = 2;
                     break;
-                case 8:
-                    damageGain = 5;
-                    manaUsage = 5;
-                    critGain = 2;
+                case 11:
+                    damageGain = 4;
+                    manaUsage = 4;
+                    critGain = 3;
                     break;
-                case 9:
+                case 12:
+                    damageGain = 4;
+                    manaUsage = 5;
+                    critGain = 3;
+                    break;
+                case 13:
                     damageGain = 5;
                     manaUsage = 5;
                     critGain = 3;
                     break;
-                case 10:
-                    damageGain = 6;
+                case 14:
+                    damageGain = 5;
                     manaUsage = 6;
                     critGain = 3;
                     break;
-                case 11:
-                    damageGain = 7;
-                    manaUsage = 7;
-                    critGain = 4;
-                    break;
-                case 12:
-                    damageGain = 8;
-                    manaUsage = 8;
-                    critGain = 4;
-                    break;
-                case 13:
-                    damageGain = 9;
-                    manaUsage = 9;
-                    critGain = 5;
-                    break;
-                case 14:
-                    damageGain = 10;
-                    manaUsage = 10;
-                    critGain = 5;
-                    break;
                 case 15:
-                    damageGain = 12;
-                    manaUsage = 12;
-                    critGain = 6;
+                    damageGain = 6;
+                    manaUsage = 6;
+                    critGain = 3;
                     break;
             }
             foreach (TooltipLine line2 in list)
