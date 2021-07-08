@@ -627,7 +627,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Cursed, 45, true);
-        }
+			player.AddBuff(BuffID.Darkness, 120, true);
+		}
     }
 }
