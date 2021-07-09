@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Rage");
-            Tooltip.SetDefault("Twirls a dual-bladed baton that causes explosions on enemy hits\n" +
+            Tooltip.SetDefault("Twirls a baton that causes explosions on enemy hits\n" +
 			"Every ten hits will summon a ring of fireballs");
         }
 
