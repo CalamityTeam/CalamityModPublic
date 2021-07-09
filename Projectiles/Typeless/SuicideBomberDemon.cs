@@ -112,6 +112,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool CanDamage() => projectile.Opacity >= 1f;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = Main.rand.Next(60, 70);
+        // Ensure damage is not absolutely obscene when hitting players.
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 95;
     }
 }

@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Other
 		{
 			npc.width = 68;
 			npc.height = 68;
-			npc.damage = 0;
+			npc.damage = 270;
 			npc.defense = 0;
 
 			// This is meant to be created after SCal is defeated and should be at least a little challenging.

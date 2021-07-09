@@ -238,8 +238,6 @@ namespace CalamityMod.Items
 		{
 			if (!item.IsAir && AppliedEnchantment.HasValue)
 			{
-				tooltips[0].text = $"{AppliedEnchantment.Value.Name} {tooltips[0].text}";
-
 				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
 				tooltips.Add(descriptionLine);
 			}
