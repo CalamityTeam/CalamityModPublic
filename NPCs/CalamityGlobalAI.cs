@@ -7230,6 +7230,8 @@ namespace CalamityMod.NPCs
 			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
 			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
+			bool normalLaserRotation = calamityGlobalNPC.newAI[3] % 2f == 0f;
+
 			// Float near player
 			if (npc.ai[1] == 0f || npc.ai[1] == 4f)
             {
@@ -7277,14 +7279,15 @@ namespace CalamityMod.NPCs
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;
 							float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-							Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+							Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
 								int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
 								Main.projectile[proj].timeLeft = 300;
 							}
-                        }
+							calamityGlobalNPC.newAI[3] += 1f;
+						}
                     }
 
                     // Spread of rockets if cannon is dead
@@ -7429,14 +7432,15 @@ namespace CalamityMod.NPCs
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;
 							float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-							Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
+							Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
 								int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
 								Main.projectile[proj].timeLeft = 300;
 							}
-                        }
+							calamityGlobalNPC.newAI[3] += 1f;
+						}
                     }
 
                     npc.ai[2] += 1f;
@@ -7783,6 +7787,8 @@ namespace CalamityMod.NPCs
 			else
 				npc.damage = npc.defDamage;
 
+			bool normalLaserRotation = npc.localAI[1] % 2f == 0f;
+
 			// Phase 1
 			if (npc.ai[2] == 0f)
             {
@@ -7972,14 +7978,15 @@ namespace CalamityMod.NPCs
 						double angleA = radians * 0.5;
 						double angleB = MathHelper.ToRadians(90f) - angleA;
 						float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-						Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
+						Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
 						for (int k = 0; k < totalProjectiles; k++)
 						{
 							Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
 							int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
 							Main.projectile[proj].timeLeft = enraged ? 600 : 300;
 						}
-                    }
+						npc.localAI[1] += 1f;
+					}
                 }
             }
 
