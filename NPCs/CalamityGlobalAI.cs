@@ -6326,15 +6326,21 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest();
 
 			float enrageScale = 0f;
-			if (Main.dayTime || malice)
-				enrageScale += 1f;
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 0.5f;
-			if (enraged)
-				enrageScale += 0.5f;
+            if (Main.dayTime || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (BossRushEvent.BossRushActive)
+                enrageScale += 0.5f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 0.5f;
+            }
 
-			// Enrage variable if player is floating upside down
-			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
+            // Enrage variable if player is floating upside down
+            bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

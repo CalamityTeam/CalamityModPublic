@@ -88,11 +88,8 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            // Ensure damage is not absolutely obscene when hitting players.
-            damage = Main.rand.Next(150, 225);
-        }
+        // Ensure damage is not absolutely obscene when hitting players.
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 102;
 
         public override bool CanDamage() => projectile.Opacity >= 1f;
 

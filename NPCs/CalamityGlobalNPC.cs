@@ -1228,6 +1228,8 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.GolemHeadFree)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.7);
+				npc.width = 88;
+				npc.height = 90;
                 npc.dontTakeDamage = false;
             }
             else if (npc.type == NPCID.Plantera)
@@ -4912,6 +4914,21 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCID.SkeletronPrime || DestroyerIDs.Contains(npc.type))
                     return false;
             }
+
+			if (npc.type == NPCID.GolemHeadFree)
+			{
+				// Draw the head as usual.
+				Texture2D golemHeadTexture = Main.npcTexture[npc.type];
+				Vector2 headDrawPosition = npc.Center + Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+				spriteBatch.Draw(golemHeadTexture, headDrawPosition, npc.frame, npc.GetAlpha(drawColor), 0f, npc.frame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
+
+				// Draw the eyes. The way vanilla handles this is hardcoded bullshit that cannot handle different hitboxes and thus requires rewriting.
+				Color eyeColor = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, 0);
+				Vector2 eyesDrawPosition = headDrawPosition - npc.scale * new Vector2(1f, 12f);
+				Rectangle eyesFrame = new Rectangle(0, 0, Main.golemTexture[1].Width, Main.golemTexture[1].Height / 2);
+				spriteBatch.Draw(Main.golemTexture[1], eyesDrawPosition, eyesFrame, eyeColor, 0f, eyesFrame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
+				return false;
+			}
 
             if (Main.LocalPlayer.Calamity().trippy)
             {
