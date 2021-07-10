@@ -90,6 +90,9 @@ namespace CalamityMod.NPCs
 		/// </summary>
 		public bool canBreakPlayerDefense = false;
 
+		// Total defense loss from some true melee hits and other things that reduce defense
+		public int miscDefenseLoss = 0;
+
 		// Distance values for when bosses increase velocity to catch up to their target
 		public const float CatchUpDistance200Tiles = 3200f;
 		public const float CatchUpDistance350Tiles = 5600f;
@@ -1824,7 +1827,8 @@ namespace CalamityMod.NPCs
                     (gState > 0 ? GlacialState.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
-					Main.LocalPlayer.armorPenetration;
+					Main.LocalPlayer.armorPenetration -
+					miscDefenseLoss;
 
             // Defense can never be negative and has a minimum value of zero.
             if (effectiveDefense < 0)

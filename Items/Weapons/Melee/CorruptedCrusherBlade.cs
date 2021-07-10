@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrupted Crusher Blade");
-            Tooltip.SetDefault("Inflicts cursed inferno and critical hits lower enemy defense");
+            Tooltip.SetDefault("Inflicts cursed inferno and critical hits reduce enemy defense by 10");
         }
 
         public override void SetDefaults()
@@ -35,16 +35,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(7))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.CursedInferno, 300);
-            if (target.defense > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
-				target.defense = target.defDefense - 5;
+            if (crit)
+				target.Calamity().miscDefenseLoss = 10;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)

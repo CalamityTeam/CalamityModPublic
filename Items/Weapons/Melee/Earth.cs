@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Earth");
-            Tooltip.SetDefault("Has a 50% chance to lower enemy defense by 50 when striking them\n" +
+            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                 "Your attacks will heal you a lot\n" +
                 "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
                 "Ice meteors freeze enemies\n" +
@@ -89,12 +89,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
-			if (Main.rand.NextBool(2) && target.defense > 0)
-			{
-				target.defense -= 50;
-				if (target.defense < 0)
-					target.defense = 0;
-			}
+			if (target.Calamity().miscDefenseLoss < target.defense)
+				target.Calamity().miscDefenseLoss += 1;
 
             if (!target.canGhostHeal || player.moonLeech)
                 return;

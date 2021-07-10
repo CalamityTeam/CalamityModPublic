@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grand Guardian");
-            Tooltip.SetDefault("Has a 20% chance to lower enemy defense by 15 when striking them\n" +
+            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                        "If enemy defense is 0 or below your attacks will heal you\n" +
                        "Striking enemies causes a large explosion\n" +
                        "Striking enemies that have under half life will make you release rainbow bolts\n" +
@@ -45,14 +45,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(5) && target.defense > 0)
-			{
-				target.defense -= 15;
-				if (target.defense < 0)
-					target.defense = 0;
-			}
+			if (target.Calamity().miscDefenseLoss < target.defense)
+				target.Calamity().miscDefenseLoss += 1;
 
-			if (target.defense <= 0 && target.canGhostHeal && !player.moonLeech)
+			if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal && !player.moonLeech)
             {
                 player.statLife += 4;
                 player.HealEffect(4);

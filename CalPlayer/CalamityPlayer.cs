@@ -4835,7 +4835,7 @@ namespace CalamityMod.CalPlayer
             switch (item.type)
             {
                 case ItemID.CobaltSword:
-                    target.defense = (int)(target.defDefense * 0.9);
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
                     break;
 
                 case ItemID.PalladiumSword:
@@ -4942,8 +4942,8 @@ namespace CalamityMod.CalPlayer
             switch (proj.type)
             {
                 case ProjectileID.CobaltNaginata:
-                    target.defense = (int)(target.defDefense * 0.9);
-                    break;
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
+					break;
 
                 case ProjectileID.PalladiumPike:
                     if (!target.canGhostHeal || player.moonLeech)

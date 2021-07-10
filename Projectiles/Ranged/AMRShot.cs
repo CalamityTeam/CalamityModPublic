@@ -61,8 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
 
-            if (target.defense > 50)
-                target.defense -= 50;
+			target.Calamity().miscDefenseLoss = 25;
 		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)

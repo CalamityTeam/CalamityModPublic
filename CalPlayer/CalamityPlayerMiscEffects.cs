@@ -2569,7 +2569,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-					player.statDefense -= 10;
+				player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;

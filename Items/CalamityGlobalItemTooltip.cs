@@ -355,7 +355,7 @@ namespace CalamityMod.Items
 
 			// Cobalt
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
-				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 10% on hit");
+				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 25% on hit");
 
 			// Palladium
 			if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
