@@ -3750,116 +3750,63 @@ namespace CalamityMod.NPCs
 			if (projectile.type == ProjectileID.CursedDartFlame)
 				damage /= 2;
 
-			if (AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type))
-			{
-				
-			}
+			if (CalamityLists.pierceResistList.Contains(npc.type))
+				PierceResistGlobal(projectile, npc, ref damage);
 
 			if (ThanatosIDs.Contains(npc.type))
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
 				// 50% resist to true melee
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
 			else if (AstrumDeusIDs.Contains(npc.type))
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
 				// 75% resist to Stardust Dragon Staff and Plaguenades
 				if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					damage = (int)(damage * 0.25);
 
-				// 50% resist to true melee, Aerial Bane, Forbidden Sun, Storm Ruler and Tenebreus Tides
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>() || projectile.type == ProjectileType<TenebreusTidesWaterSpear>() || projectile.type == ProjectileType<TenebreusTidesWaterSword>())
+				// 50% resist to true melee
+				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 
-				// 40% resist to Electrosphere Launcher
-				else if (projectile.type == ProjectileID.Electrosphere)
-					damage = (int)(damage * 0.6);
-
 				// 25% resist to Lazhar, Inferno Fork, Cosmic Rainbow, Plague Staff, Resurrection Butterfly, Eidolon Staff and Charged Blaster Cannon
-				else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCType<SCalWormHeart>())
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
 				// 20% resist to Executioner's Blade stealth strikes
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
 			}
 			else if (DevourerOfGodsIDs.Contains(npc.type))
 			{
-				// No grenade or global pierce resist here, body DR covers this appropriately
-
-				// 50% resist to Sealed Singularity
-				if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
-					damage = (int)(damage * 0.5);
-
-				// 25% resist to Wave Pounder
-				else if (projectile.type == ProjectileType<WavePounderBoom>())
-					damage = (int)(damage * 0.75);
-
-				// 15% resist to Dark Spark
-				else if (projectile.type == ProjectileType<DarkSparkBeam>())
-					damage = (int)(damage * 0.85);
-
-				// 10% resist to Valediction
-				else if (projectile.type == ProjectileType<ValedictionBoomerang>())
-					damage = (int)(damage * 0.9);
-
 				// 15% increased damage from Time Bolt stealth strikes
-				else if (projectile.type == ProjectileType<TimeBoltKnife>())
+				if (projectile.type == ProjectileType<TimeBoltKnife>())
 				{
 					if (projectile.Calamity().stealthStrike)
 						damage = (int)(damage * 1.15);
 				}
 			}
-			else if (CosmicGuardianIDs.Contains(npc.type))
-			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-			}
 			else if (npc.type == NPCType<DarkEnergy>())
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
-				// 50% resist to Nuclear Fury, true melee and Wave Pounder
-				if (projectile.type == ProjectileType<NuclearFuryProjectile>() || projectile.Calamity().trueMelee || projectile.type == ProjectileType<WavePounderBoom>())
+				// 50% resist to true melee
+				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
 			else if (StormWeaverIDs.Contains(npc.type))
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
 				// 10% resist to Shattered Sun
 				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
 					damage = (int)(damage * 0.9);
 
-				// 25% resist to Molten Amputator
-				else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
-				{
-					if (projectile.penetrate == -1)
-						projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-
+				// 25% resist to Molten Amputator blobs
+				else if (projectile.type == ProjectileType<MoltenBlobThrown>())
 					damage = (int)(damage * 0.75);
-				}
 
 				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
 					damage = (int)(damage * 0.5);
-
-				// 60% resist to Wave Pounder
-				else if (projectile.type == ProjectileType<WavePounderBoom>())
-					damage = (int)(damage * 0.4);
 
 				// 90% resist to Stardust Dragon Staff
 				else if (ProjectileID.Sets.StardustDragon[projectile.type])
@@ -3867,74 +3814,19 @@ namespace CalamityMod.NPCs
 			}
 			else if (DestroyerIDs.Contains(npc.type))
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
 				// 25% resist to Spear of Paleolith, Desecrated Water, Kelvin Catalyst and Pearlwood Bow
-				if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
+				if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>())
 					damage = (int)(damage * 0.75);
 
 				// 50% resist to true melee and Dormant Brimseekers
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
-
-				// 62% ? resist to Spent Fuel Container
-				else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
-					damage = (int)(damage * 0.38);
-
-				// 70% resist to Hydraulic Volt Crasher
-				else if (projectile.type == ProjectileType<VoltageStream>())
-					damage = (int)(damage * 0.3);
-
-				// 75% resist to Sea's Searing
-				else if (projectile.type == ProjectileType<SeasSearingSpout>())
-					damage = (int)(damage * 0.25);
 			}
 			else if (AquaticScourgeIDs.Contains(npc.type))
 			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-
-				// 10% resist to Hell Burst
-				if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
-					damage = (int)(damage * 0.9);
-
-				// 25% resist to Hydraulic Volt Crasher
-				else if (projectile.type == ProjectileType<VoltageStream>())
-					damage = (int)(damage * 0.75);
-
-				// 50% resist to true melee, SHPC and Dormant Brimseekers
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+				// 50% resist to true melee and Dormant Brimseekers
+				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
-
-				// 90% resist to Brimstone Sword
-				else if (projectile.type == ProjectileType<Brimblast>())
-				{
-					if (projectile.penetrate == -1)
-						projectile.penetrate = 2;
-					damage = (int)(damage * 0.1);
-				}
-			}
-			else if (PerforatorIDs.Contains(npc.type))
-			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
-			}
-			else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
-			{
-				if (npc.type == NPCID.Creeper || (EaterofWorldsIDs.Contains(npc.type) && !Main.expertMode))
-					GrenadeResist(projectile, ref damage);
-
-				PierceResistGlobal(projectile, ref damage);
-
-				// 30% resist to Sparkling Empress
-				if (projectile.type == ProjectileType<SparklingBeam>())
-					damage = (int)(damage * 0.7);
-			}
-			else if (DesertScourgeIDs.Contains(npc.type))
-			{
-				GrenadeResist(projectile, ref damage);
-				PierceResistGlobal(projectile, ref damage);
 			}
             else if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
@@ -3998,26 +3890,24 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		private void GrenadeResist(Projectile projectile, ref int damage)
+		private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
 		{
 			if (GrenadeResistIDs.Contains(projectile.type))
-				damage = (int)(damage * 0.2);
-		}
-
-		private void PierceResistGlobal(Projectile projectile, ref int damage)
-		{
-			if (projectile.IsSummon() || projectile.aiStyle == 99)
-				return;
-
-			if (projectile.penetrate == -1)
 			{
-				damage = (int)(damage * 0.5);
+				if (!EaterofWorldsIDs.Contains(npc.type))
+					damage = (int)(damage * 0.2);
+				else if (!Main.expertMode)
+					damage = (int)(damage * 0.2);
 			}
-			else if (projectile.penetrate > 1)
-			{
-				float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
-				damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
-			}
+
+			float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
+			if (damageReduction > projectile.Calamity().PierceResistCap)
+				damageReduction = projectile.Calamity().PierceResistCap;
+
+			damage -= (int)(damage * damageReduction);
+
+			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.IsSummon() && projectile.aiStyle != 99)
+				projectile.Calamity().timesPierced++;
 		}
 		#endregion
 

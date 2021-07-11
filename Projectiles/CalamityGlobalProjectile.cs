@@ -52,13 +52,16 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
-        public float ResistDamagePenaltyHarshness = 1f;
-        public float ResistDamagePenaltyMinCapFactor = 0.5f;
+        public float PierceResistHarshness = 0.12f;
+        public float PierceResistCap = 0.8f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
 		// Amount of extra updates that are set in SetDefaults.
 		public int defExtraUpdates = -1;
+
+		// How many times this projectile has pierced.
+		public int timesPierced = 0;
 
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
@@ -234,6 +237,12 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.CultistBossFireBallClone:
 				case ProjectileID.CultistBossIceMist:
 					canBreakPlayerDefense = affectedByMaliceModeVelocityMultiplier = true;
+					break;
+
+				case ProjectileID.LastPrismLaser:
+				case ProjectileID.ChargedBlasterLaser:
+					PierceResistHarshness = 0.06f;
+					PierceResistCap = 0.4f;
 					break;
 
 				default:

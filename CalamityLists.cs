@@ -151,6 +151,7 @@ namespace CalamityMod
         public static List<int> bossMinionList;
         public static List<int> minibossList;
 		public static List<int> heartDropBlockList;
+		public static List<int> pierceResistList;
 
         public static List<int> legOverrideList;
 
@@ -2526,6 +2527,54 @@ namespace CalamityMod
 				NPCType<DetonatingFlare2>()
 			};
 
+			pierceResistList = new List<int>()
+			{
+				NPCID.EaterofWorldsHead,
+				NPCID.EaterofWorldsBody,
+				NPCID.EaterofWorldsTail,
+				NPCID.Creeper,
+				NPCID.TheDestroyer,
+				NPCID.TheDestroyerBody,
+				NPCID.TheDestroyerTail,
+				NPCType<DesertScourgeHead>(),
+				NPCType<DesertScourgeBody>(),
+				NPCType<DesertScourgeTail>(),
+				NPCType<PerforatorHeadLarge>(),
+				NPCType<PerforatorBodyLarge>(),
+				NPCType<PerforatorTailLarge>(),
+				NPCType<PerforatorHeadMedium>(),
+				NPCType<PerforatorBodyMedium>(),
+				NPCType<PerforatorTailMedium>(),
+				NPCType<PerforatorHeadSmall>(),
+				NPCType<PerforatorBodySmall>(),
+				NPCType<PerforatorTailSmall>(),
+				NPCType<AquaticScourgeHead>(),
+				NPCType<AquaticScourgeBody>(),
+				NPCType<AquaticScourgeBodyAlt>(),
+				NPCType<AquaticScourgeTail>(),
+				NPCType<AstrumDeusHeadSpectral>(),
+				NPCType<AstrumDeusBodySpectral>(),
+				NPCType<AstrumDeusTailSpectral>(),
+				NPCType<DarkEnergy>(),
+				NPCType<StormWeaverHeadNaked>(),
+				NPCType<StormWeaverBodyNaked>(),
+				NPCType<StormWeaverTailNaked>(),
+				NPCType<DevourerofGodsHead>(),
+				NPCType<DevourerofGodsBody>(),
+				NPCType<DevourerofGodsTail>(),
+				NPCType<DevourerofGodsHead2>(),
+				NPCType<DevourerofGodsBody2>(),
+				NPCType<DevourerofGodsTail2>(),
+				NPCType<DevourerofGodsHeadS>(),
+				NPCType<DevourerofGodsBodyS>(),
+				NPCType<DevourerofGodsTailS>(),
+				NPCType<ThanatosHead>(),
+				NPCType<ThanatosBody1>(),
+				NPCType<ThanatosBody2>(),
+				NPCType<ThanatosTail>(),
+				NPCType<SCalWormHeart>()
+			};
+
 			bossMinionList = new List<int>()
             {
                 NPCType<DesertScourgeHeadSmall>(),
@@ -2744,6 +2793,7 @@ namespace CalamityMod
             bossMinionList = null;
             minibossList = null;
 			heartDropBlockList = null;
+			pierceResistList = null;
 
             legOverrideList = null;
 
