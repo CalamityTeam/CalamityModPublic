@@ -825,8 +825,8 @@ namespace CalamityMod
 
             // Nazar (curse)
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.SoulofNight, 20);
-            r.AddIngredient(ItemID.Lens, 5);
+            r.AddIngredient(ItemID.SoulofNight, 15);
+            r.AddIngredient(ItemID.Lens, 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Nazar);
             r.AddRecipe();
