@@ -21,28 +21,23 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = 7;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.Calamity().ResistDamagePenaltyHarshness = 1.65f;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
+            projectile.velocity *= 0.99f;
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.02f;
                 if (projectile.scale >= 1.25f)
-                {
                     projectile.localAI[0] = 1f;
-                }
             }
             else if (projectile.localAI[0] == 1f)
             {
                 projectile.scale -= 0.02f;
                 if (projectile.scale <= 0.75f)
-                {
                     projectile.localAI[0] = 0f;
-                }
             }
         }
 
