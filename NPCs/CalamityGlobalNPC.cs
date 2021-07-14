@@ -1193,6 +1193,7 @@ namespace CalamityMod.NPCs
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)(npc.lifeMax * 0.5);
 			}
+
             if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
@@ -1237,7 +1238,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.6);
+                npc.lifeMax = (int)(npc.lifeMax * 3.0);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
