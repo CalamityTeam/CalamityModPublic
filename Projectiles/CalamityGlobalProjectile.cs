@@ -130,7 +130,27 @@ namespace CalamityMod.Projectiles
             switch (projectile.type)
             {
 				case ProjectileID.FlamingJack:
+				case ProjectileID.Anchor:
+				case ProjectileID.Sunfury:
+				case ProjectileID.FlowerPow:
+				case ProjectileID.EnchantedBoomerang:
+				case ProjectileID.IceBoomerang:
+				case ProjectileID.FruitcakeChakram:
 					projectile.extraUpdates = 1;
+					break;
+
+				case ProjectileID.BlueMoon:
+				case ProjectileID.Flamarang:
+					projectile.extraUpdates = 2;
+					break;
+
+				case ProjectileID.Arkhalis:
+				case ProjectileID.ButchersChainsaw:
+					projectile.scale = 1.5f;
+					break;
+
+				case ProjectileID.MonkStaffT1:
+					projectile.scale = 3f;
 					break;
 
                 case ProjectileID.ShadowBeamHostile:
@@ -148,6 +168,10 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
+
+				case ProjectileID.MonkStaffT2:
+					projectile.idStaticNPCHitCooldown = 18;
+					break;
 
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:

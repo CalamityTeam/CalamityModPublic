@@ -126,9 +126,10 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 300);
             if (crit)
             {
+				damage /= 2;
                 target.AddBuff(BuffID.ShadowFlame, 900);
                 target.AddBuff(BuffID.OnFire, 900);
-                player.ApplyDamageToNPC(target, (int)(item.damage * player.MeleeDamage()) * 4, 0f, 0, false);
+                player.ApplyDamageToNPC(target, damage * 4, 0f, 0, false);
                 float scalar1 = 1.7f;
                 float scalar2 = 0.8f;
                 float scalar3 = 2f;

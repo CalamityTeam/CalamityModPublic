@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 26;
-            item.damage = 14;
+            item.damage = 13;
             item.melee = true;
-            item.useAnimation = 6;
+            item.useAnimation = 7;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 6;
+            item.useTime = 7;
             item.useTurn = true;
             item.knockBack = 3.5f;
             item.UseSound = SoundID.Item1;

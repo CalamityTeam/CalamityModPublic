@@ -151,6 +151,149 @@ namespace CalamityMod.Items
 				item.useAnimation = (int)(item.useAnimation * 0.8);
 			}
 
+			// True melee weapon adjustments
+			switch (item.type)
+			{
+				case ItemID.SlapHand:
+					item.damage = 120;
+					break;
+				case ItemID.TaxCollectorsStickOfDoom:
+					item.damage = 70;
+					break;
+				case ItemID.Anchor:
+					item.damage = 107;
+					break;
+				case ItemID.GolemFist:
+					item.damage = 185;
+					break;
+				case ItemID.BreakerBlade:
+					item.damage = 97;
+					break;
+				case ItemID.StylistKilLaKillScissorsIWish:
+					item.damage = 33;
+					break;
+				case ItemID.BladeofGrass:
+					item.damage = 65;
+					break;
+				case ItemID.FieryGreatsword:
+					item.damage = 98;
+					item.useTime = 45;
+					item.useAnimation = 45;
+					break;
+				case ItemID.CobaltSword:
+					item.damage = 80;
+					break;
+				case ItemID.MythrilSword:
+					item.damage = 100;
+					item.useTime = 25;
+					item.useAnimation = 25;
+					break;
+				case ItemID.AdamantiteSword:
+					item.damage = 77;
+					break;
+				case ItemID.PalladiumSword:
+					item.damage = 100;
+					break;
+				case ItemID.OrichalcumSword:
+					item.damage = 82;
+					break;
+				case ItemID.TitaniumSword:
+					item.damage = 77;
+					break;
+				case ItemID.Excalibur:
+					item.damage = 125;
+					break;
+				case ItemID.Bladetongue:
+					item.damage = 120;
+					item.scale = 1.75f;
+					break;
+				case ItemID.TheHorsemansBlade:
+					item.damage = 95;
+					break;
+				case ItemID.Keybrand:
+					item.damage = 184;
+					item.useTime = 18;
+					item.useAnimation = 18;
+					break;
+				case ItemID.AdamantiteGlaive:
+					item.damage = 65;
+					item.shootSpeed *= 1.25f;
+					break;
+				case ItemID.ChlorophytePartisan:
+					item.damage = 100;
+					break;
+				case ItemID.CobaltNaginata:
+					item.damage = 90;
+					break;
+				case ItemID.Gungnir:
+					item.damage = 92;
+					item.shootSpeed *= 1.25f;
+					break;
+				case ItemID.MythrilHalberd:
+					item.damage = 95;
+					item.shootSpeed *= 1.25f;
+					break;
+				case ItemID.OrichalcumHalberd:
+					item.damage = 98;
+					item.shootSpeed *= 1.25f;
+					break;
+				case ItemID.TitaniumTrident:
+					item.damage = 72;
+					item.shootSpeed *= 1.25f;
+					break;
+				case ItemID.DaoofPow:
+					item.damage = 160;
+					break;
+				case ItemID.TheRottedFork:
+					item.damage = 20;
+					break;
+				case ItemID.Swordfish:
+					item.damage = 38;
+					break;
+				case ItemID.DarkLance:
+					item.damage = 68;
+					break;
+				case ItemID.MushroomSpear:
+					item.damage = 100;
+					break;
+				case ItemID.BluePhasesaber:
+				case ItemID.RedPhasesaber:
+                case ItemID.GreenPhasesaber:
+                case ItemID.WhitePhasesaber:
+                case ItemID.YellowPhasesaber:
+                case ItemID.PurplePhasesaber:
+					item.damage = 72;
+					item.useTime = 20;
+					item.useAnimation = 20;
+					break;
+				case ItemID.PaladinsHammer:
+					item.damage = 100;
+					break;
+				case ItemID.Katana:
+					item.useTime = 15;
+					item.useAnimation = 15;
+					break;
+				case ItemID.FalconBlade:
+					item.damage = 40;
+					break;
+				case ItemID.ChainKnife:
+					item.damage = 14;
+					break;
+				case ItemID.DD2SquireDemonSword:
+					item.damage = 110;
+					break;
+				case ItemID.PurpleClubberfish:
+					item.damage = 45;
+					item.knockBack = 10f;
+					break;
+				case ItemID.ChristmasTreeSword:
+					item.damage = 155;
+					break;
+				case ItemID.MonkStaffT1:
+					item.damage = 110;
+					break;
+			}
+
 			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
 			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
@@ -631,6 +774,15 @@ namespace CalamityMod.Items
 			{
 				if (item.type != ModContent.ItemType<EvilSmasher>())
 					player.Calamity().evilSmasherBoost = 0;
+			}
+
+			if (player.HasBuff(BuffID.ParryDamageBuff))
+			{
+				if (item.type != ItemID.DD2SquireDemonSword)
+				{
+					player.parryDamageBuff = false;
+					player.ClearBuff(BuffID.ParryDamageBuff);
+				}
 			}
 
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.

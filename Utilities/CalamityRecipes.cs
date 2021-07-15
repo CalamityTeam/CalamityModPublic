@@ -32,6 +32,7 @@ namespace CalamityMod
             EditFireGauntletRecipe();
 			EditMechBossSummonRecipes();
 			EditWingRecipes();
+			EditPhasesaberRecipes();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -182,6 +183,17 @@ namespace CalamityMod
 			rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
 			{
 				s.requiredTile[0] = TileID.Anvils;
+			});
+		}
+
+		// Change Phasesaber recipes to require 20 Crystal Shards
+		private static void EditPhasesaberRecipes()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
+			x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
+			{
+				s.requiredItem[1].stack = 20;
 			});
 		}
 

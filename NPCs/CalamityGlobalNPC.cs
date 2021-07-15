@@ -3751,6 +3751,13 @@ namespace CalamityMod.NPCs
 			if (projectile.type == ProjectileID.CursedDartFlame)
 				damage /= 2;
 
+			// Nerf Mushroom Spear mushrooms
+			if (projectile.type == ProjectileID.Mushroom && Main.player[projectile.owner].ActiveItem().type == ItemID.MushroomSpear)
+				damage /= 2;
+
+			if (projectile.type == ProjectileID.SeedlerNut || projectile.type == ProjectileID.SeedlerThorn)
+				damage /= 3;
+
 			if (CalamityLists.pierceResistList.Contains(npc.type))
 				PierceResistGlobal(projectile, npc, ref damage);
 

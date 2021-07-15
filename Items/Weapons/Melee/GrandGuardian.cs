@@ -54,24 +54,27 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.HealEffect(4);
             }
 
-			OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback);
+			OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback, damage, crit);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack);
+			OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack, damage, crit);
         }
 
-		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback)
+		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
 		{
-            Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * player.MeleeDamage() * 0.5f), 0f, player.whoAmI);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(damage * 0.5f), 0f, player.whoAmI);
             if (targetLife <= (targetMaxLife * 0.5f) && player.ownedProjectileCounts[ModContent.ProjectileType<RainBolt>()] < 3)
             {
                 float randomSpeedX = Main.rand.Next(9);
                 float randomSpeedY = Main.rand.Next(6, 15);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
             }
             if (targetLife <= 0 && !player.moonLeech && player.ownedProjectileCounts[ModContent.ProjectileType<RainHeal>()] < 3)
             {

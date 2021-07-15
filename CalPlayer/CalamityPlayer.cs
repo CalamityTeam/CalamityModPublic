@@ -4915,9 +4915,6 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-			if (item.type == ModContent.ItemType<FulgurationHalberd>())
-				target.damage = (int)(target.defDamage * 0.9);
-
 			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
@@ -4975,8 +4972,13 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.TheRottedFork:
+				case ProjectileID.TheMeatball:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
+
+				case ProjectileID.BallOHurt:
+					target.AddBuff(BuffID.ShadowFlame, 60);
+					break;
 
                 case ProjectileID.ObsidianSwordfish:
                     target.AddBuff(BuffID.OnFire, 180);
@@ -5049,9 +5051,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
             }
-
-			if (proj.type == ModContent.ProjectileType<FulgurationHalberdProj>())
-				target.damage = (int)(target.defDamage * 0.9);
 
 			if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
