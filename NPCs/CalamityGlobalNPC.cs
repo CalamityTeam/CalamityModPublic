@@ -8,6 +8,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -3738,20 +3739,32 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
-			if (modPlayer.camper && !player.StandingStill())
-				damage = (int)(damage * 0.1);
-
 			if (!projectile.npcProj && !projectile.trap)
 			{
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
 					damage = (int)(damage * 1.1);
 			}
 
-			// Nerfed because these are really overpowered
+			// Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
+			if (Main.player[projectile.owner].ActiveItem().type != ItemID.DaedalusStormbow && Main.player[projectile.owner].ActiveItem().type != ItemID.Xenopopper &&
+				Main.player[projectile.owner].ActiveItem().type != ItemType<ArterialAssault>() && Main.player[projectile.owner].ActiveItem().type != ItemType<ClockworkBow>() &&
+				Main.player[projectile.owner].ActiveItem().type != ItemType<PlanetaryAnnihilation>() && Main.player[projectile.owner].ActiveItem().type != ItemType<TheStorm>() &&
+				Main.player[projectile.owner].ActiveItem().type != ItemType<Vortexpopper>() && Main.player[projectile.owner].ActiveItem().type != ItemType<ConferenceCall>() &&
+				Main.player[projectile.owner].ActiveItem().type != ItemType<TrueConferenceCall>() && Main.player[projectile.owner].ActiveItem().type != ItemType<Interfacer>() &&
+				Main.player[projectile.owner].ActiveItem().type != ItemType<Svantechnical>() && Main.player[projectile.owner].ActiveItem().type != ItemType<Drataliornus>())
+			{
+				if (projectile.Calamity().pointBlankShotDuration > 0)
+				{
+					projectile.Calamity().pointBlankShotDuration = 0;
+					damage = (int)(damage * 1.5);
+				}
+			}
+
+			// Nerfed because these are really overpowered.
 			if (projectile.type == ProjectileID.CursedDartFlame)
 				damage /= 2;
 
-			// Nerf Mushroom Spear mushrooms
+			// Nerf Mushroom Spear mushrooms.
 			if (projectile.type == ProjectileID.Mushroom && Main.player[projectile.owner].ActiveItem().type == ItemID.MushroomSpear)
 				damage /= 2;
 
@@ -3763,33 +3776,33 @@ namespace CalamityMod.NPCs
 
 			if (ThanatosIDs.Contains(npc.type))
 			{
-				// 50% resist to true melee
+				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
 			else if (AstrumDeusIDs.Contains(npc.type))
 			{
-				// 75% resist to Stardust Dragon Staff and Plaguenades
+				// 75% resist to Stardust Dragon Staff and Plaguenades.
 				if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					damage = (int)(damage * 0.25);
 
-				// 50% resist to true melee
+				// 50% resist to true melee.
 				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 
-				// 25% resist to Lazhar, Inferno Fork, Cosmic Rainbow, Plague Staff, Resurrection Butterfly, Eidolon Staff and Charged Blaster Cannon
+				// 25% resist to Lazhar, Inferno Fork, Cosmic Rainbow, Plague Staff, Resurrection Butterfly, Eidolon Staff and Charged Blaster Cannon.
 				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCType<SCalWormHeart>())
 			{
-				// 20% resist to Executioner's Blade stealth strikes
+				// 20% resist to Executioner's Blade stealth strikes.
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
 			}
 			else if (DevourerOfGodsIDs.Contains(npc.type))
 			{
-				// 15% increased damage from Time Bolt stealth strikes
+				// 15% increased damage from Time Bolt stealth strikes.
 				if (projectile.type == ProjectileType<TimeBoltKnife>())
 				{
 					if (projectile.Calamity().stealthStrike)
@@ -3798,104 +3811,107 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<DarkEnergy>())
 			{
-				// 50% resist to true melee
+				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 			}
 			else if (StormWeaverIDs.Contains(npc.type))
 			{
-				// 10% resist to Shattered Sun
+				// 10% resist to Shattered Sun.
 				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
 					damage = (int)(damage * 0.9);
 
-				// 25% resist to Molten Amputator blobs
+				// 25% resist to Molten Amputator blobs.
 				else if (projectile.type == ProjectileType<MoltenBlobThrown>())
 					damage = (int)(damage * 0.75);
 
-				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury
+				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury.
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
 					damage = (int)(damage * 0.5);
 
-				// 90% resist to Stardust Dragon Staff
+				// 90% resist to Stardust Dragon Staff.
 				else if (ProjectileID.Sets.StardustDragon[projectile.type])
 					damage = (int)(damage * 0.1);
 			}
 			else if (DestroyerIDs.Contains(npc.type))
 			{
-				// 25% resist to Spear of Paleolith, Desecrated Water, Kelvin Catalyst and Pearlwood Bow
+				// 25% resist to Spear of Paleolith, Desecrated Water, Kelvin Catalyst and Pearlwood Bow.
 				if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>())
 					damage = (int)(damage * 0.75);
 
-				// 50% resist to true melee and Dormant Brimseekers
+				// 50% resist to true melee and Dormant Brimseekers.
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
 			else if (AquaticScourgeIDs.Contains(npc.type))
 			{
-				// 50% resist to true melee and Dormant Brimseekers
+				// 50% resist to true melee and Dormant Brimseekers.
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
             else if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-				// 20.5% resist to Time Bolt
+				// 20.5% resist to Time Bolt.
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
                     damage = (int)(damage * 0.795);
 
-				// 61% resist to Last Mourning
+				// 61% resist to Last Mourning.
 				else if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
 					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-				// 5% resist to Celestial Reaper
+				// 5% resist to Celestial Reaper.
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-				// 5% resist to Celestial Reaper
+				// 5% resist to Celestial Reaper.
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{
-				// 10% resist to Onyxia
+				// 10% resist to Onyxia.
 				if (projectile.type == ProjectileID.BlackBolt)
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
 			{
-				// 10% resist to Phoenix Flame Barrage
+				// 10% resist to Phoenix Flame Barrage.
 				if (projectile.type == ProjectileType<HolyFlame>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
-				// 30% resist to Murasama
+				// 30% resist to Murasama.
 				if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
 
-				// 25% resist to Yharim's Crystal
+				// 25% resist to Yharim's Crystal.
 				else if (projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.75);
 
-				// 10% resist to Executioner's Blade stealth strikes
+				// 10% resist to Executioner's Blade stealth strikes.
 				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
-				// 25% resist to Resurrection Butterfly
+				// 25% resist to Resurrection Butterfly.
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
-				// 35% increased damage from Resurrection Butterfly
+				// 35% increased damage from Resurrection Butterfly.
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 					damage = (int)(damage * 1.35);
 			}
+
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
 		}
 
 		private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)

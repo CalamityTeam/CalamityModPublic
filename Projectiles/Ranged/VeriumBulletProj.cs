@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 			aiType = ProjectileID.Bullet;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

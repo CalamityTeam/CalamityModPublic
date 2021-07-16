@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
 			projectile.ranged = true;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 
 		public override void Kill(int timeLeft)

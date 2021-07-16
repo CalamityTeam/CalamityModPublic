@@ -63,6 +63,10 @@ namespace CalamityMod.Projectiles
 		// How many times this projectile has pierced.
 		public int timesPierced = 0;
 
+		// Point-blank shot timer.
+		public int pointBlankShotDuration = 0;
+		public const int basePointBlankShotDuration = 12;
+
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
 		/// </summary>
@@ -129,6 +133,57 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.Bullet:
+				case ProjectileID.MeteorShot:
+				case ProjectileID.BulletHighVelocity:
+				case ProjectileID.ChlorophyteBullet:
+				case ProjectileID.CrystalBullet:
+				case ProjectileID.CursedBullet:
+				case ProjectileID.ExplosiveBullet:
+				case ProjectileID.GoldenBullet:
+				case ProjectileID.IchorBullet:
+				case ProjectileID.MoonlordBullet:
+				case ProjectileID.NanoBullet:
+				case ProjectileID.PartyBullet:
+				case ProjectileID.VenomBullet:
+				case ProjectileID.WoodenArrowFriendly:
+				case ProjectileID.BeeArrow:
+				case ProjectileID.BoneArrow:
+				case ProjectileID.ChlorophyteArrow:
+				case ProjectileID.CursedArrow:
+				case ProjectileID.FireArrow:
+				case ProjectileID.FrostArrow:
+				case ProjectileID.FrostburnArrow:
+				case ProjectileID.HellfireArrow:
+				case ProjectileID.HolyArrow:
+				case ProjectileID.IchorArrow:
+				case ProjectileID.JestersArrow:
+				case ProjectileID.MoonlordArrow:
+				case ProjectileID.PhantasmArrow:
+				case ProjectileID.ShadowFlameArrow:
+				case ProjectileID.UnholyArrow:
+				case ProjectileID.VenomArrow:
+				case ProjectileID.Hellwing:
+				case ProjectileID.Flare:
+				case ProjectileID.BlueFlare:
+				case ProjectileID.Seed:
+				case ProjectileID.CrystalDart:
+				case ProjectileID.CursedDart:
+				case ProjectileID.PoisonDartBlowgun:
+				case ProjectileID.SnowBallFriendly:
+				case ProjectileID.SandBallGun:
+				case ProjectileID.PearlSandBallGun:
+				case ProjectileID.CrimsandBallGun:
+				case ProjectileID.EbonsandBallGun:
+				case ProjectileID.PainterPaintball:
+				case ProjectileID.Harpoon:
+				case ProjectileID.DD2PhoenixBowShot:
+				case ProjectileID.PulseBolt:
+				case ProjectileID.Stake:
+				case ProjectileID.CandyCorn:
+					pointBlankShotDuration = basePointBlankShotDuration;
+					break;
+
 				case ProjectileID.FlamingJack:
 				case ProjectileID.Anchor:
 				case ProjectileID.Sunfury:
@@ -288,6 +343,9 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+			if (pointBlankShotDuration > 0)
+				pointBlankShotDuration--;
+
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
 			{
                 ExplosiveEnchantCountdown--;

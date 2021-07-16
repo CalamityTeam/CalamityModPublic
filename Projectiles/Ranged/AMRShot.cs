@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
 		public override void AI()
 		{
