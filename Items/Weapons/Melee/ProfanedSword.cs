@@ -66,14 +66,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), damage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), damage, item.knockBack, Main.myPlayer);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

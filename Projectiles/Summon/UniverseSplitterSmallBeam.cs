@@ -87,22 +87,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.scale = MathHelper.Lerp(3.25f, 0.01f, (projectile.localAI[0] - (TimeLeft - 15f)) / 15f);
             }
 
-            Vector2 samplingPoint = projectile.Center;
-
-            float[] samples = new float[3];
-
-            float determinedLength = 0f;
-            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, MaximumLength, samples);
-            for (int i = 0; i < samples.Length; i++)
-            {
-                determinedLength += samples[i];
-            }
-            determinedLength /= samples.Length;
-
-            determinedLength = MathHelper.Clamp(determinedLength, MaximumLength * 0.5f, MaximumLength);
-
-            float lerpDelta = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength, lerpDelta);
+            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], MaximumLength, 0.5f);
             Vector2 beamEndPosiiton = projectile.Center + projectile.velocity * (projectile.localAI[1] - 6f);
 
             // Draw white light across the laser

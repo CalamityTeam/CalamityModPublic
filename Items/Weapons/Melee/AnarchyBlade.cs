@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class AnarchyBlade : ModItem
     {
-        private static int BaseDamage = 110;
+        private static int BaseDamage = 150;
 
         public override void SetStaticDefaults()
         {
@@ -66,7 +66,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, knockback, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
             if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
@@ -83,7 +86,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }

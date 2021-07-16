@@ -113,12 +113,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ItemID.Nazar, Main.expertMode ? 50 : 100);
+            DropHelper.DropItemChance(npc, ItemID.Blindfold, Main.expertMode ? 50 : 100);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Cursed, 60, true);
-        }
+			player.AddBuff(BuffID.Darkness, 90, true);
+		}
     }
 }

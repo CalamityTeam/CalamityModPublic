@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.width = 86;
             npc.height = 88;
             npc.defense = 12;
-			npc.DR_NERD(0.1f);
+			npc.DR_NERD(0.3f);
             npc.LifeMaxNERB(18795, 27615, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -992,8 +992,27 @@ namespace CalamityMod.NPCs.Cryogen
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
 
             currentPhase = newPhase;
-        }
 
+			switch (currentPhase)
+			{
+				case 0:
+				case 1:
+					break;
+				case 2:
+					npc.Calamity().DR = 0.27f;
+					break;
+				case 3:
+					npc.Calamity().DR = 0.21f;
+					break;
+				case 4:
+					npc.Calamity().DR = 0.12f;
+					break;
+				case 5:
+				case 6:
+					npc.Calamity().DR = 0f;
+					break;
+			}
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //for alt textures
         {

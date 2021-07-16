@@ -83,14 +83,14 @@ namespace CalamityMod.Projectiles.Enemy
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
+            target.AddBuff(BuffID.Poisoned, 120);
         }
 
 		public override bool? CanHitNPC(NPC target) => projectile.timeLeft > 40;
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
+            target.AddBuff(BuffID.Poisoned, 120);
         }
     }
 }

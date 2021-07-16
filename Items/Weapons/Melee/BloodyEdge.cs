@@ -65,20 +65,17 @@ namespace CalamityMod.Items.Weapons.Melee
 			if (!target.canGhostHeal || player.moonLeech)
                 return;
 
-            int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2))
-            {
-                player.statLife += healAmount;
-                player.HealEffect(healAmount);
-            }
+            int healAmount = Main.rand.Next(2) + 2;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
 
-			int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2) && !player.moonLeech)
+			int healAmount = Main.rand.Next(2) + 2;
+            if (!player.moonLeech)
             {
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);

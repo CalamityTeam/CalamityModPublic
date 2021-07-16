@@ -123,18 +123,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
-                item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
+            if (item.maxStack == 99)
                 item.maxStack = 999;
-
-            if (item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe)
-                item.maxStack = 20;
-
-			if (item.type == ItemID.CelestialSigil)
-				item.maxStack = 1;
-
-			if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
-                item.value = Item.buyPrice(0, 0, 5, 0);
 
 			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
 				item.useTurn = true;
@@ -151,16 +141,330 @@ namespace CalamityMod.Items
 				item.useAnimation = (int)(item.useAnimation * 0.8);
 			}
 
+			switch (item.type)
+			{
+				case ItemID.Dynamite:
+				case ItemID.StickyDynamite:
+				case ItemID.BouncyDynamite:
+				case ItemID.StickyBomb:
+				case ItemID.BouncyBomb:
+					item.maxStack = 999;
+					break;
+
+				case ItemID.BlueSolution:
+				case ItemID.DarkBlueSolution:
+				case ItemID.GreenSolution:
+				case ItemID.PurpleSolution:
+				case ItemID.RedSolution:
+					item.value = Item.buyPrice(0, 0, 5, 0);
+					break;
+
+				// Increase Pirate Map and Snow Globe stacks to 20
+				case ItemID.PirateMap:
+				case ItemID.SnowGlobe:
+					item.maxStack = 20;
+					break;
+
+				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.CelestialSigil:
+					item.maxStack = 1;
+					item.consumable = false;
+					break;
+
+				// True melee weapon adjustments
+				case ItemID.SlapHand:
+					item.damage = 120;
+					break;
+
+				case ItemID.TaxCollectorsStickOfDoom:
+					item.damage = 70;
+					break;
+
+				case ItemID.Anchor:
+					item.damage = 107;
+					break;
+
+				case ItemID.GolemFist:
+					item.damage = 185;
+					break;
+
+				case ItemID.BreakerBlade:
+					item.damage = 97;
+					break;
+
+				case ItemID.StylistKilLaKillScissorsIWish:
+					item.damage = 33;
+					break;
+
+				case ItemID.BladeofGrass:
+					item.damage = 65;
+					break;
+
+				case ItemID.FieryGreatsword:
+					item.damage = 98;
+					item.useTime = 45;
+					item.useAnimation = 45;
+					break;
+
+				case ItemID.CobaltSword:
+					item.damage = 80;
+					break;
+
+				case ItemID.MythrilSword:
+					item.damage = 100;
+					item.useTime = 25;
+					item.useAnimation = 25;
+					break;
+
+				case ItemID.AdamantiteSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.PalladiumSword:
+					item.damage = 100;
+					break;
+
+				case ItemID.OrichalcumSword:
+					item.damage = 82;
+					break;
+
+				case ItemID.TitaniumSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.Excalibur:
+					item.damage = 125;
+					break;
+
+				case ItemID.Bladetongue:
+					item.damage = 120;
+					item.scale = 1.75f;
+					break;
+
+				case ItemID.TheHorsemansBlade:
+					item.damage = 95;
+					break;
+
+				case ItemID.Keybrand:
+					item.damage = 184;
+					item.useTime = 18;
+					item.useAnimation = 18;
+					break;
+
+				case ItemID.AdamantiteGlaive:
+					item.damage = 65;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.ChlorophytePartisan:
+					item.damage = 100;
+					break;
+
+				case ItemID.CobaltNaginata:
+					item.damage = 90;
+					break;
+
+				case ItemID.Gungnir:
+					item.damage = 92;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.MythrilHalberd:
+					item.damage = 95;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.OrichalcumHalberd:
+					item.damage = 98;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.TitaniumTrident:
+					item.damage = 72;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.DaoofPow:
+					item.damage = 160;
+					break;
+
+				case ItemID.TheRottedFork:
+					item.damage = 20;
+					break;
+
+				case ItemID.Swordfish:
+					item.damage = 38;
+					break;
+
+				case ItemID.DarkLance:
+					item.damage = 68;
+					break;
+
+				case ItemID.MushroomSpear:
+					item.damage = 100;
+					break;
+
+				case ItemID.BluePhasesaber:
+				case ItemID.RedPhasesaber:
+                case ItemID.GreenPhasesaber:
+                case ItemID.WhitePhasesaber:
+                case ItemID.YellowPhasesaber:
+                case ItemID.PurplePhasesaber:
+					item.damage = 72;
+					item.useTime = 20;
+					item.useAnimation = 20;
+					break;
+
+				case ItemID.PaladinsHammer:
+					item.damage = 100;
+					break;
+
+				case ItemID.Katana:
+					item.useTime = 15;
+					item.useAnimation = 15;
+					break;
+
+				case ItemID.FalconBlade:
+					item.damage = 40;
+					break;
+
+				case ItemID.ChainKnife:
+					item.damage = 14;
+					break;
+
+				case ItemID.DD2SquireDemonSword:
+					item.damage = 110;
+					break;
+
+				case ItemID.PurpleClubberfish:
+					item.damage = 45;
+					item.knockBack = 10f;
+					break;
+
+				case ItemID.ChristmasTreeSword:
+					item.damage = 155;
+					break;
+
+				case ItemID.MonkStaffT1:
+					item.damage = 110;
+					break;
+
+				case ItemID.Terrarian:
+					item.damage = 352;
+					break;
+
+				case ItemID.RainbowRod:
+					item.damage = 130;
+					break;
+
+				case ItemID.BlizzardStaff:
+					item.damage = 41;
+					item.mana = 7;
+					break;
+
+				case ItemID.LaserMachinegun:
+					item.damage = 39;
+					break;
+
+				case ItemID.StardustDragonStaff:
+					item.damage = 20;
+					break;
+
+				case ItemID.BookStaff:
+					item.mana = 10;
+					break;
+
+				case ItemID.UnholyTrident:
+					item.mana = 14;
+					break;
+
+				case ItemID.FrostStaff:
+					item.mana = 9;
+					break;
+
+				case ItemID.BookofSkulls:
+					item.mana = 12;
+					break;
+
+				// Total defense pre-buff = 78, Total defense post-buff = 94
+				case ItemID.SolarFlareHelmet:
+					item.defense = 29; // 5 more defense
+					break;
+
+				case ItemID.SolarFlareBreastplate:
+					item.defense = 41; // 7 more defense
+					break;
+
+				case ItemID.SolarFlareLeggings:
+					item.defense = 24; // 4 more defense
+					break;
+
+				// Total defense pre-buff = 7, Total defense post-buff = 15
+				case ItemID.GladiatorHelmet:
+					item.defense = 3; // 1 more defense
+					break;
+
+				case ItemID.GladiatorBreastplate:
+					item.defense = 5; // 2 more defense
+					break;
+
+				case ItemID.GladiatorLeggings:
+					item.defense = 4; // 2 more defense
+					break;
+
+				// Total defense pre-buff = 31, 50, 35, Total defense post-buff = 36, 55, 40
+				case ItemID.HallowedPlateMail:
+					item.defense = 18; // 3 more defense
+					break;
+
+				case ItemID.HallowedGreaves:
+					item.defense = 13; // 2 more defense
+					break;
+
+				// Not Expert because ML drops it in Normal so that it can be used with the lore item
+				case ItemID.GravityGlobe:
+					item.expert = false;
+					item.rare = ItemRarityID.Red;
+					break;
+
+				case ItemID.SuspiciousLookingTentacle:
+					item.expert = true;
+					break;
+
+				case ItemID.PearlwoodHammer:
+					item.hammer += 35; // 80% hammer power
+					item.useAnimation = 20;
+					item.useTime = 15;
+					item.damage *= 4;
+					item.tileBoost += 1;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.PearlwoodBow:
+					item.useAnimation += 8; // 35
+					item.useTime += 8; // 35
+					item.shootSpeed += 3.4f; // 10f
+					item.knockBack += 1f; // 1f
+					item.rare = ItemRarityID.LightRed;
+					item.damage = (int)(item.damage * 2.1);
+					break;
+
+				case ItemID.PearlwoodSword:
+					item.damage *= 4;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.StarCannon:
+					item.UseSound = null;
+					break;
+			}
+
 			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
 			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
-			else if (item.type == ItemID.Terrarian)
-				item.damage = (int)(item.damage * 1.85);
-			else if (item.type == ItemID.RainbowRod)
-				item.damage = (int)(item.damage * 1.75);
 			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 1.66);
 			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
@@ -177,82 +481,12 @@ namespace CalamityMod.Items
 				item.damage = (int)(item.damage * 0.9);
 			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.75);
-			else if (item.type == ItemID.BlizzardStaff)
-				item.damage = (int)(item.damage * 0.7);
-			else if (item.type == ItemID.LaserMachinegun)
-				item.damage = (int)(item.damage * 0.65);
-			else if (item.type == ItemID.StardustDragonStaff)
-				item.damage = (int)(item.damage * 0.5);
-
-            if (item.type == ItemID.BookStaff)
-                item.mana = 10;
-            else if (item.type == ItemID.UnholyTrident)
-                item.mana = 14;
-            else if (item.type == ItemID.FrostStaff)
-                item.mana = 9;
-            else if (item.type == ItemID.BookofSkulls)
-                item.mana = 12;
-            else if (item.type == ItemID.BlizzardStaff)
-                item.mana = 7;
-            else if (item.type == ItemID.SolarFlareHelmet) //total defense pre-buff = 78 post-buff = 94
-                item.defense = 29; //5 more defense
-            else if (item.type == ItemID.SolarFlareBreastplate)
-                item.defense = 41; //7 more defense
-            else if (item.type == ItemID.SolarFlareLeggings)
-                item.defense = 24; //4 more defense
-            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 15
-                item.defense = 3; //1 more defense
-            else if (item.type == ItemID.GladiatorBreastplate)
-                item.defense = 5; //2 more defense
-            else if (item.type == ItemID.GladiatorLeggings)
-                item.defense = 4; //2 more defense
-            else if (item.type == ItemID.HallowedPlateMail) //total defense pre-buff = 31, 50, 35 post-buff = 36, 55, 40
-                item.defense = 18; //3 more defense
-            else if (item.type == ItemID.HallowedGreaves)
-                item.defense = 13; //2 more defense
 
 			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
+
 			if (CalamityLists.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
-
-			// not expert because ML drops it in normal so that it can be used with the lore item
-            if (item.type == ItemID.GravityGlobe)
-			{
-				item.expert = false;
-				item.rare = ItemRarityID.Red;
-			}
-            
-            if (item.type == ItemID.SuspiciousLookingTentacle)
-                item.expert = true;
-
-            if (item.type == ItemID.PearlwoodHammer)
-			{
-                item.hammer += 35; //80% hammer power
-				item.useAnimation = 20;
-				item.useTime = 15;
-				item.damage *= 4;
-				item.tileBoost += 1;
-				item.rare = ItemRarityID.LightRed;
-			}
-            if (item.type == ItemID.PearlwoodBow)
-			{
-				item.useAnimation += 8; //35
-				item.useTime += 8; //35
-				item.shootSpeed += 3.4f; //10f
-				item.knockBack += 1f; //1f
-				item.rare = ItemRarityID.LightRed;
-				item.damage = (int)(item.damage * 2.1);
-			}
-            if (item.type == ItemID.PearlwoodSword)
-			{
-				item.damage *= 4;
-				item.rare = ItemRarityID.LightRed;
-			}
-			if (item.type == ItemID.StarCannon)
-				item.UseSound = null;
-			if (item.type == ItemID.CelestialSigil)
-				item.consumable = false;
         }
         #endregion
 
@@ -506,7 +740,7 @@ namespace CalamityMod.Items
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
         {
-            return true;
+            return rogue || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -631,6 +865,15 @@ namespace CalamityMod.Items
 			{
 				if (item.type != ModContent.ItemType<EvilSmasher>())
 					player.Calamity().evilSmasherBoost = 0;
+			}
+
+			if (player.HasBuff(BuffID.ParryDamageBuff))
+			{
+				if (item.type != ItemID.DD2SquireDemonSword)
+				{
+					player.parryDamageBuff = false;
+					player.ClearBuff(BuffID.ParryDamageBuff);
+				}
 			}
 
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.

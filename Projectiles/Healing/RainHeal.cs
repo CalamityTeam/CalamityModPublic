@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
+            projectile.velocity *= 0.99f;
+
 			projectile.HealingProjectile(8, projectile.owner, 12f, 15f, false);
 
 			float num498 = projectile.velocity.X * 0.2f;

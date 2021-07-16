@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.localAI[0] += CalamityWorld.malice ? 2f : 1f;
+				npc.localAI[0] += CalamityWorld.malice ? 1.5f : 1f;
 				if (npc.localAI[0] >= 900f)
 				{
 					npc.localAI[0] = 0f;

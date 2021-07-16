@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.hide = true;
             projectile.ownerHitCheck = true;
             projectile.melee = true;
-            projectile.scale = 1.3f;
+            projectile.scale = 1.75f;
         }
 
         public override void AI()

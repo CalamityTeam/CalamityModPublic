@@ -1,10 +1,10 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
@@ -208,9 +208,9 @@ namespace CalamityMod.Projectiles.Enemy
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.Electrified, 300);
-        }
-    }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
+		}
+	}
 }

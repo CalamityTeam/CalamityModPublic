@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Perdition");
             Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
-                "When a target is manually selected via right click it releases torrents of souls from below onto the target\n" +
-                "The beacon does not move");
+                "When a target is manually selected via right click it releases torrents of souls from below onto the target");
         }
 
         public override void SetDefaults()

@@ -23,15 +23,14 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thanatos Deathray");
-			Main.projFrames[projectile.type] = 4;
+            DisplayName.SetDefault("T Hanos Deathray");
 		}
 
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 32;
-            projectile.height = 32;
+			projectile.width = 30;
+            projectile.height = 30;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
@@ -61,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 			bool expertMode = Main.expertMode || malice;
 
 			// Die if the thing to attach to disappears.
-			if (ThingToAttachTo is null || !ThingToAttachTo.active)
+			if (ThingToAttachTo is null || !ThingToAttachTo.active || ThingToAttachTo.Calamity().newAI[0] != 2f)
 			{
 				projectile.Kill();
 				return;
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
 			// Offset to move the beam forward so that it starts inside the NPC's mouth.
-			float beamStartForwardsOffset = -18f;
+			float beamStartForwardsOffset = -8f;
 
 			// Set the starting location of the beam to the center of the NPC.
 			projectile.Center = ThingToAttachTo.Center;
@@ -80,11 +79,6 @@ namespace CalamityMod.Projectiles.Boss
 			// Add the forwards offset, measured in pixels.
 			projectile.position += hostNPCDirection * beamStartForwardsOffset;
 
-			projectile.rotation = ThingToAttachTo.velocity.ToRotation();
-
-			Time++;
-
-            float scale = 1f;
             Time++;
             if (Time >= Lifetime)
             {
@@ -92,12 +86,15 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(Time * MathHelper.Pi / Lifetime) * 10f * scale;
+			float scale = 1f;
+			projectile.scale = (float)Math.Sin(Time * MathHelper.Pi / Lifetime) * 10f * scale;
             if (projectile.scale > scale)
                 projectile.scale = scale;
 
 			projectile.rotation = ThingToAttachTo.velocity.ToRotation();
 			projectile.velocity = projectile.rotation.ToRotationVector2();
+
+			projectile.rotation = ThingToAttachTo.velocity.ToRotation() - MathHelper.PiOver2;
 
 			float arraySize = 3f;
             Vector2 samplingPoint = projectile.Center;
@@ -121,6 +118,7 @@ namespace CalamityMod.Projectiles.Boss
 			float divisor = expertMode ? 80f : 160f;
 			if (ThingToAttachTo.Calamity().newAI[2] % divisor == 0f && projectile.owner == Main.myPlayer)
 			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), ThingToAttachTo.Center);
 				Vector2 velocity = projectile.velocity;
 				velocity.Normalize();
 				float distanceBetweenProjectiles = malice ? 160f : death ? 256f : revenge ? 288f : 320f;
@@ -134,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					for (int j = 0; j < totalProjectiles; j++)
 					{
-						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
 						Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
 					}
 					fireFrom += velocity * distanceBetweenProjectiles;
@@ -196,42 +194,42 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D beamMiddle = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ExoDestroyerBeamMiddle");
             Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ExoDestroyerBeamEnd");
 
-            float drawLength = LengthOfLaser;
-            Color color = new Color(250, 0, 0, 0);
+			float drawLength = LengthOfLaser;
+            Color color = new Color(250, 100, 100, 0);
 
 			// Draw start of beam
             Vector2 vector = projectile.Center - Main.screenPosition;
-            Rectangle? sourceRectangle = new Rectangle(0, 16 * (projectile.timeLeft / Main.projFrames[projectile.type] % 5), beamStart.Width, 16);
-			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, beamStart.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Rectangle? sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamStart.Width, 30);
+			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, new Vector2(32f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
 			// Draw middle of beam
-			drawLength -= (beamStart.Height / 2 + beamEnd.Height) * projectile.scale;
+			drawLength -= (beamStart.Height / 4 / 2 + beamEnd.Height / 4) * projectile.scale;
             Vector2 center = projectile.Center;
-			center += projectile.velocity * projectile.scale * beamStart.Height / 2f;
+			center += projectile.velocity * projectile.scale * beamStart.Height / 4f / 2f;
             if (drawLength > 0f)
             {
                 float i = 0f;
-                Rectangle rectangle = new Rectangle(0, 16 * (projectile.timeLeft / Main.projFrames[projectile.type] % 5), beamMiddle.Width, 16);
+                Rectangle rectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamMiddle.Width, 30);
                 while (i + 1f < drawLength)
                 {
                     if (drawLength - i < rectangle.Height)
                         rectangle.Height = (int)(drawLength - i);
 
-                    spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), projectile.scale, SpriteEffects.None, 0f);
 
 					i += rectangle.Height * projectile.scale;
 					center += projectile.velocity * rectangle.Height * projectile.scale;
 
-                    rectangle.Y += 16;
-                    if (rectangle.Y + rectangle.Height > beamMiddle.Height)
+                    rectangle.Y += 30;
+                    if (rectangle.Y + rectangle.Height > beamMiddle.Height / 4)
                         rectangle.Y = 0;
                 }
             }
 
 			// Draw end of beam
             Vector2 vector2 = center - Main.screenPosition;
-            sourceRectangle = new Rectangle(0, 16 * (projectile.timeLeft / Main.projFrames[projectile.type] % 5), beamEnd.Width, 16);
-			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, beamEnd.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
+            sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamEnd.Width, 30);
+			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, new Vector2(28f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }
@@ -249,7 +247,7 @@ namespace CalamityMod.Projectiles.Boss
                 return true;
 
             float collisionPoint = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LengthOfLaser, 22f * projectile.scale, ref collisionPoint))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LengthOfLaser, 30f * projectile.scale, ref collisionPoint))
                 return true;
 
             return false;
@@ -258,7 +256,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-			target.AddBuff(BuffID.OnFire, 360);
 		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

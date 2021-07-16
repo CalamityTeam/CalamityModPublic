@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
         public override void Kill(int timeLeft)
         {

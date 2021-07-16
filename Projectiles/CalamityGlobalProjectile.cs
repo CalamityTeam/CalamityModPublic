@@ -52,13 +52,20 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
-        public float ResistDamagePenaltyHarshness = 1f;
-        public float ResistDamagePenaltyMinCapFactor = 0.5f;
+        public float PierceResistHarshness = 0.12f;
+        public float PierceResistCap = 0.8f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
 		// Amount of extra updates that are set in SetDefaults.
 		public int defExtraUpdates = -1;
+
+		// How many times this projectile has pierced.
+		public int timesPierced = 0;
+
+		// Point-blank shot timer.
+		public int pointBlankShotDuration = 0;
+		public const int basePointBlankShotDuration = 12;
 
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
@@ -126,8 +133,79 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.Bullet:
+				case ProjectileID.MeteorShot:
+				case ProjectileID.BulletHighVelocity:
+				case ProjectileID.ChlorophyteBullet:
+				case ProjectileID.CrystalBullet:
+				case ProjectileID.CursedBullet:
+				case ProjectileID.ExplosiveBullet:
+				case ProjectileID.GoldenBullet:
+				case ProjectileID.IchorBullet:
+				case ProjectileID.MoonlordBullet:
+				case ProjectileID.NanoBullet:
+				case ProjectileID.PartyBullet:
+				case ProjectileID.VenomBullet:
+				case ProjectileID.WoodenArrowFriendly:
+				case ProjectileID.BeeArrow:
+				case ProjectileID.BoneArrow:
+				case ProjectileID.ChlorophyteArrow:
+				case ProjectileID.CursedArrow:
+				case ProjectileID.FireArrow:
+				case ProjectileID.FrostArrow:
+				case ProjectileID.FrostburnArrow:
+				case ProjectileID.HellfireArrow:
+				case ProjectileID.HolyArrow:
+				case ProjectileID.IchorArrow:
+				case ProjectileID.JestersArrow:
+				case ProjectileID.MoonlordArrow:
+				case ProjectileID.PhantasmArrow:
+				case ProjectileID.ShadowFlameArrow:
+				case ProjectileID.UnholyArrow:
+				case ProjectileID.VenomArrow:
+				case ProjectileID.Hellwing:
+				case ProjectileID.Flare:
+				case ProjectileID.BlueFlare:
+				case ProjectileID.Seed:
+				case ProjectileID.CrystalDart:
+				case ProjectileID.CursedDart:
+				case ProjectileID.PoisonDartBlowgun:
+				case ProjectileID.SnowBallFriendly:
+				case ProjectileID.SandBallGun:
+				case ProjectileID.PearlSandBallGun:
+				case ProjectileID.CrimsandBallGun:
+				case ProjectileID.EbonsandBallGun:
+				case ProjectileID.PainterPaintball:
+				case ProjectileID.Harpoon:
+				case ProjectileID.DD2PhoenixBowShot:
+				case ProjectileID.PulseBolt:
+				case ProjectileID.Stake:
+				case ProjectileID.CandyCorn:
+					pointBlankShotDuration = basePointBlankShotDuration;
+					break;
+
 				case ProjectileID.FlamingJack:
+				case ProjectileID.Anchor:
+				case ProjectileID.Sunfury:
+				case ProjectileID.FlowerPow:
+				case ProjectileID.EnchantedBoomerang:
+				case ProjectileID.IceBoomerang:
+				case ProjectileID.FruitcakeChakram:
 					projectile.extraUpdates = 1;
+					break;
+
+				case ProjectileID.BlueMoon:
+				case ProjectileID.Flamarang:
+					projectile.extraUpdates = 2;
+					break;
+
+				case ProjectileID.Arkhalis:
+				case ProjectileID.ButchersChainsaw:
+					projectile.scale = 1.5f;
+					break;
+
+				case ProjectileID.MonkStaffT1:
+					projectile.scale = 3f;
 					break;
 
                 case ProjectileID.ShadowBeamHostile:
@@ -145,6 +223,10 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
+
+				case ProjectileID.MonkStaffT2:
+					projectile.idStaticNPCHitCooldown = 18;
+					break;
 
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
@@ -236,6 +318,12 @@ namespace CalamityMod.Projectiles
 					canBreakPlayerDefense = affectedByMaliceModeVelocityMultiplier = true;
 					break;
 
+				case ProjectileID.LastPrismLaser:
+				case ProjectileID.ChargedBlasterLaser:
+					PierceResistHarshness = 0.06f;
+					PierceResistCap = 0.4f;
+					break;
+
 				default:
                     break;
             }
@@ -255,6 +343,9 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+			if (pointBlankShotDuration > 0)
+				pointBlankShotDuration--;
+
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
 			{
                 ExplosiveEnchantCountdown--;
@@ -416,7 +507,7 @@ namespace CalamityMod.Projectiles
 					adultWyrmAlive = true;
 			}
 
-			if (adultWyrmAlive)
+			if (adultWyrmAlive || (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses))
 			{
 				if (projectile.type == ProjectileID.CultistBossFireBallClone)
 				{

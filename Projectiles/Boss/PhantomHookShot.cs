@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -69,7 +70,12 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
+		}
+
+		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(100, 250, 250, projectile.alpha);
         }

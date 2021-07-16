@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceClasperMinion : ModProjectile
     {
-        public override string Texture => "CalamityMod/NPCs/NormalNPCs/IceClasper";
 
         private int dust = 3;
 
