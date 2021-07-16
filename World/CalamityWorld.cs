@@ -13,6 +13,7 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -159,7 +160,12 @@ namespace CalamityMod.World
 
         // Draedon Summoning stuff.
         public static int DraedonSummonCountdown = 0;
+        public static Draedon.ExoMech DraedonMechToSummon;
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
+        public static bool AbleToSummonDraedon
+        {
+            get => DraedonSummonCountdown <= 0 && !NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && !NPC.AnyNPCs(ModContent.NPCType<ThanatosHead>());
+        }
         public const int DraedonSummonCountdownMax = 450;
 
         // Draedon Lab Locations.
@@ -851,6 +857,7 @@ namespace CalamityMod.World
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
             writer.Write(DraedonSummonCountdown);
+            writer.Write((int)DraedonMechToSummon);
             writer.WriteVector2(DraedonSummonPosition);
         }
         #endregion
@@ -971,6 +978,7 @@ namespace CalamityMod.World
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();
+            DraedonMechToSummon = (Draedon.ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
         }
         #endregion

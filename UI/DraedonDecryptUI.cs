@@ -1,4 +1,5 @@
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
@@ -22,44 +24,26 @@ namespace CalamityMod.UI
         public static float VerificationButtonScale = 1f;
         public static float CancelButtonScale = 0.75f;
         public static float ContactButtonScale = 1f;
+        public static Draedon.ExoMech? MechToSummon = null;
+        public static float MechIconScale = 1f;
         public static readonly Vector2 BackgroundCenter = new Vector2(500f, Main.screenHeight * 0.5f);
 
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
         public static void Draw(SpriteBatch spriteBatch)
         {
-            // If not viewing the specific tile entity's interface anymore, or if the ID is for some reason invalid
-            // don't do anything except resetting/updating necessary information.
-            if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || !(TileEntity.ByID[ViewedTileEntityID] is TECodebreaker codebreakerTileEntity))
+            // If not viewing the specific tile entity's interface anymore, if the ID is for some reason invalid, or if the player is not equipped to continue viewing the UI
+            // don't do anything other than resetting necessary data.
+            if (!TileEntity.ByID.ContainsKey(ViewedTileEntityID) || !(TileEntity.ByID[ViewedTileEntityID] is TECodebreaker codebreakerTileEntity) || !Main.LocalPlayer.WithinRange(codebreakerTileEntity.Center, 270f) || !Main.playerInventory)
             {
                 VerificationButtonScale = 1f;
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 ViewedTileEntityID = -1;
                 AwaitingCloseConfirmation = false;
+                MechToSummon = null;
+                MechIconScale = 1f;
                 return;
             }
-
-            // If too far away from the tile entity, stop drawing.
-            if (!Main.LocalPlayer.WithinRange(codebreakerTileEntity.Center, 270f))
-            {
-                VerificationButtonScale = 1f;
-                CancelButtonScale = 0.75f;
-                ContactButtonScale = 1f;
-                ViewedTileEntityID = -1;
-                AwaitingCloseConfirmation = false;
-                return;
-            }
-
-            // Close the UI if the inventory is no longer open.
-            if (!Main.playerInventory)
-            {
-                VerificationButtonScale = 1f;
-                CancelButtonScale = 0.75f;
-                ContactButtonScale = 1f;
-                ViewedTileEntityID = -1;
-                AwaitingCloseConfirmation = false;
-                return;
-			}
 
             // Draw the background.
             Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterBackground");
@@ -105,7 +89,7 @@ namespace CalamityMod.UI
             }
 
             Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 48f);
-            if (codebreakerTileEntity.ReadyToSummonDreadon)
+            if (codebreakerTileEntity.ReadyToSummonDreadon && CalamityWorld.AbleToSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
@@ -410,7 +394,57 @@ namespace CalamityMod.UI
 
         public static void HandleDraedonSummonButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
-            Texture2D contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon");
+            Draedon.ExoMech mechToSummon;
+
+            float flattenedTime = Main.GlobalTime * 0.6f;
+            float iconTransitionGlitchIntensity = CalamityUtils.Convert01To010(flattenedTime % 1f) * 2.7f;
+            if (iconTransitionGlitchIntensity > 1f)
+                iconTransitionGlitchIntensity = 1f;
+            iconTransitionGlitchIntensity = 1f - iconTransitionGlitchIntensity;
+
+            // Have the mech choices cycle depending on time if one has not yet been selected.
+            switch ((int)(flattenedTime % 3f))
+            {
+                default:
+                case 0:
+                    mechToSummon = Draedon.ExoMech.Destroyer;
+                    break;
+                case 1:
+                    mechToSummon = Draedon.ExoMech.Prime;
+                    break;
+                case 2:
+                    mechToSummon = Draedon.ExoMech.Twins;
+                    break;
+            }
+
+            if (MechToSummon.HasValue)
+            {
+                iconTransitionGlitchIntensity = 0f;
+                mechToSummon = MechToSummon.Value;
+                MechIconScale = MathHelper.Clamp(MechIconScale + 0.035f, 1f, 1.265f);
+            }
+            else
+                MechIconScale = MathHelper.Clamp(MechIconScale - 0.05f, 1f, 1.265f);
+
+            Texture2D mechIconTexture;
+            Texture2D contactButton;
+            switch (mechToSummon)
+            {
+                default:
+                case Draedon.ExoMech.Destroyer:
+                    mechIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_THanos");
+                    contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon_THanos");
+                    break;
+                case Draedon.ExoMech.Prime:
+                    mechIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_Ares");
+                    contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon_Ares");
+                    break;
+                case Draedon.ExoMech.Twins:
+                    mechIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_Twins");
+                    contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon_Twins");
+                    break;
+            }
+
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, contactButton.Size() * VerificationButtonScale);
 
             // Click if the mouse is hovering over the contact button area.
@@ -419,20 +453,46 @@ namespace CalamityMod.UI
                 // If so, cause the button to inflate a little bit.
                 ContactButtonScale = MathHelper.Clamp(ContactButtonScale + 0.035f, 1f, 1.35f);
 
-                // If a click is done, prepare the summoning process by defining the countdown and current summon position.
+                // If a click is done, do a check.
+                // If a mech has been selected, prepare the summoning process by defining the countdown and current summon position. Otherwise, select the current mech.
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    Main.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
-                    CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
-                    CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
-                    CalamityNetcode.SyncWorld();
+                    if (MechToSummon.HasValue)
+                    {
+                        Main.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
+                        CalamityWorld.DraedonMechToSummon = MechToSummon.Value;
+                        CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
+                        CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
+                        MechToSummon = null;
+
+                        CalamityNetcode.SyncWorld();
+                    }
+                    else
+                        MechToSummon = mechToSummon;
                 }
             }
 
             // Otherwise, if not hovering, cause the button to deflate back to its normal size.
             else
+            {
                 ContactButtonScale = MathHelper.Clamp(ContactButtonScale - 0.05f, 1f, 1.35f);
+
+                // If a click is done outside of the click area, reset the selected mech again.
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                    MechToSummon = null;
+            }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.UIScaleMatrix);
+            GameShaders.Misc["CalamityMod:Glitch"].UseOpacity(iconTransitionGlitchIntensity);
+            GameShaders.Misc["CalamityMod:Glitch"].Apply();
+
+            // Draw the boss icon.
+            Main.spriteBatch.Draw(mechIconTexture, drawPosition - Vector2.UnitX * 36f, null, Color.White, 0f, mechIconTexture.Size() * 0.5f, MechIconScale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
             // Draw the contact button.
             Main.spriteBatch.Draw(contactButton, drawPosition, null, Color.White, 0f, contactButton.Size() * 0.5f, ContactButtonScale, SpriteEffects.None, 0f);
