@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
             item.rare = ItemRarityID.Yellow;
             item.Calamity().donorItem = true;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;

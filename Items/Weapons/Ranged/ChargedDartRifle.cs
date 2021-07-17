@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 22f;
             item.shoot = ModContent.ProjectileType<ChargedBlast>();
             item.useAmmo = AmmoID.Dart;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

@@ -35,7 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 

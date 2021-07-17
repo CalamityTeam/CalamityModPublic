@@ -79,6 +79,7 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
 		public bool challengeDrop = false;
+		public bool canFirePointBlankShots = false;
 
         public static readonly Color[] ExoPalette = new Color[]
         {
@@ -143,6 +144,78 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
+				// Point-blank shot weapons
+				case ItemID.WoodenBow:
+				case ItemID.BorealWoodBow:
+				case ItemID.PalmWoodBow:
+				case ItemID.RichMahoganyBow:
+				case ItemID.CopperBow:
+				case ItemID.TinBow:
+				case ItemID.ShadewoodBow:
+				case ItemID.EbonwoodBow:
+				case ItemID.IronBow:
+				case ItemID.LeadBow:
+				case ItemID.SilverBow:
+				case ItemID.TungstenBow:
+				case ItemID.GoldBow:
+				case ItemID.PlatinumBow:
+				case ItemID.DemonBow:
+				case ItemID.TendonBow:
+				case ItemID.MoltenFury:
+				case ItemID.BeesKnees:
+				case ItemID.HellwingBow:
+				case ItemID.FlareGun:
+				case ItemID.Minishark:
+				case ItemID.Blowpipe:
+				case ItemID.FlintlockPistol:
+				case ItemID.SnowballCannon:
+				case ItemID.Boomstick:
+				case ItemID.Revolver:
+				case ItemID.RedRyder:
+				case ItemID.Sandgun:
+				case ItemID.Musket:
+				case ItemID.TheUndertaker:
+				case ItemID.Blowgun:
+				//case ItemID.QuadBarrelShotgun:
+				case ItemID.Handgun:
+				case ItemID.PhoenixBlaster:
+				case ItemID.PainterPaintballGun:
+				case ItemID.Harpoon:
+				case ItemID.IceBow:
+				case ItemID.ShadowFlameBow:
+				case ItemID.Marrow:
+				case ItemID.PulseBow:
+				case ItemID.DD2PhoenixBow:
+				case ItemID.Tsunami:
+				//case ItemID.Eventide:
+				case ItemID.Phantasm:
+				case ItemID.CobaltRepeater:
+				case ItemID.PalladiumRepeater:
+				case ItemID.MythrilRepeater:
+				case ItemID.OrichalcumRepeater:
+				case ItemID.AdamantiteRepeater:
+				case ItemID.TitaniumRepeater:
+				case ItemID.HallowedRepeater:
+				case ItemID.ChlorophyteShotbow:
+				case ItemID.StakeLauncher:
+				case ItemID.ClockworkAssaultRifle:
+				case ItemID.Gatligator:
+				case ItemID.Shotgun:
+				case ItemID.OnyxBlaster:
+				case ItemID.Uzi:
+				case ItemID.DartRifle:
+				case ItemID.DartPistol:
+				case ItemID.Megashark:
+				case ItemID.VenusMagnum:
+				case ItemID.TacticalShotgun:
+				case ItemID.SniperRifle:
+				case ItemID.CandyCornRifle:
+				case ItemID.ChainGun:
+				case ItemID.VortexBeater:
+				case ItemID.SDMG:
+					canFirePointBlankShots = true;
+					break;
+
 				case ItemID.Dynamite:
 				case ItemID.StickyDynamite:
 				case ItemID.BouncyDynamite:
@@ -447,6 +520,7 @@ namespace CalamityMod.Items
 					item.knockBack += 1f; // 1f
 					item.rare = ItemRarityID.LightRed;
 					item.damage = (int)(item.damage * 2.1);
+					canFirePointBlankShots = true;
 					break;
 
 				case ItemID.PearlwoodSword:
@@ -740,7 +814,7 @@ namespace CalamityMod.Items
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -753,14 +827,16 @@ namespace CalamityMod.Items
                 ["charge"] = Charge,
 				["reforgeTier"] = reforgeTier,
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
-				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion
+				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
+				["canFirePointBlankShots"] = canFirePointBlankShots
 			};
         }
 
         public override void Load(Item item, TagCompound tag)
         {
             rogue = tag.GetBool("rogue");
-            timesUsed = tag.GetInt("timesUsed");
+			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
+			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
@@ -792,6 +868,7 @@ namespace CalamityMod.Items
             {
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
+				canFirePointBlankShots = flags[1];
 			}
             else
             {
@@ -803,6 +880,7 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
+			flags[1] = canFirePointBlankShots;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -817,6 +895,7 @@ namespace CalamityMod.Items
         {
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
+			canFirePointBlankShots = flags[1];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
