@@ -506,7 +506,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName += (orig, self) =>
             {
                 string result = orig(self);
-                if (self.IsEnchanted())
+                if (!self.IsAir && self.Calamity().AppliedEnchantment.HasValue)
                     result = $"{self.Calamity().AppliedEnchantment.Value.Name} {result}";
                 return result;
             };
