@@ -1,4 +1,3 @@
-using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -52,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Time <= 1f)
                 return false;
 
-            Color drawColor = CalamityUtils.MulticolorLerp((Time / 35f + projectile.identity / 4f) % 1f, CalamityGlobalItem.ExoPalette);
+            Color drawColor = CalamityUtils.MulticolorLerp((Time / 35f + projectile.identity / 4f) % 1f, CalamityUtils.ExoPalette);
             drawColor.A = 0;
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], drawColor);
             return false;

@@ -10,17 +10,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DraedonSummonLaser : ModProjectile
     {
-        internal static readonly Color[] ExoPalette = new Color[]
-        {
-            new Color(250, 255, 112),
-            new Color(211, 235, 108),
-            new Color(166, 240, 105),
-            new Color(105, 240, 220),
-            new Color(64, 130, 145),
-            new Color(145, 96, 145),
-            new Color(242, 112, 73),
-            new Color(199, 62, 62),
-        };
         public const float LaserLength = 3800f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -49,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int i = 0; i < 36; i++)
 				{
                     Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
-                    exoDust.color = CalamityUtils.MulticolorLerp(i / 36f, ExoPalette);
+                    exoDust.color = CalamityUtils.MulticolorLerp(i / 36f, CalamityUtils.ExoPalette);
                     exoDust.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * new Vector2(3f, 1.45f) - Vector2.UnitY * 2f;
                     exoDust.scale = 2.8f;
                     exoDust.fadeIn = Main.rand.NextFloat(0.8f, 1.85f);
@@ -59,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int i = 0; i < 10; i++)
                 {
                     Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
-                    exoDust.color = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), ExoPalette);
+                    exoDust.color = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
                     exoDust.velocity = Main.rand.NextVector2Circular(2f, 2f);
                     exoDust.scale = 4f;
                     exoDust.fadeIn = 2f;
@@ -79,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 
         private Color PrimitiveColorFunction(float completionRatio)
 		{
-            return CalamityUtils.MulticolorLerp((Main.GlobalTime * 0.67f - completionRatio * 3f) % 1f, ExoPalette) * 1.2f;
+            return CalamityUtils.MulticolorLerp((Main.GlobalTime * 0.67f - completionRatio * 3f) % 1f, CalamityUtils.ExoPalette) * 1.2f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

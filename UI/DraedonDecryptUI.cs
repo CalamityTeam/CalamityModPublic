@@ -499,20 +499,8 @@ namespace CalamityMod.UI
 
             // And display a text indicator that describes the function of the button.
             // The color of the text cycles through the exo mech crystal palette.
-            Color[] exoPalette = new Color[]
-            {
-                new Color(250, 255, 112),
-                new Color(211, 235, 108),
-                new Color(166, 240, 105),
-                new Color(105, 240, 220),
-                new Color(64, 130, 145),
-                new Color(145, 96, 145),
-                new Color(242, 112, 73),
-                new Color(199, 62, 62),
-            };
-
             string contactText = "Contact";
-            Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTime * 0.7f) * 0.5f + 0.5f, exoPalette);
+            Color contactTextColor = CalamityUtils.MulticolorLerp((float)Math.Cos(Main.GlobalTime * 0.7f) * 0.5f + 0.5f, CalamityUtils.ExoPalette);
 
             // Center the draw position.
             drawPosition.X -= Main.fontMouseText.MeasureString(contactText).X * 0.5f;

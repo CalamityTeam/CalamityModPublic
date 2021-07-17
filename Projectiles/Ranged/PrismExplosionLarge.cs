@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 36; i++)
             {
                 Vector2 lightDrawPosition = drawPosition + (MathHelper.TwoPi * i / 36f + Main.GlobalTime * 5f).ToRotationVector2() * projectile.scale * 20f;
-                Color lightBurstColor = CalamityUtils.MulticolorLerp(projectile.timeLeft / 144f, Items.CalamityGlobalItem.ExoPalette);
+                Color lightBurstColor = CalamityUtils.MulticolorLerp(projectile.timeLeft / 144f, CalamityUtils.ExoPalette);
                 lightBurstColor = Color.Lerp(lightBurstColor, Color.White, 0.4f) * projectile.Opacity * 0.04f;
                 lightBurstColor.A = 0;
                 spriteBatch.Draw(lightTexture, lightDrawPosition, null, lightBurstColor, 0f, lightTexture.Size() * 0.5f, projectile.scale * 2.5f, SpriteEffects.None, 0f);
