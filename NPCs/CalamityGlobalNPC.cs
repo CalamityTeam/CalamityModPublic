@@ -3746,7 +3746,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
-			if (Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.ranged)
+			if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.ranged)
 			{
 				if (projectile.Calamity().pointBlankShotDuration > 0)
 				{

@@ -345,7 +345,7 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
-			if (!Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots)
+			if (!Main.player[projectile.owner].ActiveItem().IsAir && !Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots)
 				pointBlankShotDuration = 0;
 
 			if (pointBlankShotDuration > 0)
