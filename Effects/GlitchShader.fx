@@ -15,7 +15,7 @@ float2 uImageSize1;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float horizontalOffset = pow((sin(2.7182818 * 6.283 * coords.y + 16 * uTime) + sin(1.570796 * 16 * coords.y)) * 0.5, 3) * uOpacity * 0.46;
+    float horizontalOffset = pow((sin(coords.y * 17.07947 + uTime * 16) + sin(coords.y * 25.13274)) * 0.5, 3) * uOpacity * 0.46;
     float2 samplePosition = float2(saturate(coords.x + horizontalOffset), coords.y);
     return tex2D(uImage0, samplePosition);
 }
