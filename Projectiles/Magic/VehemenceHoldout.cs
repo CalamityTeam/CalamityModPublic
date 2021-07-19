@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref projectile.ai[0];
 
         public const int ChargeTime = 90;
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemenc";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");
@@ -19,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 96;
+            projectile.width = projectile.height = 114;
             projectile.friendly = false;
             projectile.magic = false;
             projectile.tileCollide = false;
@@ -80,11 +81,12 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.dedServ)
                 return;
 
-            Vector2 spawnOffset = projectile.velocity * 70f;
+            Vector2 spawnOffset = projectile.velocity * 94f;
             for (int i = 0; i < 18; i++)
             {
-                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset + Main.rand.NextVector2CircularEdge(30f, 30f), (int)CalamityDusts.Brimstone);
-                brimstoneMagic.velocity = (projectile.Center + spawnOffset - brimstoneMagic.position).SafeNormalize(Vector2.Zero) * 2f + Owner.velocity;
+                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset + Main.rand.NextVector2CircularEdge(20f, 20f), (int)CalamityDusts.Brimstone);
+                brimstoneMagic.velocity = (projectile.Center + spawnOffset - brimstoneMagic.position).SafeNormalize(Vector2.Zero) * 0.3f + Owner.velocity;
+                brimstoneMagic.velocity.Y -= 2f;
                 brimstoneMagic.scale = 1.2f;
                 brimstoneMagic.noGravity = true;
             }
