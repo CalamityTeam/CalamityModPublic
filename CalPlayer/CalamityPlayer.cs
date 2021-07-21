@@ -5396,7 +5396,9 @@ namespace CalamityMod.CalPlayer
 			if (enraged)
                 damageMult += 1.25;
 
-            if (proj.type == ProjectileID.InfernoFriendlyBlast)
+            // Calamity buffs Inferno Fork by 33%.
+	    // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
+	    if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
 
             if (brimflameFrenzy && brimflameSet)
