@@ -2944,7 +2944,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (lifeRatio < 0.05f)
                 flickerPower += 0.1f;
             float opacity = forcefieldOpacity;
-            opacity *= MathHelper.Lerp(1f, 1f - flickerPower, (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 9f, flickerPower)), 24D));
+            opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 5f, flickerPower)), 24D));
 
             // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
             if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
