@@ -52,6 +52,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Skies;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
