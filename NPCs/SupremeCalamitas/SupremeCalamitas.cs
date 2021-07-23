@@ -84,8 +84,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private int spawnY = 0;
         private int spawnYReset = 0;
         private int spawnYAdd = 0;
-        private int bulletHellCounter = 0;
-        private int bulletHellCounter2 = 0;
+        public int bulletHellCounter = 0;
+        public int bulletHellCounter2 = 0;
         private int attackCastDelay = 0;
         private int hitTimer = 0;
 
@@ -412,7 +412,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && bulletHellCounter2 % 900 == 0)
             {
                 if (npc.ai[1] != 2f)
                 {
