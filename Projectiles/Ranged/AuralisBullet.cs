@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 10;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {

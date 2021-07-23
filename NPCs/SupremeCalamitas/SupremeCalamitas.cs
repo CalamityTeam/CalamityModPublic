@@ -2,12 +2,14 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -200,6 +202,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
+            bossBag = ModContent.ItemType<SCalBag>();
         }
 
         public override void BossHeadSlot(ref int index)
@@ -2736,6 +2739,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Make the town NPC spawn.
             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
 
+            DropHelper.DropBags(npc);
+
             // Increase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
@@ -2748,32 +2753,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int essenceMax = Main.expertMode ? 40 : 30;
             DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 
-            // Weapons
-            // Rejoice! Hybrid weapons are no more, so this list is no longer cluttered.
-			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
-				ModContent.ItemType<Animus>(),
-				ModContent.ItemType<AngelicAlliance>(),
-				ModContent.ItemType<Azathoth>(),
-				ModContent.ItemType<Contagion>(),
-				ModContent.ItemType<CrystylCrusher>(),
-				ModContent.ItemType<DraconicDestruction>(),
-				ModContent.ItemType<Earth>(),
-                ModContent.ItemType<Endogenesis>(),
-                ModContent.ItemType<Fabstaff>(),
-                ModContent.ItemType<PrototypeAndromechaRing>(), // Flamsteed Ring
-                ModContent.ItemType<RoyalKnivesMelee>(), // Illustrious Knives
-				ModContent.ItemType<NanoblackReaperRogue>(),
-				ModContent.ItemType<RedSun>(),
-				ModContent.ItemType<ScarletDevil>(),
-				ModContent.ItemType<SomaPrime>(),
-				ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
-				ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<BensUmbrella>(), // Temporal Umbrella
-                ModContent.ItemType<Judgement>(), // The Dance of Light
-				ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(),
-				ModContent.ItemType<Megafleet>() // Voidragon
-			);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
+            if (!Main.expertMode)
+            {
+                // Weapons.
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Vehemenc>(w),
+                    DropHelper.WeightStack<Heresy>(w),
+                    DropHelper.WeightStack<Perdition>(w),
+                    DropHelper.WeightStack<Vigilance>(w),
+                    DropHelper.WeightStack<Sacrifice>(w),
+                    DropHelper.WeightStack<Violence>(w)
+                );
+
+                // Vanity.
+                if (Main.rand.NextBool(7))
+                {
+                    DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalMask>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalRobes>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalBoots>());
+                }
+            }
 
             // Vanity
             DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);

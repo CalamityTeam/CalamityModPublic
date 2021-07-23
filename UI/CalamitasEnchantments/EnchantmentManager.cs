@@ -260,7 +260,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().persecutedEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
-				new Enchantment("Lecherous", "Spawns a resiliant brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
+				new Enchantment("Lecherous", "Spawns a resilient brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
 					1200,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Lecherous",
 					null,

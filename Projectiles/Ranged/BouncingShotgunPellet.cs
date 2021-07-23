@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
             projectile.timeLeft = 180;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

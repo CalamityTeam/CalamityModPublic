@@ -4,10 +4,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -54,7 +51,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			animationType = NPCID.Wizard;
 		}
 
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal;
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
 		public override string TownNPCName() => "Calamitas";
 

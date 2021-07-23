@@ -126,6 +126,7 @@ namespace CalamityMod.ILEditing
             IncorporateMinionExplodingCountdown();
             UseCoolFireCursorEffect();
             MakeMouseHoverItemsSupportAnimations();
+            IncorporateEnchantmentInAffix();
         }
 
         /// <summary>
@@ -500,10 +501,21 @@ namespace CalamityMod.ILEditing
             };
         }
 
+        private static void IncorporateEnchantmentInAffix()
+        {
+            On.Terraria.Item.AffixName += (orig, self) =>
+            {
+                string result = orig(self);
+                if (!self.IsAir && self.Calamity().AppliedEnchantment.HasValue)
+                    result = $"{self.Calamity().AppliedEnchantment.Value.Name} {result}";
+                return result;
+            };
+        }
+
         #endregion
 
-		#region IL Editing Injected/Hooked Functions
-		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+        #region IL Editing Injected/Hooked Functions
+        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)

@@ -37,7 +37,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

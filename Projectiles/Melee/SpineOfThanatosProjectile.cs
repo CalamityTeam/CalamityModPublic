@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Melee
 				float rayRotation = projectile.rotation + MathHelper.Lerp(-0.57f, 0.57f, i / (float)LaserRayCount);
 				float targetAimDisparity = 0f;
 				if (potentialTarget != null)
-					targetAimDisparity = projectile.rotation.ToRotationVector2().AngleBetween((potentialTarget.Center - WhipEnd).SafeNormalize(Vector2.Zero));
+					targetAimDisparity = projectile.rotation.ToRotationVector2().AngleBetween((potentialTarget.Center - projectile.Center).SafeNormalize(Vector2.Zero));
 
 				// By default, make the prism rays go outward a good amount based on their rotation
 				// to give a fan look.

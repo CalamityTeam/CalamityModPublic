@@ -32,7 +32,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<IcicleArrowProj>();
             item.shootSpeed = 11f;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;

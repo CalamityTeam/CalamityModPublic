@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 120;
+            item.damage = 200;
             item.knockBack = 4f;
             item.useAnimation = item.useTime = 15;
             item.melee = true;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), damage / 2, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), damage / 3, knockBack, player.whoAmI);
             return false;
         }
 
@@ -78,12 +78,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
+			if (crit)
+				damage /= 2;
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI);
+			if (crit)
+				damage /= 2;
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, item.knockBack, player.whoAmI);
         }
     }
 }

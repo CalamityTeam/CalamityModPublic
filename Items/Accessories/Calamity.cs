@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("Lights your mouse ablaze with a brimstone fire and causes a flaming aura to appear around it\n" +
 				"Enemies near the aura take immense damage and are inflicted with Vulnerability Hex\n" +
 				"The mouse fire effect can be shown without the aura and damage effects by putting this item in a vanity slot");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
 		}
 
 		public override void SetDefaults()

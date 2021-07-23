@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			else
 				npc.alpha = HeadSegment.alpha;
 
-			AttackTimer += CalamityWorld.malice ? 2f : 1f;
+			AttackTimer += CalamityWorld.malice ? 1.5f : 1f;
 			if (AttackTimer >= 900f)
 			{
 				AttackTimer = 0f;
