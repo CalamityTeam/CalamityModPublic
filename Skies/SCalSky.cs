@@ -37,21 +37,10 @@ namespace CalamityMod.Skies
         private bool isActive = false;
         private float intensity = 0f;
         private int SCalIndex = -1;
-        private List<Cinder> Cinders = new List<Cinder>();
-        public static float OverridingIntensity = 0f;
-
-        public override void Update(GameTime gameTime)
+        public List<Cinder> Cinders = new List<Cinder>();
+        public static int CinderReleaseChance
         {
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
-            }
-
-            int getCinderReleaseChance()
+            get
             {
                 if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
                     return int.MaxValue;
@@ -77,28 +66,13 @@ namespace CalamityMod.Skies
                 if (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) || NPC.AnyNPCs(ModContent.NPCType<SCalWormHead>()))
                     return 10;
 
-                // Release a moderate amount of cinders idly.
+                // Release a moderate amount of cinders normally.
                 return 18;
             }
-
-            Color selectCinderColor()
-            {
-                if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
-                    return Color.Transparent;
-
-                NPC scal = Main.npc[CalamityGlobalNPC.SCal];
-                float lifeRatio = scal.life / (float)scal.lifeMax;
-                if (lifeRatio > 0.5f)
-                    return Color.Lerp(Color.Red, Color.Orange, Main.rand.NextFloat(0.8f));
-                else if (lifeRatio > 0.3f)
-                    return Color.Lerp(Color.Blue, Color.DarkBlue, Main.rand.NextFloat() * 0.65f);
-                else if (lifeRatio > 0.01f)
-                    return Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0.2f, 0.9f));
-                else
-                    return Color.Gray;
-            }
-
-            float selectCinderSpeed()
+        }
+        public static float CinderSpeed
+        {
+            get
             {
                 if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
                     return 0f;
@@ -122,9 +96,39 @@ namespace CalamityMod.Skies
                 // Move moderately quickly usually.
                 return 5.6f;
             }
+        }
+        public static float OverridingIntensity = 0f;
+
+        public override void Update(GameTime gameTime)
+        {
+            if (isActive && intensity < 1f)
+            {
+                intensity += 0.01f;
+            }
+            else if (!isActive && intensity > 0f)
+            {
+                intensity -= 0.01f;
+            }
+
+            Color selectCinderColor()
+            {
+                if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
+                    return Color.Transparent;
+
+                NPC scal = Main.npc[CalamityGlobalNPC.SCal];
+                float lifeRatio = scal.life / (float)scal.lifeMax;
+                if (lifeRatio > 0.5f)
+                    return Color.Lerp(Color.Red, Color.Orange, Main.rand.NextFloat(0.8f));
+                else if (lifeRatio > 0.3f)
+                    return Color.Lerp(Color.Blue, Color.DarkBlue, Main.rand.NextFloat() * 0.65f);
+                else if (lifeRatio > 0.01f)
+                    return Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0.2f, 0.9f));
+                else
+                    return Color.Gray;
+            }
 
             // Randomly add cinders.
-            if (intensity >= 1f && Main.rand.NextBool(getCinderReleaseChance()))
+            if (intensity >= 1f && Main.rand.NextBool(CinderReleaseChance))
             {
                 int lifetime = Main.rand.Next(285, 445);
                 float depth = Main.rand.NextFloat(1.8f, 5f);
@@ -139,10 +143,10 @@ namespace CalamityMod.Skies
                 Cinders[i].Scale = Utils.InverseLerp(Cinders[i].Lifetime, Cinders[i].Lifetime - 50, Cinders[i].Time, true) * Utils.InverseLerp(0f, 50f, Cinders[i].Time, true);
                 Cinders[i].Scale *= MathHelper.Lerp(0.55f, 0.8f, Cinders[i].IdentityIndex % 6f / 6f);
 
-                Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * selectCinderSpeed();
+                Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * CinderSpeed;
                 float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.InverseLerp(45f, 145f, Cinders[i].Time, true));
                 Cinders[i].Velocity = Vector2.Lerp(Cinders[i].Velocity, idealVelocity, movementInterpolant);
-                Cinders[i].Velocity = Cinders[i].Velocity.SafeNormalize(-Vector2.UnitY) * selectCinderSpeed();
+                Cinders[i].Velocity = Cinders[i].Velocity.SafeNormalize(-Vector2.UnitY) * CinderSpeed;
                 Cinders[i].Time++;
 
                 Cinders[i].Center += Cinders[i].Velocity;
