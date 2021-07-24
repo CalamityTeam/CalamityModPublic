@@ -1228,7 +1228,7 @@ namespace CalamityMod.CalPlayer
 
             // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
             if (tag.ContainsKey("stress"))
-                rage = tag.GetFloat("stress");
+                rage = tag.GetInt("stress");
             else
                 rage = tag.GetFloat("rage");
 
