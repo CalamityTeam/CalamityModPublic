@@ -3774,8 +3774,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (player.beetleOffense && player.beetleOrbs > 0)
 			{
-				player.meleeDamage -= 0.05f * player.beetleOrbs;
-				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.1f * player.beetleOrbs;
 			}
             if (CalamityConfig.Instance.Proficiency)
             {
