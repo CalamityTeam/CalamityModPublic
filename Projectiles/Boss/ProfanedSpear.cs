@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

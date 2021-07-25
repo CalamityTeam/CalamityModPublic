@@ -19,14 +19,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
             projectile.melee = true;
-        }
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 10;
+		}
 
         public override void AI()
         {
             if (Main.rand.NextBool(5))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -34,9 +35,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
         }
     }
 }

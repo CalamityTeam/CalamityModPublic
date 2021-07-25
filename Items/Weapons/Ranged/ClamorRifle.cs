@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
 			item.shootSpeed = 15f;
 			item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-5, 0);

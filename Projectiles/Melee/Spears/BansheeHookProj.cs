@@ -109,12 +109,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float angle = projectile.rotation - MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) + 
+            float angle = projectile.rotation - MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) +
                 (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
 
             float areaCheck = -95f;
             float reduntantVariable = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), 
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
                 targetHitbox.Size(), projectile.Center,
                 projectile.Center + angle.ToRotationVector2() * areaCheck,
                 (TravelSpeed + 1f) * projectile.scale, ref reduntantVariable))

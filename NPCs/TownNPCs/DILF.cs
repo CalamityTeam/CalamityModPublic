@@ -183,8 +183,6 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 			nextSlot++;

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Revengeance");
             Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in expert mode.\n" +
                 "RAGE TOOLTIP LINE HERE\n" +
-                "You gain Rage when you take damage or by using special items.\n" +
+                "You gain Rage when in proximity of enemies or by using special items.\n" +
                 "ADRENALINE TOOLTIP LINE HERE\n" +
                 "You gain Adrenaline whenever a boss is alive. Getting hit drops Adrenaline back to 0.\n" +
                 "All enemies drop 50% more coins and spawn 15% more frequently\n" +

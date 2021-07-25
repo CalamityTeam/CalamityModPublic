@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (num223 > 0f)
             {
                 float num224 = 0f;
-                Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture.Width, 16);
+                Rectangle rectangle7 = new Rectangle(0, 0, texture.Width, texture.Height);
                 while (num224 + 1f < num223)
                 {
                     if (num223 - num224 < rectangle7.Height)
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Boss
                     spriteBatch.Draw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
                     num224 += rectangle7.Height * projectile.scale;
                     value20 += projectile.velocity * rectangle7.Height * projectile.scale;
-                    rectangle7.Y += 16;
+                    rectangle7.Y += texture.Height;
                     if (rectangle7.Y + rectangle7.Height > texture.Height)
                     {
                         rectangle7.Y = 0;

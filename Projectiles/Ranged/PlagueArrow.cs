@@ -26,7 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             aiType = ProjectileID.WoodenArrowFriendly;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void Kill(int timeLeft)
         {

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -502,7 +503,12 @@ namespace CalamityMod.NPCs.Perforator
             CalamityNetcode.SyncWorld();
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < damage / npc.lifeMax * 100.0; k++)
             {

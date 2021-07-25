@@ -159,7 +159,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldHallow.Chance / 4f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.soundDelay == 0)
             {

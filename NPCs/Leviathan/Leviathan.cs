@@ -769,7 +769,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Wet, 240, true);
+            target.AddBuff(BuffID.Bleeding, 240, true);
         }
 
         public override bool CheckActive()

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -33,12 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<BoltArrow>();
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Arrow;
-        }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

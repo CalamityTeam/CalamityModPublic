@@ -132,7 +132,8 @@ namespace CalamityMod.Items.Tools
         {
             if (crit)
             {
-                int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				damage /= 2;
+                int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				if (boom.WithinBounds(Main.maxProjectiles))
 					Main.projectile[boom].Calamity().forceMelee = true;
             }

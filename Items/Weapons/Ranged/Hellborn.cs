@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
 			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));

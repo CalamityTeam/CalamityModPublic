@@ -191,7 +191,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Electrified, 90, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

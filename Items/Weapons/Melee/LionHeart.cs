@@ -72,14 +72,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
+			if (crit)
+				damage /= 2;
+
+			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].Calamity().forceMelee = true;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI);
+			if (crit)
+				damage /= 2;
+
+			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].Calamity().forceMelee = true;
         }

@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
+            player.AddBuff(BuffID.Frostburn, 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

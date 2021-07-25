@@ -76,6 +76,13 @@ namespace CalamityMod.Items
 				tooltips.Add(line);
 			}
 
+			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+			if (canFirePointBlankShots)
+			{
+				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+				tooltips.Add(line);
+			}
+
 			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
 			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
 			if (challengeDrop)
@@ -238,8 +245,6 @@ namespace CalamityMod.Items
 		{
 			if (!item.IsAir && AppliedEnchantment.HasValue)
 			{
-				tooltips[0].text = $"{AppliedEnchantment.Value.Name} {tooltips[0].text}";
-
 				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
 				tooltips.Add(descriptionLine);
 			}
@@ -357,7 +362,7 @@ namespace CalamityMod.Items
 
 			// Cobalt
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
-				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 10% on hit");
+				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 25% on hit");
 
 			// Palladium
 			if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
@@ -397,10 +402,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
 				EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
 
-			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 

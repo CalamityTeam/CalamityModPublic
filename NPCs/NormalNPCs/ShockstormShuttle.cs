@@ -386,11 +386,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 			return SpawnCondition.Sky.Chance * 0.1f;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Electrified, 120, true);
-		}
-
 		public override void NPCLoot()
 		{
 			DropHelper.DropItemCondition(npc, ItemID.MartianConduitPlating, NPC.downedGolemBoss, 1, 10, 30);

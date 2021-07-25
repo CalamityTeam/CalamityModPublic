@@ -6,7 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs.Crags
 {
     public class HeatSpirit : ModNPC
     {
@@ -32,16 +32,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<HeatSpiritBanner>();
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.playerSafe || !Main.hardMode)
-            {
-                return 0f;
-            }
-            return SpawnCondition.Underworld.Chance * 0.065f;
-        }
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			return spawnInfo.player.Calamity().ZoneCalamity ? 0.125f : 0f;
+		}
 
-        public override void FindFrame(int frameHeight)
+		public override void FindFrame(int frameHeight)
         {
             if (npc.velocity.X < 0f)
             {
@@ -73,7 +69,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 120, true);
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
@@ -94,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), 0.25f);
-        }
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 4, 1, 1);
+		}
     }
 }

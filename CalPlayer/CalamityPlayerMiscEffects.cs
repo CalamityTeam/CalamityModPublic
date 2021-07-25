@@ -297,8 +297,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.rageGainCooldown > 0)
 				--modPlayer.rageGainCooldown;
 			
-						// This is how much Rage will be changed by this frame.
-						float rageDiff = 0;
+			// This is how much Rage will be changed by this frame.
+			float rageDiff = 0;
 
 			// If the player equips multiple rage generation accessories they get the max possible effect without stacking any of them.
 			{
@@ -407,42 +407,47 @@ namespace CalamityMod.CalPlayer
 
 			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
 
-						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-						if (modPlayer.rageModeActive)
+			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+			if (modPlayer.rageModeActive)
 				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
 
 			// If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
 			else if (!modPlayer.rageModeActive && rageFading)
 				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
-						// Apply the rage change and cap rage in both directions.
-						modPlayer.rage += rageDiff;
-						if (modPlayer.rage < 0)
-							modPlayer.rage = 0;
+			// Apply the rage change and cap rage in both directions.
+			modPlayer.rage += rageDiff;
+			if (modPlayer.rage < 0)
+				modPlayer.rage = 0;
 
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-				// Rage IS NOT capped while active. It can go above 100%.
+			if (modPlayer.rage >= modPlayer.rageMax)
+			{
+				// If Rage is not active, it is capped at 100%.
 				if (!modPlayer.rageModeActive)
-							modPlayer.rage = modPlayer.rageMax;
+					modPlayer.rage = modPlayer.rageMax;
 
-							// Play a sound when the Rage Meter is full
-							if (modPlayer.playFullRageSound)
-							{
-								modPlayer.playFullRageSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullRageSound = true;
+				// If using the Shattered Community, Rage is capped at 200% while it's active.
+				// This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
+				else if (modPlayer.shatteredCommunity && modPlayer.rage >= 2f * modPlayer.rageMax)
+					modPlayer.rage = 2f * modPlayer.rageMax;
 
-						// This is how much Adrenaline will be changed by this frame.
-						float adrenalineDiff = 0;
-						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+				// Play a sound when the Rage Meter is full
+				if (modPlayer.playFullRageSound)
+				{
+					modPlayer.playFullRageSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullRageSound = true;
 
-						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-						if (modPlayer.adrenalineModeActive)
+			// This is how much Adrenaline will be changed by this frame.
+			float adrenalineDiff = 0;
+			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+
+			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+			if (modPlayer.adrenalineModeActive)
 				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
 
 						else
@@ -2564,7 +2569,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-					player.statDefense -= 10;
+				player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
@@ -3049,33 +3054,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				player.meleeDamage += damageBoost;
-			}
+				player.meleeDamage += modPlayer.warBannerBonus;
 
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
@@ -3751,35 +3730,8 @@ namespace CalamityMod.CalPlayer
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
 					(player.kbGlove ? 0.1 : 0) +
 					(modPlayer.eGauntlet ? 0.1 : 0) +
-					(modPlayer.yInsignia ? 0.1 : 0);
-			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				damageAdd += damageBoost;
-			}
+					(modPlayer.yInsignia ? 0.1 : 0) +
+					(modPlayer.badgeOfBraveryRare ? modPlayer.warBannerBonus : 0);
 			modPlayer.trueMeleeDamage += damageAdd;
 
 			// Amalgam boosts

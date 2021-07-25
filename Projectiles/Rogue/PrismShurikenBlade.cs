@@ -17,12 +17,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
 			projectile.extraUpdates = 1;
-            projectile.timeLeft = 360;
+            projectile.timeLeft = projectile.MaxUpdates * 300;
         }
 
         public override void AI()
 		{
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 850f, 14.5f, 35f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 850f, 19f, 30f);
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 		}
 

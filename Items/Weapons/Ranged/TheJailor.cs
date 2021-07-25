@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item14;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PrismMine>();
-            item.shootSpeed = 11f;
+            item.shootSpeed = 14.5f;
             item.useAmmo = AmmoID.Bullet;
         }
 

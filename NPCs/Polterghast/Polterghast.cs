@@ -340,9 +340,14 @@ namespace CalamityMod.NPCs.Polterghast
 			Vector2 rotationVector = lookAt - vector;
 
 			// Rotation
-			float num740 = player.Center.X + predictionVector.X - vector.X;
-			float num741 = player.Center.Y + predictionVector.Y - vector.Y;
-			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
+			if (calamityGlobalNPC.newAI[3] == 0f)
+			{
+				float num740 = player.Center.X + predictionVector.X - vector.X;
+				float num741 = player.Center.Y + predictionVector.Y - vector.Y;
+				npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
+			}
+			else
+				npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
 
 			if (!chargePhase)
 			{
