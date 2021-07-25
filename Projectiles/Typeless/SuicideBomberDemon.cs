@@ -76,8 +76,6 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(Owner.Center) * 16f, 1.4f);
                 projectile.spriteDirection = (Owner.Center.X > projectile.Center.X).ToDirectionInt();
-                if (projectile.Hitbox.Intersects(Owner.Hitbox))
-                    projectile.Kill();
             }
             else if (projectile.friendly)
             {
@@ -88,11 +86,7 @@ namespace CalamityMod.Projectiles.Typeless
                 {
                     projectile.spriteDirection = (potentialTarget.Center.X > projectile.Center.X).ToDirectionInt();
                     projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(potentialTarget.Center) * 18.5f, 3f);
-                    if (projectile.Hitbox.Intersects(potentialTarget.Hitbox))
-                    {
-                        projectile.Damage();
-                        projectile.Kill();
-                    }
+                    projectile.friendly = true;
                 }
             }
         }
@@ -114,5 +108,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         // Ensure damage is not absolutely obscene when hitting players.
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 95;
+
+        public override void OnHitPlayer(Player target, int damage, bool crit) => projectile.Kill();
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.Kill();
     }
 }
