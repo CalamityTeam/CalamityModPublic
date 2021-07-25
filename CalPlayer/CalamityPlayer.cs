@@ -7020,12 +7020,16 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, player.whoAmI);
+
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().forceTypeless = true; //in case melee/rogue variants bug out
+
+                    // Handle AI edge-cases.
                     if (item.type == ModContent.ItemType<FinalDawn>())
-                    {
                         Main.projectile[p].ai[1] = 1f;
-                    }
+                    if (item.type == ModContent.ItemType<TheAtomSplitter>())
+                        Main.projectile[p].ai[0] = -1f;
+
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
