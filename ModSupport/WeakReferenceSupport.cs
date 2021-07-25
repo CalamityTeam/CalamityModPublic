@@ -424,7 +424,7 @@ namespace CalamityMod
 				int summon = ItemType<AncientMedallion>();
 				List<int> loot = new List<int>() { ItemType<RavagerBag>(), ItemType<FleshyGeodeT1>(), ItemType<FleshyGeodeT2>(), ItemType<UltimusCleaver>(), ItemType<RealmRavager>(), ItemType<Hematemesis>(), ItemType<SpikecragStaff>(), ItemType<CraniumSmasher>(), ItemType<CorpusAvertor>(), ItemType<BloodPact>(), ItemType<FleshTotem>(), ItemType<BloodflareCore>(), ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<RavagerTrophy>(), ItemType<RavagerMask>(), ItemType<KnowledgeRavager>() };
-				string instructions = $"Use an [i:{summon}]";
+				string instructions = $"Use a [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The automaton of misshapen victims went looking for the true perpetrator.", new Color(0xB2, 0x22, 0x22));
 				string bossLogTex = "CalamityMod/NPCs/Ravager/Ravager_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Ravager", order, segments, DownedRavager, summon, loot, collection, instructions, despawn, bossLogTex);
