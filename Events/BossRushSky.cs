@@ -96,7 +96,7 @@ namespace CalamityMod.Events
             }
         }
 
-        public override float GetCloudAlpha() => GetIntensity();
+        public override float GetCloudAlpha() => 1f - GetIntensity();
 
         public override void Activate(Vector2 position, params object[] args) => CurrentlyActive = true;
 
