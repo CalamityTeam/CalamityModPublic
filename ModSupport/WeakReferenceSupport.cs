@@ -29,6 +29,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -103,6 +104,7 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
+		public static readonly Func<bool> DownedAdultEidolonWyrm = () => CalamityWorld.downedAdultEidolonWyrm;
 
 		public static readonly Func<bool> DownedAcidRainInitial = () => CalamityWorld.downedEoCAcidRain;
 		public static readonly Func<bool> DownedAcidRainHardmode = () => CalamityWorld.downedAquaticScourgeAcidRain;
@@ -140,6 +142,7 @@ namespace CalamityMod
 			{ "Yharon", 18f },
 			// { "Draedon", 18.5f },
 			{ "SupremeCalamitas", 19f },
+			{ "AdultEidolonWyrm", 19.5f },
 			// { "Yharim", 20f },
 			// { "Noxus", 120f },
 			// { "Xeroc", 121f },
@@ -484,7 +487,7 @@ namespace CalamityMod
 			// Ceaseless Void
 			{
 				BossDifficulty.TryGetValue("CeaselessVoid", out float order);
-				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>(), NPCType<DarkEnergy2>(), NPCType<DarkEnergy3>() };
+				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
 				int summon = ItemType<RuneofCos>();
 				List<int> loot = new List<int>() { ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<ArcanumoftheVoid>(), ItemType<TheEvolution>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<KnowledgeSentinels>() };
@@ -564,7 +567,6 @@ namespace CalamityMod
 				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<FoxDrive>() };
 				string instructions = $"Use a [i:{summon}] in the Jungle Biome";
-				// TODO -- this setup code is only run once, so the despawn message can't be changed post-eclipse. Find a way around this.
 				string despawn = CalamityUtils.ColorMessage("Yharon found you too weak to stay near your gravestone.", new Color(0xFF, 0xA5, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/Yharon/Yharon_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Yharon", order, type, DownedYharon, summon, loot, collection, instructions, despawn, bossLogTex);
@@ -575,11 +577,23 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
 				int type = NPCType<SupremeCalamitas>();
 				int summon = ItemType<EyeofExtinction>();
-				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Animus>(), ItemType<Azathoth>(), ItemType<Contagion>(), ItemType<CrystylCrusher>(), ItemType<Judgement>(), ItemType<DraconicDestruction>(), ItemType<Earth>(), ItemType<Endogenesis>(), ItemType<Fabstaff>(), ItemType<RoyalKnivesMelee>(), ItemType<NanoblackReaperRogue>(), ItemType<RedSun>(), ItemType<ScarletDevil>(), ItemType<SomaPrime>(), ItemType<BlushieStaff>(), ItemType<Svantechnical>(), ItemType<BensUmbrella>(), ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ItemType<Megafleet>(), ItemType<PrototypeAndromechaRing>(), ItemType<Vehemenc>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
 				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summon, loot, collection, instructions, despawn);
+			}
+
+			// Adult Eidolon Wyrm
+			{
+				BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
+				int type = NPCType<EidolonWyrmHeadHuge>();
+				int summon = ItemID.RodofDiscord;
+				List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenite>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>() };
+				List<int> collection = new List<int>() { ItemType<HalibutCannon>() };
+				string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
+				string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
+				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn);
 			}
 		}
 		

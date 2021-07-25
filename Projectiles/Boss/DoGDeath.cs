@@ -1,9 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class DoGDeath : ModProjectile
@@ -13,10 +15,12 @@ namespace CalamityMod.Projectiles.Boss
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public Vector2 OldVelocity;
         public const float TelegraphTotalTime = 75f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 4200f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Death Beam");
@@ -35,12 +39,13 @@ namespace CalamityMod.Projectiles.Boss
             projectile.extraUpdates = 1;
             projectile.timeLeft = 300;
             cooldownSlot = 1;
-        }
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(OldVelocity);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             OldVelocity = reader.ReadVector2();
@@ -69,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
                 // If an old velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (OldVelocity != Vector2.Zero)
                 {
-                    projectile.velocity = OldVelocity;
+                    projectile.velocity = OldVelocity * (CalamityWorld.malice ? 1.25f : 1f);
                     OldVelocity = Vector2.Zero;
                     projectile.netUpdate = true;
                 }
@@ -86,11 +91,12 @@ namespace CalamityMod.Projectiles.Boss
             TelegraphDelay++;
         }
 
-        public override bool CanDamage() => TelegraphDelay > TelegraphTotalTime;
+        public override bool CanHitPlayer(Player target) => TelegraphDelay > TelegraphTotalTime;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+			if (TelegraphDelay > TelegraphTotalTime)
+				target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

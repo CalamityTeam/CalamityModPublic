@@ -95,14 +95,14 @@ namespace CalamityMod.NPCs.Yharon
                     color38 *= (float)(num153 - num155) / 15f;
                     Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
                     vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
                 }
             }
 
             Vector2 vector43 = npc.Center - Main.screenPosition;
             vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
 
             return false;
@@ -125,11 +125,6 @@ namespace CalamityMod.NPCs.Yharon
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
     }
 }

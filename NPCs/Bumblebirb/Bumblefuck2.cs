@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(9000, 11250, 50000); // Old HP - 12000, 15000
+            npc.LifeMaxNERB(9000, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
             npc.lavaImmune = true;
             npc.noGravity = true;
@@ -300,10 +300,11 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-		public override bool PreNPCLoot() => !CalamityPlayer.areThereAnyDamnBosses;
-
 		public override void NPCLoot()
 		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return;
+
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
 		}
 
@@ -343,14 +344,14 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;

@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.NPCs;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -58,6 +59,8 @@ namespace CalamityMod.Buffs
 			{
 				if (npc.Calamity().webbed < npc.buffTime[buffIndex])
 					npc.Calamity().webbed = npc.buffTime[buffIndex];
+				if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+					npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().webbed;
 				npc.DelBuff(buffIndex);
 				buffIndex--;
 			}
@@ -65,7 +68,9 @@ namespace CalamityMod.Buffs
             {
                 if (npc.Calamity().slowed < npc.buffTime[buffIndex])
                     npc.Calamity().slowed = npc.buffTime[buffIndex];
-                npc.DelBuff(buffIndex);
+				if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+					npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().slowed;
+				npc.DelBuff(buffIndex);
                 buffIndex--;
             }
             if (type == BuffID.Electrified)
@@ -84,6 +89,10 @@ namespace CalamityMod.Buffs
 			//Vanilla buffs
             switch (type)
             {
+				case BuffID.Archery:
+					tip = "20% increased arrow speed and 1.05x arrow damage";
+					break;
+
 				case BuffID.Swiftness:
 					tip = "15% increased movement speed";
 					break;
@@ -104,7 +113,19 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
-                case BuffID.BeetleEndurance1:
+				case BuffID.BeetleMight1:
+					tip = "Melee damage and speed increase by 5%";
+					break;
+
+				case BuffID.BeetleMight2:
+					tip = "Melee damage and speed increase by 10%";
+					break;
+
+				case BuffID.BeetleMight3:
+					tip = "Melee damage and speed increase by 15%";
+					break;
+
+				case BuffID.BeetleEndurance1:
                     tip = "Damage taken reduced by 10%";
                     break;
 

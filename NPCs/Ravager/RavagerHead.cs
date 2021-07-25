@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 450000;
+                npc.lifeMax = 45000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -51,9 +51,9 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool death = CalamityWorld.death || malice;
 
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
@@ -65,25 +65,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            float speed = 21f;
-            float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npc.Center.X;
-            float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npc.Center.Y;
-            centerY -= 20f;
-            centerX += 1f;
-            float totalSpeed = (float)Math.Sqrt(centerX * centerX + centerY * centerY);
-            if (totalSpeed < 20f)
-            {
-                npc.rotation = 0f;
-                npc.velocity.X = centerX;
-                npc.velocity.Y = centerY;
-            }
-            else
-            {
-                totalSpeed = speed / totalSpeed;
-                npc.velocity.X = centerX * totalSpeed;
-                npc.velocity.Y = centerY * totalSpeed;
-                npc.rotation = npc.velocity.X * 0.1f;
-            }
+			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);
 
             if (npc.alpha > 0)
             {
@@ -118,17 +100,11 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
 
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => false;
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life > 0)
             {

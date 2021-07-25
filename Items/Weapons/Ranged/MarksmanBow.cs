@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 27;
+            item.damage = 30;
             item.ranged = true;
             item.width = 36;
             item.height = 110;
@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
             item.rare = ItemRarityID.Yellow;
             item.Calamity().donorItem = true;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				int randomExtraUpdates = Main.rand.Next(3);
                 float SpeedX = speedX + Main.rand.NextFloat(-10f, 10f) * 0.05f;
                 float SpeedY = speedY + Main.rand.NextFloat(-10f, 10f) * 0.05f;
-                int arrow = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int arrow = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[arrow].noDropItem = true;
 				Main.projectile[arrow].extraUpdates += randomExtraUpdates; //0 to 2 extra updates
 				if (type == ProjectileID.JestersArrow)

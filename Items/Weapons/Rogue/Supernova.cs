@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 2250;
+            item.damage = 675;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;
@@ -43,6 +43,7 @@ Stealth strikes release energy as they fly");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 0.9f);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;

@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 60;
             item.height = 64;
 			item.scale = 1.5f;
-            item.damage = 53;
+            item.damage = 70;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -80,15 +80,13 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 20);
-            recipe.AddIngredient(ItemID.OrichalcumHalberd);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 20);
-            recipe.AddIngredient(ItemID.MythrilHalberd);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
+            recipe.AddIngredient(ItemID.TitaniumBar, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

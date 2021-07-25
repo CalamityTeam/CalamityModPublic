@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryophobia");
-            Tooltip.SetDefault("Chill");
+            Tooltip.SetDefault("Chill\n" +
+				"Fires an icy wave that splits multiple times and explodes into shards");
         }
 
         public override void SetDefaults()
@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 18;
             item.width = 56;
             item.height = 34;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 28;
+            item.useAnimation = 28;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;

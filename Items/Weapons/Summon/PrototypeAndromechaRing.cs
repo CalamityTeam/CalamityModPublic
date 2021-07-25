@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 200;
-            item.damage = 9999;
+            item.damage = 1999;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.width = item.height = 28;
             item.useTime = item.useAnimation = 10;

@@ -30,7 +30,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -86,16 +87,16 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+
             if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
                 return;
-            }
+
             Player player = Main.player[projectile.owner];
+
 			int chance = 3;
 			if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
-			{
 				chance = 6;
-			}
+
             if (Main.rand.NextBool(chance))
             {
                 player.statLife += 1;

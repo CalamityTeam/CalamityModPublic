@@ -34,9 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = null;
 			npc.rarity = 2;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
+            music = CalamityMod.Instance.GetMusicFromMusicMod("SirenLure") ?? -1;
         }
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -94,7 +92,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			Vector2 drawPos = npc.Center - Main.screenPosition;
 			drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(drawTex, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			drawTex = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
@@ -111,7 +109,8 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.AnyNPCs(npc.type) ||
                 NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
-                spawnInfo.player.Calamity().ZoneSulphur)
+                spawnInfo.player.Calamity().ZoneSulphur ||
+				NPC.LunarApocalypseIsUp)
             {
                 return 0f;
             }

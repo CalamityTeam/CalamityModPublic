@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 480;
             projectile.aiStyle = 1;
             aiType = ProjectileID.WoodenArrowFriendly;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -41,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.tileCollide = true;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.3f / 255f);
+            Lighting.AddLight(projectile.Center, 0f, 0.15f, 0.3f);
             projectile.velocity.X *= 0.99f;
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,14 +47,15 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override bool PreAI()
 		{
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-
 			if (start)
 			{
 				start = false;
 
-				for (int num621 = 0; num621 < 5; num621++)
-					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+				for (int i = 0; i < 10; i++)
+				{
+					int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
+					Main.dust[dust].noGravity = true;
+				}
 
 				npc.ai[1] = npc.ai[0];
 			}
@@ -91,7 +92,8 @@ namespace CalamityMod.NPCs.Polterghast
 						int type = ModContent.ProjectileType<PhantomMine>();
 						int damage = npc.GetProjectileDamage(type);
 						float maxVelocity = 8f * tileEnrageMult;
-						Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, 0f);
+						float acceleration = 1.05f + (tileEnrageMult - 1f) * 0.1f;
+						Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, acceleration);
 					}
 					npc.ai[2] = 0f;
 				}
@@ -142,14 +144,14 @@ namespace CalamityMod.NPCs.Polterghast
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;

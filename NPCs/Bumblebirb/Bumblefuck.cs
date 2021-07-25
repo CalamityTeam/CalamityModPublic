@@ -48,16 +48,12 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.DR_NERD(0.1f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(170625, 189375, 3000000); // Old HP - 227500, 252500
+			npc.LifeMaxNERB(170625, 189375, 300000); // Old HP - 227500, 252500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-			if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Murderswarm");
-            else
-                music = MusicID.Boss4;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("Murderswarm") ?? MusicID.Boss4;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 30, 0, 0);
@@ -73,6 +69,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 			writer.Write(npc.localAI[1]);
 			writer.Write(npc.localAI[2]);
 			writer.Write(npc.localAI[3]);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,6 +80,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
 			npc.localAI[3] = reader.ReadSingle();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -99,11 +99,15 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
@@ -184,11 +188,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
@@ -256,7 +264,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -311,7 +319,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color39 *= 1f - num157;
 					Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 					vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector42 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -321,7 +329,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			color2 = npc.GetAlpha(color2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (phase2)
@@ -352,7 +360,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 						color41 *= (float)(num153 - num163) / 15f;
 						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 						vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-						vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 
@@ -364,7 +372,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 						color42 *= 1f - num157;
 						Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 						vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-						vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector45 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 				}
@@ -399,7 +407,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
 

@@ -29,7 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.light = 0.5f;
             projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -91,7 +92,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                 return;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<TransfusionTrail>(), 1200f, 1.5f);
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<TransfusionTrail>(), 1200f, 3f);
         }
     }
 }

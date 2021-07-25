@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arrow");
+            DisplayName.SetDefault("Green Exo Arrow");
         }
 
         public override void SetDefaults()
@@ -21,10 +20,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 3;
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.arrow = true;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()

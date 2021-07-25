@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 20;
             projectile.friendly = true;
             projectile.melee = true;
+			projectile.ignoreWater = true;
 			projectile.alpha = 255;
 			projectile.penetrate = 2;
             projectile.aiStyle = 14;
@@ -63,7 +64,6 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

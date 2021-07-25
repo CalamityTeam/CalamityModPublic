@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = 9;
             item.ranged = true;
             item.width = 20;
             item.height = 54;
@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

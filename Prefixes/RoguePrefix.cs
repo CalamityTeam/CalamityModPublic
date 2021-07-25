@@ -64,7 +64,7 @@ namespace CalamityMod.Prefixes
 			ModItem moddedItem = item.modItem;
 			if (moddedItem != null && moddedItem is RogueWeapon rogueWep)
 			{
-				rogueWep.StealthStrikeDamage = stealthDmgMult;
+				rogueWep.StealthStrikePrefixBonus = stealthDmgMult;
 			}
 		}
 

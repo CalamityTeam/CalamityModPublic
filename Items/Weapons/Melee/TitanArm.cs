@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 46;
             item.height = 58;
-            item.damage = 60;
-			item.scale = 1.5f;
+            item.damage = 69;
+			item.scale = 1.75f;
             item.knockBack = 20f; //This number doesn't mean anything, but it's not 9001f because that caused bugs.
             item.useAnimation = item.useTime = 12;
             item.melee = true;

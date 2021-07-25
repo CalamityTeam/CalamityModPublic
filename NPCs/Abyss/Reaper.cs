@@ -627,9 +627,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Darkness, 300, true);
-            player.AddBuff(BuffID.Bleeding, 300, true);
-            player.AddBuff(BuffID.Rabies, 300, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
@@ -649,7 +646,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
             DropHelper.DropItem(npc, ModContent.ItemType<AnechoicCoating>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);

@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace CalamityMod.Items
 {
@@ -40,6 +42,10 @@ namespace CalamityMod.Items
 			// If the item has a stealth generation prefix, show that on the tooltip.
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
+
+			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
+			// tooltip list.
+			EnchantmentTooltips(item, tooltips);
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
@@ -70,6 +76,13 @@ namespace CalamityMod.Items
 				tooltips.Add(line);
 			}
 
+			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+			if (canFirePointBlankShots)
+			{
+				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+				tooltips.Add(line);
+			}
+
 			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
 			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
 			if (challengeDrop)
@@ -82,7 +95,7 @@ namespace CalamityMod.Items
 		{
 			// Apply standard post-ML rarities to the item's color first.
 			Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
-			if (standardRarityColor.HasValue)
+			if (!item.expert && standardRarityColor.HasValue)
 				nameLine.overrideColor = standardRarityColor.Value;
 
 			#region Uniquely Colored Developer Items
@@ -124,6 +137,15 @@ namespace CalamityMod.Items
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
 			if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
+			if (item.type == ModContent.ItemType<AngelicAlliance>())
+			{
+				nameLine.overrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTime / 2f % 1f, new Color[]
+				{
+					new Color(255, 196, 55),
+					new Color(255, 231, 107),
+					new Color(255, 254, 243)
+				});
+			}
 
 			// TODO -- for cleanliness, ALL color math should either be a one-line color swap or inside the item's own file
 			// The items that currently violate this are all below:
@@ -209,12 +231,23 @@ namespace CalamityMod.Items
 				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
 			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
-			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop";
+			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
 			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
 			{
 				overrideColor = lineColor
 			};
 			tooltips.Add(line);
+		}
+		#endregion
+
+		#region Enchantment Tooltips
+		private void EnchantmentTooltips(Item item, IList<TooltipLine> tooltips)
+		{
+			if (!item.IsAir && AppliedEnchantment.HasValue)
+			{
+				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
+				tooltips.Add(descriptionLine);
+			}
 		}
 		#endregion
 
@@ -255,6 +288,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.RodofDiscord)
 				EditTooltipByNum(0, (line) => line.text += "\nTeleportation is disabled while Chaos State is active");
 
+			// Indicate that the Ankh Shield provides sandstorm wind push immunity
+			if (item.type == ItemID.AnkhShield)
+				EditTooltipByNum(1, (line) => line.text += ", including Mighty Wind");
+
 			// Water removing items cannot be used in the Abyss
 			string noAbyssLine = "\nCannot be used in the Abyss";
 			if (item.type == ItemID.SuperAbsorbantSponge)
@@ -278,6 +315,10 @@ namespace CalamityMod.Items
 					immunityLine += "\nProvides cold protection in Death Mode";
 				EditTooltipByNum(0, (line) => line.text += immunityLine);
 			}
+
+			// Nerfed Archery Potion tooltip
+			if (item.type == ItemID.ArcheryPotion)
+				EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
 
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
@@ -309,7 +350,7 @@ namespace CalamityMod.Items
 			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
-				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown} second cooldown which is shared with all other dodges and reflects";
+				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
 			if (item.type == ItemID.BlackBelt)
 				EditTooltipByNum(0, (line) => line.text = beltDodgeLine);
 			if (item.type == ItemID.MasterNinjaGear)
@@ -321,7 +362,7 @@ namespace CalamityMod.Items
 
 			// Cobalt
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
-				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 10% on hit");
+				EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 25% on hit");
 
 			// Palladium
 			if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
@@ -361,10 +402,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
 				EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
 
-			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 
@@ -444,9 +485,63 @@ namespace CalamityMod.Items
 			// Rebalances to vanilla item stats
 			#region Vanilla Item Rebalance Tooltips
 
+			// Reduce DD2 armor piece bonuses because they're overpowered
+			// Squire armor
+			if (item.type == ItemID.SquirePlating)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+			if (item.type == ItemID.SquireGreaves)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
+				"15% increased movement speed");
+
+			// Monk armor
+			if (item.type == ItemID.MonkBrows)
+				EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 1 and increases melee attack speed by 10%");
+			if (item.type == ItemID.MonkShirt)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+			if (item.type == ItemID.MonkPants)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Huntress armor
+			if (item.type == ItemID.HuntressJerkin)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion and ranged damage\n" +
+				"10% chance to not consume ammo");
+
+			// Apprentice armor
+			if (item.type == ItemID.ApprenticeTrousers)
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and magic critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Valhalla Knight armor
+			if (item.type == ItemID.SquireAltShirt)
+				EditTooltipByNum(0, (line) => line.text = "30% increased minion damage and increased life regeneration");
+			if (item.type == ItemID.SquireAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+				"20% increased movement speed");
+
+			// Shinobi Infiltrator armor
+			if (item.type == ItemID.MonkAltHead)
+				EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 2\n" +
+				"10% increased melee and minion damage");
+			if (item.type == ItemID.MonkAltShirt)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee speed\n" +
+				"5% increased melee critical strike chance");
+			if (item.type == ItemID.MonkAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+				"30% increased movement speed");
+
+			// Red Riding armor
+			if (item.type == ItemID.HuntressAltShirt)
+				EditTooltipByNum(0, (line) => line.text = "15% increased minion and ranged damage and 20% chance to not consume ammo");
+
+			// Dark Artist armor
+			if (item.type == ItemID.ApprenticeAltPants)
+				EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and magic critical strike chance\n" +
+				"20% increased movement speed");
+
 			// Worm Scarf only gives 10% DR instead of 17%
 			if (item.type == ItemID.WormScarf)
-				EditTooltipByNum(0, (line) => line.text = line.text = line.text.Replace("17%", "10%"));
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace("17%", "10%"));
 
 			if (item.type == ItemID.TitanGlove)
 				EditTooltipByNum(0, (line) => line.text += "\n10% increased true melee damage");
@@ -890,6 +985,39 @@ namespace CalamityMod.Items
 				};
 				tooltips.Add(StealthGen);
 			}
+		}
+		#endregion
+
+		#region Enchanted Rarity Text Drawing
+		public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
+		{
+			// Special enchantment line color.
+			if (line.Name == "ItemName" && line.mod == "Terraria" && item.IsEnchanted())
+			{
+				Color rarityColor = line.overrideColor ?? line.color;
+				Vector2 basePosition = new Vector2(line.X, line.Y);
+
+				float backInterpolant = (float)Math.Pow(Main.GlobalTime * 0.81f % 1f, 1.5f);
+				Vector2 backScale = line.baseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
+				Color backColor = Color.Lerp(rarityColor, Color.DarkRed, backInterpolant) * (float)Math.Pow(1f - backInterpolant, 0.46f);
+				Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+				// Draw the back text as an ominous pulse.
+				for (int i = 0; i < 2; i++)
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, backPosition, backColor, line.rotation, line.origin, backScale, line.maxWidth, line.spread);
+
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin();
+
+				// Draw the front text as usual.
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, basePosition, rarityColor, line.rotation, line.origin, line.baseScale, line.maxWidth, line.spread);
+
+				return false;
+			}
+			return true;
 		}
 		#endregion
 

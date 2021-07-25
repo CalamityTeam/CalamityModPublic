@@ -12,7 +12,7 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Relic of Convergence");
             Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
-                               "At the end of its life, the crystal heals the player");
+                               "At the end of its life, the crystal heals the player for 70 HP");
         }
 
         public override void SetDefaults()

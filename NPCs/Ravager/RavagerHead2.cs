@@ -138,11 +138,6 @@ namespace CalamityMod.NPCs.Ravager
 				num823 *= 1.25f;
 				num824 *= 1.25f;
 			}
-			if (BossRushEvent.BossRushActive)
-			{
-				num823 *= 1.5f;
-				num824 *= 1.5f;
-			}
 
 			Vector2 vector82 = npc.Center;
 			float distanceX = npc.ai[0] % 2f == 0f ? 480f : -480f;
@@ -200,14 +195,8 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
 
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => false;
     }
 }

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.noMelee = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.shoot = ModContent.ProjectileType<MagnusBeam>();
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+			item.shoot = ModContent.ProjectileType<MagnusBeam>();
             item.shootSpeed = 12f;
 			item.Calamity().challengeDrop = true;
 		}

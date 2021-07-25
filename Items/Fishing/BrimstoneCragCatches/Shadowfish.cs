@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shadowfish"); //Future potion ingredient
+            DisplayName.SetDefault("Shadowfish");
             Tooltip.SetDefault("Darkness spreads");
         }
 

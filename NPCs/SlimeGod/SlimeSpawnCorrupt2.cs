@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax = 90;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 50000;
+                npc.lifeMax = 5000;
             }
             npc.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -59,7 +58,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Weak, 90, true);
-        }
+			player.AddBuff(BuffID.Weak, 90, true);
+		}
     }
 }

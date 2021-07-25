@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (!target.friendly)
             {
-                target.AddBuff(ModContent.BuffType<Eutrophication>(), 300);
+                target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
             }
         }
     }

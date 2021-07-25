@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 73;
+            item.damage = 80;
             item.ranged = true;
             item.width = 38;
             item.height = 62;
@@ -32,12 +32,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<IcicleArrowProj>();
             item.shootSpeed = 11f;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
 			float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-			int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockBack, player.whoAmI, 0f, 0f);
+			int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockBack, player.whoAmI);
 			Main.projectile[index].noDropItem = true;
 
             return true;

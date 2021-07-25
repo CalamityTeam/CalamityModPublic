@@ -41,22 +41,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int projDamage = (int)(item.damage * player.MeleeDamage());
+			if (crit)
+				damage /= 2;
+
             bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || 
                 target.type == ModContent.NPCType<DevourerofGodsBody2>() || 
                 target.type == ModContent.NPCType<DevourerofGodsBodyS>();
             if (!isDoGSegment || Main.rand.NextBool(3))
             {
-                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
-                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 1);
+                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, damage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
+                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, damage, knockback, 1);
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int projDamage = (int)(item.damage * player.MeleeDamage());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, projDamage, item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, projDamage, item.knockBack, 1);
+			if (crit)
+				damage /= 2;
+
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 1);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

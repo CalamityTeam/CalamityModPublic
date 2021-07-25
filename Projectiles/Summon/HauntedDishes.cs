@@ -590,12 +590,9 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
         {
 			int index = Gore.NewGore(new Vector2(projectile.position.X - (float) (projectile.width / 2), projectile.position.Y - (float) (projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), projectile.scale);
 			Main.gore[index].velocity *= 0.1f;

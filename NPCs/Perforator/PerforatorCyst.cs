@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorCystGlow");
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Perforator
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			bool crimson = TileID.Sets.Crimson[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Crimtane && spawnInfo.player.ZoneCrimson;
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || !crimson)
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || !crimson || NPC.LunarApocalypseIsUp)
             {
                 return 0f;
             }

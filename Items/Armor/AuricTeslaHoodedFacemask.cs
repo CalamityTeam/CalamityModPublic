@@ -58,7 +58,10 @@ namespace CalamityMod.Items.Armor
                 player.statDefense += 30;
                 player.lifeRegen += 10;
             }
-        }
+
+			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+				modPlayer.dashMod = 9;
+		}
 
         public override void UpdateEquip(Player player)
         {

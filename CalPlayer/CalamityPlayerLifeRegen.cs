@@ -1,10 +1,11 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -21,13 +22,13 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
 				modPlayer.noLifeRegen = true;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.malice || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
 			if (modPlayer.reaverDefense)
 				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
-			// Initial Debuffs
+            // Initial Debuffs
 
 			// Get fucked, Nebula Armor
 			player.nebulaLevelLife = 0;
@@ -93,6 +94,15 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
 				lifeRegenLost += 16;
             }
+
+			if (modPlayer.weakBrimstoneFlames)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				lifeRegenLost += 5;
+			}
 
             if (modPlayer.bFlames)
             {
@@ -207,6 +217,15 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
 				lifeRegenLost += 16;
             }
+
+            if (modPlayer.banishingFire)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+				lifeRegenLost += 60;
+			}
 
 			if (modPlayer.waterLeechBleeding)
 			{
@@ -390,11 +409,37 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
                 lifeRegenLost += 42; //the meaning of death
-            }
+			}
+
+			if (modPlayer.witheredDebuff)
+			{
+				modPlayer.witheredWeaponHoldTime += modPlayer.witheringWeaponEnchant.ToDirectionInt();
+				if (modPlayer.witheredWeaponHoldTime < 0)
+				{
+					modPlayer.witheredWeaponHoldTime = 0;
+				}
+				else
+				{
+					lifeRegenLost += (int)(5D * Math.Pow(1.5D, modPlayer.witheredWeaponHoldTime / 87D));
+					if (player.lifeRegen > 0)
+						player.lifeRegen = 0;
+				}
+			}
+			else
+				modPlayer.witheredWeaponHoldTime = 0;
 
 			player.lifeRegen -= (int)(lifeRegenLost * lifeRegenMult);
 
 			// Buffs
+
+			if (modPlayer.divineBless)
+			{
+				if (player.whoAmI == Main.myPlayer && player.miscCounter % 15 == 0) // Flat 4 health per second
+                {
+					if (!modPlayer.noLifeRegen)
+						player.statLife += 1;
+                }
+            }
 
 			if (modPlayer.bloodfinBoost)
 			{
@@ -410,12 +455,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 5;
 					player.lifeRegenTime += 10;
 				}
+
                 if (modPlayer.bloodfinTimer > 0)
-                { modPlayer.bloodfinTimer--; }
-                if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+					modPlayer.bloodfinTimer--;
+
+				if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
+
+					if (player.statLife < (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
 						player.statLife += 1;
                 }
             }
@@ -561,7 +609,7 @@ namespace CalamityMod.CalPlayer
                     player.mount.Dismount(player);
             }
 
-            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet))
+            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet) || (modPlayer.dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -630,6 +678,11 @@ namespace CalamityMod.CalPlayer
 				}
 				player.lifeRegenTime += 1;
 				player.lifeRegen += 2;
+			}
+			else if (modPlayer.rOoze)
+			{
+				if (!Main.dayTime)
+					player.lifeRegen += 4;
 			}
 
 			if (modPlayer.ursaSergeant)
@@ -745,8 +798,8 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 7;
 
-				if (player.lifeRegenTime < 1800)
-					player.lifeRegenTime = 1800;
+                if (player.lifeRegenTime < 1800)
+                    player.lifeRegenTime = 1800;
 
 				player.lifeRegenTime += 4;
             }
@@ -755,9 +808,11 @@ namespace CalamityMod.CalPlayer
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
 				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+
 				if (modPlayer.pinkCandleHealFraction >= 1D)
 				{
 					modPlayer.pinkCandleHealFraction = 0D;
+
 					if (player.statLife < player.statLifeMax2)
 						player.statLife++;
 				}
@@ -768,6 +823,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
 			{
 				modPlayer.reaverRegenCooldown = 0;
+
 				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
 					player.statLife += 1;
 			}
@@ -925,12 +981,6 @@ namespace CalamityMod.CalPlayer
 						player.lifeRegen = defLifeRegen;
 					}
 				}
-			}
-
-			if (player.lifeRegen > 0)
-			{
-				if (modPlayer.godSlayerCooldown)
-					player.lifeRegen /= 2;
 			}
 
 			if (BossRushEvent.BossRushActive)

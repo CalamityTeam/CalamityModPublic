@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -491,32 +492,7 @@ namespace CalamityMod.CalPlayer
             int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
             if (totalMoonlightDyes <= 0)
                 return;
-            float auroraCount = 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2;
-            float opacity = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
-
-            opacity *= Main.dayTime ? 0.4f : 0.25f;
-
-            float time = Main.GlobalTime % 3f / 3f;
-            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
-            for (int i = 0; i < auroraCount; i++)
-            {
-                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
-                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
-                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
-                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
-                Color color = GetCurrentMoonlightDyeColor(incrementOffsetAngle);
-                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
-                DrawData drawData = new DrawData(auroraTexture,
-                                 drawPlayer.Top + offset - Main.screenPosition,
-                                 null,
-                                 color * opacity,
-                                 rotation + MathHelper.PiOver2,
-                                 auroraTexture.Size() * 0.5f,
-                                 0.135f,
-                                 SpriteEffects.None,
-                                 1);
-                Main.playerDrawData.Add(drawData);
-            }
+			CalamityUtils.DrawAuroras(drawPlayer, 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2, MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f), GetCurrentMoonlightDyeColor());
         });
 
         public static readonly PlayerLayer AuralisAuroraEffects = new PlayerLayer("CalamityMod", "AuralisAurora", PlayerLayer.Body, drawInfo =>
@@ -525,30 +501,16 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.auralisAuroraCounter < 300 || modPlayer.auralisAuroraCooldown > 0)
                 return;
-            float auroraCount = 7;
-            float opacity = 0.4f;
+			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 3f));
+        });
 
-            float time = Main.GlobalTime % 3f / 3f;
-            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
-            for (int i = 0; i < auroraCount; i++)
-            {
-                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
-                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
-                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
-                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
-                Color color = CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 3f);
-                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
-                DrawData drawData = new DrawData(auroraTexture,
-                                 drawPlayer.Top + offset - Main.screenPosition,
-                                 null,
-                                 color * opacity,
-                                 rotation + MathHelper.PiOver2,
-                                 auroraTexture.Size() * 0.5f,
-                                 0.135f,
-                                 SpriteEffects.None,
-                                 1);
-                Main.playerDrawData.Add(drawData);
-            }
+        public static readonly PlayerLayer AngelicAllianceAurora = new PlayerLayer("CalamityMod", "AngelicAllianceAurora", PlayerLayer.Body, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (!modPlayer.divineBless)
+                return;
+			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(new Color(255, 163, 56), new Color(242, 48, 187), 3f));
         });
 
         public static readonly PlayerLayer IbanDevRobot = new PlayerLayer("CalamityMod", "IbanDevRobot", PlayerLayer.Body, drawInfo =>
@@ -706,6 +668,7 @@ namespace CalamityMod.CalPlayer
             list.Add(StratusSphereDrawing);
             list.Add(ProfanedMoonlightDyeEffects);
             list.Add(AuralisAuroraEffects);
+            list.Add(AngelicAllianceAurora);
             list.Add(IbanDevRobot);
             list.Add(DyeInvisibilityFix);
         }
@@ -1030,7 +993,7 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawDust.Add(dust);
                 }
             }
-            if (calamityPlayer.hFlames || calamityPlayer.hInferno)
+            if (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {

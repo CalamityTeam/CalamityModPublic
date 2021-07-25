@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leonid Progenitor");
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			return base.CanUseItem(player);
 		}
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float SafeSetUseTimeMultiplier(Player player)
 		{
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 				return 1f;

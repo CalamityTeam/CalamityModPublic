@@ -2,6 +2,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,11 +11,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class OracleYoyo : ModProjectile
     {
+        public int AuraFrame;
+
         // projectile.localAI[1] is the Aura Charge of the red lightning aura
         // Minimum value is zero. Maximum value is 200.
         // The aura turns on and begins damaging enemies at 20 charge.
         // The yoyo "supercharges" at 50 charge.
         // Its size caps out at 100 charge.
+        public ref float AuraCharge => ref projectile.localAI[1];
+
         private const float MaxCharge = 200f;
         private const float MinAuraRadius = 20f;
         private const float SuperchargeThreshold = 50f;
@@ -26,7 +31,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const int HitsPerOrbVolley = 3;
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
-        private int extraUpdateCounter = 0;
         private const int UpdatesPerFrame = 3;
 
         public override void SetStaticDefaults()
@@ -40,6 +44,18 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(AuraFrame);
+            writer.Write(AuraCharge);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            AuraFrame = reader.ReadInt32();
+            AuraCharge = reader.ReadSingle();
+        }
+
         public override void SetDefaults()
         {
             projectile.aiStyle = 99;
@@ -50,7 +66,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = UpdatesPerFrame;
-
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
         }
@@ -61,8 +76,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				projectile.Kill();
 
             // Only do stuff once per frame, despite the yoyo's extra updates.
-            extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
-            if (extraUpdateCounter != UpdatesPerFrame - 1)
+            if (!projectile.FinalExtraUpdate())
                 return;
 
             // Produces golden dust constantly while in flight. This helps light the yoyo.
@@ -80,21 +94,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Lighting.AddLight(projectile.Center, 0.6f, 0.42f, 0.1f);
 
             // The aura discharges over time based on its current charge.
-            float discharge = MinDischargeRate + DischargeRateScaleFactor * projectile.localAI[1];
+            float discharge = MinDischargeRate + DischargeRateScaleFactor * AuraCharge;
             if (discharge > MaxDischargeRate)
                 discharge = MaxDischargeRate;
-            projectile.localAI[1] -= discharge;
+            AuraCharge -= discharge;
 
             // Boundary checks on aura charge
-            if (projectile.localAI[1] < 0f)
-                projectile.localAI[1] = 0f;
-            if (projectile.localAI[1] > MaxCharge)
-                projectile.localAI[1] = MaxCharge;
+            if (AuraCharge < 0f)
+                AuraCharge = 0f;
+            if (AuraCharge > MaxCharge)
+                AuraCharge = MaxCharge;
 
             // If the aura is large enough to be considered "on", draw it, make sound and damage enemies
-            if (projectile.localAI[1] > MinAuraRadius)
+            if (AuraCharge > MinAuraRadius)
             {
-                float auraRadius = projectile.localAI[1] > MaxAuraRadius ? MaxAuraRadius : projectile.localAI[1];
+                float auraRadius = AuraCharge > MaxAuraRadius ? MaxAuraRadius : AuraCharge;
                 DrawRedLightningAura(auraRadius);
 
                 if (projectile.soundDelay == 0)
@@ -103,13 +117,17 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     Main.PlaySound(SoundID.Item93, (int)projectile.Center.X, (int)projectile.Center.Y);
                 }
 
-                // The aura's direct damage scales with its charge and with melee stats.
-				float chargeRatio = projectile.localAI[1] / MaxCharge;
-                int auraDamage = Oracle.AuraBaseDamage + (int)(chargeRatio * (Oracle.AuraMaxDamage - Oracle.AuraBaseDamage));
-                DealAuraDamage(auraRadius, auraDamage);
+                if (AuraFrame % 5 == 4)
+                {
+                    // The aura's direct damage scales with its charge and with melee stats.
+                    float chargeRatio = AuraCharge / MaxCharge;
+                    int auraDamage = Oracle.AuraBaseDamage + (int)(chargeRatio * (Oracle.AuraMaxDamage - Oracle.AuraBaseDamage));
+                    DealAuraDamage(auraRadius, auraDamage);
+                }
             }
             else
                 projectile.soundDelay = 2;
+            AuraFrame++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -121,10 +139,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Charge up the red lightning aura with every hit
-            projectile.localAI[1] += ChargePerHit;
+            AuraCharge += ChargePerHit;
 
             // Fire Auric orbs every few hits while supercharged.
-            if (projectile.localAI[1] > SuperchargeThreshold && projectile.numHits % HitsPerOrbVolley == 0)
+            if (AuraCharge > SuperchargeThreshold && projectile.numHits % HitsPerOrbVolley == 0)
                 FireAuricOrbs();
         }
 

@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			projectile.width = 24;
 			projectile.height = 24;
+			projectile.ignoreWater = true;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 180;
@@ -73,10 +74,14 @@ namespace CalamityMod.Projectiles.Rogue
 			float heal = damage * 0.05f;
 			if ((int)heal == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
+			if (heal > CalamityMod.lifeStealCap)
+				heal = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
@@ -84,10 +89,14 @@ namespace CalamityMod.Projectiles.Rogue
 			float heal = damage * 0.05f;
 			if ((int)heal == 0)
 				return;
+
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 				return;
 
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 1.5f);
+			if (heal > CalamityMod.lifeStealCap)
+				heal = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], heal, ProjectileID.VampireHeal, 1200f, 3f);
 		}
 	}
 }

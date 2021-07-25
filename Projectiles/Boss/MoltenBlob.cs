@@ -25,11 +25,13 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 900;
             projectile.scale = 1.5f;
             cooldownSlot = 0;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
             projectile.velocity.X *= 0.95f;
+
             if (projectile.wet || projectile.lavaWet)
             {
                 projectile.velocity.Y = 0f;
@@ -38,10 +40,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.velocity.Y += 0.1f;
                 if (projectile.velocity.Y > 5f)
-                {
                     projectile.velocity.Y = 5f;
-                }
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -49,9 +50,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 1)
-            {
                 projectile.frame = 0;
-            }
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -60,14 +59,7 @@ namespace CalamityMod.Projectiles.Boss
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
 		public override Color? GetAlpha(Color lightColor)
 		{

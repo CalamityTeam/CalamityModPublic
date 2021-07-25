@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.ranged = true;
 			projectile.extraUpdates = 4;
 			projectile.timeLeft = Lifetime;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 
 		public override void AI()
@@ -36,15 +37,19 @@ namespace CalamityMod.Projectiles.Ranged
 			Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.15f);
 
 			// Dust
-			int dustID = 90;
-			float scale = Main.rand.NextFloat(0.6f, 0.9f);
-			Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
-			Vector2 posOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * 12f;
-			d.position += posOffset - 2f * Vector2.UnitY;
-			d.noGravity = true;
-			d.velocity *= 0.6f;
-			d.velocity += projectile.velocity * 0.15f;
-			d.scale = scale;
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				int dustID = 90;
+				float scale = Main.rand.NextFloat(0.6f, 0.9f);
+				Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
+				Vector2 posOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * 12f;
+				d.position += posOffset - 2f * Vector2.UnitY;
+				d.noGravity = true;
+				d.velocity *= 0.6f;
+				d.velocity += projectile.velocity * 0.15f;
+				d.scale = scale;
+			}
 		}
 
 		// These bullets glow in the dark.

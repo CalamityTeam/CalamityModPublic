@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 300;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 4000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.Cryogen
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -98,11 +97,6 @@ namespace CalamityMod.NPCs.Cryogen
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

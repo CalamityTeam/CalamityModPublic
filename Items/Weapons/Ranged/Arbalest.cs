@@ -15,22 +15,22 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Arbalest");
             Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
 				"Arrows start off small and grow in size with continuous fire\n" +
-				"Arrow damage and knockback scale with arrow size");
+				"Arrow damage, spread and knockback scale with arrow size");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 32;
+            item.damage = 36;
             item.ranged = true;
-            item.width = 58;
-            item.height = 22;
+            item.width = 82;
+            item.height = 34;
             item.useTime = 7;
 			item.reuseDelay = 30;
             item.useAnimation = 28;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.UseSound = null;
             item.autoReuse = true;
@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
 			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
@@ -55,13 +56,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 					arrowScale += 0.05f;
 			}
 
+			float spreadScale = arrowScale * arrowScale;
+			int spread = (int)(30f * spreadScale);
 			for (int i = 0; i < totalProjectiles; i++)
 			{
-				float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
-				float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
+				float SpeedX = speedX + Main.rand.Next(-spread, spread + 1) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-spread, spread + 1) * 0.05f;
 				int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * arrowScale), knockBack * arrowScale, player.whoAmI);
 				Main.projectile[proj].scale = arrowScale;
-				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].extraUpdates += 1;
 				Main.projectile[proj].noDropItem = true;
 			}
 

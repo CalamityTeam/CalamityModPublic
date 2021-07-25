@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 84;
             item.height = 34;
-            item.useTime = 9;
-            item.useAnimation = 9;
+            item.useTime = item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.5f;
@@ -37,7 +36,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.BlackBolt;
             item.shootSpeed = 28f;
             item.useAmmo = AmmoID.Bullet;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 velocity = new Vector2(speedX, speedY);
 
             // Fire the Onyx Shard that is characteristic of the Onyx Blaster
-            // The shard deals 250% damage and double knockback
-            int shardDamage = (int)(2.5f * damage);
+            // The shard deals 145% damage and double knockback
+            int shardDamage = (int)(1.45f * damage);
             float shardKB = 2f * knockBack;
             Projectile shard = Projectile.NewProjectileDirect(position, velocity, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
             shard.timeLeft = (int)(shard.timeLeft * 1.4f);

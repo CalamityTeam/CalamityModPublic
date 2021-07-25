@@ -104,10 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            }
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

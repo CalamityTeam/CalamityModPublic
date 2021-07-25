@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -20,7 +19,6 @@ using System.IO;
 using System.Threading;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumAureus
@@ -48,18 +46,14 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.height = 280;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.LifeMaxNERB(84000, NPC.downedMoonlord ? 292500 : 107000, 7400000); // 30 seconds in boss rush
+            npc.LifeMaxNERB(84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
@@ -74,14 +68,20 @@ namespace CalamityMod.NPCs.AstrumAureus
 			writer.Write(stomping);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
-        }
+            writer.Write(npc.alpha);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			stomping = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
-        }
+            npc.alpha = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -325,7 +325,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 

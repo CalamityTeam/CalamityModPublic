@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 84;
-            item.damage = 100;
+            item.damage = 180;
             item.melee = true;
-            item.useAnimation = 22;
+            item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
+            item.useTime = 30;
             item.useTurn = true;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
@@ -45,9 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -54,6 +55,8 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 19;
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -214,15 +217,9 @@ namespace CalamityMod.Projectiles.Magic
 		 */
 		private void SetLaserPosition(Player player)
 		{
-			for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
-			{
-				var start = player.Center + projectile.velocity * Distance;
-				if (!Collision.CanHit(player.Center, 1, 1, start, 1, 1))
-				{
-					Distance -= 5f;
-					break;
-				}
-			}
+			float[] samplingPoints = new float[12];
+			Collision.LaserScan(player.Center + projectile.velocity * MOVE_DISTANCE, projectile.velocity, projectile.width * 0.5f, 2200f, samplingPoints);
+			Distance = MathHelper.Max(samplingPoints.Average() + projectile.height * 2f, 40f);
 		}
 
 		private void ChargeLaser(Player player)
@@ -234,7 +231,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else {
 				// Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem().mana, true))
+				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem(), -1, true))
 				{
 					projectile.Kill();
 				}

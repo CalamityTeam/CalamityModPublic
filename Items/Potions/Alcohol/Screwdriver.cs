@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Screwdriver");
             Tooltip.SetDefault(@"Do you have a screw loose?
-Boosts piercing projectile damage by 10%
+Multiplies piercing projectile damage by 1.05
 Reduces life regen by 1");
         }
 

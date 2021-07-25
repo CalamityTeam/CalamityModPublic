@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.melee = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-        }
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 8;
+		}
 
         public override void AI()
         {

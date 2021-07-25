@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 66;
+            item.damage = 73;
             item.ranged = true;
             item.width = 36;
             item.height = 64;
@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     default:
                         break;
                 }
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
             }
             return false;

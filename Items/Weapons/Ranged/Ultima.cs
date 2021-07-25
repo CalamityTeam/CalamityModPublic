@@ -23,11 +23,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 58;
+            item.damage = 116;
             item.ranged = true;
             item.width = 44;
             item.height = 58;
-            item.useTime = item.useAnimation = 3;
+            item.useTime = item.useAnimation = 8;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().donorItem = true;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

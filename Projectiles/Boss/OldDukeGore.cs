@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.timeLeft = 300;
 			projectile.alpha = 255;
 			cooldownSlot = 1;
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
@@ -88,7 +89,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 180, true);
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
 		}
 

@@ -71,9 +71,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = false;
             }
 
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
 			bool flag = false;
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTail2Glow");
@@ -217,7 +217,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90, true);
-            player.AddBuff(BuffID.Frostburn, 90, true);
         }
     }
 }

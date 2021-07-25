@@ -41,11 +41,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.netAlways = true;
             npc.boss = true;
             npc.takenDamageMultiplier = 1.25f;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -57,9 +53,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
 
 			// Target
@@ -167,7 +163,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailGlow");
@@ -251,7 +247,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
-            player.AddBuff(BuffID.Frostburn, 180, true);
 
 			if (player.Calamity().dogTextCooldown <= 0)
 			{

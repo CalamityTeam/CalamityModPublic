@@ -46,9 +46,9 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -300,8 +300,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 120, true);
-            player.AddBuff(BuffID.Venom, 120, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
     }
 }

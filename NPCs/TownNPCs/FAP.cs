@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using System.Collections.Generic;
@@ -388,13 +389,13 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<CirrusRay>();
+            projType = ModContent.ProjectileType<FabRay>();
             attackDelay = 1;
         }
 
         public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
         {
-            multiplier = 2f;
+            multiplier = 11.5f;
         }
     }
 }

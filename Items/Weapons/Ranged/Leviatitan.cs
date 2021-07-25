@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<AquaBlast>();
             item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
         public override Vector2? HoldoutOffset()

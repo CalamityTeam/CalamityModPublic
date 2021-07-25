@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 160;
+            item.damage = 176;
             item.ranged = true;
             item.width = 54;
             item.height = 92;
@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<TelluricGlareArrow>();
             item.shootSpeed = 18f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-14f, 0f);
 

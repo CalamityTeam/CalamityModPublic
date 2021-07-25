@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 5000;
+            item.damage = 900;
             item.useAnimation = 14;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 14;
@@ -51,17 +51,17 @@ namespace CalamityMod.Items.Weapons.Melee
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.NextBool(4))
-			{
-				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107, 0f, 0f, 100, new Color(0, 255, 255));
-			}
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107, 0f, 0f, 100, new Color(0, 255, 255));
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
+			if (crit)
+				damage /= 2;
+
 			if (target.life <= (target.lifeMax * 0.05f))
-			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
-			}
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), damage, knockback, Main.myPlayer);
+
 			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
@@ -78,24 +78,26 @@ namespace CalamityMod.Items.Weapons.Melee
 				for (int comet = 0; comet < 2; comet++)
 				{
 					float ai1 = Main.rand.NextFloat() + 0.5f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
+					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, knockback, player.whoAmI, 0f, ai1);
 				}
 			}
+
 			if (!target.canGhostHeal || player.moonLeech)
-			{
 				return;
-			}
-			int healAmount = Main.rand.Next(5) + 5;
+
+			int healAmount = Main.rand.Next(3) + 5;
 			player.statLife += healAmount;
 			player.HealEffect(healAmount);
 		}
 
 		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
 		{
+			if (crit)
+				damage /= 2;
+
 			if (target.statLife <= (target.statLifeMax2 * 0.05f))
-			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
-			}
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, item.knockBack, Main.myPlayer);
+
 			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
@@ -112,12 +114,14 @@ namespace CalamityMod.Items.Weapons.Melee
 				for (int comet = 0; comet < 2; comet++)
 				{
 					float ai1 = Main.rand.NextFloat() + 0.5f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, ai1);
+					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, item.knockBack, player.whoAmI, 0f, ai1);
 				}
 			}
+
 			if (player.moonLeech)
 				return;
-			int healAmount = Main.rand.Next(5) + 5;
+
+			int healAmount = Main.rand.Next(3) + 5;
 			player.statLife += healAmount;
 			player.HealEffect(healAmount);
 		}

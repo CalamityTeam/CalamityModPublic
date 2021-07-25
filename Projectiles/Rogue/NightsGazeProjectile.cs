@@ -24,12 +24,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
-        private int SplitProjDamage => (int)(projectile.damage * (projectile.Calamity().stealthStrike ? 1f : 0.75f));
+        private int SplitProjDamage => (int)(projectile.damage * 0.6f);
 
         public override void AI()
         {

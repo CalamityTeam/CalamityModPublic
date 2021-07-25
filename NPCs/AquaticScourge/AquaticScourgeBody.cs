@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -28,7 +29,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            npc.LifeMaxNERB(80000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.behindTiles = true;
@@ -52,17 +53,13 @@ namespace CalamityMod.NPCs.AquaticScourge
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			for (int i = 0; i < 4; i++)
-			{
 				writer.Write(npc.Calamity().newAI[i]);
-			}
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			for (int i = 0; i < 4; i++)
-			{
 				npc.Calamity().newAI[i] = reader.ReadSingle();
-			}
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -86,10 +83,10 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
-			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
 				color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -143,8 +140,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(BuffID.Venom, 180, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 180, true);
         }
     }
 }

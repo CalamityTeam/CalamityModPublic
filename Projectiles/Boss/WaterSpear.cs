@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.Opacity = 0f;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -85,14 +86,6 @@ namespace CalamityMod.Projectiles.Boss
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-			if (projectile.Opacity != 1f)
-				return;
-
-			target.AddBuff(BuffID.Wet, 240);
         }
     }
 }

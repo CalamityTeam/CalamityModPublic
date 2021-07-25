@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int p = 0; p < 3; p++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.5), 0f, projectile.owner);
                 }
             }
             for (int num621 = 0; num621 < 3; num621++)

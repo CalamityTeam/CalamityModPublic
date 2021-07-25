@@ -55,31 +55,27 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+
 			if (!target.canGhostHeal || player.moonLeech)
-            {
                 return;
-            }
-            int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2))
-            {
-                player.statLife += healAmount;
-                player.HealEffect(healAmount);
-            }
+
+            int healAmount = Main.rand.Next(2) + 2;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
 			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
-			int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2) && !player.moonLeech)
+
+			int healAmount = Main.rand.Next(2) + 2;
+            if (!player.moonLeech)
             {
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);

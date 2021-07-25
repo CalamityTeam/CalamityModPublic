@@ -23,7 +23,9 @@ namespace CalamityMod.Projectiles.Ranged
             DisplayName.SetDefault("God Slayer Slug");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            TextureBlue = mod.GetTexture("Projectiles/Ranged/GodSlayerSlugBlue");
+
+            if (Main.netMode != NetmodeID.Server)
+                TextureBlue = mod.GetTexture("Projectiles/Ranged/GodSlayerSlugBlue");
         }
 
         public override void SetDefaults()
@@ -41,7 +43,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.timeLeft = Lifetime;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.tileCollide);
         public override void ReceiveExtraAI(BinaryReader reader) => projectile.tileCollide = reader.ReadBoolean();

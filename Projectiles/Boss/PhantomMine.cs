@@ -24,12 +24,13 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.timeLeft = 480;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
             if (projectile.velocity.Length() < projectile.ai[0])
-                projectile.velocity *= 1.05f;
+                projectile.velocity *= projectile.ai[1];
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -70,8 +71,11 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
-			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+			if (projectile.velocity.Length() >= projectile.ai[0])
+			{
+				target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+				target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
+			}
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

@@ -28,7 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.alpha = 255;
             projectile.extraUpdates = 1;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -36,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             // localAI is used as an invisibility counter. The bullet fades into existence after 15 startup frames.
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 6f)
+            if (projectile.localAI[0] > 4f)
             {
                 // After 15 frames, the alpha will be exactly 0
                 if (projectile.alpha > 0)

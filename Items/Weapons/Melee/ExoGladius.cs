@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 12;
             item.width = 56;
             item.height = 56;
-            item.damage = 2700;
+            item.damage = 690;
             item.melee = true;
             item.knockBack = 9.9f;
             item.UseSound = SoundID.Item1;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
             return false;
         }
 
@@ -61,9 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
         }
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

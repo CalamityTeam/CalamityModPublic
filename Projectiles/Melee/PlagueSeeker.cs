@@ -18,11 +18,26 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 4;
             projectile.height = 4;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.melee = true;
             projectile.timeLeft = 180;
 			projectile.extraUpdates = 1;
         }
+
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			int cap = 3;
+			int oldDamage = damage;
+			if (projectileCount > cap)
+			{
+				damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
 
 		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 

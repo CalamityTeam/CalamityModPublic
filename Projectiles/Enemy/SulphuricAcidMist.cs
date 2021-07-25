@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 120);
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
     }
 }

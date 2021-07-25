@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
@@ -9,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
+
 namespace CalamityMod.NPCs.Perforator
 {
 	[AutoloadBossHead]
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 70;
             npc.height = 84;
             npc.defense = 4;
-			npc.LifeMaxNERB(2500, 2700, 800000);
+			npc.LifeMaxNERB(2500, 2700, 80000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
@@ -52,23 +53,37 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.1f;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool malice = CalamityWorld.malice;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
-
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0f;
+				enrageScale += 1f;
+			if (enraged)
+				enrageScale += 1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -98,18 +113,6 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			if (lungeUpward)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (npc.Calamity().enraged > 0)
-			{
-				speed *= 1.25f;
-				turnSpeed *= 1.25f;
-			}
-
-			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -158,7 +161,7 @@ namespace CalamityMod.NPCs.Perforator
 							Main.npc[lol].localAI[3] = 1f;
 						}
 						Main.npc[lol].realLife = npc.whoAmI;
-						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[3] = npc.whoAmI;
 						Main.npc[lol].ai[1] = Previous;
 						Main.npc[Previous].ai[0] = lol;
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
@@ -499,7 +502,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorHeadLargeGlow");
@@ -558,7 +561,6 @@ namespace CalamityMod.NPCs.Perforator
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 300, true);
-            player.AddBuff(BuffID.Bleeding, 300, true);
         }
     }
 }

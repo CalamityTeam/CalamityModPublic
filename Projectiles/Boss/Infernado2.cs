@@ -124,16 +124,9 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
 		}
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft > 720)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft <= 720;
 
-        public override Color? GetAlpha(Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, 255, 53, projectile.alpha);
         }
@@ -149,7 +142,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
+			if (projectile.timeLeft <= 720)
+				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

@@ -1,7 +1,5 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +8,18 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.CeaselessVoid
 {
 	public class DarkEnergy : ModNPC
     {
-        public int invinceTime = 120;
+        private int invinceTime = 180;
+		private bool start = true;
+		private const double minDistance = 10D;
+		private double distance = minDistance;
+		private const double minMaxDistance = 800D;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Energy");
             Main.npcFrameCount[npc.type] = 6;
@@ -27,6 +30,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
+			aiType = -1;
 			npc.GetNPCDamage();
 			npc.dontTakeDamage = true;
             npc.width = 80;
@@ -39,15 +43,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 44000;
+                npc.lifeMax = 4400;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.knockBackResist = 0.25f;
-            npc.noGravity = true;
+			npc.knockBackResist = 0f;
+			npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            aiType = -1;
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
         }
@@ -55,14 +58,22 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(invinceTime);
-            writer.Write(npc.dontTakeDamage);
-        }
+			writer.Write(start);
+			writer.Write(distance);
+			writer.Write(npc.dontTakeDamage);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             invinceTime = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
-        }
+			start = reader.ReadBoolean();
+			distance = reader.ReadDouble();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -72,6 +83,107 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.frame.Y = frame * frameHeight;
         }
 
+		public override void AI()
+        {
+			// Set the degrees used for rotation
+			if (start)
+			{
+				start = false;
+				npc.ai[3] = npc.ai[0];
+			}
+
+			// Stay invincible for 3 seconds to avoid being instantly killed
+			if (invinceTime > 0)
+            {
+				npc.damage = 0;
+                invinceTime--;
+            }
+            else
+            {
+                npc.damage = npc.defDamage;
+                npc.dontTakeDamage = false;
+            }
+
+			// Force despawn if Ceaseless Void isn't active
+			if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			// Set time left just in case something dumb happens with despawning
+			if (npc.timeLeft < 1800)
+				npc.timeLeft = 1800;
+
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
+			// Gets how enraged Ceaseless Void is
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
+
+			// Distance from Ceaseless Void
+			double maxDistance = malice ? 1200D : death ? 1040D : revenge ? 960D : expertMode ? 880D : minMaxDistance;
+			double rateOfChangeIncrease = (maxDistance / minMaxDistance) - 1D;
+			double rateOfChange = (npc.ai[1] * 0.5f) + 2D + (tileEnrageMult - 1f) + rateOfChangeIncrease;
+			if (npc.Calamity().newAI[0] == 0f)
+			{
+				distance += rateOfChange;
+				if (distance >= maxDistance)
+				{
+					distance = maxDistance;
+					npc.Calamity().newAI[0] = 1f;
+				}
+			}
+			else
+			{
+				distance -= rateOfChange;
+				if (distance <= minDistance)
+				{
+					distance = minDistance;
+					npc.Calamity().newAI[0] = 0f;
+				}
+			}
+
+			// Rotation velocity
+			float minRotationVelocity = 0.5f + tileEnrageMult - 1f;
+			float rotationVelocityIncrease = death ? 0.2f : revenge ? 0.15f : expertMode ? 0.1f : 0f;
+			rotationVelocityIncrease += rotationVelocityIncrease * (npc.ai[1] * 0.5f);
+
+			// Rotate around Ceaseless Void
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CeaselessVoid>())];
+			double degrees = npc.ai[3];
+			double radians = degrees * (Math.PI / 180);
+			npc.position.X = parent.Center.X - (int)(Math.Cos(radians) * distance) - npc.width / 2;
+			npc.position.Y = parent.Center.Y - (int)(Math.Sin(radians) * distance) - npc.height / 2;
+			npc.ai[3] += minRotationVelocity + rotationVelocityIncrease;
+
+			// Flash and pulse effect
+			if (npc.ai[2] == 0f)
+			{
+				npc.scale -= 0.01f;
+				npc.alpha += 15;
+				if (npc.alpha >= 125)
+				{
+					npc.alpha = 130;
+					npc.ai[2] = 1f;
+				}
+			}
+			else
+			{
+				npc.scale += 0.01f;
+				npc.alpha -= 15;
+				if (npc.alpha <= 0)
+				{
+					npc.alpha = 0;
+					npc.ai[2] = 0f;
+				}
+			}
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
@@ -80,10 +192,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow2");
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -92,17 +208,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/CeaselessVoid/DarkEnergyGlow");
@@ -116,16 +229,16 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 = npc.GetAlpha(color41);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					Color color43 = color42;
 					color43 = Color.Lerp(color43, color36, amount9);
 					color43 = npc.GetAlpha(color43);
-					color43 *= (float)(num153 - num163) / 15f;
+					color43 *= (num153 - num163) / 15f;
 					spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -137,165 +250,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			return false;
 		}
 
-		public override void AI()
-        {
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
-
-            if (invinceTime > 0)
-            {
-				npc.damage = 0;
-                invinceTime--;
-            }
-            else
-            {
-                npc.damage = npc.defDamage;
-                npc.dontTakeDamage = false;
-            }
-
-			if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
-			{
-				npc.active = false;
-				npc.netUpdate = true;
-				return;
-			}
-
-			Vector2 vectorCenter = npc.Center;
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-
-            double mult = 0.5 +
-                (CalamityWorld.revenge ? 0.2 : 0.0) +
-                (CalamityWorld.death ? 0.2 : 0.0);
-
-            if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
-                npc.knockBackResist = 0f;
-
-			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
-
-			float num1247 = 0.1f;
-			float maxDistance = 24f * MathHelper.Lerp(0.3333333334f, 1.6f, MathHelper.Clamp((tileEnrageMult - 1f) * 1.6666666667f, 0f, 1f));
-			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
-			{
-				if (Main.npc[num1248].active)
-				{
-					if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
-					{
-						if (Vector2.Distance(npc.Center, Main.npc[num1248].Center) < maxDistance)
-						{
-							if (npc.position.X < Main.npc[num1248].position.X)
-								npc.velocity.X = npc.velocity.X - num1247;
-							else
-								npc.velocity.X = npc.velocity.X + num1247;
-
-							if (npc.position.Y < Main.npc[num1248].position.Y)
-								npc.velocity.Y = npc.velocity.Y - num1247;
-							else
-								npc.velocity.Y = npc.velocity.Y + num1247;
-						}
-					}
-				}
-			}
-
-			if (npc.ai[1] == 0f)
-            {
-                npc.scale -= 0.01f;
-                npc.alpha += 15;
-                if (npc.alpha >= 125)
-                {
-                    npc.alpha = 130;
-                    npc.ai[1] = 1f;
-                }
-            }
-            else if (npc.ai[1] == 1f)
-            {
-                npc.scale += 0.01f;
-                npc.alpha -= 15;
-                if (npc.alpha <= 0)
-                {
-                    npc.alpha = 0;
-                    npc.ai[1] = 0f;
-                }
-            }
-
-            if (!player.active || player.dead)
-            {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
-                if (!player.active || player.dead)
-                {
-                    npc.velocity = new Vector2(0f, -10f);
-
-                    if (npc.timeLeft > 150)
-                        npc.timeLeft = 150;
-
-                    return;
-                }
-            }
-            else if (npc.timeLeft < 1800)
-                npc.timeLeft = 1800;
-
-            if (npc.ai[0] == 0f)
-            {
-                Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num784 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector96.X;
-                float num785 = Main.npc[CalamityGlobalNPC.voidBoss].Center.Y - vector96.Y;
-                float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                if (num786 > 90f)
-                {
-                    num786 = (BossRushEvent.BossRushActive ? 24f : 16f) * tileEnrageMult / num786;
-                    num784 *= num786;
-                    num785 *= num786;
-                    npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
-                    npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
-                    return;
-                }
-                if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 16f)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 1.1f;
-                    npc.velocity.X = npc.velocity.X * 1.1f;
-                }
-                if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
-                {
-                    npc.TargetClosest(true);
-                    vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                    num784 = player.Center.X - vector96.X;
-                    num785 = player.Center.Y - vector96.Y;
-                    num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                    num786 = (BossRushEvent.BossRushActive ? 16f : 12f) * tileEnrageMult / num786;
-                    npc.velocity.X = num784 * num786;
-                    npc.velocity.Y = num785 * num786;
-                    npc.ai[0] = 1f;
-                    npc.netUpdate = true;
-                }
-            }
-            else
-            {
-                Vector2 value4 = player.Center - npc.Center;
-                value4.Normalize();
-                value4 *= (BossRushEvent.BossRushActive ? 16f : 11f) * tileEnrageMult;
-                npc.velocity = (npc.velocity * 99f + value4) / 100f;
-                Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;
-                float num788 = Main.npc[CalamityGlobalNPC.voidBoss].Center.Y - vector97.Y;
-                float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-                npc.ai[2] += 1f;
-                if (num789 > 700f || npc.ai[2] >= 150f)
-                {
-                    npc.ai[0] = 0f;
-                    npc.ai[2] = 0f;
-                }
-            }
-        }
-
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
 		}
 
-		public override bool CheckActive()
-		{
-			return CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active;
-		}
+		public override bool CheckActive() => false;
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
@@ -305,17 +265,36 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
-            return true;
-        }
 
-        public override void HitEffect(int hitDirection, double damage)
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 35f;
+		}
+
+		public override bool CheckDead() => false;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {
-                for (int k = 0; k < 20; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
-                }
+				for (int k = 0; k < 20; k++)
+				{
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
+					Main.dust[dust].noGravity = true;
+				}
             }
         }
     }

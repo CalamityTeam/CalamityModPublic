@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.width = 52;
             npc.height = 68;
             npc.defense = 75;
-			npc.LifeMaxNERB(187500, 225000, 6500000);
+			npc.LifeMaxNERB(187500, 225000, 650000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -46,11 +46,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
             npc.netAlways = true;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             npc.dontCountMe = true;
         }
 
@@ -58,18 +54,14 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             writer.Write(npc.dontTakeDamage);
             for (int i = 0; i < 4; i++)
-            {
                 writer.Write(npc.Calamity().newAI[i]);
-            }
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
             for (int i = 0; i < 4; i++)
-            {
                 npc.Calamity().newAI[i] = reader.ReadSingle();
-            }
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -88,6 +80,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
+			bool drawCyan = npc.Calamity().newAI[3] >= 600f;
+			bool doubleWormPhase = npc.Calamity().newAI[0] != 0f;
+
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Color color36 = Color.White;
@@ -104,19 +99,23 @@ namespace CalamityMod.NPCs.AstrumDeus
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow");
-			Color phaseColor = npc.Calamity().newAI[3] >= 600f ? Color.Cyan : Color.Orange;
-			Color color37 = Color.Lerp(Color.White, npc.Calamity().newAI[0] != 0f ? phaseColor : Color.Orange, 0.5f) * npc.Opacity;
+			Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
+			if (doubleWormPhase)
+			{
+				texture2D15 = drawCyan ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow2") : texture2D15;
+			}
+			Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * npc.Opacity;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -127,12 +126,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 					color41 *= (num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			int timesToDraw = drawCyan ? 2 : 1;
+			for (int i = 0; i < timesToDraw; i++)
+				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
         }

@@ -42,6 +42,9 @@ namespace CalamityMod
 		public MiscShaderData SpecialShader;
 		public TrailPointRetrievalFunction TrailPointFunction;
 
+		public Vector2 OverridingStickPointStart = Vector2.Zero;
+		public Vector2 OverridingStickPointEnd = Vector2.Zero;
+
 		public delegate List<Vector2> TrailPointRetrievalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null);
 
 		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, TrailPointRetrievalFunction pointFunction = null, MiscShaderData specialShader = null)
@@ -70,30 +73,30 @@ namespace CalamityMod
 
 		public void UpdateBaseEffect(out Matrix effectProjection, out Matrix effectView)
 		{
-			// The screen width and height.
-			int width = Main.instance.GraphicsDevice.Viewport.Width;
+			// Screen bounds.
 			int height = Main.instance.GraphicsDevice.Viewport.Height;
 
 			Vector2 zoom = Main.GameViewMatrix.Zoom;
+			Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 
 			// Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
 			effectView = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up);
 
 			// Offset the matrix to the appropriate position.
-			effectView *= Matrix.CreateTranslation(width / 2, height / -2, 0f);
+			effectView *= Matrix.CreateTranslation(0f, -height, 0f);
 
 			// Flip the matrix around 180 degrees.
 			effectView *= Matrix.CreateRotationZ(MathHelper.Pi);
 
 			// And account for the current zoom.
-			effectView *= Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+			effectView *= zoomScaleMatrix;
 
-			effectProjection = Matrix.CreateOrthographic(width, height, 0f, 1000f);
+			effectProjection = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
 			BaseEffect.View = effectView;
 			BaseEffect.Projection = effectProjection;
 		}
 
-		public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
+		public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> _ = null)
 		{
 			List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
 			List<Vector2> endPoints = new List<Vector2>();
@@ -131,31 +134,49 @@ namespace CalamityMod
 			return controlPoints.Count <= 1 ? controlPoints : bezierCurve.GetPoints(totalTrailPoints);
 		}
 
-		public static List<Vector2> SmoothCatmullRomPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations)
+		// Using this method requires oldRot be supplied to the Draw method for the sake of determining how many points need to be made at a given time step.
+		// Furthermore, since the point count is dynamic, the point count int parameter has no purpose. It can be supplied simply with zero.
+		public static List<Vector2> SmoothCatmullRomPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int _, IEnumerable<float> originalRotations)
 		{
 			List<Vector2> smoothenedPoints = new List<Vector2>();
 			for (int i = 0; i < originalPositions.Count() - 1; i++)
 			{
-				if (originalPositions.ElementAt(i) == Vector2.Zero || originalPositions.ElementAt(i + 1) == Vector2.Zero)
+				Vector2 currentPosition = originalPositions.ElementAt(i);
+				Vector2 aheadPosition = originalPositions.ElementAt(i + 1);
+
+				// Don't incorporate points that are zeroed out.
+				// They are almost certainly a result of incomplete oldPos arrays.
+				if (currentPosition == Vector2.Zero || aheadPosition == Vector2.Zero)
 					continue;
 
 				float currentRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i));
 				float aheadRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i + 1));
-				int pointsToAdd = (int)(Math.Abs(aheadRotation - currentRotation) * 50f / MathHelper.Pi) + 4;
 
-				float segmentLength = Vector2.Distance(originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1));
+				// Determine the amount of extra points to draw based on the rotational offset between the two time steps.
+				int pointsToAdd = (int)Math.Round(Math.Abs(MathHelper.WrapAngle(aheadRotation - currentRotation)) * 8f / MathHelper.Pi);
+
+				// Add a base point.
+				smoothenedPoints.Add(currentPosition + generalOffset);
+
+				// If no new points are needed, skip this.
+				if (pointsToAdd == 0)
+					continue;
+
+				float segmentLength = Vector2.Distance(currentPosition, aheadPosition);
 				float increment = 1f / (pointsToAdd + 2);
-				Vector2 end = originalPositions.ElementAt(i) + currentRotation.ToRotationVector2() * segmentLength;
-				Vector2 front = originalPositions.ElementAt(i + 1) + aheadRotation.ToRotationVector2() * -segmentLength;
+				Vector2 backEnd = currentPosition + currentRotation.ToRotationVector2() * segmentLength;
+				Vector2 frontEnd = aheadPosition + aheadRotation.ToRotationVector2() * -segmentLength;
+
+				// Create smoothened points based on a Catmull-Rom spline.
 				for (float j = increment; j < 1f; j += increment)
-					smoothenedPoints.Add(Vector2.CatmullRom(end, originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1), front, j) + generalOffset);
+					smoothenedPoints.Add(Vector2.CatmullRom(backEnd, currentPosition, aheadPosition, frontEnd, j) + generalOffset);
 			}
 			return smoothenedPoints;
 		}
 
 		public VertexPosition2DColor[] GetVerticesFromTrailPoints(List<Vector2> trailPoints)
 		{
-			List<VertexPosition2DColor> vertices = new List<VertexPosition2DColor>();
+			VertexPosition2DColor[] vertices = new VertexPosition2DColor[trailPoints.Count * 2 - 2];
 			for (int i = 0; i < trailPoints.Count - 1; i++)
 			{
 				float completionRatio = i / (float)trailPoints.Count;
@@ -173,11 +194,19 @@ namespace CalamityMod
 				// This doesn't use RotatedBy for the sake of performance (there can potentially be a lot of trail points).
 				Vector2 sideDirection = new Vector2(-directionToAhead.Y, directionToAhead.X);
 
+				Vector2 left = currentPosition - sideDirection * widthAtVertex;
+				Vector2 right = currentPosition + sideDirection * widthAtVertex;
+				if (i == 0 && OverridingStickPointStart != Vector2.Zero)
+                {
+					left = OverridingStickPointStart;
+					right = OverridingStickPointEnd;
+				}
+
 				// What this is doing, at its core, is defining a rectangle based on two triangles.
 				// These triangles are defined based on the width of the strip at that point.
 				// The resulting rectangles combined are what make the trail itself.
-				vertices.Add(new VertexPosition2DColor(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord));
-				vertices.Add(new VertexPosition2DColor(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord));
+				vertices[i * 2] = new VertexPosition2DColor(left, vertexColor, leftCurrentTextureCoord);
+				vertices[i * 2 + 1] = new VertexPosition2DColor(right, vertexColor, rightCurrentTextureCoord);
 			}
 
 			return vertices.ToArray();
@@ -214,11 +243,15 @@ namespace CalamityMod
 			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (originalPositions.Count() <= 2 || trailPoints.Count <= 2)
+			if (trailPoints.Count <= 2)
 				return;
 
-			// If the trail point has any NaN positions, don't draw anything.
+			// If the trail points have any NaN positions, don't draw anything.
 			if (trailPoints.Any(point => point.HasNaNs()))
+				return;
+
+			// If the trail points are all equal, don't draw anything.
+			if (trailPoints.All(point => point == trailPoints[0]))
 				return;
 
 			UpdateBaseEffect(out Matrix projection, out Matrix view);
@@ -240,7 +273,6 @@ namespace CalamityMod
 				BaseEffect.CurrentTechnique.Passes[0].Apply();
 
 			Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, triangleIndices, 0, triangleIndices.Length / 3);
-
 			Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 		}
 	}

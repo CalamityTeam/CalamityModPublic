@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 					// This both checks if the player has sufficient mana and consumes it if they do.
 					// If this is false, the Gatling Laser stops functioning.
-					bool hasMana = player.CheckMana(gatling.mana, true, false);
+					bool hasMana = player.CheckMana(gatling, -1, true, false);
 
 					// Checks if the Gatling Laser has sufficient charge to fire. If this is false, it stops functioning.
 					CalamityGlobalItem modItem = gatling.Calamity();

@@ -11,20 +11,32 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
 	public class HeavenlyGale : ModItem
 	{
+		public const float NormalArrowDamageMult = 1.2f;
+		private static int[] ExoArrows;
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenly Gale");
 			Tooltip.SetDefault("Converts wooden arrows into barrages of 5 random exo arrows\n" +
-				"Green exo arrows explode into a tornado on death\n" +
-				"Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
-				"Orange exo arrows cause explosions on death\n" +
-				"Teal exo arrows ignore enemy immunity frames\n" +
+				"Green exo arrows erupt into swirling tornadoes\n" +
+				"Blue exo arrows burst into barrages of following arrows\n" +
+				"Orange exo arrows explode into flames\n" +
+				"Teal exo arrows pierce infinitely and ignore immunity frames\n" +
+				"Any non-wooden arrows used will deal 1.2x damage\n" +
 				"66% chance to not consume ammo");
+
+			ExoArrows = new int[]
+			{
+				ProjectileType<TealExoArrow>(),
+				ProjectileType<OrangeExoArrow>(),
+				ProjectileType<GreenExoArrow>(),
+				ProjectileType<BlueExoArrow>()
+			};
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 600;
+			item.damage = 198;
 			item.ranged = true;
 			item.width = 44;
 			item.height = 58;
@@ -33,61 +45,49 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 4f;
-			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = ItemRarityID.Red;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 17f;
+			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Arrow;
 			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-			float dmgMult = 1f;
+			Vector2 vel = new Vector2(speedX, speedY);
 			float piOver10 = MathHelper.Pi * 0.1f;
-			int arrowAmt = 5;
-			Vector2 speed = new Vector2(speedX, speedY);
-			speed.Normalize();
-			speed *= 40f;
-			bool canHit = Collision.CanHit(source, 0, 0, source + speed, 0, 0);
-			for (int i = 0; i < arrowAmt; i++)
+
+			// This is not related to speed, but rather placing the arrows correctly along the large bow.
+			Vector2 baseOffset = new Vector2(speedX, speedY);
+			baseOffset.Normalize();
+			baseOffset *= 40f;
+
+			bool againstWall = !Collision.CanHit(source, 0, 0, source + baseOffset, 0, 0);
+
+			int numArrows = 5;
+			for (int i = 0; i < numArrows; i++)
 			{
-				float offsetAmt = i - (arrowAmt - 1f) / 2f;
-				Vector2 offset = speed.RotatedBy(piOver10 * offsetAmt);
-				if (!canHit)
-					offset -= speed;
+				float offsetAmt = i - (numArrows - 1f) / 2f;
+				Vector2 offset = baseOffset.RotatedBy(piOver10 * offsetAmt);
+				if (againstWall)
+					offset -= baseOffset;
 
 				if (type == ProjectileID.WoodenArrowFriendly)
 				{
-					int arrow = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ProjectileType<TealExoArrow>(),
-						ProjectileType<OrangeExoArrow>(),
-						ProjectileType<BlueExoArrow>(),
-						ProjectileType<GreenExoArrow>()
-					});
-
-					if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
-					{
-						arrow = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ProjectileType<TealExoArrow>(),
-							ProjectileType<OrangeExoArrow>(),
-							ProjectileType<BlueExoArrow>()
-						});
-					}
-
-					if (arrow == ProjectileType<TealExoArrow>())
-						dmgMult = 0.5f;
-
-					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
+					int thisArrowType = Main.rand.Next(ExoArrows);
+					// Teal exo arrows deal less damage.
+					float dmgMult = thisArrowType == ProjectileType<TealExoArrow>() ? 0.66f : 1f;
+					int finalDamage = (int)(damage * dmgMult);
+					Projectile.NewProjectile(source + offset, vel, thisArrowType, finalDamage, knockBack, player.whoAmI);
 				}
 				else
 				{
-					int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					int normalArrowDamage = (int)(damage * NormalArrowDamageMult);
+					int proj = Projectile.NewProjectile(source + offset, vel, type, normalArrowDamage, knockBack, player.whoAmI);
 					Main.projectile[proj].noDropItem = true;
 				}
 			}

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public const float MinDistanceFromTarget = 45f;
-        public const float MaxDistanceFromTarget = 1350f;
+        public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Flare");
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 190;
+            projectile.width = projectile.height = 50;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -68,17 +68,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ModifyHitNPCSticky(4, false);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int width = (int)MathHelper.Min(targetHitbox.Width, 150);
-            int height = (int)MathHelper.Min(targetHitbox.Height, 150);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, width, height);
-            return null;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			target.ExoDebuffs(2f);
+            if (projectile.width == 50)
+            {
+                int width = (int)MathHelper.Min(target.Hitbox.Width, 60);
+                int height = (int)MathHelper.Min(target.Hitbox.Height, 60);
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, width, height);
+            }
+            target.ExoDebuffs(2f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)

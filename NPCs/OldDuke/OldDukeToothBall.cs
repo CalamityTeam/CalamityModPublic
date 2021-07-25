@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 75000;
+				npc.lifeMax = 7500;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
@@ -178,9 +178,7 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(BuffID.Venom, 180, true);
-			player.AddBuff(BuffID.Poisoned, 180, true);
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
 		}
 
         public override bool CheckDead()

@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
     }
 }

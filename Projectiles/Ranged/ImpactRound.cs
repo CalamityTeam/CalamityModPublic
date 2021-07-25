@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 
 		public override void AI()
@@ -41,7 +42,13 @@ namespace CalamityMod.Projectiles.Ranged
 			if (!initialized && projectile.ranged) //Ranged check prevents quiver splits triggering the sound
 			{
 				initialized = true;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), projectile.Center);
+
+				if (Main.netMode != NetmodeID.Server)
+				{
+					var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+					sound = sound.WithVolume(sound.Volume * 0.45f);
+					Main.PlaySound(sound, projectile.Center);
+				}
 			}
 		}
 

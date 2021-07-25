@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = 1400;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;
@@ -77,7 +78,9 @@ namespace CalamityMod.NPCs.Cryogen
             npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreNPCLoot() => false;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
@@ -108,15 +111,18 @@ namespace CalamityMod.NPCs.Cryogen
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int totalProjectiles = 4;
-					float radians = MathHelper.TwoPi / totalProjectiles;
+					double radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<IceBlast>();
 					int damage2 = npc.GetProjectileDamage(type);
-					float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
-					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+					float velocity = 9f;
+					double angleA = radians * 0.5;
+					double angleB = MathHelper.ToRadians(90f) - angleA;
+					float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+					Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage2, 0f, Main.myPlayer, 0f, 0f);
+						int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage2, 0f, Main.myPlayer);
 						Main.projectile[proj].timeLeft = 300;
 					}
 				}
@@ -126,10 +132,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     randomSpread = Main.rand.Next(-200, 200) / 100;
                     for (int x = 0; x < 4; x++)
-                    {
                         Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoShieldGore" + x), 1f);
-                    }
-                    
                 }
             }
         }

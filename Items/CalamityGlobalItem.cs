@@ -4,9 +4,12 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -14,8 +17,10 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -49,19 +54,48 @@ namespace CalamityMod.Items
 				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
 			}
 		}
-        #endregion
+		#endregion
 
-        // Miscellaneous stuff
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		#region Enchantment Variables
+		public Enchantment? AppliedEnchantment = null;
+		public float DischargeEnchantExhaustion = 0;
+		public float DischargeExhaustionRatio
+		{
+			get
+			{
+				float ratio = DischargeEnchantExhaustion / DischargeEnchantExhaustionCap;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+		public const float DischargeEnchantExhaustionCap = 1600f;
+		public const float DischargeEnchantMinDamageFactor = 0.77f;
+		public const float DischargeEnchantMaxDamageFactor = 1.26f;
+		#endregion
+
+		// Miscellaneous stuff
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
 		public bool challengeDrop = false;
+		public bool canFirePointBlankShots = false;
 
-		// See RogueWeapon.cs for rogue modifier shit
-		#region Modifiers
-		public CalamityGlobalItem()
+        public static readonly Color[] ExoPalette = new Color[]
+        {
+            new Color(250, 255, 112),
+            new Color(211, 235, 108),
+            new Color(166, 240, 105),
+            new Color(105, 240, 220),
+            new Color(64, 130, 145),
+            new Color(145, 96, 145),
+            new Color(242, 112, 73),
+            new Color(199, 62, 62),
+        };
+
+        // See RogueWeapon.cs for rogue modifier shit
+        #region Modifiers
+        public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
 		}
@@ -70,6 +104,7 @@ namespace CalamityMod.Items
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 			myClone.StealthGenBonus = StealthGenBonus;
+			myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 			myClone.Charge = Charge;
 			return myClone;
 		}
@@ -89,15 +124,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
-                item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
+            if (item.maxStack == 99)
                 item.maxStack = 999;
-
-            if (item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe)
-                item.maxStack = 20;
-
-            if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
-                item.value = Item.buyPrice(0, 0, 5, 0);
 
 			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
 				item.useTurn = true;
@@ -114,16 +142,403 @@ namespace CalamityMod.Items
 				item.useAnimation = (int)(item.useAnimation * 0.8);
 			}
 
+			switch (item.type)
+			{
+				// Point-blank shot weapons
+				case ItemID.WoodenBow:
+				case ItemID.BorealWoodBow:
+				case ItemID.PalmWoodBow:
+				case ItemID.RichMahoganyBow:
+				case ItemID.CopperBow:
+				case ItemID.TinBow:
+				case ItemID.ShadewoodBow:
+				case ItemID.EbonwoodBow:
+				case ItemID.IronBow:
+				case ItemID.LeadBow:
+				case ItemID.SilverBow:
+				case ItemID.TungstenBow:
+				case ItemID.GoldBow:
+				case ItemID.PlatinumBow:
+				case ItemID.DemonBow:
+				case ItemID.TendonBow:
+				case ItemID.MoltenFury:
+				case ItemID.BeesKnees:
+				case ItemID.HellwingBow:
+				case ItemID.FlareGun:
+				case ItemID.Minishark:
+				case ItemID.Blowpipe:
+				case ItemID.FlintlockPistol:
+				case ItemID.SnowballCannon:
+				case ItemID.Boomstick:
+				case ItemID.Revolver:
+				case ItemID.RedRyder:
+				case ItemID.Sandgun:
+				case ItemID.Musket:
+				case ItemID.TheUndertaker:
+				case ItemID.Blowgun:
+				//case ItemID.QuadBarrelShotgun:
+				case ItemID.Handgun:
+				case ItemID.PhoenixBlaster:
+				case ItemID.PainterPaintballGun:
+				case ItemID.Harpoon:
+				case ItemID.IceBow:
+				case ItemID.ShadowFlameBow:
+				case ItemID.Marrow:
+				case ItemID.PulseBow:
+				case ItemID.DD2PhoenixBow:
+				case ItemID.Tsunami:
+				//case ItemID.Eventide:
+				case ItemID.Phantasm:
+				case ItemID.CobaltRepeater:
+				case ItemID.PalladiumRepeater:
+				case ItemID.MythrilRepeater:
+				case ItemID.OrichalcumRepeater:
+				case ItemID.AdamantiteRepeater:
+				case ItemID.TitaniumRepeater:
+				case ItemID.HallowedRepeater:
+				case ItemID.ChlorophyteShotbow:
+				case ItemID.StakeLauncher:
+				case ItemID.ClockworkAssaultRifle:
+				case ItemID.Gatligator:
+				case ItemID.Shotgun:
+				case ItemID.OnyxBlaster:
+				case ItemID.Uzi:
+				case ItemID.DartRifle:
+				case ItemID.DartPistol:
+				case ItemID.Megashark:
+				case ItemID.VenusMagnum:
+				case ItemID.TacticalShotgun:
+				case ItemID.SniperRifle:
+				case ItemID.CandyCornRifle:
+				case ItemID.ChainGun:
+				case ItemID.VortexBeater:
+				case ItemID.SDMG:
+					canFirePointBlankShots = true;
+					break;
+
+				case ItemID.Dynamite:
+				case ItemID.StickyDynamite:
+				case ItemID.BouncyDynamite:
+				case ItemID.StickyBomb:
+				case ItemID.BouncyBomb:
+					item.maxStack = 999;
+					break;
+
+				case ItemID.BlueSolution:
+				case ItemID.DarkBlueSolution:
+				case ItemID.GreenSolution:
+				case ItemID.PurpleSolution:
+				case ItemID.RedSolution:
+					item.value = Item.buyPrice(0, 0, 5, 0);
+					break;
+
+				// Increase Pirate Map and Snow Globe stacks to 20
+				case ItemID.PirateMap:
+				case ItemID.SnowGlobe:
+					item.maxStack = 20;
+					break;
+
+				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.CelestialSigil:
+					item.maxStack = 1;
+					item.consumable = false;
+					break;
+
+				// True melee weapon adjustments
+				case ItemID.SlapHand:
+					item.damage = 120;
+					break;
+
+				case ItemID.TaxCollectorsStickOfDoom:
+					item.damage = 70;
+					break;
+
+				case ItemID.Anchor:
+					item.damage = 107;
+					break;
+
+				case ItemID.GolemFist:
+					item.damage = 185;
+					break;
+
+				case ItemID.BreakerBlade:
+					item.damage = 97;
+					break;
+
+				case ItemID.StylistKilLaKillScissorsIWish:
+					item.damage = 33;
+					break;
+
+				case ItemID.BladeofGrass:
+					item.damage = 65;
+					break;
+
+				case ItemID.FieryGreatsword:
+					item.damage = 98;
+					item.useTime = 45;
+					item.useAnimation = 45;
+					break;
+
+				case ItemID.CobaltSword:
+					item.damage = 80;
+					break;
+
+				case ItemID.MythrilSword:
+					item.damage = 100;
+					item.useTime = 25;
+					item.useAnimation = 25;
+					break;
+
+				case ItemID.AdamantiteSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.PalladiumSword:
+					item.damage = 100;
+					break;
+
+				case ItemID.OrichalcumSword:
+					item.damage = 82;
+					break;
+
+				case ItemID.TitaniumSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.Excalibur:
+					item.damage = 125;
+					break;
+
+				case ItemID.Bladetongue:
+					item.damage = 120;
+					item.scale = 1.75f;
+					break;
+
+				case ItemID.TheHorsemansBlade:
+					item.damage = 95;
+					break;
+
+				case ItemID.Keybrand:
+					item.damage = 184;
+					item.useTime = 18;
+					item.useAnimation = 18;
+					break;
+
+				case ItemID.AdamantiteGlaive:
+					item.damage = 65;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.ChlorophytePartisan:
+					item.damage = 100;
+					break;
+
+				case ItemID.CobaltNaginata:
+					item.damage = 90;
+					break;
+
+				case ItemID.Gungnir:
+					item.damage = 92;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.MythrilHalberd:
+					item.damage = 95;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.OrichalcumHalberd:
+					item.damage = 98;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.TitaniumTrident:
+					item.damage = 72;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.DaoofPow:
+					item.damage = 160;
+					break;
+
+				case ItemID.TheRottedFork:
+					item.damage = 20;
+					break;
+
+				case ItemID.Swordfish:
+					item.damage = 38;
+					break;
+
+				case ItemID.DarkLance:
+					item.damage = 68;
+					break;
+
+				case ItemID.MushroomSpear:
+					item.damage = 100;
+					break;
+
+				case ItemID.BluePhasesaber:
+				case ItemID.RedPhasesaber:
+                case ItemID.GreenPhasesaber:
+                case ItemID.WhitePhasesaber:
+                case ItemID.YellowPhasesaber:
+                case ItemID.PurplePhasesaber:
+					item.damage = 72;
+					item.useTime = 20;
+					item.useAnimation = 20;
+					break;
+
+				case ItemID.PaladinsHammer:
+					item.damage = 100;
+					break;
+
+				case ItemID.Katana:
+					item.useTime = 15;
+					item.useAnimation = 15;
+					break;
+
+				case ItemID.FalconBlade:
+					item.damage = 40;
+					break;
+
+				case ItemID.ChainKnife:
+					item.damage = 14;
+					break;
+
+				case ItemID.DD2SquireDemonSword:
+					item.damage = 110;
+					break;
+
+				case ItemID.PurpleClubberfish:
+					item.damage = 45;
+					item.knockBack = 10f;
+					break;
+
+				case ItemID.ChristmasTreeSword:
+					item.damage = 155;
+					break;
+
+				case ItemID.MonkStaffT1:
+					item.damage = 110;
+					break;
+
+				case ItemID.Terrarian:
+					item.damage = 352;
+					break;
+
+				case ItemID.RainbowRod:
+					item.damage = 130;
+					break;
+
+				case ItemID.BlizzardStaff:
+					item.damage = 41;
+					item.mana = 7;
+					break;
+
+				case ItemID.LaserMachinegun:
+					item.damage = 39;
+					break;
+
+				case ItemID.StardustDragonStaff:
+					item.damage = 20;
+					break;
+
+				case ItemID.BookStaff:
+					item.mana = 10;
+					break;
+
+				case ItemID.UnholyTrident:
+					item.mana = 14;
+					break;
+
+				case ItemID.FrostStaff:
+					item.mana = 9;
+					break;
+
+				case ItemID.BookofSkulls:
+					item.mana = 12;
+					break;
+
+				// Total defense pre-buff = 78, Total defense post-buff = 94
+				case ItemID.SolarFlareHelmet:
+					item.defense = 29; // 5 more defense
+					break;
+
+				case ItemID.SolarFlareBreastplate:
+					item.defense = 41; // 7 more defense
+					break;
+
+				case ItemID.SolarFlareLeggings:
+					item.defense = 24; // 4 more defense
+					break;
+
+				// Total defense pre-buff = 7, Total defense post-buff = 15
+				case ItemID.GladiatorHelmet:
+					item.defense = 3; // 1 more defense
+					break;
+
+				case ItemID.GladiatorBreastplate:
+					item.defense = 5; // 2 more defense
+					break;
+
+				case ItemID.GladiatorLeggings:
+					item.defense = 4; // 2 more defense
+					break;
+
+				// Total defense pre-buff = 31, 50, 35, Total defense post-buff = 36, 55, 40
+				case ItemID.HallowedPlateMail:
+					item.defense = 18; // 3 more defense
+					break;
+
+				case ItemID.HallowedGreaves:
+					item.defense = 13; // 2 more defense
+					break;
+
+				// Not Expert because ML drops it in Normal so that it can be used with the lore item
+				case ItemID.GravityGlobe:
+					item.expert = false;
+					item.rare = ItemRarityID.Red;
+					break;
+
+				case ItemID.SuspiciousLookingTentacle:
+					item.expert = true;
+					break;
+
+				case ItemID.PearlwoodHammer:
+					item.hammer += 35; // 80% hammer power
+					item.useAnimation = 20;
+					item.useTime = 15;
+					item.damage *= 4;
+					item.tileBoost += 1;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.PearlwoodBow:
+					item.useAnimation += 8; // 35
+					item.useTime += 8; // 35
+					item.shootSpeed += 3.4f; // 10f
+					item.knockBack += 1f; // 1f
+					item.rare = ItemRarityID.LightRed;
+					item.damage = (int)(item.damage * 2.1);
+					canFirePointBlankShots = true;
+					break;
+
+				case ItemID.PearlwoodSword:
+					item.damage *= 4;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.StarCannon:
+					item.UseSound = null;
+					break;
+			}
+
 			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
 			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
-			else if (item.type == ItemID.Terrarian)
-				item.damage = (int)(item.damage * 1.85);
-			else if (item.type == ItemID.RainbowRod)
-				item.damage = (int)(item.damage * 1.75);
 			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 1.66);
 			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
@@ -140,80 +555,12 @@ namespace CalamityMod.Items
 				item.damage = (int)(item.damage * 0.9);
 			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.75);
-			else if (item.type == ItemID.BlizzardStaff)
-				item.damage = (int)(item.damage * 0.7);
-			else if (item.type == ItemID.LaserMachinegun)
-				item.damage = (int)(item.damage * 0.65);
-			else if (item.type == ItemID.StardustDragonStaff)
-				item.damage = (int)(item.damage * 0.5);
-
-            if (item.type == ItemID.BookStaff)
-                item.mana = 10;
-            else if (item.type == ItemID.UnholyTrident)
-                item.mana = 14;
-            else if (item.type == ItemID.FrostStaff)
-                item.mana = 9;
-            else if (item.type == ItemID.BookofSkulls)
-                item.mana = 12;
-            else if (item.type == ItemID.BlizzardStaff)
-                item.mana = 7;
-            else if (item.type == ItemID.SolarFlareHelmet) //total defense pre-buff = 78 post-buff = 94
-                item.defense = 29; //5 more defense
-            else if (item.type == ItemID.SolarFlareBreastplate)
-                item.defense = 41; //7 more defense
-            else if (item.type == ItemID.SolarFlareLeggings)
-                item.defense = 24; //4 more defense
-            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 15
-                item.defense = 3; //1 more defense
-            else if (item.type == ItemID.GladiatorBreastplate)
-                item.defense = 5; //2 more defense
-            else if (item.type == ItemID.GladiatorLeggings)
-                item.defense = 4; //2 more defense
-            else if (item.type == ItemID.HallowedPlateMail) //total defense pre-buff = 31, 50, 35 post-buff = 36, 55, 40
-                item.defense = 18; //3 more defense
-            else if (item.type == ItemID.HallowedGreaves)
-                item.defense = 13; //2 more defense
 
 			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
+
 			if (CalamityLists.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
-
-			// not expert because ML drops it in normal so that it can be used with the lore item
-            if (item.type == ItemID.GravityGlobe)
-			{
-				item.expert = false;
-				item.rare = ItemRarityID.Red;
-			}
-            
-            if (item.type == ItemID.SuspiciousLookingTentacle)
-                item.expert = true;
-
-            if (item.type == ItemID.PearlwoodHammer)
-			{
-                item.hammer += 35; //80% hammer power
-				item.useAnimation = 20;
-				item.useTime = 15;
-				item.damage *= 4;
-				item.tileBoost += 1;
-				item.rare = ItemRarityID.LightRed;
-			}
-            if (item.type == ItemID.PearlwoodBow)
-			{
-				item.useAnimation += 8; //35
-				item.useTime += 8; //35
-				item.shootSpeed += 3.4f; //10f
-				item.knockBack += 1f; //1f
-				item.rare = ItemRarityID.LightRed;
-				item.damage = (int)(item.damage * 2.1);
-			}
-            if (item.type == ItemID.PearlwoodSword)
-			{
-				item.damage *= 4;
-				item.rare = ItemRarityID.LightRed;
-			}
-			if (item.type == ItemID.StarCannon)
-				item.UseSound = null;
         }
         #endregion
 
@@ -221,6 +568,7 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			CalamityPlayer modPlayer = player.Calamity();
+
             if (rogue)
             {
                 speedX *= modPlayer.throwingVelocity;
@@ -250,20 +598,36 @@ namespace CalamityMod.Items
 
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    if (item.melee)
-                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
-
-                    else if (rogue)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
-
-                    else if (item.ranged)
-                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
-
-                    else if (item.magic)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
-
-                    else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+					if (item.melee)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (rogue)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.ranged)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.magic)
+					{
+						int projectile = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
+					else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
+					{
+						int projectile = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
@@ -303,8 +667,10 @@ namespace CalamityMod.Items
                         num84 = item.shootSpeed / num84;
                         hardar *= num84;
                         hordor *= num84;
-                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
-                    }
+                        int projectile = Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
@@ -372,8 +738,10 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
-                    }
+                        int projectile = Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
+						if (projectile.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectile].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (modPlayer.prismaticRegalia)
@@ -441,12 +809,12 @@ namespace CalamityMod.Items
 			}
             return true;
         }
-        #endregion
+		#endregion
 
-        #region SavingAndLoading
-        public override bool NeedsSaving(Item item)
+		#region SavingAndLoading
+		public override bool NeedsSaving(Item item)
         {
-            return true;
+            return rogue || canFirePointBlankShots || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -457,14 +825,18 @@ namespace CalamityMod.Items
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
-				["reforgeTier"] = reforgeTier
-            };
+				["reforgeTier"] = reforgeTier,
+				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
+				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
+				["canFirePointBlankShots"] = canFirePointBlankShots
+			};
         }
 
         public override void Load(Item item, TagCompound tag)
         {
             rogue = tag.GetBool("rogue");
-            timesUsed = tag.GetInt("timesUsed");
+			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
+			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
@@ -473,8 +845,16 @@ namespace CalamityMod.Items
             else
                 Charge = tag.GetFloat("charge");
 
+			DischargeEnchantExhaustion = tag.GetFloat("DischargeEnchantExhaustion");
 			reforgeTier = tag.GetInt("reforgeTimer");
-        }
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				item.Calamity().AppliedEnchantment.Value.CreationEffect?.Invoke(item);
+			}
+		}
 
         public override void LoadLegacy(Item item, BinaryReader reader)
         {
@@ -488,6 +868,7 @@ namespace CalamityMod.Items
             {
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
+				canFirePointBlankShots = flags[1];
 			}
             else
             {
@@ -499,24 +880,38 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
+			flags[1] = canFirePointBlankShots;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
-        }
+			writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+			writer.Write(DischargeEnchantExhaustion);
+		}
 
         public override void NetReceive(Item item, BinaryReader reader)
         {
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
+			canFirePointBlankShots = flags[1];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
-        }
+
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				if (hasCreationEffect)
+					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+			}
+			DischargeEnchantExhaustion = reader.ReadSingle();
+		}
         #endregion
 
         #region Pickup Item Changes
@@ -529,17 +924,13 @@ namespace CalamityMod.Items
                 {
                     player.statLife -= boostedHeart ? 5 : 10;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(boostedHeart ? -5 : -10, true);
-                    }
                 }
                 else if (boostedHeart)
                 {
                     player.statLife += 5;
                     if (Main.myPlayer == player.whoAmI)
-                    {
                         player.HealEffect(5, true);
-                    }
                 }
             }
             return true;
@@ -549,6 +940,21 @@ namespace CalamityMod.Items
         #region Use Item Changes
         public override bool UseItem(Item item, Player player)
         {
+			if (player.Calamity().evilSmasherBoost > 0)
+			{
+				if (item.type != ModContent.ItemType<EvilSmasher>())
+					player.Calamity().evilSmasherBoost = 0;
+			}
+
+			if (player.HasBuff(BuffID.ParryDamageBuff))
+			{
+				if (item.type != ItemID.DD2SquireDemonSword)
+				{
+					player.parryDamageBuff = false;
+					player.ClearBuff(BuffID.ParryDamageBuff);
+				}
+			}
+
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
@@ -560,7 +966,7 @@ namespace CalamityMod.Items
 				NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
 			}
 
-            return base.UseItem(item, player);
+			return base.UseItem(item, player);
         }
 
         public override bool AltFunctionUse(Item item, Player player)
@@ -684,7 +1090,22 @@ namespace CalamityMod.Items
             if (PopupGUIManager.AnyGUIsActive)
                 return false;
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+			if (player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+			{
+				Point spawnPosition = Main.MouseWorld.ToPoint();
+				NPC.NewNPC(spawnPosition.X, spawnPosition.Y, ModContent.NPCType<CalamitasEnchantDemon>(), Target: player.whoAmI);
+				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+			}
+
+			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
+			if (player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+			{
+				int damage = (int)(165000 * player.MagicDamage());
+				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
+				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), damage, 0f, player.whoAmI);
+			}
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
                 return false; // Don't use weapons if you're charging with a spear
@@ -705,6 +1126,15 @@ namespace CalamityMod.Items
             // Conversion for Profaned Soul Crystal
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
+
+			// Exhaust the weapon if it has the necessary enchant.
+			if (!item.IsAir && modPlayer.dischargingItemEnchant)
+			{
+				float exhaustionCost = item.useTime * 2.25f;
+				if (exhaustionCost < 10f)
+					exhaustionCost = 10f;
+				DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+			}
 
             // Check for sufficient charge if this item uses charge.
             if (item.type >= ItemID.Count && modItem.UsesCharge)
@@ -802,12 +1232,24 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (item.type < ItemID.Count)
+			// Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
+			if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
+				mult *= 0.66f;
+
+			// Nerf archery potion damage buff from 1.2x to 1.05x.
+			if (item.useAmmo == AmmoID.Arrow && player.archery)
+				mult *= 0.875f;
+
+			if (item.type < ItemID.Count)
                 return;
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
             CalamityGlobalItem modItem = item.Calamity();
-            if (!item.summon && (modItem?.UsesCharge ?? false))
+
+			if (!item.summon && modItem.DischargeEnchantExhaustion > 0f)
+				mult *= DischargeEnchantmentDamageFormula();
+
+			if (!item.summon && (modItem?.UsesCharge ?? false))
             {
                 // At exactly zero charge, do not perform any multiplication.
                 // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
@@ -817,9 +1259,20 @@ namespace CalamityMod.Items
             }
         }
 
-        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
-        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
-        internal float ChargeDamageFormula()
+		internal float DischargeEnchantmentDamageFormula()
+		{
+			// This exponential has the properties of beginning at 0 and ending at 1, yet also has their signature rising curve.
+			// It is therefore perfect for a potential interpolant.
+			float interpolant = (float)Math.Pow(2D, DischargeExhaustionRatio) - 1f;
+
+			// No further smoothening is required in the form of a Smoothstep remap.
+			// A linear interpolation works fine; the exponential already has the desired curve shape.
+			return MathHelper.Lerp(DischargeEnchantMinDamageFactor, DischargeEnchantMaxDamageFactor, interpolant);
+		}
+
+		// This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+		// Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+		internal float ChargeDamageFormula()
         {
             float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
             float y = 1.087f - 0.08f / (x + 0.07f);
@@ -933,6 +1386,80 @@ namespace CalamityMod.Items
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
+			else if (set == "MonkTier2")
+			{
+				player.minionDamage += 0.15f;
+				player.meleeDamage += 0.1f;
+				player.meleeSpeed += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Lightning Aura can now crit and strikes faster\n" +
+							"10% increased melee speed, minion and melee damage";
+			}
+			else if (set == "SquireTier2")
+			{
+				player.lifeRegen += 3;
+				player.minionDamage += 0.15f;
+				player.meleeCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Ballista pierces more targets and panics when you take damage\n" +
+							"Increases your life regeneration\n" +
+							"15% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier2")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Explosive Traps recharge faster and oil enemies\n" +
+							"Set oiled enemies on fire for extra damage\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier2")
+			{
+				player.minionDamage += 0.05f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Flameburst field of view and range are dramatically increased\n" +
+							"5% increased minion damage and 15% increased magic critical strike chance";
+			}
+			else if (set == "MonkTier3")
+			{
+				player.minionDamage += 0.3f;
+				player.meleeSpeed += 0.1f;
+				player.meleeDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Lightning Aura effectiveness\n" +
+							"10% increased melee damage, melee critical strike chance and melee speed\n" +
+							"30% increased minion damage";
+			}
+			else if (set == "SquireTier3")
+			{
+				player.lifeRegen += 6;
+				player.minionDamage += 0.1f;
+				player.meleeCrit += 10;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Ballista effectiveness\n" +
+							"Massively increased life regeneration\n" +
+							"10% increased minion damage and melee critical strike chance";
+			}
+			else if (set == "HuntressTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.rangedDamage += 0.1f;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Explosive Traps effectiveness\n" +
+							"10% increased minion and ranged damage";
+			}
+			else if (set == "ApprenticeTier3")
+			{
+				player.minionDamage += 0.1f;
+				player.magicCrit += 15;
+				player.setBonus = "Increases your max number of sentries\n" +
+							"Greatly enhances Flameburst effectiveness\n" +
+							"10% increased minion damage and 15% increased magic critical strike chance";
+			}
 			else if (set == "Stardust")
 			{
 				player.maxMinions += 2;
@@ -943,26 +1470,95 @@ namespace CalamityMod.Items
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-			#region Head
-			if (item.type == ItemID.SpectreHood)
-				player.magicDamage += 0.2f;
-			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-				player.Calamity().throwingDamage += 0.03f;
-            #endregion
+			switch (item.type)
+			{
+				case ItemID.GladiatorHelmet:
+				case ItemID.ObsidianHelm:
+					player.Calamity().throwingDamage += 0.03f;
+					break;
+				case ItemID.GladiatorBreastplate:
+				case ItemID.ObsidianShirt:
+					player.Calamity().throwingCrit += 3;
+					break;
+				case ItemID.GladiatorLeggings:
+				case ItemID.ObsidianPants:
+					player.Calamity().throwingVelocity += 0.03f;
+					break;
 
-            #region Body
-            if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-                player.Calamity().throwingCrit += 3;
-			else if (item.type == ItemID.StardustBreastplate)
-				player.maxMinions--;
-			#endregion
+				case ItemID.SpectreHood:
+					player.magicDamage += 0.2f;
+					break;
 
-			#region Legs
-			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-                player.Calamity().throwingVelocity += 0.03f;
-			else if (item.type == ItemID.StardustLeggings)
-				player.maxMinions--;
-			#endregion
+				case ItemID.SquireGreatHelm:
+					player.lifeRegen -= 7;
+					break;
+				case ItemID.SquirePlating:
+					player.minionDamage -= 0.05f;
+					player.meleeDamage -= 0.05f;
+					break;
+				case ItemID.SquireGreaves:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkBrows:
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkPants:
+					player.minionDamage -= 0.05f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressJerkin:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeTrousers:
+					player.minionDamage -= 0.05f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.SquireAltShirt:
+					player.lifeRegen -= 14;
+					break;
+				case ItemID.SquireAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.MonkAltHead:
+					player.minionDamage -= 0.1f;
+					player.meleeDamage -= 0.1f;
+					break;
+				case ItemID.MonkAltShirt:
+					player.minionDamage -= 0.1f;
+					player.meleeSpeed -= 0.1f;
+					break;
+				case ItemID.MonkAltPants:
+					player.minionDamage -= 0.1f;
+					player.meleeCrit -= 10;
+					break;
+
+				case ItemID.HuntressAltShirt:
+					player.minionDamage -= 0.1f;
+					player.rangedDamage -= 0.1f;
+					break;
+
+				case ItemID.ApprenticeAltPants:
+					player.minionDamage -= 0.1f;
+					player.magicCrit -= 15;
+					break;
+
+				case ItemID.StardustBreastplate:
+				case ItemID.StardustLeggings:
+					player.maxMinions--;
+					break;
+			}
 		}
         #endregion
 
@@ -1336,7 +1932,7 @@ namespace CalamityMod.Items
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0015f;
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.001f;
 
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
@@ -1456,9 +2052,49 @@ namespace CalamityMod.Items
 		public override void PostUpdate(Item item)
 		{
 			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
-			{
 				CalamityUtils.ForceItemIntoWorld(item);
+		}
+		#endregion
+
+		#region Inventory Drawing
+		internal static ChargingEnergyParticleSet EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
+
+		internal static void UpdateAllParticleSets()
+		{
+			EnchantmentEnergyParticles.Update();
+		}
+
+		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			void drawItemManually(Color color, float generalScale)
+			{
+				Texture2D itemTexture = Main.itemTexture[item.type];
+				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
 			}
+
+			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
+				return true;
+
+			// Draw all particles.
+			float currentPower = 0f;
+			int calamitasNPCIndex = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			if (calamitasNPCIndex != -1)
+				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
+
+			position += frame.Size() * 0.25f;
+			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
+			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
+
+			float pulse = Main.GlobalTime * 0.79f % 1f;
+			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
+			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
+			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
+			drawItemManually(pulseColor, pulseScale);
+			drawItemManually(drawColor, 1f);
+
+			return false;
 		}
 		#endregion
 

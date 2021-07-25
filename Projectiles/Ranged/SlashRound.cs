@@ -28,7 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

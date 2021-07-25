@@ -17,9 +17,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            // Intentionally large bullet hitbox because this thing speeds up significantly
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -27,18 +26,30 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
             projectile.velocity *= 1.01f;
-            if (Main.rand.NextBool(3))
-            {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 91, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
-            }
+			if (projectile.velocity.Length() >= 12f)
+			{
+				projectile.velocity *= 0.5f;
+				projectile.extraUpdates++;
+				projectile.netUpdate = true;
+			}
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool(3))
+				{
+					int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 91, 0f, 0f, 0, default, 0.5f);
+					Main.dust[num137].alpha = projectile.alpha;
+					Main.dust[num137].velocity *= 0f;
+					Main.dust[num137].noGravity = true;
+				}
+			}
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

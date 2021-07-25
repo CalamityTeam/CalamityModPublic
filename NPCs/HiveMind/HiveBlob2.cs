@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax = 150;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 13000;
+                npc.lifeMax = 1300;
             }
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			int num750 = CalamityGlobalNPC.hiveMind;
 			if (num750 < 0 || !Main.npc[num750].active)

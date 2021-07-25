@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.925f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERB(517500, 621000, 9200000);
+			npc.LifeMaxNERB(517500, 621000, 920000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -48,11 +48,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            Mod calamityModMusic = CalamityMod.Instance.musicMod;
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-            else
-                music = MusicID.LunarBoss;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
             npc.dontCountMe = true;
         }
 
@@ -98,9 +94,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			{
 				invinceTime = 240;
 			}
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
 
 			// Target
@@ -204,7 +200,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (!npc.dontTakeDamage)
@@ -287,7 +283,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300, true);
-            player.AddBuff(BuffID.Frostburn, 240, true);
         }
     }
 }

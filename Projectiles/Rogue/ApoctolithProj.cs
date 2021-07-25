@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.Calamity().rogue = true;
+			projectile.ignoreWater = true;
 		}
 
 		public override void AI()
@@ -45,14 +46,12 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-			if (crit && target.defense > 0)
-			{
-				target.defense -= Math.Min(target.defense, 15);
-			}
+
+			if (crit)
+				target.Calamity().miscDefenseLoss = Math.Min(target.defense, 15);
+
 			if (projectile.Calamity().stealthStrike)
-			{
 				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
-			}
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)

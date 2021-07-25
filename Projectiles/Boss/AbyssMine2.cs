@@ -26,7 +26,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 3000 : 2400;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -75,7 +76,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Cursed, 90);
+            target.AddBuff(BuffID.Darkness, 240);
         }
     }
 }

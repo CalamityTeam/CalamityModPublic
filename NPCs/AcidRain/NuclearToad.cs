@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"), true);
     }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
-				"You deal no damage unless stationary\n" +
+				"You deal 90% less damage unless stationary\n" +
                 "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +

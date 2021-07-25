@@ -36,7 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 64;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 240;
             aiType = ProjectileID.ThrowingKnife;

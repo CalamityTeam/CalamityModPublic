@@ -39,16 +39,22 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerDamage = true;
-            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
-                "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active all life regen is halved\n" +
+			string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
+			player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
+				"Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
+				"Enemies you dash through take massive damage\n" +
+				"During the dash you are immune to most debuffs\n" +
+				"The dash has a 15 second cooldown\n" +
                 "Enemies are more likely to target you\n" +
                 "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
                 "Enemies take a lot of damage when they hit you\n" +
                 "An attack that would deal 80 damage or less will have its damage reduced to 1";
             player.thorns += 2.5f;
             player.aggro += 1000;
-        }
+
+			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+				modPlayer.dashMod = 9;
+		}
 
         public override void UpdateEquip(Player player)
         {

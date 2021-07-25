@@ -1,6 +1,8 @@
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,15 +12,17 @@ namespace CalamityMod.Projectiles.Rogue
 	public class EradicatorProjectile : ModProjectile
 	{
 		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
-		internal float rotationDirection = 1f;
-		internal float rotationAmt = 0f;
-		internal float shootCounter = 0f;
+		private const float RotationIncrement = 0.09f;
+		private const int Lifetime = 140;
+		private const float ReboundTime = 40f;
+
+		private float randomLaserCharge = 0f;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eradicator");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -26,58 +30,133 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = projectile.height = 58;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
-			projectile.aiStyle = 3;
-			projectile.timeLeft = 180;
-			aiType = ProjectileID.WoodenBoomerang;
+			projectile.MaxUpdates = 2;
+			projectile.timeLeft = Lifetime;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			projectile.localNPCHitCooldown = 18;
 			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
 		{
+			//
+			// Boomerang AI copied from Nanoblack Reaper
+			//
+			
+			// On the frame the disc begins returning, send a net update.
+			if (projectile.timeLeft == Lifetime - ReboundTime)
+				projectile.netUpdate = true;
+
+			// The disc runs its returning AI if it has existed longer than ReboundTime frames.
+			if (projectile.timeLeft <= Lifetime - ReboundTime)
+			{
+				float returnSpeed = Eradicator.Speed;
+				float acceleration = 0.25f;
+				Player owner = Main.player[projectile.owner];
+
+				// Delete the disc if it's excessively far away.
+				Vector2 playerCenter = owner.Center;
+				float xDist = playerCenter.X - projectile.Center.X;
+				float yDist = playerCenter.Y - projectile.Center.Y;
+				float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
+				if (dist > 3000f)
+					projectile.Kill();
+
+				dist = returnSpeed / dist;
+				xDist *= dist;
+				yDist *= dist;
+
+				// Home back in on the player.
+				if (projectile.velocity.X < xDist)
+				{
+					projectile.velocity.X = projectile.velocity.X + acceleration;
+					if (projectile.velocity.X < 0f && xDist > 0f)
+						projectile.velocity.X += acceleration;
+				}
+				else if (projectile.velocity.X > xDist)
+				{
+					projectile.velocity.X = projectile.velocity.X - acceleration;
+					if (projectile.velocity.X > 0f && xDist < 0f)
+						projectile.velocity.X -= acceleration;
+				}
+				if (projectile.velocity.Y < yDist)
+				{
+					projectile.velocity.Y = projectile.velocity.Y + acceleration;
+					if (projectile.velocity.Y < 0f && yDist > 0f)
+						projectile.velocity.Y += acceleration;
+				}
+				else if (projectile.velocity.Y > yDist)
+				{
+					projectile.velocity.Y = projectile.velocity.Y - acceleration;
+					if (projectile.velocity.Y > 0f && yDist < 0f)
+						projectile.velocity.Y -= acceleration;
+				}
+
+				// Delete the projectile if it touches its owner.
+				if (Main.myPlayer == projectile.owner)
+					if (projectile.Hitbox.Intersects(owner.Hitbox))
+						projectile.Kill();
+			}
+
+			// Lighting.
 			Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
-			if (projectile.aiStyle == 3)
-				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 6, ModContent.ProjectileType<NebulaShot>(), 1D, true);
+
+			// Rotate the disc as it flies.
+			float spin = projectile.direction <= 0 ? -1f : 1f;
+			projectile.rotation += spin * RotationIncrement;
+
+			// If not currently glued to a target with sticky AI, fire lasers at up to 2 nearby targets for 75% damage.
+			if (projectile.ai[0] == 1f)
+				StealthStrikeGrind(spin);
 			else
-				StealthStrikeAI();
+			{
+				float laserFrames = projectile.MaxUpdates * 8f;
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), 0.4D, true);
+			}
 		}
 
-		private void StealthStrikeAI()
+		private void StealthStrikeGrind(float spinDir)
 		{
-			if (rotationAmt < 0.75f)
-				rotationAmt += 0.005f;
-            projectile.rotation += rotationAmt * rotationDirection;
-			shootCounter += Main.rand.NextFloat(0f, 2f);
+			// Spin extra fast to visually shred the enemy.
+			projectile.rotation += spinDir * RotationIncrement * 0.8f;
 
-			//Fire lasers at random
-			if (shootCounter >= 8f)
+			// Randomly fire lasers while grinding.
+			randomLaserCharge += Main.rand.NextFloat(0.09f, 0.14f);
+			if (randomLaserCharge >= 1f)
 			{
-				shootCounter = 0f;
+				randomLaserCharge -= 1f;
 				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), projectile.damage, 0f, projectile.owner);
+
+				int laserDamage = (int)(projectile.damage * 0.15D);
+				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, 0f, projectile.owner);
 				if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
 				{
 					laser.Calamity().forceRogue = true;
 					laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
 					laser.penetrate = -1;
 					laser.usesLocalNPCImmunity = true;
-					laser.localNPCHitCooldown = 20;
+
+					// This projectile has a hefty amount of extra updates, which will influence the hit cooldown.
+					laser.localNPCHitCooldown = 70;
 				}
 			}
 
+			// Stay stuck to the target.
 			projectile.StickyProjAI(6, true);
 
+			// If still attached to a target, do nothing.
 			if (projectile.ai[0] != 0f)
 				return;
-			//Lazily homes in on the nearest NPC (boss preferential)
+
+			// If the target died, look for a new one.
 			const float turnSpeed = 30f;
 			const float speedMult = 5f;
 			const float homingRange = 600f;
-            NPC uDie = projectile.Center.ClosestNPCAt(homingRange, true, true);
-            if (uDie != null)
-            {
+			NPC uDie = projectile.Center.ClosestNPCAt(homingRange, true, true);
+			if (uDie != null)
+			{
 				Vector2 distNorm = (uDie.Center - projectile.Center).SafeNormalize(Vector2.UnitX);
 				projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + distNorm * speedMult) / turnSpeed;
 			}
@@ -95,26 +174,31 @@ namespace CalamityMod.Projectiles.Rogue
 			target.AddBuff(BuffID.Frostburn, 600);
 		}
 
-		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => StealthStrikeSetup();
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-			StealthStrikeSetup();
-            projectile.ModifyHitNPCSticky(3, true);
-        }
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => OnHit();
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => OnHit();
 
-		private void StealthStrikeSetup()
+		private void OnHit()
 		{
-			if (!projectile.Calamity().stealthStrike || projectile.aiStyle == -1)
+			// Non-stealth strikes do nothing special on hit.
+			if (!projectile.Calamity().stealthStrike)
 				return;
-			rotationDirection = projectile.direction;
-			projectile.aiStyle = -1;
-			projectile.velocity *= 0.1f;
-			projectile.ai[0] = projectile.ai[1] = 0f;
+
+			// On the first frame of impact, slow down massively so it'll effectively stay stuck to an enemy.
+			if (projectile.ai[0] == 0f && projectile.ai[1] == 0f)
+			{
+				projectile.velocity *= 0.1f;
+
+				// Also provide a lot of extra time to grind.
+				projectile.timeLeft += Lifetime;
+			}
+
+			// Apply sticky AI.
+			projectile.ModifyHitNPCSticky(3, true);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
 			return false;
 		}
 

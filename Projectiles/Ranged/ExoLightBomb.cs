@@ -52,10 +52,12 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(YDirection);
+            writer.WriteVector2(Destination);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             YDirection = reader.ReadSingle();
+            Destination = reader.ReadVector2();
         }
 
         public override void AI()
@@ -66,7 +68,11 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.localAI[0] == 0f)
             {
                 InitialCenter = projectile.Center;
-                Destination = Main.MouseWorld;
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Destination = Main.MouseWorld;
+                    projectile.netUpdate = true;
+                }
                 DustType = Main.rand.NextBool(2) ? 107 : 234;
                 if (Main.rand.NextBool(4))
                 {
@@ -74,6 +80,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 projectile.localAI[0] = 1f;
             }
+
+            if (Destination == Vector2.Zero)
+                return;
+
             if (Time <= 90f)
             {
                 projectile.position = Vector2.Lerp(InitialCenter, Destination, Time / 90f);
@@ -92,9 +102,8 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.Center = Destination + ((Time - 90) / 90f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
             }
             else if (Time == 180f)
-            {
                 projectile.Kill();
-            }
+
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Time++;
         }
@@ -174,7 +183,6 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             target.AddBuff(BuffID.CursedInferno, 180);

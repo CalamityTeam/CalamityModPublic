@@ -21,13 +21,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 18;
             projectile.height = 18;
             projectile.alpha = 255;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
             projectile.ranged = true;
             projectile.arrow = true;
             projectile.extraUpdates = 1;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {

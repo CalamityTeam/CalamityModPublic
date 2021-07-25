@@ -1,5 +1,5 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 1800;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -65,7 +66,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 300);
-        }
+			if (projectile.timeLeft >= 180)
+				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
+		}
     }
 }

@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 10;
             projectile.height = 10;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
             projectile.Calamity().rogue = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
@@ -43,11 +44,13 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.Y = 12f;
 			}
 
-            int num822 = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num822];
-            dust.velocity *= 0.1f;
-            Main.dust[num822].scale = 1.3f;
-            Main.dust[num822].noGravity = true;
+            if (Main.rand.NextBool(3))
+            {
+                Dust flame = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 1f);
+                flame.velocity *= 0.1f;
+                flame.scale = 1.3f;
+                flame.noGravity = true;
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -62,18 +65,17 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = -1;
 			projectile.damage /= 2;
             projectile.Damage();
-            for (int num621 = 0; num621 < 3; num621++)
+            for (int i = 0; i < 2; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                Dust flame = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
+                flame.velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                    flame.scale = 0.5f;
+
                 if (Main.rand.NextBool(2))
                 {
-					Main.dust[num622].scale = 0.5f;
-                }
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale *= 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    flame.scale *= 0.5f;
+                    flame.fadeIn = Main.rand.NextFloat(1f, 2f);
                 }
             }
         }

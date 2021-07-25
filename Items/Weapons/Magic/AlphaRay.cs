@@ -20,13 +20,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 112;
+            item.damage = 130;
             item.magic = true;
             item.mana = 5;
             item.width = 84;
             item.height = 74;
-            item.useTime = 3;
-            item.useAnimation = 3;
+            item.useTime = item.useAnimation = 4;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
@@ -47,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {

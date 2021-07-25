@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 1600;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Wet, 120, true);
+            player.AddBuff(BuffID.Bleeding, 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

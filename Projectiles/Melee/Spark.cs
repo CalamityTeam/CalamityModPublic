@@ -85,13 +85,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
-    }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+	}
 }

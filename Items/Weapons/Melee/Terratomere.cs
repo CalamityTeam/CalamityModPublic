@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 160;
+            item.damage = 260;
             item.melee = true;
             item.useAnimation = 21;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             }
+
             return false;
         }
 
@@ -74,18 +75,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+
             if (!target.canGhostHeal || player.moonLeech)
-            {
                 return;
-            }
+
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
@@ -93,9 +92,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+
 			if (player.moonLeech)
 				return;
+
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
