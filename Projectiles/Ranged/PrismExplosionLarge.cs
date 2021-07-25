@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 300;
+            projectile.width = projectile.height = 520;
             projectile.friendly = true;
             projectile.ignoreWater = false;
             projectile.tileCollide = false;
@@ -51,9 +51,9 @@ namespace CalamityMod.Projectiles.Ranged
                 Color lightBurstColor = CalamityUtils.MulticolorLerp(projectile.timeLeft / 144f, CalamityUtils.ExoPalette);
                 lightBurstColor = Color.Lerp(lightBurstColor, Color.White, 0.4f) * projectile.Opacity * 0.04f;
                 lightBurstColor.A = 0;
-                spriteBatch.Draw(lightTexture, lightDrawPosition, null, lightBurstColor, 0f, lightTexture.Size() * 0.5f, projectile.scale * 2.5f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(lightTexture, lightDrawPosition, null, lightBurstColor, 0f, lightTexture.Size() * 0.5f, projectile.scale * 4.5f, SpriteEffects.None, 0f);
             }
-            spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0f);
             return false;
 		}
 	}

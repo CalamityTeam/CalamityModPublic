@@ -35,7 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<DWArrow>();
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {

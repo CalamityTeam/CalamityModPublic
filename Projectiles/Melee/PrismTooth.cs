@@ -18,21 +18,22 @@ namespace CalamityMod.Projectiles.Melee
 		public ref float Time => ref projectile.ai[1];
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Prism Tooth");
+			DisplayName.SetDefault("Photon Ripper");
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 36;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.scale = 0.6f;
-			projectile.width = projectile.height = 40;
+			projectile.width = 30;
+			projectile.height = 52;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 5;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 4 * projectile.MaxUpdates;
+			projectile.usesIDStaticNPCImmunity = true;
+			// THIS IS INTENTIONALLY VERY LOW. Do not increase this; it is essential for Photon Ripper to function properly.
+			projectile.idStaticNPCHitCooldown = 4;
 			projectile.timeLeft = Lifetime;
 			projectile.melee = true;
 		}
@@ -74,6 +75,8 @@ namespace CalamityMod.Projectiles.Melee
 
 			Time++;
 		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
 
 		public void AbsolutelyFuckingAnnihilateTrees(int x, int y)
 		{

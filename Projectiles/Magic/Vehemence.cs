@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 26;
+            projectile.width = projectile.height = 32;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
@@ -69,8 +69,8 @@ namespace CalamityMod.Projectiles.Magic
             // Helical brimstone dust from the back of the projectile.
             for (int i = -1; i <= 1; i += 2)
             {
-                float helixOffset = (float)Math.Sin(Time / 45f * MathHelper.TwoPi) * 11f * i;
-                Vector2 spawnOffset = new Vector2(helixOffset, -28f).RotatedBy(projectile.rotation);
+                float helixOffset = (float)Math.Sin(Time / 45f * MathHelper.TwoPi) * i * 8f;
+                Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
 
                 Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.Brimstone);
                 brimstoneMagic.velocity = Vector2.Zero;

@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
 			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

@@ -3746,12 +3746,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
-			if (Main.player[projectile.owner].ActiveItem().type != ItemID.DaedalusStormbow && Main.player[projectile.owner].ActiveItem().type != ItemID.Xenopopper &&
-				Main.player[projectile.owner].ActiveItem().type != ItemType<ArterialAssault>() && Main.player[projectile.owner].ActiveItem().type != ItemType<ClockworkBow>() &&
-				Main.player[projectile.owner].ActiveItem().type != ItemType<PlanetaryAnnihilation>() && Main.player[projectile.owner].ActiveItem().type != ItemType<TheStorm>() &&
-				Main.player[projectile.owner].ActiveItem().type != ItemType<Vortexpopper>() && Main.player[projectile.owner].ActiveItem().type != ItemType<ConferenceCall>() &&
-				Main.player[projectile.owner].ActiveItem().type != ItemType<TrueConferenceCall>() && Main.player[projectile.owner].ActiveItem().type != ItemType<Interfacer>() &&
-				Main.player[projectile.owner].ActiveItem().type != ItemType<Svantechnical>() && Main.player[projectile.owner].ActiveItem().type != ItemType<Drataliornus>())
+			if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.ranged)
 			{
 				if (projectile.Calamity().pointBlankShotDuration > 0)
 				{

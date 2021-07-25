@@ -181,6 +181,8 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.PulseBolt:
 				case ProjectileID.Stake:
 				case ProjectileID.CandyCorn:
+				case ProjectileID.Blizzard:
+				case ProjectileID.LostSoulFriendly:
 					pointBlankShotDuration = basePointBlankShotDuration;
 					break;
 
@@ -343,6 +345,9 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
+			if (!Main.player[projectile.owner].ActiveItem().IsAir && !Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots)
+				pointBlankShotDuration = 0;
+
 			if (pointBlankShotDuration > 0)
 				pointBlankShotDuration--;
 

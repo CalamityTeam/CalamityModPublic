@@ -2116,7 +2116,6 @@ namespace CalamityMod
                 ItemType<CoreofCinder>(),
                 ItemType<CoreofEleum>(),
                 ItemType<CoreofCalamity>(),
-                ItemType<CalamitousEssence>(),
                 ItemType<HellcasterFragment>(),
                 ItemType<TwistingNether>(),
                 ItemType<DarkPlasma>(),

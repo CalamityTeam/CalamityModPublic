@@ -77,6 +77,13 @@ namespace CalamityMod.Items
 				tooltips.Add(line);
 			}
 
+			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+			if (canFirePointBlankShots)
+			{
+				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+				tooltips.Add(line);
+			}
+
 			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
 			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
 			if (challengeDrop)

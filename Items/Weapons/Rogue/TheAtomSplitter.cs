@@ -11,16 +11,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Atom Splitter");
-			Tooltip.SetDefault("Fires a javelin that releases energy duplicates at enemies it hits\n" +
-				"Stealth strikes release duplicates much more quickly");
+			Tooltip.SetDefault("Throws a quantum-superimposed javelin that strikes from numerous timelines at once\n" +
+				"Stealth strikes perform far more simultaneous strikes");
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.width = item.height = 128;
-			item.damage = 256;
+			item.damage = 456;
 			item.knockBack = 7f;
-			item.useAnimation = item.useTime = 14;
+			item.useAnimation = item.useTime = 25;
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shootSpeed = 24f;

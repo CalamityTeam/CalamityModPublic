@@ -44,7 +44,8 @@ Fighting 'til the war's won");
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
             item.useAmmo = AmmoID.Bullet;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
