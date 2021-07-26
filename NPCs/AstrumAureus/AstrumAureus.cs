@@ -354,7 +354,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
+            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!CalamityWorld.downedAstrageldon)

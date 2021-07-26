@@ -537,7 +537,7 @@ namespace CalamityMod.World
                         {
                             if (WorldGen.genRand.Next(5) == 0)
                             {
-                                WorldGenerationMethods.PlaceTit(num5, num6, (ushort)ModContent.TileType<SunkenSeaStalactite>());
+                                PlaceTit(num5, num6, (ushort)ModContent.TileType<SunkenSeaStalactite>());
                             }
                             if (WorldGen.genRand.Next(8) == 0)
                             {
@@ -601,6 +601,77 @@ namespace CalamityMod.World
                 }
             }
             return true;
+        }
+
+        public static void PlaceTit(int x, int y, ushort type = 165)
+        {
+            if (Main.tile[x, y - 1] == null)
+            {
+                Main.tile[x, y - 1] = new Tile();
+            }
+            if (Main.tile[x, y] == null)
+            {
+                Main.tile[x, y] = new Tile();
+            }
+            if (Main.tile[x, y + 1] == null)
+            {
+                Main.tile[x, y + 1] = new Tile();
+            }
+            if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].active() && !Main.tile[x, y + 1].active())
+            {
+                if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<Navystone>())
+                {
+                    if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y + 2].active())
+                    {
+                        int num2 = WorldGen.genRand.Next(3) * 18;
+                        Main.tile[x, y].type = type;
+                        Main.tile[x, y].active(true);
+                        Main.tile[x, y].frameX = (short)num2;
+                        Main.tile[x, y].frameY = 72;
+                    }
+                    else
+                    {
+                        int num3 = WorldGen.genRand.Next(3) * 18;
+                        Main.tile[x, y].type = type;
+                        Main.tile[x, y].active(true);
+                        Main.tile[x, y].frameX = (short)num3;
+                        Main.tile[x, y].frameY = 0;
+                        Main.tile[x, y + 1].type = type;
+                        Main.tile[x, y + 1].active(true);
+                        Main.tile[x, y + 1].frameX = (short)num3;
+                        Main.tile[x, y + 1].frameY = 18;
+                    }
+                }
+            }
+            else
+            {
+                if (WorldGen.SolidTile(x, y + 1) && !Main.tile[x, y].active() && !Main.tile[x, y - 1].active())
+                {
+                    if (Main.tile[x, y + 1].type == (ushort)ModContent.TileType<Navystone>())
+                    {
+                        if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y - 2].active())
+                        {
+                            int num13 = WorldGen.genRand.Next(3) * 18;
+                            Main.tile[x, y].type = type;
+                            Main.tile[x, y].active(true);
+                            Main.tile[x, y].frameX = (short)num13;
+                            Main.tile[x, y].frameY = 90;
+                        }
+                        else
+                        {
+                            int num14 = WorldGen.genRand.Next(3) * 18;
+                            Main.tile[x, y - 1].type = type;
+                            Main.tile[x, y - 1].active(true);
+                            Main.tile[x, y - 1].frameX = (short)num14;
+                            Main.tile[x, y - 1].frameY = 36;
+                            Main.tile[x, y].type = type;
+                            Main.tile[x, y].active(true);
+                            Main.tile[x, y].frameX = (short)num14;
+                            Main.tile[x, y].frameY = 54;
+                        }
+                    }
+                }
+            }
         }
     }
 }

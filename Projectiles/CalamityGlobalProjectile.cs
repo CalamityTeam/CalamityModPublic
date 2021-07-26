@@ -2135,20 +2135,20 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
                         {
-                            WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
                         }
                         //commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
                         if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
                         {
-                            WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
                         }
                         if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
                         {
-                            WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
                         }
                         if (projectile.type == ProjectileID.HallowSpray)
                         {
-                            WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+                            AstralBiome.ConvertFromAstral(i, j, ConvertType.Hallow);
                         }
                         NetMessage.SendTileRange(-1, i, j, 1, 1);
                     }

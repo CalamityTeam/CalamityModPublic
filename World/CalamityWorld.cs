@@ -1152,7 +1152,7 @@ namespace CalamityMod.World
             // Insert the Astral biome generation right before the final hardmode announcement.
             tasks.Insert(announceIndex, new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
             {
-                WorldGenerationMethods.PlaceAstralMeteor();
+                AstralBiome.PlaceAstralMeteor();
             }));
         }
         #endregion
