@@ -1087,7 +1087,7 @@ namespace CalamityMod.World
                 tasks.Insert(FinalIndex + 2, new PassLegacy("SpecialShrines", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Special Shrines";
-                    SmallBiomes.PlaceShrines();
+                    UndergroundShrines.PlaceShrines();
                 }));
 
 

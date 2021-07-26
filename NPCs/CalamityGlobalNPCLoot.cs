@@ -17,6 +17,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
+using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System.Threading;
 using Terraria;
@@ -499,7 +500,7 @@ namespace CalamityMod.NPCs
                     // This operation is done on a separate thread to lighten the load on servers so that they
                     // can focus on more critical operations asychronously and ideally avoid a time-out crash.
                     // Very few operations in Terraria utilize the pool, so it is highly unlikely that no threads will remain in it.
-                    ThreadPool.QueueUserWorkItem(_ => WorldGenerationMethods.GenerateLuminitePlanetoids());
+                    ThreadPool.QueueUserWorkItem(_ => LuminitePlanet.GenerateLuminitePlanetoids());
 
                     CalamityWorld.HasGeneratedLuminitePlanetoids = true;
 
