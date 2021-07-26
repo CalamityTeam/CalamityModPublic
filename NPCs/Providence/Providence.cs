@@ -1356,7 +1356,7 @@ namespace CalamityMod.NPCs.Providence
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
+                CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, 0.4f, 0.8f, 3, 8, TileID.Mud);
 
 				CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 				CalamityUtils.DisplayLocalizedText(key3, messageColor3);

@@ -227,61 +227,6 @@ namespace CalamityMod.World
         }
         #endregion
 
-        #region OreSpawn
-        public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
-        {
-            int x = Main.maxTilesX;
-            int y = Main.maxTilesY;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = 0; k < (int)(x * y * frequency); k++)
-                {
-                    int tilesX = WorldGen.genRand.Next(0, x);
-                    int tilesY = WorldGen.genRand.Next((int)(y * depth), (int)(y * depthLimit));
-                    if (type == ModContent.TileType<AuricOre>())
-                    {
-                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(6, 12), WorldGen.genRand.Next(6, 12), (ushort)type);
-                    }
-                    else if (type == ModContent.TileType<UelibloomOre>())
-                    {
-                        if (Main.tile[tilesX, tilesY].type == TileID.Mud)
-                        {
-                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
-                        }
-                    }
-                    else if (type == ModContent.TileType<PerennialOre>() || type == TileID.LunarOre)
-                    {
-                        if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
-                        {
-                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
-                        }
-                    }
-                    else if (type == ModContent.TileType<CryonicOre>())
-                    {
-                        if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock || Main.tile[tilesX, tilesY].type == TileID.CorruptIce || Main.tile[tilesX, tilesY].type == TileID.HallowedIce || Main.tile[tilesX, tilesY].type == TileID.FleshIce || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
-                        {
-                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
-                        }
-                    }
-					else if (type == ModContent.TileType<HallowedOre>())
-					{
-						if (Main.tile[tilesX, tilesY].type == TileID.Pearlstone || Main.tile[tilesX, tilesY].type == TileID.HallowHardenedSand || Main.tile[tilesX, tilesY].type == TileID.HallowSandstone || Main.tile[tilesX, tilesY].type == TileID.HallowedIce)
-						{
-							WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
-						}
-					}
-					else
-                    {
-                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
-                    }
-                }
-			}
-        }
-        #endregion
-
-        #region AstralMeteor
-        #endregion
-
         #region UnderworldIsland
         public static void UnderworldIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2)
         {
