@@ -28,6 +28,7 @@ using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -1140,7 +1141,7 @@ namespace CalamityMod.World
                 }));
             }
 
-            tasks.Add(new PassLegacy("Planetoid Test", WorldGenerationMethods.Planetoids));
+            tasks.Add(new PassLegacy("Planetoid Test", Planetoid.GenerateAllBasePlanetoids));
         }
 
         // An Astral Meteor always falls at the beginning of Hardmode.
