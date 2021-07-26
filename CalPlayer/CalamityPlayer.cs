@@ -3670,10 +3670,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.05f;
             }
-            if (graxDefense)
-            {
-                meleeSpeedMult += 0.1f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;

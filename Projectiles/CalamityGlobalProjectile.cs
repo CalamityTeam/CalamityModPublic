@@ -230,6 +230,11 @@ namespace CalamityMod.Projectiles
 					projectile.idStaticNPCHitCooldown = 18;
 					break;
 
+				case ProjectileID.MonkStaffT3:
+				case ProjectileID.MonkStaffT3_Alt:
+					projectile.scale = 2f;
+					break;
+
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
 				case ProjectileID.FlowerPetal:
