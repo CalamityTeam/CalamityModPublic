@@ -2,12 +2,11 @@ using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-    public class SmallBiomes : ModWorld
+    public class WorldEvilIsland : ModWorld
     {
         public static void PlaceEvilIsland()
         {

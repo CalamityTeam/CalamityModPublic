@@ -989,7 +989,7 @@ namespace CalamityMod.World
                 tasks.Insert(ShiniesIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Evil Island";
-                    SmallBiomes.PlaceEvilIsland();
+                    WorldEvilIsland.PlaceEvilIsland();
                 }));
             }
 
