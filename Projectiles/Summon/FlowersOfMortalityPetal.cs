@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Time++;
             NPC potentialTarget = projectile.Center.MinionHoming(1050f, Owner, false);
-            if (Time % 25 == 24 && Main.myPlayer == projectile.owner && potentialTarget != null)
+            if (Time % 50f == 49f && Main.myPlayer == projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
                 Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), projectile.damage / 3, projectile.knockBack, projectile.owner);
