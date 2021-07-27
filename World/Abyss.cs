@@ -18,7 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-	public class Abyss : ModWorld
+	public class Abyss
 	{
 		public static void PlaceAbyss()
 		{

@@ -9,7 +9,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class SunkenSea : ModWorld
+    public class SunkenSea
     {
         private struct Hub
         {

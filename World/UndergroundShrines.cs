@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-    public class UndergroundShrines : ModWorld
+    public class UndergroundShrines
     {
         #region Enumeration
         public enum UndergroundShrineType

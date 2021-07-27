@@ -13,7 +13,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-	public class SulphurousSea : ModWorld
+	public class SulphurousSea
 	{
         #region Fields and Properties
         public static int BiomeWidth

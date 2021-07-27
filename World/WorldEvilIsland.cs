@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-    public class WorldEvilIsland : ModWorld
+    public class WorldEvilIsland
     {
         public static void PlaceEvilIsland()
         {
