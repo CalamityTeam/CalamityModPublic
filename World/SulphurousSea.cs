@@ -691,7 +691,7 @@ namespace CalamityMod.World
 							SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type) &&
 							CalamityUtils.ParanoidTileRetrieval(x, y + 1).active())
 						{
-							chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+							chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
 						}
 					}
 				}

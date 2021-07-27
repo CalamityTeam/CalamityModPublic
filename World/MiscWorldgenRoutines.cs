@@ -18,7 +18,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class WorldGenerationMethods : ModWorld
+    public class MiscWorldgenRoutines
     {
         #region Dungeon Biome Chests
         public static void GenerateBiomeChests(GenerationProgress progress)
@@ -207,6 +207,8 @@ namespace CalamityMod.World
             }
         }
         #endregion
+
+        // NOTE - The crag gen is scheduled for a rework soon. As such, its code will not be moved.
 
         #region UnderworldIsland
         public static void UnderworldIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2)

@@ -230,7 +230,7 @@ namespace CalamityMod.World
 				}
 			}
 
-			WorldGenerationMethods.ChasmGenerator(abyssChasmX, (int)WorldGen.worldSurfaceLow, CalamityWorld.abyssChasmBottom, true);
+			MiscWorldgenRoutines.ChasmGenerator(abyssChasmX, (int)WorldGen.worldSurfaceLow, CalamityWorld.abyssChasmBottom, true);
 
 			int maxAbyssIslands = 11; //Small World
 			if (y > 2100)
