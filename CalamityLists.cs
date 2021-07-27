@@ -427,6 +427,7 @@ namespace CalamityMod
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<SylvanSlashAttack>(),
                 ProjectileType<InfernadoFriendly>(),
+                ProjectileType<DragonRageStaff>(),
                 ProjectileType<MurasamaSlash>(),
                 ProjectileType<PhaseslayerProjectile>(),
                 ProjectileType<TaintedBladeSlasher>(),
