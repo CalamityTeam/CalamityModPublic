@@ -1161,14 +1161,5 @@ namespace CalamityMod.World
         #region PostUpdate
         public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
         #endregion
-
-        #region ChangeTime
-        public static void ChangeTime(bool day)
-        {
-            Main.time = 0.0;
-            Main.dayTime = day;
-            CalamityNetcode.SyncWorld();
-        }
-        #endregion
     }
 }

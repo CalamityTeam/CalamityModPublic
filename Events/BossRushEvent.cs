@@ -360,7 +360,7 @@ namespace CalamityMod.Events
 
                     // Change time as necessary.
                     if (Bosses[BossRushStage].ToChangeTimeTo != TimeChangeContext.None)
-                        CalamityWorld.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
+                        CalamityUtils.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
                     
                     // Play the typical boss roar sound.
                     if (!Bosses[BossRushStage].UsesSpecialSound)

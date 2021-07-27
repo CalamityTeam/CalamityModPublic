@@ -294,5 +294,12 @@ namespace CalamityMod
 				end = start + Vector2.Normalize(end - start) * maxDistance;
 			}
 		}
+
+		public static void ChangeTime(bool changeToDay)
+		{
+			Main.time = 0D;
+			Main.dayTime = changeToDay;
+			CalamityNetcode.SyncWorld();
+		}
 	}
 }
