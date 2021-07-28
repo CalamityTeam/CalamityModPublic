@@ -2,6 +2,7 @@ using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.World
@@ -414,6 +415,92 @@ namespace CalamityMod.World
                     Main.tile[num47, num48].active(false);
                     Main.tile[num47, num48].liquid = 255;
                     WorldGen.SquareTileFrame(num47, num48, true);
+                }
+            }
+
+            // Place clouds around the island.
+            num = (double)WorldGen.genRand.Next(138, 145);
+            num2 = (float)WorldGen.genRand.Next(33, 38);
+            vector.X = (float)i;
+            vector.Y = (float)j + 12;
+            vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+            while (vector2.X > -2f && vector2.X < 2f)
+            {
+                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+            }
+            vector2.Y = (float)WorldGen.genRand.Next(-20, -10) * 0.02f;
+            while (num > 0.0 && num2 > 0f)
+            {
+                num -= (double)WorldGen.genRand.Next(4);
+                num2 -= 1f;
+                int num7 = (int)((double)vector.X - num * 0.5);
+                int num8 = (int)((double)vector.X + num * 0.5);
+                int num9 = num5 - 1;
+                int num10 = (int)((double)vector.Y + num * 0.5);
+                if (num7 < 0)
+                {
+                    num7 = 0;
+                }
+                if (num8 > Main.maxTilesX)
+                {
+                    num8 = Main.maxTilesX;
+                }
+                if (num9 < 0)
+                {
+                    num9 = 0;
+                }
+                if (num10 > Main.maxTilesY)
+                {
+                    num10 = Main.maxTilesY;
+                }
+                double num11 = num * (double)WorldGen.genRand.Next(80, 120) * 0.01;
+                float num19 = vector.Y + 1f;
+                for (int num20 = num7; num20 < num8; num20++)
+                {
+                    if (WorldGen.genRand.Next(2) == 0)
+                    {
+                        num19 += (float)WorldGen.genRand.Next(-1, 2);
+                    }
+                    if (num19 < vector.Y)
+                    {
+                        num19 = vector.Y;
+                    }
+                    if (num19 > vector.Y + 2f)
+                    {
+                        num19 = vector.Y + 2f;
+                    }
+                    for (int num21 = num9; num21 < num10; num21++)
+                    {
+                        if ((float)num21 > num19)
+                        {
+                            float arg_69E_0 = Math.Abs((float)num20 - vector.X);
+                            float num22 = Math.Abs((float)num21 - vector.Y) * 3.6f;
+                            if (Math.Sqrt((double)(arg_69E_0 * arg_69E_0 + num22 * num22)) < num11 * 0.4 && !Main.tile[num20, num21].active())
+                            {
+                                Main.tile[num20, num21].type = TileID.Cloud;
+                                Main.tile[num20, num21].active(true);
+                                WorldGen.SquareTileFrame(num20, num21, true);
+                            }
+                        }
+                    }
+                }
+                vector += vector2;
+                vector2.X += (float)WorldGen.genRand.Next(-20, 21) * 0.05f;
+                if (vector2.X > 1f)
+                {
+                    vector2.X = 1f;
+                }
+                if (vector2.X < -1f)
+                {
+                    vector2.X = -1f;
+                }
+                if ((double)vector2.Y > 0.2)
+                {
+                    vector2.Y = -0.2f;
+                }
+                if ((double)vector2.Y < -0.2)
+                {
+                    vector2.Y = -0.2f;
                 }
             }
         }
