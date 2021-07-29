@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Left click fires in two-shot bursts\n" +
                 "The first shot is a spread of 6 normal bullets\n" +
                 "The second shot is a tight spread of 6 Dragon's Breath rounds\n" +
-                "Right click fires full auto and mixes the bullets randomly, but does 15% less damage\n" +
+                "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo");
         }
