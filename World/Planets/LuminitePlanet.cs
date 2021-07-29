@@ -9,6 +9,38 @@ namespace CalamityMod.World.Planets
 {
     public class LuminitePlanet : Planetoid
     {
+        public static void GenerateLuminitePlanetoids()
+        {
+            // Don't attempt to generate these things client-side.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            // The worldgen structure map only gets created/regenerated when you generate a world, for some reason.
+            // This means if you simply enter a world and generate this planetoid, the map will not exist yet, and errors will arise.
+            // As a result, a new one is generated as necessary.
+            if (WorldGen.structures is null)
+                WorldGen.structures = new StructureMap();
+
+            int totalPlanetoidsToGenerate = Main.maxTilesX / 4200 + 1;
+            for (int i = 0; i < totalPlanetoidsToGenerate; i++)
+            {
+                for (int tries = 0; tries < 3000; tries++)
+                {
+                    Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 700, Main.maxTilesX / 2 + 700), WorldGen.genRand.Next(85, 110));
+                    if (WorldGen.genRand.NextBool(2))
+                    {
+                        if (Biomes<LuminitePlanet>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                    else
+                    {
+                        if (Biomes<LuminitePlanet2>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                }
+            }
+        }
+
         public override bool Place(Point origin, StructureMap structures)
         {
             int radius = _random.Next(18, 21);

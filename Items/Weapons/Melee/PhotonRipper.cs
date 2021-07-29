@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			item.height = 134;
 			item.width = 54;
-			item.damage = 3660;
+			item.damage = 4050;
 
 			// Displayed axe% is 1/5th of axePower here because trees have 500% hardness. This corrects for that.
 			item.axe = 6000 / 5;
