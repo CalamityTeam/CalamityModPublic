@@ -984,10 +984,10 @@ namespace CalamityMod.World
         #region ModifyWorldGenTasks
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-            if (ShiniesIndex != -1)
+            int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
+            if (islandIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress)
+                tasks.Insert(islandIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Evil Island";
                     WorldEvilIsland.PlaceEvilIsland();
