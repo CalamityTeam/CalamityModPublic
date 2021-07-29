@@ -1540,7 +1540,7 @@ namespace CalamityMod.NPCs
 						if (calamityGlobalNPC.newAI[2] == 2f)
 						{
 							int type = ModContent.ProjectileType<BrimstoneGigaBlast>();
-							int damage = npc.GetProjectileDamage(type);
+							int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
 							float gigaBlastFrequency = (expertMode ? 180f : 240f) - enrageScale * 15f;
 							float projSpeed = malice ? 6.25f : 5f;
 							if (calamityGlobalNPC.newAI[3] <= 300f)
@@ -1566,7 +1566,7 @@ namespace CalamityMod.NPCs
 						{
 							npc.ai[0] = 0f;
 							int type = ModContent.ProjectileType<BrimstoneHellblast2>();
-							int damage = npc.GetProjectileDamage(type);
+							int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
 							float projSpeed = malice ? 5f : 4f;
 							if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 6f) == 0f)
 							{
@@ -4071,6 +4071,9 @@ namespace CalamityMod.NPCs
 
 			Player player = Main.player[npc.target];
 
+			// Speed enrage
+			bool moveVeryFast = Vector2.Distance(npc.Center, player.Center) > 960f || (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0);
+
 			// Despawn
 			if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
 			{
@@ -4405,10 +4408,8 @@ namespace CalamityMod.NPCs
 			// Basic movement towards a location
 			void Movement(bool succ)
 			{
-				float velocity = (!player.ZoneDungeon || BossRushEvent.BossRushActive) ? 25f : ((expertMode ? 7.5f : 6f) + (float)(death ? 2f * (1D - lifeRatio) : 0f)) * tileEnrageMult;
-				float acceleration = malice ? 0.3f : death ? 0.2f : expertMode ? 0.16f : 0.12f;
-				if (!player.ZoneDungeon || BossRushEvent.BossRushActive)
-					velocity = expertMode ? 25f : 20f;
+				float velocity = moveVeryFast ? 25f : BossRushEvent.BossRushActive ? 15f : ((expertMode ? 7.5f : 6f) + (float)(death ? 2f * (1D - lifeRatio) : 0f)) * tileEnrageMult;
+				float acceleration = moveVeryFast ? 0.75f : malice ? 0.3f : death ? 0.2f : expertMode ? 0.16f : 0.12f;
 
 				// Increase speed dramatically in succ phase
 				if (succ)
