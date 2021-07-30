@@ -11,6 +11,8 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Accessories.Wings;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -57,7 +59,12 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
+
+            int soulFragMin = 22;
+            int soulFragMax = 28;
+            DropHelper.DropItem(player, ModContent.ItemType<HellcasterFragment>(), soulFragMin, soulFragMax);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<YharonMask>(), 7);
