@@ -2879,7 +2879,7 @@ namespace CalamityMod.NPCs.Yharon
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
 
-            // Phase 1 drops: Contained in the bag, so they only drop directly on Normal
+            // Normal drops: Everything that would otherwise be in the bag
             if (!Main.expertMode)
             {
                 // Weapons
