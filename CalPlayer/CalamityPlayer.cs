@@ -42,6 +42,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
@@ -71,6 +72,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1054,6 +1057,10 @@ namespace CalamityMod.CalPlayer
 
         public bool lecherousOrbEnchant = false;
         #endregion Calamitas Enchant Effects
+
+        #region Draw Effects
+        public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, 1, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
+        #endregion Draw Effects
 
         #endregion
 
