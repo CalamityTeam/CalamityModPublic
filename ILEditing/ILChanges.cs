@@ -131,6 +131,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
             IL.Terraria.Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
             On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
+            On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
         }
 
         /// <summary>
@@ -166,6 +167,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
             IL.Terraria.Main.DrawInterface_40_InteractItemIcon -= MakeMouseHoverItemsSupportAnimations;
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
+            On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
         }
 
         #region IL Editing Routines
@@ -599,6 +601,15 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region IL Editing Injected/Hooked Functions
+
+        // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
+        private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
+        {
+            if (self.active && self.Calamity().ShouldFallThroughPlatforms)
+                fall = true;
+            orig(self, fall, cPosition, cWidth, cHeight);
+        }
+
         private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();

@@ -97,6 +97,16 @@ namespace CalamityMod.World
             if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
                 CalamityUtils.StopSandstorm();
 
+            // Attempt to summon lab critters manually since they refuse to exist when using vanilla's spawn methods.
+            // This needs to check all players since the method only runs server-side.
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                if (!Main.player[i].active || Main.player[i].dead)
+                    continue;
+
+                CalamityGlobalNPC.AttemptToSpawnLabCritters(Main.player[i]);
+            }
+
             // Make the cultist countdown happen much more quickly.
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
