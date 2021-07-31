@@ -1,10 +1,8 @@
 using CalamityMod.Items;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -23,6 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 124;
             projectile.friendly = true;
             projectile.tileCollide = false;
+            projectile.ignoreWater = true;
             projectile.penetrate = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
