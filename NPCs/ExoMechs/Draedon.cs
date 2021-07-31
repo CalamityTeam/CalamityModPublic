@@ -49,13 +49,13 @@ namespace CalamityMod.NPCs.ExoMechs
                 npc.netUpdate = true;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == 250f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == 190f)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText2", TextColor);
                 npc.netUpdate = true;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == 330f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == 270f)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText3", TextColor);
                 npc.netUpdate = true;
@@ -64,13 +64,13 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.velocity = Vector2.UnitY * Utils.InverseLerp(0f, 50f, TalkTimer, true) * Utils.InverseLerp(65f, 50f, TalkTimer, true) * -4.5f;
 
             // Make the screen rumble and summon the exo mechs.
-            if (TalkTimer < 435f)
+            if (TalkTimer < 375f)
             {
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(4200f, 1400f, Main.LocalPlayer.Distance(PlayerToFollow.Center), true) * 18f;
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(335f, 425f, TalkTimer, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(275f, 375f, TalkTimer, true);
             }
 
-            if (TalkTimer == 430f)
+            if (TalkTimer == 370f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     SummonExoMech();

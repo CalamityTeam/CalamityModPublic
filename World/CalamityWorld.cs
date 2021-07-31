@@ -167,7 +167,7 @@ namespace CalamityMod.World
         {
             get => DraedonSummonCountdown <= 0 && !NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && !NPC.AnyNPCs(ModContent.NPCType<ThanatosHead>());
         }
-        public const int DraedonSummonCountdownMax = 450;
+        public const int DraedonSummonCountdownMax = 260;
 
         // Draedon Lab Locations.
         public static Vector2 SunkenSeaLabCenter;
