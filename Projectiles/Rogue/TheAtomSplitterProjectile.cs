@@ -11,7 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
     {
         // Atom splitting is cool and all, but actual thermonuclear meltdown levels of DPS is unacceptable.
         // DO NOT increase this unless you are ABSOLUTELY SURE you know what will happen.
-        private const float StealthSplitMultiplier = 0.1666667f;
+        private const float NormalSplitMultiplier = 0.7f;
+        private const float StealthSplitMultiplier = 0.12f;
         
         public ref float HitTargetIndex => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];
@@ -111,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Vector2 spawnPosition = target.Center + Main.rand.NextVector2CircularEdge(baseOutwardness, baseOutwardness) * Main.rand.NextFloat(0.9f, 1.15f);
             Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(12f, 14f);
-            int damage = stealth ? (int)(projectile.damage * StealthSplitMultiplier) : projectile.damage;
+            int damage = (int)(projectile.damage * (stealth ? StealthSplitMultiplier : NormalSplitMultiplier));
             Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, projectile.knockBack, projectile.owner, 0f, baseOutwardness / 9f);
         }
 
