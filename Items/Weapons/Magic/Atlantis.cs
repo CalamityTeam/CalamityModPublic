@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class Atlantis : ModItem
+    public class Atlantis : ModItem
     {
         public override void SetStaticDefaults()
         {
