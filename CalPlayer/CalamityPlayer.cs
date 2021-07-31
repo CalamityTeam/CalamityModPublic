@@ -1238,10 +1238,10 @@ namespace CalamityMod.CalPlayer
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
             GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
-            // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
-            if (tag.ContainsKey("stress"))
-                rage = tag.GetInt("stress");
-            else
+            // Load rage if it's there, which it will be for any players saved with 1.5.
+            // Older players have "stress" instead, which will be ignored. This is intentional.
+            // Stress ranged from 0 to 10,000. Rage ranges from 0.0 to 1.0.
+            if (tag.ContainsKey("rage"))
                 rage = tag.GetFloat("rage");
 
             adrenaline = tag.GetFloat("adrenaline");
