@@ -38,6 +38,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool AltFunctionUse(Player player) => true;
+        
+        // Right click doesn't use ammo because it's a detonation signal.
+        public override bool ConsumeAmmo(Player player) => player.altFunctionUse != 2;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
