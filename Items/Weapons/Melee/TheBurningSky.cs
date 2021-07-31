@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheBurningSky : ModItem
     {
-        private const int ProjectilesPerBarrage = 12;
+        private const int ProjectilesPerBarrage = 6;
 
         public override void SetStaticDefaults()
         {
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // Every time the item spawns more meteors, play a violent, bass heavy sound to add onto Star Wrath's use sound.
-            Main.PlaySound(SoundID.Item70, player.Center); // item81
+            Main.PlaySound(SoundID.Item70, player.Center);
             
             Vector2 originalVelocity = new Vector2(speedX, speedY);
             float speed = originalVelocity.Length();
