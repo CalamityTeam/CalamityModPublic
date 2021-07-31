@@ -1164,7 +1164,8 @@ namespace CalamityMod.CalPlayer
             return new TagCompound
             {
                 { "boost", boost },
-                { "rage", rage }, // Used to be "stress". Newer saves will never write "stress".
+                { "rage", rage },
+                { "stress", rage * 10000f },
                 { "adrenaline", adrenaline },
                 { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
