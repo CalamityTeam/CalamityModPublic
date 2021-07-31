@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 530;
+            item.damage = 462;
             item.ranged = true;
             item.width = 76;
             item.height = 24;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.Violet;
             // No use sound is intentional
             item.autoReuse = true;
-            item.shootSpeed = 17.5f;
+            item.shootSpeed = 14.5f;
             item.shoot = ModContent.ProjectileType<ChickenRocket>();
             item.useAmmo = AmmoID.Rocket;
         }
