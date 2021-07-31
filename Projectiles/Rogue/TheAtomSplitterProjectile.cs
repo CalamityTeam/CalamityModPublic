@@ -161,6 +161,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanDamage() => projectile.alpha < 80;
 
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (HitTargetIndex >= 0 && target.whoAmI != HitTargetIndex)
+                return false;
+            return base.CanHitNPC(target);
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             ReleaseHitDust(target.Center - projectile.velocity * 3f);
