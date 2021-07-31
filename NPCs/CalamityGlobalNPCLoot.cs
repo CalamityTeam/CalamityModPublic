@@ -913,6 +913,12 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate);
                     break;
 
+                case NPCID.VampireBat:
+                case NPCID.Vampire:
+                    float batHookDropRate = Main.expertMode ? 0.05f : 0.025f;
+                    DropHelper.DropItemChance(npc, ItemID.BatHook, batHookDropRate);
+                    break;
+
                 case NPCID.SeaSnail:
                     DropHelper.DropItem(npc, ModContent.ItemType<SeaShell>());
                     break;
