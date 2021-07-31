@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Shark Tooth Necklace");
-            Tooltip.SetDefault("Increases armor penetration by 15\n" + "6% increased damage");
+            Tooltip.SetDefault("Increases armor penetration by 10\n" + "6% increased damage");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			player.allDamage += 0.06f;
-			player.armorPenetration += 15;
+			player.armorPenetration += 10;
         }
 
         public override void AddRecipes()

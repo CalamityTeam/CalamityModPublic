@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
         public const float FullAutoFireRateMult = 0.8f;
-        public const float FullAutoDamageMult = 0.85f;
+        public const float FullAutoDamageMult = 0.8f;
         // note this is extremely low because it's per pellet
         public const float Spread = 0.018f;
 
@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Left click fires in two-shot bursts\n" +
                 "The first shot is a spread of 6 normal bullets\n" +
                 "The second shot is a tight spread of 6 Dragon's Breath rounds\n" +
-                "Right click fires full auto and mixes the bullets randomly, but does 15% less damage\n" +
+                "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 272;
             item.ranged = true;
             item.width = 64;
             item.height = 28;
@@ -122,9 +122,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        // TODO -- this is just copied Handheld Tank dust, but it looks good enough. Could definitely be improved.
         private void SpawnDragonsBreathDust(Vector2 pos, Vector2 velocity)
         {
+            pos += velocity.SafeNormalize(Vector2.Zero) * item.width * item.scale * 0.71f;
             for (int i = 0; i < 30; ++i)
             {
                 // Pick a random type of smoke (there's a little fire mixed in)
@@ -132,7 +132,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 switch (Main.rand.Next(6))
                 {
                     case 0:
-                        dustID = 55;
+                        dustID = 262;
                         break;
                     case 1:
                     case 2:
@@ -149,6 +149,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(velocity.ToRotation());
                 dustVel = dustVel.RotatedBy(-angleRandom);
                 dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+
+                // Sometimes make smoke fly upward instead of outward.
+                if (Main.rand.NextBool(4))
+                    dustVel = Vector2.Lerp(dustVel, -Vector2.UnitY * dustVel.Length(), Main.rand.NextFloat(0.6f, 0.85f)) * 0.6f;
 
                 // Pick a size for the smoke particle
                 float scale = Main.rand.NextFloat(0.5f, 1.6f);

@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     Vector2 newShootVelocity = shootVelocity * Main.rand.NextFloat(1f, 1.45f);
                     newShootVelocity = newShootVelocity.RotatedByRandom(0.15f);
-                    Projectile.NewProjectile(gunTip, newShootVelocity, item.shoot, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(gunTip, newShootVelocity, item.shoot, (int)(damage * 1.08), knockBack, player.whoAmI);
                 }
             }
 

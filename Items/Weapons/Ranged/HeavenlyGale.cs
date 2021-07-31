@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
 	public class HeavenlyGale : ModItem
 	{
-		public const float NormalArrowDamageMult = 1.2f;
+		public const float NormalArrowDamageMult = 1.25f;
 		private static int[] ExoArrows;
 		
 		public override void SetStaticDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				"Blue exo arrows burst into barrages of following arrows\n" +
 				"Orange exo arrows explode into flames\n" +
 				"Teal exo arrows pierce infinitely and ignore immunity frames\n" +
-				"Any non-wooden arrows used will deal 1.2x damage\n" +
+				$"Any non-wooden arrows used will deal {NormalArrowDamageMult}x damage\n" +
 				"66% chance to not consume ammo");
 
 			ExoArrows = new int[]

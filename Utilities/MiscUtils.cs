@@ -44,6 +44,19 @@ namespace CalamityMod
 			return array;
 		}
 
+		public static T[,] ShaveOffEdge<T>(this T[,] array)
+		{
+			T[,] result = new T[array.GetLength(0) - 2, array.GetLength(1) - 2];
+			for (int i = 0; i < result.GetLength(0); i++)
+			{
+				for (int j = 0; j < result.GetLength(1); j++)
+				{
+					result[i, j] = array[i + 1, j + 1];
+				}
+			}
+			return result;
+        }
+
 		/// <summary>
 		/// Retrieves all the colors from a <see cref="Texture2D"/> and returns them as a 2D <see cref="Color"/> array.
 		/// </summary>
@@ -293,6 +306,13 @@ namespace CalamityMod
 			{
 				end = start + Vector2.Normalize(end - start) * maxDistance;
 			}
+		}
+
+		public static void ChangeTime(bool changeToDay)
+		{
+			Main.time = 0D;
+			Main.dayTime = changeToDay;
+			CalamityNetcode.SyncWorld();
 		}
 	}
 }

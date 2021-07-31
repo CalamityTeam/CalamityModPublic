@@ -590,6 +590,8 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+        public int voidFrameCounter = 0;
+        public int voidFrame = 0;
         public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
@@ -923,6 +925,8 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
+        public bool voidAura = false;
+        public bool voidAuraDamage = false;
         public bool youngDuke = false;
         public bool virili = false;
         public bool frostBlossom = false;
@@ -1229,7 +1233,7 @@ namespace CalamityMod.CalPlayer
 
             // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
             if (tag.ContainsKey("stress"))
-                rage = tag.GetFloat("stress");
+                rage = tag.GetInt("stress");
             else
                 rage = tag.GetFloat("rage");
 
@@ -1991,6 +1995,8 @@ namespace CalamityMod.CalPlayer
             plaguebringerMK2 = false;
             igneousExaltation = false;
             coldDivinity = false;
+            voidAura = false;
+            voidAuraDamage = false;
             radiantResolution = false;
             virili = false;
             frostBlossom = false;
@@ -3665,10 +3671,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.05f;
             }
-            if (graxDefense)
-            {
-                meleeSpeedMult += 0.1f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;
@@ -3775,8 +3777,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (player.beetleOffense && player.beetleOrbs > 0)
 			{
-				player.meleeDamage -= 0.05f * player.beetleOrbs;
-				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.1f * player.beetleOrbs;
 			}
             if (CalamityConfig.Instance.Proficiency)
             {
@@ -3860,6 +3861,14 @@ namespace CalamityMod.CalPlayer
                 roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
             }
             roverFrameCounter++;
+
+            int frames = 4;
+            if (voidFrameCounter >= 6)
+            {
+                voidFrameCounter = 0;
+                voidFrame = voidFrame == frames - 1 ? 0 : voidFrame + 1;
+            }
+            voidFrameCounter++;
 
             for (int i = 0; i < player.dye.Length; i++)
             {

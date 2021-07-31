@@ -33,6 +33,16 @@ namespace CalamityMod.Schematics
 
 				// Astral world gen structures
 				["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeacon.csch"),
+
+				// Sulphurous Sea scrap world gen structures
+				["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile1.csch").ShaveOffEdge(),
+				["Sulphurous Scrap 2"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile2.csch").ShaveOffEdge(),
+				["Sulphurous Scrap 3"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile3.csch").ShaveOffEdge(),
+				["Sulphurous Scrap 4"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile4.csch").ShaveOffEdge(),
+				["Large Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile1.csch").ShaveOffEdge(),
+				["Large Sulphurous Scrap 2"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile2.csch").ShaveOffEdge(),
+				["Large Sulphurous Scrap 3"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile3.csch").ShaveOffEdge(),
+				["Large Sulphurous Scrap 4"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile4.csch").ShaveOffEdge(),
 			};
 		}
 		internal static void Unload()
@@ -41,7 +51,18 @@ namespace CalamityMod.Schematics
 			PilePlacementMaps = null;
 		}
 		#endregion
+		
+		#region Get Schematic Area
+		public static Vector2? GetSchematicArea(string name)
+		{
+			// If no schematic exists with this name, simply return null.
+			if (!TileMaps.TryGetValue(name, out SchematicMetaTile[,] schematic))
+				return null;
 
+			return new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+		}
+		#endregion Get Schematic Area
+		
 		#region Place Schematic
 		public static void PlaceSchematic<T>(string name, Point pos, SchematicAnchor anchorType, ref bool specialCondition, T chestDelegate = null) where T : Delegate
 		{
