@@ -3884,6 +3884,10 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
+				// 67% resist to Chicken Cannon.
+				if (projectile.type == ProjectileType<ChickenExplosion>())
+					damage = (int)(damage * 0.33);
+				
 				// 30% resist to Murasama.
 				if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
