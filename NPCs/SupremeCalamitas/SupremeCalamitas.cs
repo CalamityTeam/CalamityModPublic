@@ -86,8 +86,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private int spawnY = 0;
         private int spawnYReset = 0;
         private int spawnYAdd = 0;
-        private int bulletHellCounter = 0;
-        private int bulletHellCounter2 = 0;
+        public int bulletHellCounter = 0;
+        public int bulletHellCounter2 = 0;
         private int attackCastDelay = 0;
         private int hitTimer = 0;
 
@@ -415,7 +415,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (!npc.dontTakeDamage && ((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && bulletHellCounter2 % 900 == 0)
             {
                 if (npc.ai[1] != 2f)
                 {
@@ -2543,20 +2543,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // And play a fire-like sound effect.
-                Main.PlaySound(SoundID.DD2_BetsyWindAttack, target.Center);
                 hasSummonedSepulcher1 = true;
                 hasSummonedSepulcher2 = npc.life <= npc.lifeMax * 0.08;
 
-                // TODO: Resprite brimstone hearts a bit.
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     List<int> hearts = new List<int>();
                     for (int x = 0; x < 5; x++)
                     {
-                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX += spawnXAdd;
 
-                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX2 -= spawnXAdd;
                         tempSpawnY += spawnYAdd;
                     }
@@ -2569,6 +2567,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
                     npc.netUpdate = true;
                 }
+
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
             }
         }
 
@@ -2662,7 +2662,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public void ConnectAllBrimstoneHearts(List<int> heartIndices)
         {
-            int heartType = ModContent.NPCType<SCalWormHeart>();
+            int heartType = ModContent.NPCType<BrimstoneHeart>();
 
             // Ensure that the hearts go in order based on the arena.
             IEnumerable<NPC> hearts = heartIndices.Select(i => Main.npc[i]);
@@ -2695,14 +2695,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (tries >= 100)
                         endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
 
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 if (Main.rand.NextBool(2))
                 {
                     endpoint.X = heart.Center.X + Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
                     endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 heart.netUpdate = true;
@@ -2945,7 +2945,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (lifeRatio < 0.05f)
                 flickerPower += 0.1f;
             float opacity = forcefieldOpacity;
-            opacity *= MathHelper.Lerp(1f, 1f - flickerPower, (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 9f, flickerPower)), 24D));
+            opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 5f, flickerPower)), 24D));
 
             // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
             if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))

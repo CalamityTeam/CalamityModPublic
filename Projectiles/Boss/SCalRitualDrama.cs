@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.Skies;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

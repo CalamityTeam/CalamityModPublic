@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class SCalWormHeart : ModNPC
+	public class BrimstoneHeart : ModNPC
     {
         public PrimitiveTrail ChainDrawer = null;
         public int ChainHeartIndex => (int)npc.ai[0];
@@ -18,6 +18,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Heart");
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
@@ -49,7 +50,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             ChainEndpoints.Clear();
-            for (int i = 0; i < reader.ReadInt32(); i++)
+            int endpointCount = reader.ReadInt32();
+            for (int i = 0; i < endpointCount; i++)
                 ChainEndpoints.Add(reader.ReadVector2());
         }
 
@@ -72,7 +74,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             float widthInterpolant = Utils.InverseLerp(0f, 0.16f, completionRatio, true) * Utils.InverseLerp(1f, 0.84f, completionRatio, true);
             widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);
             float baseWidth = MathHelper.Lerp(4f, 1f, widthInterpolant);
-            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTime * 4.4f + npc.whoAmI * 1.3f + completionRatio), 16D));
+            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTime * 2.6f + npc.whoAmI * 1.3f + completionRatio), 16D));
             return baseWidth + pulseWidth;
         }
 
@@ -80,6 +82,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             float colorInterpolant = MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 0.34f, completionRatio, true) * Utils.InverseLerp(1.07f, 0.66f, completionRatio, true));
             return Color.Lerp(Color.DarkRed * 0.7f, Color.Red, colorInterpolant) * 0.425f;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            int frame = (int)Math.Round((float)Math.Pow(Math.Sin(Main.GlobalTime * 2.6f + npc.whoAmI * 1.3f), 6D) * Main.npcFrameCount[npc.type]);
+            if (frame >= Main.npcFrameCount[npc.type])
+                frame = Main.npcFrameCount[npc.type] - 1;
+            npc.frame.Y = frame * frameHeight;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -114,6 +124,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (npc.life <= 0)
             {
+                for (int i = 1; i <= 2; i++)
+                {
+                    Vector2 heartGoreVelocity = new Vector2((i == 1).ToDirectionInt() * 3f, Main.rand.NextFloat(-2f, 0f));
+                    Gore.NewGorePerfect(npc.Center, heartGoreVelocity, mod.GetGoreSlot($"Gores/SupremeCalamitas/BrimstoneHeart_Gore{i}"), npc.scale);
+                }
                 for (int i = 0; i < ChainEndpoints.Count; i++)
                     TendrilDestructionEffects(i);
             }
