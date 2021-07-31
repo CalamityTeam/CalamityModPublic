@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 3600;
+            projectile.timeLeft = 480;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30;
