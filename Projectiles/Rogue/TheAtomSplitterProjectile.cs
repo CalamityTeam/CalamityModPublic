@@ -9,6 +9,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TheAtomSplitterProjectile : ModProjectile
     {
+        // Atom splitting is cool and all, but actual thermonuclear meltdown levels of DPS is unacceptable.
+        // DO NOT increase this unless you are ABSOLUTELY SURE you know what will happen.
+        private const float StealthSplitMultiplier = 0.1666667f;
+        
         public ref float HitTargetIndex => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];
 
@@ -60,12 +64,14 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.alpha < 255)
                     projectile.alpha = Utils.Clamp(projectile.alpha + 30, 0, 255);
 
-                int shootRate = projectile.Calamity().stealthStrike ? 2 : 4;
+                bool stealth = projectile.Calamity().stealthStrike;
+                int shootRate = stealth ? 2 : 4;
                 if (projectile.timeLeft % shootRate == shootRate - 1)
                 {
-                    FireDuplicateAtTarget(Main.npc[(int)HitTargetIndex], projectile.Calamity().stealthStrike ? 305f : 200f);
-                    if (projectile.Calamity().stealthStrike)
-                        FireExtraDuplicatesAtTarget(Main.npc[(int)HitTargetIndex]);
+                    NPC target = Main.npc[(int)HitTargetIndex];
+                    FireDuplicateAtTarget(target, stealth ? 305f : 200f, stealth);
+                    if (stealth)
+                        FireExtraDuplicatesAtTarget(target);
                 }
             }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
@@ -98,14 +104,15 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public void FireDuplicateAtTarget(NPC target, float baseOutwardness)
+        public void FireDuplicateAtTarget(NPC target, float baseOutwardness, bool stealth)
         {
             if (Main.myPlayer != projectile.owner)
                 return;
 
             Vector2 spawnPosition = target.Center + Main.rand.NextVector2CircularEdge(baseOutwardness, baseOutwardness) * Main.rand.NextFloat(0.9f, 1.15f);
             Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(12f, 14f);
-            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, baseOutwardness / 9f);
+            int damage = stealth ? (int)(projectile.damage * StealthSplitMultiplier) : projectile.damage;
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, projectile.knockBack, projectile.owner, 0f, baseOutwardness / 9f);
         }
 
         public void FireExtraDuplicatesAtTarget(NPC target)
@@ -115,9 +122,9 @@ namespace CalamityMod.Projectiles.Rogue
 
             Vector2 spawnPosition = target.Center + Vector2.UnitY * Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(200f, 270f);
             spawnPosition.X += Main.rand.NextFloatDirection() * target.width * 0.45f;
-
+            int damage = (int)(projectile.damage * StealthSplitMultiplier);
             Vector2 shootVelocity = Vector2.UnitY * (target.Center.Y - spawnPosition.Y > 0f).ToDirectionInt() * Main.rand.NextFloat(14f, 16.5f);
-            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 24f);
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, projectile.knockBack, projectile.owner, 0f, 24f);
         }
 
         public void ReleaseHitDust(Vector2 spawnPosition)
