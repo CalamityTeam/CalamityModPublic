@@ -120,7 +120,7 @@ namespace CalamityMod.Skies
                 if (lifeRatio > 0.5f)
                     return Color.Lerp(Color.Red, Color.Orange, Main.rand.NextFloat(0.8f));
                 else if (lifeRatio > 0.3f)
-                    return Color.Lerp(Color.Blue, Color.DarkBlue, Main.rand.NextFloat() * 0.65f);
+                    return Color.Lerp(Color.DarkRed, Color.Lerp(Color.Blue, Color.DarkBlue, Main.rand.NextFloat() * 0.65f), 0.45f);
                 else if (lifeRatio > 0.01f)
                     return Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0.2f, 0.9f));
                 else
@@ -140,8 +140,8 @@ namespace CalamityMod.Skies
             // Update all cinders.
             for (int i = 0; i < Cinders.Count; i++)
             {
-                Cinders[i].Scale = Utils.InverseLerp(Cinders[i].Lifetime, Cinders[i].Lifetime - 50, Cinders[i].Time, true) * Utils.InverseLerp(0f, 50f, Cinders[i].Time, true);
-                Cinders[i].Scale *= MathHelper.Lerp(0.55f, 0.8f, Cinders[i].IdentityIndex % 6f / 6f);
+                Cinders[i].Scale = Utils.InverseLerp(Cinders[i].Lifetime, Cinders[i].Lifetime / 3, Cinders[i].Time, true);
+                Cinders[i].Scale *= MathHelper.Lerp(0.6f, 0.9f, Cinders[i].IdentityIndex % 6f / 6f);
 
                 Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * CinderSpeed;
                 float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.InverseLerp(45f, 145f, Cinders[i].Time, true));
@@ -207,6 +207,13 @@ namespace CalamityMod.Skies
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center - Main.screenPosition;
+                for (int j = 0; j < 3; j++)
+                {
+                    Vector2 offsetDrawPosition = drawPosition + (MathHelper.TwoPi * j / 3f).ToRotationVector2() * 1.4f;
+                    Color offsetDrawColor = Color.Red * 0.56f;
+                    offsetDrawColor.A = 0;
+                    spriteBatch.Draw(cinderTexture, offsetDrawPosition, null, offsetDrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale * 1.5f, SpriteEffects.None, 0f);
+                }
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, SpriteEffects.None, 0f);
             }
         }

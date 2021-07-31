@@ -2546,7 +2546,7 @@ namespace CalamityMod
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
 				NPCType<ThanatosTail>(),
-				NPCType<SCalWormHeart>()
+				NPCType<BrimstoneHeart>()
 			};
 
 			bossMinionList = new List<int>()
