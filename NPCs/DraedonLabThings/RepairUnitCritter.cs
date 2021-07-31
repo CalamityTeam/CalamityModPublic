@@ -1,6 +1,8 @@
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Walls.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -129,7 +131,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             if (onSolidGround && distanceToAheadBelowTile.HasValue && distanceToAheadBelowTile.Value >= 2 && distanceToAheadBelowTile.Value < 9)
             {
                 Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * (distanceToAheadBelowTile.Value * 16f + 8f);
-                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 6f);
+                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 8.5f);
             }
 
             // Attempt to jump over vertical obstacles.
@@ -144,7 +146,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                     if (WorldGen.SolidTile((int)(npc.Center.X / 16 + (distanceToObstacle ?? 0) * npc.spriteDirection), (int)(npc.Center.Y / 16) - i))
                         obstacleHeight++;
                 }
-                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 6f + StuckCount * 0.7f + obstacleHeight * 0.4f);
+                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 9f + StuckCount * 0.7f + obstacleHeight * 0.4f);
 
                 if (MathHelper.Distance(npc.position.X, npc.oldPosition.X) < 0.2f)
                 {
@@ -276,9 +278,36 @@ namespace CalamityMod.NPCs.DraedonLabThings
             }
         }
 
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int i = 0; i < 6; i++)
+                Dust.NewDustDirect(npc.position, npc.width, npc.height, 226);
+            if (npc.life <= 0)
+            {
+                for (int i = 1; i <= 3; i++)
+                    Gore.NewGorePerfect(npc.Center, npc.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), mod.GetGoreSlot($"Gores/DraedonLabCritters/RepairUnit{i}"));
+            }
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PowerCell>(), 2, 2, 4);
+        }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = (int)(CurrentFrame * frameHeight);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D critterTexture = Main.npcTexture[npc.type];
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/NPCs/DraedonLabThings/RepairUnitCritterGlowmask");
+            Vector2 drawPosition = npc.Center - Main.screenPosition + Vector2.UnitY * npc.gfxOffY;
+            SpriteEffects direction = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(critterTexture, drawPosition, npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() * 0.5f, npc.scale, direction, 0f);
+            spriteBatch.Draw(glowmask, drawPosition, npc.frame, npc.GetAlpha(Color.White), npc.rotation, npc.frame.Size() * 0.5f, npc.scale, direction, 0f);
+            return false;
         }
     }
 }
