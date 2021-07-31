@@ -3204,7 +3204,7 @@ namespace CalamityMod.NPCs
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
-                        npc.type != NPCType<SCalWormHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
+                        npc.type != NPCType<BrimstoneHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
                         npc.type != NPCType<SupremeCatastrophe>())
                     {
                         npc.active = false;
@@ -3789,8 +3789,12 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
-			else if (npc.type == NPCType<SCalWormHeart>())
+			else if (npc.type == NPCType<BrimstoneHeart>())
 			{
+				// 30% resist to Surge Driver's alt click comets.
+				if (projectile.type == ProjectileType<PrismComet>())
+					damage = (int)(damage * 0.7);
+
 				// 20% resist to Executioner's Blade stealth strikes.
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
@@ -3890,6 +3894,10 @@ namespace CalamityMod.NPCs
 
 				// 10% resist to Executioner's Blade stealth strikes.
 				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+					damage = (int)(damage * 0.9);
+
+				// 10% resist to Surge Driver's alt click comets.
+				if (projectile.type == ProjectileType<PrismComet>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)

@@ -1003,6 +1003,21 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
+            if (player.ActiveItem().type == ModContent.ItemType<VoidConcentrationStaff>() && player.ownedProjectileCounts[ModContent.ProjectileType<VoidConcentrationBlackhole>()] == 0)
+            {
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].modProjectile is VoidConcentrationAura)
+                    {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
+                        {
+                            (Main.projectile[i].modProjectile as VoidConcentrationAura).HandleRightClick();
+                            break;
+                        }
+                    }
+                }
+                return false;
+            }
             if (player.ActiveItem().type == ModContent.ItemType<ColdDivinity>())
             {
                 bool canContinue = true;

@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+				CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.4f, 0.6f, 3, 8);
 
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 			}

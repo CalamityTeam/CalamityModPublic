@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Photoviscerator : ModItem
     {
         public const int CooldownTime = 60 * 7; // 7 second cooldown.
-        public const double AltFireDamageMult = 1.5;
+        public const double AltFireDamageMult = 1D;
         
         public override void SetStaticDefaults()
         {

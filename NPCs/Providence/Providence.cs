@@ -277,10 +277,10 @@ namespace CalamityMod.NPCs.Providence
             {
 				if (!player.dead && player.active)
 					player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
-            }
+			}
 
-            // Count the remaining Guardians, healer especially because it allows the boss to heal
-            int guardianAmt = 0;
+			// Count the remaining Guardians, healer especially because it allows the boss to heal
+			int guardianAmt = 0;
             bool healerAlive = false;
             if (CalamityGlobalNPC.holyBossAttacker != -1)
             {
@@ -1276,6 +1276,43 @@ namespace CalamityMod.NPCs.Providence
 			}
         }
 
+		public float CalculateBurnIntensity()
+        {
+			float distanceToTarget = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
+			float aiTimer = npc.ai[3];
+
+			float baseDistance = 2800f;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+
+			bool guardianAlive = false;
+			if (CalamityGlobalNPC.holyBossAttacker != -1 && Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
+				guardianAlive = true;
+
+			if (CalamityGlobalNPC.holyBossDefender != -1 && Main.npc[CalamityGlobalNPC.holyBossDefender].active)
+				guardianAlive = true;
+
+			if (CalamityGlobalNPC.holyBossHealer != -1 && Main.npc[CalamityGlobalNPC.holyBossHealer].active)
+				guardianAlive = true;
+
+			float maxDistance = baseDistance;
+
+			// A factor which measures how much of the distance shortening shave-off should be taken into account.
+			// It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
+			// This shave-off does not happen when guardians are present.
+			float shorterDistanceFade = Utils.InverseLerp(0f, 120f, aiTimer, true);
+            if (!guardianAlive)
+            {
+                maxDistance = baseDistance;
+				if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
+					maxDistance -= shorterDistance * shorterDistanceFade;
+            }
+
+			float drawFireDistanceStart = maxDistance - 800f;
+			return Utils.InverseLerp(drawFireDistanceStart, maxDistance, distanceToTarget, true);
+		}
+
 		private void DespawnSpecificProjectiles()
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)
@@ -1356,7 +1393,7 @@ namespace CalamityMod.NPCs.Providence
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
+                CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, 0.4f, 0.8f, 3, 8, TileID.Mud);
 
 				CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 				CalamityUtils.DisplayLocalizedText(key3, messageColor3);
