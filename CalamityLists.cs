@@ -1917,7 +1917,7 @@ namespace CalamityMod
                 ProjectileType<EclipsesFallMain>(),
                 ProjectileType<EclipsesStealth>(),
                 ProjectileType<IchorSpearProj>(),
-                ProjectileType<InfernalSpearProjectile>(),
+                ProjectileType<WrathwingSpear>(),
                 ProjectileType<LuminousStrikerProj>(),
                 ProjectileType<PalladiumJavelinProjectile>(),
                 ProjectileType<PhantasmalRuinProj>(),
