@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
     public class TheBurningSky : ModItem
     {
         private const int ProjectilesPerBarrage = 12;
-        private const float UpAngle = MathHelper.Pi / 10f;
 
         public override void SetStaticDefaults()
         {
