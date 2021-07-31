@@ -53,7 +53,6 @@ namespace CalamityMod.Projectiles.Boss
 
             // Make a laugh sound and create a burst of brimstone dust.
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), projectile.Center);
-            Main.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, projectile.Center);
 
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(projectile.Center), true) * 16f;
 
