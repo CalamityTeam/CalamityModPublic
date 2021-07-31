@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
             {
                 int eruptionID = ModContent.ProjectileType<WrathwingCinder>();
-                int damage = projectile.damage;
+                int damage = (int)(projectile.damage * 0.75f);
                 float kb = 0f;
 
                 // Spawns 13 erupting fireballs in total.
