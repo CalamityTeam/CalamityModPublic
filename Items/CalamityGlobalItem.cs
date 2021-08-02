@@ -1914,8 +1914,11 @@ namespace CalamityMod.Items
 				player.endurance += 0.01f;
 			}
 
-            if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
+            // TODO -- make all prefixes relevant. Details in Ozz's todo.
+			/*
+			if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
 				player.armorPenetration += 1;
+			*/
 
 			if (item.prefix == PrefixID.Brisk)
 				player.moveSpeed += 0.01f;

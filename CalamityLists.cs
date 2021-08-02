@@ -406,6 +406,7 @@ namespace CalamityMod
                 ProjectileID.LaserMachinegun,
                 ProjectileID.ChargedBlasterCannon,
                 ProjectileID.MedusaHead,
+
                 ProjectileType<PhangasmBow>(),
                 ProjectileType<ContagionBow>(),
                 ProjectileType<DaemonsFlameBow>(),
@@ -415,6 +416,7 @@ namespace CalamityMod
                 ProjectileType<StarfleetMK2Gun>(),
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
+
                 ProjectileType<PurgeProj>(),
                 ProjectileType<T1000Proj>(),
                 ProjectileType<YharimsCrystalPrism>(),
@@ -425,7 +427,6 @@ namespace CalamityMod
                 ProjectileType<ApotheosisWorm>(),
 
                 ProjectileType<FlakKrakenProj>(),
-                ProjectileType<SylvanSlashAttack>(),
                 ProjectileType<InfernadoFriendly>(),
                 ProjectileType<DragonRageStaff>(),
                 ProjectileType<MurasamaSlash>(),
@@ -433,6 +434,12 @@ namespace CalamityMod
                 ProjectileType<TaintedBladeSlasher>(),
                 ProjectileType<PhotonRipperProjectile>(),
                 ProjectileType<SpineOfThanatosProjectile>(),
+
+                ProjectileType<SylvanSlashAttack>(),
+                ProjectileType<FinalDawnProjectile>(),
+                ProjectileType<FinalDawnThrow>(),
+                ProjectileType<FinalDawnHorizontalSlash>(),
+                ProjectileType<FinalDawnFireSlash>(),
 
                 //Some hostile boss projectiles
                 ProjectileType<BrimstoneMonster>(),
@@ -1910,7 +1917,7 @@ namespace CalamityMod
                 ProjectileType<EclipsesFallMain>(),
                 ProjectileType<EclipsesStealth>(),
                 ProjectileType<IchorSpearProj>(),
-                ProjectileType<InfernalSpearProjectile>(),
+                ProjectileType<WrathwingSpear>(),
                 ProjectileType<LuminousStrikerProj>(),
                 ProjectileType<PalladiumJavelinProjectile>(),
                 ProjectileType<PhantasmalRuinProj>(),
@@ -2539,7 +2546,7 @@ namespace CalamityMod
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
 				NPCType<ThanatosTail>(),
-				NPCType<SCalWormHeart>()
+				NPCType<BrimstoneHeart>()
 			};
 
 			bossMinionList = new List<int>()

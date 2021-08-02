@@ -320,6 +320,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.ArcheryPotion)
 				EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
 
+			// Nerfed Swiftness Potion tooltip
+			if (item.type == ItemID.SwiftnessPotion)
+				EditTooltipByNum(0, (line) => line.text = "15% increased movement speed");
+
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
 			{
@@ -917,10 +921,6 @@ namespace CalamityMod.Items
 					return;
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
 					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
-					return;
-				case PrefixID.Precise:
-				case PrefixID.Lucky:
-					EditTooltipByName("PrefixAccCritChance", (line) => line.text += "\n+1 armor penetration");
 					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",

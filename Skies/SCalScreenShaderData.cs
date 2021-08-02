@@ -1,8 +1,9 @@
+using CalamityMod.NPCs.SupremeCalamitas;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.Skies
 {
     public class SCalScreenShaderData : ScreenShaderData
     {

@@ -4,8 +4,8 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +16,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -71,8 +73,14 @@ namespace CalamityMod.CalPlayer
         {
             if (drawInfo.shadow != 0f)
                 return;
+
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
+            
+            modPlayer.ProvidenceBurnEffectDrawer.DrawSet(drawPlayer.Bottom - Vector2.UnitY * 10f);
+            modPlayer.ProvidenceBurnEffectDrawer.SpawnAreaCompactness = 18f;
+            modPlayer.ProvidenceBurnEffectDrawer.RelativePower = 0.4f;
+
             if (modPlayer.sirenIce)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");

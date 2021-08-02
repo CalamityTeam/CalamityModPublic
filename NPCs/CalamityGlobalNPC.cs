@@ -1,14 +1,13 @@
 using CalamityMod.Buffs;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -30,8 +29,8 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
@@ -43,7 +42,6 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -3204,7 +3202,7 @@ namespace CalamityMod.NPCs
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
-                        npc.type != NPCType<SCalWormHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
+                        npc.type != NPCType<BrimstoneHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
                         npc.type != NPCType<SupremeCatastrophe>())
                     {
                         npc.active = false;
@@ -3789,7 +3787,7 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
-			else if (npc.type == NPCType<SCalWormHeart>())
+			else if (npc.type == NPCType<BrimstoneHeart>())
 			{
 				// 30% resist to Surge Driver's alt click comets.
 				if (projectile.type == ProjectileType<PrismComet>())
@@ -3884,6 +3882,10 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
+				// 67% resist to Chicken Cannon.
+				if (projectile.type == ProjectileType<ChickenExplosion>())
+					damage = (int)(damage * 0.33);
+				
 				// 30% resist to Murasama.
 				if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
