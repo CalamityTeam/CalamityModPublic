@@ -918,10 +918,6 @@ namespace CalamityMod.Items
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
 					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
 					return;
-				case PrefixID.Precise:
-				case PrefixID.Lucky:
-					EditTooltipByName("PrefixAccCritChance", (line) => line.text += "\n+1 armor penetration");
-					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",
 						(line) => line.text = line.text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
