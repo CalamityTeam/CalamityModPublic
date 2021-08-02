@@ -35,21 +35,41 @@ namespace CalamityMod.Items
 			return true;
 		}
 
+		public static void DeleteDummies()
+        {
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				NPC npc = Main.npc[i];
+				if (npc.type == ModContent.NPCType<SuperDummyNPC>() && npc.active)
+				{
+					npc.life = 0;
+					npc.active = false;
+
+					if (Main.netMode == NetmodeID.Server)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i);
+				}
+			}
+		}
+
 		public override bool UseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
 			{
-				for (int i = 0; i < Main.maxNPCs; i++)
+				if (Main.myPlayer == player.whoAmI)
 				{
-					NPC npc = Main.npc[i];
-					if (npc.type == ModContent.NPCType<SuperDummyNPC>() && npc.active)
+					if (Main.netMode == NetmodeID.SinglePlayer)
+						DeleteDummies();
+
+					// A custom packet must be sent so that the deletion can be done on the server. This hook does not run there.
+					// Why? Well, netUpdate/MessageID.SyncNPC packets do send data to the server. The only send data to other clients. What this means is that prior to this fix
+					// what would happen was every client EXCEPT THE SERVER would be told by this player that the dummies disappeared.
+					// However, since the server isn't notified, it is inevitable that the server will do a sync of its own, unaware that the 
+					// dummies are gone, and cause them to reappear, making the deletion moot.
+					else
 					{
-						if (player.whoAmI == Main.myPlayer)
-						{
-							npc.active = false;
-							npc.netUpdate = true;
-						}
-                        Main.PlaySound(SoundID.NPCDeath2, npc.Center);
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.DeleteAllSuperDummies);
+						netMessage.Send();
 					}
 				}
 			}

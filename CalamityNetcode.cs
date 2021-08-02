@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
@@ -109,6 +110,10 @@ namespace CalamityMod
                         // Not strictly necessary, but helps prevent unnecessary packetstorm in MP
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+                        break;
+                    case CalamityModMessageType.DeleteAllSuperDummies:
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            SuperDummy.DeleteDummies();
                         break;
                     case CalamityModMessageType.ServersideSpawnOldDuke:
                         byte playerIndex2 = reader.ReadByte();
@@ -271,7 +276,8 @@ namespace CalamityMod
 
         // Syncs for specific bosses or entities
         SyncCalamityNPCAIArray,
-        SpawnSuperDummy, // TODO -- super dummies STILL don't work in multiplayer
+        SpawnSuperDummy,
+        DeleteAllSuperDummies,
         ServersideSpawnOldDuke,
         DoGCountdownSync, // TODO -- this gets written in about six thousand places which all need to be individually evaluated
         ArmoredDiggerCountdownSync, // TODO -- remove this mechanic entirely
