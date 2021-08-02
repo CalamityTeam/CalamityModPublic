@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (lungeUpward)
 			{
 				speed *= 1.25f;
-				turnSpeed *= 1.25f;
+				turnSpeed *= 1.5f;
 			}
 
 			if (npc.ai[3] > 0f)

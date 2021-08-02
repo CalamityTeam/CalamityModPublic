@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (lungeUpward)
 			{
-				speed *= 1.5f;
+				speed *= 1.25f;
 				turnSpeed *= 1.5f;
 			}
 

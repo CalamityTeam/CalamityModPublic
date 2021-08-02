@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.HiveMind
                             if (phase2timer <= 0)
                             {
                                 phase2timer = lungeTime - 4 * (int)enrageScale;
-                                npc.velocity = player.Center - npc.Center;
+                                npc.velocity = player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - npc.Center;
                                 npc.velocity.Normalize();
                                 npc.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;

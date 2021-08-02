@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 600;
             cooldownSlot = 1;
 		}
 
@@ -95,6 +95,7 @@ namespace CalamityMod.Projectiles.Boss
 					// If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
 					if (Velocity != Vector2.Zero)
 					{
+						projectile.extraUpdates = 2;
 						projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
 						Velocity = Vector2.Zero;
 						projectile.netUpdate = true;
@@ -154,7 +155,8 @@ namespace CalamityMod.Projectiles.Boss
                 // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (Velocity != Vector2.Zero)
                 {
-                    projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
+					projectile.extraUpdates = 2;
+					projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
 					Velocity = Vector2.Zero;
                     projectile.netUpdate = true;
                 }

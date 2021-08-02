@@ -83,8 +83,14 @@ namespace CalamityMod.NPCs.Perforator
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
 			// Variables for ichor spore phase
-			float sporePhaseGateValue = 600f;
+			float sporePhaseGateValue = malice ? 450f : 600f;
 			bool floatAboveToFireBlobs = npc.ai[2] >= sporePhaseGateValue - 120f;
 
 			// Don't deal damage for 3 seconds after spawning or while firing blobs
@@ -98,12 +104,6 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			Player player = Main.player[npc.target];
-
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.Perforator
 						if (npc.ai[2] < sporePhaseGateValue + 300f)
 						{
 							if (npc.velocity.Length() > 0.5f)
-								npc.velocity *= 0.96f;
+								npc.velocity *= malice ? 0.94f : 0.96f;
 							else
 								npc.ai[2] = sporePhaseGateValue + 300f;
 						}

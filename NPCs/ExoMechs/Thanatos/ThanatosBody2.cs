@@ -521,20 +521,5 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (npc.Opacity == 1f)
-			{
-				int duration = vulnerable ? 120 : 60;
-				player.AddBuff(BuffID.Ichor, duration);
-				player.AddBuff(BuffID.CursedInferno, duration);
-				player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
-				player.AddBuff(ModContent.BuffType<Plague>(), duration);
-				player.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
-				player.AddBuff(BuffID.Frostburn, duration);
-				player.AddBuff(BuffID.OnFire, duration);
-			}
-		}
 	}
 }
