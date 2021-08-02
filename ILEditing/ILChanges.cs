@@ -434,20 +434,22 @@ namespace CalamityMod.ILEditing
         {
             // Prevent the Dungeon's halls from getting anywhere near the Abyss.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY")))
+
+            // Forcefully clamp the X position of the new hall end.
+            // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(6)))
             {
-                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the dungeon's vertical position.");
+                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the hall horizontal position.");
                 return;
             }
 
-            cursor.EmitDelegate<Action>(() =>
+            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
             {
-                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
-
-                // Adjust the Y position of the dungeon to accomodate for the X shift.
-                WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
-                WorldGen.dungeonY = result.Y - 10;
+                unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
+                return unclampedValue;
             });
+            cursor.Emit(OpCodes.Stloc, 6);
         }
 
         private static void PreventDungeonHorizontalCollisions(ILContext il)
