@@ -677,10 +677,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						baseVelocity *= velocityScale;
 						turnSpeed *= velocityScale;
 
+						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
-							if (calamityGlobalNPC.newAI[2] == 0f)
+							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -730,7 +731,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							chargeVelocityScalar = 0f;
 							npc.TargetClosest();
 						}
-						calamityGlobalNPC.newAI[2] += 1f;
 					}
 
 					break;
@@ -833,7 +833,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Charge || AIState == (float)Phase.UndergroundLaserBarrage)
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;
@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y += frameHeight;
 					npc.frameCounter = 0D;

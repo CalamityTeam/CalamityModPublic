@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool expertMode = Main.expertMode || malice;
 
 			// Spawn arms
-			/*if (npc.ai[0] == 0f)
+			if (npc.ai[0] == 0f)
 			{
 				int totalArms = 4;
 				for (int i = 0; i < totalArms; i++)
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 				}
 				npc.ai[0] = 1f;
-			}*/
+			}
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -257,8 +257,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					AIState = (float)Phase.Normal;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
-					npc.frameCounter = 0D;
-					frameX = frameY = exactFrame = 0;
 
 					npc.velocity.Y -= 2f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
@@ -478,10 +476,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							Vector2 spinningPoint = new Vector2(0f, -1f);
 							Vector2 laserSpawnPoint = new Vector2(npc.Center.X, npc.Center.Y);
 
+							calamityGlobalNPC.newAI[2] += 1f;
 							if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 							{
 								// Fire deathray telegraph beams
-								if (calamityGlobalNPC.newAI[2] == 0f)
+								if (calamityGlobalNPC.newAI[2] == 1f)
 								{
 									// Set frames to deathray charge up frames
 									npc.frameCounter = 0D;
@@ -525,7 +524,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								calamityGlobalNPC.newAI[3] = 0f;
 								npc.TargetClosest();
 							}
-							calamityGlobalNPC.newAI[2] += 1f;
 						}
 					}
 
@@ -549,13 +547,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Normal || npc.Calamity().newAI[3] == 0f)
 			{
-				// Reset frames from deathray phase
-				if (exactFrame >= secondStageDeathrayChargeFrameLimit + 1)
-				{
-					npc.frameCounter = 0D;
-					frameX = frameY = exactFrame = 0;
-				}
-
 				if (npc.frameCounter >= 10D)
 				{
 					npc.frameCounter = 0D;
@@ -567,7 +558,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						frameY = 0;
 					}
 					if (exactFrame > normalFrameLimit)
-						frameX = frameY = 0;
+						frameX = frameY = exactFrame = 0;
 				}
 			}
 			else

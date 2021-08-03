@@ -17,12 +17,13 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
 	//[AutoloadBossHead]
-	public class AresTeslaCannon : ModNPC
+	public class AresGaussNuke : ModNPC
     {
 		public enum Phase
 		{
 			Nothing = 0,
-			TeslaOrbs = 1
+			GaussNuke = 1,
+			Reload = 2
 		}
 
 		public float AIState
@@ -32,8 +33,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		}
 
 		// Number of frames on the X and Y axis
-		private const int maxFramesX = 6;
-		private const int maxFramesY = 8;
+		private const int maxFramesX = 9;
+		private const int maxFramesY = 12;
 
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
@@ -44,30 +45,31 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
-		private const int firstStageTeslaOrbChargeFrameLimit = 23;
-		private const int secondStageTeslaOrbChargeFrameLimit = 35;
-		private const int finalStageTeslaOrbChargeFrameLimit = 47;
+		private const int firstStageGaussNukeChargeFrameLimit = 23;
+		private const int secondStageGaussNukeChargeFrameLimit = 35;
+		private const int finalStageGaussNukeChargeFrameLimit = 47;
+		private const int reloadFrameLimit = 107;
 
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
 
-		// Total duration of the tesla orb telegraph
-		private const float teslaOrbTelegraphDuration = 240f;
+		// Total duration of the gauss nuke telegraph
+		private const float gaussNukeTelegraphDuration = 360f;
 
-		// Total duration of the tesla orb firing phase
-		private const float teslaOrbDuration = 120f;
+		// Total duration of the gauss nuke firing phase
+		private const float gaussNukeReloadDuration = 600f;
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("XF-09 Ares Tesla Cannon");
+            DisplayName.SetDefault("XF-09 Ares Gauss Nuke");
 		}
 
         public override void SetDefaults()
         {
 			npc.npcSlots = 5f;
 			npc.damage = 100;
-			npc.width = 172;
-            npc.height = 108;
+			npc.width = 170;
+            npc.height = 120;
             npc.defense = 80;
 			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(1000000, 1150000, 500000);
@@ -197,7 +199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>())
 								Main.npc[a].active = false;
 						}
 					}*/
@@ -226,7 +228,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// npc.rotation = npc.velocity.X * 0.003f;
 
 			// Default vector to fly to
-			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 375f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 160f);
+			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 750f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
@@ -243,11 +245,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
 			// Gate values
-			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
-			float teslaOrbPhaseGateValue = fireMoreOrbs ? 90f : 210f;
+			float gaussNukePhaseGateValue = 600f;
 
-			// Variable to cancel tesla orb firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
+			// Variable to disable deathray firing
+			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;
@@ -265,53 +266,66 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
 					calamityGlobalNPC.newAI[1] += 1f;
-					if (calamityGlobalNPC.newAI[1] >= teslaOrbPhaseGateValue)
+					if (calamityGlobalNPC.newAI[1] >= gaussNukePhaseGateValue)
 					{
-						AIState = (float)Phase.TeslaOrbs;
+						AIState = (float)Phase.GaussNuke;
 						calamityGlobalNPC.newAI[1] = 0f;
 					}
 
 					break;
 
-				// Fire tesla orbs in a quadruple burst that arc electricity between them
-				case (int)Phase.TeslaOrbs:
+				// Fire gauss nuke that emits a wave pounder stealth strike-size explosion on death
+				case (int)Phase.GaussNuke:
 
 					if (!targetDead)
 					{
 						calamityGlobalNPC.newAI[2] += 1f;
-						if (calamityGlobalNPC.newAI[2] < teslaOrbTelegraphDuration)
+						if (calamityGlobalNPC.newAI[2] < gaussNukeTelegraphDuration)
 						{
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to tesla orb charge up frames
+								// Set frames to gauss nuke charge up frames
 								npc.frameCounter = 0D;
 								frameX = 1;
-								frameY = 5;
+								frameY = 0;
 								exactFrame = 12;
 							}
-						}
-						else
-						{
-							// Fire tesla orbs
-							int numTeslaOrbs = 4;
-							float divisor = teslaOrbDuration / numTeslaOrbs;
 
-							if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+							// Fire gauss nuke on frame 41
+							if (exactFrame == 41 && calamityGlobalNPC.newAI[1] == 0f)
 							{
+								calamityGlobalNPC.newAI[1] = 1f;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									/*int type = ModContent.ProjectileType<AresTeslaOrb>();
+									/*int type = ModContent.ProjectileType<AresGaussNuke>();
 									int damage = npc.GetProjectileDamage(type);*/
 								}
 							}
 						}
-
-						if (calamityGlobalNPC.newAI[2] >= teslaOrbTelegraphDuration + teslaOrbDuration)
+						else
 						{
-							AIState = (float)Phase.Nothing;
+							AIState = (float)Phase.Reload;
+							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
-							npc.TargetClosest();
+
+							// Set frames to gauss nuke reload frames
+							npc.frameCounter = 0D;
+							frameX = 4;
+							frameY = 0;
+							exactFrame = 48;
 						}
+					}
+
+					break;
+
+				case (int)Phase.Reload:
+
+					calamityGlobalNPC.newAI[2] += 1f;
+					if (calamityGlobalNPC.newAI[2] >= gaussNukeReloadDuration)
+					{
+						AIState = (float)Phase.Nothing;
+						calamityGlobalNPC.newAI[2] = 0f;
+						npc.TargetClosest();
 					}
 
 					break;
@@ -324,7 +338,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void FindFrame(int frameHeight)
 		{
-			// Use telegraph frames when using tesla orbs
+			// Use telegraph frames when using gauss nuke
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Nothing)
 			{
@@ -354,12 +368,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageTeslaOrbChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageTeslaOrbChargeFrameLimit + 1;
-					}
+					if (exactFrame > reloadFrameLimit)
+						frameX = frameY = exactFrame = 0;
 				}
 			}
 		}
@@ -372,7 +382,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 center = npc.Center - Main.screenPosition;
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
-			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresTeslaCannonGlow");
+			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresGaussNukeGlow");
 			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;
@@ -417,8 +427,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					Main.dust[num195].noGravity = true;
 				}
 
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresTeslaCannon1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresTeslaCannon2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresHandBase1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresHandBase2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresHandBase3"), 1f);

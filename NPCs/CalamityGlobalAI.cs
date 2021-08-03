@@ -6906,7 +6906,7 @@ namespace CalamityMod.NPCs
                             if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == secondFastCharge))
                                 num48 *= 1.3f;
 
-							Vector2 distanceVector = Main.player[npc.target].Center + (retAlive ? Vector2.Zero : Main.player[npc.target].velocity * 20f) - npc.Center;
+							Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
 							npc.velocity = Vector2.Normalize(distanceVector) * num48;
 
 							if (retAlive)

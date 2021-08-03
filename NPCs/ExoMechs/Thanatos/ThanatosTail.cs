@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
 				{
-					if (npc.frameCounter >= 12D)
+					if (npc.frameCounter >= 10D)
 					{
 						npc.frame.Y += frameHeight;
 						npc.frameCounter = 0D;
@@ -440,7 +440,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 				else
 				{
-					if (npc.frameCounter >= 12D)
+					if (npc.frameCounter >= 10D)
 					{
 						npc.frame.Y -= frameHeight;
 						npc.frameCounter = 0D;
@@ -451,7 +451,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;

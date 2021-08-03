@@ -188,8 +188,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					AIState = (float)Phase.Nothing;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
-					npc.frameCounter = 0D;
-					frameX = frameY = exactFrame = 0;
 
 					npc.velocity.Y -= 2f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
@@ -258,8 +256,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				AIState = (float)Phase.Nothing;
 				calamityGlobalNPC.newAI[1] = 0f;
 				calamityGlobalNPC.newAI[2] = 0f;
-				npc.frameCounter = 0D;
-				frameX = frameY = exactFrame = 0;
 			}
 
 			// Attacking phases
@@ -285,13 +281,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					if (!targetDead)
 					{
+						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Reduce velocity for 15 frames once charging is nearly complete
 							if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration - deathrayDecelerationTime)
 								npc.velocity *= deathrayPhaseVelocityMult;
 
-							if (calamityGlobalNPC.newAI[2] == 0f)
+							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
 								// Set frames to deathray charge up frames
 								npc.frameCounter = 0D;
@@ -332,7 +329,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							calamityGlobalNPC.newAI[2] = 0f;
 							npc.TargetClosest();
 						}
-						calamityGlobalNPC.newAI[2] += 1f;
 					}
 
 					break;
@@ -349,13 +345,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Nothing)
 			{
-				// Reset frames from deathray phase
-				if (exactFrame >= secondStageDeathrayChargeFrameLimit + 1)
-				{
-					npc.frameCounter = 0D;
-					frameX = frameY = exactFrame = 0;
-				}
-
 				if (npc.frameCounter >= 10D)
 				{
 					npc.frameCounter = 0D;
@@ -367,7 +356,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						frameY = 0;
 					}
 					if (exactFrame > normalFrameLimit)
-						frameX = frameY = 0;
+						frameX = frameY = exactFrame = 0;
 				}
 			}
 			else
