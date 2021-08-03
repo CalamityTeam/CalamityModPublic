@@ -139,7 +139,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.localAI[2] == 0f)
 				npc.localAI[2] = npc.ai[0];
 
-			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			// Set the AI to become more aggressive if head is berserk
+			if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Deathray)
+				npc.Calamity().newAI[3] = 1f;
+
+			bool berserk = npc.Calamity().newAI[3] == 1f;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -148,11 +153,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
-					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
+					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
 					{
 						float divisor = 120f;
 						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = malice ? 25D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
+						double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -270,6 +275,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 											else
 											{
+												// Normal laser
+												if (malice && berserk)
+													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+
 												// Predictive laser
 												Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
 												Projectile.NewProjectile(npc.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
