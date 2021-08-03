@@ -47,6 +47,13 @@ namespace CalamityMod.Items
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
 
+			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+			if (canFirePointBlankShots)
+			{
+				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+				tooltips.Add(line);
+			}
+
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
 				return;
@@ -73,13 +80,6 @@ namespace CalamityMod.Items
 			if (devItem)
 			{
 				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
-				tooltips.Add(line);
-			}
-
-			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
-			if (canFirePointBlankShots)
-			{
-				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
 				tooltips.Add(line);
 			}
 
