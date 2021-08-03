@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Other
             npc.width = npc.height = 28;
             npc.damage = 0;
             npc.defense = 0;
-            npc.lifeMax = 97444;
+            npc.lifeMax = 181445;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.value = 0f;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Other
             npc.Calamity().DoesNotGenerateRage = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 97444;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 181445;
 
         public override void AI()
         {
@@ -95,7 +95,8 @@ namespace CalamityMod.NPCs.Other
 
         public override void NPCLoot()
         {
-            for (int i = 0; i < 8; i++)
+            int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.InverseLerp(45f, 540f, Time, true));
+            for (int i = 0; i < heartsToGive; i++)
                 DropHelper.DropItem(npc, ItemID.Heart);
         }
 
