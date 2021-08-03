@@ -3882,24 +3882,20 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
-				// 67% resist to Chicken Cannon.
+				// 85% resist to Chicken Cannon.
 				if (projectile.type == ProjectileType<ChickenExplosion>())
-					damage = (int)(damage * 0.33);
+					damage = (int)(damage * 0.15);
 				
 				// 30% resist to Murasama.
-				if (projectile.type == ProjectileType<MurasamaSlash>())
+				else if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
 
 				// 25% resist to Yharim's Crystal.
 				else if (projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.75);
 
-				// 10% resist to Executioner's Blade stealth strikes.
-				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
-					damage = (int)(damage * 0.9);
-
-				// 10% resist to Surge Driver's alt click comets.
-				if (projectile.type == ProjectileType<PrismComet>())
+				// 10% resist to Surge Driver's alt click comets and Executioner's Blade stealth strikes.
+				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>() || projectile.type == ProjectileType<PrismComet>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)
