@@ -452,8 +452,9 @@ namespace CalamityMod.World
             }
 
             //does not occur while a boss is alive or during certain events)
-            if (death && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && player.statLifeMax2 >= 300 && !WorldGen.spawnEye && WorldGen.spawnHardBoss <= 0)
+            if (!death || CalamityPlayer.areThereAnyDamnBosses || Main.snowMoon || Main.pumpkinMoon || DD2Event.Ongoing || player.statLifeMax2 < 300 || WorldGen.spawnEye || WorldGen.spawnHardBoss > 0)
                 return;
+
             if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) // Check for countdown and cooldown being 0
             {
                 if (Main.rand.NextBool(50000))
