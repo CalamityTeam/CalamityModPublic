@@ -1373,8 +1373,8 @@ namespace CalamityMod.NPCs
 			// Causes it to split far more in malice mode
 			if (malice && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail))
 			{
-				calamityGlobalNPC.DR = 0.5f;
-				npc.defense = npc.defDefense * 2;
+				calamityGlobalNPC.DR = 0.8f;
+				npc.defense = npc.defDefense * 4;
 			}
 
 			// Get a target
@@ -7663,8 +7663,8 @@ namespace CalamityMod.NPCs
 
                     npc.rotation = npc.velocity.X / 15f;
 
-                    float flightVelocity = 10f + (death ? 3f * (1f - lifeRatio) : 0f);
-                    float flightAcceleration = 0.12f + (death ? 0.4f * (1f - lifeRatio) : 0f);
+                    float flightVelocity = malice ? 25f : 15f + (death ? 5f * (1f - lifeRatio) : 0f);
+                    float flightAcceleration = malice ? 0.25f : 0.15f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 
 					Vector2 destination = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 500f);
 					npc.SimpleFlyMovement(Vector2.Normalize(destination - npc.Center) * flightVelocity, flightAcceleration);

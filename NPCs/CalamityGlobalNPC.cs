@@ -885,7 +885,7 @@ namespace CalamityMod.NPCs
                 if (npc.defense < 0)
                     npc.defense = 0;
 
-                int depthDamage = Main.hardMode ? 80 : 12;
+                int depthDamage = Main.hardMode ? 36 : 12;
                 if (hurtByAbyss)
                     depthDamage = 300;
 

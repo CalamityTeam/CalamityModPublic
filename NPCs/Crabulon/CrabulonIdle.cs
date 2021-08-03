@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.Crabulon
                 Main.dust[sporeDust].noGravity = true;
                 Main.dust[sporeDust].velocity *= 0.5f;
                 npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 420f)
+                if (npc.justHit || npc.ai[1] >= 600f)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 npc.velocity *= 0.98f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (death ? 5f : revenge ? 30f : 60f))
+                if (npc.ai[1] >= (death ? 5f : revenge ? 10f : 15f))
                 {
 					npc.TargetClosest();
 					npc.noGravity = true;
@@ -461,12 +461,18 @@ namespace CalamityMod.NPCs.Crabulon
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							float velocityX = npc.ai[2] == 0f ? -4f : 4f;
-							for (int x = 0; x < 20; x++)
+							int totalMushrooms = malice ? 50 : 20;
+							int shotSpacingDecrement = malice ? 80 : 100;
+							if (malice)
+								shotSpacing = 2000;
+
+							for (int x = 0; x < totalMushrooms; x++)
 							{
 								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing -= 100;
+								shotSpacing -= shotSpacingDecrement;
 							}
-							shotSpacing = 1000;
+
+							shotSpacing = malice ? 2000 : 1000;
 						}
 					}
 
