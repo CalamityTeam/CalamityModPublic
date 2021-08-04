@@ -9001,19 +9001,19 @@ namespace CalamityMod.NPCs
             num731 /= num732;
 
             // Velocity and acceleration
-            float velocity = 3f;
-            float acceleration = 0.03f;
+            float velocity = 4.5f;
+            float acceleration = 0.045f;
             if (phase3)
             {
-                velocity = 6f;
-                acceleration = 0.055f;
+                velocity = 8f;
+                acceleration = 0.07f;
                 if (phase4)
-                    velocity = 6.5f;
+                    velocity = 9f;
             }
             else if (phase2)
             {
-                velocity = 5.5f;
-                acceleration = 0.055f;
+                velocity = 7f;
+                acceleration = 0.07f;
             }
 
             // Enrage if target is on the surface
@@ -9327,6 +9327,7 @@ namespace CalamityMod.NPCs
 							int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore);
 							Main.npc[num762].velocity.X = num758;
 							Main.npc[num762].velocity.Y = num760;
+							Main.npc[num762].dontTakeDamage = true;
 							Main.npc[num762].netUpdate = true;
 						}
 					}
@@ -9353,9 +9354,9 @@ namespace CalamityMod.NPCs
 						{
 							Vector2 vector93 = npc.Center;
 
-							float num742 = 8f - ((0.5f - lifeRatio) * 4f); // 8f to 6f, slower projectiles are harder to avoid
+							float num742 = 12f + ((0.5f - lifeRatio) * 8f); // 12f to 16f
 							if (nearbyActiveTiles < 300)
-								num742 = 8.5f;
+								num742 = 16f;
 
 							float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
 							float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
@@ -9387,7 +9388,7 @@ namespace CalamityMod.NPCs
 							else
 							{
 								int numProj = 2;
-								int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 14f); // 3 to 10, wider spread is harder to avoid
+								int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 10f); // 3 to 8, wider spread is harder to avoid
 								if (nearbyActiveTiles < 300)
 									spread = Main.rand.Next(3, 7) + (int)Math.Round((0.5f - lifeRatio) * 8f);
 

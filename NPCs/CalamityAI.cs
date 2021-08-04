@@ -1940,7 +1940,7 @@ namespace CalamityMod.NPCs
 				if (provy)
 					chargeVelocity *= 1.25f;
 
-				Vector2 vector = Vector2.Normalize(player.Center - npc.Center);
+				Vector2 vector = Vector2.Normalize(player.Center + (phase5 && malice ? player.velocity * 20f : Vector2.Zero) - npc.Center);
 				npc.velocity = vector * chargeVelocity;
 
 				npc.ai[1] = 3f;
