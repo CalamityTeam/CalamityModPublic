@@ -9001,20 +9001,26 @@ namespace CalamityMod.NPCs
             num731 /= num732;
 
             // Velocity and acceleration
-            float velocity = 4.5f;
-            float acceleration = 0.045f;
+            float velocity = 4f;
+            float acceleration = 0.04f;
             if (phase3)
             {
-                velocity = 8f;
-                acceleration = 0.07f;
+                velocity = 6.5f;
+                acceleration = 0.06f;
                 if (phase4)
-                    velocity = 9f;
+                    velocity = 7f;
             }
             else if (phase2)
             {
-                velocity = 7f;
-                acceleration = 0.07f;
+                velocity = 6f;
+                acceleration = 0.06f;
             }
+
+			if (malice)
+			{
+				velocity += 2f;
+				acceleration += 0.02f;
+			}
 
             // Enrage if target is on the surface
             if (!BossRushEvent.BossRushActive && (surface || Main.player[npc.target].position.Y > ((Main.maxTilesY - 200) * 16)))
