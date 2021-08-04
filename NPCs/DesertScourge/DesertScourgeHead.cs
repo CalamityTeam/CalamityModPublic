@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
+			npc.defense = 4;
 			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;

@@ -3388,7 +3388,7 @@ namespace CalamityMod.NPCs
             }
             bool handsDead = num156 == 0;
             npc.chaseable = handsDead;
-			calamityGlobalNPC.DR = (malice ? 0.2f : 0.05f) + num156 * 0.45f;
+			calamityGlobalNPC.DR = (malice ? 0.45f : 0.05f) + num156 * 0.45f;
 			if (calamityGlobalNPC.DR > 0.95f)
 				calamityGlobalNPC.DR = 0.95f;
 
@@ -9219,7 +9219,7 @@ namespace CalamityMod.NPCs
 								projectileType = ModContent.ProjectileType<SporeGasPlantera>();
 								projectileVelocity = 3f;
 							}
-                            if (lifeRatio < 0.9f && Main.rand.NextBool(2))
+                            if (lifeRatio < 0.9f && Main.rand.NextBool(3))
                             {
                                 npc.localAI[1] = -30f;
                                 projectileType = ProjectileID.PoisonSeedPlantera;
@@ -9333,7 +9333,7 @@ namespace CalamityMod.NPCs
 							int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore);
 							Main.npc[num762].velocity.X = num758;
 							Main.npc[num762].velocity.Y = num760;
-							Main.npc[num762].dontTakeDamage = true;
+							Main.npc[num762].dontTakeDamage = malice;
 							Main.npc[num762].netUpdate = true;
 						}
 					}
@@ -9360,9 +9360,11 @@ namespace CalamityMod.NPCs
 						{
 							Vector2 vector93 = npc.Center;
 
-							float num742 = 12f + ((0.5f - lifeRatio) * 8f); // 12f to 16f
+							float num742 = 8f + ((0.5f - lifeRatio) * 8f); // 8f to 12f
 							if (nearbyActiveTiles < 300)
-								num742 = 16f;
+								num742 = 12f;
+							if (malice)
+								num742 += 4f;
 
 							float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
 							float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
@@ -9440,7 +9442,7 @@ namespace CalamityMod.NPCs
 						int numProj = 4;
 						int spread = 30;
 						if (nearbyActiveTiles <= 300)
-							spread = Main.rand.NextBool(2) ? 30 : 60;
+							spread = Main.rand.NextBool(2) ? 45 : 60;
 
 						float rotation = MathHelper.ToRadians(spread);
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);

@@ -772,8 +772,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.regenator)
 			{
-				player.lifeRegenTime += 8;
-				player.lifeRegen += 16;
+				player.lifeRegenTime += 6;
+				player.lifeRegen += 12;
 			}
             if (modPlayer.handWarmer && modPlayer.eskimoSet)
             {

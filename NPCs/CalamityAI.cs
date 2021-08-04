@@ -769,7 +769,7 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
-					if (npc.localAI[1] >= (death ? 150f : 180f))
+					if (npc.localAI[1] >= (malice ? 60f : death ? 150f : 180f))
 					{
 						npc.TargetClosest();
 						npc.localAI[1] = 0f;
@@ -820,7 +820,7 @@ namespace CalamityMod.NPCs
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].fadeIn = 1f;
 				}
-				npc.alpha += 2;
+				npc.alpha += malice ? 4 : 2;
 				if (npc.alpha >= 255)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < 2 && revenge)
