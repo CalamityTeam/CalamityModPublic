@@ -2772,8 +2772,8 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 
 							float num179 = death ? 20f : 18.5f;
-							int maxProjectiles = death ? 6 : 4;
-							int spread = death ? 60 : 45;
+							int maxProjectiles = malice ? 8 : death ? 6 : 4;
+							int spread = malice ? 80 : death ? 60 : 45;
 
 							if (!phase2)
 							{
@@ -2823,7 +2823,7 @@ namespace CalamityMod.NPCs
             {
 				// If hit or after two seconds start Idle phase
 				npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 120f)
+                if (npc.justHit || npc.ai[1] >= 120f || malice)
                 {
                     // Set AI to next phase (Idle) and reset other AI
                     npc.ai[0] = 1f;
@@ -2845,7 +2845,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 1.5 or 2.5 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 120f)
+                if (npc.ai[1] >= 120f || malice)
                 {
                     // Increase defense
                     npc.defense = npc.defDefense;
@@ -2929,7 +2929,7 @@ namespace CalamityMod.NPCs
 
                 // Walk for a maximum of 6 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (360f - (death ? 90f * (1f - lifeRatio) : 0f)))
+                if (npc.ai[1] >= ((malice ? 270f : 360f) - (death ? 90f * (1f - lifeRatio) : 0f)))
                 {
                     // Collide with tiles again
                     npc.noTileCollide = false;
@@ -3057,8 +3057,8 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num179 = death ? 20f : 18.5f;
-						int maxProjectiles = death ? 6 : 4;
-						int spread = death ? 60 : 45;
+						int maxProjectiles = malice ? 12 : death ? 6 : 4;
+						int spread = malice ? 120 : death ? 60 : 45;
 						Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num180 = player.position.X + player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -3156,7 +3156,7 @@ namespace CalamityMod.NPCs
                     if (phase3)
                         npc.localAI[1] += 1f;
 
-                    if (npc.localAI[1] >= (240f - (death ? 60f * (1f - lifeRatio) : 0f)))
+                    if (npc.localAI[1] >= ((malice ? 120f : 240f) - (death ? 60f * (1f - lifeRatio) : 0f)))
                     {
                         // Spawn slimes
                         bool spawnFlag = revenge;
