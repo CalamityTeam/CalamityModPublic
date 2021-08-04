@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private const float deathrayTelegraphDuration = 240f;
 
 		// Total duration of the deathray
-		private const float deathrayDuration = 180f;
+		private const float deathrayDuration = 60f;
 
         public override void SetStaticDefaults()
         {
@@ -224,7 +224,41 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Rotate the cannon to look at the target while not firing the beam
 			// Rotate the cannon to look in the direction it will fire only while it's charging or while it's firing
-			// npc.rotation = npc.velocity.X * 0.003f;
+			// Rotation
+			float rateOfRotation = AIState == (int)Phase.Deathray ? 0.08f : 0.04f;
+			Vector2 lookAt = AIState == (int)Phase.Deathray ? (calamityGlobalNPC.newAI[3] == 0f ? new Vector2(0f, npc.Center.Y + 1000f) : new Vector2(npc.Center.X + 1000f, 0f)) : player.Center;
+
+			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
+			if (npc.spriteDirection == 1)
+				rotation += MathHelper.Pi;
+			if (rotation < 0f)
+				rotation += MathHelper.TwoPi;
+			if (rotation > MathHelper.TwoPi)
+				rotation -= MathHelper.TwoPi;
+
+			if (npc.rotation < rotation)
+			{
+				if (rotation - npc.rotation > MathHelper.Pi)
+					npc.rotation -= rateOfRotation;
+				else
+					npc.rotation += rateOfRotation;
+			}
+			if (npc.rotation > rotation)
+			{
+				if (npc.rotation - rotation > MathHelper.Pi)
+					npc.rotation += rateOfRotation;
+				else
+					npc.rotation -= rateOfRotation;
+			}
+
+			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
+				npc.rotation = rotation;
+			if (npc.rotation < 0f)
+				npc.rotation += MathHelper.TwoPi;
+			if (npc.rotation > MathHelper.TwoPi)
+				npc.rotation -= MathHelper.TwoPi;
+			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
+				npc.rotation = rotation;
 
 			// Default vector to fly to
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 750f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
@@ -247,7 +281,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float deathrayPhaseGateValue = 420f;
 			float deathrayPhaseVelocityMult = 0.95f;
 			float deathrayDecelerationTime = 15f;
-			float deathrayPhaseVelocity = 5f;
+			float deathrayPhaseVelocity = 15f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;

@@ -5554,7 +5554,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Rotation
-			// Phase switch
 			float rateOfRotation = 0.04f;
 			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f || npc.ai[0] == 14f)
 				rateOfRotation = 0f;

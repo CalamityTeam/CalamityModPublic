@@ -320,7 +320,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 500f) : player.Center;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;

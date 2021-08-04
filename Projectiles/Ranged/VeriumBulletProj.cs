@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Ranged
 			return true;
 		}
 
-		public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f;
+		public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f && target.CanBeChasedBy(projectile);
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
 

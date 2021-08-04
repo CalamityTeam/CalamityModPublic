@@ -222,8 +222,45 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					npc.Opacity = 0f;
 			}
 
-			// Rotate the cannon to look at the target
-			// npc.rotation = npc.velocity.X * 0.003f;
+			// Predictiveness
+			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			Vector2 predictionVector = player.velocity * predictionAmt;
+			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
+
+			float rateOfRotation = AIState == (int)Phase.PlasmaBolts ? 0.08f : 0.04f;
+			Vector2 lookAt = player.Center + Vector2.Normalize(rotationVector);
+
+			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
+			if (npc.spriteDirection == 1)
+				rotation += MathHelper.Pi;
+			if (rotation < 0f)
+				rotation += MathHelper.TwoPi;
+			if (rotation > MathHelper.TwoPi)
+				rotation -= MathHelper.TwoPi;
+
+			if (npc.rotation < rotation)
+			{
+				if (rotation - npc.rotation > MathHelper.Pi)
+					npc.rotation -= rateOfRotation;
+				else
+					npc.rotation += rateOfRotation;
+			}
+			if (npc.rotation > rotation)
+			{
+				if (npc.rotation - rotation > MathHelper.Pi)
+					npc.rotation += rateOfRotation;
+				else
+					npc.rotation -= rateOfRotation;
+			}
+
+			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
+				npc.rotation = rotation;
+			if (npc.rotation < 0f)
+				npc.rotation += MathHelper.TwoPi;
+			if (npc.rotation > MathHelper.TwoPi)
+				npc.rotation -= MathHelper.TwoPi;
+			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
+				npc.rotation = rotation;
 
 			// Default vector to fly to
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 375f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 160f);
@@ -258,11 +295,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Attacking phases
 			switch ((int)AIState)
 			{
-				// Do nothing, rotate to aim at the target and fly in place
+				// Do nothing and fly in place
 				case (int)Phase.Nothing:
-
-					if (!targetDead)
-						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
 					calamityGlobalNPC.newAI[1] += 1f;
 					if (calamityGlobalNPC.newAI[1] >= plasmaBoltPhaseGateValue)
@@ -300,6 +334,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									float projectileVelocity = 12f;
+									Vector2 plasmaBoltVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
 									/*int type = ModContent.ProjectileType<AresPlasmaBolt>();
 									int damage = npc.GetProjectileDamage(type);*/
 								}
@@ -316,6 +352,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					break;
 			}
+
+			// Movement
+			if (!targetDead)
+				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

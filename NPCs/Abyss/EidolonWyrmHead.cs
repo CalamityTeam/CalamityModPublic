@@ -451,7 +451,19 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+		public override bool PreNPCLoot()
+		{
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			return !adultWyrmAlive;
+		}
+
+		public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
 			if (Main.rand.NextBool(10))

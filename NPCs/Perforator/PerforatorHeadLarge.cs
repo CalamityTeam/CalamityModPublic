@@ -262,6 +262,7 @@ namespace CalamityMod.NPCs.Perforator
                     }
                 }
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
 			float burrowDistance = malice ? 500f : 750f;

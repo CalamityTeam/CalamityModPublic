@@ -220,11 +220,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
+						// This is only used in deathray phase to prevent laser spam
+						int numSegments = ThanatosHead.minLength;
+						double numSegmentsAbleToFire = 5D;
+						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
 						npc.ai[3] += 1f;
 						float shootProjectile = 120f;
 						float timer = npc.ai[0] + 15f;
 						float divisor = timer + shootProjectile;
-						if (npc.ai[3] % divisor == 0f || npc.Calamity().newAI[0] > 0f)
+						if ((npc.ai[3] % divisor == 0f && (npc.localAI[2] % segmentDivisor == 0f || !berserk)) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -261,7 +266,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = malice ? 40f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
 										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
