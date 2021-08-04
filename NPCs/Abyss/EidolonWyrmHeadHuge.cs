@@ -388,7 +388,7 @@ namespace CalamityMod.NPCs.Abyss
 			// Ancient Doom variables
 			Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
 			float ancientDoomLocationDistance = turnDistance * 0.2f;
-			int ancientDoomLimit = targetDownDeep ? 3 : 5;
+			int ancientDoomLimit = targetDownDeep ? 5 : 8;
 			int ancientDoomDistance = 550;
 			float maxAncientDoomRings = 3f;
 
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 lightningChargeLocation = destination + lightningChargeVector;
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
 			float lightningSpawnY = 540f;
-			Vector2 lightningSpawnLocation = new Vector2(lightningChargeVector.X, -lightningSpawnY);
+			Vector2 lightningSpawnLocation = new Vector2(npc.Center.X, npc.Center.Y - lightningSpawnY);
 			int numLightningBolts = 8;
 			float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
