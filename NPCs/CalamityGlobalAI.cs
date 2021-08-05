@@ -1284,7 +1284,9 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[0] += 1f;
                         if (calamityGlobalNPC.newAI[0] > 3f)
                             calamityGlobalNPC.newAI[0] = 0f;
-                    }
+
+						npc.SyncExtraAI();
+					}
 
 					npc.netUpdate = true;
 
@@ -2685,6 +2687,15 @@ namespace CalamityMod.NPCs
 			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
 			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
+			// Always start in enemy spawning phase
+			if (calamityGlobalNPC.newAI[3] == 0f)
+			{
+				calamityGlobalNPC.newAI[3] = 1f;
+				npc.ai[0] = 2f;
+				npc.netUpdate = true;
+				npc.SyncExtraAI();
+			}
+
 			if (npc.ai[0] == 5f)
 			{
 				npc.velocity.Y *= 0.98f;
@@ -2905,7 +2916,10 @@ namespace CalamityMod.NPCs
 
 						calamityGlobalNPC.newAI[0] += 1f;
 						if (calamityGlobalNPC.newAI[0] > 90f)
+						{
+							npc.SyncExtraAI();
 							npc.velocity.X *= 1.01f;
+						}
 
 						npc.localAI[0] = 1f;
 						return false;
@@ -2943,6 +2957,7 @@ namespace CalamityMod.NPCs
 						npc.ai[2] = 0f;
 						npc.ai[1] += 1f;
 						calamityGlobalNPC.newAI[0] = 0f;
+						npc.SyncExtraAI();
 					}
 
 					npc.netUpdate = true;
@@ -2974,6 +2989,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					calamityGlobalNPC.newAI[0] = 0f;
 					npc.netUpdate = true;
+					npc.SyncExtraAI();
 					return false;
 				}
 

@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 enrageScale = 2.5f;
             }
 
-			bool diagonalDash = revenge && phase2;
+			bool diagonalDash = (revenge && phase2) || malice;
 
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
 				npc.rotation = npc.velocity.X * 0.02f;
@@ -250,6 +250,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				}
 				return;
             }
+
+			// Always start in enemy spawning phase
+			if (calamityGlobalNPC.newAI[3] == 0f)
+			{
+				calamityGlobalNPC.newAI[3] = 1f;
+				npc.ai[0] = 2f;
+				npc.netUpdate = true;
+			}
 
             // Phase switch
             if (npc.ai[0] == -1f)
@@ -826,12 +834,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
-                                for (int i = 0; i < MissileProjectiles; i++)
+								int missiles = malice ? 16 : MissileProjectiles;
+								int spread = malice ? 18 : 24;
+                                for (int i = 0; i < missiles; i++)
                                 {
-                                    Vector2 spawn = vectorCenter;
-                                    spawn.X += i * 27 - (MissileProjectiles * 12); // -96 to 93
-                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / MissileProjectiles)));
-                                    Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
+                                    Vector2 spawn = vectorCenter; // Normal = 96, Malice = 144
+                                    spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Malice = -144 to 156
+                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
+                                    Projectile.NewProjectile(spawn, velocity, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
                                 }
                             }
                         }
