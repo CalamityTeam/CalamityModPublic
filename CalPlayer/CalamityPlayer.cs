@@ -1059,7 +1059,7 @@ namespace CalamityMod.CalPlayer
         #endregion Calamitas Enchant Effects
 
         #region Draw Effects
-        public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, 1, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
+        public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, int.MaxValue, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
         #endregion Draw Effects
 
         #endregion

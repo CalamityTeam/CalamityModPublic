@@ -681,10 +681,10 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			//extra DoT in the lava of the crags
+			// Extra DoT in the lava of the crags. Negated by Abaddon.
 			if (player.lavaWet)
 			{
-				if (modPlayer.ZoneCalamity)
+				if (modPlayer.ZoneCalamity && !modPlayer.abaddon)
 					player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 			else

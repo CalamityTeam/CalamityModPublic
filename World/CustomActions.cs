@@ -40,6 +40,20 @@ namespace CalamityMod.World
             }
         }
 
+        public class SetPaint : GenAction
+        {
+            private readonly byte _paintID;
+            public SetPaint(byte paintID) => _paintID = paintID;
+            public override bool Apply(Point origin, int x, int y, params object[] args)
+            {
+                if (!WorldGen.InWorld(x, y))
+                    return false;
+
+                WorldGen.paintTile(x, y, _paintID);
+                return UnitApply(origin, x, y, args);
+            }
+        }
+
         public class JungleGrass : GenAction
         {
             private bool _tryMushrooms;

@@ -43,6 +43,9 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
+			// If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
+			ElementTooltip(item, tooltips);
+
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
@@ -984,6 +987,38 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
+			}
+		}
+		#endregion
+
+		#region Element Tooltip
+		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
+		{
+			if (CalamityLists.fireWeaponList.Contains(item.type))
+			{
+				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "-Fire Weapon-")
+				{
+					overrideColor = new Color(255, 165, 0)
+				};
+				tooltips.Add(fireTooltip);
+			}
+
+			if (CalamityLists.iceWeaponList.Contains(item.type))
+			{
+				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "-Ice Weapon-")
+				{
+					overrideColor = new Color(94, 230, 255)
+				};
+				tooltips.Add(iceTooltip);
+			}
+
+			if (CalamityLists.natureWeaponList.Contains(item.type))
+			{
+				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "-Nature Weapon-")
+				{
+					overrideColor = new Color(46, 165, 0)
+				};
+				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion
