@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !phase6))
             {
                 time++;
-                if (time >= 600)
+                if (time >= (malice ? 480 : 600))
                 {
 					time = 0;
 					Main.PlaySound(SoundID.Item28, npc.Center);
@@ -223,7 +223,9 @@ namespace CalamityMod.NPCs.Cryogen
                 }
             }
 
-            if (npc.ai[0] == 0f)
+			float chargeGateValue = malice ? 240f : 360f;
+
+			if (npc.ai[0] == 0f)
             {
 				npc.rotation = npc.velocity.X * 0.1f;
 
@@ -237,7 +239,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							Main.PlaySound(SoundID.Item28, npc.Center);
-							int totalProjectiles = 16;
+							int totalProjectiles = malice ? 24 : 16;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
@@ -276,7 +278,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else if (npc.ai[0] == 1f)
             {
-				if (npc.ai[1] < 360f)
+				if (npc.ai[1] < chargeGateValue)
 				{
 					npc.ai[1] += 1f;
 
@@ -292,7 +294,7 @@ namespace CalamityMod.NPCs.Cryogen
 							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 							{
 								Main.PlaySound(SoundID.Item28, npc.Center);
-								int totalProjectiles = 12;
+								int totalProjectiles = malice ? 18 : 12;
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
@@ -354,7 +356,7 @@ namespace CalamityMod.NPCs.Cryogen
 							npc.velocity.X = -velocity;
 					}
 				}
-				else if (npc.ai[1] < 390f)
+				else if (npc.ai[1] < chargeGateValue + 30f)
 				{
 					npc.ai[1] += 1f;
 
@@ -367,11 +369,11 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else
 				{
-					if (npc.ai[1] == 390f)
+					if (npc.ai[1] == chargeGateValue + 30f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (18f + enrageScale * 2f);
 
-						npc.ai[1] = 450f;
+						npc.ai[1] = chargeGateValue + 90f;
 						calamityGlobalNPC.newAI[0] = 0f;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -402,7 +404,7 @@ namespace CalamityMod.NPCs.Cryogen
 					}
 
 					npc.ai[1] -= 1f;
-					if (npc.ai[1] == 390f)
+					if (npc.ai[1] == chargeGateValue + 30f)
 					{
 						npc.TargetClosest();
 
@@ -411,7 +413,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 						npc.rotation = npc.velocity.X * 0.1f;
 					}
-					else if (npc.ai[1] <= 405f)
+					else if (npc.ai[1] <= chargeGateValue + 45f)
 					{
 						npc.velocity *= 0.95f;
 						npc.rotation = npc.velocity.X * 0.15f;
@@ -433,7 +435,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else if (npc.ai[0] == 2f)
             {
-				if (npc.ai[1] < 360f)
+				if (npc.ai[1] < chargeGateValue)
 				{
 					npc.ai[1] += 1f;
 
@@ -449,7 +451,7 @@ namespace CalamityMod.NPCs.Cryogen
 							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 							{
 								Main.PlaySound(SoundID.Item28, npc.Center);
-								int totalProjectiles = 12;
+								int totalProjectiles = malice ? 18 : 12;
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int type = ModContent.ProjectileType<IceBlast>();
 								int damage = npc.GetProjectileDamage(type);
@@ -478,7 +480,7 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
 					npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 				}
-				else if (npc.ai[1] < 380f)
+				else if (npc.ai[1] < chargeGateValue + 20f)
 				{
 					npc.ai[1] += 1f;
 
@@ -491,11 +493,11 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else
 				{
-					if (npc.ai[1] == 380f)
+					if (npc.ai[1] == chargeGateValue + 20f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (18f + enrageScale * 2f);
 
-						npc.ai[1] = 440f;
+						npc.ai[1] = chargeGateValue + 80f;
 						calamityGlobalNPC.newAI[0] = 0f;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -526,7 +528,7 @@ namespace CalamityMod.NPCs.Cryogen
 					}
 
 					npc.ai[1] -= 1f;
-					if (npc.ai[1] == 380f)
+					if (npc.ai[1] == chargeGateValue + 20f)
 					{
 						npc.TargetClosest();
 
@@ -540,7 +542,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 						npc.rotation = npc.velocity.X * 0.1f;
 					}
-					else if (npc.ai[1] <= 395f)
+					else if (npc.ai[1] <= chargeGateValue + 35f)
 					{
 						npc.velocity *= 0.95f;
 						npc.rotation = npc.velocity.X * 0.15f;
@@ -573,7 +575,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							Main.PlaySound(SoundID.Item28, npc.Center);
-							int totalProjectiles = 12;
+							int totalProjectiles = malice ? 18 : 12;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<IceBlast>();
 							int damage = npc.GetProjectileDamage(type);
@@ -680,7 +682,7 @@ namespace CalamityMod.NPCs.Cryogen
 								float velocity = 9f + enrageScale;
 								for (int i = 0; i < 3; i++)
 								{
-									int totalProjectiles = 6;
+									int totalProjectiles = malice ? 9 : 6;
 									float radians = MathHelper.TwoPi / totalProjectiles;
 									float newVelocity = velocity - (velocity * 0.33f * i);
 									float velocityX = 0f;
@@ -762,7 +764,7 @@ namespace CalamityMod.NPCs.Cryogen
 									float velocity = 9f + enrageScale;
 									for (int i = 0; i < 4; i++)
 									{
-										int totalProjectiles = 4;
+										int totalProjectiles = malice ? 6 : 4;
 										float radians = MathHelper.TwoPi / totalProjectiles;
 										float newVelocity = velocity - (velocity * 0.25f * i);
 										float velocityX = 0f;
@@ -854,7 +856,7 @@ namespace CalamityMod.NPCs.Cryogen
 				npc.rotation = npc.velocity.X * 0.1f;
 
 				time++;
-				if (time >= 75)
+				if (time >= (malice ? 50 : 75))
 				{
 					time = 0;
 					Main.PlaySound(SoundID.Item28, npc.Center);
@@ -875,7 +877,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 180f)
+				if (npc.ai[1] >= (malice ? 120f : 180f))
 				{
 					npc.TargetClosest();
 					npc.ai[0] = 4f;

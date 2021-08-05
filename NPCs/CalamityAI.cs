@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									float velocity = death ? 9.5f : revenge ? 7.5f : 6.5f;
-									int totalProjectiles = expertMode ? 30 : 20;
+									int totalProjectiles = malice ? 40 : expertMode ? 30 : 20;
 									float radians = MathHelper.TwoPi / totalProjectiles;
 									int type = ModContent.ProjectileType<SandBlast>();
 									int damage = npc.GetProjectileDamage(type);
@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs
 
 									if (phase3)
 									{
-										int num320 = expertMode ? 14 : 7;
+										int num320 = malice ? 21 : expertMode ? 14 : 7;
 										type = ModContent.ProjectileType<SandPoisonCloud>();
 										damage = npc.GetProjectileDamage(type);
 										for (int num321 = 0; num321 < num320; num321++)
