@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (Main.myPlayer == projectile.owner)
 			{
 				// Gauss sparks
-				int totalProjectiles = CalamityWorld.malice ? 24 : 12;
+				int totalProjectiles = CalamityWorld.malice ? 18 : 12;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
 				float velocity = 12f;
@@ -163,14 +163,14 @@ namespace CalamityMod.Projectiles.Boss
 				Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 				for (int k = 0; k < totalProjectiles; k++)
 				{
-					Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-					Projectile.NewProjectile(projectile.Center, vector255, type, projectile.damage / 2, 0f, Main.myPlayer);
+					Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+					Projectile.NewProjectile(projectile.Center, velocity2, type, (int)(projectile.damage * 0.6), 0f, Main.myPlayer);
 				}
 
 				// Explosion waves
 				for (int i = 0; i < 7; i++)
 				{
-					Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, projectile.knockBack, projectile.owner);
+					Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, 0f, Main.myPlayer);
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
 						explosion.ai[1] = 800f + i * 45f;

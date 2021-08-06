@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
 									int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
 									int damage = npc.GetProjectileDamage(type);
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * 40f, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * 40f, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
 
 									// Recoil
 									npc.velocity -= gaussNukeVelocity;
