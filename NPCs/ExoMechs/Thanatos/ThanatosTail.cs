@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
     {
 		// Whether the tail is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
-		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		public override void SetStaticDefaults()
         {
