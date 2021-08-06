@@ -740,10 +740,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 6) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 1) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
