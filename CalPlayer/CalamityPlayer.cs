@@ -42,6 +42,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
@@ -52,6 +53,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Skies;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -71,6 +73,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -590,6 +594,8 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+        public int voidFrameCounter = 0;
+        public int voidFrame = 0;
         public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
@@ -923,6 +929,8 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
+        public bool voidAura = false;
+        public bool voidAuraDamage = false;
         public bool youngDuke = false;
         public bool virili = false;
         public bool frostBlossom = false;
@@ -1051,6 +1059,10 @@ namespace CalamityMod.CalPlayer
         public bool lecherousOrbEnchant = false;
         #endregion Calamitas Enchant Effects
 
+        #region Draw Effects
+        public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, int.MaxValue, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
+        #endregion Draw Effects
+
         #endregion
 
         #region SavingAndLoading
@@ -1153,7 +1165,8 @@ namespace CalamityMod.CalPlayer
             return new TagCompound
             {
                 { "boost", boost },
-                { "rage", rage }, // Used to be "stress". Newer saves will never write "stress".
+                { "rage", rage },
+                { "stress", rage * 10000f },
                 { "adrenaline", adrenaline },
                 { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
@@ -1227,10 +1240,10 @@ namespace CalamityMod.CalPlayer
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
             GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
-            // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
-            if (tag.ContainsKey("stress"))
-                rage = tag.GetInt("stress");
-            else
+            // Load rage if it's there, which it will be for any players saved with 1.5.
+            // Older players have "stress" instead, which will be ignored. This is intentional.
+            // Stress ranged from 0 to 10,000. Rage ranges from 0.0 to 1.0.
+            if (tag.ContainsKey("rage"))
                 rage = tag.GetFloat("rage");
 
             adrenaline = tag.GetFloat("adrenaline");
@@ -1991,6 +2004,8 @@ namespace CalamityMod.CalPlayer
             plaguebringerMK2 = false;
             igneousExaltation = false;
             coldDivinity = false;
+            voidAura = false;
+            voidAuraDamage = false;
             radiantResolution = false;
             virili = false;
             frostBlossom = false;
@@ -3672,10 +3687,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.05f;
             }
-            if (graxDefense)
-            {
-                meleeSpeedMult += 0.1f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;
@@ -3782,8 +3793,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (player.beetleOffense && player.beetleOrbs > 0)
 			{
-				player.meleeDamage -= 0.05f * player.beetleOrbs;
-				meleeSpeedMult -= 0.05f * player.beetleOrbs;
+				meleeSpeedMult -= 0.1f * player.beetleOrbs;
 			}
             if (CalamityConfig.Instance.Proficiency)
             {
@@ -3867,6 +3877,14 @@ namespace CalamityMod.CalPlayer
                 roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
             }
             roverFrameCounter++;
+
+            int frames = 4;
+            if (voidFrameCounter >= 6)
+            {
+                voidFrameCounter = 0;
+                voidFrame = voidFrame == frames - 1 ? 0 : voidFrame + 1;
+            }
+            voidFrameCounter++;
 
             for (int i = 0; i < player.dye.Length; i++)
             {
@@ -7010,12 +7028,16 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, player.whoAmI);
+
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().forceTypeless = true; //in case melee/rogue variants bug out
+
+                    // Handle AI edge-cases.
                     if (item.type == ModContent.ItemType<FinalDawn>())
-                    {
                         Main.projectile[p].ai[1] = 1f;
-                    }
+                    if (item.type == ModContent.ItemType<TheAtomSplitter>())
+                        Main.projectile[p].ai[0] = -1f;
+
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;

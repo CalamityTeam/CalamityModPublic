@@ -17,6 +17,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
@@ -44,6 +45,8 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -139,48 +142,6 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private static void RevengeanceModeMiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
-			if (CalamityGlobalNPC.holyBoss != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.holyBoss].active)
-				{
-					if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
-					{
-						float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
-						float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
-						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
-
-						float baseDistance = 2800f;
-						float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-						float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
-						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
-
-						bool guardianAlive = false;
-						if (CalamityGlobalNPC.holyBossAttacker != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-								guardianAlive = true;
-						}
-						if (CalamityGlobalNPC.holyBossDefender != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-								guardianAlive = true;
-						}
-						if (CalamityGlobalNPC.holyBossHealer != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossHealer].active)
-								guardianAlive = true;
-						}
-
-						float maxDistance = guardianAlive ? baseDistance : (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
-						float drawDarknessDistance = maxDistance - 400f;
-						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
-
-						if (!Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Calamity().ZoneAbyss && !Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].headcovered)
-							ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, 1f, intensityScalar);
-					}
-				}
-			}
-
 			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
 				// This effect is way too annoying during the fight so I disabled it - Fab
@@ -654,6 +615,35 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			// Update the Providence Burn effect drawer if applicable.
+			float providenceBurnIntensity = 0f;
+			if (Main.npc.IndexInRange(CalamityGlobalNPC.holyBoss) && Main.npc[CalamityGlobalNPC.holyBoss].active)
+				providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].modNPC as ProvidenceBoss).CalculateBurnIntensity();
+			modPlayer.ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
+
+			// If the burn intensity is great enough, cause the player to ignite into flames.
+			if (providenceBurnIntensity > 0.45f)
+				modPlayer.ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
+
+			// Otherwise, if the intensity is too weak, but still presernt, cause the player to release holy cinders.
+			else if (providenceBurnIntensity > 0f)
+			{
+				int cinderCount = (int)MathHelper.Lerp(1f, 4f, Utils.InverseLerp(0f, 0.45f, providenceBurnIntensity, true));
+				for (int i = 0; i < cinderCount; i++)
+				{
+					if (!Main.rand.NextBool(3))
+						continue;
+
+					Dust holyCinder = Dust.NewDustDirect(player.position, player.width, player.head, (int)CalamityDusts.ProfanedFire);
+					holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
+					holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
+					holyCinder.scale = Main.rand.NextFloat(1.15f, 1.45f);
+					holyCinder.noGravity = true;
+				}
+			}
+
+			modPlayer.ProvidenceBurnEffectDrawer.Update();
+
 			// Immunity to most debuffs
 			if (modPlayer.invincible)
 			{
@@ -691,10 +681,10 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			//extra DoT in the lava of the crags
+			// Extra DoT in the lava of the crags. Negated by Abaddon.
 			if (player.lavaWet)
 			{
-				if (modPlayer.ZoneCalamity)
+				if (modPlayer.ZoneCalamity && !modPlayer.abaddon)
 					player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 			else
@@ -3390,7 +3380,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(AngryChickenStaff.Damage * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 

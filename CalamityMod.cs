@@ -1425,49 +1425,6 @@ namespace CalamityMod
         {
             // Apply the calculated darkness value for the local player.
             CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            if (CalamityGlobalNPC.holyBoss != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
-                {
-                    if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
-                    {
-                        float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
-                        float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
-                        float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
-
-                        float baseDistance = 2800f;
-                        float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-                        float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
-                        float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
-
-                        bool guardianAlive = false;
-                        if (CalamityGlobalNPC.holyBossAttacker != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                                guardianAlive = true;
-                        }
-                        if (CalamityGlobalNPC.holyBossDefender != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-                                guardianAlive = true;
-                        }
-                        if (CalamityGlobalNPC.holyBossHealer != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossHealer].active)
-                                guardianAlive = true;
-                        }
-
-                        float maxDistance = guardianAlive ? baseDistance : (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
-                        float drawDarknessDistance = maxDistance - 400f;
-                        float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
-                        scale -= intensityScalar;
-
-                        // Return to prevent running other darkness code
-                        return;
-                    }
-                }
-            }
-
             float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
 
             if (modPlayer.ZoneAbyss)

@@ -1,14 +1,13 @@
 using CalamityMod.Buffs;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -30,8 +29,8 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
@@ -43,7 +42,6 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -887,7 +885,7 @@ namespace CalamityMod.NPCs
                 if (npc.defense < 0)
                     npc.defense = 0;
 
-                int depthDamage = Main.hardMode ? 80 : 12;
+                int depthDamage = Main.hardMode ? 36 : 12;
                 if (hurtByAbyss)
                     depthDamage = 300;
 
@@ -1884,13 +1882,24 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = CalamityWorld.malice ? 2f : (!GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR) ? 1.5f : 1f;
 
-				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
+				// Boost Providence timed DR during the night
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
-				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
+
+				// Boost most worm boss timed DR to prevent speed killing
+				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
+					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
+					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
+					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice)) ||
 					ThanatosIDs.Contains(npc.type))
 					DRScalar = 5f;
+
+				// Boost Desert Scourge and Perforator Worm timed DR during Malice Mode to prevent speed killing
+				if (CalamityWorld.malice)
+				{
+					if (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type))
+						DRScalar = 5f;
+				}
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -3204,7 +3213,7 @@ namespace CalamityMod.NPCs
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
-                        npc.type != NPCType<SCalWormHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
+                        npc.type != NPCType<BrimstoneHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
                         npc.type != NPCType<SupremeCatastrophe>())
                     {
                         npc.active = false;
@@ -3789,8 +3798,12 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
-			else if (npc.type == NPCType<SCalWormHeart>())
+			else if (npc.type == NPCType<BrimstoneHeart>())
 			{
+				// 30% resist to Surge Driver's alt click comets.
+				if (projectile.type == ProjectileType<PrismComet>())
+					damage = (int)(damage * 0.7);
+
 				// 20% resist to Executioner's Blade stealth strikes.
 				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
@@ -3880,16 +3893,20 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
+				// 85% resist to Chicken Cannon.
+				if (projectile.type == ProjectileType<ChickenExplosion>())
+					damage = (int)(damage * 0.15);
+				
 				// 30% resist to Murasama.
-				if (projectile.type == ProjectileType<MurasamaSlash>())
+				else if (projectile.type == ProjectileType<MurasamaSlash>())
 					damage = (int)(damage * 0.7);
 
 				// 25% resist to Yharim's Crystal.
 				else if (projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.75);
 
-				// 10% resist to Executioner's Blade stealth strikes.
-				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+				// 10% resist to Surge Driver's alt click comets and Executioner's Blade stealth strikes.
+				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>() || projectile.type == ProjectileType<PrismComet>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)

@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
+			npc.defense = 4;
 			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
@@ -145,7 +146,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (lungeUpward)
 			{
-				speed *= 1.5f;
+				speed *= 1.25f;
 				turnSpeed *= 1.5f;
 			}
 
@@ -274,7 +275,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
             float num188 = speed;
             float num189 = turnSpeed;
-			float burrowTarget = player.Center.Y + 1000f;
+			float burrowDistance = malice ? 500f : 750f;
+			float burrowTarget = player.Center.Y + burrowDistance;
 			float lungeTarget = player.Center.Y - 600f;
 			Vector2 vector18 = npc.Center;
             float num191 = player.Center.X;

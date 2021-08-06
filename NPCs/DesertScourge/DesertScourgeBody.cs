@@ -86,8 +86,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
             {
-                npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26001))
+                npc.localAI[0] += malice ? 4f : Main.rand.Next(4);
+                if (npc.localAI[0] >= Main.rand.Next(1400, 26001))
                 {
                     npc.localAI[0] = 0f;
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))

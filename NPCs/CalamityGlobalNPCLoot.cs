@@ -17,6 +17,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
+using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System.Threading;
 using Terraria;
@@ -211,8 +212,8 @@ namespace CalamityMod.NPCs
 					{
 						string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
 						Color messageColor3 = new Color(50, 255, 130);
-						WorldGenerationMethods.SpawnOre(TileID.Cobalt, 12E-05, .4f, .6f);
-						WorldGenerationMethods.SpawnOre(TileID.Palladium, 12E-05, .4f, .6f);
+                        CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.4f, 0.6f, 3, 8);
+						CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.4f, 0.6f, 3, 8);
 						CalamityUtils.DisplayLocalizedText(key3, messageColor3);
 					}
 				}
@@ -316,7 +317,7 @@ namespace CalamityMod.NPCs
 					string key3 = "Mods.CalamityMod.SandSharkText3";
 					Color messageColor3 = Color.Goldenrod;
 
-					WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
+					CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.5f, 0.7f, 3, 8, TileID.Dirt, TileID.Stone);
 
 					CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
@@ -499,7 +500,7 @@ namespace CalamityMod.NPCs
                     // This operation is done on a separate thread to lighten the load on servers so that they
                     // can focus on more critical operations asychronously and ideally avoid a time-out crash.
                     // Very few operations in Terraria utilize the pool, so it is highly unlikely that no threads will remain in it.
-                    ThreadPool.QueueUserWorkItem(_ => WorldGenerationMethods.GenerateLuminitePlanetoids());
+                    ThreadPool.QueueUserWorkItem(_ => LuminitePlanet.GenerateLuminitePlanetoids());
 
                     CalamityWorld.HasGeneratedLuminitePlanetoids = true;
 
@@ -605,23 +606,23 @@ namespace CalamityMod.NPCs
 			{
 				string key = "Mods.CalamityMod.HardmodeOreTier2Text";
 				Color messageColor = new Color(50, 255, 130);
-				WorldGenerationMethods.SpawnOre(TileID.Mythril, 12E-05, .5f, .7f);
-				WorldGenerationMethods.SpawnOre(TileID.Orichalcum, 12E-05, .5f, .7f);
+                CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.5f, 0.7f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.5f, 0.7f, 3, 8);
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 			}
 			else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 			{
 				string key = "Mods.CalamityMod.HardmodeOreTier3Text";
 				Color messageColor = new Color(50, 255, 130);
-				WorldGenerationMethods.SpawnOre(TileID.Adamantite, 12E-05, .6f, .8f);
-				WorldGenerationMethods.SpawnOre(TileID.Titanium, 12E-05, .6f, .8f);
+                CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.6f, 0.8f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.6f, 0.8f, 3, 8);
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 			}
 			else
 			{
 				string key = "Mods.CalamityMod.HardmodeOreTier4Text";
 				Color messageColor = new Color(50, 255, 130);
-				WorldGenerationMethods.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, .45f, .8f);
+				CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.45f, 0.8f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 			}
 		}
@@ -910,6 +911,12 @@ namespace CalamityMod.NPCs
                 case NPCID.PossessedArmor:
                     float amuletDropRate = Main.expertMode ? 0.032f : 0.02f;
                     DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate);
+                    break;
+
+                case NPCID.VampireBat:
+                case NPCID.Vampire:
+                    float batHookDropRate = Main.expertMode ? 0.05f : 0.025f;
+                    DropHelper.DropItemChance(npc, ItemID.BatHook, batHookDropRate);
                     break;
 
                 case NPCID.SeaSnail:

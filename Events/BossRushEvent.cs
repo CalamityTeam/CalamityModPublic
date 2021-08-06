@@ -301,10 +301,25 @@ namespace CalamityMod.Events
         {
             if (!BossRushActive)
                 return;
+
             // Prevent Moon Lord from spawning naturally
             if (NPC.MoonLordCountdown > 0)
-            {
                 NPC.MoonLordCountdown = 0;
+
+            // Handle projectile clearing.
+            if (CalamityWorld.bossRushHostileProjKillCounter > 0)
+            {
+                CalamityWorld.bossRushHostileProjKillCounter--;
+                if (CalamityWorld.bossRushHostileProjKillCounter == 1)
+                    CalamityUtils.KillAllHostileProjectiles();
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                    netMessage.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                    netMessage.Send();
+                }
             }
         }
 
@@ -352,13 +367,11 @@ namespace CalamityMod.Events
 
                     // Change time as necessary.
                     if (Bosses[BossRushStage].ToChangeTimeTo != TimeChangeContext.None)
-                        CalamityWorld.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
+                        CalamityUtils.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
                     
                     // Play the typical boss roar sound.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
-                    {
                         Main.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position, 0);
-                    }
 
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
@@ -406,6 +419,7 @@ namespace CalamityMod.Events
                 netMessage.Send();
             }
         }
+
         #endregion
 
         #region On Boss Kill

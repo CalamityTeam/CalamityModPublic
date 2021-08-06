@@ -1,3 +1,4 @@
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,7 +56,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.damage = 0;
 
-            if (npc.ai[2] > 0f)
+			// Difficulty modes
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
 			// Check if other segments are still alive, if not, die
@@ -82,8 +89,8 @@ namespace CalamityMod.NPCs.Abyss
 
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
-			float chargePhaseGateValue = 300f;
-			float lightningChargePhaseGateValue = 180f;
+			float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+			float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
 			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
 			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
@@ -111,7 +118,7 @@ namespace CalamityMod.NPCs.Abyss
 				if (Vector2.Distance(npc.Center, Main.player[Main.npc[(int)npc.ai[2]].target].Center) > 160f)
 				{
 					npc.localAI[0] += 1f;
-					float shootShadowFireballGateValue = 90f;
+					float shootShadowFireballGateValue = malice ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
 					float divisor = 2f;
 					if (npc.ai[3] % divisor == 0f && npc.localAI[0] >= shootShadowFireballGateValue)
 					{

@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             Flames = new Flame[TotalFlames];
             for (int i = 0; i < Flames.Length; i++)
             {
-                Vector2 flamePosition = Main.rand.NextVector2Circular(projectile.width / 2, projectile.height / 2);
+                Vector2 flamePosition = Main.rand.NextVector2Circular(projectile.width * 0.36f, projectile.height / 2);
 
                 Flames[i].Position = flamePosition;
                 Flames[i].Frame = Main.rand.Next(8);
@@ -57,16 +57,16 @@ namespace CalamityMod.Projectiles.Rogue
                 Flames[i].Direction = Main.rand.Next(2);
             }
         }
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
             int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            
+
 
             if (Flames.Length > 0)
             {
-               for(int i = 0; i < Flames.Length; i++)
-               {
+                for (int i = 0; i < Flames.Length; i++)
+                {
                     int frameHeight2 = frameHeight * Flames[i].Frame;
                     spriteBatch.Draw(texture,
                                      projectile.Center + Flames[i].Position - Main.screenPosition,
@@ -77,9 +77,9 @@ namespace CalamityMod.Projectiles.Rogue
                                      Flames[i].Scale,
                                      Flames[i].Direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                      0f);
-               }
+                }
             }
-			return false;
+            return false;
         }
 
         public override void AI()
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (projectile.ai[0] < 570)
                     {
-                        Vector2 pos = new Vector2(Main.rand.NextFloat(projectile.width / 2)).RotatedByRandom(MathHelper.TwoPi);
+                        Vector2 pos = new Vector2(Main.rand.NextFloat(projectile.width * 0.36f)).RotatedByRandom(MathHelper.TwoPi);
                         float widthHeightRatio = (float)projectile.height / projectile.width;
                         pos.Y *= widthHeightRatio;
 

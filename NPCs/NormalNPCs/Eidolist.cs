@@ -311,7 +311,19 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+		public override bool PreNPCLoot()
+		{
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			return !adultWyrmAlive;
+		}
+
+		public override void NPCLoot()
         {
 			if (Main.rand.NextBool(10))
 			{

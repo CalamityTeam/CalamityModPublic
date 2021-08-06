@@ -114,7 +114,10 @@ namespace CalamityMod.NPCs
 			"Amber", // <@!114677116473180169> (Mishiro Usui#1295)
 		};
 		private const int TavernkeepVanillaNames = 16;
-		private static readonly string[] TavernkeepNames = null;
+		private static readonly string[] TavernkeepNames =
+		{
+			"Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
+		};
 		private const int TaxCollectorVanillaNames = 19;
 		private static readonly string[] TaxCollectorNames =
 		{

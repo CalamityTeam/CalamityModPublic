@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 68;
+            projectile.width = 62;
+            projectile.height = 18;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
@@ -101,12 +102,15 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {
-                int dust = Dust.NewDust(projectile.Center, 1, 1, 5, 0, 0, 0, default, 1.5f);
-                Main.dust[dust].noGravity = true;
+                Dust blood = Dust.NewDustDirect(projectile.Center, 1, 1, 5, 0, 0, 0, default, 1.5f);
+                blood.position += projectile.velocity.SafeNormalize(Vector2.Zero) * projectile.scale * 42f;
+                blood.noGravity = true;
             }
         }
     }

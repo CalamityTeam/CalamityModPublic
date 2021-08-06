@@ -40,8 +40,6 @@ namespace CalamityMod.NPCs.TownNPCs
 			npc.damage = 10;
 
 			// You should not be able to kill SCal under any typical circumstances.
-			npc.Calamity().DR = 0.999999f;
-			npc.Calamity().unbreakableDR = true;
 			npc.lifeMax = 1000000;
 
 			npc.defense = 120;

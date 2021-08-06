@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 90000;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
@@ -36,12 +36,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            float lifeSpan = 50f;
+            float spinCycleTime = 50f;
 
 			// If the player is dead, destroy the projectile
-            if (player.dead)
+            if (player.dead || !player.channel)
             {
                 projectile.Kill();
+                player.reuseDelay = 2;
                 return;
             }
 
@@ -59,25 +60,16 @@ namespace CalamityMod.Projectiles.Melee
             }
 			
             projectile.ai[0] += 1f;
-            projectile.rotation += MathHelper.TwoPi * 2f / lifeSpan * (float)direction;
-            bool halfWay = projectile.ai[0] == lifeSpan / 2f;
-            if (projectile.ai[0] >= lifeSpan || (halfWay && !player.controlUseItem))
+            projectile.rotation += MathHelper.TwoPi * 2f / spinCycleTime * (float)direction;
+            int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
+            if (projectile.ai[0] % spinCycleTime > spinCycleTime * 0.5f && expectedDirection != projectile.velocity.X)
             {
-                projectile.Kill();
-                player.reuseDelay = 2;
+                player.ChangeDir(expectedDirection);
+                projectile.velocity = Vector2.UnitX * expectedDirection;
+                projectile.rotation -= MathHelper.Pi;
+                projectile.netUpdate = true;
             }
-            else if (halfWay)
-            {
-                int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
-                if (expectedDirection != projectile.velocity.X)
-                {
-                    player.ChangeDir(expectedDirection);
-                    projectile.velocity = Vector2.UnitX * expectedDirection;
-                    projectile.rotation -= MathHelper.Pi;
-                    projectile.netUpdate = true;
-                }
-            }
-			SpawnDust(player, direction);
+            SpawnDust(player, direction);
 			PositionAndRotation(player);
 			VisibilityAndLight();
         }

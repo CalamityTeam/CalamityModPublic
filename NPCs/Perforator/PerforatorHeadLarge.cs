@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (lungeUpward)
 			{
 				speed *= 1.25f;
-				turnSpeed *= 1.25f;
+				turnSpeed *= 1.5f;
 			}
 
 			if (npc.ai[3] > 0f)
@@ -262,9 +262,11 @@ namespace CalamityMod.NPCs.Perforator
                     }
                 }
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
-			float burrowTarget = player.Center.Y + 1000f;
+			float burrowDistance = malice ? 500f : 750f;
+			float burrowTarget = player.Center.Y + burrowDistance;
 			float lungeTarget = player.Center.Y - 600f;
 			Vector2 vector18 = npc.Center;
             float num191 = player.Center.X;

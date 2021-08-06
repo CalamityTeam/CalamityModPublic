@@ -138,7 +138,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.localAI[2] == 0f)
 				npc.localAI[2] = npc.ai[0];
 
-			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			// Set the AI to become more aggressive if head is berserk
+			if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Deathray)
+				npc.Calamity().newAI[3] = 1f;
+
+			bool berserk = npc.Calamity().newAI[3] == 1f;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -147,11 +152,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
-					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
+					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
 					{
 						float divisor = 120f;
 						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = malice ? 25D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
+						double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -214,11 +219,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
+						// This is only used in deathray phase to prevent laser spam
+						int numSegments = ThanatosHead.minLength;
+						double numSegmentsAbleToFire = 5D;
+						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
 						npc.ai[3] += 1f;
 						float shootProjectile = 120f;
 						float timer = npc.ai[0] + 15f;
 						float divisor = timer + shootProjectile;
-						if (npc.ai[3] % divisor == 0f || npc.Calamity().newAI[0] > 0f)
+						if ((npc.ai[3] % divisor == 0f && (npc.localAI[2] % segmentDivisor == 0f || !berserk)) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -255,7 +265,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = malice ? 40f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
 										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -269,6 +279,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 											else
 											{
+												// Normal laser
+												if (malice && berserk)
+													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+
 												// Predictive laser
 												Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
 												Projectile.NewProjectile(npc.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
@@ -331,6 +345,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.35f, 0.05f, 0.05f);
+
 				// Noise
 				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
 				if (npc.localAI[0] == 0f)
@@ -345,7 +362,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 			else
+			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.05f, 0.2f, 0.2f);
+
 				npc.localAI[0] = 0f;
+			}
 
 			SmokeDrawer.Update();
 
@@ -429,7 +451,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
 				{
-					if (npc.frameCounter >= 12D)
+					if (npc.frameCounter >= 10D)
 					{
 						npc.frame.Y += frameHeight;
 						npc.frameCounter = 0D;
@@ -440,7 +462,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 				else
 				{
-					if (npc.frameCounter >= 12D)
+					if (npc.frameCounter >= 10D)
 					{
 						npc.frame.Y -= frameHeight;
 						npc.frameCounter = 0D;
@@ -451,7 +473,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;
@@ -520,21 +542,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
-		}
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (npc.Opacity == 1f)
-			{
-				int duration = vulnerable ? 60 : 30;
-				player.AddBuff(BuffID.Ichor, duration);
-				player.AddBuff(BuffID.CursedInferno, duration);
-				player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
-				player.AddBuff(ModContent.BuffType<Plague>(), duration);
-				player.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
-				player.AddBuff(BuffID.Frostburn, duration);
-				player.AddBuff(BuffID.OnFire, duration);
-			}
 		}
 	}
 }

@@ -27,8 +27,6 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void AI()
         {
-            projectile.velocity *= 0.95f;
-
             if (projectile.localAI[0] == 0f)
             {
                 Main.PlaySound(SoundID.Item9, projectile.Center);
@@ -41,9 +39,11 @@ namespace CalamityMod.Projectiles.Melee
 
 			if (projectile.timeLeft < 150)
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
-        }
+			else
+				projectile.velocity *= 0.95f;
+		}
 
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int k = 0; k < 5; k++)

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-            if (projectile.timeLeft % 10 == 0)
+            if (projectile.timeLeft % 15 == 0)
             {
                 if (projectile.Calamity().stealthStrike == true)
                 {
@@ -45,11 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
 					if (proj.WithinBounds(Main.maxProjectiles))
-					{
 						Main.projectile[proj].Calamity().forceRogue = true;
-						Main.projectile[proj].localNPCHitCooldown = 10;
-						Main.projectile[proj].penetrate = 3;
-					}
                 }
             }
         }

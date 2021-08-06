@@ -29,6 +29,10 @@ namespace CalamityMod.Items
 
 			else if (context == "bossBag")
 				BossBagLoot(player, itemID);
+
+			// Bat Hook is now acquired from Vampires.
+			else if (context == "goodieBag")
+				DropHelper.BlockDrops(ItemID.BatHook);
 		}
 
 		#region Boss Bags

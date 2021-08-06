@@ -35,7 +35,7 @@ namespace CalamityMod.Particles
 				return;
 
 			bool closeToDeath = LocalTimer >= SetLifetime - ParticleLifetime && SetLifetime > 0;
-			if (LocalTimer % ParticleSpawnRate == 0 && !closeToDeath)
+			if (LocalTimer % ParticleSpawnRate == ParticleSpawnRate - 1 && !closeToDeath)
 			{
 				Particle particle = SpawnParticle();
 				particle.Lifetime = ParticleLifetime;

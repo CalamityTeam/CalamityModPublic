@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
         public const float FullAutoFireRateMult = 0.8f;
-        public const float FullAutoDamageMult = 0.85f;
+        public const float FullAutoDamageMult = 0.8f;
         // note this is extremely low because it's per pellet
         public const float Spread = 0.018f;
 
@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Left click fires in two-shot bursts\n" +
                 "The first shot is a spread of 6 normal bullets\n" +
                 "The second shot is a tight spread of 6 Dragon's Breath rounds\n" +
-                "Right click fires full auto and mixes the bullets randomly, but does 15% less damage\n" +
+                "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 272;
             item.ranged = true;
             item.width = 64;
             item.height = 28;
