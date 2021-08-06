@@ -750,6 +750,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.35f, 0.05f, 0.05f);
+
 				// Noise
 				if (npc.localAI[1] == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
@@ -763,7 +766,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 			else
+			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.05f, 0.2f, 0.2f);
+
 				npc.localAI[1] = 0f;
+			}
 
 			SmokeDrawer.Update();
 

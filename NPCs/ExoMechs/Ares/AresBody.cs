@@ -319,6 +319,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Rotation
 			npc.rotation = npc.velocity.X * 0.003f;
 
+			// Light
+			Lighting.AddLight(npc.Center, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
+
 			// Default vector to fly to
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
 

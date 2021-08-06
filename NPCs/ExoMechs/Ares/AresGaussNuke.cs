@@ -264,6 +264,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
 				npc.rotation = rotation;
 
+			// Light
+			Lighting.AddLight(npc.Center, 0.2f, 0.25f, 0.05f);
+
 			// Default vector to fly to
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 750f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
@@ -332,10 +335,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
 									float projectileVelocity = 12f;
 									Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
-									/*int type = ModContent.ProjectileType<AresGaussNuke>();
-									int damage = npc.GetProjectileDamage(type);*/
+									int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
+									int damage = npc.GetProjectileDamage(type);
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * 40f, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+
+									// Recoil
+									npc.velocity -= gaussNukeVelocity;
 								}
 							}
 						}
@@ -429,23 +437,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			return false;
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ModContent.ItemType<OmegaHealingPotion>();
-		}
-
-		// Needs edits
-		public override void NPCLoot()
-        {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
-
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+		public override bool PreNPCLoot() => false;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
