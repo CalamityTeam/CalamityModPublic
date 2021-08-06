@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,17 +12,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public struct ScreenShakeSpot
-	{
-		public float ScreenShakePower;
-		public Vector2 Position;
-		public ScreenShakeSpot(float screenShakePower, Vector2 position)
-		{
-			ScreenShakePower = screenShakePower;
-			Position = position;
-		}
-	}
-
 	public class AresGaussNukeProjectileBoom : ModProjectile
 	{
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
