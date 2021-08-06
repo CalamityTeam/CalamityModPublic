@@ -287,12 +287,14 @@ namespace CalamityMod.Events
 		#region Properties
         public static int CurrentTier
 		{
-			get
-			{
+            get
+            {
+                if (BossRushStage > Bosses.FindIndex(boss => boss.EntityID == NPCID.CultistBoss))
+                    return 3;
                 if (BossRushStage > Bosses.FindIndex(boss => boss.EntityID == NPCID.TheDestroyer))
                     return 2;
                 return 1;
-			}
+            }
 		}
 		#endregion Properties
 
