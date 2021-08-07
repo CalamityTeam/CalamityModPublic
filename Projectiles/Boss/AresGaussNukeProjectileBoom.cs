@@ -53,6 +53,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
+			cooldownSlot = 1;
 			projectile.timeLeft = Lifetime;
 		}
 
@@ -87,6 +88,11 @@ namespace CalamityMod.Projectiles.Boss
 			Radius = MathHelper.Lerp(Radius, MaxRadius, 0.25f);
 			projectile.scale = MathHelper.Lerp(1.2f, 5f, Utils.InverseLerp(Lifetime, 0f, projectile.timeLeft, true));
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(Radius * projectile.scale), (int)(Radius * projectile.scale));
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 480);
 		}
 
 		public override void Kill(int timeLeft)
@@ -138,6 +144,11 @@ namespace CalamityMod.Projectiles.Boss
 				minDist = dist4;
 
 			return minDist <= Radius * projectile.scale * 0.5f;
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
 		}
 	}
 }

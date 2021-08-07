@@ -84,6 +84,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
+
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;

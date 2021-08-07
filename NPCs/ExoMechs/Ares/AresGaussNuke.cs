@@ -174,8 +174,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Target variable
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
 
-			if (npc.ai[0] > 0f)
-                npc.realLife = (int)npc.ai[0];
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
+
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -195,18 +198,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 						npc.velocity.Y -= 2f;
 
-					/*if ((double)npc.position.Y < Main.topWorld + 16f)
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
 							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>())
 								Main.npc[a].active = false;
 						}
-					}*/
+					}
 				}
 			}
 
-			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[0]].Calamity();
+			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -340,7 +343,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
 									int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
 									int damage = npc.GetProjectileDamage(type);
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * 40f, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									float offset = 40f;
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
 
 									// Recoil
 									npc.velocity -= gaussNukeVelocity;

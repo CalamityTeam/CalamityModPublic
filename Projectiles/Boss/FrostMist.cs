@@ -109,6 +109,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity *= 1.02f;
 
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
 			Lighting.AddLight(projectile.Center, 0f, 0.35f * projectile.Opacity, 0.35f * projectile.Opacity);
 		}
 
