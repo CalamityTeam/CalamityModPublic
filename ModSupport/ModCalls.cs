@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
+using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using System;
@@ -1711,6 +1712,62 @@ namespace CalamityMod
 				case "CreateEnchantment":
 				case "RegisterEnchantment":
 					EnchantmentManager.ConstructFromModcall(args.Skip(1));
+					return null;
+
+				case "DeclareMiniboss":
+				case "DeclareMinibossForHealthBar":
+					if (args.Length != 1)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int.");
+					if (!(args[0] is int npcType))
+						return new ArgumentException("ERROR: The first argument to \"DeclareMiniboss\" must be an int.");
+
+					BossHealthBarManager.MinibossHPBarList.Add(npcType);
+					return null;
+
+				case "ExcludeBossFromHealthBar":
+					if (args.Length != 1)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int.");
+					if (!(args[0] is int npcType2))
+						return new ArgumentException("ERROR: The first argument to \"ExcludeBossFromHealthBar\" must be an int.");
+
+					BossHealthBarManager.BossExclusionList.Add(npcType2);
+					return null;
+
+				case "DeclareOneToManyRelationshipForHealthBar":
+					if (args.Length < 2)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int for the first argument and the other NPC types in the relationship as ints for the rest of the arguments.");
+					if (!args.Skip(1).All(a => a is int))
+						return new ArgumentException("ERROR: All secondary and onward arguments to \"DeclareOneToManyRelationshipForHealthBar\" must be ints.");
+
+					int npcType3 = (int)args[0];
+					int[] npcsInRelationship = args.Skip(1).Select(a => (int)a).ToArray();
+					BossHealthBarManager.OneToMany[npcType3] = npcsInRelationship;
+					return null;
+
+				// For context, the boolean argument in the second delegate refers to whether the function should be accumulating max life (true) or just life (false), and the returned long should be the accumulated health.
+				case "DeclareSpecialHPCalculationDecisionForHealthBar":
+					if (args.Length != 2)
+						return new ArgumentNullException("ERROR: Must specify both a usage requirement as a Func<NPC, bool> and a health calculator function as a Func<NPC, bool, long>.");
+					if (!(args[0] is Func<NPC, bool> usageRequirement))
+						return new ArgumentException("ERROR: The first argument to \"DeclareSpecialHPCalculationDecisionForHealthBar\" must be a Func<NPC, bool>.");
+					if (!(args[1] is Func<NPC, bool, long> healthCalculatorFunction))
+						return new ArgumentException("ERROR: The first argument to \"DeclareSpecialHPCalculationDecisionForHealthBar\" must be a Func<NPC, bool, long>.");
+
+					BossHealthBarManager.SpecialHPRequirements[new BossHealthBarManager.NPCSpecialHPGetRequirement(usageRequirement)] = new BossHealthBarManager.NPCSpecialHPGetFunction(healthCalculatorFunction);
+					return null;
+
+				case "CreateNameExtensionHandlerForHealthBar":
+					if (args.Length < 3)
+						return new ArgumentNullException("ERROR: Must specifya extension name as a string, the main NPC type as an int, and the other NPC types to check for as ints the rest of the arguments.");
+					if (!(args[0] is string name))
+						return new ArgumentException("ERROR: The first argument to \"CreateNameExtensionHandlerForHealthBar\" must be a string.");
+					if (!(args[1] is int npcType4))
+						return new ArgumentException("ERROR: The second argument to \"CreateNameExtensionHandlerForHealthBar\" must be an int.");
+					if (!args.Skip(2).All(a => a is int))
+						return new ArgumentException("ERROR: All ternary and onward arguments to \"CreateNameExtensionHandlerForHealthBar\" must be ints.");
+
+					int[] npcsToCheckFor = args.Skip(2).Select(a => (int)a).ToArray();
+					BossHealthBarManager.EntityExtensionHandler[npcType4] = new BossHealthBarManager.BossEntityExtension(name, npcsToCheckFor);
 					return null;
 
 				default:
