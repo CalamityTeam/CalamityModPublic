@@ -5,6 +5,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
@@ -205,7 +206,11 @@ namespace CalamityMod.UI
                 NPCType<DevourerofGodsTailS>(),
                 NPCType<ThanatosBody1>(),
                 NPCType<ThanatosBody2>(),
-                NPCType<ThanatosTail>()
+                NPCType<ThanatosTail>(),
+                NPCType<AresGaussNuke>(),
+                NPCType<AresLaserCannon>(),
+                NPCType<AresPlasmaFlamethrower>(),
+                NPCType<AresTeslaCannon>(),
             };
         }
 
@@ -402,8 +407,9 @@ namespace CalamityMod.UI
             public int CloseAnimationTimer;
             public int EnrageTimer;
             public int ComboDamageCountdown;
-            public int PreviousLife;
+            public long PreviousLife;
             public long HealthAtStartOfCombo;
+            public long MaxLifePriorToDying;
             public NPC AssociatedNPC => Main.npc.IndexInRange(NPCIndex) ? Main.npc[NPCIndex] : null;
             public int NPCType => AssociatedNPC?.type ?? -1;
             public long CombinedNPCLife
@@ -533,7 +539,7 @@ namespace CalamityMod.UI
                 if (AssociatedNPC != null && AssociatedNPC.active)
                 {
                     IntendedNPCType = AssociatedNPC.type;
-                    PreviousLife = AssociatedNPC.life;
+                    PreviousLife = CombinedNPCLife;
                 }
             }
 
@@ -551,7 +557,7 @@ namespace CalamityMod.UI
                 EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
 
                 // Handle combos.
-                if (AssociatedNPC.life != PreviousLife && PreviousLife != 0)
+                if (CombinedNPCLife != PreviousLife && PreviousLife != 0)
                 {
                     // If there's no ongoing combo, begin one.
                     if (ComboDamageCountdown <= 0)
@@ -559,10 +565,12 @@ namespace CalamityMod.UI
 
                     ComboDamageCountdown = 30;
                 }
-                PreviousLife = AssociatedNPC.life;
+                PreviousLife = CombinedNPCLife;
 
                 if (ComboDamageCountdown > 0)
                     ComboDamageCountdown--;
+                if (CombinedNPCMaxLife != 0 && MaxLifePriorToDying == 0)
+                    MaxLifePriorToDying = CombinedNPCMaxLife;
             }
 
             public void Draw(SpriteBatch sb, int x, int y)
@@ -642,7 +650,7 @@ namespace CalamityMod.UI
                     else
                     {
                         // Draw the precise life.
-                        string actualLifeText = $"({CombinedNPCLife} / {CombinedNPCMaxLife})";
+                        string actualLifeText = $"({CombinedNPCLife} / {(AssociatedNPC is null || !AssociatedNPC.active ? MaxLifePriorToDying : CombinedNPCMaxLife)})";
                         Vector2 textAreaSize = Main.fontItemStack.MeasureString(actualLifeText) * SmallTextScale;
                         float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
                         float verticalDrawPosition = y + MainBarYOffset + 17;
