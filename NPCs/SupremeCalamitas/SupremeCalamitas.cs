@@ -517,13 +517,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region Enrage and DR
             if (!player.Hitbox.Intersects(safeBox) || malice)
             {
-                if (uDieLul < 1.5f)
+				float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) ? 2f : 1.5f;
+                if (uDieLul < projectileVelocityMultCap)
                 {
                     uDieLul *= 1.01f;
                 }
-                else if (uDieLul > 1.5f)
+                else if (uDieLul > projectileVelocityMultCap)
                 {
-                    uDieLul = 1.5f;
+                    uDieLul = projectileVelocityMultCap;
                 }
                 protectionBoost = !malice;
             }
