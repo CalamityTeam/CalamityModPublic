@@ -13,6 +13,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,29 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		/// <summary>
+		/// Efficiently counts the amount of existing enemies. May be used for multiple enemies.
+		/// </summary>
+		/// <param name="typesToCheck"></param>
+		/// <returns></returns>
+		public static int CountNPCsBetter(params int[] typesToCheck)
+		{
+			// Don't waste time if the type check list is empty for some reason.
+			if (typesToCheck.Length <= 0)
+				return 0;
+
+			int count = 0;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (!typesToCheck.Contains(Main.npc[i].type) || !Main.npc[i].active)
+					continue;
+
+				count++;
+			}
+
+			return count;
+		}
+
 		/// <summary>
 		/// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
 		/// </summary>

@@ -3647,14 +3647,8 @@ namespace CalamityMod.CalPlayer
             {
                 drawBossHPBar = false;
             }
-            if (CalamityConfig.Instance.BossHealthBarExtraInfo)
-            {
-                shouldDrawSmallText = true;
-            }
-            else
-            {
-                shouldDrawSmallText = false;
-            }
+
+            CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             if (CalamityConfig.Instance.MiningSpeedBoost)
             {

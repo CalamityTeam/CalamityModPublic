@@ -132,6 +132,9 @@ namespace CalamityMod.NPCs
         // Draedons Remote
         public static bool DraedonMayhem = false;
 
+		// Stuff used by the Boss Health UI
+		public bool SplittingWorm = false;
+
 		// Timer for how long an NPC is immune to certain debuffs
 		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
@@ -1043,7 +1046,8 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.Golem && (CalamityWorld.revenge || CalamityWorld.malice))
 				npc.noGravity = true;
 
-            DebuffImmunities(npc);
+			DeclareBossHealthUIVariables(npc);
+			DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
                 BossRushStatChanges(npc, mod);
@@ -1058,10 +1062,18 @@ namespace CalamityMod.NPCs
 
             OtherStatChanges(npc);
         }
-        #endregion
+		#endregion
 
-        #region Debuff Immunities
-        private void DebuffImmunities(NPC npc)
+		#region Boss Health UI Variable Setting
+		public void DeclareBossHealthUIVariables(NPC npc)
+		{
+			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+				SplittingWorm = true;
+		}
+		#endregion
+
+		#region Debuff Immunities
+		private void DebuffImmunities(NPC npc)
         {
 			// Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
 			npc.SetNPCDebuffImmunities();
