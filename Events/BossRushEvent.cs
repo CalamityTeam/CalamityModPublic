@@ -42,9 +42,9 @@ namespace CalamityMod.Events
     {
         public enum TimeChangeContext
         {
-            None,
-            Day,
-            Night
+            None = 0,
+            Day = 1,
+            Night = -1
         }
         public struct Boss
         {
