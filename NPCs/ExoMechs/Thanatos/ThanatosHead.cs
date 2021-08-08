@@ -688,6 +688,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"), npc.Center);
 									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{

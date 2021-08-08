@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									int type = ModContent.ProjectileType<AresPlasmaFireball>();
 									int damage = npc.GetProjectileDamage(type);
 									float offset = 40f;
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(plasmaBoltVelocity) * offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(plasmaBoltVelocity) * offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}

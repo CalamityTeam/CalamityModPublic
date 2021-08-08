@@ -104,8 +104,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.SpikyBall, 30);
             recipe.AddIngredient(ItemID.LightShard);
             recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddIngredient(ItemID.HallowedBar, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddRecipeGroup("AnyAdamantiteBar", 2);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

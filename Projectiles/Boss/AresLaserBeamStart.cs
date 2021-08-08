@@ -112,26 +112,49 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
 
-			for (int num809 = 0; num809 < 2; num809++)
-            {
-                float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
-                float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
-                Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
-                int num812 = Dust.NewDust(vector79, 0, 0, (int)CalamityDusts.Brimstone, vector80.X, vector80.Y, 0, default, 1f);
-                Main.dust[num812].noGravity = true;
-                Main.dust[num812].scale = 1.7f;
-            }
+			int dustType = (int)CalamityDusts.Brimstone;
 
-            if (Main.rand.NextBool(5))
-            {
-                Vector2 value29 = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-                int num813 = Dust.NewDust(vector79 + value29 - Vector2.One * 4f, 8, 8, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
-                Dust dust = Main.dust[num813];
-                dust.velocity *= 0.5f;
-                Main.dust[num813].velocity.Y = -Math.Abs(Main.dust[num813].velocity.Y);
-            }
+			// Spawn dust at the start of the beam
+			Vector2 dustPos = projectile.Center + projectile.velocity * 14f;
+			for (int i = 0; i < 2; i++)
+			{
+				float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
+				float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
+				Vector2 dustVel = new Vector2((float)Math.Cos(dustRot) * dustVelMult, (float)Math.Sin(dustRot) * dustVelMult);
+				int dust = Dust.NewDust(dustPos, 0, 0, dustType, -dustVel.X, -dustVel.Y, 0, default, 1f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].scale = 1.7f;
+			}
 
-            DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
+			if (Main.rand.NextBool(5))
+			{
+				Vector2 dustRot = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+				int dust = Dust.NewDust(dustPos + dustRot - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
+				Main.dust[dust].velocity *= 0.5f;
+				Main.dust[dust].velocity.Y = Math.Abs(Main.dust[dust].velocity.Y);
+			}
+
+			// Spawn dust at the end of the beam
+			dustPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
+			for (int i = 0; i < 2; i++)
+			{
+				float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
+				float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
+				Vector2 dustVel = new Vector2((float)Math.Cos(dustRot) * dustVelMult, (float)Math.Sin(dustRot) * dustVelMult);
+				int dust = Dust.NewDust(dustPos, 0, 0, dustType, dustVel.X, dustVel.Y, 0, default, 1f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].scale = 1.7f;
+			}
+
+			if (Main.rand.NextBool(5))
+			{
+				Vector2 dustRot = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+				int dust = Dust.NewDust(dustPos + dustRot - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
+				Main.dust[dust].velocity *= 0.5f;
+				Main.dust[dust].velocity.Y = -Math.Abs(Main.dust[dust].velocity.Y);
+			}
+
+			DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
             Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
 

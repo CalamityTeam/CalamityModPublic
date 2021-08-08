@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 							   "Fires an exo beam that homes in on the player and explodes\n" +
 							   "Striking an enemy with the blade causes several comets to fire\n" +
 							   "All attacks briefly freeze enemies hit\n" +
-							   "Enemies hit at very low HP explode into frost energy and freeze nearby enemies\n" +
-							   "The lower your HP the more damage this blade does and heals the player on enemy hits");
+							   "Enemies hit at very low HP explode into frost energy and freeze nearby enemies");
 		}
 
         public override void SetDefaults()
@@ -40,13 +39,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 19f;
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
-
-        // Gains 100% of missing health as base damage.
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * player.MeleeDamage();
-		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{

@@ -357,7 +357,7 @@ namespace CalamityMod.CalPlayer
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double DefaultRageDamageBoost = 0.5D; // +50%
+        public static readonly double DefaultRageDamageBoost = 0.35D; // +35%
         public double RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
@@ -8701,7 +8701,7 @@ namespace CalamityMod.CalPlayer
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
 					{
-						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(15f));
+						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(20f));
 						godSlayerDashHotKeyPressed = false;
 					}
 

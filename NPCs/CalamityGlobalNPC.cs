@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs
         public static bool DraedonMayhem = false;
 
 		// Timer for how long an NPC is immune to certain debuffs
-		public const int slowingDebuffResistanceMin = 1200;
+		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
 
 		// Debuffs
