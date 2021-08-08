@@ -52,7 +52,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned)

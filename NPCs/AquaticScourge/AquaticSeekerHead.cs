@@ -54,7 +54,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -98,7 +97,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerTail>()))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
             {
                 npc.active = false;
             }
@@ -275,27 +274,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticSeekerHead"), 1f);
             }
-        }
-
-        public override bool CheckActive()
-        {
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-            }
-            return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

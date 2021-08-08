@@ -51,7 +51,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {

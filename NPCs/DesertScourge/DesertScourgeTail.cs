@@ -55,25 +55,36 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				npc.TargetClosest(true);
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DesertScourgeHead>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] > 0f)
+					shouldDespawn = false;
+				else if (Main.npc[(int)npc.ai[1]].life > 0)
+					shouldDespawn = false;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
 			}
 
-			Player player = Main.player[npc.target];
-            if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
         }
 
