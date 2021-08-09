@@ -238,7 +238,7 @@ namespace CalamityMod.UI
                 NPCID.BigMimicCrimson,
                 NPCID.BigMimicHallow,
 
-                //Moon Events
+                // Moon Events.
                 NPCID.MourningWood,
                 NPCID.Pumpking,
                 NPCID.Everscream,
@@ -247,6 +247,9 @@ namespace CalamityMod.UI
 
                 // Eclipse.
                 NPCID.Mothron,
+
+                // Martian Madness.
+                NPCID.MartianSaucerCore,
 
                 // Prehardmode Modded.
                 NPCType<GiantClam>(),
