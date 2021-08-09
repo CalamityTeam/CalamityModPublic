@@ -1,3 +1,4 @@
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -106,7 +107,7 @@ namespace CalamityMod.NPCs.ExoMechs
                         thanatos.velocity = thanatos.SafeDirectionTo(PlayerToFollow.Center) * 40f;
                     break;
                 case ExoMech.Prime:
-                    //CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<Ares>());
+                    CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<AresBody>());
                     break;
                 case ExoMech.Twins:
                     //CalamityUtils.SpawnBossBetter(artemisSpawnPosition, ModContent.NPCType<Artemis>());

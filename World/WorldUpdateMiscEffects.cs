@@ -134,7 +134,7 @@ namespace CalamityMod.World
             }
 
             if (DraedonSummonCountdown == 0)
-                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
+                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>(), 0, 0f, (int)DraedonMechToSummon);
         }
         #endregion Handle Draedon Summoning
 

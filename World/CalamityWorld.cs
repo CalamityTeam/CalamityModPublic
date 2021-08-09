@@ -13,6 +13,7 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
@@ -165,7 +166,8 @@ namespace CalamityMod.World
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
         public static bool AbleToSummonDraedon
         {
-            get => DraedonSummonCountdown <= 0 && !NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && !NPC.AnyNPCs(ModContent.NPCType<ThanatosHead>());
+            get => DraedonSummonCountdown <= 0 && !NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && 
+                !NPC.AnyNPCs(ModContent.NPCType<ThanatosHead>()) && !NPC.AnyNPCs(ModContent.NPCType<AresBody>());
         }
         public const int DraedonSummonCountdownMax = 260;
 
