@@ -596,7 +596,7 @@ namespace CalamityMod.CalPlayer
 
 			// Bool for drawing boss health bar small text or not
 			if (Main.myPlayer == player.whoAmI)
-				BossHealthBarManager.SHOULD_DRAW_SMALLTEXT_HEALTH = modPlayer.shouldDrawSmallText;
+				BossHealthBarManager.CanDrawExtraSmallText = modPlayer.shouldDrawSmallText;
 
 			// Margarita halved debuff duration
 			if (modPlayer.margarita)
