@@ -15,7 +15,18 @@ float2 uImageSize1;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float horizontalOffset = pow((sin(coords.y * 17.07947 + uTime * 16) + sin(coords.y * 25.13274)) * 0.5, 3) * uOpacity * 0.46;
+    // 17.07947 is 2pi * e, while 25.13274 is 8pi.
+    // When two sinusoids are added in this way and the periods of each sinusoid are irrational,
+    // the resulting sinusoid from the addition has no period, meaning that it has pseudo-random
+    // bumps and valleys. This is ideal for a glitch effect. The * 0.5 at the end is make the range
+    // of the result be -1 to 1 like a typical sine.
+    float offsetBase = (sin(coords.y * 17.07947 + uTime * 16) + sin(coords.y * 25.13274)) * 0.5;
+    
+    // Here, a power is used to make the valleys and hills sharper, and bias everything else
+    // towards 0, making horizontal stretches more noticable and powerful when they happen.
+    // Higher values of uOpacity will result in more powerful offsets, with a uOpacity of 0
+    // doing nothing at all.
+    float horizontalOffset = pow(offsetBase, 3) * uOpacity * 0.46;
     float2 samplePosition = float2(saturate(coords.x + horizontalOffset), coords.y);
     return tex2D(uImage0, samplePosition);
 }
