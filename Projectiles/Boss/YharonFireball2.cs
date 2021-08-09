@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
-            projectile.height = 30;
+			projectile.width = 34;
+            projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
@@ -36,13 +36,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -54,41 +52,38 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
-            {
                 projectile.frame = 0;
-            }
-            if (projectile.velocity.Y < 0f)
+
+            if (projectile.velocity.Y < -1f)
             {
+				// 129 frames to get from -50 to -1
                 projectile.velocity.Y *= 0.97f;
             }
             else
             {
-                projectile.velocity.Y *= 1.03f;
-                if (projectile.velocity.Y > 16f)
-                {
+				// 85 frames to get from -1 to 16
+				projectile.velocity.Y += 0.2f;
+				if (projectile.velocity.Y > 16f)
                     projectile.velocity.Y = 16f;
-                }
             }
-            if (projectile.velocity.Y > -1f && projectile.localAI[1] == 0f)
-            {
-                projectile.localAI[1] = 1f;
-                projectile.velocity.Y = 1f;
-            }
+
             projectile.velocity.X *= 0.995f;
+
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
                 Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
             }
+
             if (projectile.ai[0] >= 2f)
             {
                 projectile.alpha -= 25;
                 if (projectile.alpha < 0)
-                {
                     projectile.alpha = 0;
-                }
             }
+
             if (Main.rand.NextBool(16))
             {
                 Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default, 1f);

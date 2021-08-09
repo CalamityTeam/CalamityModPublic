@@ -1,9 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -38,9 +33,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -239,29 +231,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (rotation > MathHelper.TwoPi)
 				rotation -= MathHelper.TwoPi;
 
-			if (npc.rotation < rotation)
-			{
-				if (rotation - npc.rotation > MathHelper.Pi)
-					npc.rotation -= rateOfRotation;
-				else
-					npc.rotation += rateOfRotation;
-			}
-			if (npc.rotation > rotation)
-			{
-				if (npc.rotation - rotation > MathHelper.Pi)
-					npc.rotation += rateOfRotation;
-				else
-					npc.rotation -= rateOfRotation;
-			}
+			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
-			if (npc.rotation < 0f)
-				npc.rotation += MathHelper.TwoPi;
-			if (npc.rotation > MathHelper.TwoPi)
-				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
+			// Direction
+			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (direction != 0)
+			{
+				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.direction = direction;
+
+				if (npc.spriteDirection != -npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.spriteDirection = -npc.direction;
+			}
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.25f, 0.1f, 0.1f);
@@ -285,8 +270,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Gate values
 			float deathrayPhaseGateValue = 420f;
-			float deathrayPhaseVelocityMult = 0.95f;
-			float deathrayDecelerationTime = 15f;
 			float deathrayPhaseVelocity = 15f;
 
 			// Variable to disable deathray firing
@@ -321,20 +304,23 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					if (!targetDead)
 					{
+						// Fly in place
+						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
-							// Reduce velocity for 15 frames once charging is nearly complete
-							if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration - deathrayDecelerationTime)
-								npc.velocity *= deathrayPhaseVelocityMult;
-
+							// Set frames to deathray charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to deathray charge up frames
+								// Reset the frame counter
 								npc.frameCounter = 0D;
+
+								// X = 1 sets to frame 8
 								frameX = 1;
-								frameY = 5;
-								exactFrame = 12;
+
+								// Y = 4 sets to frame 12
+								frameY = 4;
 							}
 						}
 						else
@@ -389,36 +375,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageDeathrayChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageDeathrayChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the deathray firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageDeathrayChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}

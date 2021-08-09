@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 38;
-            projectile.height = 38;
+			projectile.width = 32;
+            projectile.height = 32;
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
-
+		
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;

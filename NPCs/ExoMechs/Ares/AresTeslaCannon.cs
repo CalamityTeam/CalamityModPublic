@@ -1,9 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -38,9 +33,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -226,12 +218,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			float predictionAmt = malice ? 60f : death ? 50f : revenge ? 40f : expertMode ? 30f : 15f;
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
+			float projectileVelocity = 6f;
 			float rateOfRotation = AIState == (int)Phase.TeslaOrbs ? 0.08f : 0.04f;
-			Vector2 lookAt = player.Center + Vector2.Normalize(rotationVector);
+			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
 			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
 			if (npc.spriteDirection == 1)
@@ -241,29 +234,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (rotation > MathHelper.TwoPi)
 				rotation -= MathHelper.TwoPi;
 
-			if (npc.rotation < rotation)
-			{
-				if (rotation - npc.rotation > MathHelper.Pi)
-					npc.rotation -= rateOfRotation;
-				else
-					npc.rotation += rateOfRotation;
-			}
-			if (npc.rotation > rotation)
-			{
-				if (npc.rotation - rotation > MathHelper.Pi)
-					npc.rotation += rateOfRotation;
-				else
-					npc.rotation -= rateOfRotation;
-			}
+			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
-			if (npc.rotation < 0f)
-				npc.rotation += MathHelper.TwoPi;
-			if (npc.rotation > MathHelper.TwoPi)
-				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
+			// Direction
+			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (direction != 0)
+			{
+				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.direction = direction;
+
+				if (npc.spriteDirection != -npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.spriteDirection = -npc.direction;
+			}
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.1f, 0.25f, 0.25f);
@@ -321,13 +307,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < teslaOrbTelegraphDuration)
 						{
+							// Set frames to tesla orb charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to tesla orb charge up frames
+								// Reset the frame counter
 								npc.frameCounter = 0D;
+
+								// X = 1 sets to frame 8
 								frameX = 1;
-								frameY = 5;
-								exactFrame = 12;
+
+								// Y = 4 sets to frame 12
+								frameY = 4;
 							}
 						}
 						else
@@ -340,10 +330,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									float projectileVelocity = 12f;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), npc.Center);
 									Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
-									/*int type = ModContent.ProjectileType<AresTeslaOrb>();
-									int damage = npc.GetProjectileDamage(type);*/
+									int type = ModContent.ProjectileType<AresTeslaOrb>();
+									int damage = npc.GetProjectileDamage(type);
+									float offset = 40f;
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(teslaOrbVelocity) * offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
@@ -376,36 +368,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageTeslaOrbChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageTeslaOrbChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the tesla orb firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageTeslaOrbChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}

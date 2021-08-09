@@ -20,10 +20,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 14;
-            projectile.height = 14;
+			projectile.width = 22;
+            projectile.height = 22;
             projectile.hostile = true;
             projectile.tileCollide = false;
+			projectile.ignoreWater = true;
             projectile.penetrate = 1;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}

@@ -5568,17 +5568,16 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
 				rateOfRotation = 0.05f;
 
-			Vector2 playerCenter = player.Center;
+			Vector2 rotationVector = player.Center - vector;
 			if (calamityGlobalNPC.newAI[1] != 1f && !player.dead)
 			{
 				// Rotate to show direction of predictive charge
-				Vector2 distanceVector = player.Center + player.velocity * 20f - vector;
 				if (npc.ai[0] == 0f && !phase2)
 				{
 					if (npc.ai[3] < 6f)
 					{
 						rateOfRotation = 0.1f;
-						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+						rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - vector) * chargeVelocity;
 					}
 				}
 				else if (npc.ai[0] == 5f && !phase3)
@@ -5586,7 +5585,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[3] < 4f)
 					{
 						rateOfRotation = 0.1f;
-						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+						rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - vector) * chargeVelocity;
 					}
 				}
 				else if (npc.ai[0] == 10f)
@@ -5594,12 +5593,12 @@ namespace CalamityMod.NPCs
 					if (npc.ai[3] < 8f && npc.ai[3] != 1f && npc.ai[3] != 4f)
 					{
 						rateOfRotation = 0.1f;
-						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+						rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - vector) * chargeVelocity;
 					}
 				}
 			}
 
-			float num17 = (float)Math.Atan2(playerCenter.Y - vector.Y, playerCenter.X - vector.X);
+			float num17 = (float)Math.Atan2(rotationVector.Y, rotationVector.X);
 			if (npc.spriteDirection == 1)
 				num17 += pie;
 			if (num17 < 0f)
