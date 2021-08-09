@@ -478,7 +478,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4_S, -5); // Increase to -5%.
+            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
             {
@@ -549,48 +549,111 @@ namespace CalamityMod.ILEditing
         #region Movement speed balance
         private static void RunSpeedAdjustments(ILContext il)
         {
-            // Reduce the run speed boost while running on Asphalt, Frozen Slime Blocks and Ice Blocks.
-
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6))) // Movement speed cap (removed in 1.4).
-            {
-                LogFailure("Run Speed Adjustments", "Could not locate the movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R8, 3D); // Increase it to some higher amount.
+            float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
+            float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6f))) // Movement speed cap (removed in 1.4).
-            {
-                LogFailure("Run Speed Adjustments", "Could not locate the movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 3f); // Increase it to some higher amount.
+            // Multiplied by 0.6 on frozen slime, for +26% acceleration
+            // Multiplied by 0.7 on ice, for +47% acceleration
+            float iceSkateAcceleration = 2.1f;
+            float iceSkateTopSpeed = 1f; // no boost at all
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f))) // The max run speed multiplier for Asphalt.
+            //
+            // HORIZONTAL MOVEMENT SPEED CAP
+            //
             {
-                LogFailure("Run Speed Adjustments", "Could not locate the asphalt movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.
+                // Find the +60% horizontal movement speed cap. This is loaded as a double.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6D)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate the horizontal movement speed cap.");
+                    return;
+                }
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Frozen Slime Blocks.
-            {
-                LogFailure("Run Speed Adjustments", "Could not locate the frozen slime block movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
+                // Replace it with the new, much higher cap.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R8, (double)horizontalSpeedCap);
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Ice Blocks.
-            {
-                LogFailure("Run Speed Adjustments", "Could not locate the ice block movement speed limit.");
-                return;
+                // Find the "replace your speed bonus with this if you're over the cap". This is loaded as a float.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.6f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate the horizontal movement speed cap replacement.");
+                    return;
+                }
+
+                // Replace it with the new, much higher, cap.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, horizontalSpeedCap);
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
+
+            //
+            // ASPHALT
+            //
+            {
+                // Find the top speed multiplier of Asphalt.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Asphalt's top speed multiplier.");
+                    return;
+                }
+
+                // Massively reduce the increased speed cap of Asphalt.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, asphaltTopSpeedMultiplier);
+            }
+
+            //
+            // ICE SKATES + FROZEN SLIME BLOCKS
+            //
+            {
+                // Find the acceleration multiplier of Ice Skates on Frozen Slime Blocks.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Ice Skates + Frozen Slime Block acceleration multiplier.");
+                    return;
+                }
+
+                // Massively reduce the acceleration bonus of Ice Skates on Frozen Slime Blocks.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, iceSkateAcceleration);
+
+                // Find the top speed multiplier of Ice Skates on Frozen Slime Blocks.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Ice Skates + Frozen Slime Block top speed multiplier.");
+                    return;
+                }
+
+                // Make Ice Skates give no top speed boost whatsoever on Frozen Slime Blocks.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, iceSkateTopSpeed);
+            }
+
+            //
+            // ICE SKATES + ICE BLOCKS
+            //
+            {
+                // Find the acceleration multiplier of Ice Skates on Ice Blocks.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Ice Skates + Ice Block acceleration multiplier.");
+                    return;
+                }
+
+                // Massively reduce the acceleration bonus of Ice Skates on Ice Blocks.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, iceSkateAcceleration);
+
+                // Find the top speed multiplier of Ice Skates on Ice Blocks.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Ice Skates + Ice Block top speed multiplier.");
+                    return;
+                }
+
+                // Make Ice Skates give no top speed boost whatsoever on Ice Blocks.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, iceSkateTopSpeed);
+            }
         }
 
         private static void ReduceWingHoverVelocities(ILContext il)
@@ -920,7 +983,7 @@ namespace CalamityMod.ILEditing
         }
 
         public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());
-        public static void LogFailure(string name, string reason) => CalamityMod.Instance.Logger.Warn($"IL edit \"${name}\" failed! {reason}");
+        public static void LogFailure(string name, string reason) => CalamityMod.Instance.Logger.Warn($"IL edit \"{name}\" failed! {reason}");
         #endregion
     }
 }
