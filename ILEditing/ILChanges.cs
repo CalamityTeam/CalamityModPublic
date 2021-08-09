@@ -552,6 +552,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
+            float asphaltSlowdown = 1f; // Vanilla is 2f. This should actually make asphalt faster.
 
             // Multiplied by 0.6 on frozen slime, for +26% acceleration
             // Multiplied by 0.7 on ice, for +47% acceleration
@@ -599,6 +600,17 @@ namespace CalamityMod.ILEditing
                 // Massively reduce the increased speed cap of Asphalt.
                 cursor.Remove();
                 cursor.Emit(OpCodes.Ldc_R4, asphaltTopSpeedMultiplier);
+
+                // Find the run slowdown multiplier of Asphalt.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate Asphalt's run slowdown multiplier.");
+                    return;
+                }
+
+                // Reducing the slowdown actually makes the (slower) Asphalt more able to reach its top speed.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, asphaltSlowdown);
             }
 
             //
