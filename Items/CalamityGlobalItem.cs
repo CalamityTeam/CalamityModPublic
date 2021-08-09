@@ -459,6 +459,17 @@ namespace CalamityMod.Items
 					item.mana = 12;
 					break;
 
+				case ItemID.WandofSparking:
+				case ItemID.AmethystStaff:
+				case ItemID.TopazStaff:
+				case ItemID.BatScepter:
+				case ItemID.LeafBlower:
+				case ItemID.BubbleGun:
+				case ItemID.CrystalStorm:
+				case ItemID.MagicalHarp:
+					item.mana = 5;
+					break;
+
 				// Total defense pre-buff = 78, Total defense post-buff = 94
 				case ItemID.SolarFlareHelmet:
 					item.defense = 29; // 5 more defense

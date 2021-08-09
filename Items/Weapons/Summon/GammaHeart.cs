@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.UseSound = SoundID.Item42;
             item.summon = true;
-            item.mana = 16;
+            item.mana = 10;
             item.damage = 173;
             item.knockBack = 3f;
             item.autoReuse = true;
