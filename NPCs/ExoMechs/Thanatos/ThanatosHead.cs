@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			set => npc.Calamity().newAI[1] = value;
 		}
 
-		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Invincibility time for the first 10 seconds
 		public const float immunityTime = 600f;
