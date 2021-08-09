@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.damage = 128;
             item.summon = true;
             item.sentry = true;
-            item.mana = 25;
+            item.mana = 10;
             item.width = 66;
             item.height = 68;
             item.useTime = item.useAnimation = 15;
