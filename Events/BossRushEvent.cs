@@ -92,6 +92,13 @@ namespace CalamityMod.Events
         #region Loading and Unloading
         public static void Load()
         {
+            BossIDsAfterDeath = new Dictionary<int, int[]>()
+            {
+                [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
+                [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
+                [ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
+            };
+
             Bosses = new List<Boss>()
             {
                 new Boss(NPCID.QueenBee),
@@ -144,7 +151,7 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(sans);
                 }, permittedNPCs: NPCID.SkeletronHand),
 
-                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>() }),
+                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>(),  }),
 
                 new Boss(ModContent.NPCType<AquaticScourgeHead>(), permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(),
                     ModContent.NPCType<AquaticScourgeTail>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticSeekerHead>(),
@@ -293,13 +300,6 @@ namespace CalamityMod.Events
                     Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBodyS>(), ModContent.NPCType<DevourerofGodsTailS>() })
-            };
-
-            BossIDsAfterDeath = new Dictionary<int, int[]>()
-            {
-                [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
-                [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
-                [ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
             };
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
