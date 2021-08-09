@@ -1777,8 +1777,11 @@ namespace CalamityMod.NPCs
                         bool everyoneDead = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)
                         {
-                            if (Main.player[num58].active && !Main.player[num58].dead)
-                                everyoneDead = false;
+							if (Main.player[num58].active && !Main.player[num58].dead)
+							{
+								everyoneDead = false;
+								break;
+							}
                         }
 
                         if (everyoneDead)
@@ -4653,8 +4656,11 @@ namespace CalamityMod.NPCs
                 bool shouldDespawn = true;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].active && Main.npc[i].type == NPCID.TheDestroyer)
-                        shouldDespawn = false;
+					if (Main.npc[i].active && Main.npc[i].type == NPCID.TheDestroyer)
+					{
+						shouldDespawn = false;
+						break;
+					}
                 }
                 if (!shouldDespawn)
                 {

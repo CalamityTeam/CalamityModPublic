@@ -67,14 +67,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 2800f;
 
+		// Variable used to stop the arm spawning loop
+		private bool armsSpawned = false;
+
 		// Total duration of the deathray telegraph
 		private const float deathrayTelegraphDuration = 240f;
 
 		// Total duration of the deathrays
 		private const float deathrayDuration = 600f;
-
-		// Whether or not the other exo mechs have been spawned
-		private bool otherExoMechsSpawned = false;
 
 		public override void SetStaticDefaults()
         {
@@ -134,37 +134,50 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
 
-			// Spawn arms
-			if (npc.ai[0] == 0f)
-			{
-				int totalArms = 4;
-				for (int i = 0; i < totalArms; i++)
-				{
-					int lol = 0;
-					switch (i)
-					{
-						case 0:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresLaserCannon>(), npc.whoAmI);
-							break;
-						case 1:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
-							break;
-						case 2:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
-							break;
-						case 3:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
-							break;
-						default:
-							break;
-					}
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
 
-					Main.npc[lol].realLife = npc.whoAmI;
-					Main.npc[lol].ai[0] = npc.whoAmI;
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
+			// Spawn arms
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (!armsSpawned && npc.ai[0] == 0f)
+				{
+					int totalArms = 4;
+					int Previous = npc.whoAmI;
+					for (int i = 0; i < totalArms; i++)
+					{
+						int lol = 0;
+						switch (i)
+						{
+							case 0:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresLaserCannon>(), npc.whoAmI);
+								break;
+							case 1:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
+								break;
+							case 2:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
+								break;
+							case 3:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
+								break;
+							default:
+								break;
+						}
+
+						Main.npc[lol].realLife = npc.whoAmI;
+						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[1] = Previous;
+						Main.npc[Previous].ai[0] = lol;
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
+						Previous = lol;
+					}
+					armsSpawned = true;
 				}
-				npc.ai[0] = 1f;
 			}
+
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -241,9 +254,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Target variable
 			Player player = Main.player[npc.target];
 
-			if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
-
 			// Despawn if target is dead
 			bool targetDead = false;
 			if (player.dead)
@@ -262,14 +272,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 						npc.velocity.Y -= 2f;
 
-					/*if ((double)npc.position.Y < Main.topWorld + 16f)
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
 							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
 								Main.npc[a].active = false;
 						}
-					}*/
+					}
 				}
 			}
 

@@ -172,8 +172,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Target variable
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
 
-			if (npc.ai[0] > 0f)
-                npc.realLife = (int)npc.ai[0];
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
+
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -193,18 +196,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 						npc.velocity.Y -= 2f;
 
-					/*if ((double)npc.position.Y < Main.topWorld + 16f)
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
 							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
 								Main.npc[a].active = false;
 						}
-					}*/
+					}
 				}
 			}
 
-			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[0]].Calamity();
+			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -341,7 +344,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							{
 								// Two possible variants: 1 - Left to right, 2 - Top to bottom
 								npc.velocity = calamityGlobalNPC.newAI[3] == 0f ? new Vector2(deathrayPhaseVelocity, 0f) : new Vector2(0f, deathrayPhaseVelocity);
-								Vector2 laserVelocity = calamityGlobalNPC.newAI[3] == 0f ? Vector2.UnitY : Vector2.UnitX;
 
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] > 1f)
@@ -349,13 +351,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									/*int type = ModContent.ProjectileType<AresLaserBeamStart>();
+									int type = ModContent.ProjectileType<AresLaserBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									for (int k = 0; k < totalProjectiles; k++)
-									{
-										Vector2 velocity = spinningPoint.RotatedBy(radians * k);
-										Projectile.NewProjectile(npc.Center, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-									}*/
+									float offset = 40f;
+									Vector2 source = calamityGlobalNPC.newAI[3] == 0f ? new Vector2(npc.Center.X, npc.Center.Y + offset) : new Vector2(npc.Center.X + offset, npc.Center.Y);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), source);
+									Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
+									if (laserVelocity.HasNaNs())
+										laserVelocity = -Vector2.UnitY;
+
+									Projectile.NewProjectile(source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 								}
 							}
 						}

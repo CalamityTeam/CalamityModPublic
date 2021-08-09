@@ -70,5 +70,10 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft >= 180)
 				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
 		}
-    }
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+	}
 }

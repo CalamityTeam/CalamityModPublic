@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs
         public static bool DraedonMayhem = false;
 
 		// Timer for how long an NPC is immune to certain debuffs
-		public const int slowingDebuffResistanceMin = 1200;
+		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
 
 		// Debuffs
@@ -1752,20 +1752,10 @@ namespace CalamityMod.NPCs
         #region Can Hit Player
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            if (!npc.boss && !npc.friendly && !npc.dontTakeDamage)
-            {
-                if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
-                {
-                    cooldownSlot = 1;
-                }
-            }
-
 			if (target.Calamity().prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (npc.lifeMax < 500)
-				{
 					return false;
-				}
 			}
 
             return true;

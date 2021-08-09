@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 480;
+			cooldownSlot = 1;
+			projectile.timeLeft = 480;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			Rectangle frame = new Rectangle(0, projectile.frame * Main.projectileTexture[projectile.type].Height, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]);
 
-			Color color = Color.Lerp(Color.White, Color.GreenYellow, 0.5f) * projectile.Opacity;
+			Color color = Color.Lerp(Color.White, Color.GreenYellow, 0.5f);
 
 			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
 
@@ -182,5 +183,10 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 		}
-    }
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+	}
 }

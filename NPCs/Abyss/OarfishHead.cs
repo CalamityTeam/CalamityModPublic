@@ -63,21 +63,17 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void AI()
         {
-			if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) ||
-				npc.justHit)
-			{
+			if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) || npc.justHit)
 				detectsPlayer = true;
-			}
+
 			npc.chaseable = detectsPlayer;
+
 			if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
+
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -104,27 +100,21 @@ namespace CalamityMod.NPCs.Abyss
                     TailSpawned = true;
                 }
             }
+
             if (npc.velocity.X < 0f)
-            {
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
+
             if (Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(false);
-            }
+
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<OarfishTail>()))
-            {
+
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
                 npc.active = false;
-            }
 
             float num188 = speed;
             float num189 = turnSpeed;
@@ -322,27 +312,6 @@ namespace CalamityMod.NPCs.Abyss
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
-        }
-
-        public override bool CheckActive()
-        {
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-            }
-            return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

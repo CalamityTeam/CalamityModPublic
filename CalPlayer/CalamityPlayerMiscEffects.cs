@@ -234,7 +234,7 @@ namespace CalamityMod.CalPlayer
 
 			// If Revengeance Mode is not active, then set rippers to zero
 			else if (player.whoAmI == Main.myPlayer)
-					{
+			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
 			}
@@ -257,7 +257,7 @@ namespace CalamityMod.CalPlayer
 			// Tick down the Rage gain cooldown.
 			if (modPlayer.rageGainCooldown > 0)
 				--modPlayer.rageGainCooldown;
-			
+
 			// This is how much Rage will be changed by this frame.
 			float rageDiff = 0;
 
@@ -410,45 +410,44 @@ namespace CalamityMod.CalPlayer
 			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
 			if (modPlayer.adrenalineModeActive)
 				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
-
-						else
-						{
-							// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
-							// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
-								!wofAndNotHell)
-							{
+			else
+			{
+				// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+				// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
+				if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
+					!wofAndNotHell)
+				{
 					adrenalineDiff += modPlayer.adrenalineMax / modPlayer.AdrenalineChargeTime;
-							}
+				}
 
 				// If you aren't actively in a boss fight, adrenaline rapidly fades away.
-							else
+				else
 					adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineFadeTime;
-						}
+			}
 
 			// In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 0.67f;
+			if (SCalAlive && adrenalineDiff > 0f)
+				adrenalineDiff *= 0.67f;
 
-						// Apply the adrenaline change and cap adrenaline in both directions.
-						modPlayer.adrenaline += adrenalineDiff;
-						if (modPlayer.adrenaline < 0)
-							modPlayer.adrenaline = 0;
+			// Apply the adrenaline change and cap adrenaline in both directions.
+			modPlayer.adrenaline += adrenalineDiff;
+			if (modPlayer.adrenaline < 0)
+				modPlayer.adrenaline = 0;
 
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenaline = modPlayer.adrenalineMax;
+			if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
+			{
+				modPlayer.adrenaline = modPlayer.adrenalineMax;
 
-							// Play a sound when the Adrenaline Meter is full
-							if (modPlayer.playFullAdrenalineSound)
-							{
-								modPlayer.playFullAdrenalineSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullAdrenalineSound = true;
-					}
+				// Play a sound when the Adrenaline Meter is full
+				if (modPlayer.playFullAdrenalineSound)
+				{
+					modPlayer.playFullAdrenalineSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullAdrenalineSound = true;
+		}
 		#endregion
 
 		#region Misc Effects
@@ -3725,41 +3724,47 @@ namespace CalamityMod.CalPlayer
 			modPlayer.trueMeleeDamage += damageAdd;
 
 			// Amalgam boosts
-			if (modPlayer.amalgam)
+			if (Main.myPlayer == player.whoAmI)
 			{
-				if (Main.myPlayer == player.whoAmI)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
-					for (int l = 0; l < Player.MaxBuffs; l++)
+					int hasBuff = player.buffType[l];
+					if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
+						hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
+						(hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
+						hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
+						hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
+						hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
+						hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
+						hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
+						hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
+						hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
+						hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
+						hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
+						hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
+						hasBuff == ModContent.BuffType<CinnamonRollBuff>() || hasBuff == ModContent.BuffType<EverclearBuff>() || hasBuff == ModContent.BuffType<EvergreenGinBuff>() ||
+						hasBuff == ModContent.BuffType<FabsolVodkaBuff>() || hasBuff == ModContent.BuffType<FireballBuff>() || hasBuff == ModContent.BuffType<GrapeBeerBuff>() ||
+						hasBuff == ModContent.BuffType<MargaritaBuff>() || hasBuff == ModContent.BuffType<MoonshineBuff>() || hasBuff == ModContent.BuffType<MoscowMuleBuff>() ||
+						hasBuff == ModContent.BuffType<RedWineBuff>() || hasBuff == ModContent.BuffType<RumBuff>() || hasBuff == ModContent.BuffType<ScrewdriverBuff>() ||
+						hasBuff == ModContent.BuffType<StarBeamRyeBuff>() || hasBuff == ModContent.BuffType<TequilaBuff>() || hasBuff == ModContent.BuffType<TequilaSunriseBuff>() ||
+						hasBuff == ModContent.BuffType<Trippy>() || hasBuff == ModContent.BuffType<VodkaBuff>() || hasBuff == ModContent.BuffType<WhiskeyBuff>() ||
+						hasBuff == ModContent.BuffType<WhiteWineBuff>())
 					{
-						int hasBuff = player.buffType[l];
-						if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
-							hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
-							(hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
-							hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
-							hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
-							hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
-							hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
-							hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
-							hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
-							hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
-							hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
-							hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
-							hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
-							hasBuff == ModContent.BuffType<CinnamonRollBuff>() || hasBuff == ModContent.BuffType<EverclearBuff>() || hasBuff == ModContent.BuffType<EvergreenGinBuff>() ||
-							hasBuff == ModContent.BuffType<FabsolVodkaBuff>() || hasBuff == ModContent.BuffType<FireballBuff>() || hasBuff == ModContent.BuffType<GrapeBeerBuff>() ||
-							hasBuff == ModContent.BuffType<MargaritaBuff>() || hasBuff == ModContent.BuffType<MoonshineBuff>() || hasBuff == ModContent.BuffType<MoscowMuleBuff>() ||
-							hasBuff == ModContent.BuffType<RedWineBuff>() || hasBuff == ModContent.BuffType<RumBuff>() || hasBuff == ModContent.BuffType<ScrewdriverBuff>() ||
-							hasBuff == ModContent.BuffType<StarBeamRyeBuff>() || hasBuff == ModContent.BuffType<TequilaBuff>() || hasBuff == ModContent.BuffType<TequilaSunriseBuff>() ||
-							hasBuff == ModContent.BuffType<Trippy>() || hasBuff == ModContent.BuffType<VodkaBuff>() || hasBuff == ModContent.BuffType<WhiskeyBuff>() ||
-							hasBuff == ModContent.BuffType<WhiteWineBuff>())
+						if (modPlayer.amalgam)
 						{
 							// Every other frame, increase the buff timer by one frame. Thus, the buff lasts twice as long.
 							if (player.miscCounter % 2 == 0)
 								player.buffTime[l] += 1;
 
-							// Buffs will not go away when you die, to prevent wasting potions
+							// Buffs will not go away when you die, to prevent wasting potions.
 							if (!Main.persistentBuff[hasBuff])
 								Main.persistentBuff[hasBuff] = true;
+						}
+						else
+						{
+							// Reset buff persistence if Amalgam is removed.
+							if (Main.persistentBuff[hasBuff])
+								Main.persistentBuff[hasBuff] = false;
 						}
 					}
 				}

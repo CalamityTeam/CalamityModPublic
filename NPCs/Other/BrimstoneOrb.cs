@@ -52,10 +52,8 @@ namespace CalamityMod.NPCs.Other
                     npc.netUpdate = true;
                 }
 
-                Vector2 destination = Vector2.Lerp(Owner.Center, Main.MouseWorld, 0.3f);
-                if (!Owner.WithinRange(Main.MouseWorld, 225f))
-                    destination = Owner.Center + Owner.SafeDirectionTo(Main.MouseWorld) * 225f;
-                npc.Center = Vector2.Lerp(npc.Center, destination, 0.035f).MoveTowards(destination, 5f);
+                Vector2 destination = Vector2.Lerp(Owner.Center, Main.MouseWorld, 0.625f);
+                npc.Center = Vector2.Lerp(npc.Center, destination, 0.035f).MoveTowards(destination, 8f);
                 if (!npc.WithinRange(destination, 2000f))
                     npc.Center = Owner.Center;
 

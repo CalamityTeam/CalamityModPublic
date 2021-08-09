@@ -273,6 +273,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
+
 			// Despawn if target is dead
 			bool targetDead = false;
 			if (player.dead)
@@ -685,6 +688,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"), npc.Center);
 									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{

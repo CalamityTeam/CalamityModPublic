@@ -355,7 +355,10 @@ namespace CalamityMod.NPCs
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AquaticScourgeHead>())
+					{
 						shouldDespawn = false;
+						break;
+					}
 				}
 				if (!shouldDespawn)
 				{

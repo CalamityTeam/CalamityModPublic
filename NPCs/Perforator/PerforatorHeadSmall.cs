@@ -90,9 +90,7 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			if (npc.ai[3] > 0f)
-            {
                 npc.realLife = (int)npc.ai[3];
-            }
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -106,9 +104,7 @@ namespace CalamityMod.NPCs.Perforator
 
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{

@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AresGaussNukeProjectileSpark : ModProjectile
+    public class AresPlasmaBolt : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gauss Spark");
+            DisplayName.SetDefault("Plasma Bolt");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -19,8 +19,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 18;
+            projectile.height = 18;
             projectile.hostile = true;
             projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 595) / 5f), 0f, 1f);
 
-			Lighting.AddLight(projectile.Center, 0.1f * projectile.Opacity, 0.125f * projectile.Opacity, 0.025f * projectile.Opacity);
+			Lighting.AddLight(projectile.Center, 0f, 0.4f * projectile.Opacity, 0f);
 
 			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -60,6 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 
 			target.AddBuff(BuffID.OnFire, 180);
+			target.AddBuff(BuffID.CursedInferno, 90);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
