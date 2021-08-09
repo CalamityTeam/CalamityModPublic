@@ -126,7 +126,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
-            IL.Terraria.Player.Update += ReduceTileBoostedRunSpeeds;
+            IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
             // World generation
@@ -173,7 +173,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
-            IL.Terraria.Player.Update -= ReduceTileBoostedRunSpeeds;
+            IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
             // World generation
@@ -233,7 +233,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(10))) // 1 in 10 Main.rand call for Black Belt activation.
             {
-                WriteFailToLog("black belt dodge guarantee", "Could not locate the dodge chance.");
+                LogFailure("No RNG Black Belt", "Could not locate the dodge chance.");
                 return;
             }
             cursor.Remove();
@@ -242,7 +242,7 @@ namespace CalamityMod.ILEditing
             // Move forwards past the Main.rand.Next call now that it has been edited.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallvirt<UnifiedRandom>("Next")))
             {
-                WriteFailToLog("black belt dodge guarantee", "Could not locate the Random.Next call.");
+                LogFailure("No RNG Black Belt", "Could not locate the Random.Next call.");
                 return;
             }
 
@@ -260,7 +260,7 @@ namespace CalamityMod.ILEditing
             // Move forwards past the NinjaDodge call. We need to set the dodge cooldown here.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Player>("NinjaDodge")))
             {
-                WriteFailToLog("black belt dodge guarantee", "Could not locate the Player.NinjaDodge call.");
+                LogFailure("No RNG Black Belt", "Could not locate the Player.NinjaDodge call.");
                 return;
             }
 
@@ -332,7 +332,7 @@ namespace CalamityMod.ILEditing
             // And then go back to where it began, right after the draw position vector.
             if (!cursor.TryGotoPrev(MoveType.After, i => i.MatchNewobj<Vector2>()))
             {
-                WriteFailToLog("hover item animation support", "Could not locate the creation of the draw position vector.");
+                LogFailure("HoverItem Animation Support", "Could not locate the creation of the draw position vector.");
                 return;
             }
 
@@ -472,21 +472,21 @@ namespace CalamityMod.ILEditing
         {
             // Change the damage variance from +-15% to +-5%.
             var cursor = new ILCursor(il);
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(-15))) // The -15% lower bound of the variance.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(-15))) // The -15% lower bound of the variance.
             {
-                WriteFailToLog("general damage variance reduction", "Could not locate the lower bound.");
+                LogFailure("+/-5% Damage Variance", "Could not locate the lower bound.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
+            cursor.Emit(OpCodes.Ldc_I4_S, -5); // Increase to -5%.
 
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
             {
-                WriteFailToLog("general damage variance reduction", "Could not locate the upper bound.");
+                LogFailure("+/-5% Damage Variance", "Could not locate the upper bound.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 6); // Decrease to +5%.
+            cursor.Emit(OpCodes.Ldc_I4_6); // Decrease to +5%.
         }
 
         private static void RemoveExpertHardmodeScaling(ILContext il)
@@ -495,7 +495,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1000))) // The less than 1000 HP check in order for the scaling to take place.
             {
-                WriteFailToLog("expert hardmode scaling removal", "Could not locate the HP check.");
+                LogFailure("Expert Hardmode Scaling Removal", "Could not locate the HP check.");
                 return;
             }
             cursor.Remove();
@@ -507,12 +507,12 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.DD2BetsyArrow))) // The ID of Aerial Bane projectiles.
             {
-                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the arrow ID.");
+                LogFailure("Aerial Bane Nerf", "Could not locate the arrow ID.");
                 return;
             }
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) // The damage multiplier.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) // The damage multiplier.
             {
-                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the damage multiplier.");
+                LogFailure("Aerial Bane Nerf", "Could not locate the damage multiplier.");
                 return;
             }
             cursor.Remove();
@@ -525,20 +525,20 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.ChlorophyteBullet)))
             {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the bullet ID.");
+                LogFailure("Chlorophyte Bullet AI", "Could not locate the bullet ID.");
                 return;
             }
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(10))) // The number of dust spawned by the bullet.
             {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the dust quantity.");
+                LogFailure("Chlorophyte Bullet AI", "Could not locate the dust quantity.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 5); // Decrease dust to 5.
+            cursor.Emit(OpCodes.Ldc_I4_5); // Decrease dust to 5.
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(300f))) // The 300 unit distance required to home in.
             {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the homing range.");
+                LogFailure("Chlorophyte Bullet AI", "Could not locate the homing range.");
                 return;
             }
             cursor.Remove();
@@ -547,14 +547,14 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Movement speed balance
-        private static void ReduceTileBoostedRunSpeeds(ILContext il)
+        private static void RunSpeedAdjustments(ILContext il)
         {
             // Reduce the run speed boost while running on Asphalt, Frozen Slime Blocks and Ice Blocks.
 
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6))) // Movement speed cap (removed in 1.4).
             {
-                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
+                LogFailure("Run Speed Adjustments", "Could not locate the movement speed limit.");
                 return;
             }
             cursor.Remove();
@@ -562,7 +562,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6f))) // Movement speed cap (removed in 1.4).
             {
-                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
+                LogFailure("Run Speed Adjustments", "Could not locate the movement speed limit.");
                 return;
             }
             cursor.Remove();
@@ -570,7 +570,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f))) // The max run speed multiplier for Asphalt.
             {
-                WriteFailToLog("run speed adjustment", "Could not locate the asphalt movement speed limit.");
+                LogFailure("Run Speed Adjustments", "Could not locate the asphalt movement speed limit.");
                 return;
             }
             cursor.Remove();
@@ -578,7 +578,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Frozen Slime Blocks.
             {
-                WriteFailToLog("run speed adjustment", "Could not locate the frozen slime block movement speed limit.");
+                LogFailure("Run Speed Adjustments", "Could not locate the frozen slime block movement speed limit.");
                 return;
             }
             cursor.Remove();
@@ -586,7 +586,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Ice Blocks.
             {
-                WriteFailToLog("run speed adjustment", "Could not locate the ice block movement speed limit.");
+                LogFailure("Run Speed Adjustments", "Could not locate the ice block movement speed limit.");
                 return;
             }
             cursor.Remove();
@@ -599,12 +599,12 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(6.25f))) // The accRunSpeed variable is set to this specific value before hover adjustments occur.
             {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the base speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the base speed variable.");
                 return;
             }
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Vortex Booster and Nebula Mantle.
             {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the vortex booster/nebula mantle speed variable.");
                 return;
             }
             cursor.Remove();
@@ -612,7 +612,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Vortex Booster and Nebula Mantle.
             {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the vortex booster/nebula mantle speed variable.");
                 return;
             }
             cursor.Remove();
@@ -620,7 +620,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Betsy Wings.
             {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the betsy's wings speed variable.");
                 return;
             }
             cursor.Remove();
@@ -628,7 +628,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Betsy Wings.
             {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the betsy's wings speed variable.");
                 return;
             }
             cursor.Remove();
@@ -643,7 +643,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY")))
             {
-                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the dungeon's vertical position.");
+                LogFailure("Dungeon/Abyss Collision Avoidance (Starting Position)", "Could not locate the dungeon's vertical position.");
                 return;
             }
 
@@ -666,7 +666,7 @@ namespace CalamityMod.ILEditing
             // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(6)))
             {
-                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the hall horizontal position.");
+                LogFailure("Dungeon/Abyss Collision Avoidance (Halls)", "Could not locate the hall horizontal position.");
                 return;
             }
 
@@ -700,7 +700,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(300))) // 1 in 300 genRand call used to generate Chlorophyte in mud tiles near jungle grass.
             {
-                WriteFailToLog("chlorophyte spread rate adjustment", "Could not locate the update chance.");
+                LogFailure("Chlorophyte Spread Rate", "Could not locate the update chance.");
                 return;
             }
             cursor.Remove();
@@ -712,7 +712,7 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(40))) // Find the 40 Chlorophyte tile limit. This limit is checked within a 71x71-tile square, with the reference tile as the center.
             {
-                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the lower limit.");
+                LogFailure("Chlorophyte Spread Limit", "Could not locate the lower limit.");
                 return;
             }
             cursor.Remove();
@@ -720,7 +720,7 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(130))) // Find the 130 Chlorophyte tile limit. This limit is checked within a 171x171-tile square, with the reference tile as the center.
             {
-                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the upper limit.");
+                LogFailure("Chlorophyte Spread Limit", "Could not locate the upper limit.");
                 return;
             }
             cursor.Remove();
@@ -737,14 +737,14 @@ namespace CalamityMod.ILEditing
             // This one isn't edited, but hitting the Round function is the easiest way to get to the relevant part of the method.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall("System.Math", "Round")))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate the damage Math.Round call.");
+                LogFailure("Prefix Requirements", "Could not locate the damage Math.Round call.");
                 return;
             }
 
             // Search for the second instance of Math.Round, which is used to round use time.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall("System.Math", "Round")))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate the use time Math.Round call.");
+                LogFailure("Prefix Requirements", "Could not locate the use time Math.Round call.");
                 return;
             }
 
@@ -754,7 +754,7 @@ namespace CalamityMod.ILEditing
             ILLabel passesUseTimeCheck = null;
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBneUn(out passesUseTimeCheck)))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate use time rounding equality branch.");
+                LogFailure("Prefix Requirements", "Could not locate use time rounding equality branch.");
                 return;
             }
 
@@ -773,7 +773,7 @@ namespace CalamityMod.ILEditing
             ILLabel passesManaCheck = null;
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBneUn(out passesManaCheck)))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate mana prefix failure branch.");
+                LogFailure("Prefix Requirements", "Could not locate mana prefix failure branch.");
                 return;
             }
 
@@ -783,14 +783,14 @@ namespace CalamityMod.ILEditing
             // Search for the instance field load which retrieves the item's knockback.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Item>("knockBack")))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate knockback load instruction.");
+                LogFailure("Prefix Requirements", "Could not locate knockback load instruction.");
                 return;
             }
 
             // Search for the immediately-following constant load which pulls in 0.0.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0f)))
             {
-                WriteFailToLog("prefix adjustments", "Could not locate zero knockback comparison constant.");
+                LogFailure("Prefix Requirements", "Could not locate zero knockback comparison constant.");
                 return;
             }
 
@@ -822,12 +822,12 @@ namespace CalamityMod.ILEditing
             // Locate the area after all the banner logic by using a nearby constant type.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(23)))
             {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the first hooking constant.");
+                LogFailure("splitting worm banner spam fix", "Could not locate the first hooking constant.");
                 return;
             }
             if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdarg(0)))
             {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the second hooking constant.");
+                LogFailure("splitting worm banner spam fix", "Could not locate the second hooking constant.");
                 return;
             }
 
@@ -840,7 +840,7 @@ namespace CalamityMod.ILEditing
             cursor.Goto(0);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld<NPC>("killCount")))
             {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the NPC kill count.");
+                LogFailure("splitting worm banner spam fix", "Could not locate the NPC kill count.");
                 return;
             }
 
@@ -920,7 +920,7 @@ namespace CalamityMod.ILEditing
         }
 
         public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());
-        public static void WriteFailToLog(string editName, string reason) => CalamityMod.Instance.Logger.Warn($"The {editName} IL edit failed. {reason}");
+        public static void LogFailure(string name, string reason) => CalamityMod.Instance.Logger.Warn($"IL edit \"${name}\" failed! {reason}");
         #endregion
     }
 }
