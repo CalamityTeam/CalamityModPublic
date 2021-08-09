@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 // Exponentially accelerate if not going fast enough yet.
-                if (speed < 21f)
+                if (speed < 18f)
                     projectile.velocity *= 1.006f;
 
                 // When going at very high speed, emit even more dust.

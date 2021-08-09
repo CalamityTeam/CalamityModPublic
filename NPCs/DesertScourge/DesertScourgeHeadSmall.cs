@@ -25,10 +25,10 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
+			npc.defense = 2;
 			npc.npcSlots = 2f;
             npc.width = 60;
             npc.height = 60;
-            npc.defense = 0;
             npc.lifeMax = 800;
             if (BossRushEvent.BossRushActive)
             {
@@ -49,19 +49,17 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void AI()
         {
             if (npc.ai[3] > 0f)
-            {
                 npc.realLife = (int)npc.ai[3];
-            }
+
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
 				npc.TargetClosest();
-			}
+
 			Player player = Main.player[npc.target];
+
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
+
             if (!TailSpawned)
             {
                 int Previous = npc.whoAmI;
@@ -85,6 +83,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
                 TailSpawned = true;
             }
+
             int num180 = (int)(npc.position.X / 16f) - 1;
             int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;

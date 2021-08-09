@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using System;
 using System.Reflection;
 using System.Text;
@@ -124,17 +125,6 @@ namespace CalamityMod
 			}
 		}
 
-		/// <summary>
-		/// Sets a <see cref="SpriteBatch"/>'s <see cref="BlendState"/> arbitrarily.
-		/// </summary>
-		/// <param name="spriteBatch">The sprite batch.</param>
-		/// <param name="blendState">The blend state to use.</param>
-		public static void SetBlendState(this SpriteBatch spriteBatch, BlendState blendState)
-		{
-			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-		}
-
 		// Used for bullets. This lets you draw afterimages while keeping the hitbox at the front of the projectile.
 		// This supports type 0 and type 2 afterimages. Vanilla bullets never have type 2 afterimages.
 		public static void DrawAfterimagesFromEdge(Projectile proj, int mode, Color lightColor, Texture2D texture = null)
@@ -189,6 +179,43 @@ namespace CalamityMod
 			}
 		}
 		#endregion
+
+		/// <summary>
+		/// Sets a <see cref="SpriteBatch"/>'s <see cref="BlendState"/> arbitrarily.
+		/// </summary>
+		/// <param name="spriteBatch">The sprite batch.</param>
+		/// <param name="blendState">The blend state to use.</param>
+		public static void SetBlendState(this SpriteBatch spriteBatch, BlendState blendState)
+		{
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+		}
+
+		/// <summary>
+		/// Draws text with an eight-way one-pixel offset border.
+		/// </summary>
+		/// <param name="sb"></param>
+		/// <param name="font"></param>
+		/// <param name="text"></param>
+		/// <param name="baseDrawPosition"></param>
+		/// <param name="main"></param>
+		/// <param name="border"></param>
+		/// <param name="scale"></param>
+		public static void DrawBorderStringEightWay(SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 baseDrawPosition, Color main, Color border, float scale = 1f)
+		{
+			for (int x = -1; x <= 1; x++)
+			{
+				for (int y = -1; y <= 1; y++)
+				{
+					Vector2 drawPosition = baseDrawPosition + new Vector2(x, y);
+					if (x == 0 && y == 0)
+						continue;
+
+					DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, drawPosition, border, 0f, default, scale, SpriteEffects.None, 0f);
+				}
+			}
+			DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, baseDrawPosition, main, 0f, default, scale, SpriteEffects.None, 0f);
+		}
 
 		public static void DrawItemGlowmaskSingleFrame(this Item item, SpriteBatch spriteBatch, float rotation, Texture2D glowmaskTexture)
 		{

@@ -82,7 +82,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            if (invinceTime > 0)
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
+			if (invinceTime > 0)
             {
                 invinceTime--;
                 npc.dontTakeDamage = true;
@@ -112,27 +114,31 @@ namespace CalamityMod.NPCs.DevourerofGods
 			else
 				npc.takenDamageMultiplier = 1.25f;
 
-			if (npc.velocity.X < 0f)
-                npc.spriteDirection = -1;
-            else if (npc.velocity.X > 0f)
-                npc.spriteDirection = 1;
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DevourerofGodsHeadS>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] > 0f)
+					shouldDespawn = false;
+				else if (Main.npc[(int)npc.ai[1]].life > 0)
+					shouldDespawn = false;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
 
-            bool flag = false;
-            if (npc.ai[1] <= 0f)
-                flag = true;
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
-                flag = true;
-            if (flag)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
-            }
-
-            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
-                npc.active = false;
-
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
             {
                 npc.alpha -= 42;

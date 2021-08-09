@@ -517,13 +517,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region Enrage and DR
             if (!player.Hitbox.Intersects(safeBox) || malice)
             {
-                if (uDieLul < 1.5f)
+				float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) ? 2f : 1.5f;
+                if (uDieLul < projectileVelocityMultCap)
                 {
                     uDieLul *= 1.01f;
                 }
-                else if (uDieLul > 1.5f)
+                else if (uDieLul > projectileVelocityMultCap)
                 {
-                    uDieLul = 1.5f;
+                    uDieLul = projectileVelocityMultCap;
                 }
                 protectionBoost = !malice;
             }
@@ -740,10 +741,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 6) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 1) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;

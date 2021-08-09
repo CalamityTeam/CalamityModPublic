@@ -41,9 +41,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             soundType = SoundID.Item;
             soundStyle = 14;
 
-            // Requires a Gold Pickaxe or better to mine. Has 500% durability.
-            mineResist = 5.00f;
-            minPick = 55;
+            // Has 500% durability.
+            mineResist = 5f;
         }
 
         public override bool CanExplode(int i, int j) => false;

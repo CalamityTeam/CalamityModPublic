@@ -1008,7 +1008,14 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyCobaltBar", group);
 
-            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+			group = new RecipeGroup(() => "Any Mythril Bar", new int[]
+			{
+				ItemID.MythrilBar,
+				ItemID.OrichalcumBar
+			});
+			RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+
+			group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
             {
                 ItemID.AdamantiteBar,
                 ItemID.TitaniumBar

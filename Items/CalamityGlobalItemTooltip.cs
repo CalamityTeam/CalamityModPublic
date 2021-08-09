@@ -44,9 +44,19 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
+			// If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
+			ElementTooltip(item, tooltips);
+
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
+
+			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+			if (canFirePointBlankShots)
+			{
+				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+				tooltips.Add(line);
+			}
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
@@ -74,13 +84,6 @@ namespace CalamityMod.Items
 			if (devItem)
 			{
 				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
-				tooltips.Add(line);
-			}
-
-			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
-			if (canFirePointBlankShots)
-			{
-				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
 				tooltips.Add(line);
 			}
 
@@ -320,6 +323,10 @@ namespace CalamityMod.Items
 			// Nerfed Archery Potion tooltip
 			if (item.type == ItemID.ArcheryPotion)
 				EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
+
+			// Nerfed Swiftness Potion tooltip
+			if (item.type == ItemID.SwiftnessPotion)
+				EditTooltipByNum(0, (line) => line.text = "15% increased movement speed");
 
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
@@ -919,10 +926,6 @@ namespace CalamityMod.Items
 				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
 					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
 					return;
-				case PrefixID.Precise:
-				case PrefixID.Lucky:
-					EditTooltipByName("PrefixAccCritChance", (line) => line.text += "\n+1 armor penetration");
-					return;
 				case PrefixID.Hard:
 					EditTooltipByName("PrefixAccDefense",
 						(line) => line.text = line.text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
@@ -985,6 +988,38 @@ namespace CalamityMod.Items
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
+			}
+		}
+		#endregion
+
+		#region Element Tooltip
+		private void ElementTooltip(Item item, IList<TooltipLine> tooltips)
+		{
+			if (CalamityLists.fireWeaponList.Contains(item.type))
+			{
+				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "-Fire Weapon-")
+				{
+					overrideColor = new Color(255, 165, 0)
+				};
+				tooltips.Add(fireTooltip);
+			}
+
+			if (CalamityLists.iceWeaponList.Contains(item.type))
+			{
+				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "-Ice Weapon-")
+				{
+					overrideColor = new Color(94, 230, 255)
+				};
+				tooltips.Add(iceTooltip);
+			}
+
+			if (CalamityLists.natureWeaponList.Contains(item.type))
+			{
+				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "-Nature Weapon-")
+				{
+					overrideColor = new Color(46, 165, 0)
+				};
+				tooltips.Add(natureTooltip);
 			}
 		}
 		#endregion

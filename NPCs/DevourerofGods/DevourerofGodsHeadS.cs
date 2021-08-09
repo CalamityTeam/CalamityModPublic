@@ -528,10 +528,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
             }
 
-            // Despawn
-            if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
-                npc.active = false;
-
             float fallSpeed = enraged ? 21f : malice ? 19.5f : death ? 17.75f : 16f;
 
 			if (expertMode)

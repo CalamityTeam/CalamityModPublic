@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 1170) / 30f), 0f, 1f);
 
-			Lighting.AddLight(projectile.Center, 0.5f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 0.5f * projectile.Opacity, 0f, 0f);
 
             if (projectile.velocity.X < 0f)
                 projectile.spriteDirection = 1;

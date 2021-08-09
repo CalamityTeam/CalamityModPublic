@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 1f;
             projectile.timeLeft = 90000;
             projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
             projectile.tileCollide = false;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
@@ -108,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
 
         internal void AttackTarget(NPC target)
         {
-            if (Main.myPlayer == projectile.owner && HoverTime % 30 == 29)
+            if (Main.myPlayer == projectile.owner && HoverTime % 70f == 69f)
             {
                 Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), projectile.damage, projectile.knockBack, projectile.owner);
                 HoverTime++;

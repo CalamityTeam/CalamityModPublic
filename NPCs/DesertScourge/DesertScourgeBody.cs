@@ -58,9 +58,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void AI()
         {
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
 				npc.TargetClosest(true);
-			}
 
 			Player player = Main.player[npc.target];
 			bool enraged = npc.Calamity().enraged > 0;
@@ -70,14 +68,32 @@ namespace CalamityMod.NPCs.DesertScourge
 			float burrowTimeGateValue = death ? 420f : 540f;
 			bool burrow = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
 
-			if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DesertScourgeHead>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] > 0f)
+					shouldDespawn = false;
+				else if (Main.npc[(int)npc.ai[1]].life > 0)
+					shouldDespawn = false;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
 
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
@@ -86,8 +102,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
             {
-                npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26001))
+                npc.localAI[0] += malice ? 4f : Main.rand.Next(4);
+                if (npc.localAI[0] >= Main.rand.Next(1400, 26001))
                 {
                     npc.localAI[0] = 0f;
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))

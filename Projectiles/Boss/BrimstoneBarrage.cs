@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>());
 			}
 
-			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 0.75f * projectile.Opacity, 0f, 0f);
         }
 
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;

@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
+using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using System;
@@ -1354,6 +1355,7 @@ namespace CalamityMod
 		#endregion
 
 		#region Call
+
 		public static object Call(params object[] args)
 		{
 			bool isValidPlayerArg(object o) => o is int || o is Player;
@@ -1376,6 +1378,24 @@ namespace CalamityMod
 					return p;
 				return null;
 			}
+
+			// Certain IDs in vanilla's files are shorts instead of ints for some reason.
+			// Instead of expecting developers to have to manually cast these IDs, this function is used
+			// to handle IDs that are either ints OR shorts, without the worry of missing a cast and wondering why
+			// the Mod Call did nothing.
+			bool castID(object o, out int id)
+            {
+				id = -1;
+				if (!(o is int) && !(o is short))
+					return false;
+
+				if (o is short shortID)
+					id = shortID;
+				if (o is int intID)
+					id = intID;
+
+				return true;
+            }
 
 			if (args is null || args.Length <= 0)
 				return new ArgumentNullException("ERROR: No function name specified. First argument must be a function name.");
@@ -1639,10 +1659,9 @@ namespace CalamityMod
 						return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
 					if (!(args[2] is float) && !(args[2] is double))
 						return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
-					if (!(args[1] is string))
-						return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int.");
+					if (!castID(args[1], out int npcID))
+						return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int or short ID.");
 
-					int npcID = (int)args[1];
 					float DR = (float)args[2];
 					return SetDamageReduction(npcID, DR);
 
@@ -1676,16 +1695,15 @@ namespace CalamityMod
 				case "SetPostMLRarity":
 				case "SetPostMoonLordRarity":
 					if (args.Length < 2)
-						return new ArgumentNullException("ERROR: Must specify both an Item and desired rarity as an int.");
+						return new ArgumentNullException("ERROR: Must specify both an Item and desired rarity as an int or short ID.");
 					if (args.Length < 3)
-						return new ArgumentNullException("ERROR: Must specify desired rarity as an int.");
-					if (!(args[2] is int))
-						return new ArgumentException("ERROR: The second argument to \"SetCalamityRarity\" must be an int.");
+						return new ArgumentNullException("ERROR: Must specify desired rarity as an int or short ID.");
+					if (!castID(args[2], out int rarity))
+						return new ArgumentException("ERROR: The second argument to \"SetCalamityRarity\" must be an int or short ID.");
 					if (!(args[1] is Item))
 						return new ArgumentException("ERROR: The first argument to \"SetCalamityRarity\" must be an Item.");
 
 					Item itemToSet = (Item)args[1];
-					int rarity = (int)args[2];
 					return SetCalamityRarity(itemToSet, rarity);
 
 				case "AbominationnClearEvents":
@@ -1702,15 +1720,118 @@ namespace CalamityMod
 				case "ExcludeMinionsFromResurrection":
 					// This assumes all arguments after the calling command name are projectile types.
 					IEnumerable<object> secondaryArguments = args.Skip(1);
-					if (secondaryArguments.Any(argument => !(argument is int)))
-						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be ints.");
+					if (secondaryArguments.Any(argument => !castID(argument, out _)))
+						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be int or short IDs.");
 
-					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument => Convert.ToInt32(argument)));
+					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument =>
+					{
+						castID(argument, out int id);
+						return id;
+					}));
 					return null;
 
 				case "CreateEnchantment":
 				case "RegisterEnchantment":
 					EnchantmentManager.ConstructFromModcall(args.Skip(1));
+					return null;
+
+				case "DeclareMiniboss":
+				case "DeclareMinibossForHealthBar":
+					if (args.Length != 2)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int.");
+					if (!castID(args[1], out int npcType))
+						return new ArgumentException("ERROR: The first argument to \"DeclareMiniboss\" must be an int or short ID.");
+
+					BossHealthBarManager.MinibossHPBarList.Add(npcType);
+					return null;
+
+				case "ExcludeBossFromHealthBar":
+					if (args.Length != 2)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int.");
+					if (!castID(args[1], out int npcType2))
+						return new ArgumentException("ERROR: The first argument to \"ExcludeBossFromHealthBar\" must be an int or short ID.");
+
+					BossHealthBarManager.BossExclusionList.Add(npcType2);
+					return null;
+
+				case "DeclareOneToManyRelationshipForHealthBar":
+					if (args.Length < 3)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type as an int for the first argument and the other NPC types in the relationship as ints for the rest of the arguments.");
+					if (!args.Skip(1).All(a => castID(a, out _)))
+						return new ArgumentException("ERROR: All secondary and onward arguments to \"DeclareOneToManyRelationshipForHealthBar\" must be int or short IDs.");
+
+					castID(args[1], out int npcType3);
+
+					int[] npcsInRelationship = args.Skip(2).Select(a => (int)a).ToArray();
+					BossHealthBarManager.OneToMany[npcType3] = npcsInRelationship;
+					return null;
+
+				// For context, the boolean argument in the second delegate refers to whether the function should be accumulating max life (true) or just life (false), and the returned long should be the accumulated health.
+				case "DeclareSpecialHPCalculationDecisionForHealthBar":
+					if (args.Length != 3)
+						return new ArgumentNullException("ERROR: Must specify both a usage requirement as a Func<NPC, bool> and a health calculator function as a Func<NPC, bool, long>.");
+					if (!(args[1] is Func<NPC, bool> usageRequirement))
+						return new ArgumentException("ERROR: The first argument to \"DeclareSpecialHPCalculationDecisionForHealthBar\" must be a Func<NPC, bool>.");
+					if (!(args[2] is Func<NPC, bool, long> healthCalculatorFunction))
+						return new ArgumentException("ERROR: The first argument to \"DeclareSpecialHPCalculationDecisionForHealthBar\" must be a Func<NPC, bool, long>.");
+
+					BossHealthBarManager.SpecialHPRequirements[new BossHealthBarManager.NPCSpecialHPGetRequirement(usageRequirement)] = new BossHealthBarManager.NPCSpecialHPGetFunction(healthCalculatorFunction);
+					return null;
+
+				case "CreateNameExtensionHandlerForHealthBar":
+					if (args.Length < 4)
+						return new ArgumentNullException("ERROR: Must specify a extension name as a string, the main NPC type as an int, and the other NPC types to check for as ints the rest of the arguments.");
+					if (!(args[1] is string name))
+						return new ArgumentException("ERROR: The first argument to \"CreateNameExtensionHandlerForHealthBar\" must be a string.");
+					if (!castID(args[1], out int npcType4))
+						return new ArgumentException("ERROR: The second argument to \"CreateNameExtensionHandlerForHealthBar\" must be an int or short ID.");
+					if (!args.Skip(3).All(a => a is int))
+						return new ArgumentException("ERROR: All ternary and onward arguments to \"CreateNameExtensionHandlerForHealthBar\" must be ints.");
+
+					int[] npcsToCheckFor = args.Skip(3).Select(a => (int)a).ToArray();
+					BossHealthBarManager.EntityExtensionHandler[npcType4] = new BossHealthBarManager.BossEntityExtension(name, npcsToCheckFor);
+					return null;
+
+				// In the following two mod calls, the first argument is the NPC type, the second is the time change context (-1 being night, 0 being nothing, and 1 being day),
+				// the third being the boss spawning function, the fourth being the overriding countdown to use, the fifth being whether the boss uses a special sound on spawning,
+				// and the sixth being the array of NPCs present in the battle that should not be deleted by the Boss Rush itself, and the seventh being the potential NPCs
+				// that will end up killing, assuming the initial boss isn't that (such as P1 Hive Mind turning into its second form and you being expected to kill that).
+				case "GetBossRushEntries":
+					List<(int, int, Action<int>, int, bool, int[], int[])> entries = new List<(int, int, Action<int>, int, bool, int[], int[])>();
+					foreach (BossRushEvent.Boss boss in BossRushEvent.Bosses)
+					{
+						int[] deathEntries = BossRushEvent.BossIDsAfterDeath.ContainsKey(boss.EntityID) ? BossRushEvent.BossIDsAfterDeath[boss.EntityID] : null;
+						entries.Add((boss.EntityID, (int)boss.ToChangeTimeTo, new Action<int>(boss.SpawnContext), boss.SpecialSpawnCountdown, boss.UsesSpecialSound, boss.HostileNPCsToNotDelete.ToArray(), deathEntries));
+					}
+
+					return entries;
+
+				case "SetBossRushEntries":
+					if (args.Length != 2)
+						return new ArgumentNullException("ERROR: Must specify a list of bosses as a List<(int, int, Action<int>, int, bool, int[], int[])>.");
+					if (!(args[1] is List<(int, int, Action<int>, int, bool, int[], int[])> entries2))
+						return new ArgumentException("ERROR: The first argument to \"SetBossRushEntries\" must be a List<(int, int, Action<int>, int, bool, int[], int[])>.");
+
+					BossRushEvent.Bosses.Clear();
+					BossRushEvent.BossIDsAfterDeath.Clear();
+					foreach (var entry in entries2)
+                    {
+						if (entry.Item7 != null)
+							BossRushEvent.BossIDsAfterDeath[entry.Item1] = entry.Item7;
+						BossRushEvent.Bosses.Add(new BossRushEvent.Boss(entry.Item1, (BossRushEvent.TimeChangeContext)entry.Item2, new BossRushEvent.Boss.OnSpawnContext(entry.Item3), entry.Item4, entry.Item5, entry.Item6));
+					}
+
+					return null;
+
+				case "CreateCustomDeathEffectForBossRush":
+					if (args.Length != 3)
+						return new ArgumentNullException("ERROR: Must specify both an NPC type and an Action<NPC> that determines what happens when the NPC is killed.");
+					if (!castID(args[1], out int npcType5))
+						return new ArgumentException("ERROR: The first argument to \"CreateCustomDeathEffectForBossRush\" must be an int or short ID.");
+					if (!(args[2] is Action<NPC> deathEffect))
+						return new ArgumentException("ERROR: The first argument to \"CreateCustomDeathEffectForBossRush\" must be an Action<NPC>.");
+
+					BossRushEvent.BossDeathEffects[npcType5] = deathEffect;
 					return null;
 
 				default:

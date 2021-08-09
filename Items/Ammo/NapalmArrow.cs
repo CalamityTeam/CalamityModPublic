@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Ammo
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
             recipe.AddIngredient(ItemID.Torch);
             recipe.AddIngredient(ItemID.WoodenArrow, 250);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();
         }

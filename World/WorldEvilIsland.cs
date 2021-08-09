@@ -1,8 +1,12 @@
+using CalamityMod.DataStructures;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
@@ -18,14 +22,14 @@ namespace CalamityMod.World
             do
             {
                 xIslandGen = WorldGen.crimson ?
-                    WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.15)) :
-                    WorldGen.genRand.Next((int)(x * 0.85), (int)(x * 0.9));
-                yIslandGen = WorldGen.genRand.Next(90, 151);
+                    WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
+                    WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                yIslandGen = WorldGen.genRand.Next(95, 126);
                 yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-                int checkAreaX = 200;
-                int checkAreaY = 200;
-                potentialArea = new Rectangle(xIslandGen + checkAreaX / 2, yIslandGen + checkAreaY / 2, checkAreaX, checkAreaY);
+                int checkAreaX = 180;
+                int checkAreaY = 95;
+                potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
             }
             while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
 
@@ -50,370 +54,184 @@ namespace CalamityMod.World
 
         public static void EvilIsland(int i, int j)
         {
-            double num = (double)WorldGen.genRand.Next(100, 150);
-            float num2 = (float)WorldGen.genRand.Next(20, 30);
-            int num3 = i;
-            int num4 = i;
-            int num5 = i;
-            int num6 = j;
-            Vector2 vector;
-            vector.X = (float)i;
-            vector.Y = (float)j;
-            Vector2 vector2;
-            vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
-            while (vector2.X > -2f && vector2.X < 2f)
+            // Generate puffy clouds along the bottom.
+            int leftOffset = 86;
+            int rightOffset = 86;
+            int maxVerticalOffset = 24;
+            List<Point> cloudPositions = new List<Point>();
+            for (int dx = -leftOffset; dx < rightOffset; dx += WorldGen.genRand.Next(21, 26))
             {
-                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+                float completionRatio = Utils.InverseLerp(-leftOffset - 22f, rightOffset + 22f, dx, true);
+                float completionRatio010 = CalamityUtils.Convert01To010(completionRatio);
+                int verticalOffset = (int)(completionRatio010 * maxVerticalOffset);
+                Point cloudPosition = new Point(i + dx, j + verticalOffset);
+
+                int radius = WorldGen.genRand.Next(22, 26) - (int)((1f - completionRatio010) * 15);
+                WorldUtils.Gen(cloudPosition, new CustomShapes.DistortedCircle(radius, 0.1f), Actions.Chain(
+                    new Actions.SetTile(TileID.Cloud),
+                    new Modifiers.Blotches(4, 1f)));
+
+                cloudPositions.Add(cloudPosition);
             }
-            vector2.Y = (float)WorldGen.genRand.Next(-20, -10) * 0.02f;
-            while (num > 0.0 && num2 > 0f)
+
+            // Clear out a hole.
+            WorldUtils.Gen(new Point(i, j - 4), new Shapes.Circle((leftOffset + rightOffset - 30) / 2, 16), new Actions.ClearTile());
+
+            // Create random smaller clouds with offsets to fill in the cut out area.
+            foreach (Point cloudPosition in cloudPositions)
             {
-                num -= (double)WorldGen.genRand.Next(4);
-                num2 -= 1f;
-                int num7 = (int)((double)vector.X - num * 0.5);
-                int num8 = (int)((double)vector.X + num * 0.5);
-                int num9 = (int)((double)vector.Y - num * 0.5);
-                int num10 = (int)((double)vector.Y + num * 0.5);
-                if (num7 < 0)
+                Vector2 offsetCloudPosition = cloudPosition.ToVector2();
+                while (!CalamityUtils.ParanoidTileRetrieval((int)offsetCloudPosition.X, (int)offsetCloudPosition.Y).active())
+                    offsetCloudPosition.Y++;
+
+                for (int k = 0; k < 3; k++)
                 {
-                    num7 = 0;
-                }
-                if (num8 > Main.maxTilesX)
-                {
-                    num8 = Main.maxTilesX;
-                }
-                if (num9 < 0)
-                {
-                    num9 = 0;
-                }
-                if (num10 > Main.maxTilesY)
-                {
-                    num10 = Main.maxTilesY;
-                }
-                double num11 = num * (double)WorldGen.genRand.Next(80, 120) * 0.01; //80 120
-                float num12 = vector.Y + 1f;
-                for (int k = num7; k < num8; k++)
-                {
-                    if (WorldGen.genRand.Next(2) == 0)
-                    {
-                        num12 += (float)WorldGen.genRand.Next(-1, 2);
-                    }
-                    if (num12 < vector.Y)
-                    {
-                        num12 = vector.Y;
-                    }
-                    if (num12 > vector.Y + 2f)
-                    {
-                        num12 = vector.Y + 2f;
-                    }
-                    for (int l = num9; l < num10; l++)
-                    {
-                        if ((float)l > num12)
-                        {
-                            float arg_218_0 = Math.Abs((float)k - vector.X);
-                            float num13 = Math.Abs((float)l - vector.Y) * 3f;
-                            if (Math.Sqrt((double)(arg_218_0 * arg_218_0 + num13 * num13)) < num11 * 0.4)
-                            {
-                                if (k < num3)
-                                {
-                                    num3 = k;
-                                }
-                                if (k > num4)
-                                {
-                                    num4 = k;
-                                }
-                                if (l < num5)
-                                {
-                                    num5 = l;
-                                }
-                                if (l > num6)
-                                {
-                                    num6 = l;
-                                }
-                                Main.tile[k, l].active(true);
-                                Main.tile[k, l].type = (ushort)(WorldGen.crimson ? 400 : 401); //ebonstone or crimstone
-                                WorldGen.SquareTileFrame(k, l, true);
-                            }
-                        }
-                    }
-                }
-                vector += vector2;
-                vector2.X += (float)WorldGen.genRand.Next(-20, 21) * 0.05f;
-                if (vector2.X > 1f)
-                {
-                    vector2.X = 1f;
-                }
-                if (vector2.X < -1f)
-                {
-                    vector2.X = -1f;
-                }
-                if ((double)vector2.Y > 0.2)
-                {
-                    vector2.Y = -0.2f;
-                }
-                if ((double)vector2.Y < -0.2)
-                {
-                    vector2.Y = -0.2f;
+                    int radius = WorldGen.genRand.Next(6, 9);
+                    Vector2 randomCloudPosition = offsetCloudPosition + WorldGen.genRand.NextVector2Circular(radius, radius) * 0.75f;
+
+                    // Account for centering, somewhat.
+                    randomCloudPosition.Y -= radius * 0.4f;
+                    randomCloudPosition.Y += 5f;
+
+                    WorldUtils.Gen(randomCloudPosition.ToPoint(), new Shapes.Circle(radius / 2), new Actions.SetTile(TileID.Cloud));
                 }
             }
-            int m = num3;
-            int num15;
-            for (m += WorldGen.genRand.Next(5); m < num4; m += WorldGen.genRand.Next(num15, (int)((double)num15 * 1.5)))
+
+            // Fill the not cloud area with evil sandstone.
+            for (int dx = -leftOffset + 10; dx < rightOffset - 10; dx++)
             {
-                int num14 = num6;
-                while (!Main.tile[m, num14].active())
+                float completionRatio = Utils.InverseLerp(-leftOffset - 22f, rightOffset + 22f, dx, true);
+                float completionRatio010 = CalamityUtils.Convert01To010(completionRatio);
+                int verticalOffset = (int)((1f - completionRatio010) * maxVerticalOffset);
+                for (int dy = -5; dy < maxVerticalOffset + 13 - verticalOffset; dy++)
                 {
-                    num14--;
-                }
-                num14 += WorldGen.genRand.Next(-3, 4);
-                num15 = WorldGen.genRand.Next(4, 8);
-                int num16 = WorldGen.crimson ? 400 : 401;
-                if (WorldGen.genRand.Next(4) == 0)
-                {
-                    num16 = WorldGen.crimson ? 398 : 399;
-                }
-                for (int n = m - num15; n <= m + num15; n++)
-                {
-                    for (int num17 = num14 - num15; num17 <= num14 + num15; num17++)
+                    if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).active())
                     {
-                        if (num17 > num5)
-                        {
-                            float arg_409_0 = (float)Math.Abs(n - m);
-                            float num18 = (float)(Math.Abs(num17 - num14) * 2);
-                            if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num15 + WorldGen.genRand.Next(2)))
-                            {
-                                Main.tile[n, num17].active(true);
-                                Main.tile[n, num17].type = (ushort)num16;
-                                WorldGen.SquareTileFrame(n, num17, true);
-                            }
-                        }
+                        Main.tile[i + dx, j + dy].type = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
+                        Main.tile[i + dx, j + dy].active(true);
                     }
                 }
             }
-            num = (double)WorldGen.genRand.Next(80, 95);
-            num2 = (float)WorldGen.genRand.Next(10, 15);
-            vector.X = (float)i;
-            vector.Y = (float)num5;
-            vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
-            while (vector2.X > -2f && vector2.X < 2f)
+
+            // Determine the lines at which clouds begin to form.
+            List<Point> borderPoints = new List<Point>();
+            for (int dx = -leftOffset + 14; dx < rightOffset - 14; dx++)
             {
-                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+                int verticalBorder = j - 10;
+                while (CalamityUtils.ParanoidTileRetrieval(i + dx, verticalBorder).type != TileID.Cloud)
+                {
+                    verticalBorder++;
+                    if (verticalBorder > j + 35)
+                        break;
+                }
+
+                if (verticalBorder >= j + 35)
+                    continue;
+
+                borderPoints.Add(new Point(i + dx, verticalBorder));
             }
-            vector2.Y = (float)WorldGen.genRand.Next(-20, -10) * 0.02f;
-            while (num > 0.0 && num2 > 0f)
+
+            // And generate blotches at those borders.
+            for (int k = 0; k < 10; k++)
             {
-                num -= (double)WorldGen.genRand.Next(4);
-                num2 -= 1f;
-                int num7 = (int)((double)vector.X - num * 0.5);
-                int num8 = (int)((double)vector.X + num * 0.5);
-                int num9 = num5 - 1;
-                int num10 = (int)((double)vector.Y + num * 0.5);
-                if (num7 < 0)
+                Point borderToGenerateAt = borderPoints[WorldGen.genRand.Next(borderPoints.Count)];
+                Vector2 moveDirection = Vector2.UnitY.RotatedBy(WorldGen.genRand.NextFloat(-0.4f, 0.4f));
+                for (int l = 0; l < 4; l++)
                 {
-                    num7 = 0;
-                }
-                if (num8 > Main.maxTilesX)
-                {
-                    num8 = Main.maxTilesX;
-                }
-                if (num9 < 0)
-                {
-                    num9 = 0;
-                }
-                if (num10 > Main.maxTilesY)
-                {
-                    num10 = Main.maxTilesY;
-                }
-                double num11 = num * (double)WorldGen.genRand.Next(80, 120) * 0.01;
-                float num19 = vector.Y + 1f;
-                for (int num20 = num7; num20 < num8; num20++)
-                {
-                    if (WorldGen.genRand.Next(2) == 0)
-                    {
-                        num19 += (float)WorldGen.genRand.Next(-1, 2);
-                    }
-                    if (num19 < vector.Y)
-                    {
-                        num19 = vector.Y;
-                    }
-                    if (num19 > vector.Y + 2f)
-                    {
-                        num19 = vector.Y + 2f;
-                    }
-                    for (int num21 = num9; num21 < num10; num21++)
-                    {
-                        if ((float)num21 > num19)
-                        {
-                            float arg_69E_0 = Math.Abs((float)num20 - vector.X);
-                            float num22 = Math.Abs((float)num21 - vector.Y) * 3f;
-                            if (Math.Sqrt((double)(arg_69E_0 * arg_69E_0 + num22 * num22)) < num11 * 0.4 &&
-                                Main.tile[num20, num21].type == (WorldGen.crimson ? 400 : 401))
-                            {
-                                Main.tile[num20, num21].type = (ushort)(WorldGen.crimson ? 22 : 204); //ore
-                                WorldGen.SquareTileFrame(num20, num21, true);
-                            }
-                        }
-                    }
-                }
-                vector += vector2;
-                vector2.X += (float)WorldGen.genRand.Next(-20, 21) * 0.05f;
-                if (vector2.X > 1f)
-                {
-                    vector2.X = 1f;
-                }
-                if (vector2.X < -1f)
-                {
-                    vector2.X = -1f;
-                }
-                if ((double)vector2.Y > 0.2)
-                {
-                    vector2.Y = -0.2f;
-                }
-                if ((double)vector2.Y < -0.2)
-                {
-                    vector2.Y = -0.2f;
+                    Point blotchPosition = (borderToGenerateAt.ToVector2() + Main.rand.NextVector2Circular(5f, 5f) + moveDirection * l * 3f).ToPoint();
+                    WorldUtils.Gen(blotchPosition, new CustomShapes.DistortedCircle(WorldGen.genRand.Next(8, 10) - l, 0.4f), Actions.Chain(
+                        new Actions.SetTile(WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone),
+                        new Modifiers.IsSolid(),
+                        new Modifiers.Blotches(5, 1f),
+                        new Modifiers.OnlyTiles(TileID.CorruptSandstone, TileID.CrimsonSandstone)));
                 }
             }
-            int num23 = num3;
-            num23 += WorldGen.genRand.Next(5);
-            while (num23 < num4)
+
+            // Create some blotches of hardened evil sand and evil ore.
+            for (int k = 0; k < 12; k++)
             {
-                int num24 = num6;
-                while ((!Main.tile[num23, num24].active() || Main.tile[num23, num24].type != 0) && num23 < num4)
+                int radius = WorldGen.genRand.Next(6, 8);
+                ushort tileType = WorldGen.crimson ? TileID.CorruptHardenedSand : TileID.CrimsonHardenedSand;
+
+                Point blotchPosition = new Point(i + WorldGen.genRand.Next(-leftOffset + 20, rightOffset - 20), j + WorldGen.genRand.Next(-3, 12));
+                if (k > 4)
                 {
-                    num24--;
-                    if (num24 < num5)
+                    if (blotchPosition.Y > j + 3)
                     {
-                        num24 = num6;
-                        num23 += WorldGen.genRand.Next(1, 4);
+                        radius -= WorldGen.genRand.Next(3);
+                        tileType = WorldGen.crimson ? TileID.Demonite : TileID.Crimtane;
                     }
+                    else
+                        continue;
                 }
-                if (num23 < num4)
-                {
-                    num24 += WorldGen.genRand.Next(0, 4);
-                    int num25 = WorldGen.genRand.Next(2, 5);
-                    int num26 = WorldGen.crimson ? 400 : 401;
-                    for (int num27 = num23 - num25; num27 <= num23 + num25; num27++)
-                    {
-                        for (int num28 = num24 - num25; num28 <= num24 + num25; num28++)
-                        {
-                            if (num28 > num5)
-                            {
-                                float arg_890_0 = (float)Math.Abs(num27 - num23);
-                                float num29 = (float)(Math.Abs(num28 - num24) * 2);
-                                if (Math.Sqrt((double)(arg_890_0 * arg_890_0 + num29 * num29)) < (double)num25)
-                                {
-                                    Main.tile[num27, num28].type = (ushort)num26;
-                                    WorldGen.SquareTileFrame(num27, num28, true);
-                                }
-                            }
-                        }
-                    }
-                    num23 += WorldGen.genRand.Next(num25, (int)((double)num25 * 1.5));
-                }
+
+                WorldUtils.Gen(blotchPosition, new CustomShapes.DistortedCircle(radius, 0.35f), Actions.Chain(
+                    new Actions.SetTile(tileType),
+                    new Modifiers.IsSolid(),
+                    new Modifiers.Blotches(5, 1f),
+                    new Modifiers.OnlyTiles(TileID.CorruptSandstone, TileID.CrimsonSandstone)));
             }
-            for (int num30 = num3 - 20; num30 <= num4 + 20; num30++)
+
+            // Determine the lines at which ground begins to appear. This only applies if the ground is an evil tile.
+            List<Point> surfacePoints = new List<Point>();
+            for (int dx = -leftOffset + 24; dx < rightOffset - 24; dx++)
             {
-                for (int num31 = num5 - 20; num31 <= num6 + 20; num31++)
+                // Ignore points near the center because bumps there could cause the house to offset in weird ways.
+                if (Math.Abs(dx) < 15)
+                    continue;
+
+                int surface = j - 15;
+                bool hitCloud = false;
+                while (!CalamityUtils.ParanoidTileRetrieval(i + dx, surface).active())
                 {
-                    bool flag = true;
-                    for (int num32 = num30 - 1; num32 <= num30 + 1; num32++)
+                    surface++;
+                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, surface).type == TileID.Cloud)
                     {
-                        for (int num33 = num31 - 1; num33 <= num31 + 1; num33++)
-                        {
-                            if (!Main.tile[num32, num33].active())
-                            {
-                                flag = false;
-                            }
-                        }
+                        hitCloud = true;
+                        break;
                     }
-                    if (flag)
-                    {
-                        Main.tile[num30, num31].wall = (ushort)(WorldGen.crimson ? 220 : 221);
-                        WorldGen.SquareWallFrame(num30, num31, true);
-                    }
+                    if (surface > j + 35)
+                        break;
                 }
+
+                if (hitCloud || surface >= j + 35)
+                    continue;
+
+                surfacePoints.Add(new Point(i + dx, surface));
             }
-            for (int num34 = num3; num34 <= num4; num34++)
+
+            // Create "bumps" on the top by creating blotches just a bit below the surface.
+            for (int k = 0; k < 4; k++)
             {
-                int num35 = num5 - 10;
-                while (!Main.tile[num34, num35 + 1].active())
-                {
-                    num35++;
-                }
-                if (num35 < num6 && Main.tile[num34, num35 + 1].type == (WorldGen.crimson ? 400 : 401))
-                {
-                    if (WorldGen.genRand.Next(10) == 0)
-                    {
-                        int num36 = WorldGen.genRand.Next(1, 3);
-                        for (int num37 = num34 - num36; num37 <= num34 + num36; num37++)
-                        {
-                            if (Main.tile[num37, num35].type == (WorldGen.crimson ? 400 : 401))
-                            {
-                                Main.tile[num37, num35].active(false);
-                                Main.tile[num37, num35].liquid = 255;
-                                Main.tile[num37, num35].lava(false);
-                                WorldGen.SquareTileFrame(num34, num35, true);
-                            }
-                            if (Main.tile[num37, num35 + 1].type == (WorldGen.crimson ? 400 : 401))
-                            {
-                                Main.tile[num37, num35 + 1].active(false);
-                                Main.tile[num37, num35 + 1].liquid = 255;
-                                Main.tile[num37, num35 + 1].lava(false);
-                                WorldGen.SquareTileFrame(num34, num35 + 1, true);
-                            }
-                            if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].type == (WorldGen.crimson ? 400 : 401))
-                            {
-                                Main.tile[num37, num35 + 2].active(false);
-                                Main.tile[num37, num35 + 2].liquid = 255;
-                                Main.tile[num37, num35 + 2].lava(false);
-                                WorldGen.SquareTileFrame(num34, num35 + 2, true);
-                            }
-                        }
-                    }
-                    if (WorldGen.genRand.Next(5) == 0)
-                    {
-                        Main.tile[num34, num35].liquid = 255;
-                    }
-                    Main.tile[num34, num35].lava(false);
-                    WorldGen.SquareTileFrame(num34, num35, true);
-                }
+                Point surfaceToGenerateAt = surfacePoints[WorldGen.genRand.Next(surfacePoints.Count)];
+                Point blotchPosition = (surfaceToGenerateAt.ToVector2() + Vector2.UnitY * 5f).ToPoint();
+                WorldUtils.Gen(blotchPosition, new Shapes.Circle(WorldGen.genRand.Next(8, 10)), Actions.Chain(
+                    new Actions.SetTile(CalamityUtils.ParanoidTileRetrieval(surfaceToGenerateAt.X, surfaceToGenerateAt.Y).type),
+                    new Modifiers.SkipTiles(TileID.Demonite, TileID.Crimtane),
+                    new Modifiers.Blotches(5, 1f)));
             }
-            int num38 = WorldGen.genRand.Next(4);
-            for (int num39 = 0; num39 <= num38; num39++)
+
+            // Generate one large chunk of ore somewhere, just in case there isn't much otherwise.
+            Vector2 oreStartPosition = new Vector2(i + WorldGen.genRand.Next(-leftOffset + 28, rightOffset - 28), j + WorldGen.genRand.Next(8, 14));
+            Vector2 oreEndPosition = oreStartPosition + Vector2.UnitX.RotatedBy(WorldGen.genRand.NextFloat(-0.36f, -0.14f)) * WorldGen.genRand.NextBool(2).ToDirectionInt() * WorldGen.genRand.NextFloat(18f, 25f);
+            Vector2 oreMiddlePosition = (oreStartPosition + oreEndPosition) * 0.5f + WorldGen.genRand.NextVector2Circular(6f, 6f);
+            List<Vector2> smoothOrePositions = new BezierCurve(oreStartPosition, oreMiddlePosition, oreStartPosition).GetPoints(25);
+            for (int k = 0; k < smoothOrePositions.Count; k++)
             {
-                int num40 = WorldGen.genRand.Next(num3 - 5, num4 + 5);
-                int num41 = num5 - WorldGen.genRand.Next(20, 40);
-                int num42 = WorldGen.genRand.Next(4, 8);
-                int num43 = WorldGen.crimson ? 400 : 401;
-                if (WorldGen.genRand.Next(2) == 0)
+                float strength = MathHelper.Lerp(1f, 4f, CalamityUtils.Convert01To010(k / (float)smoothOrePositions.Count));
+                Point orePosition = smoothOrePositions[k].ToPoint();
+
+                WorldUtils.Gen(orePosition, new Shapes.Circle((int)strength), Actions.Chain(
+                    new Actions.SetTile(WorldGen.crimson ? TileID.Demonite : TileID.Crimtane)));
+            }
+
+            // Paint all clouds.
+            for (int dx = -leftOffset - 30; dx < rightOffset + 30; dx++)
+            {
+                for (int dy = -8; dy < 55; dy++)
                 {
-                    num43 = WorldGen.crimson ? 398 : 399;
-                }
-                for (int num44 = num40 - num42; num44 <= num40 + num42; num44++)
-                {
-                    for (int num45 = num41 - num42; num45 <= num41 + num42; num45++)
-                    {
-                        float arg_C74_0 = (float)Math.Abs(num44 - num40);
-                        float num46 = (float)(Math.Abs(num45 - num41) * 2);
-                        if (Math.Sqrt((double)(arg_C74_0 * arg_C74_0 + num46 * num46)) < (double)(num42 + WorldGen.genRand.Next(-1, 2)))
-                        {
-                            Main.tile[num44, num45].active(true);
-                            Main.tile[num44, num45].type = (ushort)num43;
-                            WorldGen.SquareTileFrame(num44, num45, true);
-                        }
-                    }
-                }
-                for (int num47 = num40 - num42 + 2; num47 <= num40 + num42 - 2; num47++)
-                {
-                    int num48 = num41 - num42;
-                    while (!Main.tile[num47, num48].active())
-                    {
-                        num48++;
-                    }
-                    Main.tile[num47, num48].active(false);
-                    Main.tile[num47, num48].liquid = 255;
-                    WorldGen.SquareTileFrame(num47, num48, true);
+                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).type == TileID.Cloud)
+                        WorldGen.paintTile(i + dx, j + dy, WorldGen.crimson ? PaintID.Purple : PaintID.Red);
                 }
             }
         }

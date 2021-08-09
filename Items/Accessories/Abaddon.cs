@@ -1,7 +1,7 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Face)]
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abaddon");
-            Tooltip.SetDefault("Reduces the damage caused by the Brimstone Flames debuff");
+            Tooltip.SetDefault("Reduces the damage caused by the Brimstone Flames debuff and provides immunity to Searing Lava");
         }
 
         public override void SetDefaults()
@@ -22,9 +22,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-			player.Calamity().abaddon = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().abaddon = true;
     }
 }

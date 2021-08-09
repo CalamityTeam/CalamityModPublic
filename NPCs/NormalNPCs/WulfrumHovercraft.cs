@@ -100,14 +100,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[npc.target];
 
-            bool farFromPlayer = npc.Distance(player.Center) > 640f;
+            bool farFromPlayer = npc.Distance(player.Center) > 920f;
             bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
 
             if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                farFromPlayer = npc.Distance(player.Center) > 640f;
+                farFromPlayer = npc.Distance(player.Center) > 920f;
                 obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 3f : 1f;
+			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.025f : 0.1f) * pylonMult;

@@ -276,14 +276,14 @@ namespace CalamityMod.NPCs.Abyss
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float chargePhaseGateValue = 300f;
-			float lightningRainDuration = 180f;
-			float eidolonWyrmPhaseDuration = 180f;
-			float iceMistDuration = 180f;
-			float spinPhaseDuration = 300f;
+			float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+			float lightningRainDuration = malice ? 150f : 180f;
+			float eidolonWyrmPhaseDuration = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+			float iceMistDuration = malice ? 150f : 180f;
+			float spinPhaseDuration = malice ? 210f : death ? 240f : revenge ? 255f : expertMode ? 270f : 300f;
 			float ancientDoomPhaseGateValue = 30f;
-			float ancientDoomGateValue = 120f;
-			float lightningChargePhaseGateValue = 180f;
+			float ancientDoomGateValue = malice ? 80f : death ? 95f : revenge ? 100f : expertMode ? 105f : 120f;
+			float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
 			// Adjust slowing debuff immunity
 			bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.Abyss
 			}
 			Vector2 chargeLocation = destination + chargeVector;
 			Vector2 chargeVectorFlipped = chargeVector * -1f;
-			float chargePredictionAmt = 60f;
+			float chargePredictionAmt = malice ? 60f : death ? 50f : revenge ? 40f : expertMode ? 30f : 20f;
 
 			// Lightning Rain variables
 			Vector2 lightningRainLocation = new Vector2(0f, -baseDistance);
@@ -374,7 +374,8 @@ namespace CalamityMod.NPCs.Abyss
 			// Wyrm and Eidolist variables
 			Vector2 eidolonWyrmPhaseLocation = new Vector2(0f, baseDistance);
 			float eidolonWyrmPhaseLocationDistance = turnDistance * 0.5f;
-			int maxEidolists = targetDownDeep ? 3 : 5;
+			int eidolistScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
+			int maxEidolists = (targetDownDeep ? 3 : 5) + eidolistScale;
 
 			// Ice Mist variables
 			Vector2 iceMistLocation = new Vector2(0f, baseDistance);
@@ -388,8 +389,9 @@ namespace CalamityMod.NPCs.Abyss
 			// Ancient Doom variables
 			Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
 			float ancientDoomLocationDistance = turnDistance * 0.2f;
-			int ancientDoomLimit = targetDownDeep ? 3 : 5;
-			int ancientDoomDistance = 550;
+			int ancientDoomScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
+			int ancientDoomLimit = (targetDownDeep ? 4 : 6) + ancientDoomScale;
+			int ancientDoomDistance = malice ? 480 : death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
 			float maxAncientDoomRings = 3f;
 
 			// Lightning charge variables
@@ -398,13 +400,14 @@ namespace CalamityMod.NPCs.Abyss
 			Vector2 lightningChargeLocation = destination + lightningChargeVector;
 			Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
 			float lightningSpawnY = 540f;
-			Vector2 lightningSpawnLocation = new Vector2(lightningChargeVector.X, -lightningSpawnY);
-			int numLightningBolts = 8;
+			Vector2 lightningSpawnLocation = new Vector2(npc.Center.X, npc.Center.Y - lightningSpawnY);
+			int numLightningBolts = malice ? 12 : death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
 			float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
 			// Velocity and turn speed values
+			float velocityScale = malice ? 4f : death ? 2.5f : revenge ? 2f : expertMode ? 1.5f : 0f;
 			float baseVelocity = targetDownDeep ? 12f : 18f;
-			float turnSpeed = targetDownDeep ? MathHelper.ToRadians(1.5f) : MathHelper.ToRadians(2.25f);
+			float turnSpeed = baseVelocity * 0.125f;
 			float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
 			float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
 			float invisiblePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -548,7 +551,8 @@ namespace CalamityMod.NPCs.Abyss
 								}
 
 								float predictionAmt = targetDownDeep ? 45f : 60f;
-								float lightningVelocity = (targetDownDeep && !targetOnMount) ? 6f : 8f;
+								float lightningVelocityScale = malice ? 3f : death ? 2f : revenge ? 1.5f : expertMode ? 1f : 0f;
+								float lightningVelocity = ((targetDownDeep && !targetOnMount) ? 6f : 8f) + lightningVelocityScale;
 								for (int i = 0; i < numProjectiles; i++)
 								{
 									// Predictive bolt
@@ -864,7 +868,8 @@ namespace CalamityMod.NPCs.Abyss
 							}
 
 							float predictionAmt = targetDownDeep ? 90f : 120f;
-							float iceMistVelocity = targetDownDeep ? 12f : 16f;
+							float iceMistVelocityScale = malice ? 3f : death ? 2f : revenge ? 1.5f : expertMode ? 1f : 0f;
+							float iceMistVelocity = (targetDownDeep ? 12f : 16f) + iceMistVelocityScale;
 							for (int i = 0; i < numProjectiles; i++)
 							{
 								// Predictive mist
@@ -1015,9 +1020,9 @@ namespace CalamityMod.NPCs.Abyss
 								if (aiGateValue % ancientDoomGateValue == 0f)
 								{
 									// Spawn 3 (or more) circles of Ancient Dooms around the target
-									int ancientDoomScale = (int)(aiGateValue / ancientDoomGateValue);
-									ancientDoomLimit += ancientDoomScale;
-									ancientDoomDistance += ancientDoomScale * 45;
+									int ancientDoomScale2 = (int)(aiGateValue / ancientDoomGateValue);
+									ancientDoomLimit += ancientDoomScale2;
+									ancientDoomDistance += ancientDoomScale2 * 45;
 									int ancientDoomDegrees = 360 / ancientDoomLimit;
 									for (int i = 0; i < ancientDoomLimit; i++)
 									{
@@ -1099,7 +1104,7 @@ namespace CalamityMod.NPCs.Abyss
 									{
 										Vector2 projectileDestination = player.Center - lightningSpawnLocation;
 										float ai = Main.rand.Next(100);
-										int proj = Projectile.NewProjectile(lightningSpawnLocation, npc.velocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+										int proj = Projectile.NewProjectile(lightningSpawnLocation, npc.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
 										Main.projectile[proj].tileCollide = false;
 										lightningSpawnLocation.Y += distanceBetweenBolts;
 										if (i == numLightningBolts / 2)
@@ -1213,9 +1218,9 @@ namespace CalamityMod.NPCs.Abyss
 							if (aiGateValue % ancientDoomGateValue == 0f)
 							{
 								// Spawn 3 (or more) circles of Ancient Dooms around the target
-								int ancientDoomScale = (int)(aiGateValue / ancientDoomGateValue);
-								ancientDoomLimit += ancientDoomScale;
-								ancientDoomDistance += ancientDoomScale * 45;
+								int ancientDoomScale2 = (int)(aiGateValue / ancientDoomGateValue);
+								ancientDoomLimit += ancientDoomScale2;
+								ancientDoomDistance += ancientDoomScale2 * 45;
 								int ancientDoomDegrees = 360 / ancientDoomLimit;
 								for (int i = 0; i < ancientDoomLimit; i++)
 								{
