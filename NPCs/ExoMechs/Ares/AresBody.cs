@@ -323,7 +323,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Light
-			Lighting.AddLight(npc.Center, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
+			float lightScale = 765f;
+			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale, Main.DiscoG / lightScale, Main.DiscoB / lightScale);
 
 			// Default vector to fly to
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
@@ -341,6 +342,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Distance from target
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+
+			// Whether Ares should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			float deathrayPhaseGateValue = 900f;
@@ -447,7 +452,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above the target
 				case (int)Phase.Normal:
 
-					if (!targetDead)
+					if (!targetDead && moveToLocation)
 						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
 					if (berserk)

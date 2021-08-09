@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(projectile.Center, velocity2 + Vector2.Normalize(projectile.velocity) * -0.5f, type, (int)(projectile.damage * 0.6), 0f, Main.myPlayer);
+						Projectile.NewProjectile(projectile.Center, velocity2 + Vector2.Normalize(projectile.velocity) * -6f, type, (int)(projectile.damage * 0.6), 0f, Main.myPlayer);
 					}
 				}
 			}
@@ -136,9 +136,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			Rectangle frame = new Rectangle(0, projectile.frame * Main.projectileTexture[projectile.type].Height, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]);
 
-			Color color = Color.Lerp(Color.White, Color.GreenYellow, 0.5f);
-
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
 
 			return false;
         }

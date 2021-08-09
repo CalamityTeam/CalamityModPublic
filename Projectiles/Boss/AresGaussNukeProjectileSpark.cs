@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity, projectile.alpha);
+            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -226,7 +226,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float rateOfRotation = AIState == (int)Phase.PlasmaBolts ? 0.08f : 0.04f;
 			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
-			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
+			float rotation = (float)Math.Atan2(lookAt.Y, lookAt.X);
 			if (npc.spriteDirection == 1)
 				rotation += MathHelper.Pi;
 			if (rotation < 0f)
@@ -268,8 +268,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+			// Whether Ares Plasma Arm should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			bool fireMoreBolts = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
@@ -352,7 +353,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Movement
-			if (!targetDead)
+			if (!targetDead && moveToLocation)
 				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 		}
 
