@@ -406,8 +406,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             hitboxSize = Vector2.Max(hitboxSize, new Vector2(42, 44));
             if (npc.Size != hitboxSize)
                 npc.Size = hitboxSize;
+            bool shouldNotUseShield = bulletHellCounter2 % 900 != 0 || attackCastDelay > 0 ||
+                NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) ||
+                npc.ai[0] == 1f || npc.ai[0] == 2f;
 
-            // Make the shield and forcefield fade away in her acceptance phase.
+            // Make the shield and forcefield fade away in SCal's acceptance phase.
             if (npc.life <= npc.lifeMax * 0.01)
             {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
@@ -415,7 +418,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && bulletHellCounter2 % 900 == 0)
+            // Make it go away if certain triggers happen during this, such as a bullet hell starting, however.
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && !shouldNotUseShield)
             {
                 if (npc.ai[1] != 2f)
                 {
@@ -1189,7 +1193,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
-            // TODO: Resprite the seekers to be something other than eyeballs.
             if (npc.life <= npc.lifeMax * 0.2)
             {
                 if (!secondStage)
@@ -1838,7 +1841,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #endregion
             #region Transition
 
-            // TODO: Add a special flame that encases SCal during the transition phase instead of just dust.
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
                 npc.dontTakeDamage = true;
