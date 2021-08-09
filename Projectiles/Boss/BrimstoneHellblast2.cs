@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.ai[0] == 2f && Main.expertMode && projectile.timeLeft < 1260)
 			{
 				if (projectile.velocity.Length() < (CalamityWorld.malice ? 10f : 8f))
-					projectile.velocity *= 1.02f;
+					projectile.velocity *= 1.01f;
 			}
 
             projectile.frameCounter++;

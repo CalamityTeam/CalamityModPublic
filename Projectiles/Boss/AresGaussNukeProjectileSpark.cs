@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,12 +32,32 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] >= 15f)
+			{
+				projectile.localAI[0] = 15f;
+				projectile.velocity.Y += 0.1f;
+			}
+
+			if (projectile.velocity.Y > 16f)
+				projectile.velocity.Y = 16f;
+
 			if (projectile.timeLeft < 15)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 15f, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 595) / 5f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 597) / 3f), 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0.1f * projectile.Opacity, 0.125f * projectile.Opacity, 0.025f * projectile.Opacity);
 
@@ -64,7 +85,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity, projectile.alpha);
+            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

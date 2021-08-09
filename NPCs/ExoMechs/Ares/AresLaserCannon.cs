@@ -1,9 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -38,9 +33,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -228,8 +220,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Rotate the cannon to look at the target while not firing the beam
 			// Rotate the cannon to look in the direction it will fire only while it's charging or while it's firing
 			// Rotation
+			bool horizontalLaserSweep = calamityGlobalNPC.newAI[3] == 0f;
 			float rateOfRotation = AIState == (int)Phase.Deathray ? 0.08f : 0.04f;
-			Vector2 lookAt = AIState == (int)Phase.Deathray ? (calamityGlobalNPC.newAI[3] == 0f ? new Vector2(0f, npc.Center.Y + 1000f) : new Vector2(npc.Center.X + 1000f, 0f)) : player.Center;
+			Vector2 lookAt = AIState == (int)Phase.Deathray ? (horizontalLaserSweep ? new Vector2(npc.Center.X, npc.Center.Y + 1000f) : new Vector2(npc.Center.X + 1000f, npc.Center.Y)) : player.Center;
 
 			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
 			if (npc.spriteDirection == 1)
@@ -239,29 +232,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (rotation > MathHelper.TwoPi)
 				rotation -= MathHelper.TwoPi;
 
-			if (npc.rotation < rotation)
-			{
-				if (rotation - npc.rotation > MathHelper.Pi)
-					npc.rotation -= rateOfRotation;
-				else
-					npc.rotation += rateOfRotation;
-			}
-			if (npc.rotation > rotation)
-			{
-				if (npc.rotation - rotation > MathHelper.Pi)
-					npc.rotation += rateOfRotation;
-				else
-					npc.rotation -= rateOfRotation;
-			}
+			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
-			if (npc.rotation < 0f)
-				npc.rotation += MathHelper.TwoPi;
-			if (npc.rotation > MathHelper.TwoPi)
-				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
+			// Direction
+			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (direction != 0)
+			{
+				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.direction = direction;
+
+				if (npc.spriteDirection != -npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.spriteDirection = -npc.direction;
+			}
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.25f, 0.1f, 0.1f);
@@ -280,13 +266,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+			// Whether Ares Laser Arm should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			float deathrayPhaseGateValue = 420f;
-			float deathrayPhaseVelocityMult = 0.95f;
-			float deathrayDecelerationTime = 15f;
 			float deathrayPhaseVelocity = 15f;
 
 			// Variable to disable deathray firing
@@ -304,7 +289,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Do nothing, rotate to aim at the target and fly in place
 				case (int)Phase.Nothing:
 
-					if (!targetDead)
+					if (!targetDead && moveToLocation)
 						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
 					calamityGlobalNPC.newAI[1] += 1f;
@@ -324,31 +309,39 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
-							// Reduce velocity for 15 frames once charging is nearly complete
-							if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration - deathrayDecelerationTime)
-								npc.velocity *= deathrayPhaseVelocityMult;
+							// Fly in place
+							if (moveToLocation)
+								npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
+							// Set frames to deathray charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to deathray charge up frames
+								// Reset the frame counter
 								npc.frameCounter = 0D;
+
+								// X = 1 sets to frame 8
 								frameX = 1;
-								frameY = 5;
-								exactFrame = 12;
+
+								// Y = 4 sets to frame 12
+								frameY = 4;
 							}
 						}
 						else
 						{
+							// Two possible variants: 1 - Horizontal, 2 - Vertical
+
+							// Movement while firing deathray
+							if (horizontalLaserSweep)
+								desiredVelocity.X = 0f;
+							else
+								desiredVelocity.Y = 0f;
+
+							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+							npc.velocity = horizontalLaserSweep ? new Vector2(deathrayPhaseVelocity, npc.velocity.Y) : new Vector2(npc.velocity.X, deathrayPhaseVelocity);
+
 							// Fire deathray
 							if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
 							{
-								// Two possible variants: 1 - Left to right, 2 - Top to bottom
-								npc.velocity = calamityGlobalNPC.newAI[3] == 0f ? new Vector2(deathrayPhaseVelocity, 0f) : new Vector2(0f, deathrayPhaseVelocity);
-
-								calamityGlobalNPC.newAI[3] += 1f;
-								if (calamityGlobalNPC.newAI[3] > 1f)
-									calamityGlobalNPC.newAI[3] = 0f;
-
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int type = ModContent.ProjectileType<AresLaserBeamStart>();
@@ -367,8 +360,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 						if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
 						{
+							// Reset
 							AIState = (float)Phase.Nothing;
 							calamityGlobalNPC.newAI[2] = 0f;
+
+							// Change deathray sweep type for next deathray phase
+							calamityGlobalNPC.newAI[3] += 1f;
+							if (calamityGlobalNPC.newAI[3] > 1f)
+								calamityGlobalNPC.newAI[3] = 0f;
+
 							npc.TargetClosest();
 						}
 					}
@@ -389,36 +389,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageDeathrayChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageDeathrayChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the deathray firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageDeathrayChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}

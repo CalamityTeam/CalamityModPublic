@@ -1,14 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -51,9 +47,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -330,7 +323,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Light
-			Lighting.AddLight(npc.Center, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
+			float lightScale = 765f;
+			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale, Main.DiscoG / lightScale, Main.DiscoB / lightScale);
 
 			// Default vector to fly to
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
@@ -348,6 +342,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Distance from target
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+
+			// Whether Ares should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			float deathrayPhaseGateValue = 900f;
@@ -454,7 +452,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above the target
 				case (int)Phase.Normal:
 
-					if (!targetDead)
+					if (!targetDead && moveToLocation)
 						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 
 					if (berserk)
@@ -495,11 +493,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								// Fire deathray telegraph beams
 								if (calamityGlobalNPC.newAI[2] == 1f)
 								{
-									// Set frames to deathray charge up frames
+									// Set frames to deathray charge up frames, which begin on frame 12
+									// Reset the frame counter
 									npc.frameCounter = 0D;
+
+									// X = 1 sets to frame 8
 									frameX = 1;
-									frameY = 5;
-									exactFrame = 12;
+
+									// Y = 4 sets to frame 12
+									frameY = 4;
 
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
@@ -562,36 +564,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames to frame 0
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageDeathrayChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageDeathrayChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the deathray firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageDeathrayChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}

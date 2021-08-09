@@ -1,9 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -39,9 +34,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -232,10 +224,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
+			float projectileVelocity = 12f;
 			float rateOfRotation = AIState == (int)Phase.GaussNuke ? 0.08f : 0.04f;
-			Vector2 lookAt = player.Center + Vector2.Normalize(rotationVector);
+			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
-			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
+			float rotation = (float)Math.Atan2(lookAt.Y, lookAt.X);
 			if (npc.spriteDirection == 1)
 				rotation += MathHelper.Pi;
 			if (rotation < 0f)
@@ -243,29 +236,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (rotation > MathHelper.TwoPi)
 				rotation -= MathHelper.TwoPi;
 
-			if (npc.rotation < rotation)
-			{
-				if (rotation - npc.rotation > MathHelper.Pi)
-					npc.rotation -= rateOfRotation;
-				else
-					npc.rotation += rateOfRotation;
-			}
-			if (npc.rotation > rotation)
-			{
-				if (npc.rotation - rotation > MathHelper.Pi)
-					npc.rotation += rateOfRotation;
-				else
-					npc.rotation -= rateOfRotation;
-			}
+			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
-			if (npc.rotation < 0f)
-				npc.rotation += MathHelper.TwoPi;
-			if (npc.rotation > MathHelper.TwoPi)
-				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
+			// Direction
+			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (direction != 0)
+			{
+				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.direction = direction;
+
+				if (npc.spriteDirection != -npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.spriteDirection = -npc.direction;
+			}
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.2f, 0.25f, 0.05f);
@@ -284,8 +270,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+			// Whether Ares Nuke Arm should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			float gaussNukePhaseGateValue = 600f;
@@ -322,29 +309,32 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < gaussNukeTelegraphDuration)
 						{
+							// Set frames to gauss nuke charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to gauss nuke charge up frames
+								// Reset the frame counter
 								npc.frameCounter = 0D;
+
+								// X = 1 sets to frame 12
 								frameX = 1;
+
+								// Y = 0 sets to frame 12
 								frameY = 0;
-								exactFrame = 12;
 							}
 
 							// Fire gauss nuke on frame 41
-							if (exactFrame == 41 && calamityGlobalNPC.newAI[1] == 0f)
+							if ((frameX * maxFramesY) + frameY == 41 && calamityGlobalNPC.newAI[1] == 0f)
 							{
 								calamityGlobalNPC.newAI[1] = 1f;
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
-									float projectileVelocity = 12f;
 									Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
 									int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
 									int damage = npc.GetProjectileDamage(type);
 									float offset = 40f;
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 
 									// Recoil
 									npc.velocity -= gaussNukeVelocity;
@@ -353,15 +343,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						}
 						else
 						{
+							// Set frames to gauss nuke reload frames, which begin on frame 48
 							AIState = (float)Phase.Reload;
 							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 
-							// Set frames to gauss nuke reload frames
+							// Reset the frame counter
 							npc.frameCounter = 0D;
+
+							// X = 1 sets to frame 48
 							frameX = 4;
+
+							// Y = 0 sets to frame 48
 							frameY = 0;
-							exactFrame = 48;
 						}
 					}
 
@@ -381,7 +375,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Movement
-			if (!targetDead)
+			if (!targetDead && moveToLocation)
 				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
 		}
 
@@ -397,32 +391,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 12
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 12
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > reloadFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames to frame 0
+					if ((frameX * maxFramesY) + frameY > reloadFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 		}
