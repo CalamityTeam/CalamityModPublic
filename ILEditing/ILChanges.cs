@@ -91,10 +91,11 @@ namespace CalamityMod.ILEditing
         private static int aLabDoorOpen = -1;
         private static int aLabDoorClosed = -1;
 
-		/// <summary>
-		/// Loads all IL Editing changes in the mod.
-		/// </summary>
-		internal static void Load()
+        #region Load / Unload
+        /// <summary>
+        /// Loads all IL Editing changes in the mod.
+        /// </summary>
+        internal static void Load()
         {
             // Wrap the vanilla town NPC spawning function in a delegate so that it can be tossed around and called at will.
             var updateTime = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
@@ -106,31 +107,43 @@ namespace CalamityMod.ILEditing
             aLabDoorOpen = ModContent.TileType<AgedLaboratoryDoorOpen>();
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
-            On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
-            IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
-            IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
+            // Mechanics / features
+            IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
+            On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
+            IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
+            On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
+            On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
+            On.Terraria.Wiring.Teleport += DisableTeleporters; // only applies in boss rush
+            IL.Terraria.Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
+            On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
+            On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
+
+            // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats += RemoveExpertHardmodeScaling;
-            IL.Terraria.WorldGen.hardUpdateWorld += AdjustChlorophyteSpawnRate;
-            IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
+            IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
+            IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
+
+            // Movement speed balance
             IL.Terraria.Player.Update += ReduceTileBoostedRunSpeeds;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
-            IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
-            On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+
+            // World generation
             IL.Terraria.WorldGen.MakeDungeon += PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls += PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;
-            IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
-            On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
-            On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
-            IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
-            On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             On.Terraria.WorldGen.SmashAltar += PreventSmashAltarCode;
-            On.Terraria.Wiring.Teleport += DisableTeleporters;
-            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
-            On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
-            IL.Terraria.Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
-            On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
+            IL.Terraria.WorldGen.hardUpdateWorld += AdjustChlorophyteSpawnRate;
+            IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
+
+            // Removal of vanilla stupidity
+            IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
+            On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+
+            // Fix vanilla bugs exposed by Calamity mechanics
+            On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+            IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
         /// <summary>
@@ -141,233 +154,80 @@ namespace CalamityMod.ILEditing
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
 
-            On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
-            IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
-            IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
+            // Mechanics / features
+            IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
+            On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
+            IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
+            On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
+            On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
+            On.Terraria.Wiring.Teleport -= DisableTeleporters;
+            IL.Terraria.Main.DrawInterface_40_InteractItemIcon -= MakeMouseHoverItemsSupportAnimations;
+            On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
+            On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
+
+            // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
-            IL.Terraria.WorldGen.hardUpdateWorld -= AdjustChlorophyteSpawnRate;
-            IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
+            IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
+            IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
+
+            // Movement speed balance
             IL.Terraria.Player.Update -= ReduceTileBoostedRunSpeeds;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
-            IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
-            On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
+
+            // World generation
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
-            IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
-            On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
-            On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
-            IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
-            On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             On.Terraria.WorldGen.SmashAltar -= PreventSmashAltarCode;
-            On.Terraria.Wiring.Teleport -= DisableTeleporters;
-            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
-            On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
-            IL.Terraria.Main.DrawInterface_40_InteractItemIcon -= MakeMouseHoverItemsSupportAnimations;
-            On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
+            IL.Terraria.WorldGen.hardUpdateWorld -= AdjustChlorophyteSpawnRate;
+            IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
+
+            // Removal of vanilla stupidity
+            IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
+            On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
+
+            // Fix vanilla bugs exposed by Calamity mechanics
+            On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
+            IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
         }
+        #endregion
 
-        #region IL Editing Routines
+        #region IL Editing Routines and Injections
 
-		private static void AdjustChlorophyteBullets(ILContext il)
-		{
-            // Reduce dust from 10 to 5 and homing range.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.ChlorophyteBullet)))
-            {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the bullet ID.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(10))) // The number of dust spawned by the bullet.
-            {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the dust quantity.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 5); // Decrease dust to 5.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(300f))) // The 300 unit distance required to home in.
-            {
-                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the homing range.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
-        }
-
-		private static void RemoveAerialBaneDamageBoost(ILContext il)
+        #region Mechanics / features
+        private static void PermitNighttimeTownNPCSpawning(ILContext il)
         {
+            // Don't do town NPC spawning at the end (which lies after a !Main.dayTime return).
+            // Do it at the beginning, without the arbitrary time restriction.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.DD2BetsyArrow))) // The ID of Aerial Bane projectiles.
+            cursor.EmitDelegate<Action>(() =>
             {
-                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the arrow ID.");
+                // A cached delegate is used here instead of direct reflection for performance reasons
+                // since UpdateTime is called every frame.
+                if (Main.dayTime || CalamityConfig.Instance.CanTownNPCsSpawnAtNight)
+                    VanillaSpawnTownNPCs();
+            });
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<Main>("UpdateTime_SpawnTownNPCs")))
+            {
+                CalamityMod.Instance.Logger.Warn("Town NPC spawn editing code failed.");
                 return;
             }
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) // The damage multiplier.
-            {
-                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the damage multiplier.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Multiplying by 1 means no damage bonus.
+
+            cursor.Emit(OpCodes.Ret);
         }
 
-		private static void AdjustDamageVariance(ILContext il)
-		{
-            // Change the damage variance from +-15% to +-5%.
-            var cursor = new ILCursor(il);
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(-15))) // The -15% lower bound of the variance.
-            {
-                WriteFailToLog("general damage variance reduction", "Could not locate the lower bound.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
-
-            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
-            {
-                WriteFailToLog("general damage variance reduction", "Could not locate the upper bound.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 6); // Decrease to +5%.
-        }
-
-		private static void RemoveExpertHardmodeScaling(ILContext il)
-		{
-            // Completely disable the weak enemy scaling that occurs when Hardmode is active in Expert Mode.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1000))) // The less than 1000 HP check in order for the scaling to take place.
-            {
-                WriteFailToLog("expert hardmode scaling removal", "Could not locate the HP check.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4_M1); // Replace the 1000 with -1, no NPC can have less than -1 HP on spawn, so it fails to run.
-        }
-
-		private static void AdjustChlorophyteSpawnRate(ILContext il)
+        private static void AlterTownNPCSpawnRate(On.Terraria.Main.orig_UpdateTime_SpawnTownNPCs orig)
         {
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(300))) // 1 in 300 genRand call used to generate Chlorophyte in mud tiles near jungle grass.
-            {
-                WriteFailToLog("chlorophyte spread rate adjustment", "Could not locate the update chance.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 150); // Increase the chance to 1 in 150.
+            int oldWorldRate = Main.worldRate;
+            Main.worldRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
+            orig();
+            Main.worldRate = oldWorldRate;
         }
 
-        private static void AdjustChlorophyteSpawnLimits(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(40))) // Find the 40 Chlorophyte tile limit. This limit is checked within a 71x71-tile square, with the reference tile as the center.
-            {
-                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the lower limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 60); // Increase the limit to 60.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(130))) // Find the 130 Chlorophyte tile limit. This limit is checked within a 171x171-tile square, with the reference tile as the center.
-            {
-                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the upper limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 200); // Increase the limit to 200.
-        }
-
-        private static void ReduceTileBoostedRunSpeeds(ILContext il)
-		{
-			// Reduce the run speed boost while running on Asphalt, Frozen Slime Blocks and Ice Blocks.
-
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6))) // Movement speed cap (removed in 1.4).
-            {
-                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R8, 3D); // Increase it to some higher amount.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6f))) // Movement speed cap (removed in 1.4).
-            {
-                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 3f); // Increase it to some higher amount.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f))) // The max run speed multiplier for Asphalt.
-            {
-                WriteFailToLog("run speed adjustment", "Could not locate the asphalt movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Frozen Slime Blocks.
-            {
-                WriteFailToLog("run speed adjustment", "Could not locate the frozen slime block movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Ice Blocks.
-            {
-                WriteFailToLog("run speed adjustment", "Could not locate the ice block movement speed limit.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
-        }
-
-		private static void ReduceWingHoverVelocities(ILContext il)
-        {
-            // Reduce wing hover horizontal velocities. Hoverboard is fine because both stats are at 10.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(6.25f))) // The accRunSpeed variable is set to this specific value before hover adjustments occur.
-            {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the base speed variable.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Vortex Booster and Nebula Mantle.
-            {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Vortex Booster and Nebula Mantle.
-            {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Betsy Wings.
-            {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Betsy Wings.
-            {
-                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
-        }
-
-		private static void RemoveRNGFromBlackBelt(ILContext il)
+        private static void RemoveRNGFromBlackBelt(ILContext il)
         {
             // Change the random chance of the Black Belt to 100%, but don't let it work if Calamity's cooldown is active.
             var cursor = new ILCursor(il);
@@ -417,150 +277,46 @@ namespace CalamityMod.ILEditing
             });
         }
 
-		private static void ReplacePharaohSetInPyramids()
-		{
-			// Replace the Pharaoh's Set in Pyramid gen with something actually useful.
-			IL.Terraria.NPC.scaleStats += (il) =>
-			{
-				var cursor = new ILCursor(il);
-				cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(848)); // The ID of the Pharaoh's Mask.
-				cursor.Remove();
-				cursor.Emit(OpCodes.Ldc_I4, 1240); // Replace the Mask with a Ruby Hook, in 1.4 I will replace this with an Amber Hook so it makes more sense.
-				// Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-			};
-		}
-
-        private static void PreventDungeonHallCollisions(ILContext il)
+        private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
         {
-            // Prevent the Dungeon's halls from getting anywhere near the Abyss.
-            var cursor = new ILCursor(il);
+            Tile tile = Main.tile[i, j];
+            // If the tile is somehow null, that's vanilla's problem, we're outta here
+            if (tile is null)
+                return orig(i, j, direction);
 
-            // Forcefully clamp the X position of the new hall end.
-            // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(6)))
-            {
-                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the hall horizontal position.");
+            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
+            else if (tile.type == labDoorClosed)
+                return OpenLabDoor(tile, i, j, labDoorOpen);
+            else if (tile.type == aLabDoorClosed)
+                return OpenLabDoor(tile, i, j, aLabDoorOpen);
+
+            // If it's anything else, let vanilla and/or TML handle it.
+            return orig(i, j, direction);
+        }
+
+        private static bool CloseDoor_LabDoorOverride(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
+        {
+            Tile tile = Main.tile[i, j];
+            // If the tile is somehow null, that's vanilla's problem, we're outta here
+            if (tile is null)
+                return orig(i, j, forced);
+
+            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
+            else if (tile.type == labDoorOpen)
+                return CloseLabDoor(tile, i, j, labDoorClosed);
+            else if (tile.type == aLabDoorOpen)
+                return CloseLabDoor(tile, i, j, aLabDoorClosed);
+
+            // If it's anything else, let vanilla and/or TML handle it.
+            return orig(i, j, forced);
+        }
+
+        private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
+        {
+            if (CalamityPlayer.areThereAnyDamnBosses)
                 return;
-            }
 
-            cursor.Emit(OpCodes.Ldloc, 6);
-            cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
-            {
-                unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
-                return unclampedValue;
-            });
-            cursor.Emit(OpCodes.Stloc, 6);
-        }
-
-        private static void PreventDungeonHorizontalCollisions(ILContext il)
-        {
-            // Prevent the Dungeon from appearing near the Sulph sea.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY")))
-            {
-                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the dungeon's vertical position.");
-                return;
-            }
-
-            cursor.EmitDelegate<Action>(() =>
-            {
-                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
-
-                // Adjust the Y position of the dungeon to accomodate for the X shift.
-                WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
-                WorldGen.dungeonY = result.Y - 10;
-            });
-        }
-
-        private static void BlockLivingTreesNearOcean(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Func<int, int>>(x => Utils.Clamp(x, 560, Main.maxTilesX - 560));
-            cursor.Emit(OpCodes.Starg, 0);
-        }
-
-        private static void PermitNighttimeTownNPCSpawning(ILContext il)
-        {
-            // Don't do town NPC spawning at the end (which lies after a !Main.dayTime return).
-            // Do it at the beginning, without the arbitrary time restriction.
-            var cursor = new ILCursor(il);
-            cursor.EmitDelegate<Action>(() =>
-            {
-                // A cached delegate is used here instead of direct reflection for performance reasons
-                // since UpdateTime is called every frame.
-                if (Main.dayTime || CalamityConfig.Instance.CanTownNPCsSpawnAtNight)
-                    VanillaSpawnTownNPCs();
-            });
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<Main>("UpdateTime_SpawnTownNPCs")))
-            {
-                CalamityMod.Instance.Logger.Warn("Town NPC spawn editing code failed.");
-                return;
-            }
-
-            cursor.Emit(OpCodes.Ret);
-        }
-
-        private static void AlterTownNPCSpawnRate(On.Terraria.Main.orig_UpdateTime_SpawnTownNPCs orig)
-        {
-            int oldWorldRate = Main.worldRate;
-            Main.worldRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
             orig();
-            Main.worldRate = oldWorldRate;
-        }
-
-        private static void FixSplittingWormBannerDrops(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-
-            // Locate the area after all the banner logic by using a nearby constant type.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(23)))
-            {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the first hooking constant.");
-                return;
-            }
-            if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdarg(0)))
-            {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the second hooking constant.");
-                return;
-            }
-
-            ILLabel afterBannerLogic = cursor.DefineLabel();
-
-            // Set this area after as a place to return to later.
-            cursor.MarkLabel(afterBannerLogic);
-
-            // Go to the beginning of the banner drop logic.
-            cursor.Goto(0);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld<NPC>("killCount")))
-            {
-                WriteFailToLog("splitting worm banner spam fix", "Could not locate the NPC kill count.");
-                return;
-            }
-
-            // Load the NPC caller onto the stack.
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPCLoot.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
-
-            // If the block is false (indicating the drop logic should stop), skip all the ahead banner drop logic.
-            cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
-        }
-
-        private static int IncorporateMinionExplodingCountdown(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
-        {
-            // This is unfortunately not something that can be done via SetDefaults since owner is set
-            // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
-            int proj = orig(x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
-            Projectile projectile = Main.projectile[proj];
-            if (projectile.minion)
-            {
-                Player player = Main.player[projectile.owner];
-                CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
-                if (player.Calamity().explosiveMinionsEnchant)
-                    projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
-            }
-            return proj;
         }
 
         private static void MakeMouseHoverItemsSupportAnimations(ILContext il)
@@ -598,56 +354,23 @@ namespace CalamityMod.ILEditing
             return result;
         }
 
-        #endregion
-
-        #region IL Editing Injected/Hooked Functions
-        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+        private static int IncorporateMinionExplodingCountdown(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
         {
-            orig();
-            foreach (int npcType in NeedsFourLifeBytes)
-                Main.npcLifeBytes[npcType] = 4;
+            // This is unfortunately not something that can be done via SetDefaults since owner is set
+            // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
+            int proj = orig(x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
+            Projectile projectile = Main.projectile[proj];
+            if (projectile.minion)
+            {
+                Player player = Main.player[projectile.owner];
+                CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
+                if (player.Calamity().explosiveMinionsEnchant)
+                    projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
+            }
+            return proj;
         }
 
-        private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
-        {
-            if (!Main.player[plr].Calamity().bossZen)
-                orig(plr);
-        }
-
-        private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
-        {
-            Tile tile = Main.tile[i, j];
-            // If the tile is somehow null, that's vanilla's problem, we're outta here
-            if (tile is null)
-                return orig(i, j, direction);
-
-            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.type == labDoorClosed)
-                return OpenLabDoor(tile, i, j, labDoorOpen);
-            else if (tile.type == aLabDoorClosed)
-                return OpenLabDoor(tile, i, j, aLabDoorOpen);
-
-            // If it's anything else, let vanilla and/or TML handle it.
-            return orig(i, j, direction);
-        }
-
-        private static bool CloseDoor_LabDoorOverride(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
-        {
-            Tile tile = Main.tile[i, j];
-            // If the tile is somehow null, that's vanilla's problem, we're outta here
-            if (tile is null)
-                return orig(i, j, forced);
-
-            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.type == labDoorOpen)
-                return CloseLabDoor(tile, i, j, labDoorClosed);
-            else if (tile.type == aLabDoorOpen)
-                return CloseLabDoor(tile, i, j, aLabDoorClosed);
-
-            // If it's anything else, let vanilla and/or TML handle it.
-            return orig(i, j, forced);
-        }
-
+        #region Fire Cursor
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
             // Do nothing special if the player has a regular mouse or is on the menu.
@@ -741,26 +464,412 @@ namespace CalamityMod.ILEditing
             Texture2D crosshairTexture = Main.cursorTextures[15];
             Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
         }
+        #endregion
+        #endregion
+
+        #region Damage and health balance
+        private static void AdjustDamageVariance(ILContext il)
+        {
+            // Change the damage variance from +-15% to +-5%.
+            var cursor = new ILCursor(il);
+            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(-15))) // The -15% lower bound of the variance.
+            {
+                WriteFailToLog("general damage variance reduction", "Could not locate the lower bound.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
+
+            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
+            {
+                WriteFailToLog("general damage variance reduction", "Could not locate the upper bound.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 6); // Decrease to +5%.
+        }
+
+        private static void RemoveExpertHardmodeScaling(ILContext il)
+        {
+            // Completely disable the weak enemy scaling that occurs when Hardmode is active in Expert Mode.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(1000))) // The less than 1000 HP check in order for the scaling to take place.
+            {
+                WriteFailToLog("expert hardmode scaling removal", "Could not locate the HP check.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4_M1); // Replace the 1000 with -1, no NPC can have less than -1 HP on spawn, so it fails to run.
+        }
+
+        private static void RemoveAerialBaneDamageBoost(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.DD2BetsyArrow))) // The ID of Aerial Bane projectiles.
+            {
+                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the arrow ID.");
+                return;
+            }
+            if (cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) // The damage multiplier.
+            {
+                WriteFailToLog("aerial bane damage boost reduction", "Could not locate the damage multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1f); // Multiplying by 1 means no damage bonus.
+        }
+
+        private static void AdjustChlorophyteBullets(ILContext il)
+        {
+            // Reduce dust from 10 to 5 and homing range.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ProjectileID.ChlorophyteBullet)))
+            {
+                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the bullet ID.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(10))) // The number of dust spawned by the bullet.
+            {
+                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the dust quantity.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 5); // Decrease dust to 5.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(300f))) // The 300 unit distance required to home in.
+            {
+                WriteFailToLog("chlorophyte bullet behavior", "Could not locate the homing range.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
+        }
+        #endregion
+
+        #region Movement speed balance
+        private static void ReduceTileBoostedRunSpeeds(ILContext il)
+        {
+            // Reduce the run speed boost while running on Asphalt, Frozen Slime Blocks and Ice Blocks.
+
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6))) // Movement speed cap (removed in 1.4).
+            {
+                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R8, 3D); // Increase it to some higher amount.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6f))) // Movement speed cap (removed in 1.4).
+            {
+                WriteFailToLog("run speed adjustment", "Could not locate the movement speed limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 3f); // Increase it to some higher amount.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f))) // The max run speed multiplier for Asphalt.
+            {
+                WriteFailToLog("run speed adjustment", "Could not locate the asphalt movement speed limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Frozen Slime Blocks.
+            {
+                WriteFailToLog("run speed adjustment", "Could not locate the frozen slime block movement speed limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f))) // The max run speed multiplier for Ice Blocks.
+            {
+                WriteFailToLog("run speed adjustment", "Could not locate the ice block movement speed limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
+        }
+
+        private static void ReduceWingHoverVelocities(ILContext il)
+        {
+            // Reduce wing hover horizontal velocities. Hoverboard is fine because both stats are at 10.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(6.25f))) // The accRunSpeed variable is set to this specific value before hover adjustments occur.
+            {
+                WriteFailToLog("wing hover speed reduction", "Could not locate the base speed variable.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Vortex Booster and Nebula Mantle.
+            {
+                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Vortex Booster and Nebula Mantle.
+            {
+                WriteFailToLog("wing hover speed reduction", "Could not locate the vortex booster/nebula mantle speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Betsy Wings.
+            {
+                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Betsy Wings.
+            {
+                WriteFailToLog("wing hover speed reduction", "Could not locate the betsy's wings speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+        }
+        #endregion
+
+        #region World generation
+        private static void PreventDungeonHorizontalCollisions(ILContext il)
+        {
+            // Prevent the Dungeon from appearing near the Sulph sea.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY")))
+            {
+                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the dungeon's vertical position.");
+                return;
+            }
+
+            cursor.EmitDelegate<Action>(() =>
+            {
+                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
+
+                // Adjust the Y position of the dungeon to accomodate for the X shift.
+                WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
+                WorldGen.dungeonY = result.Y - 10;
+            });
+        }
+
+        private static void PreventDungeonHallCollisions(ILContext il)
+        {
+            // Prevent the Dungeon's halls from getting anywhere near the Abyss.
+            var cursor = new ILCursor(il);
+
+            // Forcefully clamp the X position of the new hall end.
+            // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(6)))
+            {
+                WriteFailToLog("dungeon hall abyss collision fix", "Could not locate the hall horizontal position.");
+                return;
+            }
+
+            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
+            {
+                unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
+                return unclampedValue;
+            });
+            cursor.Emit(OpCodes.Stloc, 6);
+        }
+
+        private static void BlockLivingTreesNearOcean(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Func<int, int>>(x => Utils.Clamp(x, 560, Main.maxTilesX - 560));
+            cursor.Emit(OpCodes.Starg, 0);
+        }
 
         private static void PreventSmashAltarCode(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
-		{
-			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-				return;
+        {
+            if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                return;
 
-			orig(i, j);
-		}
+            orig(i, j);
+        }
 
-		private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
-		{
-			if (CalamityPlayer.areThereAnyDamnBosses)
-				return;
+        private static void AdjustChlorophyteSpawnRate(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(300))) // 1 in 300 genRand call used to generate Chlorophyte in mud tiles near jungle grass.
+            {
+                WriteFailToLog("chlorophyte spread rate adjustment", "Could not locate the update chance.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 150); // Increase the chance to 1 in 150.
+        }
 
-			orig();
-		}
-		#endregion
+        private static void AdjustChlorophyteSpawnLimits(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(40))) // Find the 40 Chlorophyte tile limit. This limit is checked within a 71x71-tile square, with the reference tile as the center.
+            {
+                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the lower limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 60); // Increase the limit to 60.
 
-		#region Helper Functions
-		private static int FindTopOfDoor(int i, int j, Tile rootTile)
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(130))) // Find the 130 Chlorophyte tile limit. This limit is checked within a 171x171-tile square, with the reference tile as the center.
+            {
+                WriteFailToLog("chlorophyte spread limit adjustment", "Could not locate the upper limit.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 200); // Increase the limit to 200.
+        }
+        #endregion
+
+        #region Removal of vanilla stupidity
+        private static void RelaxPrefixRequirements(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Search for the first instance of Math.Round, which is used to round damage.
+            // This one isn't edited, but hitting the Round function is the easiest way to get to the relevant part of the method.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall("System.Math", "Round")))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate the damage Math.Round call.");
+                return;
+            }
+
+            // Search for the second instance of Math.Round, which is used to round use time.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall("System.Math", "Round")))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate the use time Math.Round call.");
+                return;
+            }
+
+            // Search for the branch-if-not-equal which checks whether the use time change rounds to nothing.
+            // If the change rounds to nothing, then it's equal, so the branch is NOT taken.
+            // The branch skips over the "fail this prefix" code.
+            ILLabel passesUseTimeCheck = null;
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBneUn(out passesUseTimeCheck)))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate use time rounding equality branch.");
+                return;
+            }
+
+            // To allow use-time affecting prefixes even on super fast weapons where they would round to nothing,
+            // add another branch which skips over the "fail this prefix" code, given a custom condition.
+
+            // Load the item itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit a delegate which returns whether the item's use time is 2, 3, 4 or 5.
+            cursor.EmitDelegate<Func<Item, bool>>((Item i) => i.useAnimation >= 2 && i.useAnimation <= 5);
+
+            cursor.Emit(OpCodes.Brtrue_S, passesUseTimeCheck);
+
+            // Search for the branch-if-not-equal which checks whether the mana change rounds to nothing.
+            ILLabel passesManaCheck = null;
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBneUn(out passesManaCheck)))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate mana prefix failure branch.");
+                return;
+            }
+
+            // Emit an unconditional branch which skips the mana check failure.
+            cursor.Emit(OpCodes.Br_S, passesManaCheck);
+
+            // Search for the instance field load which retrieves the item's knockback.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Item>("knockBack")))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate knockback load instruction.");
+                return;
+            }
+
+            // Search for the immediately-following constant load which pulls in 0.0.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0f)))
+            {
+                WriteFailToLog("prefix adjustments", "Could not locate zero knockback comparison constant.");
+                return;
+            }
+
+            // Completely nullify the knockback computation by replacing the check against 0 with a check against negative one million.
+            // If you absolutely need to block knockback reforges for some reason, you can set your knockback to this value.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, -1000000f);
+        }
+
+        private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
+        {
+            if (!Main.player[plr].Calamity().bossZen)
+                orig(plr);
+        }
+        #endregion
+
+        #region Vanilla bugs exposed by Calamity mechanics
+        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+        {
+            orig();
+            foreach (int npcType in NeedsFourLifeBytes)
+                Main.npcLifeBytes[npcType] = 4;
+        }
+
+        private static void FixSplittingWormBannerDrops(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Locate the area after all the banner logic by using a nearby constant type.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(23)))
+            {
+                WriteFailToLog("splitting worm banner spam fix", "Could not locate the first hooking constant.");
+                return;
+            }
+            if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdarg(0)))
+            {
+                WriteFailToLog("splitting worm banner spam fix", "Could not locate the second hooking constant.");
+                return;
+            }
+
+            ILLabel afterBannerLogic = cursor.DefineLabel();
+
+            // Set this area after as a place to return to later.
+            cursor.MarkLabel(afterBannerLogic);
+
+            // Go to the beginning of the banner drop logic.
+            cursor.Goto(0);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld<NPC>("killCount")))
+            {
+                WriteFailToLog("splitting worm banner spam fix", "Could not locate the NPC kill count.");
+                return;
+            }
+
+            // Load the NPC caller onto the stack.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPCLoot.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
+
+            // If the block is false (indicating the drop logic should stop), skip all the ahead banner drop logic.
+            cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
+        }
+        #endregion
+
+        // UNUSED -- This IL edit doesn't edit the right function, the Pharaoh Mask is definitely not in NPC.scaleStats
+        private static void ReplacePharaohSetInPyramids()
+        {
+            // Replace the Pharaoh's Set in Pyramid gen with something actually useful.
+            IL.Terraria.NPC.scaleStats += (il) =>
+            {
+                var cursor = new ILCursor(il);
+                cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(848)); // The ID of the Pharaoh's Mask.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_I4, 1240); // Replace the Mask with a Ruby Hook, in 1.4 I will replace this with an Amber Hook so it makes more sense.
+                // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+            };
+        }
+        #endregion
+
+        #region Helper Functions
+        private static int FindTopOfDoor(int i, int j, Tile rootTile)
         {
             Tile t = Main.tile[i, j];
             int topY = j;
@@ -810,6 +919,7 @@ namespace CalamityMod.ILEditing
             return true;
         }
 
+        public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());
         public static void WriteFailToLog(string editName, string reason) => CalamityMod.Instance.Logger.Warn($"The {editName} IL edit failed. {reason}");
         #endregion
     }
