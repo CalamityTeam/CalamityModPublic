@@ -1,10 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,7 +45,17 @@ namespace CalamityMod.NPCs.Providence
             npc.DeathSound = SoundID.NPCDeath55;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];

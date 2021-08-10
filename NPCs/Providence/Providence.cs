@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.Providence
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
             // Heal
             if (healerAlive)
