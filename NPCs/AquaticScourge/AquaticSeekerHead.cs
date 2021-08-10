@@ -1,7 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -25,11 +23,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = Main.hardMode ? 40 : 20;
+            npc.damage = 20;
             npc.width = 22;
             npc.height = 28;
             npc.defense = 5;
-            npc.lifeMax = Main.hardMode ? 500 : 60;
+            npc.lifeMax = 60;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

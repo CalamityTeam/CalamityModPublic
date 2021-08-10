@@ -1092,7 +1092,10 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 
 			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
+			if (((DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
+				DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
+				(EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
+				npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
 				{
@@ -3311,7 +3314,9 @@ namespace CalamityMod.NPCs
 				damage = (int)(damage * 0.1);
 
 			// True melee resists
-			if (AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) || npc.type == NPCType<DarkEnergy>())
+			if (DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
+				PerforatorIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) ||
+				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) || npc.type == NPCType<DarkEnergy>())
 			{
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * 0.5);
@@ -3446,7 +3451,31 @@ namespace CalamityMod.NPCs
 				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
-            else if (npc.type == NPCType<OldDuke.OldDuke>())
+			else if (PerforatorIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCID.Creeper)
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (EaterofWorldsIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (DesertScourgeIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
 				// 20.5% resist to Time Bolt.
                 if (projectile.type == ProjectileType<TimeBoltKnife>())

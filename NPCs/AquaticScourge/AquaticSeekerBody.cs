@@ -1,6 +1,4 @@
-using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,11 +15,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = Main.hardMode ? 30 : 15;
+            npc.damage = 15;
             npc.width = 16;
             npc.height = 16;
             npc.defense = 10;
-			npc.lifeMax = Main.hardMode ? 500 : 60;
+			npc.lifeMax = 60;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -62,10 +60,10 @@ namespace CalamityMod.NPCs.AquaticScourge
 			}
 			if (!shouldDespawn)
 			{
-				if (npc.ai[1] > 0f)
-					shouldDespawn = false;
-				else if (Main.npc[(int)npc.ai[1]].life > 0)
-					shouldDespawn = false;
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
 			}
 			if (shouldDespawn)
 			{

@@ -362,10 +362,10 @@ namespace CalamityMod.NPCs
 				}
 				if (!shouldDespawn)
 				{
-					if (npc.ai[1] > 0f)
-						shouldDespawn = false;
-					else if (Main.npc[(int)npc.ai[1]].life > 0)
-						shouldDespawn = false;
+					if (npc.ai[1] <= 0f)
+						shouldDespawn = true;
+					else if (Main.npc[(int)npc.ai[1]].life <= 0)
+						shouldDespawn = true;
 				}
 				if (shouldDespawn)
 				{
@@ -3538,7 +3538,7 @@ namespace CalamityMod.NPCs
 					shouldDespawn = false;
 					break;
 				}
-				if (!shouldDespawn)
+				if (shouldDespawn)
 				{
 					if (Main.npc.IndexInRange((int)npc.ai[1]) && Main.npc[(int)npc.ai[1]].active && Main.npc[(int)npc.ai[1]].life > 0)
 						shouldDespawn = false;
