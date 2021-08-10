@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive Mind");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[npc.type] = 8;
         }
 
         public override void SetDefaults()
