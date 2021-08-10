@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 	{
 		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
 		private const float RotationIncrement = 0.09f;
-		private const int Lifetime = 140;
+		private const int Lifetime = 170;
 		private const float ReboundTime = 40f;
 
 		private float randomLaserCharge = 0f;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 			// The disc runs its returning AI if it has existed longer than ReboundTime frames.
 			if (projectile.timeLeft <= Lifetime - ReboundTime)
 			{
-				float returnSpeed = Eradicator.Speed;
+				float returnSpeed = Eradicator.Speed * 1.3f;
 				float acceleration = 0.25f;
 				Player owner = Main.player[projectile.owner];
 
@@ -191,8 +191,8 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.velocity *= 0.1f;
 
-				// Also provide a lot of extra time to grind.
-				projectile.timeLeft += Lifetime;
+				// Provide a fixed amount of grind time so that DPS can't vary wildly.
+				projectile.timeLeft = 90;
 			}
 
 			// Apply sticky AI.
