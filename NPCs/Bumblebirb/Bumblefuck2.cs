@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.LifeMaxNERB(9000, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
             npc.lavaImmune = true;
+			npc.noTileCollide = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit51;
@@ -67,9 +68,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.timeLeft = 5;
                 }
             }
-
-            npc.noTileCollide = false;
-            npc.noGravity = true;
 
             npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
 
@@ -114,7 +112,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 Vector2 value43 = new Vector2(0f, -8f);
                 npc.velocity = (npc.velocity * 21f + value43) / 10f;
-                npc.noTileCollide = true;
                 npc.dontTakeDamage = true;
                 return;
             }
@@ -123,30 +120,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 npc.TargetClosest(true);
                 npc.spriteDirection = npc.direction;
-                if (npc.collideX)
-                {
-                    npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
-                    if (npc.velocity.X > 4f)
-                    {
-                        npc.velocity.X = 4f;
-                    }
-                    if (npc.velocity.X < -4f)
-                    {
-                        npc.velocity.X = -4f;
-                    }
-                }
-                if (npc.collideY)
-                {
-                    npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
-                    if (npc.velocity.Y > 4f)
-                    {
-                        npc.velocity.Y = 4f;
-                    }
-                    if (npc.velocity.Y < -4f)
-                    {
-                        npc.velocity.Y = -4f;
-                    }
-                }
                 Vector2 value44 = Main.player[npc.target].Center - npc.Center;
                 if (value44.Length() > 2800f)
                 {
@@ -182,9 +155,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 if (npc.ai[0] == 1f)
                 {
-                    npc.collideX = false;
-                    npc.collideY = false;
-                    npc.noTileCollide = true;
                     if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
                     {
                         npc.TargetClosest(true);
@@ -232,7 +202,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                     }
                     npc.spriteDirection = npc.direction;
                     npc.rotation = (npc.rotation * rotationMult * 0.75f + npc.velocity.X * rotationAmt * 1.25f) / 8f;
-                    npc.noTileCollide = true;
                     Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
                     vector242.Y -= 8f;
                     float scaleFactor22 = increasedAggression ? 18f : 14f;
@@ -277,7 +246,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                     }
                     npc.spriteDirection = npc.direction;
                     npc.velocity *= 1.01f;
-                    npc.noTileCollide = true;
                     npc.ai[1] += 1f;
                     int num1380 = 30;
                     if (npc.ai[1] > num1380)

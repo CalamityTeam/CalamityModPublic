@@ -4674,8 +4674,6 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y < -12f)
 						npc.velocity.Y = -12f;
 
-					npc.noTileCollide = true;
-
 					if (npc.timeLeft > 60)
 						npc.timeLeft = 60;
 
@@ -4715,10 +4713,6 @@ namespace CalamityMod.NPCs
 
 			if (phaseSwitchPhase)
 			{
-				npc.collideX = false;
-				npc.collideY = false;
-				npc.noTileCollide = true;
-
 				if (npc.velocity.X < 0f)
 					npc.direction = -1;
 				else if (npc.velocity.X > 0f)
@@ -4799,10 +4793,6 @@ namespace CalamityMod.NPCs
 				chargeDistance -= 50f;
 			chargeDistance -= (enrageScale - 1f) * 100f;
 
-			// Don't collide with tiles, disable gravity
-			npc.noTileCollide = false;
-			npc.noGravity = true;
-
 			// Phase switch
 			if (npc.ai[0] == 0f)
 			{
@@ -4814,24 +4804,6 @@ namespace CalamityMod.NPCs
 				// Direction and rotation
 				npc.spriteDirection = npc.direction;
 				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
-
-				// Slow down if colliding with tiles
-				if (npc.collideX)
-				{
-					npc.velocity.X *= -npc.oldVelocity.X * 0.5f;
-					if (npc.velocity.X > 4f)
-						npc.velocity.X = 4f;
-					if (npc.velocity.X < -4f)
-						npc.velocity.X = -4f;
-				}
-				if (npc.collideY)
-				{
-					npc.velocity.Y *= -npc.oldVelocity.Y * 0.5f;
-					if (npc.velocity.Y > 4f)
-						npc.velocity.Y = 4f;
-					if (npc.velocity.Y < -4f)
-						npc.velocity.Y = -4f;
-				}
 
 				// Fly to target if target is too far away, otherwise get close to target and then slow down
 				Vector2 value51 = player.Center - npc.Center;
@@ -5024,10 +4996,6 @@ namespace CalamityMod.NPCs
 			// Fly to target
 			else if (npc.ai[0] == 1f)
 			{
-				npc.collideX = false;
-				npc.collideY = false;
-				npc.noTileCollide = true;
-
 				if (npc.velocity.X < 0f)
 					npc.direction = -1;
 				else if (npc.velocity.X > 0f)
@@ -5076,23 +5044,6 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = npc.direction;
 				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 1.25f) / 5f;
 
-				if (npc.collideX)
-				{
-					npc.velocity.X *= -npc.oldVelocity.X * 0.5f;
-					if (npc.velocity.X > 4f)
-						npc.velocity.X = 4f;
-					if (npc.velocity.X < -4f)
-						npc.velocity.X = -4f;
-				}
-				if (npc.collideY)
-				{
-					npc.velocity.Y *= -npc.oldVelocity.Y * 0.5f;
-					if (npc.velocity.Y > 4f)
-						npc.velocity.Y = 4f;
-					if (npc.velocity.Y < -4f)
-						npc.velocity.Y = -4f;
-				}
-
 				Vector2 value53 = player.Center - npc.Center;
 				value53.Y -= 20f;
 				npc.ai[2] += 0.0222222228f;
@@ -5121,8 +5072,6 @@ namespace CalamityMod.NPCs
 			// Line up charge
 			else if (npc.ai[0] == 3f)
 			{
-				npc.noTileCollide = true;
-
 				if (npc.velocity.X < 0f)
 					npc.direction = -1;
 				else
@@ -5159,8 +5108,6 @@ namespace CalamityMod.NPCs
 			// Prepare to charge
 			else if (npc.ai[0] == 3.1f)
 			{
-				npc.noTileCollide = true;
-
 				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
 
 				Vector2 vector206 = player.Center - npc.Center;
@@ -5198,10 +5145,6 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.collideX = false;
-				npc.collideY = false;
-				npc.noTileCollide = true;
-
 				npc.ai[2] += 0.0333333351f;
 				float velocity = 28f + (enrageScale - 1f) * 4f;
 				npc.velocity.X = (velocity + npc.ai[2]) * npc.ai[1];
