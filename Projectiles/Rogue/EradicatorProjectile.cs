@@ -107,13 +107,16 @@ namespace CalamityMod.Projectiles.Rogue
 			float spin = projectile.direction <= 0 ? -1f : 1f;
 			projectile.rotation += spin * RotationIncrement;
 
-			// If not currently glued to a target with sticky AI, fire lasers at up to 2 nearby targets for 75% damage.
+			// If attached to something (this only occurs for stealth strikes), do the buzzsaw grind and spam lasers everywhere.
 			if (projectile.ai[0] == 1f)
 				StealthStrikeGrind(spin);
 			else
 			{
+				// Fire lasers at up to 2 nearby targets every 8 frames for 40% damage.
+				// Stealth strike lasers have an intentionally lower ratio of 12%.
+				double laserDamageRatio = projectile.Calamity().stealthStrike ? 0.12D : 0.4D;
 				float laserFrames = projectile.MaxUpdates * 8f;
-				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), 0.4D, true);
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), laserDamageRatio, true);
 			}
 		}
 
@@ -122,14 +125,14 @@ namespace CalamityMod.Projectiles.Rogue
 			// Spin extra fast to visually shred the enemy.
 			projectile.rotation += spinDir * RotationIncrement * 0.8f;
 
-			// Randomly fire lasers while grinding.
+			// Randomly fire lasers while grinding. Each laser only does 12% damage.
 			randomLaserCharge += Main.rand.NextFloat(0.09f, 0.14f);
 			if (randomLaserCharge >= 1f)
 			{
 				randomLaserCharge -= 1f;
 				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 
-				int laserDamage = (int)(projectile.damage * 0.15D);
+				int laserDamage = (int)(projectile.damage * 0.12D);
 				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, 0f, projectile.owner);
 				if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
 				{
@@ -139,7 +142,7 @@ namespace CalamityMod.Projectiles.Rogue
 					laser.usesLocalNPCImmunity = true;
 
 					// This projectile has a hefty amount of extra updates, which will influence the hit cooldown.
-					laser.localNPCHitCooldown = 70;
+					laser.localNPCHitCooldown = 120;
 				}
 			}
 
