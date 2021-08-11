@@ -236,11 +236,6 @@ namespace CalamityMod.Projectiles.Boss
 			}
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 100, 100, projectile.alpha);
-        }
-
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
@@ -248,8 +243,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (TelegraphDelay >= TelegraphTotalTime)
-                return true;
+			if (TelegraphDelay >= TelegraphTotalTime)
+			{
+				lightColor.R = (byte)(255 * projectile.Opacity);
+				lightColor.G = (byte)(255 * projectile.Opacity);
+				lightColor.B = (byte)(255 * projectile.Opacity);
+				CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+				return true;
+			}
 
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
 

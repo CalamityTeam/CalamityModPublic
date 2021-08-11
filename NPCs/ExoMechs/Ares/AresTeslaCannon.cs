@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 60f : death ? 50f : revenge ? 40f : expertMode ? 30f : 15f;
+			float predictionAmt = malice ? 40f : death ? 30f : revenge ? 25f : expertMode ? 20f : 10f;
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
@@ -240,9 +240,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			int direction = Math.Sign(player.Center.X - npc.Center.X);
 			if (direction != 0)
 			{
-				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
-					npc.rotation += MathHelper.Pi;
-
 				npc.direction = direction;
 
 				if (npc.spriteDirection != -npc.direction)
@@ -261,6 +258,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
 			float baseVelocity = 15f * baseVelocityMult;
 			float baseAcceleration = 1f;
+			float decelerationVelocityMult = 0.9f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
@@ -353,8 +351,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Movement
-			if (!targetDead && moveToLocation)
-				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+			if (!targetDead)
+			{
+				if (moveToLocation)
+					npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+				else
+					npc.velocity *= decelerationVelocityMult;
+			}
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -413,14 +416,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
 			Vector2 center = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresTeslaCannonGlow");
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}
