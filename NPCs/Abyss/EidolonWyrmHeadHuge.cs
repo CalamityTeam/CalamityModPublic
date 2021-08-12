@@ -1231,10 +1231,6 @@ namespace CalamityMod.NPCs.Abyss
 			if (npc.velocity.Length() > baseVelocity)
 				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
 
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
-
 			// Storm code
 			if (calamityGlobalNPC.newAI[3] == 0f)
 			{
