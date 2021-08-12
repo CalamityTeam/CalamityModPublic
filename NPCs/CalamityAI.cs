@@ -1403,9 +1403,24 @@ namespace CalamityMod.NPCs
 			}
 
 			// Rotation
-			float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
-			float num802 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
-			float num803 = (float)Math.Atan2(num802, num801) + MathHelper.PiOver2;
+			/*float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
+			float num802 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);*/
+
+			Vector2 rotationVector = Main.player[npc.target].Center - npc.Center;
+
+			// Malice Mode predictive charge rotation
+			if (npc.ai[1] == 4f && phase5 && malice)
+			{
+				// Velocity
+				float chargeVelocity = 30f;
+				chargeVelocity += 5f * enrageScale;
+				if (provy)
+					chargeVelocity *= 1.25f;
+
+				rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - npc.Center) * chargeVelocity;
+			}
+
+			float num803 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
 			if (num803 < 0f)
 				num803 += MathHelper.TwoPi;
 			else if (num803 > MathHelper.TwoPi)

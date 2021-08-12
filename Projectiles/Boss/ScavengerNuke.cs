@@ -30,7 +30,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
             if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;
@@ -46,8 +47,8 @@ namespace CalamityMod.Projectiles.Boss
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-            float inertia = revenge ? 90f : 110f;
-            float scaleFactor12 = revenge ? 16f : 12f;
+            float inertia = malice ? 70f : revenge ? 90f : 110f;
+            float scaleFactor12 = malice ? 20f : revenge ? 16f : 12f;
 
             if (projectile.alpha > 0)
                 projectile.alpha -= 10;

@@ -397,7 +397,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
 								float chargeVelocity = death ? 12f : 9f;
-								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
+								npc.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - vectorCenter) * chargeVelocity;
 								npc.TargetClosest();
 								return;
 							}

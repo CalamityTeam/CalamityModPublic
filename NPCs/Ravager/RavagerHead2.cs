@@ -43,7 +43,8 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1800)
@@ -95,7 +96,7 @@ namespace CalamityMod.NPCs.Ravager
 				npc.rotation = num803;
 
 			npc.ai[1] += 1f;
-			bool fireProjectiles = npc.ai[1] >= 480f;
+			bool fireProjectiles = npc.ai[1] >= (malice ? 240f : 480f);
 			if (fireProjectiles && Vector2.Distance(npc.Center, player.Center) > 80f)
             {
 				int type = ModContent.ProjectileType<ScavengerLaser>();

@@ -6394,11 +6394,24 @@ namespace CalamityMod.NPCs
 
             bool enrage = lifeRatio < 0.25f;
 
-            // Rotation
-            float num418 = npc.position.X + (npc.width / 2) - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
-            float num419 = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);
+			// Rotation
+			/*float num418 = npc.Center.X - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
+            float num419 = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);*/
+			Vector2 rotationVector = Main.player[npc.target].Center - npc.Center;
 
-            float num420 = (float)Math.Atan2(num419, num418) + MathHelper.PiOver2;
+			// Malice Mode predictive charge rotation
+			if (npc.ai[1] == 5f && !retAlive && malice)
+			{
+				// Velocity
+				float chargeVelocity = 20f + (death ? 6f * (0.7f - lifeRatio) : 0f);
+				chargeVelocity += 10f * enrageScale;
+				if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == 4f))
+					chargeVelocity *= 1.3f;
+
+				rotationVector = Vector2.Normalize(Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center) * chargeVelocity;
+			}
+
+			float num420 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
             if (num420 < 0f)
                 num420 += MathHelper.TwoPi;
             else if (num420 > MathHelper.TwoPi)
@@ -7058,23 +7071,13 @@ namespace CalamityMod.NPCs
                         float fireRate = retAlive ? 30f : 20f;
                         if (npc.ai[2] % fireRate == 0f)
                         {
-                            Vector2 vector44 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            float num427 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector44.X;
-                            float num428 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector44.Y;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float num430 = 16f;
+                                float velocity = 16f;
 								int type = ModContent.ProjectileType<ShadowflameFireball>();
 								int damage = npc.GetProjectileDamage(type);
-
-								float num429 = (float)Math.Sqrt(num427 * num427 + num428 * num428);
-                                num429 = num430 / num429;
-                                num427 *= num429;
-                                num428 *= num429;
-                                vector44.X += num427 * 4f;
-                                vector44.Y += num428 * 4f;
-
-                                Projectile.NewProjectile(vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
+								Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
+                                Projectile.NewProjectile(npc.Center + Vector2.Normalize(projectileVelocity) * 4f, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
                             }
                         }
 
@@ -10975,8 +10978,25 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Rotation
-            float num17 = (float)Math.Atan2(player.Center.Y - vector.Y, player.Center.X - vector.X);
+			// Rotation
+			float rateOfRotation = 0.04f;
+			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f)
+				rateOfRotation = 0f;
+			if (npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
+				rateOfRotation = 0.01f;
+
+			Vector2 rotationVector = player.Center - vector;
+			if (!player.dead && malice && phase4)
+			{
+				// Rotate to show direction of predictive charge
+				if (npc.ai[0] == 10f)
+				{
+					rateOfRotation = 0.1f;
+					rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - vector) * chargeVelocity;
+				}
+			}
+
+			float num17 = (float)Math.Atan2(rotationVector.Y, rotationVector.X);
             if (npc.spriteDirection == 1)
                 num17 += MathHelper.Pi;
             if (num17 < 0f)
@@ -10986,14 +11006,8 @@ namespace CalamityMod.NPCs
             if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
                 num17 = 0f;
 
-            float num18 = 0.04f;
-            if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f)
-                num18 = 0f;
-            if (npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
-                num18 = 0.01f;
-
-			if (num18 != 0f)
-				npc.rotation = npc.rotation.AngleTowards(num17, num18);
+			if (rateOfRotation != 0f)
+				npc.rotation = npc.rotation.AngleTowards(num17, rateOfRotation);
 
 			// Alpha adjustments
 			if (npc.ai[0] != -1f && npc.ai[0] < 9f)
@@ -11665,7 +11679,7 @@ namespace CalamityMod.NPCs
                         npc.ai[2] = 0f;
 
                         // Velocity and rotation
-                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center + (malice && phase4 ? player.velocity * 20f : Vector2.Zero) - vector) * chargeVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
@@ -13019,10 +13033,10 @@ namespace CalamityMod.NPCs
 			}
 
 			if (malice)
-				aggressionLevel = 4;
+				aggressionLevel = 5;
 
 			if (enraged)
-				aggressionLevel = 5;
+				aggressionLevel = 6;
 
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
@@ -13154,6 +13168,9 @@ namespace CalamityMod.NPCs
                         float velocity = death ? 9.5f : 9.25f;
 						switch (aggressionLevel)
 						{
+							case 6:
+								velocity += 4f;
+								break;
 							case 5:
 								velocity += 2f;
 								break;
@@ -13230,6 +13247,9 @@ namespace CalamityMod.NPCs
                         float velocity = death ? 9.5f : 9.25f;
 						switch (aggressionLevel)
 						{
+							case 6:
+								velocity += 4f;
+								break;
 							case 5:
 								velocity += 2f;
 								break;
@@ -13713,8 +13733,11 @@ namespace CalamityMod.NPCs
 
 							switch (aggressionLevel)
 							{
+								case 6:
+									calamityGlobalNPC.newAI[1] -= 180f;
+									break;
 								case 5:
-									calamityGlobalNPC.newAI[1] -= 120f;
+									calamityGlobalNPC.newAI[1] -= 90f;
 									break;
 								case 4:
 									break;
@@ -13833,8 +13856,11 @@ namespace CalamityMod.NPCs
 					bool shootThirdBolt = num1207 == num1208;
 					switch (aggressionLevel)
 					{
+						case 6:
+							v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
+							break;
 						case 5:
-							v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 40f - npc.Center;
+							v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
 							break;
 						case 4:
 							break;
@@ -13869,9 +13895,8 @@ namespace CalamityMod.NPCs
                         float velocity = death ? 6.75f : 6.25f;
 						switch (aggressionLevel)
 						{
+							case 6:
 							case 5:
-								velocity += 2f;
-								break;
 							case 4:
 								break;
 							case 3:
@@ -14019,8 +14044,11 @@ namespace CalamityMod.NPCs
                         float velocity = death ? 7.75f : 7.5f;
 						switch (aggressionLevel)
 						{
+							case 6:
+								velocity += 3f;
+								break;
 							case 5:
-								velocity += 2f;
+								velocity += 1.5f;
 								break;
 							case 4:
 								break;
@@ -14057,6 +14085,9 @@ namespace CalamityMod.NPCs
 					float divisor = 6f;
 					switch (aggressionLevel)
 					{
+						case 6:
+							divisor = 3f;
+							break;
 						case 5:
 							divisor = 4f;
 							break;
@@ -14099,6 +14130,8 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 3.5f : 3f;
 							switch (aggressionLevel)
 							{
+								case 6:
+								case 5:
 								case 4:
 									break;
 								case 3:
@@ -14120,7 +14153,7 @@ namespace CalamityMod.NPCs
 							int damage = npc.GetProjectileDamage(type);
 							int proj = Projectile.NewProjectile(vector169, vector170, type, damage, 0f, Main.myPlayer, 0f, ai);
 							Main.projectile[proj].timeLeft = 1200;
-							Main.projectile[proj].Calamity().lineColor = aggressionLevel;
+							Main.projectile[proj].Calamity().lineColor = (malice || enraged) ? 1 : aggressionLevel;
                         }
                     }
                     else
@@ -14149,6 +14182,9 @@ namespace CalamityMod.NPCs
                     float velocityMultiplier = death ? 0.88f : 0.885f;
 					switch (aggressionLevel)
 					{
+						case 6:
+							velocityMultiplier -= 0.04f;
+							break;
 						case 5:
 							velocityMultiplier -= 0.02f;
 							break;
@@ -14178,6 +14214,9 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 11f : 10f;
 							switch (aggressionLevel)
 							{
+								case 6:
+									velocity += 4f;
+									break;
 								case 5:
 									velocity += 2f;
 									break;
@@ -14207,8 +14246,11 @@ namespace CalamityMod.NPCs
 						int divisor = 30;
 						switch (aggressionLevel)
 						{
-							case 5:
+							case 6:
 								divisor = 15;
+								break;
+							case 5:
+								divisor = 20;
 								break;
 							case 4:
 								break;
@@ -14247,6 +14289,9 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 26.5f : 24f;
 							switch (aggressionLevel)
 							{
+								case 6:
+									velocity += 4f;
+									break;
 								case 5:
 									velocity += 2f;
 									break;
@@ -14297,8 +14342,11 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 2.2f : 2f;
 							switch (aggressionLevel)
 							{
+								case 6:
+									velocity += 3f;
+									break;
 								case 5:
-									velocity += 2f;
+									velocity += 1.5f;
 									break;
 								case 4:
 									break;
@@ -14337,6 +14385,9 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 19.75f : 17.5f;
 							switch (aggressionLevel)
 							{
+								case 6:
+									velocity += 4f;
+									break;
 								case 5:
 									velocity += 2f;
 									break;
@@ -14371,6 +14422,9 @@ namespace CalamityMod.NPCs
                             float velocity = death ? 11f : 10f;
 							switch (aggressionLevel)
 							{
+								case 6:
+									velocity += 4f;
+									break;
 								case 5:
 									velocity += 2f;
 									break;
@@ -14409,8 +14463,11 @@ namespace CalamityMod.NPCs
 					bool shootThirdBolt = num1178 == num1179;
 					switch (aggressionLevel)
 					{
+						case 6:
+							v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
+							break;
 						case 5:
-							v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 40f - npc.Center;
+							v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
 							break;
 						case 4:
 							break;
@@ -14446,9 +14503,8 @@ namespace CalamityMod.NPCs
                         float velocity = death ? 6.75f : 6.25f;
 						switch (aggressionLevel)
 						{
+							case 6:
 							case 5:
-								velocity += 2f;
-								break;
 							case 4:
 								break;
 							case 3:

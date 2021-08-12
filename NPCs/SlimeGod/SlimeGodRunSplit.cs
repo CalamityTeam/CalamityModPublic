@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * 0.005f;
+			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * (malice ? 0.008f : 0.005f);
 
 			bool flag100 = false;
             bool hyperMode = npc.localAI[1] == 1f;
@@ -152,6 +152,8 @@ namespace CalamityMod.NPCs.SlimeGod
 				npc.localAI[0] += enraged ? 3f : flag100 ? 0.5f : 1f;
 				if (revenge)
 					npc.localAI[0] += 0.5f;
+				if (malice)
+					npc.localAI[0] += 1f;
 
 				if (npc.localAI[0] >= 450f && Vector2.Distance(player.Center, npc.Center) > 160f)
 				{

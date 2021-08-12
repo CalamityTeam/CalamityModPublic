@@ -592,7 +592,7 @@ namespace CalamityMod.NPCs.Ravager
 				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
 				if (malice)
 				{
-					gravity *= 2f;
+					gravity *= 1.25f;
 					maxFallSpeed *= 1.25f;
 				}
 

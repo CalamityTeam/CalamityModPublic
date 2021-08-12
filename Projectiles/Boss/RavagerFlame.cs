@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.aiStyle = 1;
-			projectile.extraUpdates = 1;
+			projectile.extraUpdates = CalamityWorld.malice ? 2 : 1;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
