@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Boss
 					int totalProjectiles = CalamityWorld.malice ? 18 : 12;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
-					float velocity = 12f;
+					float velocity = projectile.velocity.Length();
 					double angleA = radians * 0.5;
 					double angleB = MathHelper.ToRadians(90f) - angleA;
 					float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

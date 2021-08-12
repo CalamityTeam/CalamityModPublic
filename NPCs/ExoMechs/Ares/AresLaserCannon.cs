@@ -201,6 +201,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
+			// Passive phase check
+			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
 			npc.dontTakeDamage = invisiblePhase;
@@ -270,7 +273,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Gate values
 			float deathrayPhaseGateValue = 420f;
-			float deathrayPhaseVelocity = 15f;
+			float deathrayPhaseVelocity = passivePhase ? 12f : 15f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;

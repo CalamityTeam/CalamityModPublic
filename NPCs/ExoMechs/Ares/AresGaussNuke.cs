@@ -203,6 +203,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
+			// Passive phase check
+			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
 			npc.dontTakeDamage = invisiblePhase;
@@ -221,10 +224,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Predictiveness
 			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			if (passivePhase)
+				predictionAmt *= 0.5f;
+
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
-			float projectileVelocity = 12f;
+			float projectileVelocity = passivePhase ? 9.6f : 12f;
 			float rateOfRotation = AIState == (int)Phase.GaussNuke ? 0.08f : 0.04f;
 			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
