@@ -48,6 +48,23 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Syncs position and velocity from a client to the server. This is to be used in contexts where these things are reliant on client-side information, such as <see cref="Main.MouseWorld"/>.
+		/// </summary>
+		/// <param name="npc"></param>
+		public static void SyncMotionToServer(this NPC npc)
+        {
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				return;
+
+			var netMessage = CalamityMod.Instance.GetPacket();
+			netMessage.Write((byte)CalamityModMessageType.SyncNPCMotionDataToServer);
+			netMessage.Write(npc.whoAmI);
+			netMessage.WriteVector2(npc.Center);
+			netMessage.WriteVector2(npc.velocity);
+			netMessage.Send();
+		}
+
+		/// <summary>
 		/// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
 		/// </summary>
 		/// <param name="npc">The NPC whose lifeMax value you are trying to set.</param>

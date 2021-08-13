@@ -231,7 +231,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 							int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = 0f;
-							
+
 							blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = -80f;
@@ -282,19 +282,18 @@ namespace CalamityMod.UI.CalamitasEnchants
 							break;
 						}
 
-						if (Main.myPlayer == player.whoAmI && !orbIsPresent)
+						if (Main.myPlayer == player.whoAmI && !orbIsPresent && !player.Calamity().awaitingLecherousOrbSpawn)
 						{
-							int orb = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 5, orbType);
-							if (Main.npc.IndexInRange(orb))
-								Main.npc[orb].TargetClosest();
+							player.Calamity().awaitingLecherousOrbSpawn = true;
+							CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
 						}
 					},
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
-			ClearEnchantment = new Enchantment("Disenchant", 
-				string.Empty, 
+			ClearEnchantment = new Enchantment("Disenchant",
+				string.Empty,
 				ClearEnchantmentID,
 				null,
 				item => item.Calamity().AppliedEnchantment = null,

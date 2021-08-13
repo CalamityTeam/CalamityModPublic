@@ -1056,6 +1056,7 @@ namespace CalamityMod.CalPlayer
         public int persecutedEnchantSummonTimer = 0;
 
         public bool lecherousOrbEnchant = false;
+        public bool awaitingLecherousOrbSpawn = false;
         #endregion Calamitas Enchant Effects
 
         #region Draw Effects
@@ -7423,9 +7424,7 @@ namespace CalamityMod.CalPlayer
                 if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                 {
                     Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-                    if (Main.npc.IndexInRange(portal))
-                        Main.npc[portal].target = player.whoAmI;
+                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
                 }
 
 				if (revivify)
