@@ -4268,11 +4268,7 @@ namespace CalamityMod.CalPlayer
                     DeadMinionProperties deadMinionProperties;
 
                     // Handle unique edge-cases in terms of summoning logic.
-                    if (projectile.type == mechwormHeadType)
-                        deadMinionProperties = new DeadMechwormProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == ProjectileID.StardustDragon1)
-                        deadMinionProperties = new DeadStardustDragonProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == endoHydraBodyType)
+                    if (projectile.type == endoHydraBodyType)
                         deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
                     else if (projectile.type == endoCooperType)
                         deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
