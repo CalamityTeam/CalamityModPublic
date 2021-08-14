@@ -259,6 +259,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(attackCastDelay);
 
             writer.Write(shieldRotation);
+
+            writer.Write(safeBox.X);
+            writer.Write(safeBox.Y);
+            writer.Write(safeBox.Width);
+            writer.Write(safeBox.Height);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -306,6 +311,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             attackCastDelay = reader.ReadInt32();
 
             shieldRotation = reader.ReadSingle();
+
+            safeBox = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         }
 
         public override void AI()
@@ -461,29 +468,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             #endregion
             #region ArenaCreation
+
+            // Create the arena on the first frame. This does not run client-side.
+            // If this is done on the server, a sync must be performed so that the arena box is
+            // known to the clients. Not doing this results in significant desyncs in regards to things like DR.
             if (!spawnArena)
             {
-                spawnArena = true;
-                if (death)
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
-                    safeBox.Width = 2000;
-                    safeBox.Height = 2000;
-                    spawnYAdd = 100;
-                }
-                else
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
-                    safeBox.Width = 2500;
-                    safeBox.Height = 2500;
-                    spawnYAdd = 125;
-                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    if (death)
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
+                        safeBox.Width = 2000;
+                        safeBox.Height = 2000;
+                        spawnYAdd = 100;
+                    }
+                    else
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
+                        safeBox.Width = 2500;
+                        safeBox.Height = 2500;
+                        spawnYAdd = 125;
+                    }
+
                     int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
                     int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
                     int num54 = safeBox.Width / 2 / 16 + 1;
@@ -515,33 +526,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         initialRitualPosition = npc.Center + Vector2.UnitY * 24f;
                         npc.netUpdate = true;
                     }
+
+                    // Sync to update all clients on the state of the arena.
+                    // Only after this will enrages be registered.
+                    spawnArena = true;
+                    npc.netUpdate = true;
                 }
             }
             #endregion
             #region Enrage and DR
-            if (!player.Hitbox.Intersects(safeBox) || malice)
+            if ((spawnArena && !player.Hitbox.Intersects(safeBox) || malice))
             {
-				float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) ? 2f : 1.5f;
-                if (uDieLul < projectileVelocityMultCap)
-                {
-                    uDieLul *= 1.01f;
-                }
-                else if (uDieLul > projectileVelocityMultCap)
-                {
-                    uDieLul = projectileVelocityMultCap;
-                }
+                float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) && spawnArena ? 2f : 1.5f;
+                uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
                 protectionBoost = !malice;
             }
             else
             {
-                if (uDieLul > 1f)
-                {
-                    uDieLul *= 0.99f;
-                }
-                else if (uDieLul < 1f)
-                {
-                    uDieLul = 1f;
-                }
+                uDieLul = MathHelper.Clamp(uDieLul * 0.99f, 1f, 2f);
                 protectionBoost = false;
             }
             npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
