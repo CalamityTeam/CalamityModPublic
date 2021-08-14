@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                        "If enemy defense is 0 or below your attacks will heal you\n" +
                        "Striking enemies causes a large explosion\n" +
-                       "Striking enemies that have under half life will make you release rainbow bolts\n" +
+                       "Striking enemies that are under half life will cause them to release rainbow bolts\n" +
                        "Enemies spawn healing orbs on death");
         }
 
         public override void SetDefaults()
         {
-            item.width = 124;
-            item.height = 124;
+            item.width = 130;
+            item.height = 130;
             item.damage = 150;
             item.melee = true;
             item.useAnimation = 22;
@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
 		public override void UseStyle(Player player)
-		{
-			player.itemLocation += new Vector2(-12f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
-		}
+	    {
+			player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
+		} 
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
