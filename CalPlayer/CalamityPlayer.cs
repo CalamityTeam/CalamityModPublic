@@ -4529,6 +4529,10 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
                 }
+                if (witheredDebuff)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " withered away.");
+                }
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
             {
