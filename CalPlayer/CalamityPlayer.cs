@@ -5284,7 +5284,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 1.25;
             }
 
-            if (witheredDebuff)
+            if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
