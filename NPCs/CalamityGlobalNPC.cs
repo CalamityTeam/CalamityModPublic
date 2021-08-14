@@ -1896,7 +1896,7 @@ namespace CalamityMod.NPCs
 				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
 					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
 					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
-					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice)) ||
+					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)) ||
 					ThanatosIDs.Contains(npc.type))
 					DRScalar = 5f;
 
