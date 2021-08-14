@@ -1240,9 +1240,7 @@ namespace CalamityMod.CalPlayer
 				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
 				{
 					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-					int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-					if (Main.npc.IndexInRange(portal))
-						Main.npc[portal].target = player.whoAmI;
+					CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
 				}
 			}
 			if (player.miscCounter % 20 == 0)

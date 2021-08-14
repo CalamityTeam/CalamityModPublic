@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Other
 
             if (Time == 300f)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.myPlayer == npc.target)
                     ReleaseThings();
                 Main.PlaySound(SoundID.DD2_EtherianPortalOpen, npc.Center);
             }
@@ -92,6 +92,12 @@ namespace CalamityMod.NPCs.Other
                 return false;
             }
             return true;
+        }
+
+        public override bool CheckDead()
+        {
+            npc.life = 1;
+            return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
