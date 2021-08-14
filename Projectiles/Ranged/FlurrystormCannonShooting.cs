@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 34;
+            projectile.width = 68;
+            projectile.height = 38;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;

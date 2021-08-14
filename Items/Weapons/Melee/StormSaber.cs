@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 68;
+            item.height = 64;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<StormBeam>();
