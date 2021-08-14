@@ -1125,13 +1125,20 @@ namespace CalamityMod.Items
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 
-			// Exhaust the weapon if it has the necessary enchant.
-			if (!item.IsAir && modPlayer.dischargingItemEnchant)
+			if (!item.IsAir)
 			{
-				float exhaustionCost = item.useTime * 2.25f;
-				if (exhaustionCost < 10f)
-					exhaustionCost = 10f;
-				DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+				// Exhaust the weapon if it has the necessary enchant.
+				if (modPlayer.dischargingItemEnchant)
+				{
+					float exhaustionCost = item.useTime * 2.25f;
+					if (exhaustionCost < 10f)
+						exhaustionCost = 10f;
+					DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+				}
+
+				// Otherwise, if it doesn't, clear exhaustion.
+				else
+					DischargeEnchantExhaustion = 0;
 			}
 
             // Check for sufficient charge if this item uses charge.

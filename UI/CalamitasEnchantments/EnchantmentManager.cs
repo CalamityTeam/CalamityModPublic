@@ -189,7 +189,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().closeProximityRewardEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
-				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used.",
+				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used. It starts off with more damage than it normally would have.",
 					600,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
 					null,
@@ -246,7 +246,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
 
-				new Enchantment("Withering", "You heal when hurt based on damage dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
+				new Enchantment("Withering", "You heal when hurt based on damage you've dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
 					1000,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
 					null,
@@ -296,7 +296,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 				string.Empty,
 				ClearEnchantmentID,
 				null,
-				item => item.Calamity().AppliedEnchantment = null,
+				item =>
+				{
+					item.Calamity().AppliedEnchantment = null;
+					item.Calamity().DischargeEnchantExhaustion = 0;
+				},
 				item => item.maxStack == 1 && item.shoot >= ProjectileID.None);
 
 			ItemUpgradeRelationship = new Dictionary<int, int>()
