@@ -3337,14 +3337,14 @@ namespace CalamityMod.NPCs
 				enrageScale += 0.5f;
 			}
 
-			// Deus cannot hit for 3 seconds
+			// Deus cannot hit for 3 seconds or while invulnerable
 			if (calamityGlobalNPC.newAI[1] < 180f || npc.dontTakeDamage)
 				npc.damage = 0;
 			else
 				npc.damage = npc.defDamage;
 
-			// 10 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 600f)
+			// 5 seconds of resistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 300f)
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Get a target
@@ -5374,11 +5374,11 @@ namespace CalamityMod.NPCs
 
 			if (malice)
 			{
-				idlePhaseTimer = 45;
-				idlePhaseAcceleration *= 1.06f;
-				idlePhaseVelocity *= 1.12f;
+				idlePhaseTimer = 35;
+				idlePhaseAcceleration *= 1.25f;
+				idlePhaseVelocity *= 1.2f;
 				chargeTime -= 3;
-				chargeVelocity *= 1.15f;
+				chargeVelocity *= 1.25f;
 			}
 			else if (death)
 			{
@@ -5401,17 +5401,20 @@ namespace CalamityMod.NPCs
 				idlePhaseVelocity *= 0.25f;
 
 			// Variables
-			int toothBallBelchPhaseTimer = malice ? 45 : death ? 90 : 120;
-			int toothBallBelchPhaseDivisor = malice ? 9 : death ? 18 : 24;
-			float toothBallBelchPhaseAcceleration = malice ? 0.85f : death ? 0.6f : 0.55f;
+			int toothBallBelchPhaseTimer = malice ? 35 : death ? 90 : 120;
+			int toothBallBelchPhaseDivisor = malice ? 7 : death ? 18 : 24;
+			float toothBallBelchPhaseAcceleration = malice ? 0.95f : death ? 0.6f : 0.55f;
 			float toothBallBelchPhaseVelocity = malice ? 14f : death ? 10f : 9f;
+			float goreVelocityX = death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
+			float goreVelocityY = death ? 10.5f : revenge ? 10f : expertMode ? 9.5f : 8f;
+			float sharkronVelocity = malice ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
 			int num9 = 120;
 			int num10 = 180;
 			int num12 = 30;
-			int num13 = malice ? 45 : death ? 90 : 120;
-			int toothBallSpinPhaseDivisor = malice ? 9 : death ? 18 : 24;
+			int num13 = malice ? 35 : death ? 90 : 120;
+			int toothBallSpinPhaseDivisor = malice ? 7 : death ? 18 : 24;
 			float spinTime = num13 / 2;
-			float toothBallSpinToothBallVelocity = malice ? 13f : death ? 9.5f : 9f;
+			float toothBallSpinToothBallVelocity = malice ? 14f : death ? 9.5f : 9f;
 			float scaleFactor4 = 22f;
 			float num15 = MathHelper.TwoPi / spinTime;
 			int num16 = 75;
@@ -5467,7 +5470,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[0] % 60f == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
 
-				calamityGlobalNPC.newAI[0] -= 1f;
+				calamityGlobalNPC.newAI[0] -= malice ? 2f : 1f;
 				if (calamityGlobalNPC.newAI[0] <= 0f)
 					calamityGlobalNPC.newAI[1] = 0f;
 			}
@@ -5489,6 +5492,9 @@ namespace CalamityMod.NPCs
 				toothBallBelchPhaseDivisor = 6;
 				toothBallBelchPhaseAcceleration = 1f;
 				toothBallBelchPhaseVelocity = 15f;
+				goreVelocityX = 12f;
+				goreVelocityY = 16f;
+				sharkronVelocity = 20f;
 				idlePhaseTimer = 20;
 				idlePhaseAcceleration = 1.2f;
 				idlePhaseVelocity = 20f;
@@ -5904,8 +5910,8 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
 					{
 						calamityGlobalNPC.newAI[2] += 150f;
-						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -12f, 255);
-						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -12f, 255);
+						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
+						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
 					}
 				}
 
@@ -6144,8 +6150,8 @@ namespace CalamityMod.NPCs
 						int damage = npc.GetProjectileDamage(type);
 						for (int i = 0; i < 20; i++)
 						{
-							float velocityX = npc.direction * 6 * (Main.rand.NextFloat() + 0.5f);
-							float velocityY = 8f * (Main.rand.NextFloat() + 0.5f);
+							float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
+							float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
 							Projectile.NewProjectile(vector7.X, vector7.Y, velocityX, -velocityY, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
@@ -6191,8 +6197,8 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
 					{
 						calamityGlobalNPC.newAI[2] += 200f;
-						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, 12f, 255);
-						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, 12f, 255);
+						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
+						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
 					}
 				}
 
@@ -6460,8 +6466,8 @@ namespace CalamityMod.NPCs
 						int damage = npc.GetProjectileDamage(type);
 						for (int i = 0; i < 20; i++)
 						{
-							float velocityX = npc.direction * 6 * (Main.rand.NextFloat() + 0.5f);
-							float velocityY = 8f * (Main.rand.NextFloat() + 0.5f);
+							float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
+							float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
 							Projectile.NewProjectile(vector7.X, vector7.Y, velocityX, -velocityY, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
