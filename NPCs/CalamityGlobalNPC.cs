@@ -1888,8 +1888,8 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = CalamityWorld.malice ? 2f : (!GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR) ? 1.5f : 1f;
 
-				// Boost Providence timed DR during the night
-				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+				// Boost Providence timed DR during the night or in Malice Mode
+				if (npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice))
                     DRScalar = 10f;
 
 				// Boost most worm boss timed DR to prevent speed killing

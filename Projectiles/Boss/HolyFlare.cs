@@ -44,26 +44,27 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame > 3)
                 projectile.frame = 0;
 
-			float velocityY = projectile.position.Y + projectile.height < player.position.Y ? 1f : 0.25f;
-
+			float velocityYCap = projectile.position.Y + projectile.height < player.position.Y ? 1f : 0.25f;
 			projectile.velocity.Y += 0.01f;
-            if (projectile.velocity.Y > velocityY)
-                projectile.velocity.Y = velocityY;
+            if (projectile.velocity.Y > velocityYCap)
+                projectile.velocity.Y = velocityYCap;
 
+			float velocityX = (!Main.dayTime || CalamityWorld.malice) ? 0.025f : 0.02f;
             if (projectile.position.X + projectile.width < player.position.X)
             {
                 if (projectile.velocity.X < 0f)
                     projectile.velocity.X *= 0.99f;
-                projectile.velocity.X += 0.02f;
+                projectile.velocity.X += velocityX;
             }
             else if (projectile.position.X > player.position.X + player.width)
             {
                 if (projectile.velocity.X > 0f)
                     projectile.velocity.X *= 0.99f;
-                projectile.velocity.X -= 0.02f;
+                projectile.velocity.X -= velocityX;
             }
 
-            if (projectile.velocity.X > 8f || projectile.velocity.X < -8f)
+			float velocityXCap = (!Main.dayTime || CalamityWorld.malice) ? 10f : 8f;
+            if (projectile.velocity.X > velocityXCap || projectile.velocity.X < -velocityXCap)
                 projectile.velocity.X *= 0.97f;
 
             projectile.rotation = projectile.velocity.X * 0.025f;
