@@ -5688,13 +5688,11 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
                     if (hurtSoundTimer == 0)
@@ -5846,10 +5844,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        contactDamageReduction -= contactDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						contactDamageReduction -= contactDamageReduction * defenseDamageReduction;
+					}
+
+					if (contactDamageReduction < 0D)
+						contactDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
@@ -6135,13 +6142,11 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
                     if (hurtSoundTimer == 0)
@@ -6288,10 +6293,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        projectileDamageReduction -= projectileDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						projectileDamageReduction -= projectileDamageReduction * defenseDamageReduction;
+					}
+
+					if (projectileDamageReduction < 0D)
+						projectileDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
