@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Rage Mode");
-            Description.SetDefault("50% damage boost.");
+            Description.SetDefault("35% damage boost.");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
