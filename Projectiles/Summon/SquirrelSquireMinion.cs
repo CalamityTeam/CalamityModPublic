@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (OnSolidGround)
             {
-                float jumpSpeed = MathHelper.Lerp(6f, 13f, Utils.InverseLerp(100f, 250f, MathHelper.Distance(projectile.Center.X, destination.X), true));
+                float jumpSpeed = MathHelper.Lerp(8f, 13f, Utils.InverseLerp(100f, 250f, MathHelper.Distance(projectile.Center.X, destination.X), true));
                 projectile.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(projectile.Center, Owner.Center, 0.4f, jumpSpeed);
                 projectile.spriteDirection = (projectile.velocity.X > 0f).ToDirectionInt();
                 projectile.netUpdate = true;
@@ -208,9 +208,11 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == projectile.owner && AttackTimer % 30f == 27f)
                 {
                     projectile.spriteDirection = (target.Center.X > projectile.Center.X).ToDirectionInt();
-                    Vector2 acornSpawnPosition = projectile.Center + new Vector2(projectile.spriteDirection * 6f, 10f);
+
                     float acornShootSpeed = 14f;
+                    Vector2 acornSpawnPosition = projectile.Center + new Vector2(projectile.spriteDirection * 6f, 10f);
                     Vector2 acornShootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(acornSpawnPosition, target.Center + target.velocity * 25f, SquirrelSquireAcorn.Gravity, acornShootSpeed);
+
                     Projectile.NewProjectile(acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
