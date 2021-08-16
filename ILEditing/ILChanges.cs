@@ -108,6 +108,7 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
@@ -155,6 +156,7 @@ namespace CalamityMod.ILEditing
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
@@ -197,6 +199,15 @@ namespace CalamityMod.ILEditing
         #region IL Editing Routines and Injections
 
         #region Mechanics / features
+
+        // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
+        private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
+        {
+            if (self.active && self.Calamity().ShouldFallThroughPlatforms)
+                fall = true;
+            orig(self, fall, cPosition, cWidth, cHeight);
+        }
+
         private static void PermitNighttimeTownNPCSpawning(ILContext il)
         {
             // Don't do town NPC spawning at the end (which lies after a !Main.dayTime return).
