@@ -9,7 +9,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresPlasmaBolt : ModProjectile
     {
-        public override void SetStaticDefaults()
+		private const int timeLeft = 360;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Bolt");
             Main.projFrames[projectile.type] = 4;
@@ -28,16 +30,18 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
 			projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
         {
-			if (projectile.timeLeft < 15)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 15f, 0f, 1f);
+			int fadeOutTime = 15;
+			int fadeInTime = 3;
+			if (projectile.timeLeft < fadeOutTime)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / (float)fadeOutTime, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 597) / 3f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0f, 0.4f * projectile.Opacity, 0f);
 
@@ -64,14 +68,12 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(BuffID.CursedInferno, 90);
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity);
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			lightColor.G = (byte)(255 * projectile.Opacity);
+			lightColor.B = (byte)(255 * projectile.Opacity);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

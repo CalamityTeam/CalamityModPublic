@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }

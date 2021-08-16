@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Events;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -60,6 +61,11 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void AI()
 		{
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
 			{
 				npc.TargetClosest(false);
@@ -81,15 +87,27 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.alpha < 0)
 				npc.alpha = 0;
 
+			// Fly towards Old Duke
 			bool normalAI = npc.ai[3] == 0f;
+
+			// Fly up
 			bool upwardAI = npc.ai[3] < 0f;
+
+			// Fly down
 			bool downwardAI = npc.ai[3] > 0f;
 
-			float aiGateValue = normalAI ? 210f : 175f;
-			float maxVelocity = 18f;
+			float flyTowardTargetGateValue = malice ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+			float extraTime = malice ? 90f : death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
+			float aiGateValue = flyTowardTargetGateValue + extraTime;
+			if (!normalAI)
+				aiGateValue -= extraTime * 0.3f;
+			float explodeIntoGoreGateValue = aiGateValue + extraTime;
+			float fallDownGateValue = aiGateValue + extraTime * 0.5f;
+			float maxVelocity = malice ? 25f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
 
 			if (npc.ai[0] == 0f)
 			{
+				// Set velocity to fly towards a specified location on the first frame
 				if (npc.ai[1] == 0f)
 				{
 					if (normalAI)
@@ -100,46 +118,50 @@ namespace CalamityMod.NPCs.OldDuke
 					Main.PlaySound(SoundID.NPCDeath19, npc.position);
 				}
 
+				// Fly towards a target after a certain time has passed
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 90f)
+				if (npc.ai[1] >= flyTowardTargetGateValue)
 				{
+					// Start second part of AI if not inside tiles and a certain time has passed
 					if (!Collision.SolidCollision(npc.position, npc.width, npc.height) && npc.ai[1] >= aiGateValue)
-					{
 						npc.ai[0] = 1f;
-					}
 
+					// If not set to fly towards Old Duke from the start, accelerate
 					if (!normalAI)
 					{
 						if (npc.velocity.Length() < maxVelocity)
 							npc.velocity *= 1.01f;
 					}
 
+					// Fly towards the target
 					float scaleFactor2 = npc.velocity.Length();
 					Vector2 vector17 = Main.player[npc.target].Center - npc.Center;
 					vector17.Normalize();
 					vector17 *= scaleFactor2;
-					npc.velocity = (npc.velocity * 24f + vector17) / 25f;
+					float inertia = malice ? 15f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
+					npc.velocity = (npc.velocity * (inertia - 1f) + vector17) / inertia;
 					npc.velocity.Normalize();
 					npc.velocity *= scaleFactor2;
 				}
 			}
 			else if (npc.ai[0] == 1f)
 			{
+				// Move slower if set to fly upward from the start
 				if (upwardAI)
-					maxVelocity = 12f;
+					maxVelocity -= 6f;
 
+				// Decrease velocity if moving faster than max
 				if (npc.velocity.Length() > maxVelocity)
 					npc.velocity *= 0.99f;
 
 				npc.dontTakeDamage = false;
 
+				// Explode into gores if colliding with tiles or after a certain time has passed
 				npc.ai[1] += 1f;
-				if (Collision.SolidCollision(npc.position, npc.width, npc.height) || npc.ai[1] >= aiGateValue + 120f)
+				if (Collision.SolidCollision(npc.position, npc.width, npc.height) || npc.ai[1] >= explodeIntoGoreGateValue)
 				{
 					if (npc.DeathSound != null)
-					{
 						Main.PlaySound(npc.DeathSound, npc.position);
-					}
 
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
@@ -148,7 +170,8 @@ namespace CalamityMod.NPCs.OldDuke
 					return;
 				}
 
-				if (npc.ai[1] >= aiGateValue + 60f)
+				// Fall down after a certain time has passed
+				if (npc.ai[1] >= fallDownGateValue)
 				{
 					npc.noGravity = false;
 					npc.velocity.Y += 0.3f;

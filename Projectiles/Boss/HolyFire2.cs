@@ -59,7 +59,8 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 vector11 = Main.player[num103].Center - projectile.Center;
                 vector11.Normalize();
                 vector11 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
+				float inertia = (!Main.dayTime || CalamityWorld.malice) ? 20f : 25f;
+				projectile.velocity = (projectile.velocity * (inertia - 1f) + vector11) / inertia;
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }

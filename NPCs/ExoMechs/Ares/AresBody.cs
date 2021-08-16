@@ -327,16 +327,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale, Main.DiscoG / lightScale, Main.DiscoB / lightScale);
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 12f * baseVelocityMult;
+			float baseVelocity = 14f * baseVelocityMult;
 			float baseAcceleration = 1f;
+			float decelerationVelocityMult = 0.9f;
 			if (berserk)
 			{
-				baseVelocity *= 1.25f;
-				baseAcceleration *= 1.25f;
+				baseVelocity *= 1.5f;
+				baseAcceleration *= 1.5f;
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
@@ -350,7 +351,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float deathrayPhaseGateValue = 900f;
 			float deathrayDistanceGateValue = 480f;
-			float deathrayPhaseVelocityMult = 0.95f;
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -452,8 +452,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fly above the target
 				case (int)Phase.Normal:
 
-					if (!targetDead && moveToLocation)
-						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+					if (!targetDead)
+					{
+						if (moveToLocation)
+							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+						else
+							npc.velocity *= decelerationVelocityMult;
+					}
 
 					if (berserk)
 					{
@@ -480,7 +485,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						else
 						{
 							calamityGlobalNPC.newAI[3] = 1f;
-							npc.velocity *= deathrayPhaseVelocityMult;
+							npc.velocity *= decelerationVelocityMult;
 
 							int totalProjectiles = 8;
 							float radians = MathHelper.TwoPi / totalProjectiles;

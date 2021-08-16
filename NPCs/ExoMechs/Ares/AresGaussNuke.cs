@@ -203,6 +203,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
+			// Passive phase check
+			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
 			npc.dontTakeDamage = invisiblePhase;
@@ -221,10 +224,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Predictiveness
 			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			if (passivePhase)
+				predictionAmt *= 0.5f;
+
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
-			float projectileVelocity = 12f;
+			float projectileVelocity = passivePhase ? 9.6f : 12f;
 			float rateOfRotation = AIState == (int)Phase.GaussNuke ? 0.08f : 0.04f;
 			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
@@ -242,9 +248,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			int direction = Math.Sign(player.Center.X - npc.Center.X);
 			if (direction != 0)
 			{
-				if (calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[2] == 0f && direction != npc.direction)
-					npc.rotation += MathHelper.Pi;
-
 				npc.direction = direction;
 
 				if (npc.spriteDirection != -npc.direction)
@@ -257,12 +260,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Lighting.AddLight(npc.Center, 0.2f, 0.25f, 0.05f);
 
 			// Default vector to fly to
-			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 750f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
+			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
 			float baseVelocity = 15f * baseVelocityMult;
 			float baseAcceleration = 1f;
+			float decelerationVelocityMult = 0.9f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
@@ -375,8 +379,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Movement
-			if (!targetDead && moveToLocation)
-				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+			if (!targetDead)
+			{
+				if (moveToLocation)
+					npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+				else
+					npc.velocity *= decelerationVelocityMult;
+			}
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -435,14 +444,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
 			Vector2 center = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresGaussNukeGlow");
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

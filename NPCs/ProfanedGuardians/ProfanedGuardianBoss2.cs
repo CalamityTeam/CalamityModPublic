@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
             Vector2 vectorCenter = npc.Center;
 

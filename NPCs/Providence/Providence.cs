@@ -227,10 +227,10 @@ namespace CalamityMod.NPCs.Providence
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 
 			// Phase times
-			float phaseTime = nightTime ? (300f - 120f * (1f - lifeRatio)) : 300f;
+			float phaseTime = nightTime ? (240f - 60f * (1f - lifeRatio)) : 300f;
 			float crystalPhaseTime = nightTime ? (float)Math.Round(60f * lifeRatio) : death ? 60f : 120f;
 			int nightCrystalTime = 210;
-			float attackDelayAfterCocoon = 90f;
+			float attackDelayAfterCocoon = phaseTime * 0.3f;
 
 			// Phases
 			bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.Providence
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
             // Heal
             if (healerAlive)
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.Providence
                     flightPath = 0;
 
 				// Velocity and acceleration
-				float speedIncreaseTimer = enraged ? 60f : nightTime ? 90f : death ? 120f : 150f;
+				float speedIncreaseTimer = enraged ? 60f : nightTime ? 75f : death ? 120f : 150f;
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -491,8 +491,8 @@ namespace CalamityMod.NPCs.Providence
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
                 if (BossRushEvent.BossRushActive || nightTime || enraged)
                 {
-                    acceleration = 1.3f;
-                    velocity = 20f;
+                    acceleration = 1.5f;
+                    velocity = 25f;
                 }
                 if (firingLaser)
                 {
@@ -825,6 +825,9 @@ namespace CalamityMod.NPCs.Providence
 								num865 = 0f;
 
 							num865 += expertMode ? 4f : 3f;
+
+							if (nightTime)
+								num865 *= 2f;
 
 							Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -1196,7 +1199,7 @@ namespace CalamityMod.NPCs.Providence
 
 					Vector2 value19 = new Vector2(27f, 59f);
 
-					float rotation = 450f + (guardianAmt * 18);
+					float rotation = (nightTime ? 435f : 450f) + (guardianAmt * 18);
 
 					npc.ai[2] += 1f;
 					if (npc.ai[2] < 120f)

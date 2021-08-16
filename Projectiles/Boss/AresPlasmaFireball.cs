@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresPlasmaFireball : ModProjectile
     {
+		private const int timeLeft = 180;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Fireball");
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
-			projectile.timeLeft = 240;
+			projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
@@ -50,7 +52,8 @@ namespace CalamityMod.Projectiles.Boss
 			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
 				projectile.tileCollide = true;
 
-			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 237) / 3f), 0f, 1f);
+			int fadeInTime = 3;
+			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0f, 0.6f * projectile.Opacity, 0f);
 
@@ -131,14 +134,12 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(BuffID.CursedInferno, 180);
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity);
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			lightColor.G = (byte)(255 * projectile.Opacity);
+			lightColor.B = (byte)(255 * projectile.Opacity);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -158,7 +159,7 @@ namespace CalamityMod.Projectiles.Boss
 				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = 12f;
+				float velocity = projectile.velocity.Length();
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

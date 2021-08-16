@@ -1,7 +1,5 @@
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +9,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresTeslaOrb : ModProjectile
     {
-        public override void SetStaticDefaults()
+		private const int timeLeft = 480;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tesla Orb");
             Main.projFrames[projectile.type] = 4;
@@ -25,10 +25,11 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 32;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = -1;
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
-			projectile.timeLeft = 480;
+			projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
@@ -44,10 +45,12 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-			if (projectile.timeLeft < 15)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 15f, 0f, 1f);
+			int fadeOutTime = 15;
+			int fadeInTime = 3;
+			if (projectile.timeLeft < fadeOutTime)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / (float)fadeOutTime, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 477) / 3f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0.1f * projectile.Opacity, 0.25f * projectile.Opacity, 0.25f * projectile.Opacity);
 
@@ -117,16 +120,6 @@ namespace CalamityMod.Projectiles.Boss
 			}
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			projectile.velocity = oldVelocity;
-
-			if (projectile.timeLeft > 15)
-				projectile.timeLeft = 15;
-
-			return false;
-		}
-
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -137,14 +130,12 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(BuffID.Electrified, 240);
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255 * projectile.Opacity, 255 * projectile.Opacity, 255 * projectile.Opacity);
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			lightColor.G = (byte)(255 * projectile.Opacity);
+			lightColor.B = (byte)(255 * projectile.Opacity);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		private const float defaultLifeRatio = 5f;
 
 		// Base distance from the target for most attacks
-		private const float baseDistance = 1200f;
+		private const float baseDistance = 800f;
 
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
@@ -371,8 +371,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeLocationDistance = turnDistance * 0.2f;
 
 			// Laser Barrage variables
-			Vector2 laserBarrageLocation = new Vector2(0f, baseDistance);
-			float laserBarrageLocationDistance = turnDistance * 5f;
+			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 1.5f : baseDistance;
+			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
+			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
@@ -797,10 +798,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Velocity upper limit
 			if (npc.velocity.Length() > baseVelocity)
 				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
