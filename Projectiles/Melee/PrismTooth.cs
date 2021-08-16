@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
 			positionOffset = positionOffset.RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
 			projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + projectile.velocity * 42f + positionOffset;
-			projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Time, true);
+			projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Lifetime - projectile.timeLeft, true);
 
 			// Destroy trees within the range of the past 20 oldPos positions.
 			for (int i = 0; i < 20; i++)
