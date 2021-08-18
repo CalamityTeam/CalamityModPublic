@@ -354,8 +354,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								{
 									int type = ModContent.ProjectileType<AresLaserBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									float offset = 40f;
-									Vector2 source = calamityGlobalNPC.newAI[3] == 0f ? new Vector2(npc.Center.X, npc.Center.Y + offset) : new Vector2(npc.Center.X + offset, npc.Center.Y);
+									float offset = 84f;
+									float offset2 = 16f;
+									Vector2 source = horizontalLaserSweep ? new Vector2(npc.Center.X - offset2 * npc.direction, npc.Center.Y + offset) : new Vector2(npc.Center.X + offset * npc.direction, npc.Center.Y + offset2);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), source);
 									Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
 									if (laserVelocity.HasNaNs())

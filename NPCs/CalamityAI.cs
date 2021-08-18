@@ -5470,7 +5470,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[0] % 60f == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
 
-				calamityGlobalNPC.newAI[0] -= malice ? 2f : 1f;
+				calamityGlobalNPC.newAI[0] -= malice ? 1.5f : 1f;
 				if (calamityGlobalNPC.newAI[0] <= 0f)
 					calamityGlobalNPC.newAI[1] = 0f;
 			}

@@ -339,8 +339,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
 									int type = ModContent.ProjectileType<AresTeslaOrb>();
 									int damage = npc.GetProjectileDamage(type);
-									float offset = 40f;
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(teslaOrbVelocity) * offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+									Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
+									Projectile.NewProjectile(npc.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
