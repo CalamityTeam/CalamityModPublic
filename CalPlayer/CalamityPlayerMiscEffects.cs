@@ -2927,9 +2927,6 @@ namespace CalamityMod.CalPlayer
 				player.calmed = true;
 			}
 
-			if (player.HasBuff(BuffID.Panic))
-				player.moveSpeed -= 0.5f;
-
 			if (player.wellFed)
 				player.moveSpeed -= 0.1f;
 

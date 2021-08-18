@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
 			// Direction
-			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			int direction = Math.Sign((AIState == (int)Phase.Deathray && !horizontalLaserSweep ? lookAt.X : player.Center.X) - npc.Center.X);
 			if (direction != 0)
 			{
 				npc.direction = direction;
