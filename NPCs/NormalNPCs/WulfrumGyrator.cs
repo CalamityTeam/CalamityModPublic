@@ -73,15 +73,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                 float maxHeight = chargeJumpSpeed * chargeJumpSpeed * (float)Math.Pow(Math.Sin(npc.AngleTo(player.Center)), 2) / (4f * NPCGravity);
                 bool jumpWouldHitPlayer = maxHeight > Math.Abs(player.Center.Y - npc.Center.Y) && maxHeight < Math.Abs(player.Center.Y - npc.Center.Y) + player.height;
-                if (jumpWouldHitPlayer && npc.collideY && npc.velocity.Y == 0f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && jumpWouldHitPlayer && npc.collideY && npc.velocity.Y == 0f)
                 {
                     npc.velocity.Y = chargeJumpSpeed;
+                    npc.netSpam = 0;
+                    npc.netUpdate = true;
                 }
                 SuperchargeTimer--;
             }
 
             // Jump if there's an obstacle ahead.
-            if (HoleAtPosition(npc.Center.X + npc.velocity.X * 4f) && npc.collideY && npc.velocity.Y == 0f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && HoleAtPosition(npc.Center.X + npc.velocity.X * 4f) && npc.collideY && npc.velocity.Y == 0f)
             {
                 npc.velocity.Y = JumpSpeed;
                 npc.netSpam = 0;
@@ -95,10 +97,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.direction != direction)
                 {
                     npc.direction = direction;
+                    npc.netSpam = 0;
                     npc.netUpdate = true;
                 }
             }
-            else if (npc.collideX && npc.collideY && npc.velocity.Y == 0f)
+            else if (Main.netMode != NetmodeID.MultiplayerClient && npc.collideX && npc.collideY && npc.velocity.Y == 0f)
             {
                 npc.velocity.Y = JumpSpeed;
                 npc.netSpam = 0;
@@ -108,7 +111,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.oldPosition == npc.position)
             {
                 TimeSpentStuck++;
-                if (TimeSpentStuck > StuckJumpPromptTime)
+                if (Main.netMode != NetmodeID.MultiplayerClient && TimeSpentStuck > StuckJumpPromptTime)
                 {
                     npc.velocity.Y = JumpSpeed;
                     TimeSpentStuck = 0f;
@@ -116,9 +119,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
             else
-            {
                 TimeSpentStuck = 0f;
-            }
 
             npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction * (Supercharged ? 1.333f : 1f), Supercharged ? 0.025f : 0.015f);
             Vector4 adjustedVectors = Collision.WalkDownSlope(npc.position, npc.velocity, npc.width, npc.height, NPCGravity);

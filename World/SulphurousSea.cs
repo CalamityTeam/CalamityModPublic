@@ -578,19 +578,10 @@ namespace CalamityMod.World
 								int type = WorldGen.genRand.Next(6);
 								type++;
 								int height = heightFromType(type);
+
 								PlaceStalactite(trueX, y, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalactite{type}"));
 								if (WorldGen.SolidTile(trueX, y + dy + 1))
-								{
 									PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalacmite{type}"));
-								}
-								
-								// Reset the slope/half brick variables for the tiles below/above the pairs, so that it doesn't look like there's an
-								// imaginary gap between the stalactite and tile it's attached to.
-								Main.tile[trueX, y - 1].slope(0);
-								Main.tile[trueX, y - 1].halfBrick(false);
-
-								Main.tile[trueX, y + dy + 1].slope(0);
-								Main.tile[trueX, y + dy + 1].halfBrick(false);
 							}
 						}
 					}
@@ -650,7 +641,7 @@ namespace CalamityMod.World
 		}
 		public static void PlaceStalacmite(int x, int y, int height, ushort type)
 		{
-			for (int dy = height - 1; dy >= 0; dy--)
+			for (int dy = height - 1; dy > 0; dy--)
 			{
 				ushort oldWall = Main.tile[x, y + dy].wall;
 				Main.tile[x, y - dy] = new Tile
@@ -843,9 +834,14 @@ namespace CalamityMod.World
 		#region Scrap Piles
 		public static void PlaceScrapPiles()
 		{
+			int tries = 0;
 			List<Vector2> pastPlacementPostiion = new List<Vector2>();
 			for (int i = 0; i < 3; i++)
 			{
+				tries++;
+				if (tries > 20000)
+					continue;
+
 				int x = WorldGen.genRand.Next(75, BiomeWidth - 85);
 				if (!CalamityWorld.abyssSide)
 					x = Main.maxTilesX - x;
@@ -910,6 +906,7 @@ namespace CalamityMod.World
 				SchematicManager.PlaceSchematic<Action<Chest>>(schematicName, bottomCenter, SchematicAnchor.BottomCenter, ref _);
 
 				pastPlacementPostiion.Add(bottomCenter.ToVector2());
+				tries = 0;
 			}
 		}
 		#endregion Scrap Piles

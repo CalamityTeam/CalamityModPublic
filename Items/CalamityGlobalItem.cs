@@ -568,8 +568,21 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			CalamityPlayer modPlayer = player.Calamity();
+			if (Main.myPlayer == player.whoAmI && player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+			{
+				CalamityNetcode.NewNPC_ClientSide(Main.MouseWorld, ModContent.NPCType<CalamitasEnchantDemon>(), player);
+				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+			}
 
-            if (rogue)
+			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
+			if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+			{
+				int monsterDamage = (int)(165000 * player.MagicDamage());
+				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
+				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
+			}
+
+			if (rogue)
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
@@ -1090,21 +1103,6 @@ namespace CalamityMod.Items
             if (PopupGUIManager.AnyGUIsActive)
                 return false;
 
-			if (player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
-			{
-				Point spawnPosition = Main.MouseWorld.ToPoint();
-				NPC.NewNPC(spawnPosition.X, spawnPosition.Y, ModContent.NPCType<CalamitasEnchantDemon>(), Target: player.whoAmI);
-				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
-			}
-
-			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
-			if (player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
-			{
-				int damage = (int)(165000 * player.MagicDamage());
-				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
-				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), damage, 0f, player.whoAmI);
-			}
-
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
@@ -1127,13 +1125,20 @@ namespace CalamityMod.Items
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 
-			// Exhaust the weapon if it has the necessary enchant.
-			if (!item.IsAir && modPlayer.dischargingItemEnchant)
+			if (!item.IsAir)
 			{
-				float exhaustionCost = item.useTime * 2.25f;
-				if (exhaustionCost < 10f)
-					exhaustionCost = 10f;
-				DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+				// Exhaust the weapon if it has the necessary enchant.
+				if (modPlayer.dischargingItemEnchant)
+				{
+					float exhaustionCost = item.useTime * 2.25f;
+					if (exhaustionCost < 10f)
+						exhaustionCost = 10f;
+					DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+				}
+
+				// Otherwise, if it doesn't, clear exhaustion.
+				else
+					DischargeEnchantExhaustion = 0;
 			}
 
             // Check for sufficient charge if this item uses charge.

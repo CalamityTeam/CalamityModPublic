@@ -1056,6 +1056,7 @@ namespace CalamityMod.CalPlayer
         public int persecutedEnchantSummonTimer = 0;
 
         public bool lecherousOrbEnchant = false;
+        public bool awaitingLecherousOrbSpawn = false;
         #endregion Calamitas Enchant Effects
 
         #region Draw Effects
@@ -4267,11 +4268,7 @@ namespace CalamityMod.CalPlayer
                     DeadMinionProperties deadMinionProperties;
 
                     // Handle unique edge-cases in terms of summoning logic.
-                    if (projectile.type == mechwormHeadType)
-                        deadMinionProperties = new DeadMechwormProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == ProjectileID.StardustDragon1)
-                        deadMinionProperties = new DeadStardustDragonProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == endoHydraBodyType)
+                    if (projectile.type == endoHydraBodyType)
                         deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
                     else if (projectile.type == endoCooperType)
                         deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
@@ -4527,6 +4524,10 @@ namespace CalamityMod.CalPlayer
                 if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+                }
+                if (witheredDebuff)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " withered away.");
                 }
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
@@ -5283,7 +5284,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 1.25;
             }
 
-            if (witheredDebuff)
+            if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
@@ -7423,9 +7424,7 @@ namespace CalamityMod.CalPlayer
                 if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                 {
                     Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-                    if (Main.npc.IndexInRange(portal))
-                        Main.npc[portal].target = player.whoAmI;
+                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
                 }
 
 				if (revivify)

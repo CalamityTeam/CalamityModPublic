@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 				healingPotID = ItemID.GreaterHealingPotion;
 				manaPotID = ItemID.GreaterManaPotion;
 			}
-			DropHelper.DropItemChance(player, Main.rand.Next(100) >= 49 ? healingPotID : manaPotID, 0.25f, 2, 5);
+			DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);

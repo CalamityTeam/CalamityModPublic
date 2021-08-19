@@ -47,25 +47,23 @@ namespace CalamityMod.Items.Weapons.Magic
             float offsetAngle = MathHelper.TwoPi * player.itemAnimation / player.itemAnimationMax;
             offsetAngle += MathHelper.PiOver4 + Main.rand.NextFloat(0f, 1.3f);
             float shootSpeed = 1f;
-            switch (player.itemAnimation)
-			{
-                case 14:
-                    type = ModContent.ProjectileType<SolarElementalBeam>();
-                    break;
-                case 10:
-                    type = ModContent.ProjectileType<NebulaElementalBeam>();
-                    offsetAngle -= NebulaElementalBeam.UniversalAngularSpeed * 0.5f;
-                    break;
-                case 6:
-                    type = ModContent.ProjectileType<VortexElementalBeam>();
-                    shootSpeed = 2f;
-                    break;
-                case 2:
-                    type = ModContent.ProjectileType<StardustElementalBeam>();
-                    break;
-                default:
-                    return false;
+
+            if (player.itemAnimation == item.useAnimation - 1f)
+                type = ModContent.ProjectileType<SolarElementalBeam>();
+            else if (player.itemAnimation == item.useAnimation - item.useTime - 1)
+            {
+                type = ModContent.ProjectileType<NebulaElementalBeam>();
+                offsetAngle -= NebulaElementalBeam.UniversalAngularSpeed * 0.5f;
             }
+            else if (player.itemAnimation == item.useAnimation - item.useTime * 2 - 1)
+            {
+                type = ModContent.ProjectileType<VortexElementalBeam>();
+                shootSpeed = 2f;
+            }
+            else if (player.itemAnimation == item.useAnimation - item.useTime * 3 - 1)
+                type = ModContent.ProjectileType<StardustElementalBeam>();
+            else
+                return false;
 
             Vector2 spawnOffset = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedBy(offsetAngle) * -Main.rand.NextFloat(40f, 96f);
             Vector2 shootDirection = (Main.MouseWorld - (position + spawnOffset)).SafeNormalize(Vector2.UnitX * player.direction);

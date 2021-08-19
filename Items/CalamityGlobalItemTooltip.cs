@@ -996,7 +996,7 @@ namespace CalamityMod.Items
 		{
 			if (CalamityLists.fireWeaponList.Contains(item.type))
 			{
-				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "-Fire Weapon-")
+				TooltipLine fireTooltip = new TooltipLine(mod, "FireWeapon", "- Fire Weapon -")
 				{
 					overrideColor = new Color(255, 165, 0)
 				};
@@ -1005,7 +1005,7 @@ namespace CalamityMod.Items
 
 			if (CalamityLists.iceWeaponList.Contains(item.type))
 			{
-				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "-Ice Weapon-")
+				TooltipLine iceTooltip = new TooltipLine(mod, "IceWeapon", "- Ice Weapon -")
 				{
 					overrideColor = new Color(94, 230, 255)
 				};
@@ -1014,7 +1014,7 @@ namespace CalamityMod.Items
 
 			if (CalamityLists.natureWeaponList.Contains(item.type))
 			{
-				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "-Nature Weapon-")
+				TooltipLine natureTooltip = new TooltipLine(mod, "NatureWeapon", "- Nature Weapon -")
 				{
 					overrideColor = new Color(46, 165, 0)
 				};

@@ -52,16 +52,20 @@ namespace CalamityMod.NPCs.Other
                     npc.netUpdate = true;
                 }
 
+                // Notify the owner that the orb has indeed spawned.
+                Owner.Calamity().awaitingLecherousOrbSpawn = false;
+
                 Vector2 destination = Vector2.Lerp(Owner.Center, Main.MouseWorld, 0.625f);
                 npc.Center = Vector2.Lerp(npc.Center, destination, 0.035f).MoveTowards(destination, 8f);
+                if (npc.WithinRange(destination, 5f))
+                    npc.Center = destination;
+
                 if (!npc.WithinRange(destination, 2000f))
                     npc.Center = Owner.Center;
 
-                if (npc.Center != destination)
-                {
-                    npc.netSpam = 0;
-                    npc.netUpdate = true;
-                }
+                bool wasNotAtDestinationBefore = Vector2.Distance(npc.position + npc.Size * 0.5f, destination) < 0.1f && Vector2.Distance(npc.oldPosition + npc.Size * 0.5f, destination) > 0.1f;
+                if (Vector2.Distance(npc.position, npc.oldPosition) > 30f || wasNotAtDestinationBefore)
+                    npc.SyncMotionToServer();
             }
 
             Time++;
@@ -91,6 +95,14 @@ namespace CalamityMod.NPCs.Other
                     magic.noGravity = true;
                 }
             }
+        }
+
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            if (Main.myPlayer == npc.target)
+                npc.SyncMotionToServer();
+
+            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
         }
 
         public override void NPCLoot()

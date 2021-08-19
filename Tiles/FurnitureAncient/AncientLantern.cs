@@ -41,6 +41,12 @@ namespace CalamityMod.Tiles.FurnitureAncient
             CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLanternFlame"), i, j);
         }
 
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
+        }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
