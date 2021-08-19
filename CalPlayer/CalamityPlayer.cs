@@ -5955,7 +5955,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -5984,7 +5984,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6019,7 +6019,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6051,7 +6051,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}

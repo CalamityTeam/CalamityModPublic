@@ -480,7 +480,7 @@ namespace CalamityMod.CalPlayer
 				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
                 if (lesserEffect)
                 {
-                    player.lifeRegen += 1;
+                    player.lifeRegen += modPlayer.astralArcanum ? 2 : 1;
                     player.statDefense += defenseBoost;
                 }
                 else
@@ -490,11 +490,11 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += 4;
+                        player.lifeRegen += modPlayer.astralArcanum ? 6 : 4;
                         player.statDefense += defenseBoost;
                     }
                     else
-                        player.lifeRegen += 2;
+                        player.lifeRegen += modPlayer.astralArcanum ? 3 : 2;
                 }
             }
             else if (modPlayer.crownJewel)
