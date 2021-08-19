@@ -1191,30 +1191,12 @@ namespace CalamityMod.NPCs
 		// Master Mode changes
 		// 1 - Brothers are midgets and faster, 2 - Calamitas no longer gains increased defense while brothers are alive, 3 - Calamitas moves far quicker and her fireballs split into brimstone darts on death
 		#region Calamitas Clone
-		public static void CalamitasCloneAI(NPC npc, Mod mod, bool phase2)
+		public static void CalamitasCloneAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
-
-			// Spawn phase 2 Cal
-			if (npc.life / (float)npc.lifeMax <= 0.75f && Main.netMode != NetmodeID.MultiplayerClient && !phase2)
-			{
-				int calPhase2 = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun3>(), npc.whoAmI);
-				Main.npc[calPhase2].rotation = npc.rotation;
-				Main.npc[calPhase2].velocity = npc.velocity;
-				Main.npc[calPhase2].netUpdate = true;
-
-				string key = "Mods.CalamityMod.CalamitasBossText";
-				Color messageColor = Color.Orange;
-				CalamityUtils.DisplayLocalizedText(key, messageColor);
-
-				npc.active = false;
-				npc.netUpdate = true;
-
-				return;
-			}
 
 			// Variables for increasing difficulty
 			bool enraged = calamityGlobalNPC.enraged > 0;
@@ -1242,137 +1224,134 @@ namespace CalamityMod.NPCs
 			// Variable for live brothers
 			bool brotherAlive = false;
 
-			if (phase2)
+			// For seekers
+			CalamityGlobalNPC.calamitas = npc.whoAmI;
+
+			// Seeker ring
+			if (calamityGlobalNPC.newAI[1] == 0f && phase4 && expertMode)
 			{
-				// For seekers
-				CalamityGlobalNPC.calamitas = npc.whoAmI;
-
-				// Seeker ring
-				if (calamityGlobalNPC.newAI[1] == 0f && phase4 && expertMode)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
+					int seekerAmt = death ? 10 : 5;
+					int seekerSpread = 360 / seekerAmt;
+					int seekerDistance = death ? 180 : 150;
+					for (int i = 0; i < seekerAmt; i++)
 					{
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
-						int seekerAmt = death ? 10 : 5;
-						int seekerSpread = 360 / seekerAmt;
-						int seekerDistance = death ? 180 : 150;
-						for (int i = 0; i < seekerAmt; i++)
-						{
-							int spawn = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(i * seekerSpread) * seekerDistance)), (int)(npc.Center.Y + (Math.Cos(i * seekerSpread) * seekerDistance)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
-							Main.npc[spawn].ai[0] = i * seekerSpread;
-						}
-					}
-
-					string key = "Mods.CalamityMod.CalamitasBossText3";
-					Color messageColor = Color.Orange;
-					CalamityUtils.DisplayLocalizedText(key, messageColor);
-
-					calamityGlobalNPC.newAI[1] = 1f;
-				}
-
-				// Do bullet hell or spawn brothers
-				if (calamityGlobalNPC.newAI[0] == 0f && npc.life > 0)
-					calamityGlobalNPC.newAI[0] = npc.lifeMax;
-
-				// Bullet hells at 70% and 10%, brothers at 40%
-				if (npc.life > 0)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						int num660 = (int)(npc.lifeMax * 0.3);
-						if ((npc.life + num660) < calamityGlobalNPC.newAI[0])
-						{
-							calamityGlobalNPC.newAI[0] = npc.life;
-							if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.1)
-							{
-								Main.PlaySound(SoundID.Item109, npc.Center);
-								calamityGlobalNPC.newAI[2] = 2f;
-								SpawnDust();
-								npc.alpha = 255;
-							}
-							else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
-							{
-								NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
-								NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
-
-								string key = "Mods.CalamityMod.CalamitasBossText2";
-								Color messageColor = Color.Orange;
-								CalamityUtils.DisplayLocalizedText(key, messageColor);
-							}
-							else
-							{
-								Main.PlaySound(SoundID.Item109, npc.Center);
-								calamityGlobalNPC.newAI[2] = 1f;
-								SpawnDust();
-								npc.alpha = 255;
-							}
-						}
+						int spawn = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(i * seekerSpread) * seekerDistance)), (int)(npc.Center.Y + (Math.Cos(i * seekerSpread) * seekerDistance)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
+						Main.npc[spawn].ai[0] = i * seekerSpread;
 					}
 				}
 
-				// Huge DR boost if brothers are alive
-				if (expertMode)
+				string key = "Mods.CalamityMod.CalamitasBossText3";
+				Color messageColor = Color.Orange;
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+				calamityGlobalNPC.newAI[1] = 1f;
+			}
+
+			// Do bullet hell or spawn brothers
+			if (calamityGlobalNPC.newAI[0] == 0f && npc.life > 0)
+				calamityGlobalNPC.newAI[0] = npc.lifeMax;
+
+			// Bullet hells at 70% and 10%, brothers at 40%
+			if (npc.life > 0)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					if (CalamityGlobalNPC.cataclysm != -1)
+					int num660 = (int)(npc.lifeMax * 0.3);
+					if ((npc.life + num660) < calamityGlobalNPC.newAI[0])
 					{
-						if (Main.npc[CalamityGlobalNPC.cataclysm].active)
+						calamityGlobalNPC.newAI[0] = npc.life;
+						if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.1)
 						{
-							brotherAlive = true;
+							Main.PlaySound(SoundID.Item109, npc.Center);
+							calamityGlobalNPC.newAI[2] = 2f;
+							SpawnDust();
+							npc.alpha = 255;
 						}
-					}
-					if (CalamityGlobalNPC.catastrophe != -1)
-					{
-						if (Main.npc[CalamityGlobalNPC.catastrophe].active)
+						else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
 						{
-							brotherAlive = true;
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
+
+							string key = "Mods.CalamityMod.CalamitasBossText2";
+							Color messageColor = Color.Orange;
+							CalamityUtils.DisplayLocalizedText(key, messageColor);
 						}
-					}
-					if (brotherAlive)
-					{
-						calamityGlobalNPC.DR = 0.9999f;
-						calamityGlobalNPC.unbreakableDR = true;
-					}
-					else
-					{
-						calamityGlobalNPC.DR = 0.15f;
-						calamityGlobalNPC.unbreakableDR = false;
+						else
+						{
+							Main.PlaySound(SoundID.Item109, npc.Center);
+							calamityGlobalNPC.newAI[2] = 1f;
+							SpawnDust();
+							npc.alpha = 255;
+						}
 					}
 				}
+			}
 
-				// Disable homing if brothers are alive
-				npc.chaseable = !brotherAlive;
-
-				void SpawnDust()
+			// Huge DR boost if brothers are alive
+			if (expertMode)
+			{
+				if (CalamityGlobalNPC.cataclysm != -1)
 				{
-					int dustAmt = 50;
-					int random = 3;
-
-					for (int j = 0; j < 10; j++)
+					if (Main.npc[CalamityGlobalNPC.cataclysm].active)
 					{
-						random += j;
-						int dustAmtSpawned = 0;
-						int scale = random * 6;
-						float dustPositionX = npc.Center.X - (scale / 2);
-						float dustPositionY = npc.Center.Y - (scale / 2);
-						while (dustAmtSpawned < dustAmt)
-						{
-							float dustVelocityX = Main.rand.Next(-random, random);
-							float dustVelocityY = Main.rand.Next(-random, random);
-							float dustVelocityScalar = random * 2f;
-							float dustVelocity = (float)Math.Sqrt(dustVelocityX * dustVelocityX + dustVelocityY * dustVelocityY);
-							dustVelocity = dustVelocityScalar / dustVelocity;
-							dustVelocityX *= dustVelocity;
-							dustVelocityY *= dustVelocity;
-							int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-							Main.dust[dust].noGravity = true;
-							Main.dust[dust].position.X = npc.Center.X;
-							Main.dust[dust].position.Y = npc.Center.Y;
-							Main.dust[dust].position.X += Main.rand.Next(-10, 11);
-							Main.dust[dust].position.Y += Main.rand.Next(-10, 11);
-							Main.dust[dust].velocity.X = dustVelocityX;
-							Main.dust[dust].velocity.Y = dustVelocityY;
-							dustAmtSpawned++;
-						}
+						brotherAlive = true;
+					}
+				}
+				if (CalamityGlobalNPC.catastrophe != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.catastrophe].active)
+					{
+						brotherAlive = true;
+					}
+				}
+				if (brotherAlive)
+				{
+					calamityGlobalNPC.DR = 0.9999f;
+					calamityGlobalNPC.unbreakableDR = true;
+				}
+				else
+				{
+					calamityGlobalNPC.DR = 0.15f;
+					calamityGlobalNPC.unbreakableDR = false;
+				}
+			}
+
+			// Disable homing if brothers are alive
+			npc.chaseable = !brotherAlive;
+
+			void SpawnDust()
+			{
+				int dustAmt = 50;
+				int random = 3;
+
+				for (int j = 0; j < 10; j++)
+				{
+					random += j;
+					int dustAmtSpawned = 0;
+					int scale = random * 6;
+					float dustPositionX = npc.Center.X - (scale / 2);
+					float dustPositionY = npc.Center.Y - (scale / 2);
+					while (dustAmtSpawned < dustAmt)
+					{
+						float dustVelocityX = Main.rand.Next(-random, random);
+						float dustVelocityY = Main.rand.Next(-random, random);
+						float dustVelocityScalar = random * 2f;
+						float dustVelocity = (float)Math.Sqrt(dustVelocityX * dustVelocityX + dustVelocityY * dustVelocityY);
+						dustVelocity = dustVelocityScalar / dustVelocity;
+						dustVelocityX *= dustVelocity;
+						dustVelocityY *= dustVelocity;
+						int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].position.X = npc.Center.X;
+						Main.dust[dust].position.Y = npc.Center.Y;
+						Main.dust[dust].position.X += Main.rand.Next(-10, 11);
+						Main.dust[dust].position.Y += Main.rand.Next(-10, 11);
+						Main.dust[dust].velocity.X = dustVelocityX;
+						Main.dust[dust].velocity.Y = dustVelocityY;
+						dustAmtSpawned++;
 					}
 				}
 			}
@@ -1403,10 +1382,9 @@ namespace CalamityMod.NPCs
 			}
 
 			// Rotation
-			/*float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
-			float num802 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);*/
-
-			Vector2 rotationVector = Main.player[npc.target].Center - npc.Center;
+			Vector2 npcCenter = new Vector2(npc.Center.X, npc.position.Y + npc.height - 59f);
+			Vector2 lookAt = new Vector2(player.position.X - (player.width / 2), player.position.Y - (player.height / 2));
+			Vector2 rotationVector = npcCenter - lookAt;
 
 			// Malice Mode predictive charge rotation
 			if (npc.ai[1] == 4f && phase5 && malice)
@@ -1417,7 +1395,8 @@ namespace CalamityMod.NPCs
 				if (provy)
 					chargeVelocity *= 1.25f;
 
-				rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - npc.Center) * chargeVelocity;
+				lookAt += Main.player[npc.target].velocity * 20f;
+				rotationVector = Vector2.Normalize(npcCenter - lookAt) * chargeVelocity;
 			}
 
 			float num803 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;
@@ -1489,16 +1468,10 @@ namespace CalamityMod.NPCs
 			// Bullet hell phase
 			if (calamityGlobalNPC.newAI[2] > 0f)
 			{
-				float num823 = expertMode ? 9.5f : 8f;
-				float num824 = expertMode ? 0.175f : 0.15f;
+				float num823 = expertMode ? 10f : 8.5f;
+				float num824 = expertMode ? 0.18f : 0.155f;
 				num823 += 4f * enrageScale;
 				num824 += 0.1f * enrageScale;
-
-				if (phase2)
-				{
-					num823 = expertMode ? 10f : 8.5f;
-					num824 = expertMode ? 0.18f : 0.155f;
-				}
 
 				if (death)
 				{
@@ -1514,7 +1487,7 @@ namespace CalamityMod.NPCs
 
 				Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 				float num825 = player.position.X + (player.width / 2) - vector82.X;
-				float num826 = player.position.Y + (player.height / 2) - (300f + (phase2 ? 60f : 0f)) - vector82.Y;
+				float num826 = player.position.Y + (player.height / 2) - 360f - vector82.Y;
 				float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 				num827 = num823 / num827;
 				num825 *= num827;
@@ -1651,16 +1624,10 @@ namespace CalamityMod.NPCs
 			// Float above target and fire lasers or fireballs
 			if (npc.ai[1] == 0f)
 			{
-				float num823 = expertMode ? 9.5f : 8f;
-				float num824 = expertMode ? 0.175f : 0.15f;
+				float num823 = expertMode ? 10f : 8.5f;
+				float num824 = expertMode ? 0.18f : 0.155f;
 				num823 += 4f * enrageScale;
 				num824 += 0.1f * enrageScale;
-
-				if (phase2)
-				{
-					num823 = expertMode ? 10f : 8.5f;
-					num824 = expertMode ? 0.18f : 0.155f;
-				}
 
 				if (death)
 				{
@@ -1683,7 +1650,7 @@ namespace CalamityMod.NPCs
 
 				Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 				float num825 = player.position.X + (player.width / 2) - vector82.X;
-				float num826 = player.position.Y + (player.height / 2) - (300f + (phase2 ? 60f : 0f)) - vector82.Y;
+				float num826 = player.position.Y + (player.height / 2) - 360f - vector82.Y;
 				float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 				num827 = num823 / num827;
 				num825 *= num827;
@@ -1715,7 +1682,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[2] += 1f;
-				float phaseTimer = (phase2 ? 200f : 300f) - (death ? 60f * (1f - lifeRatio) : 0f);
+				float phaseTimer = 200f - (death ? 60f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
 					npc.ai[1] = 1f;
@@ -1730,66 +1697,38 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
-					if (phase2)
+					if (!brotherAlive)
 					{
-						if (!brotherAlive)
-						{
-							if (expertMode)
-								npc.localAI[1] += death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
-							if (revenge)
-								npc.localAI[1] += 0.5f;
-						}
-
-						if (npc.localAI[1] >= 180f)
-						{
-							npc.localAI[1] = 0f;
-
-							float num828 = expertMode ? 14f : 12.5f;
-							num828 += 3f * enrageScale;
-
-							int type = ModContent.ProjectileType<BrimstoneHellfireball>();
-							int damage = npc.GetProjectileDamage(type);
-
-							num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-							num827 = num828 / num827;
-							num825 *= num827;
-							num826 *= num827;
-							vector82.X += num825 * 8f;
-							vector82.Y += num826 * 8f;
-
-							if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-							{
-								int proj = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
-								Main.projectile[proj].tileCollide = false;
-							}
-							else
-								Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
-						}
-					}
-					else
-					{
+						if (expertMode)
+							npc.localAI[1] += death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
 						if (revenge)
 							npc.localAI[1] += 0.5f;
+					}
 
-						if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+					if (npc.localAI[1] >= 180f)
+					{
+						npc.localAI[1] = 0f;
+
+						float num828 = expertMode ? 14f : 12.5f;
+						num828 += 3f * enrageScale;
+
+						int type = ModContent.ProjectileType<BrimstoneHellfireball>();
+						int damage = npc.GetProjectileDamage(type);
+
+						num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+						num827 = num828 / num827;
+						num825 *= num827;
+						num826 *= num827;
+						vector82.X += num825 * 8f;
+						vector82.Y += num826 * 8f;
+
+						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
-							npc.localAI[1] = 0f;
-
-							float num828 = expertMode ? 12f : 10.5f;
-							num828 += 3f * enrageScale;
-
-							int type = ModContent.ProjectileType<BrimstoneHellblast>();
-							int damage = npc.GetProjectileDamage(type);
-
-							num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-							num827 = num828 / num827;
-							num825 *= num827;
-							num826 *= num827;
-							vector82.X += num825 * 8f;
-							vector82.Y += num826 * 8f;
-
-							Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							int proj = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+							Main.projectile[proj].tileCollide = false;
 						}
+						else
+							Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
 					}
 				}
 			}
@@ -1801,16 +1740,10 @@ namespace CalamityMod.NPCs
 				if (npc.Center.X < player.Center.X)
 					num831 = -1;
 
-				float num832 = expertMode ? 9.5f : 8f;
-				float num833 = expertMode ? 0.25f : 0.2f;
+				float num832 = expertMode ? 10f : 8.5f;
+				float num833 = expertMode ? 0.255f : 0.205f;
 				num832 += 4f * enrageScale;
 				num833 += 0.1f * enrageScale;
-
-				if (phase2)
-				{
-					num832 = expertMode ? 10f : 8.5f;
-					num833 = expertMode ? 0.255f : 0.205f;
-				}
 
 				if (death)
 				{
@@ -1870,79 +1803,51 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
-					if (phase2)
-					{
-						if (!brotherAlive)
-						{
-							if (revenge)
-								npc.localAI[1] += 0.5f;
-							if (expertMode)
-								npc.localAI[1] += 0.5f;
-						}
-
-						if (npc.localAI[1] >= 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-						{
-							npc.localAI[1] = 0f;
-
-							float num837 = expertMode ? 12.5f : 11f;
-							num837 += 3f * enrageScale;
-
-							int type = brotherAlive ? ModContent.ProjectileType<BrimstoneHellfireball>() : ModContent.ProjectileType<BrimstoneHellblast>();
-							int damage = npc.GetProjectileDamage(type);
-
-							num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-							num836 = num837 / num836;
-							num834 *= num836;
-							num835 *= num836;
-							vector83.X += num834 * 8f;
-							vector83.Y += num835 * 8f;
-
-							if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-							{
-								type = ModContent.ProjectileType<BrimstoneHellfireball>();
-								damage = npc.GetProjectileDamage(type);
-								int proj = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
-								Main.projectile[proj].tileCollide = false;
-							}
-							else
-							{
-								float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : 0f;
-								Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, ai0, 0f);
-							}
-						}
-					}
-					else
+					if (!brotherAlive)
 					{
 						if (revenge)
 							npc.localAI[1] += 0.5f;
+						if (expertMode)
+							npc.localAI[1] += 0.5f;
+					}
 
-						if (npc.localAI[1] >= 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+					if (npc.localAI[1] >= 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+					{
+						npc.localAI[1] = 0f;
+
+						float num837 = expertMode ? 12.5f : 11f;
+						num837 += 3f * enrageScale;
+
+						int type = brotherAlive ? ModContent.ProjectileType<BrimstoneHellfireball>() : ModContent.ProjectileType<BrimstoneHellblast>();
+						int damage = npc.GetProjectileDamage(type);
+
+						num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+						num836 = num837 / num836;
+						num834 *= num836;
+						num835 *= num836;
+						vector83.X += num834 * 8f;
+						vector83.Y += num835 * 8f;
+
+						if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
-							npc.localAI[1] = 0f;
-
-							float num837 = expertMode ? 12f : 10.5f;
-							num837 += 3f * enrageScale;
-
-							int type = ModContent.ProjectileType<BrimstoneHellblast>();
-							int damage = (int)Math.Round(npc.GetProjectileDamage(type) * 0.75);
-
-							num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-							num836 = num837 / num836;
-							num834 *= num836;
-							num835 *= num836;
-							vector83.X += num834 * 8f;
-							vector83.Y += num835 * 8f;
-
-							Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							type = ModContent.ProjectileType<BrimstoneHellfireball>();
+							damage = npc.GetProjectileDamage(type);
+							int proj = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+							Main.projectile[proj].tileCollide = false;
+						}
+						else
+						{
+							float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : 0f;
+							Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, ai0, 0f);
 						}
 					}
 				}
 
 				npc.ai[2] += 1f;
-				float phaseTimer = (phase2 ? 120f : 180f) - (death ? 30f * (1f - lifeRatio) : 0f);
+				float phaseTimer = 120f - (death ? 30f * (1f - lifeRatio) : 0f);
 				if (npc.ai[2] >= phaseTimer || phase5)
 				{
-					npc.ai[1] = phase2 && !brotherAlive && phase3 && revenge ? 4f : 0f;
+					npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
 					npc.ai[2] = 0f;
 					npc.TargetClosest();
 					npc.netUpdate = true;

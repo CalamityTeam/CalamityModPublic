@@ -23,6 +23,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -725,8 +726,8 @@ namespace CalamityMod.NPCs
 
 			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
 			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
-			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
-			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());*/
+			ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
@@ -4838,7 +4839,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedBrimstoneElemental;
 			}
-			else if (type == NPCType<Calamitas.Calamitas>() || type == NPCType<CalamitasRun3>())
+			else if (type == NPCType<CalamitasRun3>())
 			{
 				return CalamityWorld.downedCalamitas;
 			}
