@@ -120,6 +120,8 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
 		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
+		public const int defaultTimeBeforeDefenseDamageRecovery = 5;
+		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
         public bool blazingMouseDamageEffects = false;
@@ -2124,6 +2126,7 @@ namespace CalamityMod.CalPlayer
 			#region Debuffs
 			dodgeCooldownTimer = 0;
 			defenseDamage = 0;
+			timeBeforeDefenseDamageRecovery = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
             heldGaelsLastFrame = false;
@@ -5696,7 +5699,10 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;
@@ -6150,7 +6156,10 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;

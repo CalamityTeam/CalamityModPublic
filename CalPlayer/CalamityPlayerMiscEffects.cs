@@ -1132,6 +1132,8 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.timeBeforeDefenseDamageRecovery > 0)
+				modPlayer.timeBeforeDefenseDamageRecovery--;
 			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
 				modPlayer.phantomicHeartRegen--;
 			if (modPlayer.phantomicBulwarkCooldown > 0)
@@ -3885,8 +3887,8 @@ namespace CalamityMod.CalPlayer
 						isImmune = true;
 				}
 
-				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames
-				if (player.miscCounter % defenseDamageRecoveryRate == 0 && !isImmune)
+				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames and if the recovery timer is 0
+				if (player.miscCounter % defenseDamageRecoveryRate == 0 && !isImmune && modPlayer.timeBeforeDefenseDamageRecovery == 0)
 					modPlayer.defenseDamage--;
 			}
 
