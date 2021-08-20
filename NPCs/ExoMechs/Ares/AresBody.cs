@@ -331,9 +331,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 14f * baseVelocityMult;
+			float baseVelocity = 18f * baseVelocityMult;
 			float baseAcceleration = 1f;
-			float decelerationVelocityMult = 0.9f;
+			float decelerationVelocityMult = 0.85f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
