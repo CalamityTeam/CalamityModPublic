@@ -47,12 +47,6 @@ namespace CalamityMod.Items.TreasureBags
             if (Main.hardMode)
                 player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 15, 25);
-            DropHelper.DropItem(player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
-
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(player,
