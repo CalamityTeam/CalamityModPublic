@@ -2893,34 +2893,27 @@ namespace CalamityMod.CalPlayer
             {
                 if (!player.chaosState)
                 {
-                    float teleportRange = 320f;
                     Vector2 teleportLocation;
-                    teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+                    teleportLocation.X = Main.mouseX + Main.screenPosition.X;
                     if (player.gravDir == 1f)
-                    {
-                        teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
-                    }
+                        teleportLocation.Y = Main.mouseY + Main.screenPosition.Y - player.height;
                     else
+                        teleportLocation.Y = Main.screenPosition.Y + Main.screenHeight - Main.mouseY;
+
+                    teleportLocation.X -= player.width * 0.5f;
+                    Vector2 teleportOffset = teleportLocation - player.position;
+                    if (teleportOffset.Length() > SpectralVeil.TeleportRange)
                     {
-                        teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
-                    }
-                    teleportLocation.X -= (float)(player.width / 2);
-                    Vector2 playerToTeleport = teleportLocation - player.position;
-                    if (playerToTeleport.Length() > teleportRange)
-                    {
-                        playerToTeleport.Normalize();
-                        playerToTeleport *= teleportRange;
-                        teleportLocation = player.position + playerToTeleport;
+                        teleportOffset = teleportOffset.SafeNormalize(Vector2.Zero) * SpectralVeil.TeleportRange;
+                        teleportLocation = player.position + teleportOffset;
                     }
                     if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
                     {
-                        int x = (int)(teleportLocation.X / 16f);
-                        int y = (int)(teleportLocation.Y / 16f);
                         if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
                         {
                             rogueStealth -= rogueStealthMax * 0.25f;
 
-                            player.Teleport(teleportLocation, 1, 0);
+                            player.Teleport(teleportLocation, 1);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration;
@@ -2933,7 +2926,7 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
-                            Vector2 step = playerToTeleport / numDust;
+                            Vector2 step = teleportOffset / numDust;
                             for (int i = 0; i < numDust; i++)
                             {
                                 int dustIndex = Dust.NewDust(player.Center - (step * i), 1, 1, 21, step.X, step.Y);
@@ -2942,8 +2935,8 @@ namespace CalamityMod.CalPlayer
                             }
 
                             player.immune = true;
-                            player.immuneTime = 120;
-                            spectralVeilImmunity = 120;
+                            player.immuneTime = 150;
+                            spectralVeilImmunity = 150;
                             for (int k = 0; k < player.hurtCooldowns.Length; k++)
                                 player.hurtCooldowns[k] = player.immuneTime;
                         }
@@ -4049,7 +4042,7 @@ namespace CalamityMod.CalPlayer
 
             if (spectralVeil && spectralVeilImmunity > 0)
             {
-                SpectralVeil();
+                SpectralVeilDodge();
                 return true;
             }
 
@@ -4090,7 +4083,7 @@ namespace CalamityMod.CalPlayer
             return false;
         }
 
-        private void SpectralVeil()
+        private void SpectralVeilDodge()
         {
             player.immune = true;
             player.immuneTime = spectralVeilImmunity; //Set immunity before setting this variable to 0
