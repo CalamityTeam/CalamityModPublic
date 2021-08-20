@@ -20,6 +20,17 @@ namespace CalamityMod.NPCs.Leviathan
         private bool spawnedLevi = false;
         private bool forceChargeFrames = false;
         private int frameUsed = 0;
+		public bool HasBegunSummoningLeviathan = false;
+		public bool WaitingForLeviathan
+        {
+            get
+            {
+				if (Main.npc.IndexInRange(CalamityGlobalNPC.leviathan) && Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax >= 0.4f)
+					return true;
+
+				return CalamityUtils.FindFirstProjectile(ModContent.ProjectileType<LeviathanSpawner>()) != -1;
+            }
+        }
 
 		//IMPORTANT: Do NOT remove the empty space on the sprites.  This is intentional for framing.  The sprite is centered and hitbox is fine already.
 
@@ -149,19 +160,51 @@ namespace CalamityMod.NPCs.Leviathan
 			// Spawn Leviathan and change music
 			if (npc.life / (float)npc.lifeMax < 0.4f)
 			{
-				if (!spawnedLevi)
+				if (!HasBegunSummoningLeviathan)
 				{
-					music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
+					// Use charging frames.
+					npc.ai[0] = 3f;
 
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+					// Look towards the ocean.
+					npc.direction = (npc.Center.X < Main.maxTilesX * 8f).ToDirectionInt();
+
+					if (npc.alpha <= 0)
 					{
-						int levi = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<Leviathan>(), npc.whoAmI);
-						CalamityUtils.BossAwakenMessage(levi);
+						float moveDirection = 1f;
+						if (Math.Abs(npc.Center.X - Main.maxTilesX * 16f) > Math.Abs(npc.Center.X))
+							moveDirection = -1f;
+						npc.velocity.X = moveDirection * 6f;
+						npc.spriteDirection = (int)-moveDirection;
+						npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.2f, -3f, 16f);
 					}
 
-					spawnedLevi = true;
+					float idealRotation = npc.velocity.ToRotation();
+					if (npc.spriteDirection == 1)
+						idealRotation += MathHelper.Pi;
+
+					npc.rotation = npc.rotation.AngleTowards(idealRotation, 0.08f);
+
+					if (BossRushEvent.BossRushActive || Collision.WetCollision(npc.position, npc.width, npc.height) || npc.position.Y > (Main.worldSurface - 125f) * 16f)
+					{
+						int oldAlpha = npc.alpha;
+						npc.alpha = Utils.Clamp(npc.alpha + 9, 0, 255);
+						if (Main.netMode != NetmodeID.MultiplayerClient && npc.alpha >= 255 && oldAlpha < 255)
+						{
+							Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
+							HasBegunSummoningLeviathan = true;
+							npc.netUpdate = true;
+						}
+
+						npc.velocity *= 0.9f;
+					}
+					npc.dontTakeDamage = true;
+					return;
 				}
 			}
+
+			// Change music.
+			if (leviAlive)
+				music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndSiren") ?? MusicID.Boss3;
 
 			// Ice Shield
 			if (npc.localAI[2] < 3f)
@@ -212,46 +255,38 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.dontTakeDamage = true;
 			}
 
-			if (npc.life / (float)npc.lifeMax < 0.4f)
+			// Hover near the target, invisible if the Leviathan is present and not sufficiently injured.
+			if (npc.life / (float)npc.lifeMax < 0.4f && WaitingForLeviathan)
 			{
-				if (CalamityGlobalNPC.leviathan != -1)
+				ChargeRotation(player, vector);
+				ChargeLocation(player, vector, false, true);
+
+				npc.alpha += 3;
+				if (npc.alpha >= 255)
+					npc.alpha = 255;
+				else
 				{
-					if (Main.npc[CalamityGlobalNPC.leviathan].active)
+					for (int k = 0; k < 3; k++)
 					{
-						if (Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax >= 0.4f)
-						{
-							ChargeRotation(player, vector);
-							ChargeLocation(player, vector, false, true);
-
-							npc.alpha += 3;
-							if (npc.alpha >= 255)
-								npc.alpha = 255;
-							else
-							{
-								for (int k = 0; k < 3; k++)
-								{
-									int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default, 2f);
-									Main.dust[dust].noGravity = true;
-									Main.dust[dust].noLight = true;
-								}
-							}
-
-							npc.dontTakeDamage = true;
-							npc.damage = 0;
-
-							if (npc.ai[0] != -1f)
-							{
-								npc.ai[0] = -1f;
-								npc.ai[1] = 0f;
-								npc.ai[2] = 0f;
-								npc.localAI[0] = 0f;
-								npc.netUpdate = true;
-							}
-
-							return;
-						}
+						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default, 2f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].noLight = true;
 					}
 				}
+
+				npc.dontTakeDamage = true;
+				npc.damage = 0;
+
+				if (npc.ai[0] != -1f)
+				{
+					npc.ai[0] = -1f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.localAI[0] = 0f;
+					npc.netUpdate = true;
+				}
+
+				return;
 			}
 
 			// Alpha
