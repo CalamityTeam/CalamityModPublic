@@ -56,8 +56,9 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<AresLaserCannon>())
             {
-				float offset = 40f;
-                Vector2 fireFrom = Main.npc[(int)projectile.ai[1]].Calamity().newAI[3] == 0f ? new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + offset) : new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + offset, Main.npc[(int)projectile.ai[1]].Center.Y);
+				float offset = 84f;
+				float offset2 = 16f;
+				Vector2 fireFrom = Main.npc[(int)projectile.ai[1]].Calamity().newAI[3] == 0f ? new Vector2(Main.npc[(int)projectile.ai[1]].Center.X - offset2 * Main.npc[(int)projectile.ai[1]].direction, Main.npc[(int)projectile.ai[1]].Center.Y + offset) : new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + offset * Main.npc[(int)projectile.ai[1]].direction, Main.npc[(int)projectile.ai[1]].Center.Y + offset2);
                 projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
 			else

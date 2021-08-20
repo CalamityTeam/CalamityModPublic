@@ -185,12 +185,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
-                DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
-
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,

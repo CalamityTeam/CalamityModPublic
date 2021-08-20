@@ -259,6 +259,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(attackCastDelay);
 
             writer.Write(shieldRotation);
+
+            writer.Write(safeBox.X);
+            writer.Write(safeBox.Y);
+            writer.Write(safeBox.Width);
+            writer.Write(safeBox.Height);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -306,6 +311,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             attackCastDelay = reader.ReadInt32();
 
             shieldRotation = reader.ReadSingle();
+
+            safeBox = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         }
 
         public override void AI()
@@ -406,8 +413,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             hitboxSize = Vector2.Max(hitboxSize, new Vector2(42, 44));
             if (npc.Size != hitboxSize)
                 npc.Size = hitboxSize;
+            bool shouldNotUseShield = bulletHellCounter2 % 900 != 0 || attackCastDelay > 0 ||
+                NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) ||
+                npc.ai[0] == 1f || npc.ai[0] == 2f;
 
-            // Make the shield and forcefield fade away in her acceptance phase.
+            // Make the shield and forcefield fade away in SCal's acceptance phase.
             if (npc.life <= npc.lifeMax * 0.01)
             {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
@@ -415,7 +425,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && bulletHellCounter2 % 900 == 0)
+            // Make it go away if certain triggers happen during this, such as a bullet hell starting, however.
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && !shouldNotUseShield)
             {
                 if (npc.ai[1] != 2f)
                 {
@@ -457,29 +468,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             #endregion
             #region ArenaCreation
+
+            // Create the arena on the first frame. This does not run client-side.
+            // If this is done on the server, a sync must be performed so that the arena box is
+            // known to the clients. Not doing this results in significant desyncs in regards to things like DR.
             if (!spawnArena)
             {
-                spawnArena = true;
-                if (death)
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
-                    safeBox.Width = 2000;
-                    safeBox.Height = 2000;
-                    spawnYAdd = 100;
-                }
-                else
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
-                    safeBox.Width = 2500;
-                    safeBox.Height = 2500;
-                    spawnYAdd = 125;
-                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    if (death)
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
+                        safeBox.Width = 2000;
+                        safeBox.Height = 2000;
+                        spawnYAdd = 100;
+                    }
+                    else
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
+                        safeBox.Width = 2500;
+                        safeBox.Height = 2500;
+                        spawnYAdd = 125;
+                    }
+
                     int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
                     int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
                     int num54 = safeBox.Width / 2 / 16 + 1;
@@ -511,33 +526,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         initialRitualPosition = npc.Center + Vector2.UnitY * 24f;
                         npc.netUpdate = true;
                     }
+
+                    // Sync to update all clients on the state of the arena.
+                    // Only after this will enrages be registered.
+                    spawnArena = true;
+                    npc.netUpdate = true;
                 }
             }
             #endregion
             #region Enrage and DR
-            if (!player.Hitbox.Intersects(safeBox) || malice)
+            if ((spawnArena && !player.Hitbox.Intersects(safeBox) || malice))
             {
-				float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) ? 2f : 1.5f;
-                if (uDieLul < projectileVelocityMultCap)
-                {
-                    uDieLul *= 1.01f;
-                }
-                else if (uDieLul > projectileVelocityMultCap)
-                {
-                    uDieLul = projectileVelocityMultCap;
-                }
+                float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) && spawnArena ? 2f : 1.5f;
+                uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
                 protectionBoost = !malice;
             }
             else
             {
-                if (uDieLul > 1f)
-                {
-                    uDieLul *= 0.99f;
-                }
-                else if (uDieLul < 1f)
-                {
-                    uDieLul = 1f;
-                }
+                uDieLul = MathHelper.Clamp(uDieLul * 0.99f, 1f, 2f);
                 protectionBoost = false;
             }
             npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
@@ -1189,7 +1195,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
-            // TODO: Resprite the seekers to be something other than eyeballs.
             if (npc.life <= npc.lifeMax * 0.2)
             {
                 if (!secondStage)
@@ -1838,7 +1843,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #endregion
             #region Transition
 
-            // TODO: Add a special flame that encases SCal during the transition phase instead of just dust.
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
                 npc.dontTakeDamage = true;

@@ -100,8 +100,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.EyeofCthulhu)
 			{
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<VictoryShard>(), !Main.expertMode, 2, 4);
-
 				// Legendary drops for Eye of Cthulhu
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), true, CalamityWorld.malice);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CounterScarf>(), true, CalamityWorld.malice);

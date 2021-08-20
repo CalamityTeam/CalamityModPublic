@@ -30,16 +30,16 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<Calamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !BossRushEvent.BossRushActive;
+            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Calamitas>());
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
 			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Calamitas>());
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasRun3>());
 
 			return true;
         }

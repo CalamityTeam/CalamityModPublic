@@ -616,7 +616,7 @@ namespace CalamityMod.World
                             if (!Main.dayTime && player.ZoneOverworldHeight && Main.time < 12600)
                             {
                                 BossText();
-                                bossType = ModContent.NPCType<Calamitas>();
+                                bossType = ModContent.NPCType<CalamitasRun3>();
                                 bossSpawnCountdown = 3600;
                             }
 
@@ -752,7 +752,7 @@ namespace CalamityMod.World
                         if (!player.ZoneSnow || !player.ZoneOverworldHeight)
                             canSpawn = false;
                     }
-                    else if (bossType == ModContent.NPCType<Calamitas>())
+                    else if (bossType == ModContent.NPCType<CalamitasRun3>())
                     {
                         if (Main.dayTime || !player.ZoneOverworldHeight || Main.time > 16200)
                             canSpawn = false;

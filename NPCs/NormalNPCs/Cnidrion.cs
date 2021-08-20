@@ -296,10 +296,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ItemID.Coral, 1, 3);
-            DropHelper.DropItem(npc, ItemID.Starfish, 1, 3);
-            DropHelper.DropItem(npc, ItemID.Seashell, 1, 3);
-            DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 1, 3);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AmidiasSpark>(), 4);
         }
     }

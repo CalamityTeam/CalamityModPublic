@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SquirrelSquireMinion : ModProjectile
+    public class SquirrelSquireMinion : ModProjectile
     {
         public int StuckTimer;
         public bool TryingToGetCloseToOwner
@@ -18,7 +18,21 @@ namespace CalamityMod.Projectiles.Summon
             set => projectile.ai[0] = value.ToInt();
         }
         public ref float AttackTimer => ref projectile.ai[1];
-        public bool OnSolidGround => projectile.velocity.Y == 0f && WorldGen.SolidTile((int) projectile.Center.X / 16, (int) projectile.Bottom.Y / 16 + 2);
+        public bool OnSolidGround
+        {
+            get
+            {
+                bool groundSolid = false;
+                for (int i = (int)projectile.Left.X / 16 - 1; i < (int)projectile.Right.X / 16 + 1; i++)
+                {
+                    bool bottomTileSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16);
+                    bool firstTileDownSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16 + 1);
+                    bool secondTileDownSolid = WorldGen.SolidTile(i, (int)projectile.Bottom.Y / 16 + 2);
+                    groundSolid |= bottomTileSolid || firstTileDownSolid || secondTileDownSolid;
+                }
+                return projectile.velocity.Y == 0f && groundSolid;
+            }
+        }
         public Player Owner => Main.player[projectile.owner];
 
         public override void SetStaticDefaults()
@@ -131,7 +145,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (OnSolidGround)
             {
-                float jumpSpeed = MathHelper.Lerp(6f, 13f, Utils.InverseLerp(100f, 250f, MathHelper.Distance(projectile.Center.X, destination.X), true));
+                float jumpSpeed = MathHelper.Lerp(8f, 13f, Utils.InverseLerp(100f, 250f, MathHelper.Distance(projectile.Center.X, destination.X), true));
                 projectile.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(projectile.Center, Owner.Center, 0.4f, jumpSpeed);
                 projectile.spriteDirection = (projectile.velocity.X > 0f).ToDirectionInt();
                 projectile.netUpdate = true;
@@ -191,6 +205,22 @@ namespace CalamityMod.Projectiles.Summon
         {
             float horizontalDistanceFromTarget = MathHelper.Distance(projectile.Center.X, target.Center.X);
 
+            // Determine if the minion is stuck.
+            if (MathHelper.Distance(projectile.position.X, projectile.oldPosition.X) < 1f)
+            {
+                StuckTimer++;
+
+                // If stuck for a sufficiently long time fly to the owner again.
+                if (StuckTimer > 180)
+                {
+                    TryingToGetCloseToOwner = true;
+                    StuckTimer = 0;
+                    projectile.netUpdate = true;
+                }
+            }
+            else if (StuckTimer > 0)
+                StuckTimer--;
+
             if (horizontalDistanceFromTarget > 350f)
                 AttemptToJumpToDestination(target.Center);
             else if (OnSolidGround)
@@ -211,6 +241,10 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 acornSpawnPosition = projectile.Center + new Vector2(projectile.spriteDirection * 6f, 10f);
                     float acornShootSpeed = 14f;
                     Vector2 acornShootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(acornSpawnPosition, target.Center + target.velocity * 25f, SquirrelSquireAcorn.Gravity, acornShootSpeed);
+
+                    if (projectile.WithinRange(target.Center, 200f))
+                        acornShootVelocity = (target.Center - acornSpawnPosition).SafeNormalize(-Vector2.UnitY) * acornShootSpeed;
+
                     Projectile.NewProjectile(acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
@@ -229,8 +263,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-			int index = Gore.NewGore(projectile.Center, Vector2.Zero, Main.rand.Next(61, 64), projectile.scale);
-			Main.gore[index].velocity *= 0.1f;
+            int index = Gore.NewGore(projectile.Center, Vector2.Zero, Main.rand.Next(61, 64), projectile.scale);
+            Main.gore[index].velocity *= 0.1f;
         }
     }
 }

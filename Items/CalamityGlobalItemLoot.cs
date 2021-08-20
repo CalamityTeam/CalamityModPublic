@@ -43,10 +43,6 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
-				case ItemID.EyeOfCthulhuBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
-					break;
-
 				case ItemID.QueenBeeBossBag:
 					// Drop weapons Calamity style instead of mutually exclusive.
 					int[] queenBeeWeapons = new int[]

@@ -335,7 +335,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("AquaticScourge", out float order);
 				List<int> segments = new List<int>() { NPCType<AquaticScourgeHead>(), NPCType<AquaticScourgeBody>(), NPCType<AquaticScourgeBodyAlt>(), NPCType<AquaticScourgeTail>() };
 				int summon = ItemType<Seafood>();
-				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemType<BleachedAnglingKit>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemType<BleachedAnglingKit>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<KnowledgeAquaticScourge>(), ItemType<KnowledgeSulphurSea>() };
 				string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
 				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
@@ -653,7 +653,7 @@ namespace CalamityMod
 
 			// Eye of Cthulhu
 			AddLoot(bossChecklist, "EyeofCthulhu",
-				new List<int>() { ItemType<VictoryShard>(), ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
+				new List<int>() { ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
 				new List<int>() { ItemType<KnowledgeEyeofCthulhu>() }
 			);
 

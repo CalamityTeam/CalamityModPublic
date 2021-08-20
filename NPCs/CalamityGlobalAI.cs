@@ -6395,9 +6395,9 @@ namespace CalamityMod.NPCs
             bool enrage = lifeRatio < 0.25f;
 
 			// Rotation
-			/*float num418 = npc.Center.X - Main.player[npc.target].position.X - (Main.player[npc.target].width / 2);
-            float num419 = npc.position.Y + npc.height - 59f - Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2);*/
-			Vector2 rotationVector = Main.player[npc.target].Center - npc.Center;
+			Vector2 npcCenter = new Vector2(npc.Center.X, npc.position.Y + npc.height - 59f);
+			Vector2 lookAt = new Vector2(Main.player[npc.target].position.X - (Main.player[npc.target].width / 2), Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2));
+			Vector2 rotationVector = npcCenter - lookAt;
 
 			// Malice Mode predictive charge rotation
 			if (npc.ai[1] == 5f && !retAlive && malice)
@@ -6408,7 +6408,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == 4f))
 					chargeVelocity *= 1.3f;
 
-				rotationVector = Vector2.Normalize(Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center) * chargeVelocity;
+				lookAt += Main.player[npc.target].velocity * 20f;
+				rotationVector = Vector2.Normalize(npcCenter - lookAt) * chargeVelocity;
 			}
 
 			float num420 = (float)Math.Atan2(rotationVector.Y, rotationVector.X) + MathHelper.PiOver2;

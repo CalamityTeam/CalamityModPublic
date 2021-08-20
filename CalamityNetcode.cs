@@ -5,6 +5,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -136,6 +137,34 @@ namespace CalamityMod
                         (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
                         break;
 
+                    // 
+                    // General syncs for entities
+                    // 
+
+                    case CalamityModMessageType.SpawnNPCOnPlayer:
+                        x = reader.ReadInt32();
+                        y = reader.ReadInt32();
+                        int npcType = reader.ReadInt32();
+                        int player = reader.ReadInt32();
+                        Vector2 spawnPosition = reader.ReadVector2();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int spawnedNPC = NPC.NewNPC(x, y, npcType, Target: player);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, player, null, spawnedNPC);
+                        }
+                        break;
+                    case CalamityModMessageType.SyncNPCMotionDataToServer:
+                        int npcIndex = reader.ReadInt32();
+                        Vector2 center = reader.ReadVector2();
+                        Vector2 velocity = reader.ReadVector2();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            Main.npc[npcIndex].Center = center;
+                            Main.npc[npcIndex].velocity = velocity;
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcIndex);
+                        }
+                        break;
+
                     //
                     // Tile Entities
                     //
@@ -258,6 +287,23 @@ namespace CalamityMod
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(MessageID.WorldData);
         }
+
+        public static void NewNPC_ClientSide(Vector2 spawnPosition, int npcType, Player player)
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, npcType, Target: player.whoAmI);
+                return;
+            }
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.SpawnNPCOnPlayer);
+            netMessage.Write((int)spawnPosition.X);
+            netMessage.Write((int)spawnPosition.Y);
+            netMessage.Write(npcType);
+            netMessage.Write(player.whoAmI);
+            netMessage.Send();
+        }
     }
 
     public enum CalamityModMessageType : byte
@@ -292,6 +338,10 @@ namespace CalamityMod
         ArmoredDiggerCountdownSync, // TODO -- remove this mechanic entirely
         ProvidenceDyeConditionSync, // TODO -- this packetstorms if you hit Provi with spam weapons. It should ONLY send a packet if the status changes.
         PSCChallengeSync, // TODO -- once you've failed the PSC challenge this packetstorms
+
+        // General things for entities
+        SpawnNPCOnPlayer,
+        SyncNPCMotionDataToServer,
 
         // Tile Entities
         PowerCellFactory,

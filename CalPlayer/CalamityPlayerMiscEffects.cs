@@ -47,7 +47,6 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
@@ -1137,6 +1136,8 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.timeBeforeDefenseDamageRecovery > 0)
+				modPlayer.timeBeforeDefenseDamageRecovery--;
 			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
 				modPlayer.phantomicHeartRegen--;
 			if (modPlayer.phantomicBulwarkCooldown > 0)
@@ -1245,9 +1246,7 @@ namespace CalamityMod.CalPlayer
 				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
 				{
 					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-					int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-					if (Main.npc.IndexInRange(portal))
-						Main.npc[portal].target = player.whoAmI;
+					CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
 				}
 			}
 			if (player.miscCounter % 20 == 0)
@@ -1442,10 +1441,10 @@ namespace CalamityMod.CalPlayer
 			// Absorber bonus
 			if (modPlayer.absorber)
 			{
-				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
+				player.moveSpeed += 0.05f;
+				player.jumpSpeedBoost += 0.25f;
 				player.thorns += 0.5f;
-				player.endurance += 0.05f;
+				player.endurance += 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
@@ -2791,6 +2790,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.aeroStone ? 0.1 : 0D) +
 				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
@@ -2931,9 +2931,6 @@ namespace CalamityMod.CalPlayer
 				player.lifeMagnet = true;
 				player.calmed = true;
 			}
-
-			if (player.panic)
-				player.moveSpeed -= 0.5f;
 
 			if (player.wellFed)
 				player.moveSpeed -= 0.1f;
@@ -3895,8 +3892,8 @@ namespace CalamityMod.CalPlayer
 						isImmune = true;
 				}
 
-				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames
-				if (player.miscCounter % defenseDamageRecoveryRate == 0 && !isImmune)
+				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames and if the recovery timer is 0
+				if (player.miscCounter % defenseDamageRecoveryRate == 0 && !isImmune && modPlayer.timeBeforeDefenseDamageRecovery == 0)
 					modPlayer.defenseDamage--;
 			}
 

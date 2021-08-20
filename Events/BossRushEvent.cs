@@ -96,7 +96,6 @@ namespace CalamityMod.Events
             {
                 [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
                 [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
-                [ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
             };
 
             Bosses = new List<Boss>()
@@ -247,7 +246,7 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueBeeG>(), ModContent.NPCType<PlagueBeeLargeG>(), ModContent.NPCType<PlagueHomingMissile>(),
                     ModContent.NPCType<PlagueMine>(), ModContent.NPCType<PlaguebringerShade>() }),
 
-                new Boss(ModContent.NPCType<Calamitas>(), TimeChangeContext.Night, specialSpawnCountdown: 420, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
+                new Boss(ModContent.NPCType<CalamitasRun3>(), TimeChangeContext.Night, specialSpawnCountdown: 420, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
                     ModContent.NPCType<LifeSeeker>(), ModContent.NPCType<SoulSeeker>() }),
 
                 new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(), ModContent.NPCType<Parasea>(),

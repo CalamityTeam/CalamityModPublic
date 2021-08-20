@@ -2670,9 +2670,11 @@ namespace CalamityMod
 
             MinionsToNotResurrectList = new List<int>()
             {
+                ProjectileID.StardustDragon1,
                 ProjectileID.StardustDragon2,
                 ProjectileID.StardustDragon3,
                 ProjectileID.StardustDragon4,
+                ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
                 ProjectileType<EndoHydraHead>()

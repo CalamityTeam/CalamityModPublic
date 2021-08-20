@@ -1,4 +1,3 @@
-using CalamityMod.NPCs.Calamitas;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
@@ -16,7 +15,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         private void UpdatePbGIndex()
         {
-            int PbGType = ModContent.NPCType<CalamitasRun3>();
+            int PbGType = ModContent.NPCType<PlaguebringerGoliath>();
             if (PbGIndex >= 0 && Main.npc[PbGIndex].active && Main.npc[PbGIndex].type == PbGType)
             {
                 return;
