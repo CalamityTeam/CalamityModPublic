@@ -490,6 +490,7 @@ namespace CalamityMod.CalPlayer
         public bool alchFlask = false;
         public bool reducedPlagueDmg = false;
         public bool abaddon = false;
+		public bool aeroStone = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -1618,6 +1619,7 @@ namespace CalamityMod.CalPlayer
             alchFlask = false;
             reducedPlagueDmg = false;
             abaddon = false;
+			aeroStone = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;

@@ -26,17 +26,6 @@ namespace CalamityMod.Items.Armor
             item.defense = 13; //46
         }
 
-		public override void ModifyTooltips(List<TooltipLine> list)
-		{
-			bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string jumpAmt = autoJump ? "2.5" : "10";
-			foreach (TooltipLine line2 in list)
-			{
-				if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					line2.text = jumpAmt + "% increased jump speed and 25% increased movement speed";
-			}
-		}
-
 		public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<ReaverScaleMail>() && legs.type == ModContent.ItemType<ReaverCuisses>();
@@ -65,7 +54,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.jumpSpeedBoost += player.autoJump ? 0.125f : 0.5f;
+            player.jumpSpeedBoost += 0.5f;
             player.moveSpeed += 0.25f;
         }
 

@@ -665,7 +665,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				if (player.StandingStill() && player.itemAnimation == 0)
-					player.lifeRegen += 2;
+					player.lifeRegen += 4;
 			}
 
 			if (modPlayer.aAmpoule)

@@ -1436,10 +1436,10 @@ namespace CalamityMod.CalPlayer
 			// Absorber bonus
 			if (modPlayer.absorber)
 			{
-				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
+				player.moveSpeed += 0.05f;
+				player.jumpSpeedBoost += 0.25f;
 				player.thorns += 0.5f;
-				player.endurance += 0.05f;
+				player.endurance += 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
@@ -2785,6 +2785,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.aeroStone ? 0.1 : 0D) +
 				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +

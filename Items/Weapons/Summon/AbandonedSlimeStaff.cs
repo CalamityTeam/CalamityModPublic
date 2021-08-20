@@ -42,23 +42,9 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().donorItem = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            bool autoJump = Main.player[Main.myPlayer].autoJump;
-            string jumpAmt = autoJump ? "2.5" : "10";
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-                {
-                    line2.text = "Holding this weapon grants " + jumpAmt + "% increased jump speed";
-                }
-            }
-        }
-
         public override void HoldItem(Player player)
         {
-            //same boost as Aero Stone
-            player.jumpSpeedBoost += player.autoJump ? 0.125f : 0.5f;
+            player.jumpSpeedBoost += 0.5f;
 
             double minionCount = 0;
             for (int j = 0; j < Main.projectile.Length; j++)

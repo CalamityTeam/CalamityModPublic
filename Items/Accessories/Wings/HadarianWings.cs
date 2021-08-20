@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1.75\n" +
                 "Good vertical speed\n" +
                 "Flight time: 120\n" +
-                "10% increased movement speed and 4% increased jump speed while wearing the Astral Armor");
+                "10% increased movement and jump speed while wearing the Astral Armor");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
             if (player.armor[0].type == ModContent.ItemType<AstralHelm>() && player.armor[1].type == ModContent.ItemType<AstralBreastplate>() && player.armor[2].type == ModContent.ItemType<AstralLeggings>())
             {
                 player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 0.2f;
+                player.jumpSpeedBoost += 0.5f;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0)
