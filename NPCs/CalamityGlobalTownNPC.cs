@@ -62,6 +62,7 @@ namespace CalamityMod.NPCs
 		{
 			"Verth",
 			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
+			"TingFlarg", // <@!185605031716847616> (Smug#7160)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
