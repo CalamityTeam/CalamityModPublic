@@ -105,6 +105,11 @@ namespace CalamityMod.NPCs
 		{
 			"Tyler Van Hook",
 		};
+		private const int SkeletonMerchantVanillaNames = 10;
+		private static readonly string[] SkeletonMerchantNames =
+		{
+			"Sans Undertale", // <@!145379091648872450> (Shayy#5257)
+		};
 		private const int SteampunkerVanillaNames = 20;
 		private static readonly string[] SteampunkerNames =
 		{
@@ -172,6 +177,7 @@ namespace CalamityMod.NPCs
 			ResetName(NPCID.Painter, ref CalamityWorld.painterName);
 			ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
 			ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
+			ResetName(NPCID.SkeletonMerchant, ref CalamityWorld.skeletonMerchantName);
 			ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
 			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
 			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
@@ -252,6 +258,9 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.Pirate:
 						npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
+						break;
+					case NPCID.SkeletonMerchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.skeletonMerchantName, npc.GivenName, SkeletonMerchantVanillaNames, SkeletonMerchantNames);
 						break;
 					case NPCID.Steampunker:
 						npc.GivenName = ChooseName(ref CalamityWorld.steampunkerName, npc.GivenName, SteampunkerVanillaNames, SteampunkerNames);

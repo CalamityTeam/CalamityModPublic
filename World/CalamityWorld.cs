@@ -147,6 +147,7 @@ namespace CalamityMod.World
         public static bool painterName = false;
         public static bool partyGirlName = false;
         public static bool pirateName = false;
+        public static bool skeletonMerchantName = false;
         public static bool steampunkerName = false;
         public static bool stylistName = false;
         public static bool tavernkeepName = false;
@@ -255,6 +256,7 @@ namespace CalamityMod.World
             painterName = false;
             partyGirlName = false;
             pirateName = false;
+            skeletonMerchantName = false;
             steampunkerName = false;
             stylistName = false;
             tavernkeepName = false;
@@ -432,6 +434,8 @@ namespace CalamityMod.World
                 downed.Add("partyGirlName");
             if (pirateName)
                 downed.Add("pirateName");
+            if (skeletonMerchantName)
+                downed.Add("skeletonMerchantName");
             if (steampunkerName)
                 downed.Add("steampunkerName");
             if (stylistName)
@@ -552,6 +556,7 @@ namespace CalamityMod.World
             painterName = downed.Contains("painterName");
             partyGirlName = downed.Contains("partyGirlName");
             pirateName = downed.Contains("pirateName");
+            skeletonMerchantName = downed.Contains("skeletonMerchantName");
             steampunkerName = downed.Contains("steampunkerName");
             stylistName = downed.Contains("stylistName");
             tavernkeepName = downed.Contains("tavernkeepName");
