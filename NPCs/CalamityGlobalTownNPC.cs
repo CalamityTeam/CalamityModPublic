@@ -45,7 +45,10 @@ namespace CalamityMod.NPCs
 			"Joeseph Jostar",
 		};
 		private const int CyborgVanillaNames = 22;
-		private static readonly string[] CyborgNames = null;
+		private static readonly string[] CyborgNames =
+		{
+			"Sylux", // <@!331812782183809025> (Gonk#2451)
+		};
 		private const int DemolitionistVanillaNames = 22;
 		private static readonly string[] DemolitionistNames = null;
 		private const int DryadVanillaNames = 21;
