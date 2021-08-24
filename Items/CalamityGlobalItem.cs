@@ -258,7 +258,7 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.GolemFist:
-					item.damage = 185;
+					item.damage = 150;
 					break;
 
 				case ItemID.BreakerBlade:
@@ -441,6 +441,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
+					break;
+
+				case ItemID.MonkStaffT3:
+					item.damage = 225;
 					break;
 
 				case ItemID.BookStaff:

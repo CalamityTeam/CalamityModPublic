@@ -333,7 +333,8 @@ namespace CalamityMod.NPCs.Ravager
                             npc.ai[1] += 1f;
                     }
 
-                    if (npc.ai[1] >= 300f)
+					float jumpGateValue = 180f;
+					if (npc.ai[1] >= jumpGateValue)
                         npc.ai[1] = -20f;
                     else if (npc.ai[1] == -1f)
                     {

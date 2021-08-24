@@ -3317,7 +3317,8 @@ namespace CalamityMod.NPCs
 			// True melee resists
 			if (DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
 				PerforatorIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) ||
-				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) || npc.type == NPCType<DarkEnergy>())
+				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
+				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>())
 			{
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * 0.5);
@@ -3359,6 +3360,10 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Nerfed because the primary fire was buffed a lot.
+			if (projectile.type == ProjectileID.MonkStaffT3_AltShot || (projectile.type == ProjectileID.Electrosphere && Main.player[projectile.owner].ActiveItem().type == ItemID.MonkStaffT3))
+				damage /= 4;
+
 			// Nerfed because these are really overpowered.
 			if (projectile.type == ProjectileID.CursedDartFlame)
 				damage /= 2;
@@ -3374,6 +3379,12 @@ namespace CalamityMod.NPCs
 				PierceResistGlobal(projectile, npc, ref damage);
 
 			if (ThanatosIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<RavagerBody>())
 			{
 				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)

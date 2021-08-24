@@ -120,48 +120,25 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
-			bool exoWormAlive = false;
-			bool exoSpazAlive = false;
-			bool exoRetAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-				{
 					otherExoMechsAlive++;
-					exoWormAlive = true;
-				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
-				{
 					otherExoMechsAlive++;
-					exoSpazAlive = true;
-				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-				{
 					otherExoMechsAlive++;
-					exoRetAlive = true;
-				}
 			}
-
-			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
-			float exoWormLifeRatio = defaultLifeRatio;
-			float exoSpazLifeRatio = defaultLifeRatio;
-			float exoRetLifeRatio = defaultLifeRatio;
-			if (exoWormAlive)
-				exoWormLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechWorm].lifeMax;
-			if (exoSpazAlive)
-				exoSpazLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			if (exoRetAlive)
-				exoRetLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].lifeMax;
-			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoSpazLifeRatio + exoRetLifeRatio;
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// Target variable
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
@@ -231,6 +208,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
 			float projectileVelocity = passivePhase ? 9.6f : 12f;
+			if (lastMechAlive)
+				projectileVelocity *= 1.2f;
+			else if (berserk)
+				projectileVelocity *= 1.1f;
+
 			float rateOfRotation = AIState == (int)Phase.GaussNuke ? 0.08f : 0.04f;
 			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
 
@@ -280,6 +262,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Gate values
 			float gaussNukePhaseGateValue = 600f;
+			if (lastMechAlive)
+				gaussNukePhaseGateValue *= 0.7f;
+			else if (berserk)
+				gaussNukePhaseGateValue *= 0.85f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;

@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.ai[1] += !revenge ? 4f : 1f;
                     }
 
-					float jumpGateValue = (malice ? 90f : 240f) / (enrageScale + 1f);
+					float jumpGateValue = (malice ? 30f : 240f) / (enrageScale + 1f);
                     if (npc.ai[1] >= jumpGateValue)
                     {
                         npc.ai[1] = -20f;

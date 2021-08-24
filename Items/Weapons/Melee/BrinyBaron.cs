@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 127;
+            item.damage = 155;
             item.knockBack = 4f;
             item.useAnimation = item.useTime = 15;
             item.melee = true;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), (int)(damage * 0.52), knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), (int)(damage * 0.43), knockBack, player.whoAmI);
             return false;
         }
 

@@ -11858,7 +11858,7 @@ namespace CalamityMod.NPCs
 			int iceMistAmt = phase3 ? 2 : 1;
             int fireballFireRate = phase5 ? 10 : 12;
             float fireballSpeed = (phase6 ? 7.5f : 6f) + (death ? 2f * (1f - lifeRatio) : 0f) - (isCultist ? 0f : 3f);
-            int lightningOrbFireRate = phase2 ? 35 : 40;
+            int lightningOrbPhaseTime = phase2 ? 150 : 180;
             int ancientLightSpawnRate = phase4 ? 25 : 30;
 			int ancientLightAmt = phase4 ? 3 : 2;
 			int ancientDoomLimit = 10;
@@ -11872,7 +11872,7 @@ namespace CalamityMod.NPCs
 				iceMistAmt = enraged ? 4 : 3;
 				fireballFireRate = enraged ? 6 : 8;
                 fireballSpeed *= 1.2f;
-                lightningOrbFireRate = enraged ? 20 : 30;
+                lightningOrbPhaseTime = enraged ? 60 : 90;
                 ancientLightSpawnRate = enraged ? 15 : 20;
 				ancientLightAmt = enraged ? 5 : 4;
                 idleTime = enraged ? 15 : 30;
@@ -11907,7 +11907,7 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[0] = 120f;
                     iceMistSpeed = 16f;
                     iceMistFireRate = 15;
-                    lightningOrbFireRate = 10;
+                    lightningOrbPhaseTime = 30;
                     ancientLightSpawnRate = 5;
                     idleTime = 10;
                     timeToFinishRitual = 120f;
@@ -12391,7 +12391,7 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (20 + lightningOrbFireRate))
+                if (npc.ai[1] >= (20 + lightningOrbPhaseTime))
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;

@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Tools.ClimateChange
             Tooltip.SetDefault("Summons the rain.\n" +
                 "Rain will start some time after this item is used.\n" +
                 "If used while it's raining, the rain will stop some time afterward.\n" +
-				"In Death Mode, using this item while it's raining will reduce the amount of time the rain lingers for\n" +
-				"to one minute; however, not any lower, and this will cause the rain to turn violent for that minute.");
+				"In Death Mode, using this item while it's raining will reduce the amount of time the rain lingers for to one minute.\n" +
+				"However, this will cause the rain to turn violent for that time.");
         }
 
         public override void SetDefaults()
