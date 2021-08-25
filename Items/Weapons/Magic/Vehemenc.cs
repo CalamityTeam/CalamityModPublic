@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
 	public class Vehemenc : ModItem
     {
-        public const int VehemenceSkullDamage = 7000;
+        public const int VehemenceSkullDamage = 1250;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");

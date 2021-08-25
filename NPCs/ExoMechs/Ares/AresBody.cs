@@ -1,9 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -52,9 +49,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private int frameX = 0;
 		private int frameY = 0;
 
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
-
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
 		private const int firstStageDeathrayChargeFrameLimit = 23;
@@ -67,14 +61,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 2800f;
 
+		// Variable used to stop the arm spawning loop
+		private bool armsSpawned = false;
+
 		// Total duration of the deathray telegraph
-		private const float deathrayTelegraphDuration = 240f;
+		public const float deathrayTelegraphDuration = 240f;
 
 		// Total duration of the deathrays
-		private const float deathrayDuration = 600f;
-
-		// Whether or not the other exo mechs have been spawned
-		private bool otherExoMechsSpawned = false;
+		public const float deathrayDuration = 600f;
 
 		public override void SetStaticDefaults()
         {
@@ -110,6 +104,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.localAI[0]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -118,6 +113,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -134,37 +130,50 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
 
-			// Spawn arms
-			if (npc.ai[0] == 0f)
-			{
-				int totalArms = 4;
-				for (int i = 0; i < totalArms; i++)
-				{
-					int lol = 0;
-					switch (i)
-					{
-						case 0:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresLaserCannon>(), npc.whoAmI);
-							break;
-						case 1:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
-							break;
-						case 2:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
-							break;
-						case 3:
-							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
-							break;
-						default:
-							break;
-					}
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
 
-					Main.npc[lol].realLife = npc.whoAmI;
-					Main.npc[lol].ai[0] = npc.whoAmI;
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
+			// Spawn arms
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (!armsSpawned && npc.ai[0] == 0f)
+				{
+					int totalArms = 4;
+					int Previous = npc.whoAmI;
+					for (int i = 0; i < totalArms; i++)
+					{
+						int lol = 0;
+						switch (i)
+						{
+							case 0:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresLaserCannon>(), npc.whoAmI);
+								break;
+							case 1:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
+								break;
+							case 2:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
+								break;
+							case 3:
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
+								break;
+							default:
+								break;
+						}
+
+						Main.npc[lol].realLife = npc.whoAmI;
+						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[1] = Previous;
+						Main.npc[Previous].ai[0] = lol;
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
+						Previous = lol;
+					}
+					armsSpawned = true;
 				}
-				npc.ai[0] = 1f;
 			}
+
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -224,8 +233,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool anyOtherExoMechPassive = exoWormPassive || exoSpazPassive || exoRetPassive;
 
 			// Phases
-			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
+			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// If Ares doesn't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoSpazLifeRatio < 0.4f || exoRetLifeRatio < 0.4f;
@@ -240,9 +250,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Target variable
 			Player player = Main.player[npc.target];
-
-			if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -262,14 +269,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 						npc.velocity.Y -= 2f;
 
-					/*if ((double)npc.position.Y < Main.topWorld + 16f)
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
 							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
 								Main.npc[a].active = false;
 						}
-					}*/
+					}
 				}
 			}
 
@@ -320,29 +327,34 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Light
-			Lighting.AddLight(npc.Center, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
+			float lightScale = 765f;
+			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale, Main.DiscoG / lightScale, Main.DiscoB / lightScale);
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 450f) : player.Center;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 12f * baseVelocityMult;
+			float baseVelocity = 18f * baseVelocityMult;
 			float baseAcceleration = 1f;
+			float decelerationVelocityMult = 0.85f;
 			if (berserk)
 			{
-				baseVelocity *= 1.25f;
-				baseAcceleration *= 1.25f;
+				baseVelocity *= 1.5f;
+				baseAcceleration *= 1.5f;
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
 			// Distance from target
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
+			// Whether Ares should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
+
 			// Gate values
-			float deathrayPhaseGateValue = 900f;
+			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
 			float deathrayDistanceGateValue = 480f;
-			float deathrayPhaseVelocityMult = 0.95f;
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -445,7 +457,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)Phase.Normal:
 
 					if (!targetDead)
-						npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+					{
+						if (moveToLocation)
+							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+						else
+							npc.velocity *= decelerationVelocityMult;
+					}
 
 					if (berserk)
 					{
@@ -472,12 +489,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						else
 						{
 							calamityGlobalNPC.newAI[3] = 1f;
-							npc.velocity *= deathrayPhaseVelocityMult;
+							npc.velocity *= decelerationVelocityMult;
 
-							int totalProjectiles = 8;
+							int totalProjectiles = malice ? 12 : expertMode ? 10 : 8;
 							float radians = MathHelper.TwoPi / totalProjectiles;
-							Vector2 spinningPoint = new Vector2(0f, -1f);
 							Vector2 laserSpawnPoint = new Vector2(npc.Center.X, npc.Center.Y);
+							bool normalLaserRotation = npc.localAI[0] % 2f == 0f;
+							float velocity = 6f;
+							double angleA = radians * 0.5;
+							double angleB = MathHelper.ToRadians(90f) - angleA;
+							float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+							Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+							spinningPoint.Normalize();
 
 							calamityGlobalNPC.newAI[2] += 1f;
 							if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
@@ -485,20 +508,26 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								// Fire deathray telegraph beams
 								if (calamityGlobalNPC.newAI[2] == 1f)
 								{
-									// Set frames to deathray charge up frames
+									// Set frames to deathray charge up frames, which begin on frame 12
+									// Reset the frame counter
 									npc.frameCounter = 0D;
+
+									// X = 1 sets to frame 8
 									frameX = 1;
-									frameY = 5;
-									exactFrame = 12;
+
+									// Y = 4 sets to frame 12
+									frameY = 4;
 
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
-										/*int type = ModContent.ProjectileType<AresDeathBeamTelegraph>();
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+										int type = ModContent.ProjectileType<AresDeathBeamTelegraph>();
+										Vector2 spawnPoint = npc.Center + new Vector2(-1f, 23f);
 										for (int k = 0; k < totalProjectiles; k++)
 										{
-											Vector2 velocity = spinningPoint.RotatedBy(radians * k);
-											Projectile.NewProjectile(laserSpawnPoint, velocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-										}*/
+											Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
+											Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 17f, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										}
 									}
 								}
 							}
@@ -509,13 +538,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								{
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
-										/*int type = ModContent.ProjectileType<AresDeathBeamStart>();
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), npc.Center);
+										int type = ModContent.ProjectileType<AresDeathBeamStart>();
 										int damage = npc.GetProjectileDamage(type);
+										Vector2 spawnPoint = npc.Center + new Vector2(-1f, 23f);
 										for (int k = 0; k < totalProjectiles; k++)
 										{
-											Vector2 velocity = spinningPoint.RotatedBy(radians * k);
-											Projectile.NewProjectile(laserSpawnPoint, velocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-										}*/
+											Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
+											Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										}
 									}
 								}
 							}
@@ -525,6 +556,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								AIState = (float)Phase.Normal;
 								calamityGlobalNPC.newAI[2] = 0f;
 								calamityGlobalNPC.newAI[3] = 0f;
+								npc.localAI[0] += 1f;
 								npc.TargetClosest();
 							}
 						}
@@ -552,36 +584,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames to frame 0
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageDeathrayChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageDeathrayChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the deathray firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageDeathrayChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}

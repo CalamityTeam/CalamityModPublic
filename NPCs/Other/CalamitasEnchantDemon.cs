@@ -145,18 +145,16 @@ namespace CalamityMod.NPCs.Other
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
-			{
 				Utils.PoofOfSmoke(npc.Center);
+		}
 
-				// Release 4 healing projectiles towards the target.
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					for (int i = 0; i < 4; i++)
-					{
-						Vector2 shootVelocity = npc.SafeDirectionTo(Target.Center).RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 14f);
-						Projectile.NewProjectile(npc.Center, shootVelocity, ModContent.ProjectileType<DemonHeal>(), 0, 0f, npc.target);
-					}
-				}
+		public override void NPCLoot()
+		{
+			// Release 4 healing projectiles towards the target.
+			for (int i = 0; i < 4; i++)
+			{
+				Vector2 shootVelocity = npc.SafeDirectionTo(Target.Center).RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 14f);
+				Projectile.NewProjectile(npc.Center, shootVelocity, ModContent.ProjectileType<DemonHeal>(), 0, 0f, npc.target);
 			}
 		}
 	}

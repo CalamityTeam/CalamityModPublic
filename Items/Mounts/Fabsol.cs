@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Princess Spirit in a Bottle");
             Tooltip.SetDefault("Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form\n" +
-                "Revengeance drop");
+				"Mounting will transform Cirrus, dismounting transforms her back");
         }
 
         public override void SetDefaults()

@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
     {
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
-		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		public override void SetStaticDefaults()
         {
@@ -84,6 +84,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
+
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
@@ -95,14 +98,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ThanatosHead>())
+				{
 					shouldDespawn = false;
+					break;
+				}
 			}
 			if (!shouldDespawn)
 			{
-				if (npc.ai[1] > 0f)
-					shouldDespawn = false;
-				else if (Main.npc[(int)npc.ai[1]].life > 0)
-					shouldDespawn = false;
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
 			}
 			if (shouldDespawn)
 			{
@@ -139,11 +145,30 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.localAI[2] == 0f)
 				npc.localAI[2] = npc.ai[0];
 
-			// Set the AI to become more aggressive if head is berserk
-			if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Deathray)
-				npc.Calamity().newAI[3] = 1f;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			bool berserk = npc.Calamity().newAI[3] == 1f;
+			// Check if the other exo mechs are alive
+			int otherExoMechsAlive = 0;
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					otherExoMechsAlive++;
+			}
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive++;
+			}
+			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
+					otherExoMechsAlive++;
+			}
+
+			// Set the AI to become more aggressive if head is berserk
+			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{

@@ -2526,6 +2526,11 @@ namespace CalamityMod
 				NPCType<AquaticScourgeBody>(),
 				NPCType<AquaticScourgeBodyAlt>(),
 				NPCType<AquaticScourgeTail>(),
+				NPCType<RavagerHead>(),
+				NPCType<RavagerClawLeft>(),
+				NPCType<RavagerClawRight>(),
+				NPCType<RavagerLegLeft>(),
+				NPCType<RavagerLegRight>(),
 				NPCType<AstrumDeusHeadSpectral>(),
 				NPCType<AstrumDeusBodySpectral>(),
 				NPCType<AstrumDeusTailSpectral>(),
@@ -2667,9 +2672,11 @@ namespace CalamityMod
 
             MinionsToNotResurrectList = new List<int>()
             {
+                ProjectileID.StardustDragon1,
                 ProjectileID.StardustDragon2,
                 ProjectileID.StardustDragon3,
                 ProjectileID.StardustDragon4,
+                ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
                 ProjectileType<EndoHydraHead>()

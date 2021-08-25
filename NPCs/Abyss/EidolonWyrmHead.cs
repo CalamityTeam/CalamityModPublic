@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f)
             {
                 npc.active = false;
             }
@@ -499,22 +499,6 @@ namespace CalamityMod.NPCs.Abyss
             if (detectsPlayer && !Main.player[npc.target].dead)
             {
                 return false;
-            }
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
             }
             return true;
         }

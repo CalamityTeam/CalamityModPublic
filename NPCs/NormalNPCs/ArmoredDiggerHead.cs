@@ -48,11 +48,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned)
@@ -155,7 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag2 = false;
                 npc.velocity.Y = npc.velocity.Y + 1f;
-                if ((double)npc.position.Y > (double)((Main.maxTilesY - 200) * 16))
+                if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
                     npc.velocity.Y = npc.velocity.Y + 1f;
                     num17 = 32f;

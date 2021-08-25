@@ -219,7 +219,6 @@ namespace CalamityMod
 				{ NPCID.PrimeSaw, 0.85 },
 				{ NPCID.PrimeVice, 0.85 },
 
-				{ ModContent.NPCType<Calamitas>(), 0.8 },
 				{ ModContent.NPCType<CalamitasRun3>(), 0.8 },
 
 				{ NPCID.Plantera, 1.15 },
@@ -418,7 +417,6 @@ namespace CalamityMod
 				{ NPCID.PrimeCannon, new int[] { 30, 51, 68, 85, 102 } },
 				{ NPCID.PrimeLaser, new int[] { 30, 51, 68, 85, 102 } },
 
-				{ ModContent.NPCType<Calamitas>(), new int[] { 55, 88, 104, 112, 144 } },
 				{ ModContent.NPCType<CalamitasRun3>(), new int[] { 70, 112, 128, 136, 168 } },
 				{ ModContent.NPCType<CalamitasRun>(), new int[] { 60, 120, 138, 148, 198 } },
 				{ ModContent.NPCType<CalamitasRun2>(), new int[] { 65, 130, 150, 162, 216 } },
@@ -645,12 +643,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(NPCID.PrimeCannon, ProjectileID.BombSkeletronPrime), new int[] { 80, 160, 0, 0, 240 } },
 				{ new Tuple<int, int>(NPCID.PrimeLaser, ProjectileID.DeathLaser), new int[] { 50, 100, 124, 136, 186 } }, // 150 in non-rev master mode
 
-				{ new Tuple<int, int>(ModContent.NPCType<Calamitas>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] {
-					70, // 52 in rapid fire
-					112, // 84 in rapid fire
-					128, // 96 in rapid fire
-					140, // 104 in rapid fire
-					192 } }, // 144 in rapid fire
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] {
 					70, // 52 in rapid fire
 					112, // 84 in rapid fire
@@ -660,6 +652,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 84, 136, 156, 168, 234 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 84, 136, 156, 168, 234 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 84, 136, 156, 168, 234 } },
+				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 76, 120, 140, 152, 210 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun2>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 72, 116, 136, 144, 204 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SoulSeeker>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 60, 100, 108, 116, 162 } },
@@ -811,11 +804,11 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 
-				//{ new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
-				//{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
-				//{ new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
-				//{ new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaBolt>()), new int[] { 350, 528, 556, 572, 834 } },
-				//{ new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 500, 752, 788, 808, 1182 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },

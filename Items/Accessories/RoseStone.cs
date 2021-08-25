@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Rose Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-               "Increases max life by 20, life regen by 1, and all damage by 3%\n" +
                "Summons a brimstone elemental to fight for you");
         }
 
@@ -38,10 +37,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.6f, 0f, 0.25f);
-            player.lifeRegen += 1;
-            player.statLifeMax2 += 20;
-            player.allDamage += 0.03f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.brimstoneWaifu = true;
             if (player.whoAmI == Main.myPlayer)
@@ -52,7 +47,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)(45 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)(60 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

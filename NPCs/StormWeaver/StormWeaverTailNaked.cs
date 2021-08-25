@@ -97,23 +97,32 @@ namespace CalamityMod.NPCs.StormWeaver
             if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
-            bool flag = false;
-            if (npc.ai[1] <= 0f)
-            {
-                flag = true;
-            }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
-            {
-                flag = true;
-            }
-            if (flag)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
-            }
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<StormWeaverHeadNaked>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
 
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 if (npc.alpha != 0)
                 {

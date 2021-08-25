@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensHeart>(), CalamityWorld.revenge, 0.25f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SirensHeart>(), 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

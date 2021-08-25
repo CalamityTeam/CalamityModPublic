@@ -104,7 +104,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<BrimstoneElemental>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<Brimling>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
-				{ ModContent.NPCType<Calamitas>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun3>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun2>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },

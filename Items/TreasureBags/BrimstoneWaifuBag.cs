@@ -58,7 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
             DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 5);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.revenge && CalamityWorld.downedProvidence);
 
             // Vanity

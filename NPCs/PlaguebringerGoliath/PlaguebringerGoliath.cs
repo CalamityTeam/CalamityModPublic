@@ -299,6 +299,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
@@ -330,6 +331,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
 
                     return;
@@ -534,7 +536,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				calamityGlobalNPC.newAI[0] += 1f;
 				if (num1057 < 600f || calamityGlobalNPC.newAI[0] >= 180f)
                 {
-                    npc.ai[0] = phase3 ? 5f : 1f;
+                    npc.ai[0] = (phase3 || malice) ? 5f : 1f;
                     npc.ai[1] = 0f;
 					calamityGlobalNPC.newAI[0] = 0f;
 					npc.netUpdate = true;
@@ -543,7 +545,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
+
                     return;
                 }
 
@@ -586,9 +590,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         else
                             randomAmt = ModContent.NPCType<PlagueBeeG>();
 
-                        if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
-
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
                         {
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt);
@@ -600,7 +601,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 							Main.npc[num1062].localAI[0] = 60f;
                             Main.npc[num1062].netUpdate = true;
                         }
-                        npc.netUpdate = true;
+
+						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
+							NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
+
+						npc.netUpdate = true;
                     }
                 }
 
@@ -625,6 +630,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
@@ -663,7 +669,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
+						if (malice)
+						{
+							int randomAmt = expertMode ? 2 : 4;
+							if (Main.rand.Next(randomAmt) == 0)
+								randomAmt = ModContent.NPCType<PlagueBeeLargeG>();
+							else
+								randomAmt = ModContent.NPCType<PlagueBeeG>();
+
+							if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
+							{
+								int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt);
+
+								Main.npc[num1062].velocity = player.Center - npc.Center;
+								Main.npc[num1062].velocity.Normalize();
+								Main.npc[num1062].velocity *= 6f;
+
+								Main.npc[num1062].localAI[0] = 60f;
+								Main.npc[num1062].netUpdate = true;
+							}
+						}
+
+						if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
                             NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>());
 
                         float projectileSpeed = (revenge ? 8f : 7f) + enrageScale * 2f;
@@ -707,6 +734,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
@@ -780,6 +808,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (npc.netSpam >= 10)
                         npc.netSpam = 9;
+
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), npc.Center);
                 }
             }
@@ -980,6 +1009,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			acceleration *= 0.1f * enrageScale + 1f;
 			velocity *= 1f - enrageScale * 0.1f;
+			if (CalamityWorld.malice)
+				velocity *= 0.5f;
 			deceleration *= 1f - enrageScale * 0.1f;
 
 			if (npc.position.Y > player.position.Y - yPos)
@@ -1216,7 +1247,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

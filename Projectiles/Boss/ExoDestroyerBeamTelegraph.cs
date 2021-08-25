@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
             projectile.timeLeft = Lifetime;
 		}
 

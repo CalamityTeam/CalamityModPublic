@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -144,6 +145,9 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 			}
 
+			// If the Ares Laser Cannon is the owner
+			bool aresLaserIsOwner = ThingToAttachTo.type == ModContent.NPCType<AresLaserCannon>();
+
 			// Fade in after telegraphs have faded.
 			if (TelegraphDelay > TelegraphTotalTime)
             {
@@ -181,6 +185,9 @@ namespace CalamityMod.Projectiles.Boss
 				// Set destination of the laser, the target's center.
 				Destination = projectile.velocity;
 
+				if (aresLaserIsOwner)
+					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
+
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
 				Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
@@ -205,6 +212,9 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				// Set start of telegraph to the npc center.
 				projectile.Center = ThingToAttachTo.Center;
+
+				if (aresLaserIsOwner)
+					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
 
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
@@ -231,14 +241,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
 			if (TelegraphDelay > TelegraphTotalTime)
-			{
 				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			}
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 100, 100, projectile.alpha);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
@@ -248,8 +251,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (TelegraphDelay >= TelegraphTotalTime)
-                return true;
+			if (TelegraphDelay >= TelegraphTotalTime)
+			{
+				lightColor.R = (byte)(255 * projectile.Opacity);
+				lightColor.G = (byte)(255 * projectile.Opacity);
+				lightColor.B = (byte)(255 * projectile.Opacity);
+				CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+				return false;
+			}
 
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
 

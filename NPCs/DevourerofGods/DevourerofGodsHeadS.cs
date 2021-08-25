@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Potions;
@@ -527,10 +529,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					calamityGlobalNPC.newAI[1] += 1f;
 				}
             }
-
-            // Despawn
-            if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
-                npc.active = false;
 
             float fallSpeed = enraged ? 21f : malice ? 19.5f : death ? 17.75f : 16f;
 
@@ -1225,6 +1223,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
 
+			// Mount
+			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Fabsol>(), true, mp.fabsolVodka);
+
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
@@ -1232,8 +1234,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBar>(), 25, 35);
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
+				// Weapons
+				float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Excelsus>(w),
                     DropHelper.WeightStack<TheObliterator>(w),

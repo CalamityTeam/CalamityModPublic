@@ -2,6 +2,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresGaussNukeProjectile : ModProjectile
     {
-        public override void SetStaticDefaults()
+		private const int timeLeft = 180;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Nuke");
             Main.projFrames[projectile.type] = 12;
@@ -27,14 +30,28 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 480;
+			cooldownSlot = 1;
+			projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
+
 			// Animation
-            projectile.frameCounter++;
+			projectile.frameCounter++;
             if (projectile.frameCounter >= 10)
             {
                 projectile.frame++;
@@ -46,11 +63,10 @@ namespace CalamityMod.Projectiles.Boss
 			// Rotation
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
 
-			Vector2 dustOffset = Vector2.One * 50f;
-
-			if (projectile.ai[1] == 0f)
+			// Spawn effects
+			if (projectile.localAI[0] == 0f)
 			{
-				projectile.ai[1] = 1f;
+				projectile.localAI[0] = 1f;
 				for (int i = 0; i < 25; i++)
 				{
 					// Choose a random speed and angle
@@ -64,18 +80,26 @@ namespace CalamityMod.Projectiles.Boss
 					float scale = Main.rand.NextFloat(0.5f, 1.6f);
 
 					// Spawn dust
-					Dust dust = Dust.NewDustPerfect(projectile.Center + dustOffset, 107, -dustVel, 0, default, scale);
+					Dust dust = Dust.NewDustPerfect(projectile.Center, 107, -dustVel, 0, default, scale);
 					dust.noGravity = true;
 				}
-			}
-			else
-			{
-				// Generate dust behind the nuke
-				for (int i = 0; i < 2; i++)
+
+				// Gauss sparks
+				if (Main.myPlayer == projectile.owner)
 				{
-					Dust dust = Dust.NewDustPerfect(projectile.Center + dustOffset, 107);
-					dust.velocity = -projectile.velocity * 0.5f;
-					dust.noGravity = true;
+					int totalProjectiles = CalamityWorld.malice ? 18 : 12;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
+					float velocity = projectile.velocity.Length();
+					double angleA = radians * 0.5;
+					double angleB = MathHelper.ToRadians(90f) - angleA;
+					float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+					Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+					for (int k = 0; k < totalProjectiles; k++)
+					{
+						Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(projectile.Center, velocity2 + Vector2.Normalize(projectile.velocity) * -6f, type, (int)(projectile.damage * 0.6), 0f, Main.myPlayer);
+					}
 				}
 			}
 
@@ -111,15 +135,21 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-
-			Rectangle frame = new Rectangle(0, projectile.frame * Main.projectileTexture[projectile.type].Height, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]);
-
-			Color color = Color.Lerp(Color.White, Color.GreenYellow, 0.5f) * projectile.Opacity;
-
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
-
 			return false;
         }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int drawStart = height * projectile.frame;
+			Vector2 origin = projectile.Size / 2;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+		}
 
 		public override bool CanHitPlayer(Player target)
 		{
@@ -152,27 +182,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (Main.myPlayer == projectile.owner)
 			{
-				// Gauss sparks
-				int totalProjectiles = CalamityWorld.malice ? 18 : 12;
-				float radians = MathHelper.TwoPi / totalProjectiles;
-				int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
-				float velocity = 12f;
-				double angleA = radians * 0.5;
-				double angleB = MathHelper.ToRadians(90f) - angleA;
-				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-				Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
-				for (int k = 0; k < totalProjectiles; k++)
-				{
-					Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-					Projectile.NewProjectile(projectile.Center, velocity2, type, (int)(projectile.damage * 0.6), 0f, Main.myPlayer);
-				}
-
 				// Explosion waves
 				for (int i = 0; i < 7; i++)
 				{
 					Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, 0f, Main.myPlayer);
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
+						// Make the max explosion radius decrease over time, creating a ring effect.
 						explosion.ai[1] = 800f + i * 45f;
 						explosion.localAI[1] = 0.25f;
 						explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
@@ -181,5 +197,10 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 		}
-    }
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+	}
 }

@@ -20,6 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 		public ref float LengthOfLaser => ref projectile.localAI[1];
 		public const int Lifetime = 180;
 		public const float BeamPosOffset = 16f;
+		private const int maxFrames = 4;
+		private int frameDrawn = 0;
 
 		public override void SetStaticDefaults()
         {
@@ -41,13 +43,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(Time);
+			writer.Write(frameDrawn);
+			writer.Write(Time);
 			writer.Write(LengthOfLaser);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            Time = reader.ReadSingle();
+			frameDrawn = reader.ReadInt32();
+			Time = reader.ReadSingle();
 			LengthOfLaser = reader.ReadSingle();
         }
 
@@ -139,31 +143,10 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 
-			int dustType = (int)CalamityDusts.Brimstone;
-
-			// Spawn dust at the start of the beam
-			Vector2 dustPos = projectile.Center + projectile.velocity * 14f;
-			for (int i = 0; i < 2; i++)
-			{
-				float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
-				float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
-				Vector2 dustVel = new Vector2((float)Math.Cos(dustRot) * dustVelMult, (float)Math.Sin(dustRot) * dustVelMult);
-				int dust = Dust.NewDust(dustPos, 0, 0, dustType, -dustVel.X, -dustVel.Y, 0, default, 1f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].scale = 1.7f;
-			}
-
-			if (Main.rand.NextBool(5))
-			{
-				Vector2 dustRot = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				int dust = Dust.NewDust(dustPos + dustRot - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
-				Main.dust[dust].velocity *= 0.5f;
-				Main.dust[dust].velocity.Y = Math.Abs(Main.dust[dust].velocity.Y);
-			}
-
 			// Spawn dust at the end of the beam
-			dustPos = projectile.Center + projectile.velocity * (LengthOfLaser - 14f);
-            for (int i = 0; i < 2; i++)
+			int dustType = (int)CalamityDusts.Brimstone;
+			Vector2 dustPos = projectile.Center + projectile.velocity * (LengthOfLaser - 14f);
+			for (int i = 0; i < 2; i++)
             {
                 float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
@@ -197,39 +180,52 @@ namespace CalamityMod.Projectiles.Boss
 			float drawLength = LengthOfLaser;
             Color color = new Color(250, 100, 100, 0);
 
+			if (Time % 5 == 0)
+			{
+				frameDrawn++;
+				if (frameDrawn >= maxFrames)
+					frameDrawn = 0;
+			}
+
 			// Draw start of beam
-            Vector2 vector = projectile.Center - Main.screenPosition;
-            Rectangle? sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamStart.Width, 30);
-			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, new Vector2(32f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 vector = projectile.Center - Main.screenPosition;
+            Rectangle? sourceRectangle = new Rectangle(0, beamStart.Height / maxFrames * frameDrawn, beamStart.Width, beamStart.Height / maxFrames);
+			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, new Vector2(beamStart.Width, beamStart.Height / maxFrames) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
 			// Draw middle of beam
-			drawLength -= (beamStart.Height / 4 / 2 + beamEnd.Height / 4) * projectile.scale;
+			drawLength -= (beamStart.Height / maxFrames / 2 + beamEnd.Height / maxFrames) * projectile.scale;
             Vector2 center = projectile.Center;
-			center += projectile.velocity * projectile.scale * beamStart.Height / 4f / 2f;
+			center += projectile.velocity * projectile.scale * beamStart.Height / maxFrames / 2f;
             if (drawLength > 0f)
             {
                 float i = 0f;
-                Rectangle rectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamMiddle.Width, 30);
-                while (i + 1f < drawLength)
+				int middleFrameDrawn = frameDrawn;
+				while (i + 1f < drawLength)
                 {
-                    if (drawLength - i < rectangle.Height)
+					Rectangle rectangle = new Rectangle(0, beamMiddle.Height / maxFrames * middleFrameDrawn, beamMiddle.Width, beamMiddle.Height / maxFrames);
+
+					if (drawLength - i < rectangle.Height)
                         rectangle.Height = (int)(drawLength - i);
 
                     spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), projectile.scale, SpriteEffects.None, 0f);
 
+					middleFrameDrawn++;
+					if (middleFrameDrawn >= maxFrames)
+						middleFrameDrawn = 0;
+
 					i += rectangle.Height * projectile.scale;
 					center += projectile.velocity * rectangle.Height * projectile.scale;
 
-                    rectangle.Y += 30;
-                    if (rectangle.Y + rectangle.Height > beamMiddle.Height / 4)
+                    rectangle.Y += beamMiddle.Height / maxFrames;
+                    if (rectangle.Y + rectangle.Height > beamMiddle.Height / maxFrames)
                         rectangle.Y = 0;
                 }
             }
 
 			// Draw end of beam
             Vector2 vector2 = center - Main.screenPosition;
-            sourceRectangle = new Rectangle(0, 30 * (projectile.timeLeft / 3 % 4), beamEnd.Width, 30);
-			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, new Vector2(28f, 30f) / 2f, projectile.scale, SpriteEffects.None, 0f);
+			sourceRectangle = new Rectangle(0, beamEnd.Height / maxFrames * frameDrawn, beamEnd.Width, beamEnd.Height / maxFrames);
+			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, new Vector2(beamEnd.Width, beamEnd.Height / maxFrames) / 2f, projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }

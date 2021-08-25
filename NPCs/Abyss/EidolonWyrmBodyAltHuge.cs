@@ -70,14 +70,17 @@ namespace CalamityMod.NPCs.Abyss
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+				{
 					shouldDespawn = false;
+					break;
+				}
 			}
 			if (!shouldDespawn)
 			{
-				if (npc.ai[1] > 0f)
-					shouldDespawn = false;
-				else if (Main.npc[(int)npc.ai[1]].life > 0)
-					shouldDespawn = false;
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
 			}
 			if (shouldDespawn)
 			{

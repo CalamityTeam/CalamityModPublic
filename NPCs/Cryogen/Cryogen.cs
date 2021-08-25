@@ -1111,8 +1111,9 @@ namespace CalamityMod.NPCs.Cryogen
                     DropHelper.WeightStack<Icebreaker>(w)
                 );
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);
+				// Equipment
+				DropHelper.DropItemChance(npc, ModContent.ItemType<FrostFlare>(), 5);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);

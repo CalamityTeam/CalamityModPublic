@@ -1,9 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -38,9 +33,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
-
-		// The exact frame the animation is currently on
-		private int exactFrame = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
 		private const int normalFrameLimit = 11;
@@ -126,54 +118,34 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
-			bool exoWormAlive = false;
-			bool exoSpazAlive = false;
-			bool exoRetAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-				{
 					otherExoMechsAlive++;
-					exoWormAlive = true;
-				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
-				{
 					otherExoMechsAlive++;
-					exoSpazAlive = true;
-				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-				{
 					otherExoMechsAlive++;
-					exoRetAlive = true;
-				}
 			}
-
-			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
-			float exoWormLifeRatio = defaultLifeRatio;
-			float exoSpazLifeRatio = defaultLifeRatio;
-			float exoRetLifeRatio = defaultLifeRatio;
-			if (exoWormAlive)
-				exoWormLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechWorm].lifeMax;
-			if (exoSpazAlive)
-				exoSpazLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			if (exoRetAlive)
-				exoRetLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].lifeMax;
-			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoSpazLifeRatio + exoRetLifeRatio;
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// Target variable
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
 
-			if (npc.ai[0] > 0f)
-                npc.realLife = (int)npc.ai[0];
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
+
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -193,18 +165,21 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 						npc.velocity.Y -= 2f;
 
-					/*if ((double)npc.position.Y < Main.topWorld + 16f)
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
 							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>())
 								Main.npc[a].active = false;
 						}
-					}*/
+					}
 				}
 			}
 
-			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[0]].Calamity();
+			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
+
+			// Passive phase check
+			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
 
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -223,14 +198,23 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			float predictionAmt = malice ? 40f : death ? 30f : revenge ? 25f : expertMode ? 20f : 10f;
+			if (passivePhase)
+				predictionAmt *= 0.5f;
+
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
-			float rateOfRotation = AIState == (int)Phase.TeslaOrbs ? 0.08f : 0.04f;
-			Vector2 lookAt = player.Center + Vector2.Normalize(rotationVector);
+			float projectileVelocity = passivePhase ? 7.2f : 9f;
+			if (lastMechAlive)
+				projectileVelocity *= 1.2f;
+			else if (berserk)
+				projectileVelocity *= 1.1f;
 
-			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
+			float rateOfRotation = AIState == (int)Phase.TeslaOrbs ? 0.08f : 0.04f;
+			Vector2 lookAt = Vector2.Normalize(rotationVector) * projectileVelocity;
+
+			float rotation = (float)Math.Atan2(lookAt.Y, lookAt.X);
 			if (npc.spriteDirection == 1)
 				rotation += MathHelper.Pi;
 			if (rotation < 0f)
@@ -238,29 +222,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (rotation > MathHelper.TwoPi)
 				rotation -= MathHelper.TwoPi;
 
-			if (npc.rotation < rotation)
-			{
-				if (rotation - npc.rotation > MathHelper.Pi)
-					npc.rotation -= rateOfRotation;
-				else
-					npc.rotation += rateOfRotation;
-			}
-			if (npc.rotation > rotation)
-			{
-				if (npc.rotation - rotation > MathHelper.Pi)
-					npc.rotation += rateOfRotation;
-				else
-					npc.rotation -= rateOfRotation;
-			}
+			npc.rotation = npc.rotation.AngleTowards(rotation, rateOfRotation);
 
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
-			if (npc.rotation < 0f)
-				npc.rotation += MathHelper.TwoPi;
-			if (npc.rotation > MathHelper.TwoPi)
-				npc.rotation -= MathHelper.TwoPi;
-			if (npc.rotation > rotation - rateOfRotation && npc.rotation < rotation + rateOfRotation)
-				npc.rotation = rotation;
+			// Direction
+			int direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (direction != 0)
+			{
+				npc.direction = direction;
+
+				if (npc.spriteDirection != -npc.direction)
+					npc.rotation += MathHelper.Pi;
+
+				npc.spriteDirection = -npc.direction;
+			}
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.1f, 0.25f, 0.25f);
@@ -270,8 +244,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 15f * baseVelocityMult;
+			float baseVelocity = 20f * baseVelocityMult;
 			float baseAcceleration = 1f;
+			float decelerationVelocityMult = 0.85f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
@@ -279,15 +254,20 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+			// Whether Ares Tesla Arm should move to its spot or not
+			float movementDistanceGateValue = 32f;
+			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
 			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 			float teslaOrbPhaseGateValue = fireMoreOrbs ? 90f : 210f;
+			if (lastMechAlive)
+				teslaOrbPhaseGateValue *= 0.7f;
+			else if (berserk)
+				teslaOrbPhaseGateValue *= 0.85f;
 
 			// Variable to cancel tesla orb firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;
@@ -318,29 +298,35 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < teslaOrbTelegraphDuration)
 						{
+							// Set frames to tesla orb charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
-								// Set frames to tesla orb charge up frames
+								// Reset the frame counter
 								npc.frameCounter = 0D;
+
+								// X = 1 sets to frame 8
 								frameX = 1;
-								frameY = 5;
-								exactFrame = 12;
+
+								// Y = 4 sets to frame 12
+								frameY = 4;
 							}
 						}
 						else
 						{
 							// Fire tesla orbs
-							int numTeslaOrbs = 4;
+							int numTeslaOrbs = lastMechAlive ? 6 : berserk ? 5 : 4;
 							float divisor = teslaOrbDuration / numTeslaOrbs;
 
 							if (calamityGlobalNPC.newAI[2] % divisor == 0f)
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									float projectileVelocity = 12f;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), npc.Center);
 									Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
-									/*int type = ModContent.ProjectileType<AresTeslaOrb>();
-									int damage = npc.GetProjectileDamage(type);*/
+									int type = ModContent.ProjectileType<AresTeslaOrb>();
+									int damage = npc.GetProjectileDamage(type);
+									Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
+									Projectile.NewProjectile(npc.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
@@ -358,7 +344,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Movement
 			if (!targetDead)
-				npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+			{
+				if (moveToLocation)
+					npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+				else
+					npc.velocity *= decelerationVelocityMult;
+			}
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -373,50 +364,62 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > normalFrameLimit)
-						frameX = frameY = exactFrame = 0;
+
+					// Reset the frames
+					if ((frameX * maxFramesY) + frameY > normalFrameLimit)
+						frameX = frameY = 0;
 				}
 			}
 			else
 			{
 				if (npc.frameCounter >= 10D)
 				{
+					// Reset frame counter
 					npc.frameCounter = 0D;
+
+					// Increment the Y frame
 					frameY++;
-					exactFrame++;
+
+					// Reset the Y frame if greater than 8
 					if (frameY == maxFramesY)
 					{
 						frameX++;
 						frameY = 0;
 					}
-					if (exactFrame > finalStageTeslaOrbChargeFrameLimit)
-					{
-						frameX = 4;
-						frameY = 5;
-						exactFrame = secondStageTeslaOrbChargeFrameLimit + 1;
-					}
+
+					// Reset the frames to frame 36, the start of the tesla orb firing animation loop
+					if ((frameX * maxFramesY) + frameY > finalStageTeslaOrbChargeFrameLimit)
+						frameX = frameY = 4;
 				}
 			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
 			Vector2 center = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresTeslaCannonGlow");
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.DD2_EtherianPortalOpen;
             item.summon = true;
 
-            item.mana = 100;
+            item.mana = 10;
             item.damage = 150;
             item.knockBack = 4f;
             item.useTime = item.useAnimation = 10;

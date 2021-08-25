@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            //Animation
+            // Animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 9)
             {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame >= 6)
                 projectile.frame = 0;
 
-            //Fade in
+            // Fade in
             if (projectile.alpha > 5)
                 projectile.alpha -= 15;
             if (projectile.alpha < 5)
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.Kill();
 			}
 
-			//Rotation
+			// Rotation
 			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90f) * projectile.direction;
 

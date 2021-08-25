@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            int blobAmt = Main.rand.Next(5, 10);
+            int blobAmt = (!Main.dayTime || CalamityWorld.malice) ? 9 : 6;
             if (projectile.owner == Main.myPlayer)
             {
                 for (int b = 0; b < blobAmt; b++)

@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			set => npc.Calamity().newAI[1] = value;
 		}
 
-		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Invincibility time for the first 10 seconds
 		public const float immunityTime = 600f;
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		private const float defaultLifeRatio = 5f;
 
 		// Base distance from the target for most attacks
-		private const float baseDistance = 1200f;
+		private const float baseDistance = 800f;
 
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
@@ -220,8 +220,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			bool anyOtherExoMechPassive = exoPrimePassive || exoSpazPassive || exoRetPassive;
 
 			// Phases
-			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
+			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// Set vulnerable to false by default
 			vulnerable = false;
@@ -272,6 +273,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					TailSpawned = true;
 				}
 			}
+
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -332,10 +336,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = berserk ? 360f : 480f;
-			float slowDownTime = berserk ? 90f : 120f;
+			float speedUpTime = lastMechAlive ? 270f : berserk ? 360f : 480f;
+			float slowDownTime = lastMechAlive ? 60f : berserk ? 90f : 120f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
-			float laserBarrageDuration = berserk ? 330f : 420f;
+			float laserBarrageDuration = lastMechAlive ? 285f : berserk ? 330f : 420f;
 
 			// Adjust opacity
 			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
@@ -368,8 +372,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeLocationDistance = turnDistance * 0.2f;
 
 			// Laser Barrage variables
-			Vector2 laserBarrageLocation = new Vector2(0f, baseDistance);
-			float laserBarrageLocationDistance = turnDistance * 5f;
+			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 1.5f : baseDistance;
+			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
+			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
@@ -385,8 +390,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float laserBarragePhaseTurnSpeedMult = MathHelper.Lerp(1f, 3f, chargeVelocityScalar);
-			float deathrayVelocityMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
-			float deathrayTurnSpeedMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
+			float deathrayVelocityMult = MathHelper.Lerp(0.5f, 3f, chargeVelocityScalar);
+			float deathrayTurnSpeedMult = MathHelper.Lerp(0.5f, 3f, chargeVelocityScalar);
 
 			// Base scale on total time spent in phase
 			float chargeVelocityScalarIncrement = 1f / speedUpTime;
@@ -396,7 +401,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
-			float laserBarrageVelocityScalarIncrement = berserk ? 0.02f : 0.01f;
+			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Distance from target
@@ -567,8 +572,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					turnDistance = chargeLocationDistance;
 
 					// Gradually turn slower if within 20 tiles of the target
-					if (distanceFromTarget < 320f)
-						turnSpeed *= distanceFromTarget / 320f;
+					float turnSlowerDistanceGateValue = lastMechAlive ? 160f : 320f;
+					if (distanceFromTarget < turnSlowerDistanceGateValue)
+						turnSpeed *= distanceFromTarget / turnSlowerDistanceGateValue;
 
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
@@ -636,7 +642,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					vulnerable = true;
 
 					// If close enough to the target, prepare to fire deathray
-					float slowDownDistance = 800f;
+					float slowDownDistance = lastMechAlive ? 640f : 800f;
 					bool readyToFireDeathray = distanceFromTarget < slowDownDistance;
 					if (readyToFireDeathray)
 						npc.localAI[2] = 1f;
@@ -685,6 +691,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"), npc.Center);
 									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{
@@ -793,10 +800,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Velocity upper limit
 			if (npc.velocity.Length() > baseVelocity)
 				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

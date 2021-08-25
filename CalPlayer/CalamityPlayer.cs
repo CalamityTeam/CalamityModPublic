@@ -121,6 +121,8 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
 		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
+		public const int defaultTimeBeforeDefenseDamageRecovery = 5;
+		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
         public bool blazingMouseDamageEffects = false;
@@ -358,7 +360,7 @@ namespace CalamityMod.CalPlayer
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double DefaultRageDamageBoost = 0.5D; // +50%
+        public static readonly double DefaultRageDamageBoost = 0.35D; // +35%
         public double RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
@@ -489,6 +491,7 @@ namespace CalamityMod.CalPlayer
         public bool alchFlask = false;
         public bool reducedPlagueDmg = false;
         public bool abaddon = false;
+		public bool aeroStone = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -1057,6 +1060,7 @@ namespace CalamityMod.CalPlayer
         public int persecutedEnchantSummonTimer = 0;
 
         public bool lecherousOrbEnchant = false;
+        public bool awaitingLecherousOrbSpawn = false;
         #endregion Calamitas Enchant Effects
 
         #region Draw Effects
@@ -1616,6 +1620,7 @@ namespace CalamityMod.CalPlayer
             alchFlask = false;
             reducedPlagueDmg = false;
             abaddon = false;
+			aeroStone = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;
@@ -2124,6 +2129,7 @@ namespace CalamityMod.CalPlayer
 			#region Debuffs
 			dodgeCooldownTimer = 0;
 			defenseDamage = 0;
+			timeBeforeDefenseDamageRecovery = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
             heldGaelsLastFrame = false;
@@ -3655,14 +3661,8 @@ namespace CalamityMod.CalPlayer
             {
                 drawBossHPBar = false;
             }
-            if (CalamityConfig.Instance.BossHealthBarExtraInfo)
-            {
-                shouldDrawSmallText = true;
-            }
-            else
-            {
-                shouldDrawSmallText = false;
-            }
+
+            CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             if (CalamityConfig.Instance.MiningSpeedBoost)
             {
@@ -4281,11 +4281,7 @@ namespace CalamityMod.CalPlayer
                     DeadMinionProperties deadMinionProperties;
 
                     // Handle unique edge-cases in terms of summoning logic.
-                    if (projectile.type == mechwormHeadType)
-                        deadMinionProperties = new DeadMechwormProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == ProjectileID.StardustDragon1)
-                        deadMinionProperties = new DeadStardustDragonProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == endoHydraBodyType)
+                    if (projectile.type == endoHydraBodyType)
                         deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
                     else if (projectile.type == endoCooperType)
                         deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
@@ -4541,6 +4537,10 @@ namespace CalamityMod.CalPlayer
                 if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+                }
+                if (witheredDebuff)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " withered away.");
                 }
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
@@ -5297,7 +5297,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 1.25;
             }
 
-            if (witheredDebuff)
+            if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
@@ -5702,16 +5702,17 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;
@@ -5860,10 +5861,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        contactDamageReduction -= contactDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						contactDamageReduction -= contactDamageReduction * defenseDamageReduction;
+					}
+
+					if (contactDamageReduction < 0D)
+						contactDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
@@ -5961,7 +5971,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -5990,7 +6000,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6025,7 +6035,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6057,7 +6067,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6149,16 +6159,17 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;
@@ -6302,10 +6313,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        projectileDamageReduction -= projectileDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						projectileDamageReduction -= projectileDamageReduction * defenseDamageReduction;
+					}
+
+					if (projectileDamageReduction < 0D)
+						projectileDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
@@ -7423,9 +7443,7 @@ namespace CalamityMod.CalPlayer
                 if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                 {
                     Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-                    if (Main.npc.IndexInRange(portal))
-                        Main.npc[portal].target = player.whoAmI;
+                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
                 }
 
 				if (revivify)
@@ -8709,7 +8727,7 @@ namespace CalamityMod.CalPlayer
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
 					{
-						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(15f));
+						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(20f));
 						godSlayerDashHotKeyPressed = false;
 					}
 

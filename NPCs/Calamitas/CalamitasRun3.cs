@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 25;
             npc.value = Item.buyPrice(0, 15, 0, 0);
 			npc.DR_NERD(0.15f);
-			npc.LifeMaxNERB(28125, 38812, 390000);
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+			npc.LifeMaxNERB(37500, 45000, 520000);
+			if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void AI()
         {
-			CalamityAI.CalamitasCloneAI(npc, mod, true);
+			CalamityAI.CalamitasCloneAI(npc, mod);
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.Calamitas
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);

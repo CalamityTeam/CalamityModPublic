@@ -52,7 +52,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void HitWire(int i, int j)
         {
-            this.SetUpChandelier();
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
         }
     }
 }
