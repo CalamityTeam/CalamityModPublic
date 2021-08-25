@@ -326,7 +326,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									int type = ModContent.ProjectileType<AresTeslaOrb>();
 									int damage = npc.GetProjectileDamage(type);
 									Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
-									Projectile.NewProjectile(npc.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+									float identity = (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
+									Projectile.NewProjectile(npc.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
 								}
 							}
 						}

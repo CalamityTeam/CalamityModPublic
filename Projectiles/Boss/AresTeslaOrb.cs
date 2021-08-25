@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresTeslaOrb : ModProjectile
     {
+		public ref float Identity => ref projectile.ai[0];
 		private const int timeLeft = 480;
 
 		public override void SetStaticDefaults()
