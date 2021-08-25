@@ -67,6 +67,28 @@ namespace CalamityMod.Items.Mounts
             }
         }
 
+		public override void SetMount(Player player, ref bool skipDust)
+		{
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].type == ModContent.NPCType<FAP>())
+				{
+					Main.npc[i].active = false;
+					Main.npc[i].netUpdate = true;
+					break;
+				}
+			}
+		}
+
+		public override void Dismount(Player player, ref bool skipDust)
+		{
+			if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
+			}
+		}
+
 		public override void UpdateEffects(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
