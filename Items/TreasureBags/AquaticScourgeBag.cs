@@ -59,7 +59,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);
             DropHelper.DropItemChance(player, ModContent.ItemType<CorrosiveSpine>(), 8);
 
             // Vanity

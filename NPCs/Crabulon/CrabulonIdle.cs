@@ -279,51 +279,38 @@ namespace CalamityMod.NPCs.Crabulon
                     if (npc.direction < 0)
                         npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
                 }
+
                 int num854 = 80;
                 int num855 = 20;
                 Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
-                bool flag52 = false;
-                if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
-                {
-                    flag52 = true;
-                }
-                if (flag52)
+
+                bool fallDownOnTopOfTarget = npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f;
+                if (fallDownOnTopOfTarget)
                 {
                     npc.velocity.Y += 0.5f;
                 }
                 else if (Collision.SolidCollision(position2, num854, num855))
                 {
                     if (npc.velocity.Y > 0f)
-                    {
                         npc.velocity.Y = 0f;
-                    }
-                    if (npc.velocity.Y > -0.2)
-                    {
+
+                    if (npc.velocity.Y > -0.2f)
                         npc.velocity.Y -= 0.025f;
-                    }
                     else
-                    {
                         npc.velocity.Y -= 0.2f;
-                    }
+
                     if (npc.velocity.Y < -4f)
-                    {
                         npc.velocity.Y = -4f;
-                    }
                 }
                 else
                 {
                     if (npc.velocity.Y < 0f)
-                    {
                         npc.velocity.Y = 0f;
-                    }
-                    if (npc.velocity.Y < 0.1)
-                    {
+
+                    if (npc.velocity.Y < 0.1f)
                         npc.velocity.Y += 0.025f;
-                    }
                     else
-                    {
                         npc.velocity.Y += 0.5f;
-                    }
                 }
 
                 if (npc.ai[1] % 25f == 24f)
@@ -339,10 +326,9 @@ namespace CalamityMod.NPCs.Crabulon
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
+
                 if (npc.velocity.Y > 10f)
-                {
                     npc.velocity.Y = 10f;
-                }
             }
             else if (npc.ai[0] == 3f)
             {

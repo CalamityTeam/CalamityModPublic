@@ -2824,31 +2824,33 @@ namespace CalamityMod.NPCs
                 if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
                     flag52 = true;
 
-                if (flag52)
-                    npc.velocity.Y += 0.5f;
-                else if (Collision.SolidCollision(position2, num854, num855))
-                {
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = 0f;
+				if (flag52)
+				{
+					npc.velocity.Y += 0.5f;
+				}
+				else if (Collision.SolidCollision(position2, num854, num855))
+				{
+					if (npc.velocity.Y > 0f)
+						npc.velocity.Y = 0f;
 
-                    if (npc.velocity.Y > -0.2)
-                        npc.velocity.Y -= 0.025f;
-                    else
-                        npc.velocity.Y -= 0.2f;
+					if (npc.velocity.Y > -0.2)
+						npc.velocity.Y -= 0.025f;
+					else
+						npc.velocity.Y -= 0.2f;
 
-                    if (npc.velocity.Y < -4f)
-                        npc.velocity.Y = -4f;
-                }
-                else
-                {
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = 0f;
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
+				}
+				else
+				{
+					if (npc.velocity.Y < 0f)
+						npc.velocity.Y = 0f;
 
-                    if (npc.velocity.Y < 0.1)
-                        npc.velocity.Y += 0.025f;
-                    else
-                        npc.velocity.Y += 0.5f;
-                }
+					if (npc.velocity.Y < 0.1)
+						npc.velocity.Y += 0.025f;
+					else
+						npc.velocity.Y += 0.5f;
+				}
 
                 // Walk for a maximum of 6 seconds
                 npc.ai[1] += 1f;

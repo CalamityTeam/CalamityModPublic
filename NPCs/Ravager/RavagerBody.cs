@@ -467,6 +467,10 @@ namespace CalamityMod.NPCs.Ravager
 							npc.noTileCollide = true;
 						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
 							npc.noTileCollide = false;
+
+						// Prevent falling forever in second phase
+						if (npc.ai[0] == 2f && npc.velocity.Y > 0f && npc.Top.Y > Main.player[npc.target].Bottom.Y + 16f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+							npc.noTileCollide = false;
 					}
 
 					Vector2 targetVector = player.position;

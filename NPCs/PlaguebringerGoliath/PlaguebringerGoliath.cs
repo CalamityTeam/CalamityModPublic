@@ -1247,7 +1247,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
