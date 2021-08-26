@@ -73,6 +73,20 @@ namespace CalamityMod
 				case "the slime god":
 					return CalamityWorld.downedSlimeGod;
 
+				case "hmclam":
+				case "clamhm":
+				case "hm clam":
+				case "clam hm":
+				case "hmgiantclam":
+				case "giantclamhm":
+				case "hm giant clam":
+				case "giant clam hm":
+				case "hardmodeclam":
+				case "hardmode clam":
+				case "hardmodegiantclam":
+				case "hardmode giant clam":
+					return CalamityWorld.downedCLAMHardMode;
+
 				case "cryogen":
 					return CalamityWorld.downedCryogen;
 					
@@ -245,6 +259,18 @@ namespace CalamityMod
 				case "jungle dragon yharon":
 				case "jungle dragon, yharon":
 					return CalamityWorld.downedYharon;
+
+				/*
+				case "draedon":
+				case "exomechs":
+				case "exo mechs":
+				case "the exo mechs":
+				case "apollo":
+				case "artemis":
+				case "thanatos":
+				case "ares":
+					return CalamityWorld.downedDraedon;
+				*/
 
 				case "scal":
 				case "supremecalamitas":
@@ -558,755 +584,6 @@ namespace CalamityMod
 		}
 		#endregion
 
-		#region Player Armor Set Bonuses
-		/// <summary>
-		/// Returns whether the specified player has the set bonus corresponding to the given string.
-		/// </summary>
-		/// <param name="p">The player whose set bonuses are being questioned.</param>
-		/// <param name="setBonus">The set bonus to check for.</param>
-		/// <returns>Whether the player currently has the set bonus.</returns>
-		public static bool GetSetBonus(Player p, string setBonus)
-		{
-			CalamityPlayer mp = p.Calamity();
-
-			setBonus = setBonus.ToLower();
-
-			// LATER -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
-
-			// Desert Prowler
-			if (setBonus == "desertprowler" || setBonus == "desert prowler")
-				return mp.desertProwler;
-
-			// Snow Ruffian
-			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
-				return mp.snowRuffianSet;
-
-			// Victide
-			if (setBonus == "victide_summon" || setBonus == "victide summon")
-				return mp.urchin; // the bool set directly by VictideHelmet.UpdateArmorSet
-			else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
-				return mp.victideSet;
-
-			// Aerospec
-			if (setBonus == "aerospec_summon" || setBonus == "aerospec summon")
-				return mp.valkyrie; // the bool set directly by AerospecHelmet.UpdateArmorSet
-			else if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
-				return mp.aeroSet;
-
-			// Statigel
-			if (setBonus == "statigel_summon" || setBonus == "statigel summon")
-				return mp.slimeGod; // the bool set directly by StatigelHood.UpdateArmorSet
-			if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
-				return mp.statigelSet;
-
-			// Mollusk
-			if (setBonus == "mollusk")
-				return mp.molluskSet;
-
-			// Forbidden Circlet
-			if (setBonus == "forbidden_circlet" || setBonus == "forbidden circlet")
-				return mp.forbiddenCirclet;
-
-			// Daedalus
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "daedalus":
-					return mp.daedalusReflect || mp.daedalusShard || mp.daedalusAbsorb || mp.daedalusCrystal || mp.daedalusSplit;
-				case "daedalus_melee":
-				case "daedalus melee":
-					return mp.daedalusReflect;
-				case "daedalus_ranged":
-				case "daedalus ranged":
-					return mp.daedalusShard;
-				case "daedalus_magic":
-				case "daedalus magic":
-					return mp.daedalusAbsorb;
-				case "daedalus_summon":
-				case "daedalus summon":
-					return mp.daedalusCrystal;
-				case "daedalus_rogue":
-				case "daedalus rogue":
-					return mp.daedalusSplit;
-			}
-
-			// Reaver
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "reaver":
-					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore;
-				case "reaver_defense":
-				case "reaver defense":
-				case "reaver_helm":
-				case "reaver helm":
-					return mp.reaverDefense;
-				case "reaver_speed":
-				case "reaver speed":
-				case "reaver_visage":
-				case "reaver visage":
-					return mp.reaverSpeed;
-				case "reaver_explore":
-				case "reaver explore":
-				case "reaver_headgear":
-				case "reaver headgear":
-					return mp.reaverExplore;
-			}
-
-			// Fathom Swarmer
-			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
-				return mp.fathomSwarmer;
-
-			// Brimflame
-			if (setBonus == "brimflame")
-				return mp.brimflameSet;
-
-			// Umbraphile
-			if (setBonus == "umbraphile")
-				return mp.umbraphileSet;
-
-			// Hydrothermic (Ataxia is legacy name)
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "ataxia":
-				case "hydrothermic":
-				case "hydrothermal":
-					return mp.ataxiaBlaze;
-				case "ataxia_melee":
-				case "ataxia melee":
-				case "hydrothermic_melee":
-				case "hydrothermic melee":
-				case "hydrothermal_melee":
-				case "hydrothermal melee":
-					return mp.ataxiaGeyser;
-				case "ataxia_ranged":
-				case "ataxia ranged":
-				case "hydrothermic_ranged":
-				case "hydrothermic ranged":
-				case "hydrothermal_ranged":
-				case "hydrothermal ranged":
-					return mp.ataxiaBolt;
-				case "ataxia_magic":
-				case "ataxia magic":
-				case "hydrothermic_magic":
-				case "hydrothermic magic":
-				case "hydrothermal_magic":
-				case "hydrothermal magic":
-					return mp.ataxiaMage;
-				case "ataxia_summon":
-				case "ataxia summon":
-				case "hydrothermic_summon":
-				case "hydrothermic summon":
-				case "hydrothermal_summon":
-				case "hydrothermal summon":
-					return mp.chaosSpirit;
-				case "ataxia_rogue":
-				case "ataxia rogue":
-				case "hydrothermic_rogue":
-				case "hydrothermic rogue":
-				case "hydrothermal_rogue":
-				case "hydrothermal rogue":
-					return mp.ataxiaVolley;
-			}
-
-			// Plague Reaper
-			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
-				return mp.plagueReaper;
-
-			// Plaguebringer
-			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
-				return mp.plaguebringerPatronSet;
-
-			// Astral
-			if (setBonus == "astral")
-				return mp.astralStarRain;
-
-			// Xeroc
-			if (setBonus == "xeroc")
-				return mp.xerocSet;
-
-			// Tarragon
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "tarragon":
-					return mp.tarraSet;
-				case "tarragon_melee":
-				case "tarragon melee":
-					return mp.tarraMelee;
-				case "tarragon_ranged":
-				case "tarragon ranged":
-					return mp.tarraRanged;
-				case "tarragon_magic":
-				case "tarragon magic":
-					return mp.tarraMage;
-				case "tarragon_summon":
-				case "tarragon summon":
-					return mp.tarraSummon;
-				case "tarragon_rogue":
-				case "tarragon rogue":
-					return mp.tarraThrowing;
-			}
-
-			// Prismatic
-			if (setBonus == "prismatic" || setBonus == "prism")
-				return mp.prismaticSet;
-
-			// Bloodflare
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "bloodflare":
-					return mp.bloodflareSet;
-				case "bloodflare_melee":
-				case "bloodflare melee":
-					return mp.bloodflareMelee;
-				case "bloodflare_ranged":
-				case "bloodflare ranged":
-					return mp.bloodflareRanged;
-				case "bloodflare_magic":
-				case "bloodflare magic":
-					return mp.bloodflareMage;
-				case "bloodflare_summon":
-				case "bloodflare summon":
-					return mp.bloodflareSummon;
-				case "bloodflare_rogue":
-				case "bloodflare rogue":
-					return mp.bloodflareThrowing;
-			}
-
-			// Omega Blue
-			if (setBonus == "omegablue" || setBonus == "omega blue")
-				return mp.omegaBlueSet;
-
-			// God Slayer
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "godslayer":
-				case "god slayer":
-					return mp.godSlayer;
-				case "godslayer_melee":
-				case "godslayer melee":
-				case "god slayer melee":
-					return mp.godSlayerDamage; // melee helm's unique damage reducing property
-				case "godslayer_ranged":
-				case "godslayer ranged":
-				case "god slayer ranged":
-					return mp.godSlayerRanged;
-				case "godslayer_rogue":
-				case "godslayer rogue":
-				case "god slayer rogue":
-					return mp.godSlayerThrowing;
-			}
-
-			// Fearmonger
-			if (setBonus == "fearmonger")
-				return mp.fearmongerSet;
-
-			// Silva
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "silva":
-					return mp.silvaSet;
-				case "silva_magic":
-				case "silva magic":
-					return mp.silvaMage;
-				case "silva_summon":
-				case "silva summon":
-					return mp.silvaSummon;
-			}
-
-			// Auric Tesla
-			if (setBonus == "auric" || setBonus == "aurictesla" || setBonus == "auric tesla")
-				return mp.auricSet;
-
-			// Demonshade
-			if (setBonus == "demonshade")
-				return mp.dsSetBonus;
-
-			return false;
-		}
-
-		/// <summary>
-		/// Turns the set bonus corresponding to the given string on or off for the specified player.
-		/// </summary>
-		/// <param name="p">The player whose set bonuses are being toggled.</param>
-		/// <param name="setBonus">The set bonus to check for.</param>
-		/// <param name="enabled">Whether the set bonus should be enabled (true) or disabled (false).</param>
-		/// <returns>Whether any set bonus was adjusted.</returns>
-		public static bool SetSetBonus(Player p, string setBonus, bool enabled)
-		{
-			CalamityPlayer mp = p.Calamity();
-			setBonus = setBonus.ToLower();
-
-			// Desert Prowler
-			if (setBonus == "desertprowler" || setBonus == "desert prowler")
-			{
-				mp.desertProwler = enabled;
-				return true;
-			}
-
-			// Snow Ruffian
-			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
-			{
-				mp.snowRuffianSet = enabled;
-				return true;
-			}
-
-			// Victide
-			if (setBonus == "victide_summon" || setBonus == "victide summon")
-			{
-				mp.victideSet = enabled;
-				mp.urchin = enabled; // LATER -- remove this when player.urchin actually controls victide summoner
-				return true;
-			}
-			else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
-			{
-				mp.victideSet = true;
-				return true;
-			}
-
-			// Aerospec
-			if (setBonus == "aerospec_summon" || setBonus == "aerospec summon")
-			{
-				mp.aeroSet = enabled;
-				mp.valkyrie = enabled; // LATER -- remove this when player.valkyrie actually controls aerospec summoner
-				return true;
-			}
-			else if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
-			{
-				mp.aeroSet = enabled;
-				return true;
-			}
-
-			// Statigel
-			if (setBonus == "statigel_summon" || setBonus == "statigel summon")
-			{
-				mp.statigelSet = enabled;
-				mp.slimeGod = enabled; // LATER -- remove this when player.slimeGod actually controls statigel summoner
-				return true;
-			}
-			else if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
-			{
-				mp.statigelSet = enabled;
-				return true;
-			}
-
-			// Mollusk
-			if (setBonus == "mollusk")
-			{
-				mp.molluskSet = enabled;
-				return true;
-			}
-
-			// Forbidden Circlet
-			if (setBonus == "forbidden_circlet" || setBonus == "forbidden circlet")
-			{
-				mp.forbiddenCirclet = enabled;
-				return true;
-			}
-
-			// Daedalus
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "daedalus_melee":
-				case "daedalus melee":
-					mp.daedalusReflect = enabled;
-					return true;
-				case "daedalus_ranged":
-				case "daedalus ranged":
-					mp.daedalusShard = enabled;
-					return true;
-				case "daedalus_magic":
-				case "daedalus magic":
-					mp.daedalusAbsorb = enabled;
-					return true;
-				case "daedalus_summon":
-				case "daedalus summon":
-					mp.daedalusCrystal = enabled; // LATER -- remove this when player.daedalusCrystal actually controls daedalus summoner
-					return true;
-				case "daedalus_rogue":
-				case "daedalus rogue":
-					mp.daedalusSplit = enabled;
-					return true;
-			}
-
-			// Reaver
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "reaver_defense":
-				case "reaver defense":
-				case "reaver_helm":
-				case "reaver helm":
-					mp.reaverDefense = enabled;
-					return true;
-				case "reaver_speed":
-				case "reaver speed":
-				case "reaver_visage":
-				case "reaver visage":
-					mp.reaverSpeed = enabled;
-					return true;
-				case "reaver_explore":
-				case "reaver explore":
-				case "reaver_headgear":
-				case "reaver headgear":
-					mp.reaverExplore = enabled;
-					return true;
-			}
-
-			// Fathom Swarmer
-			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
-			{
-				mp.fathomSwarmer = enabled;
-				return true;
-			}
-
-			// Brimflame
-			if (setBonus == "brimflame")
-			{
-				mp.brimflameSet = enabled;
-				return true;
-			}
-
-			// Umbraphile
-			if (setBonus == "umbraphile")
-			{
-				mp.umbraphileSet = enabled;
-				return true;
-			}
-
-			// Hydrothermic (Ataxia as legacy name)
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "ataxia":
-				case "hydrothermic":
-				case "hydrothermal":
-					mp.ataxiaBlaze = enabled;
-					return true;
-				case "ataxia_melee":
-				case "ataxia melee":
-				case "hydrothermic_melee":
-				case "hydrothermic melee":
-				case "hydrothermal_melee":
-				case "hydrothermal melee":
-					mp.ataxiaBlaze = enabled;
-					mp.ataxiaGeyser = enabled;
-					return true;
-				case "ataxia_ranged":
-				case "ataxia ranged":
-				case "hydrothermic_ranged":
-				case "hydrothermic ranged":
-				case "hydrothermal_ranged":
-				case "hydrothermal ranged":
-					mp.ataxiaBlaze = enabled;
-					mp.ataxiaBolt = enabled;
-					return true;
-				case "ataxia_magic":
-				case "ataxia magic":
-				case "hydrothermic_magic":
-				case "hydrothermic magic":
-				case "hydrothermal_magic":
-				case "hydrothermal magic":
-					mp.ataxiaBlaze = enabled;
-					mp.ataxiaMage = enabled;
-					return true;
-				case "ataxia_summon":
-				case "ataxia summon":
-				case "hydrothermic_summon":
-				case "hydrothermic summon":
-				case "hydrothermal_summon":
-				case "hydrothermal summon":
-					mp.ataxiaBlaze = enabled;
-					mp.chaosSpirit = enabled; // LATER -- remove this when player.chaosSpirit actually controls ataxia summoner
-					return true;
-				case "ataxia_rogue":
-				case "ataxia rogue":
-				case "hydrothermic_rogue":
-				case "hydrothermic rogue":
-				case "hydrothermal_rogue":
-				case "hydrothermal rogue":
-					mp.ataxiaBlaze = enabled;
-					mp.ataxiaVolley = enabled;
-					return true;
-			}
-
-			// Plague Reaper
-			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
-			{
-				mp.plagueReaper = enabled;
-				return true;
-			}
-
-			// Plaguebringer
-			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
-			{
-				mp.plaguebringerPatronSet = enabled;
-				return true;
-			}
-
-			// Astral
-			if (setBonus == "astral")
-			{
-				mp.astralStarRain = enabled;
-				return true;
-			}
-
-			// Xeroc
-			if (setBonus == "xeroc")
-			{
-				mp.xerocSet = enabled;
-				return true;
-			}
-
-			// Tarragon
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "tarragon":
-					mp.tarraSet = enabled;
-					return true;
-				case "tarragon_melee":
-				case "tarragon melee":
-					mp.tarraSet = enabled;
-					mp.tarraMelee = enabled;
-					return true;
-				case "tarragon_ranged":
-				case "tarragon ranged":
-					mp.tarraSet = enabled;
-					mp.tarraRanged = enabled;
-					return true;
-				case "tarragon_magic":
-				case "tarragon magic":
-					mp.tarraSet = enabled;
-					mp.tarraMage = enabled;
-					return true;
-				case "tarragon_summon":
-				case "tarragon summon":
-					mp.tarraSet = enabled;
-					mp.tarraSummon = enabled; // LATER -- remove this when player.tarraSummon actually controls life aura
-					return true;
-				case "tarragon_rogue":
-				case "tarragon rogue":
-					mp.tarraSet = enabled;
-					mp.tarraThrowing = enabled;
-					return true;
-			}
-
-			// Prismatic
-			if (setBonus == "prismatic" || setBonus == "prism")
-			{
-				mp.prismaticSet = enabled;
-				return true;
-			}
-
-			// Bloodflare
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "bloodflare":
-					mp.bloodflareSet = enabled;
-					return true;
-				case "bloodflare_melee":
-				case "bloodflare melee":
-					mp.bloodflareSet = enabled;
-					mp.bloodflareMelee = enabled;
-					return true;
-				case "bloodflare_ranged":
-				case "bloodflare ranged":
-					mp.bloodflareSet = enabled;
-					mp.bloodflareRanged = enabled;
-					return true;
-				case "bloodflare_magic":
-				case "bloodflare magic":
-					mp.bloodflareSet = enabled;
-					mp.bloodflareMage = enabled;
-					return true;
-				case "bloodflare_summon":
-				case "bloodflare summon":
-					mp.bloodflareSet = enabled;
-					mp.bloodflareSummon = enabled; // LATER -- remove this when player.bloodflareSummon actually controls bloodflare orbs
-					return true;
-				case "bloodflare_rogue":
-				case "bloodflare rogue":
-					mp.bloodflareSet = enabled;
-					mp.bloodflareThrowing = enabled;
-					return true;
-			}
-
-			// Omega Blue
-			if (setBonus == "omegablue" || setBonus == "omega blue")
-			{
-				mp.omegaBlueSet = enabled;
-				return true;
-			}
-
-			// God Slayer
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "godslayer":
-				case "god slayer":
-					mp.godSlayer = enabled;
-					return true;
-				case "godslayer_melee":
-				case "godslayer melee":
-				case "god slayer melee":
-					mp.godSlayer = enabled;
-					mp.godSlayerDamage = enabled; // melee helm's unique damage reducing property
-					return true;
-				case "godslayer_ranged":
-				case "godslayer ranged":
-				case "god slayer ranged":
-					mp.godSlayer = enabled;
-					mp.godSlayerRanged = enabled;
-					return true;
-				case "godslayer_rogue":
-				case "godslayer rogue":
-				case "god slayer rogue":
-					mp.godSlayer = enabled;
-					mp.godSlayerThrowing = enabled;
-					return true;
-			}
-
-			// Fearmonger
-			if (setBonus == "fearmonger")
-			{
-				mp.fearmongerSet = enabled;
-				return true;
-			}
-
-			// Silva
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "silva":
-					mp.silvaSet = enabled;
-					return true;
-				case "silva_magic":
-				case "silva magic":
-					mp.silvaSet = enabled;
-					mp.silvaMage = enabled;
-					return true;
-				case "silva_summon":
-				case "silva summon":
-					mp.silvaSet = enabled;
-					mp.silvaSummon = enabled; // LATER -- remove this when player.silvaSummon actually controls silva crystal
-					return true;
-			}
-
-			// Auric Tesla (includes all components)
-			switch (setBonus)
-			{
-				default:
-					break;
-				case "auric":
-				case "aurictesla":
-				case "auric tesla":
-					mp.tarraSet = enabled;
-					mp.bloodflareSet = enabled;
-					mp.godSlayer = enabled;
-					mp.silvaSet = enabled;
-					mp.auricSet = enabled;
-					return true;
-				case "auric_melee":
-				case "auric melee":
-				case "aurictesla_melee":
-				case "aurictesla melee":
-				case "auric tesla melee":
-					mp.tarraSet = enabled;
-					mp.tarraMelee = enabled;
-					mp.bloodflareSet = enabled;
-					mp.bloodflareMelee = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerDamage = enabled;
-					mp.auricSet = enabled;
-					return true;
-				case "auric_ranged":
-				case "auric ranged":
-				case "aurictesla_ranged":
-				case "aurictesla ranged":
-				case "auric tesla ranged":
-					mp.tarraSet = enabled;
-					mp.tarraRanged = enabled;
-					mp.bloodflareSet = enabled;
-					mp.bloodflareRanged = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerRanged = enabled;
-					mp.auricSet = enabled;
-					return true;
-				case "auric_magic":
-				case "auric magic":
-				case "aurictesla_magic":
-				case "aurictesla magic":
-				case "auric tesla magic":
-					mp.tarraSet = enabled;
-					mp.tarraMage = enabled;
-					mp.bloodflareSet = enabled;
-					mp.bloodflareMage = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaMage = enabled;
-					mp.auricSet = enabled;
-					return true;
-				case "auric_summon":
-				case "auric summon":
-				case "aurictesla_summon":
-				case "aurictesla summon":
-				case "auric tesla summon":
-					mp.tarraSet = enabled;
-					mp.tarraSummon = enabled;
-					mp.bloodflareSet = enabled;
-					mp.bloodflareSummon = enabled;
-					mp.silvaSet = enabled;
-					mp.silvaSummon = enabled;
-					mp.auricSet = enabled;
-					return true;
-				case "auric_rogue":
-				case "auric rogue":
-				case "aurictesla_rogue":
-				case "aurictesla rogue":
-				case "auric tesla rogue":
-					mp.tarraSet = enabled;
-					mp.tarraThrowing = enabled;
-					mp.bloodflareSet = enabled;
-					mp.bloodflareThrowing = enabled;
-					mp.godSlayer = enabled;
-					mp.godSlayerThrowing = enabled;
-					mp.auricSet = enabled;
-					return true;
-			}
-
-			// Demonshade
-			if (setBonus == "demonshade")
-			{
-				mp.dsSetBonus = enabled;
-				mp.rDevil = enabled; // LATER -- remove this when player.rDevil controls demonshade summoned minion
-				return true;
-			}
-
-			return false;
-		}
-		#endregion
-
 		#region Other Player Stats
 		public static int GetLightStrength(Player p) => p?.Calamity()?.GetTotalLightStrength() ?? 0;
 
@@ -1384,7 +661,7 @@ namespace CalamityMod
 			// to handle IDs that are either ints OR shorts, without the worry of missing a cast and wondering why
 			// the Mod Call did nothing.
 			bool castID(object o, out int id)
-            {
+			{
 				id = -1;
 				if (!(o is int) && !(o is short))
 					return false;
@@ -1395,7 +672,7 @@ namespace CalamityMod
 					id = intID;
 
 				return true;
-            }
+			}
 
 			if (args is null || args.Length <= 0)
 				return new ArgumentNullException("ERROR: No function name specified. First argument must be a function name.");
@@ -1616,39 +893,6 @@ namespace CalamityMod
 						return new ArgumentException("ERROR: The first argument to \"SetRogue\" must be a Projectile or an int.");
 					return SetRogue(castProjectile(args[1]), isRogue);
 
-				case "SetBonus":
-				case "SetBonusActive":
-				case "HasSetBonus":
-				case "GetSetBonus":
-				case "GetSetBonusActive":
-					if (args.Length < 2)
-						return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and a set bonus name as a string.");
-					if (args.Length < 3)
-						return new ArgumentNullException("ERROR: Must specify a set bonus name as a string.");
-					if (!(args[2] is string))
-						return new ArgumentException("ERROR: The second argument to \"SetBonus\" must be a string.");
-					if (!isValidPlayerArg(args[1]))
-						return new ArgumentException("ERROR: The first argument to \"SetBonus\" must be a Player or an int.");
-					return GetSetBonus(castPlayer(args[1]), args[2].ToString());
-
-				case "SetSetBonus":
-				case "ToggleSetBonus":
-				case "SetSetBonusActive":
-				case "ToggleSetBonusActive":
-					if (args.Length < 2)
-						return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player), a set bonus name as a string, and a bool.");
-					if (args.Length < 3)
-						return new ArgumentNullException("ERROR: Must specify a set bonus name as a string and a bool.");
-					if (args.Length < 4)
-						return new ArgumentNullException("ERROR: Must specify a bool.");
-					if (!(args[3] is bool setBonusEnabled))
-						return new ArgumentException("ERROR: The third argument to \"SetSetBonus\" must be a bool.");
-					if (!(args[2] is string))
-						return new ArgumentException("ERROR: The second argument to \"SetSetBonus\" must be a string.");
-					if (!isValidPlayerArg(args[1]))
-						return new ArgumentException("ERROR: The first argument to \"SetSetBonus\" must be a Player or an int.");
-					return SetSetBonus(castPlayer(args[1]), args[2].ToString(), setBonusEnabled);
-
 				case "DR":
 				case "DamageReduction":
 				case "SetDR":
@@ -1706,6 +950,31 @@ namespace CalamityMod
 					Item itemToSet = (Item)args[1];
 					return SetCalamityRarity(itemToSet, rarity);
 
+				case "GetDoGCountdown":
+				case "GetDoGFightCountdown":
+				case "GetDoGStage2Countdown":
+					return CalamityWorld.DoGSecondStageCountdown;
+
+				case "AcidRainActive":
+				case "IsAcidRainActive":
+				case "GetAcidRainActive":
+					return CalamityWorld.rainingAcid;
+
+				case "StartAcidRain":
+					AcidRainEvent.TryStartEvent(true);
+					CalamityNetcode.SyncWorld();
+					return true;
+
+				case "StopAcidRain":
+					if (CalamityWorld.rainingAcid)
+					{
+						CalamityWorld.acidRainPoints = 0;
+						CalamityWorld.triedToSummonOldDuke = false;
+						AcidRainEvent.UpdateInvasion(false);
+					}
+					return true;
+				
+				// This is intentionally separate from the above because it will stop other events when they are added.
 				case "AbominationnClearEvents":
 					bool eventActive = CalamityWorld.rainingAcid;
 					bool canClear = Convert.ToBoolean(args[1]); //This is to indicate whether abomm is able to clear the event due to a cooldown
@@ -1815,7 +1084,7 @@ namespace CalamityMod
 					BossRushEvent.Bosses.Clear();
 					BossRushEvent.BossIDsAfterDeath.Clear();
 					foreach (var entry in entries2)
-                    {
+					{
 						if (entry.Item7 != null)
 							BossRushEvent.BossIDsAfterDeath[entry.Item1] = entry.Item7;
 						BossRushEvent.Bosses.Add(new BossRushEvent.Boss(entry.Item1, (BossRushEvent.TimeChangeContext)entry.Item2, new BossRushEvent.Boss.OnSpawnContext(entry.Item3), entry.Item4, entry.Item5, entry.Item6));
