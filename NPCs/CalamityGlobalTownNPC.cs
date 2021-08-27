@@ -156,6 +156,7 @@ namespace CalamityMod.NPCs
 			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
 			"Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
 			"Ortho", // <@!264984390910738432> (Worcuus#5225)
+			"Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
 		};
 		#endregion
 
