@@ -260,7 +260,6 @@ namespace CalamityMod
 				case "jungle dragon, yharon":
 					return CalamityWorld.downedYharon;
 
-				/*
 				case "draedon":
 				case "exomechs":
 				case "exo mechs":
@@ -269,8 +268,7 @@ namespace CalamityMod
 				case "artemis":
 				case "thanatos":
 				case "ares":
-					return CalamityWorld.downedDraedon;
-				*/
+					return CalamityWorld.downedExoMechs;
 
 				case "scal":
 				case "supremecalamitas":

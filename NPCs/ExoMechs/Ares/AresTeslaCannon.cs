@@ -80,6 +80,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(frameX);
+			writer.Write(frameY);
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			for (int i = 0; i < 4; i++)
@@ -88,6 +90,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			frameX = reader.ReadInt32();
+			frameY = reader.ReadInt32();
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)

@@ -3752,8 +3752,8 @@ namespace CalamityMod.NPCs
 			// Boosts
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
 			{
-				spawnRate = (int)(spawnRate * 0.5);
-				maxSpawns = (int)(maxSpawns * 5f);
+				spawnRate = (int)(spawnRate * 0.75);
+				maxSpawns = (int)(maxSpawns * 3f);
 			}
 
 			if (player.Calamity().clamity)
@@ -4914,6 +4914,10 @@ namespace CalamityMod.NPCs
 			else if (type == NPCType<Yharon.Yharon>())
 			{
 				return CalamityWorld.downedYharon;
+			}
+			else if (type == NPCType<Artemis>() || type == NPCType<Apollo>() || type == NPCType<AresBody>() || type == NPCType<AresGaussNuke>() || type == NPCType<AresLaserCannon>() || type == NPCType<AresPlasmaFlamethrower>() || type == NPCType<AresTeslaCannon>() || type == NPCType<ThanatosHead>() || type == NPCType<ThanatosBody1>() || type == NPCType<ThanatosBody2>() || type == NPCType<ThanatosTail>())
+			{
+				return CalamityWorld.downedExoMechs;
 			}
 			else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{

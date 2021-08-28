@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const int maxLength = 101;
 
 		// Variable used to stop the segment spawning loop
-        private bool TailSpawned = false;
+        private bool tailSpawned = false;
 
 		// Used in the lerp to smoothly scale velocity up and down
 		private float chargeVelocityScalar = 0f;
@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Spawn segments
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				if (!TailSpawned && npc.ai[0] == 0f)
+				if (!tailSpawned && npc.ai[0] == 0f)
 				{
 					int Previous = npc.whoAmI;
 					for (int num36 = 0; num36 < maxLength; num36++)
@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
 					}
-					TailSpawned = true;
+					tailSpawned = true;
 				}
 			}
 
@@ -883,15 +883,35 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void NPCLoot()
         {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
+			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
             DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+			
+			// Check if the other exo mechs are alive
+			bool otherExoMechsAlive = false;
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive = true;
+			}
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					otherExoMechsAlive = true;
+			}
+
+			// Mark Exo Mechs as dead
+			if (!otherExoMechsAlive)
+			{
+				CalamityWorld.downedExoMechs = true;
+				CalamityNetcode.SyncWorld();
+			}*/
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

@@ -60,9 +60,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
 
-		// Max distance from the target before they are unable to hear sound telegraphs
-		private const float soundDistance = 2800f;
-
 		// Variable used to stop the arm spawning loop
 		private bool armsSpawned = false;
 
@@ -104,6 +101,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(frameX);
+			writer.Write(frameY);
+			writer.Write(armsSpawned);
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
@@ -113,6 +113,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			frameX = reader.ReadInt32();
+			frameY = reader.ReadInt32();
+			armsSpawned = reader.ReadBoolean();
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
@@ -651,15 +654,35 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Needs edits
 		public override void NPCLoot()
         {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
+			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
             DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+			
+			// Check if the other exo mechs are alive
+			bool otherExoMechsAlive = false;
+			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+					otherExoMechsAlive = true;
+			}
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive = true;
+			}
+
+			// Mark Exo Mechs as dead
+			if (!otherExoMechsAlive)
+			{
+				CalamityWorld.downedExoMechs = true;
+				CalamityNetcode.SyncWorld();
+			}*/
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

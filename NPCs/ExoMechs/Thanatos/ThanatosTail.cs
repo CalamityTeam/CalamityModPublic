@@ -61,6 +61,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			writer.Write(vulnerable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -72,6 +73,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			vulnerable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}

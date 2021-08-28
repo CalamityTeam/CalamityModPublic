@@ -82,6 +82,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(frameX);
+			writer.Write(frameY);
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			for (int i = 0; i < 4; i++)
@@ -90,6 +92,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			frameX = reader.ReadInt32();
+			frameY = reader.ReadInt32();
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)
@@ -195,7 +199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
 			if (passivePhase)
 				predictionAmt *= 0.5f;
 

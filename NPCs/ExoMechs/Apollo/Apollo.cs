@@ -636,15 +636,35 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 		// Needs edits
 		public override void NPCLoot()
         {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
+			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
             DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+			
+			// Check if the other exo mechs are alive
+			bool otherExoMechsAlive = false;
+			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+					otherExoMechsAlive = true;
+			}
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					otherExoMechsAlive = true;
+			}
+
+			// Mark Exo Mechs as dead
+			if (!otherExoMechsAlive)
+			{
+				CalamityWorld.downedExoMechs = true;
+				CalamityNetcode.SyncWorld();
+			}*/
+		}
 
 		// Needs edits
 		public override void HitEffect(int hitDirection, double damage)
