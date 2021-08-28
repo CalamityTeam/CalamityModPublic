@@ -159,11 +159,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 					otherExoMechsAlive++;
 			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-					otherExoMechsAlive++;
-			}
 
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);

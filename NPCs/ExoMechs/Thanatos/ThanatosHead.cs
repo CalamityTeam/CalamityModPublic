@@ -1,7 +1,7 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -168,8 +168,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoPrimeAlive = false;
-			bool exoSpazAlive = false;
-			bool exoRetAlive = false;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
@@ -178,46 +177,34 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					exoPrimeAlive = true;
 				}
 			}
+
+			// There is no need in checking for the other twin because they have linked HP
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 				{
 					otherExoMechsAlive++;
-					exoSpazAlive = true;
-				}
-			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-				{
-					otherExoMechsAlive++;
-					exoRetAlive = true;
+					exoTwinsAlive = true;
 				}
 			}
 
 			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
 			float exoPrimeLifeRatio = defaultLifeRatio;
-			float exoSpazLifeRatio = defaultLifeRatio;
-			float exoRetLifeRatio = defaultLifeRatio;
+			float exoTwinsLifeRatio = defaultLifeRatio;
 			if (exoPrimeAlive)
 				exoPrimeLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
-			if (exoSpazAlive)
-				exoSpazLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			if (exoRetAlive)
-				exoRetLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].lifeMax;
-			float totalOtherExoMechLifeRatio = exoPrimeLifeRatio + exoSpazLifeRatio + exoRetLifeRatio;
+			if (exoTwinsAlive)
+				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
+			float totalOtherExoMechLifeRatio = exoPrimeLifeRatio + exoTwinsLifeRatio;
 
 			// Check if any of the other mechs are passive
 			bool exoPrimePassive = false;
-			bool exoSpazPassive = false;
-			bool exoRetPassive = false;
+			bool exoTwinsPassive = false;
 			if (exoPrimeAlive)
 				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
-			/*if (exoSpazAlive)
-				exoSpazPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.SecondaryPhase.Passive;
-			if (exoRetAlive)
-				exoRetPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] == (float)Artemis.SecondaryPhase.Passive;*/
-			bool anyOtherExoMechPassive = exoPrimePassive || exoSpazPassive || exoRetPassive;
+			if (exoTwinsAlive)
+				exoTwinsPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.Apollo.SecondaryPhase.Passive;
+			bool anyOtherExoMechPassive = exoPrimePassive || exoTwinsPassive;
 
 			// Phases
 			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
@@ -228,7 +215,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			vulnerable = false;
 
 			// If Thanatos doesn't go berserk
-			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoSpazLifeRatio < 0.4f || exoRetLifeRatio < 0.4f;
+			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -332,6 +319,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// If not berserk
 			// Phase 6 - 4
+
+			// Berserk, final phase of Thanatos
 			// Phase 7 - 0, 1, 0, 2
 
 			// Phase gate values
@@ -430,8 +419,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								// Spawn code here
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AresBody>());
-								// NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis>());
-								// NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo.Apollo>());
 							}
 						}
 					}
@@ -513,7 +502,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					AIState = (float)Phase.UndergroundLaserBarrage;
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoPrimeLifeRatio < 0.7f || exoSpazLifeRatio < 0.7f || exoRetLifeRatio < 0.7f) && !otherMechIsBerserk)
+					if ((exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
 						// Tells Thanatos to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed

@@ -1,7 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -13,15 +13,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.ExoMechs.Ares
+namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
 	//[AutoloadBossHead]
-	public class AresBody : ModNPC
+	public class Apollo : ModNPC
     {
 		public enum Phase
 		{
 			Normal = 0,
-			Deathrays = 1
+			RocketBarrage = 1,
+			ChargeCombo = 2,
+			PhaseTransition = 3
 		}
 
 		public float AIState
@@ -44,18 +46,21 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		}
 
 		// Number of frames on the X and Y axis
-		private const int maxFramesX = 6;
-		private const int maxFramesY = 8;
+		private const int maxFramesX = 10;
+		private const int maxFramesY = 9;
 
 		// Counters for frames on the X and Y axis
 		private int frameX = 0;
 		private int frameY = 0;
 
 		// Frame limit per animation, these are the specific frames where each animation ends
-		private const int normalFrameLimit = 11;
-		private const int firstStageDeathrayChargeFrameLimit = 23;
-		private const int secondStageDeathrayChargeFrameLimit = 35;
-		private const int finalStageDeathrayChargeFrameLimit = 47;
+		private const int normalFrameLimit_Phase1 = 9;
+		private const int chargeUpFrameLimit_Phase1 = 19;
+		private const int attackFrameLimit_Phase1 = 29;
+		private const int phaseTransitionFrameLimit = 59; // The lens pops off on frame 37
+		private const int normalFrameLimit_Phase2 = 69;
+		private const int chargeUpFrameLimit_Phase2 = 79;
+		private const int attackFrameLimit_Phase2 = 89;
 
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
@@ -63,28 +68,26 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 2800f;
 
-		// Variable used to stop the arm spawning loop
-		private bool armsSpawned = false;
+		// Total duration of attack telegraphs
+		public const float attackTelegraphDuration = 100f;
 
-		// Total duration of the deathray telegraph
-		public const float deathrayTelegraphDuration = 240f;
-
-		// Total duration of the deathrays
-		public const float deathrayDuration = 600f;
+		// Total duration of the phase transition
+		public const float phaseTransitionDuration = 300f;
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("XF-09 Ares");
+            DisplayName.SetDefault("XS-01 Artemis");
 		}
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 5f;
-			npc.damage = 100;
-			npc.width = 220;
-            npc.height = 252;
-            npc.defense = 100;
-			npc.DR_NERD(0.35f);
+			npc.GetNPCDamage();
+			npc.width = 204;
+            npc.height = 226;
+            npc.defense = 80;
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(1000000, 1150000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -124,7 +127,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			CalamityGlobalNPC.draedonExoMechPrime = npc.whoAmI;
+			CalamityGlobalNPC.draedonExoMechTwinGreen = npc.whoAmI;
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -132,58 +135,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
 
-			if (npc.ai[2] > 0f)
-				npc.realLife = (int)npc.ai[2];
-
-			// Spawn arms
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-			{
-				if (!armsSpawned && npc.ai[0] == 0f)
-				{
-					int totalArms = 4;
-					int Previous = npc.whoAmI;
-					for (int i = 0; i < totalArms; i++)
-					{
-						int lol = 0;
-						switch (i)
-						{
-							case 0:
-								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresLaserCannon>(), npc.whoAmI);
-								break;
-							case 1:
-								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), npc.whoAmI);
-								break;
-							case 2:
-								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresTeslaCannon>(), npc.whoAmI);
-								break;
-							case 3:
-								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AresGaussNuke>(), npc.whoAmI);
-								break;
-							default:
-								break;
-						}
-
-						Main.npc[lol].realLife = npc.whoAmI;
-						Main.npc[lol].ai[2] = npc.whoAmI;
-						Main.npc[lol].ai[1] = Previous;
-						Main.npc[Previous].ai[0] = lol;
-						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
-						Previous = lol;
-					}
-					armsSpawned = true;
-				}
-			}
-
-			if (npc.life > Main.npc[(int)npc.ai[0]].life)
-				npc.life = Main.npc[(int)npc.ai[0]].life;
-
-			// Percent life remaining
-			float lifeRatio = npc.life / (float)npc.lifeMax;
-
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
-			bool exoTwinsAlive = false;
+			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
@@ -192,42 +147,53 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					exoWormAlive = true;
 				}
 			}
-
-			// There is no point in checking for the other twin because they have linked HP
-			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
+				{
+					// Link the HP of both twins
+					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
+						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
+				}
+			}
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				{
 					otherExoMechsAlive++;
-					exoTwinsAlive = true;
+					exoPrimeAlive = true;
 				}
 			}
 
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
 			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
 			float exoWormLifeRatio = defaultLifeRatio;
-			float exoTwinsLifeRatio = defaultLifeRatio;
+			float exoPrimeLifeRatio = defaultLifeRatio;
 			if (exoWormAlive)
 				exoWormLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechWorm].lifeMax;
-			if (exoTwinsAlive)
-				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoTwinsLifeRatio;
+			if (exoPrimeAlive)
+				exoPrimeLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
+			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoPrimeLifeRatio;
 
 			// Check if any of the other mechs are passive
 			bool exoWormPassive = false;
-			bool exoTwinsPassive = false;
+			bool exoPrimePassive = false;
 			if (exoWormAlive)
 				exoWormPassive = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].Calamity().newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive;
-			if (exoTwinsAlive)
-				exoTwinsPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.Apollo.SecondaryPhase.Passive;
-			bool anyOtherExoMechPassive = exoWormPassive || exoTwinsPassive;
+			if (exoPrimeAlive)
+				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+			bool anyOtherExoMechPassive = exoWormPassive || exoPrimePassive;
 
 			// Phases
+			bool phase2 = lifeRatio < 0.6f;
 			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
-			// If Ares doesn't go berserk
-			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
+			// If Artemis and Apollo don't go berserk
+			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoPrimeLifeRatio < 0.4f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -239,6 +205,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Target variable
 			Player player = Main.player[npc.target];
+
+			// Spawn Artemis if it doesn't exist after the first 10 frames have passed
+			if (npc.ai[0] < 10f)
+			{
+				npc.ai[0] += 1f;
+				if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
+					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
+			}
 
 			// Despawn if target is dead
 			bool targetDead = false;
@@ -262,7 +236,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>())
 								Main.npc[a].active = false;
 						}
 					}
@@ -270,33 +244,33 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// General AI pattern
-			// 0 - Fly above target
-			// 1 - Fly towards the target, slow down when close enough
-			// 2 - Fire deathrays from telegraph locations to avoid cheap hits and rotate them around for 10 seconds while the plasma and tesla arms fire projectiles to make dodging difficult
-			// 3 - Go passive and fly above the target while firing less projectiles
-			// 4 - Go passive, immune and invisible; fly above the target and do nothing until next phase
+			// 0 - Fly to the right of the target and fire plasma when ready
+			// 1 - Fly to the right of the target and fire homing rockets, the rockets home in until close to the target and then fly off in the direction they were moving in
+			// 2 - Fly below the target, create several line telegraphs to show the dash pattern and then dash along those lines extremely quickly
+			// 3 - Go passive and fly to the right of the target while firing less projectiles
+			// 4 - Go passive, immune and invisible; fly far to the left of the target and do nothing until next phase
 
 			// Attack patterns
 			// If spawned first
-			// Phase 1 - 0
+			// Phase 1 - 0, 1
 			// Phase 2 - 4
 			// Phase 3 - 3
 
-			// If berserk, this is the last phase of Ares
-			// Phase 4 - 1, 2
+			// If berserk, this is the last phase of Artemis and Apollo
+			// Phase 4 - 0, 1, 2
 
 			// If not berserk
 			// Phase 4 - 4
-			// Phase 5 - 0
+			// Phase 5 - 0, 1
 
-			// If berserk, this is the last phase of Ares
-			// Phase 6 - 1, 2
+			// If berserk, this is the last phase of Artemis and Apollo
+			// Phase 6 - 0, 1, 2
 
 			// If not berserk
 			// Phase 6 - 4
 
-			// Berserk, final phase of Ares
-			// Phase 7 - 1, 2
+			// Berserk, final phase of Artemis and Apollo
+			// Phase 7 - 0, 1, 2
 
 			// Adjust opacity
 			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
@@ -314,15 +288,30 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					npc.Opacity = 0f;
 			}
 
+			// Predictiveness
+			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 10f : expertMode ? 8f : 4f;
+			if (SecondaryAIState == (int)SecondaryPhase.Passive)
+				predictionAmt *= 0.5f;
+
+			Vector2 predictionVector = AIState == (int)Phase.RocketBarrage ? Vector2.Zero : player.velocity * predictionAmt;
+
 			// Rotation
-			npc.rotation = npc.velocity.X * 0.003f;
+			if (AIState == (int)Phase.ChargeCombo)
+			{
+				npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+			}
+			else
+			{
+				float x = player.Center.X + predictionVector.X - npc.Center.X;
+				float y = player.Center.Y + predictionVector.Y - npc.Center.Y;
+				npc.rotation = (float)Math.Atan2(y, x) + MathHelper.PiOver2;
+			}
 
 			// Light
-			float lightScale = 765f;
-			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale, Main.DiscoG / lightScale, Main.DiscoB / lightScale);
+			Lighting.AddLight(npc.Center, 0.05f, 0.25f, 0.15f);
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.ChargeCombo ? new Vector2(player.Center.X, player.Center.Y + 500f) : new Vector2(player.Center.X + 750f, player.Center.Y);
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
@@ -337,22 +326,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
-
-			// Distance where Ares stops moving
-			float movementDistanceGateValue = 50f;
+			// Distance where Apollo stops moving
+			float movementDistanceGateValue = 100f;
 
 			// Gate values
+			float chargePhaseGateValue = lastMechAlive ? 300f : 480f;
 			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
-			float deathrayDistanceGateValue = 480f;
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
 			{
 				case (int)SecondaryPhase.Nothing:
 
-					// Spawn the other mechs if Ares is first
+					// Spawn the other mechs if Artemis and Apollo are first
 					if (otherExoMechsAlive == 0)
 					{
 						if (spawnOtherExoMechs)
@@ -365,19 +351,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							{
 								// Spawn code here
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ThanatosHead>());
-								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
-								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo.Apollo>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AresBody>());
 							}
 						}
 					}
 					else
 					{
-						// If not spawned first, go to passive state if any other mech is passive or if Ares is under 70% life
+						// If not spawned first, go to passive state if any other mech is passive or if Artemis and Apollo are under 70% life
 						// Do not run this if berserk
 						// Do not run this if any exo mech is dead
 						if ((anyOtherExoMechPassive || lifeRatio < 0.7f) && !berserk && totalOtherExoMechLifeRatio < 5f)
 						{
-							// Tells Ares to return to the battle in passive state and reset everything
+							// Tells Apollo to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
 							npc.TargetClosest();
 						}
@@ -405,7 +390,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						npc.TargetClosest();
 					}
 
-					// If Ares is the first mech to go berserk
+					// If Artemis and Apollo are the first mechs to go berserk
 					if (berserk)
 					{
 						// Reset everything
@@ -421,9 +406,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)SecondaryPhase.PassiveAndImmune:
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoWormLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
+					if ((exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
-						// Tells Ares to return to the battle in passive state and reset everything
+						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
 						npc.TargetClosest();
@@ -441,8 +426,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					break;
 			}
 
+			// Needs edits
 			// Attacking phases
-			switch ((int)AIState)
+			/*switch ((int)AIState)
 			{
 				// Fly above the target
 				case (int)Phase.Normal:
@@ -566,10 +552,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 
 					break;
-			}
+			}*/
 		}
-
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
 
@@ -579,7 +563,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			return null;
 		}
 
-		public override void FindFrame(int frameHeight)
+		// Needs edits
+		/*public override void FindFrame(int frameHeight)
 		{
 			// Use telegraph frames when using deathrays
 			npc.frameCounter += 1D;
@@ -627,7 +612,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						frameX = frameY = 4;
 				}
 			}
-		}
+		}*/
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -637,7 +622,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 center = npc.Center - Main.screenPosition;
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
-			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresBodyGlow");
+			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Apollo/ApolloGlow");
 			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;
@@ -661,6 +646,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
         }
 
+		// Needs edits
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -682,13 +668,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					Main.dust[num195].noGravity = true;
 				}
 
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody1"), 1f);
+				/*Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody4"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody7"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody7"), 1f);*/
 			}
 		}
 
@@ -697,7 +683,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
     }
 }

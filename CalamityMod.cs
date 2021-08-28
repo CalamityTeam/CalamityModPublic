@@ -22,6 +22,9 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -579,6 +582,13 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<Apollo>(), 21600 },
+				{ ModContent.NPCType<Artemis>(), 21600 },
+				{ ModContent.NPCType<AresBody>(), 21600 },
+				{ ModContent.NPCType<AresGaussNuke>(), 21600 },
+				{ ModContent.NPCType<AresLaserCannon>(), 21600 },
+				{ ModContent.NPCType<AresPlasmaFlamethrower>(), 21600 },
+				{ ModContent.NPCType<AresTeslaCannon>(), 21600 },
 				{ ModContent.NPCType<ThanatosHead>(), 21600 },
 				{ ModContent.NPCType<ThanatosBody1>(), 21600 },
 				{ ModContent.NPCType<ThanatosBody2>(), 21600 },
@@ -706,6 +716,8 @@ namespace CalamityMod
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
+				{ ModContent.NPCType<Artemis>(), velocityScaleMin },
 				{ ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
 				{ ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },

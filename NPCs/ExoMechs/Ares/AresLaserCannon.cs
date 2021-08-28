@@ -128,11 +128,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 					otherExoMechsAlive++;
 			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-					otherExoMechsAlive++;
-			}
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -237,18 +232,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 20f * baseVelocityMult;
+			float baseVelocity = 16f * baseVelocityMult;
 			float baseAcceleration = 1f;
-			float decelerationVelocityMult = 0.85f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
 				baseAcceleration *= 1.5f;
 			}
-			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
+
+			Vector2 distanceFromDestination = destination - npc.Center;
+			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Whether Ares Laser Arm should move to its spot or not
-			float movementDistanceGateValue = 32f;
+			float movementDistanceGateValue = 50f;
 			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
@@ -281,10 +277,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					if (!targetDead)
 					{
-						if (moveToLocation)
-							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-						else
-							npc.velocity *= decelerationVelocityMult;
+						// Inverse lerp returns the percentage of progress between A and B
+						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+						// Min velocity
+						float minVelocity = distanceFromDestination.Length();
+						float minVelocityCap = baseVelocity;
+						if (minVelocity > minVelocityCap)
+							minVelocity = minVelocityCap;
+
+						// Max velocity
+						Vector2 maxVelocity = distanceFromDestination / 24f;
+						float maxVelocityCap = minVelocityCap * 3f;
+						if (maxVelocity.Length() > maxVelocityCap)
+							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 					}
 
 					calamityGlobalNPC.newAI[1] += 1f;
@@ -304,11 +312,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
-							// Fly in place
-							if (moveToLocation)
-								npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-							else
-								npc.velocity *= decelerationVelocityMult;
+							// Inverse lerp returns the percentage of progress between A and B
+							float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+							// Min velocity
+							float minVelocity = distanceFromDestination.Length();
+							float minVelocityCap = baseVelocity;
+							if (minVelocity > minVelocityCap)
+								minVelocity = minVelocityCap;
+
+							// Max velocity
+							Vector2 maxVelocity = distanceFromDestination / 24f;
+							float maxVelocityCap = minVelocityCap * 3f;
+							if (maxVelocity.Length() > maxVelocityCap)
+								maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 							// Set frames to deathray charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
@@ -328,11 +347,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							// Fire regular Thanatos lasers if Ares is in deathray phase, otherwise, fire deathray
 							if (fireNormalLasers)
 							{
-								// Fly in place
-								if (moveToLocation)
-									npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-								else
-									npc.velocity *= decelerationVelocityMult;
+								// Inverse lerp returns the percentage of progress between A and B
+								float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+								// Min velocity
+								float minVelocity = distanceFromDestination.Length();
+								float minVelocityCap = baseVelocity;
+								if (minVelocity > minVelocityCap)
+									minVelocity = minVelocityCap;
+
+								// Max velocity
+								Vector2 maxVelocity = distanceFromDestination / 24f;
+								float maxVelocityCap = minVelocityCap * 3f;
+								if (maxVelocity.Length() > maxVelocityCap)
+									maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+								npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 								// Fire a Thanatos laser
 								int numLasers = lastMechAlive ? 3 : 2;

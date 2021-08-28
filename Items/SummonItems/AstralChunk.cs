@@ -37,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-50, 50)), (int)(player.position.Y - 150f), ModContent.NPCType<AstrumAureus>(), 1);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<AstrumAureus>(), 1);
 				Main.npc[npc].timeLeft *= 20;
 				CalamityUtils.BossAwakenMessage(npc);
             }

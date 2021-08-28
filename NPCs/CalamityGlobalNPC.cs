@@ -23,6 +23,8 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
@@ -725,8 +727,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
 			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
-			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
-			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());*/
+			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
+			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
