@@ -805,7 +805,7 @@ namespace CalamityMod
 
 			// Frost Moon
 			AddLoot(bossChecklist, "Frost Moon",
-				new List<int>() { ItemType<HolidayHalberd>(), ItemType<EndothermicEnergy>() },
+				new List<int>() { ItemType<EndothermicEnergy>() },
 				null
 			);
 			AddLoot(bossChecklist, "Ice Queen",

@@ -992,11 +992,7 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.SharkToothNecklace, Main.expertMode ? 15 : 25);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<JoyfulHeart>(), Main.expertMode ? 15 : 25);
                     break;
-
-                case NPCID.PresentMimic:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<HolidayHalberd>(), Main.expertMode ? 4 : 7);
-                    break;
-
+                    
                 case NPCID.IchorSticker:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<IchorSpear>(), Main.expertMode ? 15 : 25);
                     break;
