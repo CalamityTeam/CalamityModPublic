@@ -28,6 +28,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -5721,7 +5722,8 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityMod.bossVelocityDamageScaleValues.TryGetValue(npc.type, out float velocityScalar);
 
-                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f))
+                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f) ||
+					(npc.type == ModContent.NPCType<Apollo>() && npc.life / (float)npc.lifeMax < 0.6f))
                     velocityScalar = CalamityMod.bitingEnemeyVelocityScale;
 
                 if (npc.velocity == Vector2.Zero)
