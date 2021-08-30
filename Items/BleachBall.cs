@@ -9,7 +9,7 @@ namespace CalamityMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bleech Ball");
+            DisplayName.SetDefault("Bleach Ball");
             Tooltip.SetDefault("Favorite this item to prevent the Aquatic Scourge from naturally spawning near you");
         }
         public override void SetDefaults()
