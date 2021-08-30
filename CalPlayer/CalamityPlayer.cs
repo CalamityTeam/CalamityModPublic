@@ -125,6 +125,11 @@ namespace CalamityMod.CalPlayer
 		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool disableVoodooSpawns = false;
+        public bool disablePerfCystSpawns = false;
+        public bool disableHiveCystSpawns = false;
+        public bool disableNaturalScourgeSpawns = false;
+        public bool disableAnahitaSpawns = false;
         public bool blazingMouseDamageEffects = false;
         public bool ableToDrawBlazingMouse = false;
         public float blazingMouseAuraFade = 0f;
@@ -2043,6 +2048,12 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+
+            disableVoodooSpawns = false;
+            disablePerfCystSpawns = false;
+            disableHiveCystSpawns = false;
+            disableNaturalScourgeSpawns = false;
+            disableAnahitaSpawns = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
