@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -82,8 +83,14 @@ namespace CalamityMod.NPCs.Perforator
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
 			// Variables for ichor spore phase
-			float sporePhaseGateValue = 600f;
+			float sporePhaseGateValue = malice ? 450f : 600f;
 			bool floatAboveToFireBlobs = npc.ai[2] >= sporePhaseGateValue - 120f;
 
 			// Don't deal damage for 3 seconds after spawning or while firing blobs
@@ -97,12 +104,6 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			Player player = Main.player[npc.target];
-
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -218,7 +219,7 @@ namespace CalamityMod.NPCs.Perforator
 						if (npc.ai[2] < sporePhaseGateValue + 300f)
 						{
 							if (npc.velocity.Length() > 0.5f)
-								npc.velocity *= 0.96f;
+								npc.velocity *= malice ? 0.94f : 0.96f;
 							else
 								npc.ai[2] = sporePhaseGateValue + 300f;
 						}
@@ -255,7 +256,7 @@ namespace CalamityMod.NPCs.Perforator
 								if (blobVelocity.Y < 2f)
 									blobVelocity.Y = 2f + sporeVelocityYAdd;
 
-								Projectile.NewProjectile(npc.Center, blobVelocity, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 							}
 						}
 
@@ -321,7 +322,7 @@ namespace CalamityMod.NPCs.Perforator
 					Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
 					for (int i = 0; i < totalProjectiles + 1; i++)
 					{
-						Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 						velocity.X += velocityAdjustment * npc.direction;
 					}
 				}
@@ -492,7 +493,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+				CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.4f, 0.6f, 3, 8);
 
 				CalamityUtils.DisplayLocalizedText(key, messageColor);
 			}
@@ -502,7 +503,12 @@ namespace CalamityMod.NPCs.Perforator
             CalamityNetcode.SyncWorld();
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < damage / npc.lifeMax * 100.0; k++)
             {

@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
             Vector2 vectorCenter = npc.Center;
 
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 240, true);
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

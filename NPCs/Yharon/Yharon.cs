@@ -2879,37 +2879,37 @@ namespace CalamityMod.NPCs.Yharon
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
 
-			// Phase 1 drops: Contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
-			{
-				// Weapons
-				float w = DropHelper.NormalWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack<DragonRage>(w),
-					DropHelper.WeightStack<TheBurningSky>(w),
-					DropHelper.WeightStack<DragonsBreath>(w),
-					DropHelper.WeightStack<ChickenCannon>(w),
-					DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-					DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-					DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-					DropHelper.WeightStack<FinalDawn>(w)
-				);
+            // Normal drops: Everything that would otherwise be in the bag
+            if (!Main.expertMode)
+            {
+                // Weapons
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<DragonRage>(w),
+                    DropHelper.WeightStack<TheBurningSky>(w),
+                    DropHelper.WeightStack<DragonsBreath>(w),
+                    DropHelper.WeightStack<ChickenCannon>(w),
+                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
+                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                    DropHelper.WeightStack<FinalDawn>(w)
+                );
 
-				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-			}
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
 
-			// Materials
-			int soulFragMin = Main.expertMode ? 22 : 15;
-			int soulFragMax = Main.expertMode ? 28 : 22;
-			DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
+                // Materials
+                int soulFragMin = 15;
+                int soulFragMax = 22;
+                DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
-			// Equipment
-			DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+            }
 
-			// Vanity
-			DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
+            // Vanity
+            DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
 
 			// Other
 			// DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
@@ -2918,7 +2918,7 @@ namespace CalamityMod.NPCs.Yharon
 			// If Yharon has not been killed yet, notify players of Auric Ore
 			if (!CalamityWorld.downedYharon)
 			{
-				WorldGenerationMethods.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, .6f, .8f);
+				CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.6f, 0.8f, 6, 12);
 
 				string key = "Mods.CalamityMod.AuricOreText";
 				Color messageColor = Color.Gold;

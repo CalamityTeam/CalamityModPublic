@@ -1,10 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -14,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arrow");
+            DisplayName.SetDefault("Blue Exo Arrow");
         }
 
         public override void SetDefaults()
@@ -28,6 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.arrow = true;
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
@@ -66,24 +63,24 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
-			OnHitEffects(target.Center);
+            target.ExoDebuffs();
+            OnHitEffects(target.Center);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
-			OnHitEffects(target.Center);
+            target.ExoDebuffs();
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
+        private void OnHitEffects(Vector2 targetPos)
+        {
             for (int x = 0; x < 3; x++)
             {
-				if (projectile.owner == Main.myPlayer)
-				{
-					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(2), 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<BlueExoArrow2>(), (int)(projectile.damage * 0.7), projectile.knockBack * 0.7f, projectile.owner);
-				}
+                if (projectile.owner == Main.myPlayer)
+                {
+                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(2), 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<BlueExoArrow2>(), (int)(projectile.damage * 0.7), projectile.knockBack * 0.7f, projectile.owner);
+                }
             }
         }
     }

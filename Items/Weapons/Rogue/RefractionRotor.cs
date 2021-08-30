@@ -11,18 +11,17 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Refraction Rotor");
-			Tooltip.SetDefault("Fires a large prismatic razorblade\n" +
-				"After hitting something, the blade dies moments later\n" +
-				"The blade explodes into rockets on death\n" +
-				"Stealth strikes explode into more rockets on death");
+			Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
+				"The shuriken shatters moments after impact into homing rockets\n" +
+				"Stealth strikes shatter into many more rockets");
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.width = item.height = 120;
-			item.damage = 110;
+			item.damage = 616;
 			item.knockBack = 8.5f;
-			item.useAnimation = item.useTime = 14;
+			item.useAnimation = item.useTime = 17;
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shootSpeed = 18f;
@@ -39,6 +38,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			if (player.Calamity().StealthStrikeAvailable())
+				damage = (int)(damage * 0.75D);
+
 			int shuriken = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (player.Calamity().StealthStrikeAvailable() && Main.projectile.IndexInRange(shuriken))
 				Main.projectile[shuriken].Calamity().stealthStrike = true;

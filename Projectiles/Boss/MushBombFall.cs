@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.Y = CalamityWorld.malice ? 7.5f : CalamityWorld.death ? 6f : 5f;
+            projectile.velocity.Y = CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)

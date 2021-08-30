@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<ShockblastRound>();
             item.useAmmo = AmmoID.Bullet;
 			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
         public override Vector2? HoldoutOffset()

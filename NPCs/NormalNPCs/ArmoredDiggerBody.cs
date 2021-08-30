@@ -47,11 +47,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -139,12 +138,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Chilled, 180, true);
-            player.AddBuff(BuffID.Electrified, 120, true);
         }
 
         public override bool CheckActive()

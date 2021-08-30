@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Other
             npc.width = npc.height = 28;
             npc.damage = 0;
             npc.defense = 0;
-            npc.lifeMax = 97444;
+            npc.lifeMax = 181445;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.value = 0f;
@@ -33,9 +33,10 @@ namespace CalamityMod.NPCs.Other
             npc.knockBackResist = 0f;
             npc.netAlways = true;
             npc.aiStyle = -1;
+            npc.Calamity().DoesNotGenerateRage = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 97444;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 181445;
 
         public override void AI()
         {
@@ -51,16 +52,20 @@ namespace CalamityMod.NPCs.Other
                     npc.netUpdate = true;
                 }
 
-                Vector2 destination = Vector2.Lerp(Owner.Center, Main.MouseWorld, 0.3f);
-                npc.Center = Vector2.Lerp(npc.Center, destination, 0.035f).MoveTowards(destination, 5f);
+                // Notify the owner that the orb has indeed spawned.
+                Owner.Calamity().awaitingLecherousOrbSpawn = false;
+
+                Vector2 destination = Vector2.Lerp(Owner.Center, Main.MouseWorld, 0.625f);
+                npc.Center = Vector2.Lerp(npc.Center, destination, 0.035f).MoveTowards(destination, 8f);
+                if (npc.WithinRange(destination, 5f))
+                    npc.Center = destination;
+
                 if (!npc.WithinRange(destination, 2000f))
                     npc.Center = Owner.Center;
 
-                if (npc.Center != destination)
-                {
-                    npc.netSpam = 0;
-                    npc.netUpdate = true;
-                }
+                bool wasNotAtDestinationBefore = Vector2.Distance(npc.position + npc.Size * 0.5f, destination) < 0.1f && Vector2.Distance(npc.oldPosition + npc.Size * 0.5f, destination) > 0.1f;
+                if (Vector2.Distance(npc.position, npc.oldPosition) > 30f || wasNotAtDestinationBefore)
+                    npc.SyncMotionToServer();
             }
 
             Time++;
@@ -92,9 +97,18 @@ namespace CalamityMod.NPCs.Other
             }
         }
 
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            if (Main.myPlayer == npc.target)
+                npc.SyncMotionToServer();
+
+            return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
+        }
+
         public override void NPCLoot()
         {
-            for (int i = 0; i < 8; i++)
+            int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.InverseLerp(45f, 540f, Time, true));
+            for (int i = 0; i < heartsToGive; i++)
                 DropHelper.DropItem(npc, ItemID.Heart);
         }
 

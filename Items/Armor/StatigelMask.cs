@@ -33,10 +33,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-			string jumpSpeedBonus = player.autoJump ? "4" : "16";
 			player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                     "Grants an extra jump and increased jump height\n" +
-					jumpSpeedBonus + "% increased jump speed\n" +
+					"12% increased jump speed\n" +
                     "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
                     "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                     "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
@@ -47,7 +46,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.rogueStealthMax += 1f;
             modPlayer.wearingRogueArmor = true;
 			Player.jumpHeight += 5;
-			player.jumpSpeedBoost += player.autoJump ? 0.2f : 0.8f;
+			player.jumpSpeedBoost += 0.6f;
 		}
 
         public override void UpdateEquip(Player player)

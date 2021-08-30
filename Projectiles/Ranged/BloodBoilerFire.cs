@@ -31,8 +31,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
-            projectile.Calamity().ResistDamagePenaltyMinCapFactor = 0.33f;
-            projectile.Calamity().ResistDamagePenaltyHarshness = 1.625f;
         }
 
         public override void AI()
@@ -44,10 +42,10 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 
             if (projectile.scale <= 3f)
-            {
                 projectile.scale *= 1.01f;
-            }
+
             Lighting.AddLight(projectile.Center, 1f, 0f, 0f);
+
             if (projectile.ai[0] > 7f)
             {
                 float num296 = 1f;

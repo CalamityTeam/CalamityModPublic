@@ -1,3 +1,4 @@
+using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			Main.npcChatText = string.Empty;
 
 			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
-			Vector2 backgroundScale = Vector2.One;
+			Vector2 backgroundScale = Vector2.One * Main.UIScale;
 
 			// Draw the background.
 			spriteBatch.Draw(backgroundTexture, ReforgeUITopLeft, null, Color.White, 0f, Vector2.Zero, backgroundScale, SpriteEffects.None, 0f);
@@ -100,8 +101,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 				Point costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(50f, 78f) * backgroundScale).ToPoint();
 				cost = DrawEnchantmentCost(spriteBatch, costDrawPositionTopLeft);
 				Point descriptionDrawPositionTopLeft = costDrawPositionTopLeft;
-				descriptionDrawPositionTopLeft.Y += 70;
-				Vector2 iconDrawPositionTopLeft = costDrawPositionTopLeft.ToVector2() + new Vector2(270f, -24f);
+				descriptionDrawPositionTopLeft.Y += (int)(Main.UIScale * 70f);
+				Vector2 iconDrawPositionTopLeft = costDrawPositionTopLeft.ToVector2() + new Vector2(270f, -24f) * Main.UIScale;
 
 				DrawEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
 				if (!string.IsNullOrEmpty(SelectedEnchantment.Value.IconTexturePath))
@@ -174,15 +175,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Draw the coin costs.
 			string costText = "Cost: ";
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero);
-			costDrawPositionTopLeft.X += (int)(Main.fontMouseText.MeasureString(costText).X * 0.5f + 12f);
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
+			costDrawPositionTopLeft.X += (int)((Main.fontMouseText.MeasureString(costText).X * 0.5f + 12f) * Main.UIScale);
 
 			int[] coinsArray = Utils.CoinsSplit(cost);
 			for (int i = 0; i < 4; i++)
 			{
-				Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + ChatManager.GetStringSize(Main.fontMouseText, costText, Vector2.One, -1f).X + (24 * i) - 24f, costDrawPositionTopLeft.Y + 54f);
-				spriteBatch.Draw(Main.itemTexture[ItemID.PlatinumCoin - i], drawPosition, null, Color.White, 0f, Main.itemTexture[ItemID.PlatinumCoin - i].Size() * 0.5f, 1f, SpriteEffects.None, 0f);
-				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f);
+				Vector2 drawPosition = new Vector2(costDrawPositionTopLeft.X + (ChatManager.GetStringSize(Main.fontMouseText, costText, Vector2.One, -1f).X + ((24 * i) - 24f)) * Main.UIScale, costDrawPositionTopLeft.Y + 54f * Main.UIScale);
+				spriteBatch.Draw(Main.itemTexture[ItemID.PlatinumCoin - i], drawPosition, null, Color.White, 0f, Main.itemTexture[ItemID.PlatinumCoin - i].Size() * 0.5f, Main.UIScale, SpriteEffects.None, 0f);
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, coinsArray[3 - i].ToString(), drawPosition.X - 11f, drawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), 0.75f * Main.UIScale);
 			}
 
 			return cost;
@@ -191,20 +192,20 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
-			Vector2 scale = new Vector2(0.67f, 0.7f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f);
+			Vector2 scale = new Vector2(0.67f, 0.7f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
 			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 465, 10, out _))
 			{
 				if (string.IsNullOrEmpty(line))
 					continue;
 
 				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
-				vectorDrawPosition.Y += 16;
+				vectorDrawPosition.Y += Main.UIScale * 16f;
 			}
 		}
 
 		public static void DrawIcon(SpriteBatch spriteBatch, Vector2 drawPositionTopLeft, Texture2D texture)
         {
-			spriteBatch.Draw(texture, drawPositionTopLeft, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, drawPositionTopLeft, null, Color.White, 0f, Vector2.Zero, Main.UIScale, SpriteEffects.None, 0f);
 		}
 
 		public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
@@ -246,7 +247,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (hasMultipleFrames)
 				itemFrame = Main.itemAnimations[CurrentlyHeldItem.type].GetFrame(itemTexture);
 
-			float baseScale = 1f;
+			float baseScale = Main.UIScale;
 			Color _ = Color.White;
 			ItemSlot.GetItemLight(ref _, ref baseScale, CurrentlyHeldItem, false);
 
@@ -259,6 +260,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			itemScale *= inventoryScale * baseScale;
 			drawPosition += Vector2.One * 23f * baseScale;
+
+			if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()) && EnchantmentManager.ItemUpgradeRelationship.ContainsKey(CurrentlyHeldItem.type))
+				drawPosition -= itemFrame.Size() * 0.25f;
 
 			// Draw the item.
 			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
@@ -340,7 +344,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawCenter)
 		{
-			Vector2 scale = new Vector2(0.8f, 0.745f);
+			Vector2 scale = new Vector2(0.8f, 0.745f) * Main.UIScale;
 			float textWidth = Main.fontMouseText.MeasureString(SelectedEnchantment.Value.Name).X * scale.X;
 			Color drawColor = SelectedEnchantment.Value.Equals(EnchantmentManager.ClearEnchantment) ? Color.White : Color.Orange;
 			nameDrawCenter.X -= textWidth * 0.5f;

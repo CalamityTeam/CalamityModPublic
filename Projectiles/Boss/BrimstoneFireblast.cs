@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 60) / 60f), 0f, 1f);
 
-			Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 

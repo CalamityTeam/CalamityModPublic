@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive Mind");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[npc.type] = 8;
         }
 
         public override void SetDefaults()
@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.HiveMind
                             if (phase2timer <= 0)
                             {
                                 phase2timer = lungeTime - 4 * (int)enrageScale;
-                                npc.velocity = player.Center - npc.Center;
+                                npc.velocity = player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - npc.Center;
                                 npc.velocity.Normalize();
                                 npc.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;
@@ -799,7 +799,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.4f, 0.6f, 3, 8);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

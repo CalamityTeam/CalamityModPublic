@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -44,7 +45,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			set => npc.Calamity().newAI[1] = value;
 		}
 
-		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 4, 0f, 16f, 1.5f);
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Invincibility time for the first 10 seconds
 		public const float immunityTime = 600f;
@@ -52,11 +53,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		// Whether the head is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
 
+		// Max time in vent phase
+		public const float ventDuration = 180f;
+
+		// Spawn rate for vent clouds
+		public const int ventCloudSpawnRate = 5;
+
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
 
 		// Base distance from the target for most attacks
-		private const float baseDistance = 1200f;
+		private const float baseDistance = 800f;
 
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
@@ -69,7 +76,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const int maxLength = 101;
 
 		// Variable used to stop the segment spawning loop
-        private bool TailSpawned = false;
+        private bool tailSpawned = false;
 
 		// Used in the lerp to smoothly scale velocity up and down
 		private float chargeVelocityScalar = 0f;
@@ -79,7 +86,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		// Total duration of the deathray
 		private const float deathrayDuration = 180f;
-
+		
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XM-05 Thanatos");
@@ -161,8 +168,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoPrimeAlive = false;
-			bool exoSpazAlive = false;
-			bool exoRetAlive = false;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
@@ -171,57 +177,45 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					exoPrimeAlive = true;
 				}
 			}
+
+			// There is no need in checking for the other twin because they have linked HP
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 				{
 					otherExoMechsAlive++;
-					exoSpazAlive = true;
-				}
-			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-				{
-					otherExoMechsAlive++;
-					exoRetAlive = true;
+					exoTwinsAlive = true;
 				}
 			}
 
 			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
 			float exoPrimeLifeRatio = defaultLifeRatio;
-			float exoSpazLifeRatio = defaultLifeRatio;
-			float exoRetLifeRatio = defaultLifeRatio;
+			float exoTwinsLifeRatio = defaultLifeRatio;
 			if (exoPrimeAlive)
 				exoPrimeLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
-			if (exoSpazAlive)
-				exoSpazLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			if (exoRetAlive)
-				exoRetLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].lifeMax;
-			float totalOtherExoMechLifeRatio = exoPrimeLifeRatio + exoSpazLifeRatio + exoRetLifeRatio;
+			if (exoTwinsAlive)
+				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
+			float totalOtherExoMechLifeRatio = exoPrimeLifeRatio + exoTwinsLifeRatio;
 
 			// Check if any of the other mechs are passive
 			bool exoPrimePassive = false;
-			bool exoSpazPassive = false;
-			bool exoRetPassive = false;
-			/*if (exoPrimeAlive)
-				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].newAI[1] == (float)AresBody.SecondaryPhase.Passive;
-			if (exoSpazAlive)
-				exoSpazPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].newAI[1] == (float)Apollo.SecondaryPhase.Passive;
-			if (exoRetAlive)
-				exoRetPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].newAI[1] == (float)Artemis.SecondaryPhase.Passive;*/
-			bool anyOtherExoMechPassive = exoPrimePassive || exoSpazPassive || exoRetPassive;
+			bool exoTwinsPassive = false;
+			if (exoPrimeAlive)
+				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+			if (exoTwinsAlive)
+				exoTwinsPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.Apollo.SecondaryPhase.Passive;
+			bool anyOtherExoMechPassive = exoPrimePassive || exoTwinsPassive;
 
 			// Phases
-			bool lessThan70PercentLife = lifeRatio < 0.7f;
-			bool phase2 = lessThan70PercentLife && otherExoMechsAlive <= 1;
-			bool berserk = lifeRatio < 0.4f || totalOtherExoMechLifeRatio > 3f;
+			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
+			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// Set vulnerable to false by default
 			vulnerable = false;
 
 			// If Thanatos doesn't go berserk
-			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoSpazLifeRatio < 0.4f || exoRetLifeRatio < 0.4f;
+			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -240,7 +234,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Spawn segments
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				if (!TailSpawned && npc.ai[0] == 0f)
+				if (!tailSpawned && npc.ai[0] == 0f)
 				{
 					int Previous = npc.whoAmI;
 					for (int num36 = 0; num36 < maxLength; num36++)
@@ -263,35 +257,49 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
 					}
-					TailSpawned = true;
+					tailSpawned = true;
 				}
 			}
 
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
+
 			// Despawn if target is dead
-            if (player.dead)
-            {
-                npc.TargetClosest(false);
-
-				npc.velocity.Y += 2f;
-				if (npc.position.Y > Main.worldSurface * 16.0)
-					npc.velocity.Y += 2f;
-
-				if (npc.position.Y > Main.rockLayer * 16.0)
+			bool targetDead = false;
+			if (player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (player.dead)
 				{
-					for (int a = 0; a < Main.maxNPCs; a++)
+					targetDead = true;
+					npc.localAI[0] = 0f;
+					npc.localAI[2] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					calamityGlobalNPC.newAI[3] = 0f;
+					chargeVelocityScalar = 0f;
+
+					npc.velocity.Y -= 2f;
+					if ((double)npc.position.Y < Main.topWorld + 16f)
+						npc.velocity.Y -= 2f;
+
+					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
-						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
-							Main.npc[a].active = false;
+						for (int a = 0; a < Main.maxNPCs; a++)
+						{
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
+								Main.npc[a].active = false;
+						}
 					}
 				}
 			}
 
 			// General AI pattern
-			// Fly towards the target for 7 seconds, gradually speeding up for the first 5 seconds and slowing down for the last 2 seconds, fire lasers from segments that are venting
-			// Fly underneath the target and fire barrages of lasers
-			// Fire deathray from mouth with a telegraph similar to the railgun from enter the gungeon, turn speed is very low during this to avoid cheap hits
-			// Go passive and fly underneath the target while firing lasers
-			// Go passive, immune and invisible; fly far underneath the target and do nothing until next phase
+			// 0 - Fly towards the target for 7 seconds, gradually speeding up for the first 5 seconds and slowing down for the last 2 seconds, fire lasers from segments that are venting
+			// 1 - Fly underneath the target and fire barrages of lasers
+			// 2 - Fire deathray from mouth with a telegraph similar to the railgun from enter the gungeon, turn speed is very low during this to avoid cheap hits
+			// 3 - Go passive and fly underneath the target while firing lasers
+			// 4 - Go passive, immune and invisible; fly far underneath the target and do nothing until next phase
 
 			// Attack patterns
 			// If spawned first
@@ -311,15 +319,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// If not berserk
 			// Phase 6 - 4
+
+			// Berserk, final phase of Thanatos
 			// Phase 7 - 0, 1, 0, 2
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = 480f;
-			float slowDownTime = 120f;
+			float speedUpTime = lastMechAlive ? 270f : berserk ? 360f : 480f;
+			float slowDownTime = lastMechAlive ? 60f : berserk ? 90f : 120f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
-
-			float laserBarrageDuration = 420f;
+			float laserBarrageDuration = lastMechAlive ? 285f : berserk ? 330f : 420f;
 
 			// Adjust opacity
 			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
@@ -352,8 +361,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeLocationDistance = turnDistance * 0.2f;
 
 			// Laser Barrage variables
-			Vector2 laserBarrageLocation = new Vector2(0f, baseDistance);
-			float laserBarrageLocationDistance = turnDistance * 5f;
+			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 1.5f : baseDistance;
+			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
+			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
@@ -361,16 +371,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float turnDegrees = baseVelocity * 0.11f;
 			if (berserk)
 			{
-				baseVelocity *= 1.2f;
-				turnDegrees *= 1.2f;
+				baseVelocity *= 1.5f;
+				turnDegrees *= 1.5f;
 			}
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float laserBarragePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float laserBarragePhaseTurnSpeedMult = MathHelper.Lerp(1f, 3f, chargeVelocityScalar);
-			float deathrayVelocityMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
-			float deathrayTurnSpeedMult = MathHelper.Lerp(1f, 4f, chargeVelocityScalar);
+			float deathrayVelocityMult = MathHelper.Lerp(0.5f, 3f, chargeVelocityScalar);
+			float deathrayTurnSpeedMult = MathHelper.Lerp(0.5f, 3f, chargeVelocityScalar);
 
 			// Base scale on total time spent in phase
 			float chargeVelocityScalarIncrement = 1f / speedUpTime;
@@ -380,7 +390,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
-			float laserBarrageVelocityScalarIncrement = 0.01f;
+			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Distance from target
@@ -394,12 +404,23 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Spawn the other mechs if Thanatos is first
 					if (otherExoMechsAlive == 0)
 					{
-						if (phase2 && !berserk)
+						if (spawnOtherExoMechs)
 						{
+							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								// Spawn code here
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AresBody>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo.Apollo>());
 							}
 						}
 					}
@@ -408,16 +429,31 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						// If not spawned first, go to passive state if any other mech is passive or if Thanatos is under 70% life
 						// Do not run this if berserk
 						// Do not run this if any exo mech is dead
-						if ((anyOtherExoMechPassive || lessThan70PercentLife) && !berserk && totalOtherExoMechLifeRatio < 5f)
+						if ((anyOtherExoMechPassive || lifeRatio < 0.7f) && !berserk && totalOtherExoMechLifeRatio < 5f)
 						{
-							// Tells Thanatos to return to the battle in passive state
+							// Tells Thanatos to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
 						// This is only called if two exo mechs are alive
 						if (otherMechIsBerserk)
+						{
+							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							chargeVelocityScalar = 0f;
+							npc.TargetClosest();
+						}
 					}
 
 					break;
@@ -430,13 +466,28 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
 					if (otherMechIsBerserk)
+					{
+						// Reset everything
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
+					}
 
 					// If Thanatos is the first mech to go berserk
 					if (berserk)
 					{
-						// Reset
+						// Reset everything
 						AIState = (float)Phase.Charge;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -451,17 +502,29 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					AIState = (float)Phase.UndergroundLaserBarrage;
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoPrimeLifeRatio < 0.7f || exoSpazLifeRatio < 0.7f || exoRetLifeRatio < 0.7f) && !otherMechIsBerserk)
+					if ((exoPrimeLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
-						// Tells Thanatos to return to the battle in passive state
+						// Tells Thanatos to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 					}
 
 					if (berserk)
 					{
-						// Reset
+						// Reset everything
 						AIState = (float)Phase.Charge;
+						npc.localAI[0] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityScalar = 0f;
+						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -498,8 +561,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					turnDistance = chargeLocationDistance;
 
 					// Gradually turn slower if within 20 tiles of the target
-					if (distanceFromTarget < 320f)
-						turnSpeed *= distanceFromTarget / 320f;
+					float turnSlowerDistanceGateValue = lastMechAlive ? 160f : 320f;
+					if (distanceFromTarget < turnSlowerDistanceGateValue)
+						turnSpeed *= distanceFromTarget / turnSlowerDistanceGateValue;
 
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] >= chargePhaseGateValue)
@@ -547,7 +611,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
-									npc.localAI[0] = /*berserk ? 1f : 0f*/ 1f;
+									npc.localAI[0] = berserk ? 1f : 0f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
 									calamityGlobalNPC.newAI[3] = 0f;
@@ -567,7 +631,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					vulnerable = true;
 
 					// If close enough to the target, prepare to fire deathray
-					bool readyToFireDeathray = distanceFromTarget < 800f;
+					float slowDownDistance = lastMechAlive ? 640f : 800f;
+					bool readyToFireDeathray = distanceFromTarget < slowDownDistance;
 					if (readyToFireDeathray)
 						npc.localAI[2] = 1f;
 
@@ -599,16 +664,23 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Gradually turn and move slower if within 50 tiles of the target
 					if (npc.localAI[2] == 1f)
 					{
-						baseVelocity *= distanceFromTarget / 800f;
-						turnSpeed *= distanceFromTarget / 800f;
+						// Exponentially scale down velocity if close to the target
+						float velocityScale = distanceFromTarget / slowDownDistance;
+						if (velocityScale < 1f)
+							velocityScale *= velocityScale;
 
+						baseVelocity *= velocityScale;
+						turnSpeed *= velocityScale;
+
+						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
-							if (calamityGlobalNPC.newAI[2] == 0f)
+							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"), npc.Center);
 									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{
@@ -638,7 +710,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								{
 									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
-									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, 255, npc.whoAmI);
+									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
 										Main.projectile[laser].ai[0] = npc.whoAmI;
 								}
@@ -655,7 +727,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							chargeVelocityScalar = 0f;
 							npc.TargetClosest();
 						}
-						calamityGlobalNPC.newAI[2] += 1f;
 					}
 
 					break;
@@ -675,43 +746,49 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.35f, 0.05f, 0.05f);
+
 				// Noise
 				if (npc.localAI[1] == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
 
 				// Steam
-				float maxSteamTime = 180f;
 				npc.localAI[1] += 1f;
-				if (npc.localAI[1] < maxSteamTime)
+				if (npc.localAI[1] < ventDuration)
 				{
 					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;
-					SmokeDrawer.ParticleSpawnRate = 3;
+					SmokeDrawer.ParticleSpawnRate = ventCloudSpawnRate;
 				}
 			}
 			else
+			{
+				// Light
+				Lighting.AddLight(npc.Center, 0.05f, 0.2f, 0.2f);
+
 				npc.localAI[1] = 0f;
+			}
 
 			SmokeDrawer.Update();
 
-			// Increase velocity if velocity is ever zero
-			if (npc.velocity == Vector2.Zero)
-				npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Acceleration
-			if (!((destination - npc.Center).Length() < turnDistance))
+			if (!targetDead)
 			{
-				float targetAngle = npc.AngleTo(destination);
-				float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-				npc.velocity = f.ToRotationVector2() * baseVelocity;
+				// Increase velocity if velocity is ever zero
+				if (npc.velocity == Vector2.Zero)
+					npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
+
+				// Acceleration
+				if (!((destination - npc.Center).Length() < turnDistance))
+				{
+					float targetAngle = npc.AngleTo(destination);
+					float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
+					npc.velocity = f.ToRotationVector2() * baseVelocity;
+				}
 			}
 
 			// Velocity upper limit
 			if (npc.velocity.Length() > baseVelocity)
 				npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
-
-			// Reduce Y velocity if it's less than 1
-			if (Math.Abs(npc.velocity.Y) < 1f)
-				npc.velocity.Y -= 0.1f;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -756,7 +833,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Charge || AIState == (float)Phase.UndergroundLaserBarrage)
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;
@@ -766,7 +843,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				if (npc.frameCounter >= 12D)
+				if (npc.frameCounter >= 10D)
 				{
 					npc.frame.Y += frameHeight;
 					npc.frameCounter = 0D;
@@ -806,15 +883,35 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void NPCLoot()
         {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
+			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
             DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
 
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+			
+			// Check if the other exo mechs are alive
+			bool otherExoMechsAlive = false;
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive = true;
+			}
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					otherExoMechsAlive = true;
+			}
+
+			// Mark Exo Mechs as dead
+			if (!otherExoMechsAlive)
+			{
+				CalamityWorld.downedExoMechs = true;
+				CalamityNetcode.SyncWorld();
+			}*/
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -850,21 +947,5 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-			if (npc.Opacity == 1f)
-			{
-				int duration = vulnerable ? 180 : 90;
-				player.AddBuff(BuffID.Ichor, duration);
-				player.AddBuff(BuffID.CursedInferno, duration);
-				player.AddBuff(ModContent.BuffType<ExoFreeze>(), duration / 4);
-				player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration);
-				player.AddBuff(ModContent.BuffType<Plague>(), duration);
-				player.AddBuff(ModContent.BuffType<HolyFlames>(), duration);
-				player.AddBuff(BuffID.Frostburn, duration);
-				player.AddBuff(BuffID.OnFire, duration);
-			}
-        }
     }
 }

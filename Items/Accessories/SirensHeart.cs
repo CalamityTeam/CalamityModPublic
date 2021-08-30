@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Accessories
                 "You have a layer of ice around you that absorbs 20% damage but breaks after one hit\n" +
                 "After 30 seconds the ice shield will regenerate\n" +
                 "Wow, you can swim now!\n" +
-                "Most of these effects are only active after Skeletron has been defeated\n" +
-                "Revengeance drop");
+                "Most of these effects are only active after Skeletron has been defeated");
         }
 
         public override void SetDefaults()

@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChaosStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ChaosStone>(), 5);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);

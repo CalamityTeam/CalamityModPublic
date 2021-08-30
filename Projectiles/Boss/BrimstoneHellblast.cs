@@ -44,10 +44,10 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
+			Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 			if (projectile.timeLeft < 51)
 			{
-				projectile.alpha += 5;
-				Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+				projectile.Opacity -= 0.02f;
 			}
             if (projectile.ai[1] == 0f)
             {

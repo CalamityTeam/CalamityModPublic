@@ -13,6 +13,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,46 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		/// <summary>
+		/// Efficiently counts the amount of existing enemies. May be used for multiple enemies.
+		/// </summary>
+		/// <param name="typesToCheck"></param>
+		/// <returns></returns>
+		public static int CountNPCsBetter(params int[] typesToCheck)
+		{
+			// Don't waste time if the type check list is empty for some reason.
+			if (typesToCheck.Length <= 0)
+				return 0;
+
+			int count = 0;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (!typesToCheck.Contains(Main.npc[i].type) || !Main.npc[i].active)
+					continue;
+
+				count++;
+			}
+
+			return count;
+		}
+
+		/// <summary>
+		/// Syncs position and velocity from a client to the server. This is to be used in contexts where these things are reliant on client-side information, such as <see cref="Main.MouseWorld"/>.
+		/// </summary>
+		/// <param name="npc"></param>
+		public static void SyncMotionToServer(this NPC npc)
+        {
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				return;
+
+			var netMessage = CalamityMod.Instance.GetPacket();
+			netMessage.Write((byte)CalamityModMessageType.SyncNPCMotionDataToServer);
+			netMessage.Write(npc.whoAmI);
+			netMessage.WriteVector2(npc.Center);
+			netMessage.WriteVector2(npc.velocity);
+			netMessage.Send();
+		}
+
 		/// <summary>
 		/// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
 		/// </summary>
@@ -117,149 +158,6 @@ namespace CalamityMod
 				}
 			}
 			return FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
-		}
-
-		/// <summary>
-		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
-		/// Will also be used to modify certain boss size/scale
-		/// </summary>
-		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
-		/// <param name="newColor">Used to modify the color of this NPC</param>
-		public static float GetMasterModeNPCAggressionMultiplier(ref Color newColor, int? NPCType = null)
-		{
-			/*if (!Main.masterMode)
-				return 1f;*/
-
-			/*if (NPCType == NPCType<DesertScourgeHead>())
-			{
-
-			}
-			else if (NPCType == NPCType<CrabulonIdle>())
-			{
-
-			}
-			else if (NPCType == NPCType<HiveMind>() || NPCType == NPCType<HiveMindP2>())
-			{
-
-			}
-			else if (NPCType == NPCType<PerforatorHive>())
-			{
-
-			}
-			else if (NPCType == NPCType<SlimeGodCore>() || NPCType == NPCType<SlimeGod>() || NPCType == NPCType<SlimeGodRun>() || NPCType == NPCType<SlimeGodSplit>() || NPCType == NPCType<SlimeGodRunSplit>())
-			{
-
-			}
-			else if (NPCType == NPCType<Cryogen>())
-			{
-
-			}
-			else if (NPCType == NPCType<AquaticScourgeHead>())
-			{
-
-			}
-			else if (NPCType == NPCType<BrimstoneElemental>())
-			{
-
-			}
-			else if (NPCType == NPCType<Calamitas>() || NPCType == NPCType<CalamitasRun3>())
-			{
-
-			}
-			else if (NPCType == NPCType<Leviathan>() || NPCType == NPCType<Siren>())
-			{
-
-			}
-			else if (NPCType == NPCType<AstrumAureus>())
-			{
-
-			}
-			else if (NPCType == NPCType<AstrumDeusHeadSpectral>())
-			{
-
-			}
-			else if (NPCType == NPCType<PlaguebringerGoliath>())
-			{
-
-			}
-			else if (NPCType == NPCType<RavagerBody>())
-			{
-
-			}
-			else if (NPCType == NPCType<ProfanedGuardianBoss>())
-			{
-
-			}
-			else if (NPCType == NPCType<Bumblefuck>())
-			{
-
-			}
-			else if (NPCType == NPCType<Providence>())
-			{
-
-			}
-			else if (NPCType == NPCType<CeaselessVoid>())
-			{
-
-			}
-			else if (NPCType == NPCType<StormWeaverHead>() || NPCType == NPCType<StormWeaverHeadNaked>())
-			{
-
-			}
-			else if (NPCType == NPCType<Signus>())
-			{
-
-			}
-			else if (NPCType == NPCType<Polterghast>())
-			{
-
-			}
-			else if (NPCType == NPCType<OldDuke>())
-			{
-
-			}
-			else if (NPCType == NPCType<DevourerofGodsHead>() || NPCType == NPCType<DevourerofGodsHeadS>())
-			{
-
-			}
-			else if (NPCType == NPCType<Yharon>())
-			{
-
-			}
-			else if (NPCType == NPCType<SupremeCalamitas>())
-			{
-
-			}
-			else
-			{
-				switch (NPCType)
-				{
-					case NPCID.KingSlime:
-					case NPCID.EyeofCthulhu:
-					case NPCID.EaterofWorldsHead:
-					case NPCID.BrainofCthulhu:
-					case NPCID.Creeper:
-					case NPCID.QueenBee:
-					case NPCID.SkeletronHead:
-					case NPCID.WallofFlesh:
-					case NPCID.WallofFleshEye:
-					case NPCID.Spazmatism:
-					case NPCID.Retinazer:
-					case NPCID.TheDestroyer:
-					case NPCID.SkeletronPrime:
-					case NPCID.Plantera:
-					case NPCID.Golem:
-					case NPCID.GolemHead:
-					case NPCID.DukeFishron:
-					case NPCID.CultistBoss:
-					case NPCID.MoonLordCore:
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordHead:
-						break;
-				}
-			}*/
-
-			return 1.5f;
 		}
 
 		/// <summary>

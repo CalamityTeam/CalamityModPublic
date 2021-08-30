@@ -28,6 +28,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -42,6 +43,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
@@ -52,6 +54,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Skies;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -70,6 +73,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -116,6 +121,8 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
 		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
+		public const int defaultTimeBeforeDefenseDamageRecovery = 5;
+		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -349,15 +356,15 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(2);
+        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
+        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
         public int RageDuration = DefaultRageDuration;
         public int rageGainCooldown = 0;
         public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double DefaultRageDamageBoost = 0.5D; // +50%
+        public static readonly double DefaultRageDamageBoost = 0.35D; // +35%
         public double RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
@@ -423,7 +430,10 @@ namespace CalamityMod.CalPlayer
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
         public bool badgeOfBraveryRare = false;
-        public bool scarfCooldown = false;
+		public float warBannerBonus = 0f;
+		private const float maxWarBannerBonus = 0.2f;
+		private const float maxWarBannerDistance = 480f;
+		public bool scarfCooldown = false;
         public bool eScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
@@ -485,6 +495,7 @@ namespace CalamityMod.CalPlayer
         public bool alchFlask = false;
         public bool reducedPlagueDmg = false;
         public bool abaddon = false;
+		public bool aeroStone = false;
         public bool community = false;
         public bool shatteredCommunity = false;
         public bool fleshTotem = false;
@@ -590,6 +601,8 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+        public int voidFrameCounter = 0;
+        public int voidFrame = 0;
         public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
@@ -923,6 +936,8 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
+        public bool voidAura = false;
+        public bool voidAuraDamage = false;
         public bool youngDuke = false;
         public bool virili = false;
         public bool frostBlossom = false;
@@ -1043,12 +1058,18 @@ namespace CalamityMod.CalPlayer
         public bool witheringWeaponEnchant = false;
         public bool witheredDebuff = false;
         public int witheredWeaponHoldTime = 0;
+        public int witheringDamageDone = 0;
 
         public bool persecutedEnchant = false;
         public int persecutedEnchantSummonTimer = 0;
 
         public bool lecherousOrbEnchant = false;
+        public bool awaitingLecherousOrbSpawn = false;
         #endregion Calamitas Enchant Effects
+
+        #region Draw Effects
+        public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, int.MaxValue, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
+        #endregion Draw Effects
 
         #endregion
 
@@ -1152,7 +1173,8 @@ namespace CalamityMod.CalPlayer
             return new TagCompound
             {
                 { "boost", boost },
-                { "rage", rage }, // Used to be "stress". Newer saves will never write "stress".
+                { "rage", rage },
+                { "stress", rage * 10000f },
                 { "adrenaline", adrenaline },
                 { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
@@ -1226,10 +1248,10 @@ namespace CalamityMod.CalPlayer
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
             GivenBrimstoneLocus = boost.Contains("GivenBrimstoneLocus");
 
-            // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
-            if (tag.ContainsKey("stress"))
-                rage = tag.GetFloat("stress");
-            else
+            // Load rage if it's there, which it will be for any players saved with 1.5.
+            // Older players have "stress" instead, which will be ignored. This is intentional.
+            // Stress ranged from 0 to 10,000. Rage ranges from 0.0 to 1.0.
+            if (tag.ContainsKey("rage"))
                 rage = tag.GetFloat("rage");
 
             adrenaline = tag.GetFloat("adrenaline");
@@ -1444,6 +1466,7 @@ namespace CalamityMod.CalPlayer
             accStealthGenBoost = 0f;
 
             trueMeleeDamage = 0D;
+			warBannerBonus = 0f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -1601,6 +1624,7 @@ namespace CalamityMod.CalPlayer
             alchFlask = false;
             reducedPlagueDmg = false;
             abaddon = false;
+			aeroStone = false;
             community = false;
             shatteredCommunity = false;
             stressPills = false;
@@ -1790,6 +1814,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            witheredDebuff = false;
             weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
@@ -1988,6 +2013,8 @@ namespace CalamityMod.CalPlayer
             plaguebringerMK2 = false;
             igneousExaltation = false;
             coldDivinity = false;
+            voidAura = false;
+            voidAuraDamage = false;
             radiantResolution = false;
             virili = false;
             frostBlossom = false;
@@ -2111,6 +2138,7 @@ namespace CalamityMod.CalPlayer
 			#region Debuffs
 			dodgeCooldownTimer = 0;
 			defenseDamage = 0;
+			timeBeforeDefenseDamageRecovery = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
             heldGaelsLastFrame = false;
@@ -2175,6 +2203,7 @@ namespace CalamityMod.CalPlayer
             aCrunch = false;
             irradiated = false;
             bFlames = false;
+            witheredDebuff = false;
             weakBrimstoneFlames = false;
             aFlames = false;
             gsInferno = false;
@@ -3634,14 +3663,8 @@ namespace CalamityMod.CalPlayer
             {
                 drawBossHPBar = false;
             }
-            if (CalamityConfig.Instance.BossHealthBarExtraInfo)
-            {
-                shouldDrawSmallText = true;
-            }
-            else
-            {
-                shouldDrawSmallText = false;
-            }
+
+            CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             if (CalamityConfig.Instance.MiningSpeedBoost)
             {
@@ -3666,10 +3689,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.05f;
             }
-            if (graxDefense)
-            {
-                meleeSpeedMult += 0.1f;
-            }
             if (yPower)
             {
                 meleeSpeedMult += 0.05f;
@@ -3684,31 +3703,51 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                float maxDistance = 480f; // 30 tile distance
-                float meleeSpeedBoost = 0f;
-                for (int l = 0; l < Main.maxNPCs; l++)
-                {
-                    NPC nPC = Main.npc[l];
+				int closestNPC = -1;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC nPC = Main.npc[i];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						closestNPC = i;
+						break;
+					}
+				}
+				float distance = -1f;
+				for (int j = 0; j < Main.maxNPCs; j++)
+				{
+					NPC nPC = Main.npc[j];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
+					{
+						float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (player.position.X + (float)(player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (player.position.Y + (float)(player.height / 2)));
+						if (distance == -1f || distance2 < distance)
+						{
+							distance = distance2;
+							closestNPC = j;
+						}
+					}
+				}
 
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+				if (closestNPC != -1)
+				{
+					NPC actualClosestNPC = Main.npc[closestNPC];
+
+					float generousHitboxWidth = Math.Max(actualClosestNPC.Hitbox.Width / 2f, actualClosestNPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = actualClosestNPC.Distance(player.Center) - generousHitboxWidth;
 
 					if (hitboxEdgeDist < 0)
 						hitboxEdgeDist = 0;
 
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-                    {
-                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
+					if (hitboxEdgeDist < maxWarBannerDistance)
+					{
+						warBannerBonus = MathHelper.Lerp(0f, maxWarBannerBonus, 1f - (hitboxEdgeDist / maxWarBannerDistance));
 
-                        if (meleeSpeedBoost >= 0.3f)
-                        {
-                            meleeSpeedBoost = 0.3f;
-                            break;
-                        }
-                    }
-                }
-                meleeSpeedMult += meleeSpeedBoost;
+						if (warBannerBonus > maxWarBannerBonus)
+							warBannerBonus = maxWarBannerBonus;
+					}
+
+					meleeSpeedMult += warBannerBonus;
+				}
             }
             if (eGauntlet)
             {
@@ -3721,9 +3760,7 @@ namespace CalamityMod.CalPlayer
             if (bloodyMary)
             {
                 if (Main.bloodMoon)
-                {
                     meleeSpeedMult += 0.15f;
-                }
             }
             if (community)
             {
@@ -3756,6 +3793,10 @@ namespace CalamityMod.CalPlayer
                 else
                     meleeSpeedMult += 0.05f;
             }
+			if (player.beetleOffense && player.beetleOrbs > 0)
+			{
+				meleeSpeedMult -= 0.1f * player.beetleOrbs;
+			}
             if (CalamityConfig.Instance.Proficiency)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
@@ -3838,6 +3879,14 @@ namespace CalamityMod.CalPlayer
                 roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
             }
             roverFrameCounter++;
+
+            int frames = 4;
+            if (voidFrameCounter >= 6)
+            {
+                voidFrameCounter = 0;
+                voidFrame = voidFrame == frames - 1 ? 0 : voidFrame + 1;
+            }
+            voidFrameCounter++;
 
             for (int i = 0; i < player.dye.Length; i++)
             {
@@ -4234,11 +4283,7 @@ namespace CalamityMod.CalPlayer
                     DeadMinionProperties deadMinionProperties;
 
                     // Handle unique edge-cases in terms of summoning logic.
-                    if (projectile.type == mechwormHeadType)
-                        deadMinionProperties = new DeadMechwormProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == ProjectileID.StardustDragon1)
-                        deadMinionProperties = new DeadStardustDragonProperties(projectile.damage, projectile.knockBack);
-                    else if (projectile.type == endoHydraBodyType)
+                    if (projectile.type == endoHydraBodyType)
                         deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
                     else if (projectile.type == endoCooperType)
                         deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
@@ -4494,6 +4539,10 @@ namespace CalamityMod.CalPlayer
                 if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+                }
+                if (witheredDebuff)
+                {
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " withered away.");
                 }
             }
             if (profanedCrystalBuffs && !profanedCrystalHide)
@@ -4808,10 +4857,13 @@ namespace CalamityMod.CalPlayer
             if (player.whoAmI != Main.myPlayer)
                 return;
 
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+
             switch (item.type)
             {
                 case ItemID.CobaltSword:
-                    target.defense = (int)(target.defDefense * 0.9);
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
                     break;
 
                 case ItemID.PalladiumSword:
@@ -4891,9 +4943,6 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-			if (item.type == ModContent.ItemType<FulgurationHalberd>())
-				target.damage = (int)(target.defDamage * 0.9);
-
 			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
@@ -4912,11 +4961,14 @@ namespace CalamityMod.CalPlayer
             if (player.whoAmI != Main.myPlayer)
                 return;
 
+            if (witheringWeaponEnchant)
+                witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
+
             switch (proj.type)
             {
                 case ProjectileID.CobaltNaginata:
-                    target.defense = (int)(target.defDefense * 0.9);
-                    break;
+					target.Calamity().miscDefenseLoss = (int)(target.defense * 0.25);
+					break;
 
                 case ProjectileID.PalladiumPike:
                     if (!target.canGhostHeal || player.moonLeech)
@@ -4948,8 +5000,13 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.TheRottedFork:
+				case ProjectileID.TheMeatball:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
+
+				case ProjectileID.BallOHurt:
+					target.AddBuff(BuffID.ShadowFlame, 60);
+					break;
 
                 case ProjectileID.ObsidianSwordfish:
                     target.AddBuff(BuffID.OnFire, 180);
@@ -5022,9 +5079,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.ShadowFlame, 120);
                     break;
             }
-
-			if (proj.type == ModContent.ProjectileType<FulgurationHalberdProj>())
-				target.damage = (int)(target.defDamage * 0.9);
 
 			if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
@@ -5244,6 +5298,10 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 1.25;
             }
+
+            if (witheredDebuff && witheringWeaponEnchant)
+                damageMult += 0.6;
+
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
@@ -5354,7 +5412,7 @@ namespace CalamityMod.CalPlayer
             {
 				// Add more true melee damage to the true melee projectile that scales with melee speed
 				// This is done because melee speed does nothing to melee weapons that are purely projectiles
-                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
+                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f * 0.25f);
             }
 
             if (screwdriver)
@@ -5366,7 +5424,9 @@ namespace CalamityMod.CalPlayer
 			if (enraged)
                 damageMult += 1.25;
 
-            if (proj.type == ProjectileID.InfernoFriendlyBlast)
+            // Calamity buffs Inferno Fork by 33%.
+	    // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
+	    if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
 
             if (brimflameFrenzy && brimflameSet)
@@ -5374,6 +5434,9 @@ namespace CalamityMod.CalPlayer
                 if (proj.magic)
                     damageMult += 0.3;
             }
+
+            if (witheredDebuff)
+                damageMult += 0.6;
 
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
@@ -5641,16 +5704,17 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;
@@ -5667,7 +5731,8 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityMod.bossVelocityDamageScaleValues.TryGetValue(npc.type, out float velocityScalar);
 
-                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f))
+                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f) ||
+					(npc.type == ModContent.NPCType<Apollo>() && npc.life / (float)npc.lifeMax < 0.6f))
                     velocityScalar = CalamityMod.bitingEnemeyVelocityScale;
 
                 if (npc.velocity == Vector2.Zero)
@@ -5799,10 +5864,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        contactDamageReduction -= contactDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						contactDamageReduction -= contactDamageReduction * defenseDamageReduction;
+					}
+
+					if (contactDamageReduction < 0D)
+						contactDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
@@ -5900,7 +5974,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -5929,7 +6003,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -5964,7 +6038,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -5996,7 +6070,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.immune = true;
 							player.immuneNoBlink = true;
-							player.immuneTime += 4;
+							player.immuneTime += 20;
 							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 								player.hurtCooldowns[j] = player.immuneTime;
 						}
@@ -6088,16 +6162,17 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    int newDamage = damage;
-
                     double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
-                    int damageToDefense = (int)(newDamage * defenseStatDamageMult);
+                    int damageToDefense = (int)(damage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    if (hurtSoundTimer == 0)
+					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
+						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
+
+					if (hurtSoundTimer == 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
                         hurtSoundTimer = 30;
@@ -6241,10 +6316,19 @@ namespace CalamityMod.CalPlayer
 
                 if (defenseDamage > 0)
                 {
-                    // Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-                    if (defenseStat > 0)
-                        projectileDamageReduction -= projectileDamageReduction * (defenseDamage / (double)defenseStat);
-                }
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+					{
+						double defenseDamageReduction = defenseDamage / (double)defenseStat;
+						if (defenseDamageReduction > 1D)
+							defenseDamageReduction = 1D;
+
+						projectileDamageReduction -= projectileDamageReduction * defenseDamageReduction;
+					}
+
+					if (projectileDamageReduction < 0D)
+						projectileDamageReduction = 0D;
+				}
 
                 // Scale with base damage reduction
                 if (DRStat > 0)
@@ -6807,15 +6891,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
 			{
-				player.AddBuff(BuffID.Poisoned, 180);
-				player.AddBuff(BuffID.Venom, 180);
-				player.AddBuff(BuffID.Bleeding, 300);
+				player.AddBuff(BuffID.Poisoned, 300);
 			}
 			else if (npc.type == NPCID.PlanterasTentacle)
 			{
-				player.AddBuff(BuffID.Poisoned, 120);
-				player.AddBuff(BuffID.Venom, 120);
-				player.AddBuff(BuffID.Bleeding, 180);
+				player.AddBuff(BuffID.Poisoned, 180);
 			}
 			else if (npc.type == NPCID.AncientDoom)
 			{
@@ -6869,7 +6949,6 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.ThornBall)
                 {
                     player.AddBuff(BuffID.Poisoned, 240);
-                    player.AddBuff(BuffID.Venom, 120);
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
@@ -6972,12 +7051,16 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, player.whoAmI);
+
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().forceTypeless = true; //in case melee/rogue variants bug out
+
+                    // Handle AI edge-cases.
                     if (item.type == ModContent.ItemType<FinalDawn>())
-                    {
                         Main.projectile[p].ai[1] = 1f;
-                    }
+                    if (item.type == ModContent.ItemType<TheAtomSplitter>())
+                        Main.projectile[p].ai[0] = -1f;
+
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
@@ -7363,9 +7446,7 @@ namespace CalamityMod.CalPlayer
                 if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                 {
                     Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-                    int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-                    if (Main.npc.IndexInRange(portal))
-                        Main.npc[portal].target = player.whoAmI;
+                    CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
                 }
 
 				if (revivify)
@@ -7389,7 +7470,19 @@ namespace CalamityMod.CalPlayer
 					player.HealEffect(healAmt);
 				}
 
-				if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+                if (witheringDamageDone > 0)
+                {
+                    double healCompenstationRatio = Math.Log(witheringDamageDone) * Math.Pow(witheringDamageDone, 2D / 3D) / 177000D;
+                    if (healCompenstationRatio > 1D)
+                        healCompenstationRatio = 1D;
+                    int healCompensation = (int)(healCompenstationRatio * damage);
+                    player.statLife += (int)(healCompenstationRatio * damage);
+                    player.HealEffect(healCompensation);
+                    player.AddBuff(ModContent.BuffType<Withered>(), 1080);
+                    witheringDamageDone = 0;
+                }
+
+                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
@@ -7399,7 +7492,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-				evilSmasherBoost = 0;
+				if (evilSmasherBoost > 0)
+					evilSmasherBoost -= 1;
+
 				hellbornBoost = 0;
 
                 if (amidiasBlessing)
@@ -8635,7 +8730,7 @@ namespace CalamityMod.CalPlayer
 					// Cooldown for God Slayer Armor dash
 					if (dashMod == 9)
 					{
-						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(15f));
+						player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(20f));
 						godSlayerDashHotKeyPressed = false;
 					}
 
@@ -10077,48 +10172,48 @@ namespace CalamityMod.CalPlayer
             #region MeleeLevelBoosts
             if (meleeLevel >= 12500)
             {
-                player.meleeDamage += 0.12f;
-                player.meleeCrit += 6;
+                player.meleeDamage += 0.06f;
+                player.meleeCrit += 3;
             }
             else if (meleeLevel >= 10500)
-            {
-                player.meleeDamage += 0.1f;
-                player.meleeCrit += 5;
-            }
-            else if (meleeLevel >= 9100)
-            {
-                player.meleeDamage += 0.09f;
-                player.meleeCrit += 5;
-            }
-            else if (meleeLevel >= 7800)
-            {
-                player.meleeDamage += 0.08f;
-                player.meleeCrit += 4;
-            }
-            else if (meleeLevel >= 6600)
-            {
-                player.meleeDamage += 0.07f;
-                player.meleeCrit += 4;
-            }
-            else if (meleeLevel >= 5500) //hm limit
             {
                 player.meleeDamage += 0.06f;
                 player.meleeCrit += 3;
             }
-            else if (meleeLevel >= 4500)
+            else if (meleeLevel >= 9100)
+            {
+                player.meleeDamage += 0.06f;
+                player.meleeCrit += 3;
+            }
+            else if (meleeLevel >= 7800)
             {
                 player.meleeDamage += 0.05f;
                 player.meleeCrit += 3;
             }
-            else if (meleeLevel >= 3600)
+            else if (meleeLevel >= 6600)
             {
                 player.meleeDamage += 0.05f;
+                player.meleeCrit += 3;
+            }
+            else if (meleeLevel >= 5500) //hm limit
+            {
+                player.meleeDamage += 0.05f;
+                player.meleeCrit += 2;
+            }
+            else if (meleeLevel >= 4500)
+            {
+                player.meleeDamage += 0.05f;
+                player.meleeCrit += 2;
+            }
+            else if (meleeLevel >= 3600)
+            {
+                player.meleeDamage += 0.04f;
                 player.meleeCrit += 2;
             }
             else if (meleeLevel >= 2800)
             {
                 player.meleeDamage += 0.04f;
-                player.meleeCrit += 2;
+                player.meleeCrit += 1;
             }
             else if (meleeLevel >= 2100)
             {
@@ -10132,7 +10227,7 @@ namespace CalamityMod.CalPlayer
             }
             else if (meleeLevel >= 1000)
             {
-                player.meleeDamage += 0.03f;
+                player.meleeDamage += 0.02f;
                 player.meleeCrit += 1;
             }
             else if (meleeLevel >= 600)
@@ -10148,73 +10243,73 @@ namespace CalamityMod.CalPlayer
             #region RangedLevelBoosts
             if (rangedLevel >= 12500)
             {
-                player.rangedDamage += 0.12f;
+                player.rangedDamage += 0.06f;
                 player.moveSpeed += 0.06f;
-                player.rangedCrit += 6;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 10500)
             {
-                player.rangedDamage += 0.1f;
-                player.moveSpeed += 0.05f;
-                player.rangedCrit += 5;
+                player.rangedDamage += 0.05f;
+                player.moveSpeed += 0.06f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 9100)
             {
-                player.rangedDamage += 0.09f;
-                player.moveSpeed += 0.04f;
-                player.rangedCrit += 5;
+                player.rangedDamage += 0.05f;
+                player.moveSpeed += 0.05f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 7800)
             {
-                player.rangedDamage += 0.08f;
-                player.moveSpeed += 0.04f;
-                player.rangedCrit += 4;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.05f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 6600)
             {
-                player.rangedDamage += 0.07f;
-                player.moveSpeed += 0.03f;
-                player.rangedCrit += 4;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 3;
             }
             else if (rangedLevel >= 5500)
             {
-                player.rangedDamage += 0.06f;
-                player.moveSpeed += 0.03f;
-                player.rangedCrit += 3;
+                player.rangedDamage += 0.04f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 2;
             }
             else if (rangedLevel >= 4500)
             {
-                player.rangedDamage += 0.05f;
-                player.moveSpeed += 0.02f;
-                player.rangedCrit += 3;
+                player.rangedDamage += 0.03f;
+                player.moveSpeed += 0.04f;
+                player.rangedCrit += 2;
             }
             else if (rangedLevel >= 3600)
             {
-                player.rangedDamage += 0.05f;
-                player.moveSpeed += 0.02f;
+                player.rangedDamage += 0.03f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 2;
             }
             else if (rangedLevel >= 2800)
             {
-                player.rangedDamage += 0.04f;
-                player.moveSpeed += 0.02f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 2;
             }
             else if (rangedLevel >= 2100)
             {
-                player.rangedDamage += 0.04f;
-                player.moveSpeed += 0.01f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.03f;
                 player.rangedCrit += 1;
             }
             else if (rangedLevel >= 1500)
             {
-                player.rangedDamage += 0.03f;
-                player.moveSpeed += 0.01f;
+                player.rangedDamage += 0.02f;
+                player.moveSpeed += 0.02f;
                 player.rangedCrit += 1;
             }
             else if (rangedLevel >= 1000)
             {
-                player.rangedDamage += 0.03f;
+                player.rangedDamage += 0.02f;
                 player.moveSpeed += 0.01f;
                 player.rangedCrit += 1;
             }
@@ -10232,73 +10327,73 @@ namespace CalamityMod.CalPlayer
             #region MagicLevelBoosts
             if (magicLevel >= 12500)
             {
-                player.magicDamage += 0.12f;
-                player.manaCost *= 0.88f;
-                player.magicCrit += 6;
-            }
-            else if (magicLevel >= 10500)
-            {
-                player.magicDamage += 0.1f;
-                player.manaCost *= 0.9f;
-                player.magicCrit += 5;
-            }
-            else if (magicLevel >= 9100)
-            {
-                player.magicDamage += 0.09f;
-                player.manaCost *= 0.91f;
-                player.magicCrit += 5;
-            }
-            else if (magicLevel >= 7800)
-            {
-                player.magicDamage += 0.08f;
-                player.manaCost *= 0.92f;
-                player.magicCrit += 4;
-            }
-            else if (magicLevel >= 6600)
-            {
-                player.magicDamage += 0.07f;
-                player.manaCost *= 0.93f;
-                player.magicCrit += 4;
-            }
-            else if (magicLevel >= 5500)
-            {
                 player.magicDamage += 0.06f;
                 player.manaCost *= 0.94f;
                 player.magicCrit += 3;
             }
-            else if (magicLevel >= 4500)
+            else if (magicLevel >= 10500)
+            {
+                player.magicDamage += 0.05f;
+                player.manaCost *= 0.94f;
+                player.magicCrit += 3;
+            }
+            else if (magicLevel >= 9100)
             {
                 player.magicDamage += 0.05f;
                 player.manaCost *= 0.95f;
                 player.magicCrit += 3;
             }
-            else if (magicLevel >= 3600)
+            else if (magicLevel >= 7800)
             {
-                player.magicDamage += 0.05f;
+                player.magicDamage += 0.04f;
                 player.manaCost *= 0.95f;
-                player.magicCrit += 2;
+                player.magicCrit += 3;
             }
-            else if (magicLevel >= 2800)
+            else if (magicLevel >= 6600)
+            {
+                player.magicDamage += 0.04f;
+                player.manaCost *= 0.96f;
+                player.magicCrit += 3;
+            }
+            else if (magicLevel >= 5500)
             {
                 player.magicDamage += 0.04f;
                 player.manaCost *= 0.96f;
                 player.magicCrit += 2;
             }
-            else if (magicLevel >= 2100)
+            else if (magicLevel >= 4500)
             {
                 player.magicDamage += 0.04f;
                 player.manaCost *= 0.97f;
-                player.magicCrit += 1;
+                player.magicCrit += 2;
             }
-            else if (magicLevel >= 1500)
+            else if (magicLevel >= 3600)
+            {
+                player.magicDamage += 0.03f;
+                player.manaCost *= 0.97f;
+                player.magicCrit += 2;
+            }
+            else if (magicLevel >= 2800)
+            {
+                player.magicDamage += 0.03f;
+                player.manaCost *= 0.98f;
+                player.magicCrit += 2;
+            }
+            else if (magicLevel >= 2100)
             {
                 player.magicDamage += 0.03f;
                 player.manaCost *= 0.98f;
                 player.magicCrit += 1;
             }
+            else if (magicLevel >= 1500)
+            {
+                player.magicDamage += 0.02f;
+                player.manaCost *= 0.98f;
+                player.magicCrit += 1;
+            }
             else if (magicLevel >= 1000)
             {
-                player.magicDamage += 0.03f;
+                player.magicDamage += 0.02f;
                 player.manaCost *= 0.99f;
                 player.magicCrit += 1;
             }
@@ -10318,43 +10413,36 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.12f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 2;
             }
             else if (summonLevel >= 10500)
             {
                 player.minionDamage += 0.1f;
                 player.minionKB += 3.0f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 9100)
             {
                 player.minionDamage += 0.09f;
                 player.minionKB += 2.7f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 7800)
             {
                 player.minionDamage += 0.08f;
                 player.minionKB += 2.4f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 6600)
             {
                 player.minionDamage += 0.07f;
                 player.minionKB += 2.1f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 5500)
             {
-                player.minionDamage += 0.06f;
+                player.minionDamage += 0.07f;
                 player.minionKB += 1.8f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 4500)
             {
                 player.minionDamage += 0.06f;
                 player.minionKB += 1.8f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 3600)
             {
@@ -10395,73 +10483,73 @@ namespace CalamityMod.CalPlayer
             #region RogueLevelBoosts
             if (rogueLevel >= 12500)
             {
-                throwingDamage += 0.12f;
-                throwingVelocity += 0.12f;
-                throwingCrit += 6;
-            }
-            else if (rogueLevel >= 10500)
-            {
-                throwingDamage += 0.1f;
-                throwingVelocity += 0.1f;
-                throwingCrit += 5;
-            }
-            else if (rogueLevel >= 9100)
-            {
-                throwingDamage += 0.09f;
-                throwingVelocity += 0.09f;
-                throwingCrit += 5;
-            }
-            else if (rogueLevel >= 7800)
-            {
-                throwingDamage += 0.08f;
-                throwingVelocity += 0.08f;
-                throwingCrit += 4;
-            }
-            else if (rogueLevel >= 6600)
-            {
-                throwingDamage += 0.07f;
-                throwingVelocity += 0.07f;
-                throwingCrit += 4;
-            }
-            else if (rogueLevel >= 5500)
-            {
                 throwingDamage += 0.06f;
                 throwingVelocity += 0.06f;
                 throwingCrit += 3;
             }
-            else if (rogueLevel >= 4500)
+            else if (rogueLevel >= 10500)
+            {
+                throwingDamage += 0.05f;
+                throwingVelocity += 0.06f;
+                throwingCrit += 3;
+            }
+            else if (rogueLevel >= 9100)
             {
                 throwingDamage += 0.05f;
                 throwingVelocity += 0.05f;
                 throwingCrit += 3;
             }
-            else if (rogueLevel >= 3600)
+            else if (rogueLevel >= 7800)
             {
-                throwingDamage += 0.05f;
+                throwingDamage += 0.04f;
                 throwingVelocity += 0.05f;
-                throwingCrit += 2;
+                throwingCrit += 3;
             }
-            else if (rogueLevel >= 2800)
+            else if (rogueLevel >= 6600)
+            {
+                throwingDamage += 0.04f;
+                throwingVelocity += 0.04f;
+                throwingCrit += 3;
+            }
+            else if (rogueLevel >= 5500)
             {
                 throwingDamage += 0.04f;
                 throwingVelocity += 0.04f;
                 throwingCrit += 2;
             }
+            else if (rogueLevel >= 4500)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.04f;
+                throwingCrit += 2;
+            }
+            else if (rogueLevel >= 3600)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.03f;
+                throwingCrit += 2;
+            }
+            else if (rogueLevel >= 2800)
+            {
+                throwingDamage += 0.03f;
+                throwingVelocity += 0.03f;
+                throwingCrit += 1;
+            }
             else if (rogueLevel >= 2100)
             {
-                throwingDamage += 0.04f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.03f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1500)
             {
-                throwingDamage += 0.03f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.02f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1000)
             {
-                throwingDamage += 0.03f;
+                throwingDamage += 0.02f;
                 throwingVelocity += 0.01f;
                 throwingCrit += 1;
             }
@@ -10482,47 +10570,47 @@ namespace CalamityMod.CalPlayer
             float meleeSpeedBonus = 0f;
             if (meleeLevel >= 12500)
             {
-                meleeSpeedBonus += 0.12f;
+                meleeSpeedBonus += 0.06f;
             }
             else if (meleeLevel >= 10500)
             {
-                meleeSpeedBonus += 0.1f;
+                meleeSpeedBonus += 0.05f;
             }
             else if (meleeLevel >= 9100)
             {
-                meleeSpeedBonus += 0.09f;
+                meleeSpeedBonus += 0.04f;
             }
             else if (meleeLevel >= 7800)
             {
-                meleeSpeedBonus += 0.08f;
+                meleeSpeedBonus += 0.04f;
             }
             else if (meleeLevel >= 6600)
             {
-                meleeSpeedBonus += 0.07f;
+                meleeSpeedBonus += 0.03f;
             }
             else if (meleeLevel >= 5500) //hm limit
             {
-                meleeSpeedBonus += 0.06f;
+                meleeSpeedBonus += 0.03f;
             }
             else if (meleeLevel >= 4500)
             {
-                meleeSpeedBonus += 0.05f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 3600)
             {
-                meleeSpeedBonus += 0.05f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 2800)
             {
-                meleeSpeedBonus += 0.04f;
+                meleeSpeedBonus += 0.02f;
             }
             else if (meleeLevel >= 2100)
             {
-                meleeSpeedBonus += 0.03f;
+                meleeSpeedBonus += 0.01f;
             }
             else if (meleeLevel >= 1500) //prehm limit
             {
-                meleeSpeedBonus += 0.02f;
+                meleeSpeedBonus += 0.01f;
             }
             else if (meleeLevel >= 1000)
             {

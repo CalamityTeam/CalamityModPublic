@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.minionSlots = 1f;
 			projectile.timeLeft = 90000;
 			projectile.penetrate = -1;
+			projectile.extraUpdates = 1;
 			projectile.tileCollide = false;
 			projectile.minion = true;
 		}

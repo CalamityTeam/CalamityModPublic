@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			DisplayName.SetDefault("Phosphorescent Gauntlet");
 			Tooltip.SetDefault("Releases rapid sulphurous punches\n" +
-				"On use, you lunge in the direction of the mouse.\n" +
+				"On use, you lunge in the direction of the mouse\n" +
 				"On collision, you are knocked back");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = item.height = 40;
-			item.damage = 750;
+			item.damage = 2705;
 			item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;

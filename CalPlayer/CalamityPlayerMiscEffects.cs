@@ -17,6 +17,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
@@ -44,6 +45,7 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -139,48 +141,6 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private static void RevengeanceModeMiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
-			if (CalamityGlobalNPC.holyBoss != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.holyBoss].active)
-				{
-					if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
-					{
-						float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
-						float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
-						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
-
-						float baseDistance = 2800f;
-						float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-						float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
-						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
-
-						bool guardianAlive = false;
-						if (CalamityGlobalNPC.holyBossAttacker != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-								guardianAlive = true;
-						}
-						if (CalamityGlobalNPC.holyBossDefender != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-								guardianAlive = true;
-						}
-						if (CalamityGlobalNPC.holyBossHealer != -1)
-						{
-							if (Main.npc[CalamityGlobalNPC.holyBossHealer].active)
-								guardianAlive = true;
-						}
-
-						float maxDistance = guardianAlive ? baseDistance : (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
-						float drawDarknessDistance = maxDistance - 400f;
-						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
-
-						if (!Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Calamity().ZoneAbyss && !Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].headcovered)
-							ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, 1f, intensityScalar);
-					}
-				}
-			}
-
 			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
 				// This effect is way too annoying during the fight so I disabled it - Fab
@@ -273,7 +233,7 @@ namespace CalamityMod.CalPlayer
 
 			// If Revengeance Mode is not active, then set rippers to zero
 			else if (player.whoAmI == Main.myPlayer)
-					{
+			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
 			}
@@ -296,9 +256,9 @@ namespace CalamityMod.CalPlayer
 			// Tick down the Rage gain cooldown.
 			if (modPlayer.rageGainCooldown > 0)
 				--modPlayer.rageGainCooldown;
-			
-						// This is how much Rage will be changed by this frame.
-						float rageDiff = 0;
+
+			// This is how much Rage will be changed by this frame.
+			float rageDiff = 0;
 
 			// If the player equips multiple rage generation accessories they get the max possible effect without stacking any of them.
 			{
@@ -351,7 +311,7 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
 					NPC npc = Main.npc[i];
-					if (npc is null || !npc.IsAnEnemy())
+					if (npc is null || !npc.IsAnEnemy() || npc.Calamity().DoesNotGenerateRage)
 						continue;
 
 					// Take the longer of the two directions for the NPC's hitbox to be generous.
@@ -407,82 +367,86 @@ namespace CalamityMod.CalPlayer
 
 			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
 
-						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-						if (modPlayer.rageModeActive)
+			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+			if (modPlayer.rageModeActive)
 				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
 
 			// If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
 			else if (!modPlayer.rageModeActive && rageFading)
 				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
-						// Apply the rage change and cap rage in both directions.
-						modPlayer.rage += rageDiff;
-						if (modPlayer.rage < 0)
-							modPlayer.rage = 0;
+			// Apply the rage change and cap rage in both directions.
+			modPlayer.rage += rageDiff;
+			if (modPlayer.rage < 0)
+				modPlayer.rage = 0;
 
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-				// Rage IS NOT capped while active. It can go above 100%.
+			if (modPlayer.rage >= modPlayer.rageMax)
+			{
+				// If Rage is not active, it is capped at 100%.
 				if (!modPlayer.rageModeActive)
-							modPlayer.rage = modPlayer.rageMax;
+					modPlayer.rage = modPlayer.rageMax;
 
-							// Play a sound when the Rage Meter is full
-							if (modPlayer.playFullRageSound)
-							{
-								modPlayer.playFullRageSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullRageSound = true;
+				// If using the Shattered Community, Rage is capped at 200% while it's active.
+				// This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
+				else if (modPlayer.shatteredCommunity && modPlayer.rage >= 2f * modPlayer.rageMax)
+					modPlayer.rage = 2f * modPlayer.rageMax;
 
-						// This is how much Adrenaline will be changed by this frame.
-						float adrenalineDiff = 0;
-						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+				// Play a sound when the Rage Meter is full
+				if (modPlayer.playFullRageSound)
+				{
+					modPlayer.playFullRageSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullRageSound = true;
 
-						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-						if (modPlayer.adrenalineModeActive)
+			// This is how much Adrenaline will be changed by this frame.
+			float adrenalineDiff = 0;
+			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+
+			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+			if (modPlayer.adrenalineModeActive)
 				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
-
-						else
-						{
-							// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
-							// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
-								!wofAndNotHell)
-							{
+			else
+			{
+				// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+				// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
+				if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
+					!wofAndNotHell)
+				{
 					adrenalineDiff += modPlayer.adrenalineMax / modPlayer.AdrenalineChargeTime;
-							}
+				}
 
 				// If you aren't actively in a boss fight, adrenaline rapidly fades away.
-							else
+				else
 					adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineFadeTime;
-						}
+			}
 
 			// In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 0.67f;
+			if (SCalAlive && adrenalineDiff > 0f)
+				adrenalineDiff *= 0.67f;
 
-						// Apply the adrenaline change and cap adrenaline in both directions.
-						modPlayer.adrenaline += adrenalineDiff;
-						if (modPlayer.adrenaline < 0)
-							modPlayer.adrenaline = 0;
+			// Apply the adrenaline change and cap adrenaline in both directions.
+			modPlayer.adrenaline += adrenalineDiff;
+			if (modPlayer.adrenaline < 0)
+				modPlayer.adrenaline = 0;
 
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenaline = modPlayer.adrenalineMax;
+			if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
+			{
+				modPlayer.adrenaline = modPlayer.adrenalineMax;
 
-							// Play a sound when the Adrenaline Meter is full
-							if (modPlayer.playFullAdrenalineSound)
-							{
-								modPlayer.playFullAdrenalineSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullAdrenalineSound = true;
-					}
+				// Play a sound when the Adrenaline Meter is full
+				if (modPlayer.playFullAdrenalineSound)
+				{
+					modPlayer.playFullAdrenalineSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullAdrenalineSound = true;
+		}
 		#endregion
 
 		#region Misc Effects
@@ -631,7 +595,7 @@ namespace CalamityMod.CalPlayer
 
 			// Bool for drawing boss health bar small text or not
 			if (Main.myPlayer == player.whoAmI)
-				BossHealthBarManager.SHOULD_DRAW_SMALLTEXT_HEALTH = modPlayer.shouldDrawSmallText;
+				BossHealthBarManager.CanDrawExtraSmallText = modPlayer.shouldDrawSmallText;
 
 			// Margarita halved debuff duration
 			if (modPlayer.margarita)
@@ -648,6 +612,35 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
+
+			// Update the Providence Burn effect drawer if applicable.
+			float providenceBurnIntensity = 0f;
+			if (Main.npc.IndexInRange(CalamityGlobalNPC.holyBoss) && Main.npc[CalamityGlobalNPC.holyBoss].active)
+				providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].modNPC as ProvidenceBoss).CalculateBurnIntensity();
+			modPlayer.ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
+
+			// If the burn intensity is great enough, cause the player to ignite into flames.
+			if (providenceBurnIntensity > 0.45f)
+				modPlayer.ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
+
+			// Otherwise, if the intensity is too weak, but still presernt, cause the player to release holy cinders.
+			else if (providenceBurnIntensity > 0f)
+			{
+				int cinderCount = (int)MathHelper.Lerp(1f, 4f, Utils.InverseLerp(0f, 0.45f, providenceBurnIntensity, true));
+				for (int i = 0; i < cinderCount; i++)
+				{
+					if (!Main.rand.NextBool(3))
+						continue;
+
+					Dust holyCinder = Dust.NewDustDirect(player.position, player.width, player.head, (int)CalamityDusts.ProfanedFire);
+					holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
+					holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
+					holyCinder.scale = Main.rand.NextFloat(1.15f, 1.45f);
+					holyCinder.noGravity = true;
+				}
+			}
+
+			modPlayer.ProvidenceBurnEffectDrawer.Update();
 
 			// Immunity to most debuffs
 			if (modPlayer.invincible)
@@ -686,10 +679,10 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			//extra DoT in the lava of the crags
+			// Extra DoT in the lava of the crags. Negated by Abaddon.
 			if (player.lavaWet)
 			{
-				if (modPlayer.ZoneCalamity)
+				if (modPlayer.ZoneCalamity && !modPlayer.abaddon)
 					player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 			else
@@ -1246,9 +1239,7 @@ namespace CalamityMod.CalPlayer
 				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
 				{
 					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
-					int portal = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<DemonPortal>());
-					if (Main.npc.IndexInRange(portal))
-						Main.npc[portal].target = player.whoAmI;
+					CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
 				}
 			}
 			if (player.miscCounter % 20 == 0)
@@ -1443,10 +1434,10 @@ namespace CalamityMod.CalPlayer
 			// Absorber bonus
 			if (modPlayer.absorber)
 			{
-				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
+				player.moveSpeed += 0.05f;
+				player.jumpSpeedBoost += 0.25f;
 				player.thorns += 0.5f;
-				player.endurance += 0.05f;
+				player.endurance += 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
@@ -2564,7 +2555,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-					player.statDefense -= 10;
+				player.statDefense -= 10;
 				player.moveSpeed -= 0.1f;
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
@@ -2792,6 +2783,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.aeroStone ? 0.1 : 0D) +
 				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
@@ -2933,9 +2925,6 @@ namespace CalamityMod.CalPlayer
 				player.calmed = true;
 			}
 
-			if (player.panic)
-				player.moveSpeed -= 0.5f;
-
 			if (player.wellFed)
 				player.moveSpeed -= 0.1f;
 
@@ -3049,33 +3038,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				player.meleeDamage += damageBoost;
-			}
+				player.meleeDamage += modPlayer.warBannerBonus;
 
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
@@ -3411,7 +3374,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(AngryChickenStaff.Damage * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 
@@ -3751,73 +3714,52 @@ namespace CalamityMod.CalPlayer
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
 					(player.kbGlove ? 0.1 : 0) +
 					(modPlayer.eGauntlet ? 0.1 : 0) +
-					(modPlayer.yInsignia ? 0.1 : 0);
-			if (modPlayer.badgeOfBraveryRare)
-			{
-				float maxDistance = 480f; // 30 tile distance
-				float damageBoost = 0f;
-				for (int l = 0; l < Main.maxNPCs; l++)
-				{
-					NPC nPC = Main.npc[l];
-
-					// Take the longer of the two directions for the NPC's hitbox to be generous.
-					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
-					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
-
-					if (hitboxEdgeDist < 0)
-						hitboxEdgeDist = 0;
-
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
-					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
-
-						if (damageBoost >= 0.3f)
-						{
-							damageBoost = 0.3f;
-							break;
-						}
-					}
-				}
-				damageAdd += damageBoost;
-			}
+					(modPlayer.yInsignia ? 0.1 : 0) +
+					(modPlayer.badgeOfBraveryRare ? modPlayer.warBannerBonus : 0);
 			modPlayer.trueMeleeDamage += damageAdd;
 
 			// Amalgam boosts
-			if (modPlayer.amalgam)
+			if (Main.myPlayer == player.whoAmI)
 			{
-				if (Main.myPlayer == player.whoAmI)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
-					for (int l = 0; l < Player.MaxBuffs; l++)
+					int hasBuff = player.buffType[l];
+					if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
+						hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
+						(hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
+						hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
+						hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
+						hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
+						hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
+						hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
+						hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
+						hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
+						hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
+						hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
+						hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
+						hasBuff == ModContent.BuffType<CinnamonRollBuff>() || hasBuff == ModContent.BuffType<EverclearBuff>() || hasBuff == ModContent.BuffType<EvergreenGinBuff>() ||
+						hasBuff == ModContent.BuffType<FabsolVodkaBuff>() || hasBuff == ModContent.BuffType<FireballBuff>() || hasBuff == ModContent.BuffType<GrapeBeerBuff>() ||
+						hasBuff == ModContent.BuffType<MargaritaBuff>() || hasBuff == ModContent.BuffType<MoonshineBuff>() || hasBuff == ModContent.BuffType<MoscowMuleBuff>() ||
+						hasBuff == ModContent.BuffType<RedWineBuff>() || hasBuff == ModContent.BuffType<RumBuff>() || hasBuff == ModContent.BuffType<ScrewdriverBuff>() ||
+						hasBuff == ModContent.BuffType<StarBeamRyeBuff>() || hasBuff == ModContent.BuffType<TequilaBuff>() || hasBuff == ModContent.BuffType<TequilaSunriseBuff>() ||
+						hasBuff == ModContent.BuffType<Trippy>() || hasBuff == ModContent.BuffType<VodkaBuff>() || hasBuff == ModContent.BuffType<WhiskeyBuff>() ||
+						hasBuff == ModContent.BuffType<WhiteWineBuff>())
 					{
-						int hasBuff = player.buffType[l];
-						if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
-							hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
-							(hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
-							hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
-							hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
-							hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
-							hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
-							hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
-							hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
-							hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
-							hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
-							hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
-							hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
-							hasBuff == ModContent.BuffType<CinnamonRollBuff>() || hasBuff == ModContent.BuffType<EverclearBuff>() || hasBuff == ModContent.BuffType<EvergreenGinBuff>() ||
-							hasBuff == ModContent.BuffType<FabsolVodkaBuff>() || hasBuff == ModContent.BuffType<FireballBuff>() || hasBuff == ModContent.BuffType<GrapeBeerBuff>() ||
-							hasBuff == ModContent.BuffType<MargaritaBuff>() || hasBuff == ModContent.BuffType<MoonshineBuff>() || hasBuff == ModContent.BuffType<MoscowMuleBuff>() ||
-							hasBuff == ModContent.BuffType<RedWineBuff>() || hasBuff == ModContent.BuffType<RumBuff>() || hasBuff == ModContent.BuffType<ScrewdriverBuff>() ||
-							hasBuff == ModContent.BuffType<StarBeamRyeBuff>() || hasBuff == ModContent.BuffType<TequilaBuff>() || hasBuff == ModContent.BuffType<TequilaSunriseBuff>() ||
-							hasBuff == ModContent.BuffType<Trippy>() || hasBuff == ModContent.BuffType<VodkaBuff>() || hasBuff == ModContent.BuffType<WhiskeyBuff>() ||
-							hasBuff == ModContent.BuffType<WhiteWineBuff>())
+						if (modPlayer.amalgam)
 						{
 							// Every other frame, increase the buff timer by one frame. Thus, the buff lasts twice as long.
 							if (player.miscCounter % 2 == 0)
 								player.buffTime[l] += 1;
 
-							// Buffs will not go away when you die, to prevent wasting potions
+							// Buffs will not go away when you die, to prevent wasting potions.
 							if (!Main.persistentBuff[hasBuff])
 								Main.persistentBuff[hasBuff] = true;
+						}
+						else
+						{
+							// Reset buff persistence if Amalgam is removed.
+							if (Main.persistentBuff[hasBuff])
+								Main.persistentBuff[hasBuff] = false;
 						}
 					}
 				}
@@ -3943,9 +3885,15 @@ namespace CalamityMod.CalPlayer
 						isImmune = true;
 				}
 
-				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames
-				if (player.miscCounter % defenseDamageRecoveryRate == 0 && !isImmune)
-					modPlayer.defenseDamage--;
+				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames and if the recovery timer is 0
+				if (!isImmune)
+				{
+					if (player.miscCounter % defenseDamageRecoveryRate == 0 && modPlayer.timeBeforeDefenseDamageRecovery == 0)
+						modPlayer.defenseDamage--;
+
+					if (modPlayer.timeBeforeDefenseDamageRecovery > 0)
+						modPlayer.timeBeforeDefenseDamageRecovery--;
+				}
 			}
 
 			// Prevent negative defense values

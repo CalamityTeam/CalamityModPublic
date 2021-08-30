@@ -55,6 +55,8 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 19;
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

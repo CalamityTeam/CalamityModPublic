@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Sacrifice");
             Tooltip.SetDefault("Releases a dagger that sticks to enemies\n" +
                 "Right clicking causes all stuck daggers to fly back at you and give you life\n" +
-                "Daggers stuck to enemies release bloodsplosions over time");
+                "Daggers stuck to enemies release bloodsplosions over time\n" +
+                "Stealth strikes provide much more life when returning to you");
         }
 
         public override void SafeSetDefaults()
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
         }
 
-        public override bool AltFunctionUse(Player player) => true;
+        public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[item.shoot] > 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

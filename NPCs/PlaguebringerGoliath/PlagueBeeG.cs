@@ -228,8 +228,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/PlagueBeeGlow");
+            
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/PlagueEnemies/PlagueBeeGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)

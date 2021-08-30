@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.value = CalamityGlobalItem.Rarity15BuyPrice;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 			item.Calamity().donorItem = true;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

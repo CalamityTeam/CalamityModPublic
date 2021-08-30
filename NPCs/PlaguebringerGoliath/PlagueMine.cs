@@ -1,5 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -156,6 +156,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		}
 
 		public override bool PreNPCLoot() => false;
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
+		}
 
 		public override bool CheckDead()
         {

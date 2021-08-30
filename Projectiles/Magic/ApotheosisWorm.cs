@@ -317,7 +317,7 @@ namespace CalamityMod.Projectiles.Magic
                 colorA *= currentFade;
                 colorB *= currentFade;
                 Vector2 origin = texture.Size() / 2f;
-                Vector2 scale = new Vector2(8f, 19f) * projectile.Opacity * currentFade;
+                Vector2 scale = new Vector2(4f, 10f) * projectile.Opacity * currentFade;
 
                 spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
                 spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, SpriteEffects.None, 0);

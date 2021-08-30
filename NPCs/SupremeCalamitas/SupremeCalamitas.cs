@@ -2,12 +2,14 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -84,8 +86,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private int spawnY = 0;
         private int spawnYReset = 0;
         private int spawnYAdd = 0;
-        private int bulletHellCounter = 0;
-        private int bulletHellCounter2 = 0;
+        public int bulletHellCounter = 0;
+        public int bulletHellCounter2 = 0;
         private int attackCastDelay = 0;
         private int hitTimer = 0;
 
@@ -200,6 +202,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SCG") ?? MusicID.Boss2;
+            bossBag = ModContent.ItemType<SCalBag>();
         }
 
         public override void BossHeadSlot(ref int index)
@@ -256,6 +259,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(attackCastDelay);
 
             writer.Write(shieldRotation);
+
+            writer.Write(safeBox.X);
+            writer.Write(safeBox.Y);
+            writer.Write(safeBox.Width);
+            writer.Write(safeBox.Height);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -303,6 +311,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             attackCastDelay = reader.ReadInt32();
 
             shieldRotation = reader.ReadSingle();
+
+            safeBox = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
         }
 
         public override void AI()
@@ -403,8 +413,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             hitboxSize = Vector2.Max(hitboxSize, new Vector2(42, 44));
             if (npc.Size != hitboxSize)
                 npc.Size = hitboxSize;
+            bool shouldNotUseShield = bulletHellCounter2 % 900 != 0 || attackCastDelay > 0 ||
+                NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) ||
+                npc.ai[0] == 1f || npc.ai[0] == 2f;
 
-            // Make the shield and forcefield fade away in her acceptance phase.
+            // Make the shield and forcefield fade away in SCal's acceptance phase.
             if (npc.life <= npc.lifeMax * 0.01)
             {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
@@ -412,7 +425,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (!npc.dontTakeDamage && ((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
+            // Make it go away if certain triggers happen during this, such as a bullet hell starting, however.
+            else if (((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f) && !shouldNotUseShield)
             {
                 if (npc.ai[1] != 2f)
                 {
@@ -454,29 +468,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             #endregion
             #region ArenaCreation
+
+            // Create the arena on the first frame. This does not run client-side.
+            // If this is done on the server, a sync must be performed so that the arena box is
+            // known to the clients. Not doing this results in significant desyncs in regards to things like DR.
             if (!spawnArena)
             {
-                spawnArena = true;
-                if (death)
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
-                    safeBox.Width = 2000;
-                    safeBox.Height = 2000;
-                    spawnYAdd = 100;
-                }
-                else
-                {
-                    safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
-                    spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
-                    safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
-                    safeBox.Width = 2500;
-                    safeBox.Height = 2500;
-                    spawnYAdd = 125;
-                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    if (death)
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1000f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1000f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1000f);
+                        safeBox.Width = 2000;
+                        safeBox.Height = 2000;
+                        spawnYAdd = 100;
+                    }
+                    else
+                    {
+                        safeBox.X = spawnX = spawnXReset = (int)(npc.Center.X - 1250f);
+                        spawnX2 = spawnXReset2 = (int)(npc.Center.X + 1250f);
+                        safeBox.Y = spawnY = spawnYReset = (int)(npc.Center.Y - 1250f);
+                        safeBox.Width = 2500;
+                        safeBox.Height = 2500;
+                        spawnYAdd = 125;
+                    }
+
                     int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
                     int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
                     int num54 = safeBox.Width / 2 / 16 + 1;
@@ -508,32 +526,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         initialRitualPosition = npc.Center + Vector2.UnitY * 24f;
                         npc.netUpdate = true;
                     }
+
+                    // Sync to update all clients on the state of the arena.
+                    // Only after this will enrages be registered.
+                    spawnArena = true;
+                    npc.netUpdate = true;
                 }
             }
             #endregion
             #region Enrage and DR
-            if (!player.Hitbox.Intersects(safeBox) || malice)
+            if ((spawnArena && !player.Hitbox.Intersects(safeBox) || malice))
             {
-                if (uDieLul < 1.5f)
-                {
-                    uDieLul *= 1.01f;
-                }
-                else if (uDieLul > 1.5f)
-                {
-                    uDieLul = 1.5f;
-                }
+                float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) && spawnArena ? 2f : 1.5f;
+                uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
                 protectionBoost = !malice;
             }
             else
             {
-                if (uDieLul > 1f)
-                {
-                    uDieLul *= 0.99f;
-                }
-                else if (uDieLul < 1f)
-                {
-                    uDieLul = 1f;
-                }
+                uDieLul = MathHelper.Clamp(uDieLul * 0.99f, 1f, 2f);
                 protectionBoost = false;
             }
             npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
@@ -737,10 +747,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 2)
+                    if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
                     {
                         bulletHellCounter = 0;
-						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 2) * 6) == 0)
+						if (bulletHellCounter2 % ((baseBulletHellProjectileGateValue + 1) * 6) == 0)
 						{
 							float distance = Main.rand.NextBool() ? -1000f : 1000f;
 							float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
@@ -1185,7 +1195,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
-            // TODO: Resprite the seekers to be something other than eyeballs.
             if (npc.life <= npc.lifeMax * 0.2)
             {
                 if (!secondStage)
@@ -1834,7 +1843,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #endregion
             #region Transition
 
-            // TODO: Add a special flame that encases SCal during the transition phase instead of just dust.
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
                 npc.dontTakeDamage = true;
@@ -1866,7 +1874,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), npc.Center);
                     }
                 }
 
@@ -2540,20 +2548,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // And play a fire-like sound effect.
-                Main.PlaySound(SoundID.DD2_BetsyWindAttack, target.Center);
                 hasSummonedSepulcher1 = true;
                 hasSummonedSepulcher2 = npc.life <= npc.lifeMax * 0.08;
 
-                // TODO: Resprite brimstone hearts a bit.
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     List<int> hearts = new List<int>();
                     for (int x = 0; x < 5; x++)
                     {
-                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX += spawnXAdd;
 
-                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<BrimstoneHeart>(), 0, 0f, 0f, 0f, 0f, 255));
                         spawnX2 -= spawnXAdd;
                         tempSpawnY += spawnYAdd;
                     }
@@ -2566,6 +2572,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
                     npc.netUpdate = true;
                 }
+
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
             }
         }
 
@@ -2659,7 +2667,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public void ConnectAllBrimstoneHearts(List<int> heartIndices)
         {
-            int heartType = ModContent.NPCType<SCalWormHeart>();
+            int heartType = ModContent.NPCType<BrimstoneHeart>();
 
             // Ensure that the hearts go in order based on the arena.
             IEnumerable<NPC> hearts = heartIndices.Select(i => Main.npc[i]);
@@ -2692,14 +2700,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (tries >= 100)
                         endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
 
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 if (Main.rand.NextBool(2))
                 {
                     endpoint.X = heart.Center.X + Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
                     endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
-                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                    heart.ModNPC<BrimstoneHeart>().ChainEndpoints.Add(endpoint);
                 }
 
                 heart.netUpdate = true;
@@ -2736,6 +2744,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Make the town NPC spawn.
             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
 
+            DropHelper.DropBags(npc);
+
             // Increase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
@@ -2748,32 +2758,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int essenceMax = Main.expertMode ? 40 : 30;
             DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 
-            // Weapons
-            // Rejoice! Hybrid weapons are no more, so this list is no longer cluttered.
-			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
-				ModContent.ItemType<Animus>(),
-				ModContent.ItemType<AngelicAlliance>(),
-				ModContent.ItemType<Azathoth>(),
-				ModContent.ItemType<Contagion>(),
-				ModContent.ItemType<CrystylCrusher>(),
-				ModContent.ItemType<DraconicDestruction>(),
-				ModContent.ItemType<Earth>(),
-                ModContent.ItemType<Endogenesis>(),
-                ModContent.ItemType<Fabstaff>(),
-                ModContent.ItemType<PrototypeAndromechaRing>(), // Flamsteed Ring
-                ModContent.ItemType<RoyalKnivesMelee>(), // Illustrious Knives
-				ModContent.ItemType<NanoblackReaperRogue>(),
-				ModContent.ItemType<RedSun>(),
-				ModContent.ItemType<ScarletDevil>(),
-				ModContent.ItemType<SomaPrime>(),
-				ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
-				ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<BensUmbrella>(), // Temporal Umbrella
-                ModContent.ItemType<Judgement>(), // The Dance of Light
-				ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(),
-				ModContent.ItemType<Megafleet>() // Voidragon
-			);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
+            if (!Main.expertMode)
+            {
+                // Weapons.
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Vehemenc>(w),
+                    DropHelper.WeightStack<Heresy>(w),
+                    DropHelper.WeightStack<Perdition>(w),
+                    DropHelper.WeightStack<Vigilance>(w),
+                    DropHelper.WeightStack<Sacrifice>(w),
+                    DropHelper.WeightStack<Violence>(w)
+                );
+
+                // Vanity.
+                if (Main.rand.NextBool(7))
+                {
+                    DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalMask>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalRobes>());
+                    DropHelper.DropItem(npc, ModContent.ItemType<SCalBoots>());
+                }
+            }
 
             // Vanity
             DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
@@ -2944,7 +2950,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (lifeRatio < 0.05f)
                 flickerPower += 0.1f;
             float opacity = forcefieldOpacity;
-            opacity *= MathHelper.Lerp(1f, 1f - flickerPower, (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 9f, flickerPower)), 24D));
+            opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 5f, flickerPower)), 24D));
 
             // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
             if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))

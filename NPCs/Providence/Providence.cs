@@ -102,8 +102,6 @@ namespace CalamityMod.NPCs.Providence
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
-            npc.chaseable = true;
-            npc.canGhostHeal = false;
 			music = CalamityMod.Instance.GetMusicFromMusicMod("ProvidenceTheme") ?? MusicID.LunarBoss;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
@@ -229,10 +227,10 @@ namespace CalamityMod.NPCs.Providence
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 
 			// Phase times
-			float phaseTime = nightTime ? (300f - 120f * (1f - lifeRatio)) : 300f;
+			float phaseTime = nightTime ? (240f - 60f * (1f - lifeRatio)) : 300f;
 			float crystalPhaseTime = nightTime ? (float)Math.Round(60f * lifeRatio) : death ? 60f : 120f;
 			int nightCrystalTime = 210;
-			float attackDelayAfterCocoon = 90f;
+			float attackDelayAfterCocoon = phaseTime * 0.3f;
 
 			// Phases
 			bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
@@ -277,10 +275,10 @@ namespace CalamityMod.NPCs.Providence
             {
 				if (!player.dead && player.active)
 					player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
-            }
+			}
 
-            // Count the remaining Guardians, healer especially because it allows the boss to heal
-            int guardianAmt = 0;
+			// Count the remaining Guardians, healer especially because it allows the boss to heal
+			int guardianAmt = 0;
             bool healerAlive = false;
             if (CalamityGlobalNPC.holyBossAttacker != -1)
             {
@@ -350,7 +348,7 @@ namespace CalamityMod.NPCs.Providence
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
             // Heal
             if (healerAlive)
@@ -485,7 +483,7 @@ namespace CalamityMod.NPCs.Providence
                     flightPath = 0;
 
 				// Velocity and acceleration
-				float speedIncreaseTimer = enraged ? 60f : nightTime ? 90f : death ? 120f : 150f;
+				float speedIncreaseTimer = enraged ? 60f : nightTime ? 75f : death ? 120f : 150f;
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -493,8 +491,8 @@ namespace CalamityMod.NPCs.Providence
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
                 if (BossRushEvent.BossRushActive || nightTime || enraged)
                 {
-                    acceleration = 1.3f;
-                    velocity = 20f;
+                    acceleration = 1.5f;
+                    velocity = 25f;
                 }
                 if (firingLaser)
                 {
@@ -827,6 +825,9 @@ namespace CalamityMod.NPCs.Providence
 								num865 = 0f;
 
 							num865 += expertMode ? 4f : 3f;
+
+							if (nightTime)
+								num865 *= 2f;
 
 							Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -1198,7 +1199,7 @@ namespace CalamityMod.NPCs.Providence
 
 					Vector2 value19 = new Vector2(27f, 59f);
 
-					float rotation = 450f + (guardianAmt * 18);
+					float rotation = (nightTime ? 435f : 450f) + (guardianAmt * 18);
 
 					npc.ai[2] += 1f;
 					if (npc.ai[2] < 120f)
@@ -1275,6 +1276,43 @@ namespace CalamityMod.NPCs.Providence
 					break;
 			}
         }
+
+		public float CalculateBurnIntensity()
+        {
+			float distanceToTarget = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
+			float aiTimer = npc.ai[3];
+
+			float baseDistance = 2800f;
+			float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+			float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+
+			bool guardianAlive = false;
+			if (CalamityGlobalNPC.holyBossAttacker != -1 && Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
+				guardianAlive = true;
+
+			if (CalamityGlobalNPC.holyBossDefender != -1 && Main.npc[CalamityGlobalNPC.holyBossDefender].active)
+				guardianAlive = true;
+
+			if (CalamityGlobalNPC.holyBossHealer != -1 && Main.npc[CalamityGlobalNPC.holyBossHealer].active)
+				guardianAlive = true;
+
+			float maxDistance = baseDistance;
+
+			// A factor which measures how much of the distance shortening shave-off should be taken into account.
+			// It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
+			// This shave-off does not happen when guardians are present.
+			float shorterDistanceFade = Utils.InverseLerp(0f, 120f, aiTimer, true);
+            if (!guardianAlive)
+            {
+                maxDistance = baseDistance;
+				if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
+					maxDistance -= shorterDistance * shorterDistanceFade;
+            }
+
+			float drawFireDistanceStart = maxDistance - 800f;
+			return Utils.InverseLerp(drawFireDistanceStart, maxDistance, distanceToTarget, true);
+		}
 
 		private void DespawnSpecificProjectiles()
 		{
@@ -1356,7 +1394,7 @@ namespace CalamityMod.NPCs.Providence
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
+                CalamityUtils.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, 0.4f, 0.8f, 3, 8, TileID.Mud);
 
 				CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 				CalamityUtils.DisplayLocalizedText(key3, messageColor3);

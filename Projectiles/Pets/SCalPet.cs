@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
@@ -8,7 +9,7 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supreme Calamitas");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 6;
             Main.projPet[projectile.type] = true;
         }
 
@@ -40,15 +41,12 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.timeLeft = 2;
             }
 			projectile.FloatingPetAI(false, 0.05f);
+            projectile.rotation -= projectile.spriteDirection * MathHelper.PiOver2;
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
-                projectile.frame++;
+                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= 4)
-            {
-                projectile.frame = 0;
             }
         }
     }

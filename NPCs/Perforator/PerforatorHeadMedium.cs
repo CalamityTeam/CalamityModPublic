@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Perforator
 {
 	[AutoloadBossHead]
@@ -47,6 +48,8 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.15f;
 			else if (Main.expertMode)
 				npc.scale = 1.1f;
+
+			npc.Calamity().SplittingWorm = true;
 		}
 
 		public override void AI()
@@ -457,7 +460,6 @@ namespace CalamityMod.NPCs.Perforator
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 240, true);
-            player.AddBuff(BuffID.Bleeding, 240, true);
         }
     }
 }

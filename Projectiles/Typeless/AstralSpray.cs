@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
 
-                WorldGenerationMethods.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
+                AstralBiome.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
             }
             if (projectile.timeLeft > 133)
             {

@@ -11,17 +11,18 @@ namespace CalamityMod.Items.Weapons.Melee
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Photon Ripper");
-			Tooltip.SetDefault("Unleashes a flurry of prismatic crystals at extremely fast speeds\n" +
-				"These crystals are capable of breaking trees");
+			Tooltip.SetDefault("Projects a directed stream of hardlight teeth at ultra high velocity\n" +
+				"This weapon and its projectiles function as a chainsaw");
 		}
 
 		public override void SetDefaults()
 		{
 			item.height = 134;
 			item.width = 54;
-			item.damage = 305;
-			item.axe = 3330;
-			item.axe /= 5;
+			item.damage = 4050;
+
+			// Displayed axe% is 1/5th of axePower here because trees have 500% hardness. This corrects for that.
+			item.axe = 6000 / 5;
 			item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
@@ -31,11 +32,12 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.useAnimation = 25;
 			item.knockBack = 12f;
 			item.autoReuse = false;
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
 			item.shoot = ModContent.ProjectileType<PhotonRipperProjectile>();
 			item.shootSpeed = 1f;
+
+			item.rare = ItemRarityID.Red;
 			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
 		}
 
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 18;

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
@@ -72,9 +73,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(BuffID.Venom, 180, true);
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

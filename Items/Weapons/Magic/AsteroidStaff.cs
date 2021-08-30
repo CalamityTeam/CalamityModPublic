@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = ItemRarityID.Purple;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(12, 25);
+        public override Vector2? HoldoutOrigin() => new Vector2(2, 2);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

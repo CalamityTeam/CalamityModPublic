@@ -17,12 +17,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
 			projectile.extraUpdates = 1;
-            projectile.timeLeft = 360;
+            projectile.timeLeft = projectile.MaxUpdates * 300;
         }
 
         public override void AI()
 		{
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 850f, 14.5f, 35f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 850f, 19f, 30f);
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 		}
 
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Rogue
 			if (Main.dedServ)
 				return;
 
-			for (int i = 0; i < 25; i++)
+			for (int i = 0; i < 15; i++)
 			{
-				Vector2 circularOffsetDirection = (MathHelper.TwoPi * i / 25f).ToRotationVector2().RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
+				Vector2 circularOffsetDirection = (MathHelper.TwoPi * i / 15f).ToRotationVector2().RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
 				Vector2 spawnPosition = projectile.Center - (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * projectile.height * 1.25f;
 				spawnPosition += circularOffsetDirection * new Vector2(12f, 7f);
 

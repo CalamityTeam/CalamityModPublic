@@ -41,23 +41,23 @@ namespace CalamityMod.Projectiles.Typeless
 					{
 						if (projectile.ai[0] == 0f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure);
 						}
 						if (projectile.ai[0] == 1f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt);
 						}
 						if (projectile.ai[0] == 2f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson);
 						}
 						if (projectile.ai[0] == 3f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Hallow);
 						}
 						if (projectile.ai[0] == 4f)
 						{
-							WorldGenerationMethods.ConvertToAstral(i, j);
+							AstralBiome.ConvertToAstral(i, j);
 							NetMessage.SendTileRange(-1, i, j, 1, 1);
 						}
 					}

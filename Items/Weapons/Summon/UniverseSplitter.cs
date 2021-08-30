@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

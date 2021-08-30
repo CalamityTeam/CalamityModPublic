@@ -20,10 +20,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 14;
-            projectile.height = 14;
+			projectile.width = 22;
+            projectile.height = 22;
             projectile.hostile = true;
             projectile.tileCollide = false;
+			projectile.ignoreWater = true;
             projectile.penetrate = 1;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
@@ -120,7 +121,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
     }
 }

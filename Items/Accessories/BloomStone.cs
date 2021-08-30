@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Bloom Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "Enemies that get near you take damage and all damage is increased by 3%\n" +
+                "I don't know what else this should do, pls help\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt");
         }
 
@@ -30,36 +30,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
-            player.allDamage += 0.03f;
-            int buffType = BuffID.DryadsWardDebuff;
-            float range = 150f;
-            bool shouldDealDmg = player.miscCounter % 60 == 0;
-            int dmg = (int)(10 * player.AverageDamage());
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (Main.rand.NextBool(10))
-                {
-                    for (int l = 0; l < Main.maxNPCs; l++)
-                    {
-                        NPC npc = Main.npc[l];
-                        if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= range)
-                        {
-                            if (npc.FindBuffIndex(buffType) == -1)
-                            {
-                                npc.AddBuff(buffType, 120, false);
-                            }
-                            if (shouldDealDmg)
-                            {
-                                if (player.whoAmI == Main.myPlayer)
-                                {
-                                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, player.whoAmI, l);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
 			//Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)

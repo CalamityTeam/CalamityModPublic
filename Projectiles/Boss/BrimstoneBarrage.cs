@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,10 +65,10 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.localAI[0] = 1f;
 
 				if (projectile.ai[0] == 0f)
-					projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>());
+					projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
 			}
 
-			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 0.75f * projectile.Opacity, 0f, 0f);
         }
 
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;

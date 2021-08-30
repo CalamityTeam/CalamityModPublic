@@ -28,8 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.975f;
+            projectile.velocity *= 0.985f;
             Lighting.AddLight(projectile.Center, 0.45f, 0f, 0.55f);
             for (int num468 = 0; num468 < 5; num468++)
             {

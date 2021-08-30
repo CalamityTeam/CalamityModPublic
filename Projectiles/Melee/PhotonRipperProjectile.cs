@@ -10,12 +10,20 @@ namespace CalamityMod.Projectiles.Melee
 	public class PhotonRipperProjectile : ModProjectile
 	{
 		public Player Owner => Main.player[projectile.owner];
-		public const int CrystalShootRate = 5;
-		public const int ChargeUpTime = 360;
+		public const float ZeroChargeDamageRatio = 0.36f;
+		public const float ToothDamageRatio = 0.1666667f; 
+		public const int ToothShootRate = 5; // One chainsaw tooth is emitted every this many frames.
+		public const int ChargeUpTime = 150;
 		public ref float Time => ref projectile.ai[0];
-		public ref float OriginalDamage => ref projectile.ai[1];
+
+		// This is the damage dealt by the chainsaw teeth. It is recalculated every frame in two steps:
+		// 1) The chainsaw's damage itself is calculated as a long-lasting holdout (like Last Prism -- in case buffs wear off or similar)
+		// 2) The chainsaw teeth damage scales with charging up. The chainsaw's own damage does not.
+		public ref float ToothDamage => ref projectile.ai[1];
 		public float ChargeUpPower => MathHelper.Clamp((float)Math.Pow(Time / ChargeUpTime, 1.6D), 0f, 1f);
-		public override void SetStaticDefaults() => DisplayName.SetDefault("An extraordinarily cost inefficient chainsaw"); // Seriously though Draedon this seems a bit over the top lmfao.
+
+		// Seriously though Draedon this seems a bit over the top lmfao.
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Extraordinarily Cost-Inefficient Chainsaw");
 
 		public override void SetDefaults()
 		{
@@ -26,8 +34,9 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.tileCollide = false;
 			projectile.melee = true;
 			projectile.ownerHitCheck = true;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 8;
+			// No reason to ID-static the chainsaw -- multiple players can true melee simultaneously!
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 8;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -46,8 +55,12 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void AI()
 		{
-			PlayChainsawSounds();
+			// Recalculate damage every frame for balance reasons, as this is a long-lasting holdout.
+			// This is important because you could start using it while benefitting from Auric Tesla standstill bonus, for example.
+			projectile.damage = (int)((Owner.ActiveItem()?.damage ?? 0) * Owner.MeleeDamage());
 			DetermineDamage();
+
+			PlayChainsawSounds();
 
 			// Determines the owner's position whilst incorporating their fullRotation field.
 			// It uses vector transformation on a Z rotation matrix based on said rotation under the hood.
@@ -65,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
 			ManipulatePlayerValues();
 			EmitPrettyDust();
 
-			if (Time % CrystalShootRate == CrystalShootRate - 1f)
+			if (Time % ToothShootRate == ToothShootRate - 1f)
 				ReleasePrismTeeth();
 
 			// Prevent the projectile from dying normally. However, if anything for whatever reason
@@ -86,16 +99,21 @@ namespace CalamityMod.Projectiles.Melee
 
 		public void DetermineDamage()
 		{
-			// Set the initial damage the moment it's created.
-			if (Main.myPlayer == projectile.owner && OriginalDamage == 0f)
+			// Set the initial tooth damage the instant the projectile is created.
+			if (Main.myPlayer == projectile.owner && ToothDamage == 0f)
 			{
-				OriginalDamage = projectile.damage;
+				ToothDamage = ToothDamageRatio * projectile.damage;
 				projectile.netUpdate = true;
 			}
 
 			// And then do time based damage calculations. This does not execute if the original damage is 0.
-			if (OriginalDamage != 0f)
-				projectile.damage = (int)MathHelper.SmoothStep(OriginalDamage * 0.36f, OriginalDamage, ChargeUpPower);
+			// This line covers adjusting tooth damage if the projectile's own damage changes.
+			if (ToothDamage != 0f)
+			{
+				float fullMult = ToothDamageRatio;
+				float zeroMult = ZeroChargeDamageRatio * ToothDamageRatio;
+				ToothDamage = (int)MathHelper.SmoothStep(projectile.damage * zeroMult, projectile.damage * fullMult, ChargeUpPower);
+			}
 		}
 
 		public void DetermineVisuals(Vector2 playerRotatedPosition)
@@ -193,6 +211,7 @@ namespace CalamityMod.Projectiles.Melee
 			float shootReach = MathHelper.SmoothStep(projectile.width * 1.8f, projectile.width * 5.3f + 16f, ChargeUpPower);
 
 			// Incorporate item shoot speed into the range of the crystals.
+			// This means that projectile speed boosts will improve the range of the chainsaw.
 			shootReach *= Owner.ActiveItem().shootSpeed;
 
 			float distanceFromMouse = Owner.Distance(Main.MouseWorld);
@@ -203,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (distanceFromMouse < shootReach && distanceFromMouse > 40f)
 				shootReach = distanceFromMouse + 32f;
 
-			Projectile.NewProjectile(Owner.Center, projectile.velocity, ModContent.ProjectileType<PrismTooth>(), projectile.damage / 2, 0f, projectile.owner, shootReach, projectile.whoAmI);
+			Projectile.NewProjectile(Owner.Center, projectile.velocity, ModContent.ProjectileType<PrismTooth>(), (int)ToothDamage, 0f, projectile.owner, shootReach, projectile.whoAmI);
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

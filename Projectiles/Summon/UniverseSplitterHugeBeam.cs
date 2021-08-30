@@ -70,12 +70,12 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.scale = MathHelper.Lerp(LaserSize, 0f, 1f - (projectile.timeLeft / (float)TotalFadeoutTime));
             }
 
-            Vector2 samplingPoint = projectile.Center;
+            Vector2 samplingPoint = projectile.Top;
 
-            float[] samples = new float[3];
+            float[] samples = new float[12];
 
             float determinedLength = 0f;
-            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, MaximumLength + 72f, samples);
+            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, MaximumLength, samples);
             for (int i = 0; i < samples.Length; i++)
             {
                 determinedLength += samples[i];
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             determinedLength = MathHelper.Clamp(determinedLength, MaximumLength * 0.3f, MaximumLength);
 
             float lerpDelta = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength, lerpDelta);
+            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength - 20f, lerpDelta);
             if (projectile.localAI[0] < 30f)
             {
                 projectile.localAI[1] = MathHelper.Lerp(72f, projectile.localAI[1], projectile.localAI[0] / 30f);

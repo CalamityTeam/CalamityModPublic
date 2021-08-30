@@ -18,14 +18,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 16;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 120;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.8f);
-        }
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

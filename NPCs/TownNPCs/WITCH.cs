@@ -4,10 +4,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,8 +40,6 @@ namespace CalamityMod.NPCs.TownNPCs
 			npc.damage = 10;
 
 			// You should not be able to kill SCal under any typical circumstances.
-			npc.Calamity().DR = 0.999999f;
-			npc.Calamity().unbreakableDR = true;
 			npc.lifeMax = 1000000;
 
 			npc.defense = 120;
@@ -54,7 +49,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			animationType = NPCID.Wizard;
 		}
 
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal;
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
 		public override string TownNPCName() => "Calamitas";
 

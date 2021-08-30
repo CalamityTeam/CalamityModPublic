@@ -47,11 +47,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -97,12 +96,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.position.X = npc.position.X + num20;
                 npc.position.Y = npc.position.Y + num21;
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Chilled, 120, true);
-            player.AddBuff(BuffID.Electrified, 90, true);
         }
 
         public override bool CheckActive()

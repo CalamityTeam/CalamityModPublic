@@ -32,6 +32,7 @@ namespace CalamityMod
             EditFireGauntletRecipe();
 			EditMechBossSummonRecipes();
 			EditWingRecipes();
+			EditPhasesaberRecipes();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -182,6 +183,17 @@ namespace CalamityMod
 			rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
 			{
 				s.requiredTile[0] = TileID.Anvils;
+			});
+		}
+
+		// Change Phasesaber recipes to require 20 Crystal Shards
+		private static void EditPhasesaberRecipes()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
+			x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
+			{
+				s.requiredItem[1].stack = 20;
 			});
 		}
 
@@ -825,8 +837,8 @@ namespace CalamityMod
 
             // Nazar (curse)
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.SoulofNight, 20);
-            r.AddIngredient(ItemID.Lens, 5);
+            r.AddIngredient(ItemID.SoulofNight, 15);
+            r.AddIngredient(ItemID.Lens, 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Nazar);
             r.AddRecipe();
@@ -996,7 +1008,14 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyCobaltBar", group);
 
-            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+			group = new RecipeGroup(() => "Any Mythril Bar", new int[]
+			{
+				ItemID.MythrilBar,
+				ItemID.OrichalcumBar
+			});
+			RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+
+			group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
             {
                 ItemID.AdamantiteBar,
                 ItemID.TitaniumBar

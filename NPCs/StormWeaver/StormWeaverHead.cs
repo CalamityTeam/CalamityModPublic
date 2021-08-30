@@ -88,14 +88,12 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
             if (!Main.raining && !BossRushEvent.BossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
-            {
 				CalamityUtils.StartRain();
-            }
+
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
             if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -114,11 +112,10 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num935].noLight = true;
                 }
             }
+
             npc.alpha -= 12;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -470,7 +467,12 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Electrified, 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

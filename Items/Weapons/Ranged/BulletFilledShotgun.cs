@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Bullet-Filled Shotgun");
             Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
-							   "Consumes five ammo per fire\n" +
+							   "Consumes five bullets per-use\n" +
                                "Aim? What's that?");
         }
         public override void SetDefaults()
@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.Calamity().donorItem = true;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-7, 0);
 

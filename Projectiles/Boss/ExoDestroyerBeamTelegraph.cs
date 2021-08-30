@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
             projectile.timeLeft = Lifetime;
 		}
 
@@ -46,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             // Die if the thing to attach to disappears.
-            if (ThingToAttachTo is null || !ThingToAttachTo.active)
+            if (ThingToAttachTo is null || !ThingToAttachTo.active || ThingToAttachTo.Calamity().newAI[0] != 2f)
             {
                 projectile.Kill();
                 return;
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
 			// Offset to move the beam forward so that it starts inside the NPC's mouth.
-			float beamStartForwardsOffset = -18f;
+			float beamStartForwardsOffset = -8f;
 
 			// Set the starting location of the beam to the center of the NPC.
 			projectile.Center = ThingToAttachTo.Center;

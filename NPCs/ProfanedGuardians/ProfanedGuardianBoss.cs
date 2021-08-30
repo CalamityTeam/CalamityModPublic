@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 npc.Calamity().CurrentlyEnraged = true;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0;
+            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
 
 			bool flag100 = false;
             for (int num569 = 0; num569 < Main.maxNPCs; num569++)

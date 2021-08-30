@@ -1,12 +1,18 @@
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class SuicideBomberDemon : ModProjectile
     {
+        public bool HasDamagedSomething
+        {
+            get => projectile.ai[0] == 1f;
+            set => projectile.ai[0] = value.ToInt();
+        }
         public Player Owner => Main.player[projectile.owner];
         public override void SetStaticDefaults()
         {
@@ -76,7 +82,8 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(Owner.Center) * 16f, 1.4f);
                 projectile.spriteDirection = (Owner.Center.X > projectile.Center.X).ToDirectionInt();
-                if (projectile.Hitbox.Intersects(Owner.Hitbox))
+
+                if (HasDamagedSomething && projectile.WithinRange(Owner.Center, Owner.Size.Length() * 0.25f))
                     projectile.Kill();
             }
             else if (projectile.friendly)
@@ -88,12 +95,11 @@ namespace CalamityMod.Projectiles.Typeless
                 {
                     projectile.spriteDirection = (potentialTarget.Center.X > projectile.Center.X).ToDirectionInt();
                     projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(potentialTarget.Center) * 18.5f, 3f);
-                    if (projectile.Hitbox.Intersects(potentialTarget.Hitbox))
-                    {
-                        projectile.Damage();
-                        projectile.Kill();
-                    }
+                    projectile.friendly = true;
                 }
+
+                if (HasDamagedSomething && projectile.WithinRange(potentialTarget.Center, potentialTarget.Size.Length() * 0.25f))
+                    projectile.Kill();
             }
         }
 
@@ -112,6 +118,19 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool CanDamage() => projectile.Opacity >= 1f;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = Main.rand.Next(60, 70);
+        // Ensure damage is not absolutely obscene when hitting players.
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 95;
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            HasDamagedSomething = true;
+            projectile.netUpdate = true;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            HasDamagedSomething = true;
+            projectile.netUpdate = true;
+        }
     }
 }

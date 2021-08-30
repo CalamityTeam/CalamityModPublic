@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item20, projectile.position);
             }
-            projectile.alpha -= 5;
+            projectile.alpha -= (!Main.dayTime || CalamityWorld.malice) ? 10 : 5;
             if (projectile.alpha <= 0)
             {
                 projectile.Kill();

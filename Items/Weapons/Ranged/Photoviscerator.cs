@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Photoviscerator : ModItem
     {
         public const int CooldownTime = 60 * 7; // 7 second cooldown.
-		public const double AltFireDamageMult = 2.5;
-		
+        public const double AltFireDamageMult = 1D;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photoviscerator");
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 71;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f);
                     Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 }
-                if (Main.rand.NextBool(8))
+                if (Main.rand.NextBool(10))
                 {
                     for (int i = 0; i < 2; i++)
                     {
@@ -110,8 +110,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<ElementalEruption>());
             recipe.AddIngredient(ModContent.ItemType<CleansingBlaze>());
             recipe.AddIngredient(ModContent.ItemType<HalleysInferno>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

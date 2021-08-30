@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Chaos Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "Increases max mana by 50, all damage by 3%, and reduces mana usage by 5%");
+                "I don't know what this should do, pls help");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 7));
         }
 
@@ -24,12 +24,9 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        /*public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.85f, 0f, 0f);
-            player.statManaMax2 += 50;
-            player.manaCost *= 0.95f;
-            player.allDamage += 0.03f;
-        }
+            
+        }*/
     }
 }

@@ -83,9 +83,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
 
             if (npc.alpha != 0)
             {
@@ -96,9 +94,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             npc.alpha -= 12;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -393,7 +389,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
-            player.AddBuff(BuffID.Frostburn, 180, true);
         }
     }
 }

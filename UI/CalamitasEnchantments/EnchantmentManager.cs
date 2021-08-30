@@ -189,7 +189,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().closeProximityRewardEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
-				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used.",
+				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used. It starts off with more damage than it normally would have.",
 					600,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
 					null,
@@ -209,6 +209,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 					item => item.useTime = item.useAnimation = 25,
 					player =>
 					{
+						if (Main.gameMenu)
+							return;
+
 						player.Calamity().bladeArmEnchant = true;
 						bool armsArePresent = false;
 						int armType = ModContent.ProjectileType<TaintedBladeSlasher>();
@@ -228,7 +231,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 							int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = 0f;
-							
+
 							blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1f, player.ActiveItem().type);
 							if (Main.projectile.IndexInRange(blade))
 								Main.projectile[blade].localAI[0] = -80f;
@@ -243,7 +246,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.magic && item.mana > 0),
 
-				new Enchantment("Withering", "You heal when hurt based on damage dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
+				new Enchantment("Withering", "You heal when hurt based on damage you've dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
 					1000,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
 					null,
@@ -257,12 +260,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().persecutedEnchant = true,
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 
-				new Enchantment("Lecherous", "Spawns a resiliant brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
+				new Enchantment("Lecherous", "Spawns a resilient brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
 					1200,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Lecherous",
 					null,
 					player =>
 					{
+						if (Main.gameMenu)
+							return;
+
 						player.Calamity().lecherousOrbEnchant = true;
 
 						bool orbIsPresent = false;
@@ -276,22 +282,25 @@ namespace CalamityMod.UI.CalamitasEnchants
 							break;
 						}
 
-						if (Main.myPlayer == player.whoAmI && !orbIsPresent)
+						if (Main.myPlayer == player.whoAmI && !orbIsPresent && !player.Calamity().awaitingLecherousOrbSpawn)
 						{
-							int orb = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 5, orbType);
-							if (Main.npc.IndexInRange(orb))
-								Main.npc[orb].TargetClosest();
+							player.Calamity().awaitingLecherousOrbSpawn = true;
+							CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
 						}
 					},
 					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
-			ClearEnchantment = new Enchantment("Disenchant", 
-				string.Empty, 
+			ClearEnchantment = new Enchantment("Disenchant",
+				string.Empty,
 				ClearEnchantmentID,
 				null,
-				item => item.Calamity().AppliedEnchantment = null,
+				item =>
+				{
+					item.Calamity().AppliedEnchantment = null;
+					item.Calamity().DischargeEnchantExhaustion = 0;
+				},
 				item => item.maxStack == 1 && item.shoot >= ProjectileID.None);
 
 			ItemUpgradeRelationship = new Dictionary<int, int>()
