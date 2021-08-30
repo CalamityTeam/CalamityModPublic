@@ -459,6 +459,7 @@ namespace CalamityMod.CalPlayer
         public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
+		public bool sponge = false;
         public bool rOoze = false;
         public bool pAmulet = false;
         public bool fBarrier = false;
@@ -1391,7 +1392,7 @@ namespace CalamityMod.CalPlayer
         {
             // Max health bonuses
             if (absorber)
-                player.statLifeMax2 += 20;
+                player.statLifeMax2 += sponge ? 30 : 20;
             player.statLifeMax2 +=
                 (mFruit ? 25 : 0) +
                 (bOrange ? 25 : 0) +
@@ -1595,6 +1596,7 @@ namespace CalamityMod.CalPlayer
             seaShell = false;
             absorber = false;
             aAmpoule = false;
+			sponge = false;
             rOoze = false;
             pAmulet = false;
             fBarrier = false;
@@ -7456,7 +7458,7 @@ namespace CalamityMod.CalPlayer
 
 				if (absorber)
 				{
-					int healAmt = (int)(damage / 20D);
+					int healAmt = (int)(damage / (sponge ? 16D : 20D));
 					player.statLife += healAmt;
 					player.HealEffect(healAmt);
 				}
@@ -7828,7 +7830,7 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int fDamage = (int)(56 * player.AverageDamage());
+                    int fDamage = (int)(70 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (int i = 0; i < 4; i++)
@@ -7838,8 +7840,8 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int spore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
                             int spore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            Main.projectile[spore1].timeLeft = 120;
-                            Main.projectile[spore2].timeLeft = 120;
+                            Main.projectile[spore1].timeLeft = 300;
+                            Main.projectile[spore2].timeLeft = 300;
                         }
                     }
                 }

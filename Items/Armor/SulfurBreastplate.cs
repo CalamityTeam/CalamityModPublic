@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Breastplate");
-            Tooltip.SetDefault("8% rogue damage and 5% critical strike chance");
+            Tooltip.SetDefault("8% increased rogue damage and 5% increased rogue critical strike chance");
         }
 
         public override void SetDefaults()

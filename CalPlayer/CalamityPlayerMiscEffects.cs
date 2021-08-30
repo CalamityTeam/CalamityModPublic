@@ -1437,7 +1437,7 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += 0.05f;
 				player.jumpSpeedBoost += 0.25f;
 				player.thorns += 0.5f;
-				player.endurance += 0.1f;
+				player.endurance += modPlayer.sponge ? 0.15f : 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
@@ -3075,10 +3075,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.dAmulet)
-			{
-				player.panic = true;
 				player.pStone = true;
-			}
 
 			if (modPlayer.fBulwark)
 			{
