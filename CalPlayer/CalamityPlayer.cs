@@ -13,6 +13,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -135,6 +136,8 @@ namespace CalamityMod.CalPlayer
         public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
         public bool GivenBrimstoneLocus = false;
+        public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
+        public float SmoothenedMinecartRotation;
         #endregion
 
         #region Tile Entity Trackers
