@@ -5,7 +5,7 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items
 {
-    public class BleechBall : ModItem
+    public class BleachBall : ModItem
     {
         public override void SetStaticDefaults()
         {
