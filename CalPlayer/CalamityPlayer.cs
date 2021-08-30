@@ -128,6 +128,7 @@ namespace CalamityMod.CalPlayer
         public bool disableVoodooSpawns = false;
         public bool disablePerfCystSpawns = false;
         public bool disableHiveCystSpawns = false;
+        public bool disableNaturalScourgeSpawns = false;
         public bool disableAnahitaSpawns = false;
         public bool blazingMouseDamageEffects = false;
         public bool ableToDrawBlazingMouse = false;
@@ -2051,6 +2052,7 @@ namespace CalamityMod.CalPlayer
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
             disableHiveCystSpawns = false;
+            disableNaturalScourgeSpawns = false;
             disableAnahitaSpawns = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
