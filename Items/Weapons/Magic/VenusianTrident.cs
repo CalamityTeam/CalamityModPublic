@@ -9,12 +9,12 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class VenusianTrident : ModItem
     {
-        public static int BaseDamage = 180;
+        public static int BaseDamage = 108;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venusian Trident");
-            Tooltip.SetDefault("Casts an inferno bolt that erupts into a gigantic explosion of fire and magma shards");
+            Tooltip.SetDefault("Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards");
             Item.staff[item.type] = true;
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 9f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VenusianBolt>();

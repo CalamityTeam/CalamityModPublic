@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ButcherGun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Butcher";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butcher");
@@ -102,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float kback = player.ActiveItem().knockBack;
                 if (canShoot)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult, ref canShoot, ref damage, ref kback, false);
+                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult, ref canShoot, ref damage, ref kback);
                     kback = player.GetWeaponKnockback(player.ActiveItem(), kback);
                     float speed = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 targetPos = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - source;

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 40;
             item.maxStack = 999;
             item.value = 900;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<CobaltKunaiProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -42,7 +42,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 				for (int i = -6; i <= 6; i += 6)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CobaltEnergy>(), damage, knockBack, player.whoAmI, 0f, 0f);
+					int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<CobaltEnergy>(), damage, knockBack, player.whoAmI);
+					if (stealth.WithinBounds(Main.maxProjectiles))
+						Main.projectile[stealth].Calamity().stealthStrike = true;
 				}
 				return false;
 			}

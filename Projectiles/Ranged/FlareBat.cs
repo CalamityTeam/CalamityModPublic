@@ -22,7 +22,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.light = 0.25f;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -72,7 +73,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

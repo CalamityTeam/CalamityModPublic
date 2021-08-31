@@ -11,19 +11,20 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Serpent's Bite");
-            Tooltip.SetDefault(@"Reach: 28.125
-Launch Velocity: 18
-Pull Velocity: 14");
+            Tooltip.SetDefault($@"Reach: {SerpentsBiteHook.GrappleRangInTiles}
+Launch Velocity: {SerpentsBiteHook.LaunchSpeed}
+Reelback Velocity: {SerpentsBiteHook.ReelbackSpeed}
+Pull Velocity: {SerpentsBiteHook.PullSpeed}");
 		}
 
 		public override void SetDefaults()
 		{
 			// Instead of copying these values, we can clone and modify the ones we want to copy
 			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 18f; // how quickly the hook is shot.
+			item.shootSpeed = SerpentsBiteHook.LaunchSpeed; // how quickly the hook is shot.
 			item.shoot = ProjectileType<SerpentsBiteHook>();
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
 			item.width = 30;
 			item.height = 32;
 		}

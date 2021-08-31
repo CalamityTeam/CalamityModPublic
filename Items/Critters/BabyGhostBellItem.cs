@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Critters
             item.width = 26;
             item.height = 24;
             item.makeNPC = (short)ModContent.NPCType<GhostBellSmall>();
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 }

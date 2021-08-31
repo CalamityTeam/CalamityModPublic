@@ -28,10 +28,9 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 5);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 2);
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>());
+            recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();
         }

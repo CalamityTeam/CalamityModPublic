@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Nebudust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dust");
@@ -22,35 +24,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-        }
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 6;
+		}
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            bool flag15 = false;
-            bool flag16 = false;
-            if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (flag15 && flag16)
-            {
-                projectile.Kill();
-            }
+            Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0f);
             float num461 = 25f;
             if (projectile.ai[0] > 60f)
             {

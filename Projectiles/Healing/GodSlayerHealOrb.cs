@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Healing
 {
 	public class GodSlayerHealOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Heal Orb");

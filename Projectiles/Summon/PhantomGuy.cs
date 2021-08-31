@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PhantomGuy : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Polterghast/PhantomFuckYou";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom");
@@ -30,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -43,8 +46,8 @@ namespace CalamityMod.Projectiles.Summon
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
+                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
                     int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 180, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
@@ -54,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                int damage2 = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
                 projectile.damage = damage2;
@@ -127,13 +130,13 @@ namespace CalamityMod.Projectiles.Summon
                 vector47.Normalize();
                 if (num648 > 200f)
                 {
-                    float scaleFactor2 = 18f; //12
+                    float scaleFactor2 = 18f;
                     vector47 *= scaleFactor2;
                     projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
                 }
                 else
                 {
-                    float num649 = 9f;
+                    float num649 = 12f;
                     vector47 *= -num649;
                     projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
                 }
@@ -162,10 +165,10 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[0] = 0f;
                     projectile.netUpdate = true;
                 }
-                if (num651 > 2000f)
+                if (num651 > 3500f)
                 {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
@@ -182,17 +185,17 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (flag25)
             {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + MathHelper.Pi, 0.1f);
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46), 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+                projectile.rotation = projectile.velocity.ToRotation();
             }
             if (projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                projectile.ai[1] += Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 90f)
+            if (projectile.ai[1] > 75f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

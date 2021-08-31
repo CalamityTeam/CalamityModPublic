@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Materials
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 1, copper: 20);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

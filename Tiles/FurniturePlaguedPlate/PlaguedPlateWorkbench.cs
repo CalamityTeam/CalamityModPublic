@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpWorkBench();
+            this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

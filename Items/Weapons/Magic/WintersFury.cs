@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 59;
             item.magic = true;
             item.mana = 7;
-            item.width = 28;
-            item.height = 30;
+            item.width = 36;
+            item.height = 40;
             item.useTime = 12;
             item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item9;
             item.scale = 0.9f;
             item.autoReuse = true;
@@ -45,7 +45,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 speed *= 15f;
                 speed.Y -= Math.Abs(speed.X) * 0.2f;
                 int p = Projectile.NewProjectile(position, speed, ModContent.ProjectileType<FrostShardFriendly>(), damage, knockBack, player.whoAmI);
-                Main.projectile[p].Calamity().forceMagic = true;
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().forceMagic = true;
             }
             if (Main.rand.NextBool(4))
             {

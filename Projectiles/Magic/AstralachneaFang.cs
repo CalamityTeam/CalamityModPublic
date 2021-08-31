@@ -24,7 +24,6 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.magic = true;
-			projectile.tileCollide = true;
 			projectile.timeLeft = 240;
 		}
 
@@ -35,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
 
 			projectile.rotation = projectile.velocity.ToRotation();
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 13f, 25f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 25f);
 		}
 
 		public override void Kill(int timeLeft)
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

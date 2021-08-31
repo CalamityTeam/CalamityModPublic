@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Stormfrontspark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark");
@@ -13,7 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             projectile.friendly = true;
-            projectile.width = 6;
+			projectile.ignoreWater = true;
+			projectile.width = 6;
             projectile.height = 12;
             projectile.timeLeft = 240;
             projectile.penetrate = -1;
@@ -52,13 +55,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
-    }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+	}
 }

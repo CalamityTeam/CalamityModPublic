@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 600;
             projectile.scale = 1.8f;
 			projectile.extraUpdates = 2;
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
 				projectile.localAI[1] = 1f;
 			}
-            if (projectile.velocity.Length() < 18f)
+            if (projectile.velocity.Length() < 12f)
             {
                 projectile.velocity *= 1.0025f;
             }

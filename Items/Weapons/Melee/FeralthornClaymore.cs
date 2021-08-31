@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 68;
-            item.damage = 63;
+            item.damage = 80;
             item.melee = true;
             item.useAnimation = 13;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 66;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override void AddRecipes()
@@ -44,35 +44,29 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 300);
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
+
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 300);
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
+
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
         }
     }
 }

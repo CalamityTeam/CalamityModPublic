@@ -1,26 +1,28 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class InfernadoRevenge : ModProjectile
     {
+        internal PrimitiveTrail TornadoDrawer;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public const int TornadoHeight = 8800;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
-            Main.projFrames[projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
             projectile.width = 320;
-            projectile.height = 88;
+            projectile.height = 1020;
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -48,105 +50,62 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.netUpdate = true;
                 return;
             }
-            int num613 = 35;
-            int num614 = 35;
-            float num615 = 3.5f;
-            int num616 = 320;
-            int num617 = 88;
-            if (projectile.velocity.X != 0f)
-            {
-                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
-            }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 2)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= 6)
-            {
-                projectile.frame = 0;
-            }
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] = 1f;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
-            }
-            if (projectile.ai[1] != -1f)
-            {
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
-            }
-            if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 60)
-                {
-                    projectile.alpha = 60;
-                }
-            }
-            else
-            {
-                projectile.alpha += 30;
-                if (projectile.alpha > 150)
-                {
-                    projectile.alpha = 150;
-                }
-            }
-            if (projectile.ai[0] > 0f)
-            {
-                projectile.ai[0] -= 1f;
-            }
-            if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
-            {
-                projectile.netUpdate = true;
-                Vector2 center = projectile.Center;
-                center.Y -= (float)num617 * projectile.scale / 2f;
-                float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
-                center.Y -= (float)num617 * num618 / 2f;
-                center.Y += 2f;
-                Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
-            }
-            if (projectile.ai[0] <= 0f)
-            {
-                float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 10f;
-                num623 *= 2f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X - num624 * (float)-(float)projectile.direction;
-                projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
-                return;
-            }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+        internal Color ColorFunction(float completionRatio)
+		{
+            return Color.Lerp(Color.Yellow, Color.Yellow, completionRatio);
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+            float _ = 0f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
+                targetHitbox.Size(),
+                projectile.Bottom,
+                projectile.Bottom - Vector2.UnitY * TornadoHeight,
+                72,
+                ref _);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            if (TornadoDrawer is null)
+                TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
+
+            GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
+            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.GetTexture("Terraria/Misc/Perlin"));
+            Vector2[] drawPoints = new Vector2[5];
+            Vector2 upwardAscent = Vector2.UnitY * TornadoHeight;
+            Vector2 downwardOffset = Vector2.UnitY * projectile.height / (drawPoints.Length + 1);
+
+            Vector2 bottom = projectile.Bottom + downwardOffset;
+            Vector2 top = bottom - upwardAscent;
+            for (int i = 0; i < drawPoints.Length - 1; i++)
+                drawPoints[i] = Vector2.Lerp(top, bottom, i / (float)(drawPoints.Length - 1));
+
+            drawPoints[drawPoints.Length - 1] = bottom;
+            TornadoDrawer.Draw(drawPoints, -Main.screenPosition, 85);
+
+            Texture2D vortexTexture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/OldDukeVortex");
+            for (int i = 0; i < 110; i++)
+			{
+                float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTime * MathHelper.TwoPi;
+                Color drawColor = Color.White * 0.04f;
+                drawColor.A = 0;
+                Vector2 drawPosition = bottom + angle.ToRotationVector2() * 4f - Main.screenPosition;
+
+                drawPosition += (angle + Main.GlobalTime * i / 16f).ToRotationVector2() * 6f;
+                spriteBatch.Draw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+			}
+            
             return false;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.KillMe(PlayerDeathReason.ByOther(11), 1000.0, 0, false);
-        }
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
+		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {

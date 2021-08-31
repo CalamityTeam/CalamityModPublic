@@ -12,11 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vesuvius");
-            Tooltip.SetDefault("Legendary drop\n" +
-                "Asteroids give the Molten buff on enemy hits\n" +
+            Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
                 "Calls down a swarm of molten asteroids\n" +
-                "Right click to fire a spread of molten asteroids from the staff\n" +
-                "Revengeance drop");
+                "Right click to fire a spread of molten asteroids from the staff");
             Item.staff[item.type] = true;
         }
 
@@ -33,17 +31,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item88;
             item.autoReuse = true;
             item.height = 62;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<AsteroidMolten>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
 
-        /*public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(30, 30);
-        }*/
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

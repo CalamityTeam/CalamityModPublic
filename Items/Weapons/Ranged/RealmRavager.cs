@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Realm Ravager");
-            Tooltip.SetDefault("Shoots a burst of explosive bullets");
+            Tooltip.SetDefault("Shoots a burst of 3 to 4 bullets\n" +
+				"Converts musket balls into explosive bullets");
         }
 
         public override void SetDefaults()
@@ -26,13 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item38;
             item.autoReuse = true;
             item.shootSpeed = 30f;
             item.shoot = ModContent.ProjectileType<RealmRavagerBullet>();
             item.useAmmo = AmmoID.Bullet;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
@@ -41,10 +43,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             int numBullets = Main.rand.NextBool() ? 4 : 3;
             for (int index = 0; index < numBullets; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+                float SpeedX = speedX + Main.rand.Next(-75, 76) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-75, 76) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI);
+				else
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
     }

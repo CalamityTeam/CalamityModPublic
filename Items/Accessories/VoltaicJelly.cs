@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,13 +19,12 @@ namespace CalamityMod.Items.Accessories
             item.height = 22;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.accessory = true;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			player.Calamity().voltaicJelly = true;
-            player.maxMinions ++;
         }
     }
 }

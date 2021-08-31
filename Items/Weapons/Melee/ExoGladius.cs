@@ -27,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 12;
             item.width = 56;
             item.height = 56;
-            item.damage = 2700;
+            item.damage = 690;
             item.melee = true;
             item.knockBack = 9.9f;
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ExoGladProj>();
             item.shootSpeed = 19f;
             item.Calamity().customRarity = CalamityRarity.Violet;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
             return false;
         }
 
@@ -61,9 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
         }
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -80,15 +78,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void OnHitEffects(Player player)
         {
-            if (!player.immune)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
             {
                 player.immune = true;
-                if (player.immuneTime < 10)
-                    player.immuneTime = 10;
-                if (player.hurtCooldowns[0] < 10)
-                    player.hurtCooldowns[0] = 10;
-                if (player.hurtCooldowns[1] < 10)
-                    player.hurtCooldowns[1] = 10;
+                if (player.immuneTime < item.useTime)
+                    player.immuneTime = item.useTime;
+                if (player.hurtCooldowns[0] < item.useTime)
+                    player.hurtCooldowns[0] = item.useTime;
+                if (player.hurtCooldowns[1] < item.useTime)
+                    player.hurtCooldowns[1] = item.useTime;
             }
 
             if (player.whoAmI == Main.myPlayer)

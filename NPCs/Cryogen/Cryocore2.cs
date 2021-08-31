@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,24 +18,23 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SetDefaults()
         {
-            npc.damage = 40;
-            npc.width = 66;
+			npc.GetNPCDamage();
+			npc.width = 66;
             npc.height = 66;
             npc.defense = 10;
             npc.lifeMax = 300;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 4000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.5f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.5f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.TargetClosest(true);
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 14f : 12f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 28f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
@@ -97,11 +97,6 @@ namespace CalamityMod.NPCs.Cryogen
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

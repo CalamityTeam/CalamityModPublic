@@ -1,9 +1,10 @@
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class BansheeHookProj : BaseSpearProjectile
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ownerHitCheck = true;
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 5;
             projectile.alpha = 255;
             //projectile.Calamity().trueMelee = true;
         }
@@ -38,8 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.NewProjectile(projectile.Center + projectile.velocity * 0.5f,
                                      projectile.velocity * 0.8f, ModContent.ProjectileType<BansheeHookScythe>(),
-                                     (int)(projectile.damage * 1.75), 
-                                     projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                                     projectile.damage, projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
         };
         public override void ExtraBehavior()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(startingVelocityRotation) +
                 new Vector2(startingVelocitySpeed + TravelSpeed + 40f, 0f).RotatedBy(startingVelocityRotation);
 
-            Vector2 directionTowardsEnd = player.DirectionTo(destination);
+            Vector2 directionTowardsEnd = player.SafeDirectionTo(destination, Vector2.UnitX * player.direction);
             Vector2 initalVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY);
 
             float dustCount = 2f;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             while (i < dustCount)
             {
                 Dust dust = Dust.NewDustDirect(projectile.Center, 14, 14, 60, 0f, 0f, 110, default, 1f);
-                dust.velocity = player.DirectionTo(dust.position) * 2f;
+                dust.velocity = player.SafeDirectionTo(dust.position) * 2f;
                 dust.position = projectile.Center + 
                     initalVelocity.RotatedBy(completionAsAngle * 2f + i / dustCount * MathHelper.TwoPi) * 10f;
                 dust.scale = 1f + Main.rand.NextFloat(0.6f);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             if (Main.rand.NextBool(3))
             {
                 Dust dust = Dust.NewDustDirect(projectile.Center, 20, 20, 60, 0f, 0f, 110, default, 1f);
-                dust.velocity = player.DirectionTo(dust.position) * 2f;
+                dust.velocity = player.SafeDirectionTo(dust.position) * 2f;
                 dust.position = projectile.Center + directionTowardsEnd * -110f;
                 dust.scale = 0.45f + Main.rand.NextFloat(0.4f);
                 dust.fadeIn = 0.7f + Main.rand.NextFloat(0.4f);
@@ -99,22 +99,22 @@ namespace CalamityMod.Projectiles.Melee.Spears
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-			Texture2D texture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
-			Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
-			spriteBatch.Draw(texture, drawPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            float angle = projectile.rotation - MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) + 
+            Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
+            Texture2D texture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
+            Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
+            spriteBatch.Draw(texture, drawPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float angle = projectile.rotation - MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) +
                 (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
 
             float areaCheck = -95f;
             float reduntantVariable = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), 
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
                 targetHitbox.Size(), projectile.Center,
                 projectile.Center + angle.ToRotationVector2() * areaCheck,
                 (TravelSpeed + 1f) * projectile.scale, ref reduntantVariable))

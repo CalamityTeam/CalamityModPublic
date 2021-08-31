@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FantasyTalismanStealth : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Talisman");
@@ -58,8 +60,11 @@ namespace CalamityMod.Projectiles.Rogue
 					{
 						int spiritDamage = projectile.damage / 2;
 						Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-						ghost.Calamity().forceRogue = true;
-						ghost.penetrate = 1;
+						if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							ghost.Calamity().forceRogue = true;
+							ghost.penetrate = 1;
+						}
 					}
 				}
             }
@@ -67,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

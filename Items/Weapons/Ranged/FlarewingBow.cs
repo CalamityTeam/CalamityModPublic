@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flarewing Bow");
-            Tooltip.SetDefault("Shoots a spread of arrows\n" +
-                "Wooden arrows are converted to bouncing obsidian bats");
+            Tooltip.SetDefault("Shoots a spread of 5 arrows\n" +
+                "Wooden arrows are converted into bouncing obsidian bats");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 17;
             item.ranged = true;
             item.width = 20;
             item.height = 62;
@@ -28,13 +28,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 16f;
-            item.useAmmo = 40;
-        }
+            item.useAmmo = AmmoID.Arrow;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -55,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<FlareBat>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<FlareBat>(), damage, knockBack, player.whoAmI);
                     Main.projectile[num123].noDropItem = true;
                 }
                 else
                 {
-                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
                     Main.projectile[num123].noDropItem = true;
                 }
             }

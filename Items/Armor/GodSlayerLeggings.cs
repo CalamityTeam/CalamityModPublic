@@ -1,6 +1,6 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Leggings");
-            Tooltip.SetDefault("35% increased movement speed\n" +
+            Tooltip.SetDefault("18% increased movement speed\n" +
                 "10% increased damage and 6% increased critical strike chance");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.35f;
+            player.moveSpeed += 0.18f;
             player.allDamage += 0.1f;
             player.Calamity().AllCritBoost(6);
         }
@@ -35,8 +35,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

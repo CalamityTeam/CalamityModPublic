@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            this.SetUpChair();
+            this.SetUpChair(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Chair");
             AddMapEntry(new Color(191, 142, 111), name);

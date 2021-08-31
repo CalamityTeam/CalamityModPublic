@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Ammo
             item.damage = 10;
             item.ranged = true;
             item.consumable = true;
-            item.width = 18;
-            item.height = 16;
+            item.width = 14;
+            item.height = 20;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 0, 80);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<IcyBulletProj>();
             item.shootSpeed = 5f;
             item.ammo = AmmoID.Bullet;

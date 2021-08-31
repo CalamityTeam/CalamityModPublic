@@ -10,10 +10,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class Phaseslayer : ModItem
 	{
-		public const int Damage = 10200;
+		public const int Damage = 980;
 		// When below this percentage of charge, the sword is small instead of big.
-		public const float SizeChargeThreshold = 0.33f;
-		public const float SmallDamageMultiplier = 0.66f;
+		public const float SizeChargeThreshold = 0.25f;
+		// The small sword barely affects damage on its own because damage is already dropping significantly at low charge.
+		public const float SmallDamageMultiplier = 0.9f;
+		// This is the amount of charge consumed every frame the holdout projectile is summoned, i.e. the weapon is in use.
+		public const float HoldoutChargeUse = 0.005f;
+		// This is the amount of charge consumed every time a sword beam is fired.
+		public const float SwordBeamChargeUse = 0.1f;
 
 		public override void SetStaticDefaults()
 		{
@@ -26,6 +31,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		}
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.damage = Damage;
 			item.melee = true;
 			item.width = 26;
@@ -38,21 +45,22 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.noUseGraphic = true;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 250;
-
 			item.shoot = ModContent.ProjectileType<PhaseslayerProjectile>();
 			item.channel = true;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 250f;
+			modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && item.Calamity().CurrentCharge > 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && item.Calamity().Charge > 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -66,7 +74,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

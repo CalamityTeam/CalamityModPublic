@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class BlastBarrelProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlastBarrel";
+
         public float BounceEffectCooldown = 0f;
         public float OldVelocityX = 0f;
         public float RemainingBounces
@@ -30,7 +32,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 48;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 480;
+			projectile.ignoreWater = true;
+			projectile.timeLeft = 480;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.Calamity().rogue = true;
@@ -64,21 +67,24 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectileCount += 4; // More shit the closer we are to death
             }
-            for (int i = 0; i < projectileCount; i++)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
-                }
-                else
-                {
-                    Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
-                    Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.75f), 1f, projectile.owner);
-                    fire.timeLeft = 300;
-                    fire.penetrate = 3;
-                }
-            }
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int i = 0; i < projectileCount; i++)
+				{
+					if (Main.rand.NextBool(3))
+					{
+						Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+						Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
+					}
+					else
+					{
+						Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+						Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.75f), 1f, projectile.owner);
+						fire.timeLeft = 300;
+						fire.penetrate = 3;
+					}
+				}
+			}
             RemainingBounces--;
             BounceEffectCooldown = 15;
             if (RemainingBounces <= 0)
@@ -90,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

@@ -11,44 +11,38 @@ namespace CalamityMod.Items.Weapons.Magic
 {
 	public class SubsumingVortex : ModItem
     {
-        public const int MaxVortexCount = 4;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            Tooltip.SetDefault("Fires a giant slow-moving vortex\n" +
-                               "When an enemy is nearby, the vortex releases tentacles that redirect towards the enemy.\n" +
-                               "After some time, the vortex slows down, charges, and eventually explodes.\n" +
-                               $"Only {MaxVortexCount} vortexes can exist at once.");
+            Tooltip.SetDefault("Releases a gigantic, slow-moving vortex\n" +
+                               "The vortex releases exo tentacles that thrash at nearby enemies\n" +
+                               "After a few seconds the vortex slows down, becomes unstable, and explodes");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 480;
+            item.damage = 175;
             item.magic = true;
-            item.mana = 20;
+            item.mana = 78;
             item.width = 38;
             item.height = 48;
             item.UseSound = SoundID.Item84;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = item.useAnimation = 60;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
             item.shootSpeed = 7f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(19f, 22f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow"));
         }
-
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < MaxVortexCount;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

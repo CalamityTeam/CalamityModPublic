@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             item.width = 20;
             item.height = 20;
             item.maxStack = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -34,14 +34,14 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override bool UseItem(Player player)
         {
             Main.bloodMoon = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             return true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("FetidBloodletting", 2);
+            recipe.AddRecipeGroup("EvilPowder", 10);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

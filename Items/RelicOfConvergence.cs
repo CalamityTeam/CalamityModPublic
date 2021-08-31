@@ -12,7 +12,7 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Relic of Convergence");
             Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
-                               "At the end of its life, the crystal heals the player");
+                               "At the end of its life, the crystal heals the player for 70 HP");
         }
 
         public override void SetDefaults()
@@ -26,10 +26,9 @@ namespace CalamityMod.Items
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;

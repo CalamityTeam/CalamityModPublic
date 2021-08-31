@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private int extraUpdateCounter = 0;
-        private const int UpdatesPerFrame = 3;
+        private const int UpdatesPerFrame = 2;
 
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = UpdatesPerFrame;
-
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
         }
@@ -46,6 +45,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // localAI[1] counts up to 19 (4 x 5 - 1), then resets back to 0 for a 20-frame cycle.
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+
             // Only do stuff once per frame, despite the yoyo's extra updates.
             extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
             if (extraUpdateCounter != UpdatesPerFrame - 1)
@@ -102,14 +104,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner);
-                    Main.projectile[proj].Calamity().forceMelee = true;
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

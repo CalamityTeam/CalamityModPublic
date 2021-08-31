@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
@@ -24,10 +25,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 120;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath40;
@@ -76,9 +73,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(BuffID.Venom, 180, true);
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

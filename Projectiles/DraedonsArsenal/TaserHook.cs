@@ -16,22 +16,27 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Electrocuting,
             ReelingBack
         }
+
         public TaserAIState AIState
         {
             get => (TaserAIState)(int)projectile.ai[0];
             set => projectile.ai[0] = (int)value;
         }
+
         public float Time
         {
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
+
         public int ElectrocutionTarget
         {
             get => (int)projectile.localAI[0];
             set => projectile.localAI[0] = value;
         }
-        public const float ReelbackSpeed = 7f;
+
+        public const float ReelbackSpeed = 15f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Taser");
@@ -79,7 +84,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         return;
                     }
                     projectile.tileCollide = false;
-                    projectile.velocity = projectile.DirectionTo(player.Center) * ReelbackSpeed;
+                    projectile.velocity = projectile.SafeDirectionTo(player.Center) * ReelbackSpeed;
                     break;
             }
 
@@ -131,9 +136,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         Dust dust = Dust.NewDustPerfect(target.Center + angle.ToRotationVector2() * 10f, 226);
                         dust.velocity = Vector2.Zero;
                         if (Main.rand.NextBool(6))
-                        {
-                            dust.velocity = target.DirectionTo(dust.position) * 4.5f;
-                        }
+                            dust.velocity = target.SafeDirectionTo(dust.position) * 4.5f;
+
                         dust.noGravity = true;
                     }
                 }

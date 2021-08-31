@@ -29,7 +29,7 @@ Stealth strikes gain damage as they damage enemies");
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<ScourgeoftheDesertProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -39,8 +39,9 @@ Stealth strikes gain damage as they damage enemies");
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -25,19 +27,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num441 = 0; num441 < 2; num441++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 vector30 = projectile.position;
-                    vector30 -= projectile.velocity * ((float)num441 * 0.25f);
+                    Vector2 spawnPos = projectile.position;
+                    spawnPos -= projectile.velocity * ((float)i * 0.25f);
                     projectile.alpha = 255;
-                    int num442 = Dust.NewDust(vector30, 1, 1, 107, 0f, 0f, 0, default, 1.3f);
-                    Main.dust[num442].position = vector30;
-                    Dust expr_13A3E_cp_0 = Main.dust[num442];
-                    expr_13A3E_cp_0.position.X += (float)(projectile.width / 2);
-                    Dust expr_13A62_cp_0 = Main.dust[num442];
-                    expr_13A62_cp_0.position.Y += (float)(projectile.height / 2);
-                    Main.dust[num442].scale = (float)Main.rand.Next(70, 110) * 0.007f;
-                    Main.dust[num442].velocity *= 0.2f;
+                    int d = Dust.NewDust(spawnPos, 1, 1, 242, 0f, 0f, 0, default, 1.3f);
+                    Dust dust = Main.dust[d];
+                    dust.position = spawnPos;
+                    dust.position.X += (float)(projectile.width / 2);
+                    dust.position.Y += (float)(projectile.height / 2);
+                    dust.scale = Main.rand.NextFloat(0.49f, 0.763f);
+                    dust.velocity *= 0.2f;
+                    dust.noGravity = true;
                 }
             }
         }

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BrackishFlaskProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BrackishFlask";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brackish Flask");
@@ -23,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void Kill(int timeLeft)
         {

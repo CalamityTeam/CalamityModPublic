@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.timeLeft = 420;
@@ -26,21 +26,19 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (projectile.timeLeft < 300)
-                projectile.tileCollide = true;
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
 
-            projectile.frameCounter++;
+			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 5)
-            {
                 projectile.frame = 0;
-            }
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 170, 0f, 0f, 100, default, 0.5f);
             Main.dust[num469].noGravity = true;

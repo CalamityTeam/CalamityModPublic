@@ -11,12 +11,12 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nucleogenesis");
-            Tooltip.SetDefault("Increased max minions by 4 and 15% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
+				"15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
-                "Minions spawn damaging sparks on enemy hits\n" + //subject to change to be "cooler"
-                "Minion attacks have a chance to instantly kill normal enemies");
-        }
+                "Minions spawn damaging sparks on enemy hits"); //subject to change to be "cooler"
+		}
 
         public override void SetDefaults()
         {
@@ -32,12 +32,11 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nucleogenesis = true;
             modPlayer.shadowMinions = true; //shadowflame
-            modPlayer.tearMinions = true; //temporal sadness
+            modPlayer.holyMinions = true; //holy flames
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.minionKB += 3f;
             player.minionDamage += 0.15f;
-            player.maxMinions += 4;
         }
 
         public override void AddRecipes()

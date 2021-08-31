@@ -1,7 +1,6 @@
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -36,10 +35,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.lifeMax = 4000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.behindTiles = true;
@@ -68,21 +63,17 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void AI()
         {
-			if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) ||
-				npc.justHit)
-			{
+			if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f) || npc.justHit)
 				detectsPlayer = true;
-			}
+
 			npc.chaseable = detectsPlayer;
-			if (npc.ai[3] > 0f)
-            {
-                npc.realLife = (int)npc.ai[3];
-            }
+
+			if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
+
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -109,27 +100,21 @@ namespace CalamityMod.NPCs.Abyss
                     TailSpawned = true;
                 }
             }
+
             if (npc.velocity.X < 0f)
-            {
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
+
             if (Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(false);
-            }
+
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<OarfishTail>()))
-            {
+
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
                 npc.active = false;
-            }
 
             float num188 = speed;
             float num189 = turnSpeed;
@@ -310,7 +295,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 3, 5);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 1, 2);
         }
@@ -330,35 +314,9 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override bool CheckActive()
-        {
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
-                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
-            }
+			player.AddBuff(ModContent.BuffType<CrushDepth>(), 90);
         }
     }
 }

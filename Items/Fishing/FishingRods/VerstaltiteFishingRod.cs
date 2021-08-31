@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 15f;
 			item.shoot = ModContent.ProjectileType<VerstaltiteBobber>();
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()

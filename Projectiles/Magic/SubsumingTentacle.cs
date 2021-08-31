@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 ArcingMovement();
             }
-            projectile.scale -= closestTarget == null ? 0.007f : 0.004f;
+            projectile.scale -= closestTarget is null ? 0.007f : 0.004f;
             if (projectile.scale <= 0.05f)
             {
                 projectile.Kill();

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TimeBoltKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TimeBolt";
+
 		private int maxPenetrate = 6;
         private int penetrationAmt = 6;
 		private bool initialized = false;
@@ -26,7 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 28;
             projectile.height = 28;
             projectile.friendly = true;
-            projectile.penetrate = penetrationAmt;
+			projectile.ignoreWater = true;
+			projectile.penetrate = penetrationAmt;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -128,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     int whoAmI = -1;
                     Vector2 targetSpot = projectile.Center;
-                    float detectRange = 400f;
+                    float detectRange = 1000f;
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
@@ -148,7 +151,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         projectile.netUpdate = true;
                         projectile.ai[0] += (float)penetrationAmt;
-                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
                         projectile.velocity = Vector2.Normalize(targetSpot - projectile.Center) * 18f;
                     }
                     else
@@ -222,7 +225,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -307,7 +310,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= radius)
                 {
                     if (npc.FindBuffIndex(buffType) == -1)
-                        npc.AddBuff(buffType, 180, false);
+                        npc.AddBuff(buffType, 60, false);
                 }
             }
         }
@@ -315,7 +318,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (projectile.Calamity().stealthStrike)
-				target.AddBuff(ModContent.BuffType<TimeSlow>(), 360);
+				target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
         }
     }
 }

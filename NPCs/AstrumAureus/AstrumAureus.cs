@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -20,7 +19,6 @@ using System.IO;
 using System.Threading;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumAureus
@@ -42,54 +40,24 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.lavaImmune = true;
 			npc.noGravity = true;
             npc.npcSlots = 15f;
-            npc.damage = 80;
-            npc.width = 400;
+			npc.GetNPCDamage();
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.width = 400;
             npc.height = 280;
-            npc.defense = 50;
+            npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.LifeMaxNERB(96000, NPC.downedMoonlord ? 440000 : 122000, 8400000); // 30 seconds in boss rush
+            npc.LifeMaxNERB(84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 15, 0, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.Venom] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
-            else
-                music = MusicID.Boss3;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
-                npc.value = Item.buyPrice(0, 35, 0, 0);
+                npc.value = Item.buyPrice(0, 25, 0, 0);
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -100,14 +68,20 @@ namespace CalamityMod.NPCs.AstrumAureus
 			writer.Write(stomping);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
-        }
+            writer.Write(npc.alpha);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			stomping = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
-        }
+            npc.alpha = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -280,7 +254,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
 			int frameCount = Main.npcFrameCount[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / frameCount / 2);
             Rectangle frame = npc.frame;
             float scale = npc.scale;
             float rotation = npc.rotation;
@@ -298,16 +272,16 @@ namespace CalamityMod.NPCs.AstrumAureus
 					Color color38 = drawColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 					vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 					spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+			vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 			spriteBatch.Draw(NPCTexture, vector43, frame, npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
 
@@ -323,9 +297,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 = npc.GetAlpha(color41);
-						color41 *= (float)(num153 - num163) / 15f;
-						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-						vector44 -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / frameCount)) * scale / 2f;
+						color41 *= (num153 - num163) / 15f;
+						Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
 						vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 						spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);
 					}
@@ -346,9 +320,11 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
+			// Legendary drop for Astrum Aureus
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 
@@ -360,7 +336,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Nebulash>(w),
                     DropHelper.WeightStack<AuroraBlazer>(w),
@@ -378,7 +354,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
+            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!CalamityWorld.downedAstrageldon)
@@ -387,21 +363,13 @@ namespace CalamityMod.NPCs.AstrumAureus
                 string key2 = "Mods.CalamityMod.AureusBossText2";
                 Color messageColor = Color.Gold;
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText(key2, messageColor);
             }
 
             // Mark Astrum Aureus as dead
             CalamityWorld.downedAstrageldon = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -418,12 +386,12 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 150;
                 npc.height = 100;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 50; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
@@ -431,7 +399,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 100; num623++)
@@ -448,7 +416,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

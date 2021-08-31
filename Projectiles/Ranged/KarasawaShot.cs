@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class KarasawaShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int dust1 = 187; //160
         private int dust2 = 229; //187
 
@@ -27,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 100;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

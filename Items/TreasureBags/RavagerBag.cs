@@ -11,6 +11,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick()
@@ -56,8 +57,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SpikecragStaff>(w),
                 DropHelper.WeightStack<CraniumSmasher>(w)
             );
-
-            DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<CorpusAvertor>(), 0.05f);
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);

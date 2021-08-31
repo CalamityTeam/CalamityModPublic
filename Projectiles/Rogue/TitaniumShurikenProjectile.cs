@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TitaniumShurikenProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TitaniumShuriken";
+
         private static float RotationIncrement = 0.22f;
         private static float ReboundTime = 26f;
 
@@ -115,7 +117,6 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.Calamity().stealthStrike)
 			{
-				projectile.ai[0] += 0.1f;
 				if (projectile.velocity.X != oldVelocity.X)
 				{
 					projectile.velocity.X = -oldVelocity.X;
@@ -134,7 +135,7 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D tex = Main.projectileTexture[projectile.type];
             if (projectile.Calamity().stealthStrike)
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             }
 			else
 			{

@@ -9,6 +9,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class SerpentsBiteHook : ModProjectile
 	{
+		public const float PullSpeed = 12f;
+		public const float ReelbackSpeed = 14f;
+		public const float LaunchSpeed = 18f;
+		public const float GrappleRangInTiles = 28.125f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Serpent's Bite");
@@ -38,10 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
 		}
 
 		// Amethyst Hook is 300, Static Hook is 600, 16f = 1 tile
-		public override float GrappleRange()
-		{
-			return 450f; //28.125 tiles
-		}
+		public override float GrappleRange() => GrappleRangInTiles * 16f;
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
@@ -51,12 +52,12 @@ namespace CalamityMod.Projectiles.Typeless
 		// default is 11, Lunar is 24
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			speed = 14f;
+			speed = ReelbackSpeed;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			speed = 12;
+			speed = PullSpeed;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

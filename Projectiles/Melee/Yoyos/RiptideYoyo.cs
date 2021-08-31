@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Riptide");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7.5f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 180f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 220f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 12.5f;
         }
 
@@ -24,11 +24,16 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.alpha = 150;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 20;
+		}
 
         public override void AI()
         {
-            if (Main.rand.Next(1, 51) == 1)
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+            if (Main.rand.NextBool(90))
             {
                 switch (Main.rand.Next(1, 9))
                 {

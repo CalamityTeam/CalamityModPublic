@@ -11,12 +11,11 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
     {
         public override void SetDefaults()
         {
-            this.SetUpBookcase(solidTop: false);
+            this.SetUpBookcase(true, false);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Amalgam");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Bookcases };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

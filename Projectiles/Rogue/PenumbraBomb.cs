@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class PenumbraBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Penumbra";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra Bomb");
@@ -103,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,14 +13,14 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Doubles your max HP\n" +
                 "Allows you to be critically hit 25% of the time\n" +
 				"After a critical hit, you gain various buffs for ten seconds\n" +
-				"Any healing potions consumed during this time period heal 50 percent more health");
+				"Any healing potions consumed during this time period heal 50% more health");
         }
 
         public override void SetDefaults()
         {
             item.width = 26;
             item.height = 26;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.accessory = true;
         }

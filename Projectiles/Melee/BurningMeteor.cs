@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
+			projectile.extraUpdates = 2;
             projectile.timeLeft = 180;
             projectile.ignoreWater = true;
         }
@@ -74,32 +75,11 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.alpha = num58;
             }
             projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-            if (Main.rand.NextBool(36))
-            {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = projectile.Center + value3 * 12f;
-            }
-            if (projectile.ai[1] == 1f)
-            {
-                projectile.light = 0.9f;
-                if (Main.rand.NextBool(30))
-                {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                }
-                if (Main.rand.NextBool(60))
-                {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, 150, default, 2f);
-                }
-            }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-            for (int k = 0; k < 10; k++)
+            for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, 0f, 0f);
             }
@@ -115,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 175)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

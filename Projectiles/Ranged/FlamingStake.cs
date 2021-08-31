@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlamingStake : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/ExplodingStake";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stake");
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 3;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Stake;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {

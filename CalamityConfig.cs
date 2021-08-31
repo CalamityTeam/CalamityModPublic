@@ -30,6 +30,12 @@ namespace CalamityMod
 		[Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
 		public bool Afterimages { get; set; }
 
+		[Label("Disable Screenshakes")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Disables all screen-shaking effects.")]
+		public bool DisableScreenShakes { get; set; }
+
 		[Label("Stealth Invisibility")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
@@ -65,7 +71,7 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("Lock Meter Positions")]
 		[DefaultValue(true)]
-		[Tooltip("Prevents clicking on the Stealth, Rage and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
+		[Tooltip("Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
 		public bool MeterPosLock { get; set; }
 
 		[Label("Stealth Meter")]
@@ -90,7 +96,39 @@ namespace CalamityMod
 		[Tooltip("The Y position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float StealthMeterPosY { get; set; }
 
+		[Label("Charge Meter")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Enables the Charge Meter UI, which shows the charge level of the player's currently held Arsenal item.\nThe Charge Meter is always hidden if not holding a chargable arsenal item.")]
+		public bool ChargeMeter { get; set; }
+
+		[Label("Charge Meter X Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0f, 3840f)]
+		[DefaultValue(950f)]
+		[Tooltip("The X position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+		public float ChargeMeterPosX { get; set; }
+
+		[Label("Charge Meter Y Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0f, 2160f)]
+		[DefaultValue(43f)]
+		[Tooltip("The Y position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+		public float ChargeMeterPosY { get; set; }
+
 		[Header("General Gameplay Changes")]
+
+		[Label("Early Hardmode Progression Rework")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\n" +
+			"Wall of Flesh spawns Cobalt and Palladium ore on first kill.\n" +
+			"The first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.\n" +
+			"The second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.\n" +
+			"The third mech boss spawns Hallowed Ore on first kill")]
+		public bool EarlyHardmodeProgressionRework { get; set; }
 
 		[Label("Lethal Lava")]
 		[BackgroundColor(192, 54, 64, 192)]
@@ -119,7 +157,7 @@ namespace CalamityMod
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
-		[Tooltip("While a boss is alive, all players receive the Boss Zen buff which drastically reduces enemy spawn rates.")]
+		[Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
 		public bool BossZen { get; set; }
 
 		[Label("Never Weaken Reactive Boss DR")]
@@ -127,6 +165,24 @@ namespace CalamityMod
 		[DefaultValue(false)]
 		[Tooltip("Sets Reactive Boss DR to always be full strength, even if the boss has already been defeated.\nIf disabled, the effect is only 66% as powerful after the boss has been defeated.\n\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nIn most cases, the system has no noticeable effect.")]
 		public bool FullPowerReactiveBossDR { get; set; }
+
+		[Label("Let Town NPCs spawn at night.")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Allows you to determine if town NPCs (including the Old Man) can spawn at night.")]
+		public bool CanTownNPCsSpawnAtNight { get; set; }
+
+		private const int MinTownNPCSpawnMultiplier = 1;
+		private const int MaxTownNPCSpawnMultiplier = 10;
+
+		[Label("Town NPC Spawn Rate Multiplier")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[Range(MinTownNPCSpawnMultiplier, MaxTownNPCSpawnMultiplier)]
+		[Increment(1)]
+		[DrawTicks]
+		[DefaultValue(MinTownNPCSpawnMultiplier)]
+		[Tooltip("Makes town NPCs spawn more quickly, the higher this value is.")]
+		public int TownNPCSpawnRateMultiplier { get; set; }
 
 		private const float MinBossHealthBoost = 0f;
 		private const float MaxBossHealthBoost = 900f;
@@ -168,12 +224,6 @@ namespace CalamityMod
 		public bool DisableExpertTownSpawns { get; set; }
 
 		[Header("Revengeance Mode Changes")]
-
-		[Label("Buff Thorium Bosses")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Buffs Thorium bosses if Revengeance Mode or Death Mode is active.\nThe buff gives them extra health and DR, but has no other changes.")]
-		public bool BuffThoriumBosses { get; set; }
 
 		[Label("Rage and Adrenaline")]
 		[BackgroundColor(192, 54, 64, 192)]
@@ -264,14 +314,8 @@ namespace CalamityMod
 		[Label("Immunity Frame Curse")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
-		[Tooltip("During the Boss Rush, being hit twice within five seconds will cause instant death.\nThis effect ignores revives.")]
+		[Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
 		public bool BossRushImmunityFrameCurse { get; set; }
-
-		[Label("Xeroc Curse")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Permanently enrages every boss in the Boss Rush.\nThis enrage is equivalent to that provided by Demonshade armor.")]
-		public bool BossRushXerocCurse { get; set; }
 
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
 	}

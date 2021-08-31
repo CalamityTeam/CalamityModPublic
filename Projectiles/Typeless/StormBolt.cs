@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StormBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");

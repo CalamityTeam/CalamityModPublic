@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 515;
+            item.damage = 155;
             item.magic = true;
             item.mana = 42;
             item.width = 90;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VividBeam>();
@@ -84,7 +84,6 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
             recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
             recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
-            recipe.AddIngredient(ModContent.ItemType<HeliumFlash>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

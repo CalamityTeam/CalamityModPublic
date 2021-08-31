@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 13;
+            item.damage = 14;
             item.ranged = true;
             item.width = 22;
             item.height = 36;
@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.5f;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
             item.shootSpeed = 13f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Ammo
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
             recipe.AddIngredient(ItemID.Torch);
             recipe.AddIngredient(ItemID.WoodenArrow, 250);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();
         }

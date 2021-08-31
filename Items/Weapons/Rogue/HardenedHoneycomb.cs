@@ -32,7 +32,7 @@ Stealth strikes can bounce off walls and enemies");
             item.height = 32;
             item.maxStack = 999;
             item.value = 300;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<Honeycomb>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
@@ -42,9 +42,12 @@ Stealth strikes can bounce off walls and enemies");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].penetrate = 3;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].penetrate = 3;
+				}
                 return false;
             }
             return true;

@@ -14,14 +14,11 @@ namespace CalamityMod.Items.Mounts
             mountData.fallDamage = -1;
             mountData.runSpeed = 5f;
             mountData.dashSpeed = 8f;
-            mountData.fatigueMax = 0;
             mountData.jumpHeight = 20;
             mountData.acceleration = 0.1f;
-            mountData.jumpSpeed = 40f; //20
-            mountData.blockExtraJumps = true;
+            mountData.jumpSpeed = 20f;
             mountData.totalFrames = 4;
-            mountData.constantJump = true;
-            mountData.usesHover = false;
+			mountData.blockExtraJumps = true;
             int[] array = new int[mountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
@@ -77,11 +74,13 @@ namespace CalamityMod.Items.Mounts
 
         public override void UpdateEffects(Player player)
         {
-            player.statDefense += 60;
-            player.gravity = 2f;
-            player.maxFallSpeed = 25f;
+			if (player.velocity.Y > 0f || player.controlDown)
+			{
+				player.gravity = 1f;
+				player.maxFallSpeed = 20f;
+			}
             player.noFallDmg = true;
         }
-    }
+	}
 }
 

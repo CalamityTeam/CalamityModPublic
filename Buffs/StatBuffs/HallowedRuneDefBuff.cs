@@ -8,17 +8,17 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Hallowed Defense");
-            Description.SetDefault("Defense boosted by 7 and damage reduction boosted by 7%");
+            Description.SetDefault("Defense boosted by 8 and damage reduction boosted by 4%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-			Main.buffNoTimeDisplay[Type] = true;
             longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().hallowedDefense = true;
-        }
+			player.statDefense += 8;
+			player.endurance += 0.04f;
+		}
     }
 }

@@ -10,13 +10,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 100;
+        private static int BaseDamage = 96;
         private static float BulletSpeed = 12f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Angelic Shotgun");
             Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
+Converts musket balls into illuminated bullets
 Fighting 'til the war's won");
         }
 
@@ -36,14 +37,15 @@ Fighting 'til the war's won");
             item.UseSound = SoundID.Item38;
             item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.rare = 10;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
 
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
-            item.useAmmo = 97;
-        }
+            item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
@@ -52,7 +54,7 @@ Fighting 'til the war's won");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int NumBullets = Main.rand.Next(5,8);
+            int NumBullets = Main.rand.Next(5, 8);
             Vector2 baseVelocity = new Vector2(speedX, speedY).SafeNormalize(Vector2.Zero) * BulletSpeed;
 
             // Fire a shotgun spread of bullets.
@@ -61,8 +63,12 @@ Fighting 'til the war's won");
                 float dx = Main.rand.NextFloat(-1.3f, 1.3f);
                 float dy = Main.rand.NextFloat(-1.3f, 1.3f);
                 Vector2 randomVelocity = baseVelocity + new Vector2(dx, dy);
-                Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+
+				if (type == ProjectileID.Bullet)
+					Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI);
+				else
+					Projectile.NewProjectile(position, randomVelocity, type, damage, knockBack, player.whoAmI);
+			}
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
             float laserSpeed = 8f;

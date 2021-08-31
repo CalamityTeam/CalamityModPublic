@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 1130;
+			item.damage = 240;
 			item.knockBack = 6f;
-			item.useAnimation = item.useTime = 20;
+			item.useAnimation = item.useTime = 22;
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shootSpeed = 25f;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.value = Item.buyPrice(platinum: 2, gold: 50);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
 
@@ -41,8 +41,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
 			{
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.4), knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}
 			return true;
 		}

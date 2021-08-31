@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 16;
 			projectile.friendly = false;
 			projectile.Calamity().rogue = true;
+			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			//projectile.extraUpdates = 2;
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 				projectile.Kill();
 
 			if (Main.myPlayer == player.whoAmI)
@@ -99,9 +100,9 @@ namespace CalamityMod.Projectiles.Rogue
 					if (player.Calamity().StealthStrikeAvailable() && projectile.ai[1] != 1f)
 					{
 						int stealth = Projectile.NewProjectile(player.Center,
-												 player.DirectionTo(Main.MouseWorld) * 38f,
+												 player.SafeDirectionTo(Main.MouseWorld) * 38f,
 												 ModContent.ProjectileType<FinalDawnThrow2>(),
-												 (int)(projectile.damage * 1.5f),
+												 (int)(projectile.damage * 1.05f),
 												 projectile.knockBack,
 												 projectile.owner);
 						Main.projectile[stealth].Calamity().stealthStrike = true;
@@ -110,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
 					else
 					{
 						Projectile.NewProjectile(projectile.Center,
-												 projectile.DirectionTo(Main.MouseWorld) * 38f,
+												 projectile.SafeDirectionTo(Main.MouseWorld) * 38f,
 												 ModContent.ProjectileType<FinalDawnThrow>(), projectile.damage,
 												 projectile.knockBack, projectile.owner);
 						if (projectile.ai[1] != 1f)
@@ -144,6 +145,8 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 				}
 			}
+			else
+				player.Calamity().ConsumeStealthByAttacking();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

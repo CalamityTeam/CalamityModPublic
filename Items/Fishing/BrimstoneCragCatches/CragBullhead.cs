@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.height = 36;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 5);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
     }
 }

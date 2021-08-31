@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.accessory = true;
         }
 
@@ -44,64 +45,64 @@ namespace CalamityMod.Items.Accessories
                     meleeSpeed = 1;
                     break;
                 case 4:
-                    damageGain = 3;
+                    damageGain = 2;
                     meleeSpeed = 1;
                     critGain = 1;
                     break;
                 case 5:
                     damageGain = 3;
-                    meleeSpeed = 2;
+                    meleeSpeed = 1;
                     critGain = 1;
                     break;
                 case 6:
                     damageGain = 4;
-                    meleeSpeed = 3;
+                    meleeSpeed = 1;
                     critGain = 1;
                     break;
                 case 7:
                     damageGain = 4;
-                    meleeSpeed = 4;
-                    critGain = 2;
+                    meleeSpeed = 2;
+                    critGain = 1;
                     break;
                 case 8:
-                    damageGain = 5;
-                    meleeSpeed = 5;
+                    damageGain = 4;
+                    meleeSpeed = 2;
                     critGain = 2;
                     break;
                 case 9:
                     damageGain = 5;
+                    meleeSpeed = 2;
+                    critGain = 2;
+                    break;
+                case 10:
+                    damageGain = 5;
+                    meleeSpeed = 3;
+                    critGain = 2;
+                    break;
+                case 11:
+                    damageGain = 5;
+                    meleeSpeed = 3;
+                    critGain = 3;
+                    break;
+                case 12:
+                    damageGain = 5;
+                    meleeSpeed = 4;
+                    critGain = 3;
+                    break;
+                case 13:
+                    damageGain = 6;
+                    meleeSpeed = 4;
+                    critGain = 3;
+                    break;
+                case 14:
+                    damageGain = 6;
                     meleeSpeed = 5;
                     critGain = 3;
                     break;
-                case 10:
+                case 15:
                     damageGain = 6;
                     meleeSpeed = 6;
                     critGain = 3;
-                    break;
-                case 11:
-                    damageGain = 7;
-                    meleeSpeed = 7;
-                    critGain = 4;
-                    break;
-                case 12:
-                    damageGain = 8;
-                    meleeSpeed = 8;
-                    critGain = 4;
-                    break;
-                case 13:
-                    damageGain = 9;
-                    meleeSpeed = 9;
-                    critGain = 5;
-                    break;
-                case 14:
-                    damageGain = 10;
-                    meleeSpeed = 10;
-                    critGain = 5;
-                    break;
-                case 15:
-                    damageGain = 12;
-                    meleeSpeed = 12;
-                    critGain = 6;
                     break;
             }
             foreach (TooltipLine line2 in list)

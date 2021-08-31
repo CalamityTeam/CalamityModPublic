@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,8 +29,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.Daybreak] = true;
-            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<MantisShrimpBanner>();
         }
@@ -81,9 +80,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
-            }
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
         }
 
         public override void FindFrame(int frameHeight)
@@ -96,10 +93,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
-            {
+            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
-            }
+
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 

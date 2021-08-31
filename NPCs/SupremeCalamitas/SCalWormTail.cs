@@ -27,12 +27,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 2000000;
-            }
-            npc.aiStyle = -1; //new
+			npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
@@ -46,13 +42,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
         }
 
@@ -73,9 +63,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-			if (npc.ai[3] > 0f)
+			if (npc.ai[2] > 0f)
 			{
-				npc.realLife = (int)npc.ai[3];
+				npc.realLife = (int)npc.ai[2];
 			}
 
 			bool flag = false;
@@ -169,20 +159,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormTailGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
 			{
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
@@ -198,32 +183,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
-            {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
-                {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                    }
-                }
-                for (int num623 = 0; num623 < 10; num623++)
-                {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
-                }
-            }
+			{
+				for (int i = 1; i <= 2; i++)
+				{
+					Vector2 goreSpawnPosition = npc.Center;
+					if (i == 2)
+						goreSpawnPosition -= (npc.rotation - MathHelper.PiOver2).ToRotationVector2() * 20f;
+					Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherTail_Gore{i}"), npc.scale);
+				}
+			}
         }
 
         public override bool CheckActive()

@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 600;
             projectile.height = 156;
             projectile.friendly = false;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.ownerHitCheck = true;
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 				projectile.Kill();
 
             projectile.Center = player.Center;

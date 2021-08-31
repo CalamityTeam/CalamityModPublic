@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            this.SetUpWorkBench();
+            this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

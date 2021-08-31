@@ -73,12 +73,12 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 0f)
             {
                 Texture2D knife1 = Main.projectileTexture[projectile.type];
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3, knife1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 3, knife1);
             }
             else if (projectile.ai[0] == 1f)
             {
                 Texture2D knife2 = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/VeneratedKnife2");
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3, knife2);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 3, knife2);
             }
             return false;
         }

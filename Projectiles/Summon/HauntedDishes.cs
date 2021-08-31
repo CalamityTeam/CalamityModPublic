@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
 				float playerX = player.position.X + (float) (player.width / 2) - vector2.X;
 				float playerY = player.position.Y + (float) (player.height / 2) - vector2.Y;
 				float playerDist = (float)Math.Sqrt(playerX * playerX + playerY * playerY);
-				if (playerDist > 1000f)
+				if (playerDist > 1500f)
 				{
 					projectile.ai[0] = 1f;
 				}
@@ -116,10 +116,10 @@ namespace CalamityMod.Projectiles.Summon
 			if (projectile.ai[0] != 0f) //flying back to the player
 			{
 				projectile.tileCollide = false;
-				float npcDetectRange = 800f;
+				float npcDetectRange = 1200f;
 				bool npcFound = false;
 				int num6 = -1;
-				for (int index = 0; index < Main.npc.Length; ++index)
+				for (int index = 0; index < Main.maxNPCs; ++index)
 				{
 					NPC npc2 = Main.npc[index];
 					if (npc2.CanBeChasedBy((object) projectile, false))
@@ -289,7 +289,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 					if (num9 == -1)
 					{
-						for (int index = 0; index < Main.npc.Length; ++index)
+						for (int index = 0; index < Main.maxNPCs; ++index)
 						{
 							if (Main.npc[index].CanBeChasedBy((object) projectile, false))
 							{
@@ -356,16 +356,16 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.ai[1] = attackCooldown;
 							double num11 = 12.0;
 							Vector2 vector2 = new Vector2(projectile.Center.X, projectile.Center.Y - 8f);
-							float num12 = num5 - vector2.X + (float) Main.rand.Next(-10, 11);
+							float num12 = num5 - vector2.X + Main.rand.NextFloat(-6f, 6f);
 							float num14 = (float) ((double) (Math.Abs(num12) * 0.1f) * (double) Main.rand.Next(0, 100) * (1.0 / 1000.0));
-							float num15 = num6 - vector2.Y + (float) Main.rand.Next(-10, 11) - num14;
+							float num15 = num6 - vector2.Y + Main.rand.NextFloat(-6f, 6f) - num14;
 							double num16 = Math.Sqrt((double) num12 * (double) num12 + (double) num15 * (double) num15);
 							float num17 = (float) (num11 / num16);
 							float SpeedX = num12 * num17;
 							float SpeedY = num15 * num17;
 							int damage = projectile.damage;
 							int Type = ModContent.ProjectileType<PlateProjectile>();
-							int index = Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX * 1.5f, SpeedY * 1.5f, Type, damage, projectile.knockBack, projectile.owner, 0f, 0f);
+							int index = Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, projectile.knockBack, projectile.owner, 0f, 0f);
 							if (SpeedX < 0f)
 								projectile.direction = -1;
 							if (SpeedX > 0f)
@@ -590,12 +590,9 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
         {
 			int index = Gore.NewGore(new Vector2(projectile.position.X - (float) (projectile.width / 2), projectile.position.Y - (float) (projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), projectile.scale);
 			Main.gore[index].velocity *= 0.1f;

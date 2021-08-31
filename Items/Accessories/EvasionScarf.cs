@@ -11,9 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evasion Scarf");
-            Tooltip.SetDefault("True melee strikes deal 25% more damage\n" +
+            Tooltip.SetDefault("True melee strikes deal 15% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
-                "After a dodge you will be granted a buff to all damage, melee speed, and all crit chance for a short time\n" +
                 "After a successful dodge you must wait 13 seconds before you can dodge again\n" +
                 "This cooldown will be 50 percent longer if you have Chaos State\n" +
                 "While on cooldown, Chaos State will be 50 percent longer");
@@ -25,8 +24,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
@@ -42,7 +41,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CounterScarf>());
+            recipe.AddIngredient(ItemID.RedandBlackDye);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.Silk, 15);

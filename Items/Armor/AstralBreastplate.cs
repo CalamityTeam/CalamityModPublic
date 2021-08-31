@@ -12,7 +12,6 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Astral Breastplate");
             Tooltip.SetDefault("+80 max mana and +20 max life\n" +
-                               "+3 max minions\n" +
                                "Creature detection");
         }
 
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 32, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.defense = 25;
         }
 
@@ -29,7 +28,6 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 20;
             player.statManaMax2 += 80;
-            player.maxMinions += 3;
             player.detectCreature = true;
         }
 

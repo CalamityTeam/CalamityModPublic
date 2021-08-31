@@ -16,13 +16,12 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Asgardian Aegis");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
                 "Immune to most debuffs\n" +
-                "+40 max life\n" +
+                "+40 max life and increased life regeneration\n" +
                 "Grants a supreme holy flame dash\n" +
                 "Can be used to ram enemies\n" +
                 "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "10% damage reduction while submerged in liquid\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "+20 defense while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -50,12 +49,13 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 4; }
+			modPlayer.dashMod = 4;
             modPlayer.elysianAegis = true;
+            modPlayer.abaddon = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;
+			player.lifeRegen++;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;
@@ -67,12 +67,13 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 20; }
         }
 
         public override void AddRecipes()

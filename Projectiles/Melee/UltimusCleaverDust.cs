@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class UltimusCleaverDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ultimus Flame");
@@ -14,10 +16,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 120;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
+            projectile.timeLeft = 90;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 10;
             projectile.tileCollide = false;
             projectile.melee = true;
         }

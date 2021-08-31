@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            this.SetUpChandelier();
+            this.SetUpChandelier(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);
@@ -52,7 +52,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void HitWire(int i, int j)
         {
-            this.SetUpChandelier();
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			item.width = 42;
 			item.height = 46;
-			item.damage = 488;
+			item.damage = 323;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = item.useTime = 20;
@@ -28,19 +28,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.knockBack = 5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
 			item.shoot = ModContent.ProjectileType<ToxicantTwisterTwoPointZero>();
 			item.shootSpeed = 18f;
 			item.Calamity().rogue = true;
+
+			item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.PureGreen;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			double stealthMult = player.Calamity().StealthStrikeAvailable() ? 1.3333 : 1D;
-			int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * stealthMult), knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[boomer].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (boomer.WithinBounds(Main.maxProjectiles))
+				Main.projectile[boomer].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 	}

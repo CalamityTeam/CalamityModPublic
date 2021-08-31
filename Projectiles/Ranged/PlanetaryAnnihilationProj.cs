@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PlanetaryAnnihilationProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int dustType = 0;
 
         public override void SetStaticDefaults()
@@ -23,7 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
-            projectile.tileCollide = true;
             projectile.timeLeft = 600;
 			projectile.arrow = true;
         }
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

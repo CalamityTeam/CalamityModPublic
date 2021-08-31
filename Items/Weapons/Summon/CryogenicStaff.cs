@@ -27,22 +27,19 @@ Fire rate and range increase the longer it targets an enemy");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+
+            item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item78;
             item.shoot = ModContent.ProjectileType<IceSentry>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse != 2)
-            {
-                position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                player.UpdateMaxTurrets();
-            }
+            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            player.UpdateMaxTurrets();
             return false;
         }
     }

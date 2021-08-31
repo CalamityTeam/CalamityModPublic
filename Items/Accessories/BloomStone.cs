@@ -14,56 +14,22 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Bloom Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "Enemies that get near you take damage and all damage is increased by 3%\n" +
+                "I don't know what else this should do, pls help\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 38;
+            item.height = 54;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
-            player.allDamage += 0.03f;
-            int bloomCounter = 0;
-            int num = 186;
-            float num2 = 150f;
-            bool flag = bloomCounter % 60 == 0;
-            int num3 = (int)(10 * player.AverageDamage());
-            int random = Main.rand.Next(10);
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (random == 0)
-                {
-                    for (int l = 0; l < Main.maxNPCs; l++)
-                    {
-                        NPC nPC = Main.npc[l];
-                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
-                        {
-                            if (nPC.FindBuffIndex(num) == -1)
-                            {
-                                nPC.AddBuff(num, 120, false);
-                            }
-                            if (flag)
-                            {
-                                if (player.whoAmI == Main.myPlayer)
-                                {
-                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            bloomCounter++;
 
 			//Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -23,10 +24,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 22;
             npc.lifeMax = 999;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.dontTakeDamage = true;
@@ -52,15 +49,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             npc.TargetClosest(true);
 
-            float velocity = CalamityWorld.bossRushActive ? 8f : 2f;
-            float acceleration = CalamityWorld.bossRushActive ? 0.4f : 0.1f;
+            float velocity = 2f;
+            float acceleration = 0.1f;
 
             if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
             {
                 if (npc.velocity.Y > 0f)
-                    npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    npc.velocity.Y *= 0.98f;
 
-                npc.velocity.Y = npc.velocity.Y - acceleration;
+                npc.velocity.Y -= acceleration;
 
                 if (npc.velocity.Y > velocity)
                     npc.velocity.Y = velocity;
@@ -68,30 +65,30 @@ namespace CalamityMod.NPCs.NormalNPCs
             else if (npc.position.Y < Main.player[npc.target].position.Y - 400f)
             {
                 if (npc.velocity.Y < 0f)
-                    npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    npc.velocity.Y *= 0.98f;
 
-                npc.velocity.Y = npc.velocity.Y + acceleration;
+                npc.velocity.Y += acceleration;
 
                 if (npc.velocity.Y < -velocity)
                     npc.velocity.Y = -velocity;
             }
 
-            if (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + 100f)
+            if (npc.Center.X > Main.player[npc.target].Center.X + 100f)
             {
                 if (npc.velocity.X > 0f)
-                    npc.velocity.X = npc.velocity.X * 0.98f;
+                    npc.velocity.X *= 0.98f;
 
-                npc.velocity.X = npc.velocity.X - acceleration;
+                npc.velocity.X -= acceleration;
 
                 if (npc.velocity.X > 8f)
                     npc.velocity.X = 8f;
             }
-            if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - 100f)
+            if (npc.Center.X < Main.player[npc.target].Center.X - 100f)
             {
                 if (npc.velocity.X < 0f)
-                    npc.velocity.X = npc.velocity.X * 0.98f;
+                    npc.velocity.X *= 0.98f;
 
-                npc.velocity.X = npc.velocity.X + acceleration;
+                npc.velocity.X += acceleration;
 
                 if (npc.velocity.X < -8f)
                     npc.velocity.X = -8f;
@@ -101,8 +98,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // Fire bolt every 1.5 seconds
-                npc.localAI[0] += CalamityWorld.bossRushActive ? 2f : 1f;
-                if (npc.localAI[0] >= (CalamityWorld.death ? 60f : 75f))
+                npc.localAI[0] += 1f;
+                if (npc.localAI[0] >= (CalamityWorld.malice ? 45f : CalamityWorld.death ? 60f : 75f))
                 {
                     npc.localAI[0] = 0f;
 
@@ -112,10 +109,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Vector2 projVector = new Vector2(xDist, yDist);
 					float projLength = projVector.Length();
 
-                    float speed = CalamityWorld.bossRushActive ? 18f : 9f;
-                    int damage = 11;
-					if (CalamityWorld.death)
-						damage += 1;
+                    float speed = 9f;
 					int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;
@@ -134,12 +128,24 @@ namespace CalamityMod.NPCs.NormalNPCs
                         if (Main.rand.NextBool(2))
                         {
                             Main.dust[ruby].scale = 0.5f;
-                            Main.dust[ruby].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[ruby].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    Main.PlaySound(SoundID.Item8, npc.position);
 
-                    int proj = Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Main.PlaySound(SoundID.Item8, npc.position);
+					int damage = npc.GetProjectileDamage(type);
+					if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+					{
+						int numProj = 2;
+						float rotation = MathHelper.ToRadians(9);
+						for (int i = 0; i < numProj + 1; i++)
+						{
+							Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+							Projectile.NewProjectile(npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+					else
+						Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

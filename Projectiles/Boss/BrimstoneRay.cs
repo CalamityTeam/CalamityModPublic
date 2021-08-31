@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,7 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 10;
             projectile.height = 10;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -103,7 +105,32 @@ namespace CalamityMod.Projectiles.Boss
 			float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
-            for (int num809 = 0; num809 < 2; num809++)
+
+			// Fire brimstone darts along the laser
+			if (Main.npc[(int)projectile.ai[1]].ai[1] == 210f && projectile.owner == Main.myPlayer)
+			{
+				Vector2 velocity = projectile.velocity;
+				velocity.Normalize();
+				float distanceBetweenProjectiles = CalamityWorld.malice ? 72f : 144f;
+				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
+				int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
+				int type = ModContent.ProjectileType<BrimstoneBarrage>();
+				int damage = projectile.GetProjectileDamage(ModContent.NPCType<BrimstoneElemental>());
+				for (int i = 0; i < projectileAmt; i++)
+				{
+					int totalProjectiles = 2;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					for (int j = 0; j < totalProjectiles; j++)
+					{
+						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+						int proj = Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
+						Main.projectile[proj].tileCollide = true;
+					}
+					fireFrom += velocity * distanceBetweenProjectiles;
+				}
+			}
+
+			for (int num809 = 0; num809 < 2; num809++)
             {
                 float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
@@ -146,7 +173,7 @@ namespace CalamityMod.Projectiles.Boss
             if (num223 > 0f)
             {
                 float num224 = 0f;
-                Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
+                Rectangle rectangle7 = new Rectangle(0, 0, texture2D20.Width, texture2D20.Height);
                 while (num224 + 1f < num223)
                 {
                     if (num223 - num224 < rectangle7.Height)
@@ -156,7 +183,7 @@ namespace CalamityMod.Projectiles.Boss
                     spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
                     num224 += rectangle7.Height * projectile.scale;
                     value20 += projectile.velocity * rectangle7.Height * projectile.scale;
-                    rectangle7.Y += 16;
+                    rectangle7.Y += texture2D20.Height;
                     if (rectangle7.Y + rectangle7.Height > texture2D20.Height)
                     {
                         rectangle7.Y = 0;

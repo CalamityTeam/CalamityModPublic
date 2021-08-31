@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 14;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<AstralBeacon>();

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PalladiumJavelinProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PalladiumJavelin";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Javelin");
@@ -50,12 +52,18 @@ namespace CalamityMod.Projectiles.Rogue
 					Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 144, 0f, 0f, 0, default, 1f);
 				}
 
-				int javelin = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				int javelin2 = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[javelin].Calamity().lineColor = projectile.Calamity().lineColor + 1;
-				Main.projectile[javelin2].Calamity().lineColor = projectile.Calamity().lineColor + 1;
-				Main.projectile[javelin].Calamity().stealthStrike = true;
-				Main.projectile[javelin2].Calamity().stealthStrike = true;
+				int javelin = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+				int javelin2 = Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), projectile.type, projectile.damage, projectile.knockBack, projectile.owner);
+				if (javelin.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[javelin].Calamity().lineColor = projectile.Calamity().lineColor + 1;
+					Main.projectile[javelin].Calamity().stealthStrike = true;
+				}
+				if (javelin2.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[javelin2].Calamity().lineColor = projectile.Calamity().lineColor + 1;
+					Main.projectile[javelin2].Calamity().stealthStrike = true;
+				}
 				projectile.Kill();
 			}
         }

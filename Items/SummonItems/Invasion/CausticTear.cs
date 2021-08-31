@@ -20,7 +20,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             item.width = 28;
             item.height = 18;
             item.maxStack = 99;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool UseItem(Player player)
         {
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             AcidRainEvent.TryStartEvent(true);
             return true;
         }

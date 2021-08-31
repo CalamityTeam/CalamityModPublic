@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     public class FungalClumpMinion : ModProjectile
     {
 		private bool returnToPlayer = false;
-		private bool amalgam = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
@@ -58,7 +58,6 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			amalgam = projectile.ai[0] == 1f;
 
 			//Initializing dust and damage
             if (projectile.localAI[0] == 0f)
@@ -97,22 +96,11 @@ namespace CalamityMod.Projectiles.Summon
 			//Anti-sticky movement failsafe
 			projectile.MinionAntiClump();
 
-			//If summoned by Amalgam, trail poisonous seawater
-			if (Math.Abs(projectile.velocity.X) > 0.1f || Math.Abs(projectile.velocity.Y) > 0.1f)
-            {
-                if (projectile.owner == Main.myPlayer && amalgam)
-                {
-                    int water = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
-					Main.projectile[water].usesIDStaticNPCImmunity = true;
-					Main.projectile[water].usesLocalNPCImmunity = false;
-                }
-            }
-
 			//If too far from player, increase speed to chase after player
 			float playerRange = 500f;
 			//Range is boosted if chasing after an enemy
 			if (projectile.ai[1] != 0f || projectile.friendly)
-				playerRange = amalgam ? 2000f : 1400f;
+				playerRange = 1400f;
 			if (Math.Abs(projectile.Center.X - player.Center.X) + Math.Abs(projectile.Center.Y - player.Center.Y) > playerRange)
 				returnToPlayer = true;
 
@@ -169,10 +157,10 @@ namespace CalamityMod.Projectiles.Summon
 			if (!npcFound)
 			{
 				projectile.friendly = true;
-				float homingSpeed = amalgam ? 12f : 8f;
+				float homingSpeed = 8f;
 				float turnSpeed = 20f;
 				if (returnToPlayer) //move faster if returning to the player
-					homingSpeed = amalgam ? 30f : 12f;
+					homingSpeed = 12f;
 				Vector2 playerVector = player.Center - projectile.Center;
 				playerVector.Y -= 60f;
 				float playerDist = playerVector.Length();
@@ -217,20 +205,14 @@ namespace CalamityMod.Projectiles.Summon
 				if (projectile.ai[1] == 0f)
 				{
 					projectile.friendly = true;
-					float minionSpeed = amalgam ? 20f : 8f;
+					float minionSpeed = 8f;
 					float turnSpeed = 14f;
-					Vector2 targetLocation = targetVec - projectile.Center;
-					float targetDist = targetLocation.Length();
+					float targetDist = projectile.Distance(targetVec);
 					if (targetDist < 100f)
-						minionSpeed = amalgam ? 25f : 10f;
+						minionSpeed = 10f;
 
-					Vector2 homeInVector = projectile.DirectionTo(targetLocation);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-                    targetLocation.Normalize();
-                    targetLocation *= minionSpeed;
-                    projectile.velocity = (projectile.velocity * turnSpeed + targetLocation) / (turnSpeed + 1f);
+					Vector2 homingVelocity = projectile.SafeDirectionTo(targetVec) * minionSpeed;
+                    projectile.velocity = (projectile.velocity * turnSpeed + homingVelocity) / (turnSpeed + 1f);
 				}
 				else
 				{
@@ -247,22 +229,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
-            {
+            if (!target.canGhostHeal)
                 return;
-            }
+
             float healAmt = damage * 0.25f;
             if ((int)healAmt == 0)
-            {
                 return;
-            }
+
             if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-            {
                 return;
-            }
-			if (healAmt > 50f)
-				healAmt = 50f;
-			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 3f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

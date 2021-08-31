@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Fishing
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 10);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override bool CanRightClick()

@@ -8,55 +8,160 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class DragonsBreath : ModItem
     {
+        public const int BetweenShotsPause = 15;
+        public const int PelletsPerShot = 6;
+        public const float FullAutoFireRateMult = 0.8f;
+        public const float FullAutoDamageMult = 0.8f;
+        // note this is extremely low because it's per pellet
+        public const float Spread = 0.018f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon's Breath");
-            Tooltip.SetDefault("80% chance to not consume ammo\n" +
-                "Shoots a spread of exploding fire bullets");
+            Tooltip.SetDefault("Left click fires in two-shot bursts\n" +
+                "The first shot is a spread of 6 normal bullets\n" +
+                "The second shot is a tight spread of 6 Dragon's Breath rounds\n" +
+                "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
+                "This weapon has no randomness to its spread pattern\n" +
+                "66% chance to not consume ammo");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 260;
+            item.damage = 272;
             item.ranged = true;
             item.width = 64;
             item.height = 28;
-            item.useTime = 20;
-            item.useAnimation = 20;
+
+            item.useTime = 9;
+            item.useAnimation = 18;
+            item.reuseDelay = BetweenShotsPause;
+            item.autoReuse = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
+
             item.noMelee = true;
             item.knockBack = 6.5f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            // item.UseSound = SoundID.Item38;
+            item.shoot = ModContent.ProjectileType<DragonsBreathRound>();
             item.shootSpeed = 12f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.useAmmo = AmmoID.Bullet;
+            item.Calamity().canFirePointBlankShots = true;
+
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.66f;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 5);
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            item.reuseDelay = player.altFunctionUse == 2 ? 0 : BetweenShotsPause;
+            return base.CanUseItem(player);
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 5);
-        }
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? FullAutoFireRateMult : 1f;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 13; i++)
+            Main.PlaySound(SoundID.Item38, position);
+            bool doDust = false;
+            Vector2 vel = new Vector2(speedX, speedY);
+            int[] bulletIDs = new int[PelletsPerShot];
+            float spreadFactor = 1f;
+            
+            // Right click full auto: Randomly intermix three regular bullets and three Dragon's Breath Rounds in a wider spread
+            if (player.altFunctionUse == 2)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DragonBurst>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                damage = (int)(damage * FullAutoDamageMult);
+
+                for (int i = 0; i < PelletsPerShot; ++i)
+                    bulletIDs[i] = type;
+                int dragonsBreathAdded = 0;
+                while (dragonsBreathAdded < PelletsPerShot / 2)
+                {
+                    int i = Main.rand.Next(PelletsPerShot);
+                    if (bulletIDs[i] == item.shoot)
+                        continue;
+                    bulletIDs[i] = item.shoot;
+                    ++dragonsBreathAdded;
+                }
+
+                spreadFactor = 1.52f;
+            }
+            // Left click first shot: Six regular bullets, low spread
+            else if (player.itemAnimation == player.itemAnimationMax - 1)
+            {
+                for (int i = 0; i < PelletsPerShot; ++i)
+                    bulletIDs[i] = type;
+            }
+            // Left click second shot: Six Dragon's Breath Rounds, very low spread. Extra sound and dust blast.
+            else
+            {
+                Main.PlaySound(SoundID.Item74, position);
+                for (int i = 0; i < PelletsPerShot; ++i)
+                    bulletIDs[i] = item.shoot;
+
+                spreadFactor = 0.5f;
+                doDust = true;
+            }
+
+            // Actually fire the chosen bullets.
+            float angleOffset = Spread * -0.5f * (PelletsPerShot - 1) * spreadFactor;
+            for (int i = 0; i < PelletsPerShot; ++i)
+            {
+                Vector2 rotatedVel = vel.RotatedBy(angleOffset);
+                Projectile.NewProjectile(position, rotatedVel, bulletIDs[i], damage, knockBack, player.whoAmI);
+                angleOffset += Spread * spreadFactor;
+
+                if (doDust)
+                    SpawnDragonsBreathDust(position, rotatedVel);
             }
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        private void SpawnDragonsBreathDust(Vector2 pos, Vector2 velocity)
         {
-            if (Main.rand.Next(0, 100) < 80)
-                return false;
-            return true;
+            pos += velocity.SafeNormalize(Vector2.Zero) * item.width * item.scale * 0.71f;
+            for (int i = 0; i < 30; ++i)
+            {
+                // Pick a random type of smoke (there's a little fire mixed in)
+                int dustID;
+                switch (Main.rand.Next(6))
+                {
+                    case 0:
+                        dustID = 262;
+                        break;
+                    case 1:
+                    case 2:
+                        dustID = 54;
+                        break;
+                    default:
+                        dustID = 53;
+                        break;
+                }
+
+                // Choose a random speed and angle to belch out the smoke
+                float dustSpeed = Main.rand.NextFloat(3.0f, 13.0f);
+                float angleRandom = 0.06f;
+                Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(velocity.ToRotation());
+                dustVel = dustVel.RotatedBy(-angleRandom);
+                dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
+
+                // Sometimes make smoke fly upward instead of outward.
+                if (Main.rand.NextBool(4))
+                    dustVel = Vector2.Lerp(dustVel, -Vector2.UnitY * dustVel.Length(), Main.rand.NextFloat(0.6f, 0.85f)) * 0.6f;
+
+                // Pick a size for the smoke particle
+                float scale = Main.rand.NextFloat(0.5f, 1.6f);
+
+                // Actually spawn the smoke
+                int idx = Dust.NewDust(pos, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].position = pos;
+            }
         }
     }
 }

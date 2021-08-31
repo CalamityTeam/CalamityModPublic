@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Helmet");
-            Tooltip.SetDefault("8% increased rogue damage\n" +
+            Tooltip.SetDefault("4% increased rogue damage\n" +
                 "2% increased rogue critical strike chance\n" +
                 "Grants underwater breathing");
         }
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 5; 
         }
 
@@ -37,23 +37,22 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "Attacking and being attacked by enemies inflicts poison\n" +
                 "Grants an additional jump that summons a sulphurous bubble\n" +
-                "Reduces the severity of the sulphuric waters\n" +
-                "Slightly reduces breath loss in the abyss\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
+                "Provides increased underwater mobility and reduces the severity of the sulphuric waters\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 95\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.sulfurSet = true;
             modPlayer.sulfurJump = true;
-            modPlayer.rogueStealthMax += 1f;
+            modPlayer.rogueStealthMax += 0.95f;
             modPlayer.wearingRogueArmor = true;
             player.ignoreWater = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.08f;
+            player.Calamity().throwingDamage += 0.04f;
             player.Calamity().throwingCrit += 2;
             player.gills = true;
         }

@@ -31,9 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.65f);
-            projectile.velocity.X *= 1.015f;
-            projectile.velocity.Y *= 1.015f;
+            projectile.velocity *= 1.015f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (projectile.timeLeft % 30 == 0)
             {
@@ -65,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

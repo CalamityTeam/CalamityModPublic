@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 1060;
+			item.damage = 564;
 			item.knockBack = 3.5f;
 			item.useAnimation = item.useTime = 21;
 			item.autoReuse = true;
@@ -33,19 +32,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item1;
-			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (player.Calamity().StealthStrikeAvailable())
-			{
 				type = ModContent.ProjectileType<EclipsesStealth>();
-			}
+
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 
@@ -55,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.AddIngredient(ModContent.ItemType<NightsGaze>());
 			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

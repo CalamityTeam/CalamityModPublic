@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.damage = 42;
-            item.mana = 12;
+            item.mana = 10;
             item.width = item.height = 32;
             item.useTime = item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
 
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

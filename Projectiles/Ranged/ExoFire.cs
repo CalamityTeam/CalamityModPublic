@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public bool ProducedAcceleration = false;
 
         public override void SetStaticDefaults()
@@ -24,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.extraUpdates = 10;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.timeLeft = 180;
         }
 

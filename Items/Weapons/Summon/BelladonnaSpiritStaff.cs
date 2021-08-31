@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.damage = 5;
-            item.mana = 9;
+            item.mana = 10;
             item.width = 40;
             item.height = 40;
             item.useTime = item.useAnimation = 35;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();

@@ -19,12 +19,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.damage = 100;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
             npc.width = 30;
             npc.height = 50;
             npc.defense = 70;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 50000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -36,10 +35,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
         }
 
@@ -76,25 +71,32 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = false;
             }
 
-			if (npc.ai[3] > 0f)
-			{
-				npc.realLife = (int)npc.ai[3];
-			}
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
 
-			bool flag = false;
-			if (npc.ai[1] <= 0f)
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				flag = true;
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DevourerofGodsHead2>())
+				{
+					shouldDespawn = false;
+					break;
+				}
 			}
-			else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
+			if (!shouldDespawn)
 			{
-				flag = true;
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
 			}
-			if (flag)
+			if (shouldDespawn)
 			{
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.checkDead();
+				npc.active = false;
 			}
 
 			if (Main.npc[(int)npc.ai[1]].alpha < 128)
@@ -105,11 +107,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                     Main.dust[num935].noGravity = true;
                     Main.dust[num935].noLight = true;
                 }
+
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -156,7 +157,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTail2Glow");
@@ -222,7 +223,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90, true);
-            player.AddBuff(BuffID.Frostburn, 90, true);
         }
     }
 }

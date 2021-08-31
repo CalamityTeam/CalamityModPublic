@@ -12,44 +12,51 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquashard Shotgun");
-            Tooltip.SetDefault("Shoots aquashards which split upon hitting an enemy");
+            Tooltip.SetDefault("Converts musket balls into aquashards that split upon hitting an enemy");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 11;
+            item.damage = 14;
             item.ranged = true;
             item.width = 62;
             item.height = 26;
-            item.crit += 6;
             item.useTime = 26;
             item.useAnimation = 26;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Aquashard>();
             item.shootSpeed = 22f;
-        }
+			item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int num6 = Main.rand.Next(2, 4);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[projectile].timeLeft = 200;
-            }
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+				{
+					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockBack, player.whoAmI);
+					Main.projectile[projectile].timeLeft = 200;
+				}
+				else
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
 

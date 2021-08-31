@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BansheeHookBoom : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boom");
@@ -21,8 +23,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 6;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()

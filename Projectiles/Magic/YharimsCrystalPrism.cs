@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
         }
 
+        // TODO -- Make property wrappers for these variables instead of needing to explain them.
         // ai[0] is a frame counter. ai[1] is the next frame mana will be consumed.
         // localAI[0] is the number of frames between mana consumptions.
         public override void AI()
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Magic
                 UpdateAim(rrp, speedTimesScale);
 
                 // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
-                bool allowContinuedUse = !ShouldConsumeMana() || player.CheckMana(player.ActiveItem().mana, true, false);
+                bool allowContinuedUse = !ShouldConsumeMana() || player.CheckMana(player.ActiveItem(), -1, true, false);
                 bool crystalStillInUse = player.channel && allowContinuedUse && !player.noItems && !player.CCed;
 
                 // The beams are only projected once (on frame 1).

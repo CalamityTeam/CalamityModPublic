@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -36,34 +38,21 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void AI()
-        {
-            if (projectile.velocity.X != projectile.velocity.X)
-            {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -projectile.velocity.X;
-            }
-            if (projectile.velocity.Y != projectile.velocity.Y)
-            {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -projectile.velocity.Y;
-            }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
-            {
-                for (int num447 = 0; num447 < 1; num447++)
-                {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    projectile.alpha = 255;
-                    int num249 = 235;
-                    int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 1.5f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].velocity *= 0.1f;
-                    Main.dust[num448].noGravity = true;
-                }
-            }
-        }
+		public override void AI()
+		{
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 9f)
+			{
+				Vector2 vector33 = projectile.position;
+				vector33 -= projectile.velocity;
+				projectile.alpha = 255;
+				int num249 = 235;
+				int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 1.5f);
+				Main.dust[num448].position = vector33;
+				Main.dust[num448].velocity *= 0.1f;
+				Main.dust[num448].noGravity = true;
+			}
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

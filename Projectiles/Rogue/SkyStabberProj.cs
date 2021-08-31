@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class SkyStabberProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyStabber";
+
         private static int Lifetime = 1200;
 
         public override void SetStaticDefaults()
@@ -84,7 +86,9 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				for (int n = 0; n < 4; n++)
 				{
-					CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 5);
+					Projectile feather = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
+					if (feather.whoAmI.WithinBounds(Main.maxProjectiles))
+						feather.Calamity().forceRogue = true;
 				}
 			}
         }

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 595)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 
@@ -49,7 +49,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.damage = (int)(projectile.damage * 1.25);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -57,7 +56,6 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

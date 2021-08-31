@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class PoisonPack : RogueWeapon
     {
-        private static int damage = 20;
-        private static float knockBack = 1.8f;
+        private static int baseDamage = 20;
+        private static float baseKnockback = 1.8f;
 
         public override void SetStaticDefaults()
         {
@@ -22,8 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = damage;
-            item.crit = 4;
+            item.damage = baseDamage;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -32,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = 19;
             item.useAnimation = 19;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
+            item.knockBack = baseKnockback;
             item.value = Item.buyPrice(0, 0, 33, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;
 
@@ -42,11 +41,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<PoisonBol>();
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
+
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] > 0;
 			}
@@ -65,8 +67,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 			modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

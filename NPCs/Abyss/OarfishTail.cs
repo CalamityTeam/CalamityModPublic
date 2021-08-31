@@ -24,10 +24,6 @@ namespace CalamityMod.NPCs.Abyss
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -47,38 +43,41 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
-            {
-                npc.realLife = (int)npc.ai[3];
-            }
-            npc.velocity.Length();
-            bool flag = false;
-            if (npc.ai[1] <= 0f)
-            {
-                flag = true;
-            }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
-            {
-                flag = true;
-            }
-            if (flag)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
-            }
-            if (!NPC.AnyNPCs(ModContent.NPCType<OarfishHead>()))
-            {
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+            if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
+
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<OarfishHead>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
+
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -108,14 +107,11 @@ namespace CalamityMod.NPCs.Abyss
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
+
                 if (num191 < 0f)
-                {
                     npc.spriteDirection = -1;
-                }
                 else if (num191 > 0f)
-                {
                     npc.spriteDirection = 1;
-                }
             }
         }
 

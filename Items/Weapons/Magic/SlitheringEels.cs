@@ -26,12 +26,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.NPCHit13;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SlitheringEelProjectile>();
             item.shootSpeed = 14f;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(0.325f), type, damage, knockBack, player.whoAmI);

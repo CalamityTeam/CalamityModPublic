@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -18,15 +19,16 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.damage = 55;
-            npc.width = 50;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
+			npc.GetNPCDamage();
+			npc.width = 50;
             npc.height = 50;
             npc.defense = 14;
             npc.lifeMax = 1600;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 10000;
             }
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -173,11 +175,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Wet, 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
-            }
+            player.AddBuff(BuffID.Bleeding, 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

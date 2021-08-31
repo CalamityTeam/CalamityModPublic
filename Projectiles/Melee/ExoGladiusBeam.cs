@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladiusBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
+
         private int penetrationAmt = 6;
         private Color currentColor = Color.Black;
         public const float maxScale = 1.8f;
@@ -109,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

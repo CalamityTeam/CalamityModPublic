@@ -9,20 +9,17 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ExecutionersBladeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
-        private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
+        private void handleStealth(Vector2 position)
         {
             if (Main.myPlayer == projectile.owner)
             {
-                Player player = Main.player[projectile.owner];
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ExecutionersBladeStealthProj>()] == 0)
-                {
-                    Main.PlaySound(SoundID.Item73, projectile.position);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)((double)projectile.damage * 1.2f), projectile.knockBack, player.whoAmI);
-                    }
-                }
+				Main.PlaySound(SoundID.Item73, projectile.Center);
+				for (int i = 0; i < 20; i++)
+				{
+					Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 2.5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, projectile.owner);
+				}
             }
         }
 
@@ -39,7 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 64;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 240;
             aiType = ProjectileID.ThrowingKnife;
@@ -53,13 +51,13 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 1200f, 26f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(32f, 32f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -67,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (projectile.Calamity().stealthStrike)
             {
-                handleStealth(target.Center, damage, crit, knockback);
+                handleStealth(target.Center);
             }
         }
 
@@ -76,16 +74,13 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (projectile.Calamity().stealthStrike)
             {
-                handleStealth(target.Center, damage, crit, 0f);
+                handleStealth(target.Center);
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 128;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {
@@ -109,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

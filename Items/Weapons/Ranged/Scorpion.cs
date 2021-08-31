@@ -17,26 +17,28 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 80;
             item.ranged = true;
             item.width = 58;
             item.height = 26;
-            item.useTime = item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useTime = 13;
+			item.reuseDelay = 30;
+			item.useAnimation = 39;
+			item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item11;
+            item.rare = ItemRarityID.Cyan;
+            item.UseSound = null;
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<MiniRocket>();
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-10, 0);
+            return new Vector2(-20, 10);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -49,10 +51,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float UseTimeMultiplier(Player player)
 		{
 			if (player.altFunctionUse == 2)
-				return (13f/42f);
+				return 13f/39f;
 			return 1f;
 		}
 
@@ -60,12 +62,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)(damage * 2.2999), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)(damage * 1.25), knockBack * 2f, player.whoAmI);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI);
                 return false;
             }
         }

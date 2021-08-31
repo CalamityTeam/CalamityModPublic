@@ -27,11 +27,10 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 74;
             npc.height = 94;
             npc.defense = 100;
-            npc.lifeMax = 12000;
+            npc.lifeMax = 9000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 30, 0);
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.9f;
@@ -162,7 +161,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 900, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
         public override void FindFrame(int frameHeight)
@@ -189,7 +188,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 10, 20);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);

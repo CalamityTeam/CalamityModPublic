@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PiercingBullet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Piercing Blow");
@@ -28,7 +30,8 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
@@ -48,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
             return true;
         }
 

@@ -1,8 +1,7 @@
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -21,8 +20,8 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 65;
-            npc.width = 80; //324
-            npc.height = 80; //216
+            npc.width = 80;
+            npc.height = 80;
             npc.defense = 10;
             npc.lifeMax = 50;
             npc.alpha = 100;
@@ -35,14 +34,12 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 320;
-                npc.defense = 80;
-                npc.lifeMax = 2300;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 110;
+                npc.defense = 20;
+                npc.lifeMax = 1500;
             }
             banner = ModContent.NPCType<Scryllar>();
             bannerItem = ModContent.ItemType<ScryllarBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
@@ -248,14 +245,6 @@ namespace CalamityMod.NPCs.Crags
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
-
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.Calamity().ZoneCalamity ? 0.125f : 0f;
@@ -265,10 +254,14 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, CalamityWorld.defiled ? 0.05f : 0.02f);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -280,6 +273,8 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScryllarGores/ScryllarRage"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScryllarGores/ScryllarRage2"), npc.scale);
             }
         }
     }

@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
-12% increased damage and 8% increased critical strike chance
-+2 max minions");
+12% increased damage and 8% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 35, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 19;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
@@ -35,8 +34,6 @@ namespace CalamityMod.Items.Armor
 
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
-
-            player.maxMinions += 2;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -54,18 +51,20 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
-            player.setBonus = "Increases armor penetration by 50\n" +
-				"10% increased damage and critical strike chance\n" +
+            player.setBonus = "Increases armor penetration by 15\n" +
+				"10% increased damage and critical strike chance and +2 max minions\n" +
 				"Short-ranged tentacles heal you by sucking enemy life\n" +
 				"Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
 				"Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
 				"This effect has a 25 second cooldown";
 
-            player.armorPenetration += 50;
+            player.armorPenetration += 15;
             player.Calamity().wearingRogueArmor = true;
 
-            //raise rev caps
-            player.Calamity().omegaBlueSet = true;
+			player.maxMinions += 2;
+
+			//raise rev caps
+			player.Calamity().omegaBlueSet = true;
 
 			if (player.Calamity().omegaBlueCooldown == 1) //dust when ready to use again
 			{
@@ -97,7 +96,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 8);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);

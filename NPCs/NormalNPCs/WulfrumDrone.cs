@@ -1,11 +1,12 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -36,7 +37,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => npc.ai[3];
             set => npc.ai[3] = value;
         }
+
         public bool Supercharged => SuperchargeTimer > 0;
+        public ref float FlyAwayTimer => ref npc.localAI[0];
 
         public const float TotalHorizontalChargeTime = 75f;
         public override void SetStaticDefaults()
@@ -64,30 +67,45 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }
 
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(FlyAwayTimer);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => FlyAwayTimer = reader.ReadSingle();
+
         public override void AI()
         {
             npc.TargetClosest(false);
 
             Player player = Main.player[npc.target];
 
-            bool farFromPlayer = npc.Distance(player.Center) > 640f;
+            bool farFromPlayer = npc.Distance(player.Center) > 920f;
             bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
 
             if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                farFromPlayer = npc.Distance(player.Center) > 640f;
+                farFromPlayer = npc.Distance(player.Center) > 920f;
                 obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
-                    npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
-                    npc.noTileCollide = true;
+                    if (FlyAwayTimer > 480)
+					{
+                        npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        npc.noTileCollide = true;
+                    }
+                    else
+                    {
+                        npc.velocity *= 0.96f;
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        FlyAwayTimer++;
+                    }
                     return;
                 }
             }
+
+            FlyAwayTimer = Utils.Clamp(FlyAwayTimer - 3, 0, 180);
 
             npc.noTileCollide = !farFromPlayer;
 
@@ -100,8 +118,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (npc.direction == 0)
                     npc.direction = 1;
+
                 Vector2 destination = player.Center + new Vector2(300f * npc.direction, -90f);
-                npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(destination) * 8f, 0.1f);
+                npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(destination) * 8f, 0.1f);
                 if (npc.Distance(destination) < 40f)
                 {
                     Time++;
@@ -116,13 +135,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
             {
                 if (HorizontalChargeTime < 25)
-                {
-                    npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 8f, 0.1f);
-                }
+                    npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(player.Center) * 8f, 0.1f);
+
                 if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
-                {
-                    Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.DirectionTo(player.Center) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
-                }
+                    Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
+
                 HorizontalChargeTime++;
                 if (HorizontalChargeTime > TotalHorizontalChargeTime)
                 {
@@ -156,7 +173,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 3f : 1f;
+			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
@@ -182,7 +199,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 1, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<WulfrumShard>(), Main.expertMode);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
         }
     }

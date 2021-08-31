@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Boss;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Perforator
 {
 	public class PerforatorBodyMedium : ModNPC
@@ -19,19 +20,18 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
-            npc.damage = 21;
-            npc.npcSlots = 5f;
-            npc.width = 54;
-            npc.height = 54;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
+            npc.width = 40;
+            npc.height = 40;
             npc.defense = 6;
-			npc.LifeMaxNERB(2000, 2200, 700000);
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-            npc.aiStyle = 6;
+			npc.LifeMaxNERB(160, 180, 7000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -40,73 +40,128 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-        }
 
-        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-        {
-            return false;
-        }
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+
+			npc.Calamity().SplittingWorm = true;
+		}
 
         public override void AI()
         {
+			npc.realLife = -1;
+
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
 
-			Player player = Main.player[npc.target];
-
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int shoot = revenge ? 5 : 4;
-                npc.localAI[0] += Main.rand.Next(shoot);
-                if (npc.localAI[0] >= Main.rand.Next(1500, 12000))
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-                    {
-                        float num941 = revenge ? 9f : 8f;
-                        Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
-                        float num942 = player.position.X + player.width * 0.5f - vector104.X;
-                        float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
-                        num944 = num941 / num944;
-                        num942 *= num944;
-                        num943 *= num944;
-                        int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<BloodClot>();
-                        vector104.X += num942 * 5f;
-                        vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2))
-                        {
-                            int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num947].timeLeft = 160;
-                        }
-                        npc.netUpdate = true;
-                    }
-                }
-            }
-			if (player.dead)
-			{
+			if (Main.player[npc.target].dead)
 				npc.TargetClosest(false);
+
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			{
+				npc.alpha -= 42;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
 			}
-			if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
-            {
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
-        }
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (npc.ai[0] == 0f)
+				{
+					if (npc.ai[2] > 0f)
+						npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+					else
+						npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), ModContent.NPCType<PerforatorTailMedium>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+
+					Main.npc[(int)npc.ai[0]].ai[1] = npc.whoAmI;
+					Main.npc[(int)npc.ai[0]].ai[2] = npc.ai[2] - 1f;
+					npc.netUpdate = true;
+				}
+
+				// Splitting effect
+				if (!Main.npc[(int)npc.ai[1]].active && !Main.npc[(int)npc.ai[0]].active)
+				{
+					npc.life = 0;
+					npc.HitEffect(0, 10.0);
+					npc.checkDead();
+					npc.active = false;
+					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+				}
+				if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != npc.aiStyle)
+				{
+					npc.type = ModContent.NPCType<PerforatorHeadMedium>();
+					int whoAmI = npc.whoAmI;
+					float num25 = npc.life / (float)npc.lifeMax;
+					float num26 = npc.ai[0];
+					int aiTimer = npc.Calamity().AITimer;
+					npc.SetDefaultsKeepPlayerInteraction(npc.type);
+					npc.life = (int)(npc.lifeMax * num25);
+					npc.ai[0] = num26;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
+					npc.whoAmI = whoAmI;
+					npc.Calamity().AITimer = aiTimer;
+				}
+				if (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].aiStyle != npc.aiStyle)
+				{
+					int whoAmI2 = npc.whoAmI;
+					float num27 = npc.life / (float)npc.lifeMax;
+					float num28 = npc.ai[1];
+					int aiTimer = npc.Calamity().AITimer;
+					npc.SetDefaultsKeepPlayerInteraction(npc.type);
+					npc.life = (int)(npc.lifeMax * num27);
+					npc.ai[1] = num28;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
+					npc.whoAmI = whoAmI2;
+					npc.Calamity().AITimer = aiTimer;
+				}
+
+				if (!npc.active && Main.netMode == NetmodeID.Server)
+					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+			}
+
+			Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+			float num39 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
+			float num40 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
+
+			num39 = (int)(num39 / 16f) * 16;
+			num40 = (int)(num40 / 16f) * 16;
+			vector2.X = (int)(vector2.X / 16f) * 16;
+			vector2.Y = (int)(vector2.Y / 16f) * 16;
+			num39 -= vector2.X;
+			num40 -= vector2.Y;
+			float num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
+
+			if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
+			{
+				try
+				{
+					vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					num39 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector2.X;
+					num40 = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - vector2.Y;
+				}
+				catch
+				{
+				}
+
+				npc.rotation = (float)Math.Atan2(num40, num39) + MathHelper.PiOver2;
+				num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
+				int num53 = npc.width;
+				num53 = (int)(num53 * npc.scale);
+				num52 = (num52 - num53) / num52;
+				num39 *= num52;
+				num40 *= num52;
+				npc.velocity = Vector2.Zero;
+				npc.position.X += num39;
+				npc.position.Y += num40;
+			}
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -119,7 +174,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyMediumGlow");
@@ -160,13 +215,11 @@ namespace CalamityMod.NPCs.Perforator
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 120, true);
-            player.AddBuff(BuffID.Bleeding, 120, true);
         }
     }
 }

@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -56,7 +57,7 @@ namespace CalamityMod.Tiles.Astral
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
                 return true;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()) || BossRushEvent.BossRushActive)
                 return true;
 
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)
@@ -66,19 +67,15 @@ namespace CalamityMod.Tiles.Astral
 
             if (Main.dayTime)
             {
-                string localizationKey = "Mods.CalamityMod.DeusAltarRejectNightText";
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(localizationKey), FailColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), FailColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DeusAltarRejectNightText", FailColor);
                 return false;
             }
 
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"), ritualSpawnPosition);
-            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
+            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<TitanHeart>(), true);

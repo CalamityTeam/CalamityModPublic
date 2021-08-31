@@ -20,12 +20,17 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public static List<string> PossibleNames = new List<string>()
         {
+            // Patron names
+            "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
+	    "Freakish", // <@!750363283520749598> Freakish#0001
+
+            // Original names
             "Laura", "Mie", "Bonnie",
             "Sarah", "Diane", "Kate",
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana", "Xplizzy"
+            "Amber", "Anne", "Indiana"
         };
 
         public override void SetStaticDefaults()
@@ -207,7 +212,7 @@ namespace CalamityMod.NPCs.TownNPCs
                     case 1:
                         return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
         }
@@ -255,7 +260,16 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
-            if (CalamityWorld.downedSlimeGod)
+			shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			if (CalamityWorld.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
                 nextSlot++;
@@ -278,7 +292,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            if (NPC.downedMechBossAny)
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
@@ -323,7 +337,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
+            if (CalamityWorld.downedYharon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);

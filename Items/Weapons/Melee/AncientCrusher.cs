@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +18,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 55;
+			item.height = 62;
+			item.scale = 2f;
+			item.damage = 55;
             item.melee = true;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -26,9 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 62;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()
@@ -44,12 +46,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), damage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), damage, item.knockBack, Main.myPlayer);
         }
     }
 }

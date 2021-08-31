@@ -11,14 +11,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leonid Progenitor");
-			Tooltip.SetDefault("Legendary Drop\n" +
-				"Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
+			Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
 				"Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
-				"Stealth strikes lob a bombshell that additionally splits into comets on hit\n" +
-				"Revengeance drop");
+				"Stealth strikes lob a bombshell that additionally splits into comets on hit");
 		}
 
 		public override void SafeSetDefaults()
@@ -33,13 +32,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.width = 32;
 			item.height = 48;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item61;
+
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
-			item.rare = 7;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.rare = ItemRarityID.Lime;
+			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			return base.CanUseItem(player);
 		}
 
-		public override float UseTimeMultiplier	(Player player)
+		public override float SafeSetUseTimeMultiplier(Player player)
 		{
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 				return 1f;
@@ -70,8 +70,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 			{
-				int bomb = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[bomb].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+				int bomb = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (bomb.WithinBounds(Main.maxProjectiles))
+					Main.projectile[bomb].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 				return false;
 			}
 			else
@@ -80,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				for (float i = -2.5f; i < 3f; ++i)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * dmgMult), knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * dmgMult), knockBack, player.whoAmI);
 				}
 			}
 			return false;
@@ -88,8 +89,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Vector2 origin = new Vector2(item.width / 2f, item.height / 2f - 2f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/LeonidProgenitorGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/LeonidProgenitorGlow"));
 		}
 	}
 }

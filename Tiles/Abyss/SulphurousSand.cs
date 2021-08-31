@@ -22,9 +22,9 @@ namespace CalamityMod.Tiles.Abyss
             drop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
             mineResist = 1f;
-            minPick = 55;
             soundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
+            SetModCactus(new SulphurousCactus());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

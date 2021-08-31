@@ -27,15 +27,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 23;
             item.knockBack = 6;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 72;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<StarnightLanceProjectile>();
             item.shootSpeed = 6f;
         }
 
-        public override void AddRecipes()
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);

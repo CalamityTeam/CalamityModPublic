@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class NightOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");
@@ -17,7 +19,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 30;
             projectile.magic = true;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {

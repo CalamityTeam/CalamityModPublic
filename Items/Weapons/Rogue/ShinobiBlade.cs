@@ -17,7 +17,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
+            item.width = 16;
+            item.height = 42;
             item.damage = 15;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -27,10 +28,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 34;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
@@ -48,8 +48,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     Vector2 currentDirection = baseDirection.RotatedBy(spreadAngle * i);
 
-                    int p = Projectile.NewProjectile(position.X, position.Y, currentDirection.X, currentDirection.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[p].Calamity().stealthStrike = true;
+                    int p = Projectile.NewProjectile(position, currentDirection, type, damage, knockBack, player.whoAmI);
+					if (p.WithinBounds(Main.maxProjectiles))
+						Main.projectile[p].Calamity().stealthStrike = true;
                 }
                 return false;
             }

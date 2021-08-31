@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,17 +29,17 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.DD2_BetsyFlameBreath;
 
             item.summon = true;
-            item.mana = 100;
-            item.damage = 426;
+            item.mana = 10;
+            item.damage = 145;
             item.knockBack = 4f;
             item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
             item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
 
 		public override void HoldItem(Player player)
         {
@@ -72,8 +71,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Sirius>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 25);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

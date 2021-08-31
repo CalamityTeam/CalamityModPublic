@@ -22,41 +22,40 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 420;
+            item.damage = 77;
             item.magic = true;
-            item.mana = (int)42.0;
+            item.mana = 42;
             item.width = 30;
             item.height = 34;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = item.useAnimation = 177;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 6.9f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ApothMark>();
-            item.shootSpeed = 15.69f;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.shoot = ModContent.ProjectileType<ApotheosisWorm>();
+            item.shootSpeed = 42.0f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(15f, 15f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
+            recipe.AddIngredient(ItemID.SpellTome);
             recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
             recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 11);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

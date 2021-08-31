@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.damage = 34;
-            item.mana = 19;
+            item.mana = 10;
             item.width = 52;
             item.height = 50;
             item.useTime = item.useAnimation = 25;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<IgneousBlade>();

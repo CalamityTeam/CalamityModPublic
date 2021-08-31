@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 24f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -36,21 +36,21 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(SoundID.Item14, projectile.Center);
             for (int i = 0; i < 2; i++)
             {
-				int dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1.2f);
-				Main.dust[dustInt].velocity *= 3f;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[dustInt].scale = 0.5f;
-					Main.dust[dustInt].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
+                int dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1.2f);
+                Main.dust[dustInt].velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[dustInt].scale = 0.5f;
+                    Main.dust[dustInt].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                }
             }
             for (int j = 0; j < 3; j++)
             {
-				int moreDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1.7f);
-				Main.dust[moreDust].noGravity = true;
-				Main.dust[moreDust].velocity *= 5f;
-				moreDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1f);
-				Main.dust[moreDust].velocity *= 2f;
+                int moreDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1.7f);
+                Main.dust[moreDust].noGravity = true;
+                Main.dust[moreDust].velocity *= 5f;
+                moreDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, 0f, 0f, 100, default, 1f);
+                Main.dust[moreDust].velocity *= 2f;
             }
         }
 

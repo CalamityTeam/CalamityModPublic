@@ -16,13 +16,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			Tooltip.SetDefault("A long device, used in the tuning of some rather... original machines.\n" +
 							   "Swings a spear around and then throws it\n" +
 							   "On collision, the spear releases a burst of homing energy\n" +
-							   "Stealth strikes releases more energy and explode on collision");
+							   "Stealth strikes release more energy and explode on collision");
 		}
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 67;
-			item.Calamity().rogue = true;
+			CalamityGlobalItem modItem = item.Calamity();
+
+			item.damage = 80;
+			modItem.rogue = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.width = 26;
@@ -35,22 +37,24 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 			item.UseSound = SoundID.Item1;
 
 			item.shootSpeed = 16f;
 			item.shoot = ModContent.ProjectileType<FrequencyManipulatorProjectile>();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 85;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 85f;
+			modItem.ChargePerUse = 0.04f;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f).Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 

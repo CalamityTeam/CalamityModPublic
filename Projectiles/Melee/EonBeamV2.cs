@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             aiType = ProjectileID.EnchantedBeam;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.ai[0] != 1f) //excludes True Ark of the Ancients
 			{
 				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-				target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+				target.AddBuff(BuffID.Frostburn, 120);
 				target.AddBuff(ModContent.BuffType<Plague>(), 120);
 				target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
 			}

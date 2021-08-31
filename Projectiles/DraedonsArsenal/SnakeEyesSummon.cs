@@ -13,13 +13,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public bool SufferingFromSeparationAnxiety = false;
         public Vector2 OldCenter;
         public Vector2 Destination;
+
         public float Time
         {
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public float EyeOutwardness = 1f;
         public float EyeRotation = 0f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snake Eyes");
@@ -89,7 +92,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 NPCMovement(potentialTarget);
             }
-            if (!SufferingFromSeparationAnxiety && projectile.Distance(player.Center) > (potentialTarget is null ? 360f : 1500f))
+            if (!SufferingFromSeparationAnxiety && projectile.Distance(player.Center) > (potentialTarget is null ? 360f : 1800f))
             {
                 SufferingFromSeparationAnxiety = true;
                 projectile.netUpdate = true;
@@ -105,6 +108,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
         }
+
         public void Initialize(Player player)
         {
             projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -118,6 +122,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 dust.noGravity = true;
             }
         }
+
         // While this projectile cannot attack, the projectiles it shoots derive from the damage.
         public void AdjustDamage(Player player)
         {
@@ -129,6 +134,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.damage = trueDamage;
             }
         }
+
         public void GrantBuffs(Player player)
         {
             bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<SnakeEyesSummon>();
@@ -145,6 +151,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public void PlayerMovement(Player player)
         {
             projectile.velocity = Vector2.Zero;
@@ -170,6 +177,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             EyeOutwardness = MathHelper.Lerp(EyeOutwardness, 0f, 0.15f);
         }
+
         public void NPCMovement(NPC npc)
         {
             projectile.velocity = Vector2.Zero;
@@ -193,12 +201,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (projectile.ai[1] > 0 && Main.myPlayer == projectile.owner)
                 {
-                    Projectile laser = Projectile.NewProjectileDirect(projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness), 
-                                                   projectile.DirectionTo(npc.Center) * 4f, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
-                    laser.timeLeft *= 2;
-                    laser.tileCollide = false;
-                    laser.netUpdate = true;
-                    laser.Calamity().forceMinion = true;
+                    Vector2 shootPosition = projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
+                    Vector2 shootVelocity = projectile.SafeDirectionTo(npc.Center, Main.rand.NextVector2Unit()) * 4f;
+                    int laser = Projectile.NewProjectile(shootPosition, shootVelocity, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
+					if (laser.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[laser].timeLeft *= 2;
+                        Main.projectile[laser].tileCollide = false;
+                        Main.projectile[laser].netUpdate = true;
+                        Main.projectile[laser].Calamity().forceMinion = true;
+					}
                 }
                 projectile.ai[1]++;
                 OldCenter = projectile.Center;
@@ -210,6 +222,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.Center = Vector2.SmoothStep(OldCenter, npc.Center + (new Vector2(300f) + projectile.Size * 0.5f) * offsetMultiplier, Time % 20f / 20f);
             }
         }
+
         public void GenerateAfterimageDust()
         {
             for (int i = 1; i < projectile.oldPos.Length; i++)
@@ -238,10 +251,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public override bool CanDamage() => false;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, 0, ProjectileID.Sets.TrailCacheLength[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, 0, Color.White, ProjectileID.Sets.TrailCacheLength[projectile.type]);
             Texture2D eyeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/SnakeEye");
             Vector2 offsetVector = Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
             spriteBatch.Draw(eyeTexture,

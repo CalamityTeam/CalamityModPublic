@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoLight : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float OffsetSpeed
         {
             get => projectile.ai[0];
@@ -46,6 +48,14 @@ namespace CalamityMod.Projectiles.Ranged
                 OffsetSpeed = Main.rand.NextFloat(MathHelper.ToRadians(2.5f), MathHelper.ToRadians(4f)) * Main.rand.NextBool(2).ToDirectionInt();
                 projectile.localAI[0] = 1f;
             }
+
+            // Ensure that the owner projectile index is a valid one.
+            if (!Main.projectile.IndexInRange((int)projectile.localAI[1]))
+			{
+                projectile.Kill();
+                return;
+			}
+
             Projectile owner = Main.projectile[(int)projectile.localAI[1]];
 
             // Ensure the owner is the correct projectile.

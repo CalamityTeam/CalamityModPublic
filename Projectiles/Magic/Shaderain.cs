@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Shaderain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/ShaderainHostile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rain");

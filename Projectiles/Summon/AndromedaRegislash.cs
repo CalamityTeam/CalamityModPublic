@@ -58,11 +58,26 @@ namespace CalamityMod.Projectiles.Summon
 			{
                 projectile.Kill();
 			}
+			projectile.direction = ((player.Center.X - projectile.Center.X) < 0).ToDirectionInt();
+			projectile.spriteDirection = projectile.direction;
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            Texture2D texture = Main.projectileTexture[projectile.type];
+			Vector2 startPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            int frameHeight = texture.Height / Main.projFrames[projectile.type];
+            int frameY = frameHeight * projectile.frame;
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+            Vector2 origin = rectangle.Size() / 2f;
+            float rotation = projectile.rotation;
+            float scale = projectile.scale;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipVertically;
+
+			Main.spriteBatch.Draw(texture, startPos, rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
             return false;
         }
     }

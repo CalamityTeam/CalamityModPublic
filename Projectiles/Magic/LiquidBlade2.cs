@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LiquidBlade2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/LightBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
@@ -20,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 3;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.timeLeft = 180;

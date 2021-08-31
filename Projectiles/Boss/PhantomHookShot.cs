@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -22,11 +23,11 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 2;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -45,7 +46,9 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item20, projectile.position);
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 6f)
             {
@@ -58,17 +61,21 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num152].noGravity = true;
                 }
             }
+
             if (projectile.localAI[0] > 9f)
             {
                 projectile.alpha -= 5;
                 if (projectile.alpha < 30)
-                {
                     projectile.alpha = 30;
-                }
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
+		}
+
+		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(100, 250, 250, projectile.alpha);
         }

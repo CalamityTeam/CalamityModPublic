@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gleaming Magnolia");
-            Tooltip.SetDefault("Casts a gleaming bolt that explodes into smaller bolts");
+            Tooltip.SetDefault("Casts a gleaming flower that explodes into petals");
             Item.staff[item.type] = true;
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<GleamingBolt>();

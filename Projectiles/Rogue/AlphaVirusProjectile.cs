@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class AlphaVirusProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AlphaVirus";
+
         public static int lifetime = 600;
         public static float finalVelocity = 2f;
         public static float decelerationRate = 0.07f;
@@ -25,11 +27,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 5;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 5;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -51,12 +55,12 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (projectile.timeLeft < lifetime - 30 && projectile.timeLeft % 15 == 0 && projectile.ai[0] <= finalVelocity)
                 {
-                    int projdamage = projectile.damage / 2;
-                    Vector2 randomVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    randomVelocity.Normalize();
-                    randomVelocity *= 5f;
-
-                    int p = Projectile.NewProjectile(projectile.Center, randomVelocity, ModContent.ProjectileType<AlphaSeeker>(), projdamage, 1f, projectile.owner, 2, projectile.identity);
+                    int projID = ModContent.ProjectileType<AlphaSeeker>();
+                    int damage = (int)(projectile.damage * 0.125f);
+                    float kb = 1f;
+                    float ai0 = 1f; // Stealth strike spawned seekers set ai[0] to 1, which makes them cling to the parent projectile.
+                    Vector2 vel = Main.rand.NextVector2CircularEdge(5f, 5f);
+                    Projectile.NewProjectile(projectile.Center, vel, projID, damage, kb, projectile.owner, ai0, projectile.identity);
                 }
             }
             else
@@ -190,12 +194,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 6; i++)
+            int numSeekers = 6;
+            int damage = projectile.damage;
+            float kb = 1f;
+            float speed = 10f;
+            for (int i = 0; i < numSeekers; i++)
             {
-                int damage2 = projectile.damage;
-                Vector2 velocity = new Vector2(0, 10);
-                velocity = velocity.RotatedBy(MathHelper.ToRadians(60) * i);
-                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage2, 5, projectile.owner, i % 2, 0);
+                Vector2 velocity = (MathHelper.Pi * i / 3f).ToRotationVector2() * speed;
+                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, kb, projectile.owner, 0f, 0f);
             }
 
             int numDust = 20;

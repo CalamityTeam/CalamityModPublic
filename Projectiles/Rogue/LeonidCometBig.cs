@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 42;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.Calamity().rogue = true;
 			projectile.tileCollide = false;
 			projectile.extraUpdates = 2;
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f), ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f), 1);
             return false;
         }
 

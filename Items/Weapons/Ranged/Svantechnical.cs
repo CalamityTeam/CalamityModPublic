@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Svantechnical");
             Tooltip.SetDefault("Fires several barrages of bullets\n" +
-                               "Right click to zoom out");
+                "Right click to zoom out");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 720;
+            item.damage = 150;
             item.ranged = true;
             item.width = 60;
             item.height = 26;
@@ -29,14 +29,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.5f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item31;
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ProjectileID.PurificationPowder;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class RavagerFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blue Flame");
@@ -21,15 +23,17 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
             projectile.aiStyle = 1;
-        }
+			projectile.extraUpdates = CalamityWorld.malice ? 2 : 1;
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
             for (int num468 = 0; num468 < 2; num468++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 135, 0f, 0f, 100, default, 3f);
+                int num469 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 3f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }

@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Helium Flash");
             Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
-			"Launches volatile star cores which erupt into colossal fusion blasts");
+            "Launches volatile star cores which erupt into colossal fusion blasts");
             Item.staff[item.type] = true;
         }
 
@@ -35,9 +34,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item73;
 
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.buyPrice(2, 50, 0, 0);
 
             item.shoot = ModContent.ProjectileType<VolatileStarcore>();
             item.shootSpeed = 15f;
@@ -95,12 +94,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddTile(TileID.LunarCraftingStation);
             r.AddIngredient(ModContent.ItemType<VenusianTrident>());
             r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
             r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ItemID.FragmentSolar, 80);
             r.AddIngredient(ItemID.FragmentNebula, 20);
             r.AddRecipe();

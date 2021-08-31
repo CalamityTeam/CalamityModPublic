@@ -2,32 +2,48 @@ using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Schematics;
-using CalamityMod.Tiles;
-using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using static CalamityMod.Schematics.SchematicLoader;
-using static CalamityMod.Schematics.SchematicPlacementHelpers;
+using static CalamityMod.Schematics.SchematicManager;
 
 namespace CalamityMod.World
 {
-    internal struct ChestItem
-    {
-        internal int Type;
-        internal int Stack;
-        internal ChestItem(int type, int stack)
-        {
-            Type = type;
-            Stack = stack;
-        }
-    }
     public static class DraedonStructures
     {
+        private static int[] otherModTilesToAvoid;
+
+        internal static void Load()
+        {
+            IList<int> avoid = new List<int>(16);
+
+            // Mod of Redemption's labs use modded blocks, but must still be avoided.
+            Mod mor = CalamityMod.Instance.redemption;
+            if (mor != null)
+            {
+                // Thanks to Hallam to providing these tile names.
+                string[] redemptionAvoidTiles = new string[]
+                {
+                    "LabTileUnsafe",
+                    "OvergrownLabTile"
+                };
+                foreach (string tileName in redemptionAvoidTiles)
+                    avoid.Add(mor.TileType(tileName));
+            }
+
+            otherModTilesToAvoid = avoid.ToArray();
+        }
+
+        internal static void Unload()
+        {
+            otherModTilesToAvoid = null;
+        }
+        
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
@@ -51,7 +67,16 @@ namespace CalamityMod.World
             {
                 return true;
             }
-            return false;
+
+            //
+            // Below this line: Avoiding other mod worldgen.
+            //
+
+            // Avoid Thorium's Blood Chamber (where you summon Viscount). This is done separately because it uses vanilla tiles.
+            if (tile.type == TileID.StoneSlab || tile.wall == WallID.StoneSlab)
+                return true;
+            // Avoid all other registered modded tiles to avoid.
+            return otherModTilesToAvoid.Any(id => tile.type == id);
         }
 
         #region Workshop
@@ -79,41 +104,43 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Workshop";
 
-        TryAgain:
-            int underworldTop = Main.maxTilesY - 200;
-            int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
-            int placementPositionY = WorldGen.genRand.Next(underworldTop - 550, underworldTop - 50);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int activeTilesInArea = 0;
-            int xCheckArea = 40;
-            bool canGenerateInLocation = true;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.1f), (int)(Main.maxTilesX * 0.9f));
+                int placementPositionY = WorldGen.genRand.Next(underworldTop - 550, underworldTop - 50);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int activeTilesInArea = 0;
+                int xCheckArea = 40;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-                        activeTilesInArea++;
+
+                        if (tile.active())
+                            activeTilesInArea++;
                     }
                 }
-            }
-            if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
-            {
-                tries++;
-                if (tries > 25000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
-            }
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, FillWorkshopChest);
+                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
+                    break;
+                }
+
+            } while (tries <= 25000);
         }
         #endregion
 
@@ -142,41 +169,43 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Research Facility";
 
-        TryAgain:
-            int underworldTop = Main.maxTilesY - 200;
-            int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
-            int placementPositionY = WorldGen.genRand.Next(underworldTop - 400, underworldTop - 50);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int activeTilesInArea = 0;
-            int xCheckArea = 30;
-            bool canGenerateInLocation = true;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15f), (int)(Main.maxTilesX * 0.85f));
+                int placementPositionY = WorldGen.genRand.Next(underworldTop - 400, underworldTop - 50);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int activeTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-                        activeTilesInArea++;
+
+                        if (tile.active())
+                            activeTilesInArea++;
                     }
                 }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
+                    tries++;
+                else
+                {
+                    bool _ = true;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
+                    break;
+                }
             }
-            if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
-            {
-                tries++;
-                if (tries > 25000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
-            }
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, FillLaboratoryChest);
+            while (tries <= 25000);
         }
         #endregion
 
@@ -212,42 +241,42 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Hell Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
-        TryAgain:
-            int underworldTop = Main.maxTilesY - 200;
-            int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.82), (int)(Main.maxTilesX * 0.925));
-            int placementPositionY = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 125);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int xCheckArea = 30;
-            bool canGenerateInLocation = true;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.82), (int)(Main.maxTilesX * 0.925));
+                int placementPositionY = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 125);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y), false))
                             canGenerateInLocation = false;
                     }
                 }
+                if (!canGenerateInLocation)
+                {
+                    tries++;
+                }
+                else
+                {
+                    bool hasPlacedMurasama = false;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    break;
+                }
             }
-            if (!canGenerateInLocation)
-            {
-                tries++;
-                if (tries > 50000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
-            }
-
-            bool hasPlacedMurasama = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, FillHellLaboratoryChest);
+            while (tries <= 50000);
         }
         #endregion
 
@@ -283,7 +312,7 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Sunken Sea Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             do
             {
@@ -294,7 +323,7 @@ namespace CalamityMod.World
                 int placementPositionY = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight - 25, WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight + 10);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int xCheckArea = 25;
                 bool shouldAvoidArea = false;
 
@@ -315,7 +344,7 @@ namespace CalamityMod.World
             while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, FillSunkenSeaLaboratoryChest);
+            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
         }
         #endregion
 
@@ -356,48 +385,49 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Ice Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
-        TryAgain:
-            int underworldTop = Main.maxTilesY - 200;
-            int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
-            int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int activeTilesInArea = 0;
-            int iceTilesInArea = 0;
-            int xCheckArea = 30;
-            bool canGenerateInLocation = true;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 180f);
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
+                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                int activeTilesInArea = 0;
+                int iceTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 180f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (tile.active())
+                        {
+                            if (tile.type == TileID.SnowBlock || tile.type == TileID.IceBlock)
+                                iceTilesInArea++;
+                            activeTilesInArea++;
+                        }
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-                        if (tile.type == TileID.SnowBlock || tile.type == TileID.IceBlock)
-                            iceTilesInArea++;
-                        activeTilesInArea++;
                     }
                 }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || iceTilesInArea < totalTiles * 0.35f)
+                    tries++;
+                else
+                {
+                    bool hasPlacedLogAndSchematic = false;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    break;
+                }
             }
-            if (!canGenerateInLocation || nearbyOtherWorkshop || iceTilesInArea < totalTiles * 0.35f)
-            {
-                tries++;
-                if (tries > 50000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
-            }
-
-            bool hasPlacedLogAndSchematic = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, FillIceLaboratoryChest);
+            while (tries <= 50000);
         }
         #endregion
 
@@ -432,48 +462,51 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Plague Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
-        TryAgain:
-            int underworldTop = Main.maxTilesY - 200;
-            int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
-            int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int activeTilesInArea = 0;
-            int jungleTilesInArea = 0;
-            int xCheckArea = 30;
-            bool canGenerateInLocation = true;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 200f);
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int underworldTop = Main.maxTilesY - 200;
+                int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
+                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                int activeTilesInArea = 0;
+                int jungleTilesInArea = 0;
+                int xCheckArea = 30;
+                bool canGenerateInLocation = true;
+
+                // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
+                bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 200f);
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-                        if (tile.type == TileID.Mud || tile.type == TileID.JungleGrass)
-                            jungleTilesInArea++;
-                        activeTilesInArea++;
+                        if (tile.active())
+                        {
+                            if (tile.type == TileID.Mud || tile.type == TileID.JungleGrass)
+                                jungleTilesInArea++;
+                            activeTilesInArea++;
+                        }
                     }
                 }
+                if (!canGenerateInLocation || nearbyOtherWorkshop || jungleTilesInArea < totalTiles * 0.4f)
+                {
+                    tries++;
+                }
+                else
+                {
+                    bool hasPlacedLogAndSchematic = false;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    break;
+                }
             }
-            if (!canGenerateInLocation || nearbyOtherWorkshop || jungleTilesInArea < totalTiles * 0.4f)
-            {
-                tries++;
-                if (tries > 50000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
-            }
-
-            bool hasPlacedLogAndSchematic = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, FillPlagueLaboratoryChest);
+            while (tries <= 50000);
         }
         #endregion
 
@@ -501,7 +534,7 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
 
-			Mod thorium = ModLoader.GetMod("ThoriumMod");
+            Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
                 contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
 

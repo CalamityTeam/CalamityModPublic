@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 11;
             item.ranged = true;
             item.width = 27;
             item.height = 38;
@@ -25,18 +24,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item5;
             item.autoReuse = false;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
-        }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
+            item.useAmmo = AmmoID.Arrow;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override void AddRecipes()
         {

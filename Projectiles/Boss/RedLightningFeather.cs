@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -57,18 +58,19 @@ namespace CalamityMod.Projectiles.Boss
 
 			Lighting.AddLight(projectile.Center, 0.7f * projectile.Opacity, 0f, 0f);
 
-            projectile.ai[0] += 1f;
+			projectile.ai[0] += 1f;
 			float timeGateValue = 150f;
+			float timeGateValue2 = 300f;
             if (projectile.ai[0] > timeGateValue)
             {
                 int num103 = Player.FindClosest(projectile.Center, 1, 1);
 
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] <= timeGateValue)
+                if (projectile.ai[0] <= timeGateValue2)
                 {
-					if (projectile.ai[1] == timeGateValue)
+					if (projectile.ai[0] == timeGateValue2)
 					{
-						Vector2 v4 = Main.player[num103].Center + Main.player[num103].velocity * 20f - projectile.Center;
+						Vector2 aimVector = projectile.ai[1] == 0f ? (Main.player[num103].velocity * 20f) : Vector2.Zero;
+						Vector2 v4 = Main.player[num103].Center + aimVector - projectile.Center;
 
 						if (float.IsNaN(v4.X) || float.IsNaN(v4.Y))
 							v4 = -Vector2.UnitY;
@@ -77,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.velocity = Vector2.Normalize(v4) * 18f;
 					}
-					else if (projectile.ai[1] > timeGateValue - 30f)
+					else if (projectile.ai[0] > timeGateValue2 - 30f)
 					{
 						if (projectile.velocity.Length() > 2f)
 							projectile.velocity *= 0.9f;
@@ -104,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, Main.projectileTexture[projectile.type], false);
             return false;
         }
 

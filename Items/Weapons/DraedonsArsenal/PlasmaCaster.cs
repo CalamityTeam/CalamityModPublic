@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 	// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
 	public class PlasmaCaster : ModItem
 	{
-		public const int BaseDamage = 1100;
+		public const int BaseDamage = 705;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Caster");
@@ -21,6 +21,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 62;
 			item.height = 30;
 			item.magic = true;
@@ -37,13 +39,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
 			item.shootSpeed = 5f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 190;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 190f;
+			modItem.ChargePerUse = 0.32f;
+			modItem.ChargePerAltUse = 0.12f; // turbo mode is more energy inefficient
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -70,14 +74,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity *= 5f;
 			}
 
-			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedX = velocity.X + Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedY = velocity.Y + Main.rand.Next(-3, 4) * 0.05f;
 			float damageMult = 1f;
 			float kbMult = 1f;
 			if (player.altFunctionUse == 2)
 			{
-				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
+				SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+				SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 				damageMult = 0.3333f;
 				kbMult = 3f / 7f;
 			}

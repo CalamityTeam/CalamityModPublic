@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rocket");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -24,52 +25,52 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+
+			if (projectile.ai[0] == 0f)
+			{
+				Main.PlaySound(SoundID.Item11, (int)projectile.Center.X, (int)projectile.Center.Y);
+				projectile.ai[0] = 1f;
+			}
+
+			//Animation
+			projectile.frameCounter++;
+            if (projectile.frameCounter > 7)
             {
-                projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
-                projectile.alpha = 255;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 200;
-                projectile.height = 200;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.knockBack = 10f;
+                projectile.frame++;
+                projectile.frameCounter = 0;
             }
-            else
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
-                if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-                {
-                    for (int num246 = 0; num246 < 2; num246++)
-                    {
-                        float num247 = 0f;
-                        float num248 = 0f;
-                        if (num246 == 1)
-                        {
-                            num247 = projectile.velocity.X * 0.5f;
-                            num248 = projectile.velocity.Y * 0.5f;
-                        }
-                        int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-                        Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                        Main.dust[num249].velocity *= 0.2f;
-                        Main.dust[num249].noGravity = true;
-                        num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-                        Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                        Main.dust[num249].velocity *= 0.05f;
-                    }
-                }
+                projectile.frame = 0;
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+
+			if (projectile.velocity.Length() >= 8f)
+			{
+				for (int num246 = 0; num246 < 2; num246++)
+				{
+					float num247 = 0f;
+					float num248 = 0f;
+					if (num246 == 1)
+					{
+						num247 = projectile.velocity.X * 0.5f;
+						num248 = projectile.velocity.Y * 0.5f;
+					}
+					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
+					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+					Main.dust[num249].velocity *= 0.2f;
+					Main.dust[num249].noGravity = true;
+					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
+					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+					Main.dust[num249].velocity *= 0.05f;
+				}
+			}
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;

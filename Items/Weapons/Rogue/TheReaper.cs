@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
-			"Stealth strikes throw four at once");
+                "Stealth strikes throw four at once");
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 80;
-            item.damage = 150;
+            item.width = 106;
+            item.damage = 153;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 22;
@@ -27,26 +27,32 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 64;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.height = 104;
             item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 0.8);
+
                 int spread = 10;
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
-                    Main.projectile[proj].penetrate = 6;
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage / 2, knockBack, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                    }
                     spread -= Main.rand.Next(5,8);
                 }
                 return false;

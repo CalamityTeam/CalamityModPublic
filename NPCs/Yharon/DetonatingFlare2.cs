@@ -1,13 +1,15 @@
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Yharon
 {
-	public class DetonatingFlare2 : ModNPC
+    public class DetonatingFlare2 : ModNPC
     {
         float randomSpeed = 0f;
 
@@ -15,23 +17,24 @@ namespace CalamityMod.NPCs.Yharon
         {
             DisplayName.SetDefault("Detonating Flame");
             Main.npcFrameCount[npc.type] = 5;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
+            npc.Calamity().canBreakPlayerDefense = true;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 220;
+            npc.GetNPCDamage();
             npc.width = 50;
             npc.height = 50;
-            npc.defense = 75;
-            npc.lifeMax = 13000;
+            npc.lifeMax = 3900;
+            npc.defense = 26;
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit52;
+            npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             npc.alpha = 255;
         }
@@ -39,7 +42,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void AI()
         {
             npc.alpha -= 3;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             if (npc.localAI[3] == 0f)
             {
                 switch (Main.rand.Next(6))
@@ -74,43 +77,35 @@ namespace CalamityMod.NPCs.Yharon
             return new Color(255, Main.DiscoG, 53, 0);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Color color36 = new Color(255, Main.DiscoG, 53, 0);
-			float amount9 = 0.5f;
-			int num153 = 10;
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
-				}
-			}
-
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
-
-			return false;
-		}
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (CalamityWorld.revenge)
+            Texture2D texture2D15 = Main.npcTexture[npc.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Color color36 = new Color(255, Main.DiscoG, 53, 0);
+            float amount9 = 0.5f;
+            int num153 = 10;
+
+            if (CalamityConfig.Instance.Afterimages)
             {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = lightColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = npc.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
+                }
             }
+
+            Vector2 vector43 = npc.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, SpriteEffects.None, 0f);
+
+            return false;
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -119,17 +114,17 @@ namespace CalamityMod.NPCs.Yharon
             return true;
         }
 
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 240, true);
+        }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
     }
 }

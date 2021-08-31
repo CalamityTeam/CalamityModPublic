@@ -29,9 +29,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage += target.lifeMax / 150; //120 + 30 = 150 + (100000 / 150 = 666) = 816 * 15 (pellets) = 12240 * 2 (explosion) = 24480 = 24.48% of boss HP
-            if (damage > target.lifeMax / 90 && CalamityPlayer.areThereAnyDamnBosses)
-                damage = target.lifeMax / 90;
+            damage += target.lifeMax / 400; // 120 + 30 = 150 + (100000 / 400 = 250) = 400 * 8 = 3200 * 2 (explosion) = 6400 = 6.4% of boss HP
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

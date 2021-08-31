@@ -19,15 +19,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 38;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 32;
+            projectile.height = 32;
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.timeLeft = 300;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -44,23 +46,19 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.timeLeft < 210)
                 projectile.tileCollide = true;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            projectile.alpha -= 3;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver4;
+
+			if (projectile.alpha > 0)
+				projectile.alpha -= 17;
+
             projectile.ai[1] += 1f;
             if (projectile.ai[1] <= 20f)
-            {
-                projectile.velocity.X *= 0.95f;
-                projectile.velocity.Y *= 0.95f;
-            }
+                projectile.velocity *= 0.95f;
             else if (projectile.ai[1] > 20f && projectile.ai[1] <= 39f)
-            {
-                projectile.velocity.X *= 1.1f;
-                projectile.velocity.Y *= 1.1f;
-            }
+                projectile.velocity *= 1.1f;
             else if (projectile.ai[1] == 40f)
-            {
                 projectile.ai[1] = 0f;
-            }
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 30f)
             {
@@ -87,15 +85,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
-
+		
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;

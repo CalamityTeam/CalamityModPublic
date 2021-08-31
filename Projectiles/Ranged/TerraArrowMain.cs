@@ -7,6 +7,9 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/TerraArrow";
+
+		private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -21,26 +24,32 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.aiStyle = 1;
-        }
+			projectile.extraUpdates = 1;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
-            projectile.velocity *= 1.005f;
-            if (projectile.velocity.Length() >= 20f)
-            {
-                projectile.Kill();
-            }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			if (!initialized)
+			{
+				projectile.velocity *= 0.5f;
+				initialized = true;
+			}
+			if (projectile.FinalExtraUpdate() && initialized)
+			{
+				projectile.velocity *= 1.003f;
+				if (projectile.velocity.Length() >= 22f)
+				{
+					projectile.Kill();
+				}
+			}
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position.X -= (float)(projectile.width / 2);
-            projectile.position.Y -= (float)(projectile.height / 2);
-            Main.PlaySound(SoundID.Item60, projectile.position);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int d = 0; d < 3; d++)
             {
                 int terra = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);

@@ -16,15 +16,15 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().postMoonLordRarity = 16;
+            item.value = 0; // lul intentionally has zero value
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            bool canUse = (player.name == "Fabsol" || player.name == "Totalbiscuit" || player.name == "TotalBiscuit" || player.name == "Total Biscuit" || player.name == "Total biscuit") && player.townNPCs <= 1;
+            bool canUse = player.name == "Fabsol" || player.name == "Totalbiscuit" || player.name == "TotalBiscuit" || player.name == "Total Biscuit" || player.name == "Total biscuit";
             if (canUse)
             {
                 modPlayer.lol = true;

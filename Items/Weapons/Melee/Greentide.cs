@@ -21,13 +21,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.width = 62;
             item.height = 62;
+			item.scale = 1.5f;
             item.useTime = 24;
             item.useAnimation = 24;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 18f;
@@ -59,8 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 4;
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int num108 = 0; num108 < 3; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);

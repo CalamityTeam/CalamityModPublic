@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class PristineFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust1 = (int)CalamityDusts.ProfanedFire;
 		private int dust2 = ModContent.DustType<HolyFireDust>();
 

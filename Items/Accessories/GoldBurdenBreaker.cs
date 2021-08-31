@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -13,18 +14,19 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The good time\n" +
 				"Go fast\n" +
 				"WARNING: May have disastrous results\n" +
-				"Increases horizontal movement speed beyond comprehension");
+				"Increases horizontal movement speed beyond comprehension\n" +
+				"Does not work while a boss is alive");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 28;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

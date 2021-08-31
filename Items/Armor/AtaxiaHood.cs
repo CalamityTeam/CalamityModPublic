@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 12; //49
         }
 
@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "5% increased rogue damage\n" +
                 "Inferno effect when below 50% life\n" +
-                "Rogue weapons have a 10% chance to unleash a volley of chaos flames around the player that chase enemies when used\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit\n" +
+                "Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds\n" +
+                "You emit a blazing explosion when you are hit\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 110\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +

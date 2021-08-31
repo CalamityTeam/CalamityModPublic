@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 3;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Tools
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.56f, 40, 65, -0.13f, 0.13f);
+            Dust d = CalamityUtils.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.56f, 40, 65, -0.13f, 0.13f);
             if (d != null)
             {
                 d.customData = 0.02f;

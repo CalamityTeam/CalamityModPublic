@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussPistolShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
@@ -19,7 +21,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MinEnergyParticleSpeed = 0.25f;
         public const float MaxEnergyParticleSpeed = 4f;
         public const float EnergyChargeRadiusRatio = 1.45f;
-        public const float ChargeTime = 60f;
+        public const float ChargeTime = 30f;
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Shot");

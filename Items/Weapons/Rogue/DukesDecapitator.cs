@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -29,10 +30,18 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
 			item.shootSpeed = 15f;
             item.Calamity().rogue = true;
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (Main.projectile.IndexInRange(proj))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			return false;
 		}
 	}
 }

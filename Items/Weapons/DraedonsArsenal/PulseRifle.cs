@@ -8,9 +8,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PulseRifle : ModItem
+	public class PulseRifle : ModItem
 	{
-		private int BaseDamage = 6560;
+		private int BaseDamage = 1420;
 
 		public override void SetStaticDefaults()
 		{
@@ -22,6 +22,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 62;
 			item.height = 22;
 			item.ranged = true;
@@ -35,15 +37,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
 			item.shootSpeed = 5f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 250;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 250f;
+			modItem.ChargePerUse = 0.24f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -69,7 +72,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

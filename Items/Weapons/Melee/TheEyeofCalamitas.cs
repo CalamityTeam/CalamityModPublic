@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oblivion");
-            Tooltip.SetDefault("Fires brimstone lasers when enemies are near");
+            Tooltip.SetDefault("Fires brimstone lasers when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<OblivionYoyo>();
             item.shootSpeed = 14f;
 
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.value = Item.buyPrice(gold: 60);
         }
     }

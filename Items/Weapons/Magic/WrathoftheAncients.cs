@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of the Ancients");
-            Tooltip.SetDefault("Casts a granite energy pulse");
+            Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<GranitePulse>();
             item.shootSpeed = 9f;

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick() => true;
@@ -57,9 +57,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<BorealisBomber>(w),
                 DropHelper.WeightStack<AuroradicalThrow>(w)
             );
-
-            float leonidChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<LeonidProgenitor>(), CalamityWorld.revenge, leonidChance);
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);

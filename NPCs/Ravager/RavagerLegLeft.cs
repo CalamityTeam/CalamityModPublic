@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -26,103 +27,50 @@ namespace CalamityMod.NPCs.Ravager
             npc.lifeMax = 22010;
             npc.knockBackResist = 0f;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-            if (CalamityWorld.downedProvidence)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.defense = 135;
-                npc.lifeMax = 200000;
+                npc.defense *= 2;
+                npc.lifeMax *= 5;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 400000;
+                npc.lifeMax = 40000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
         public override void AI()
         {
-            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
-            Vector2 center = npc.Center;
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
             }
+
             if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
+
             if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
+
                 npc.ai[1] = 0f;
             }
-            if (npc.ai[0] == 0f)
-            {
-                float num659 = 21f;
-                Vector2 vector79 = new Vector2(center.X, center.Y);
-                float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
-                float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
-                num661 += 88f;
-                num660 -= 70f;
-                float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
-                if (num662 < 12f + num659)
-                {
-                    npc.rotation = 0f;
-                    npc.velocity.X = num660;
-                    npc.velocity.Y = num661;
-                }
-                else
-                {
-                    num662 = num659 / num662;
-                    npc.velocity.X = num660 * num662;
-                    npc.velocity.Y = num661 * num662;
-                }
-            }
+
+			npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(-70f, 88f);
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
-
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

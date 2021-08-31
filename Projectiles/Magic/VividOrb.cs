@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class VividOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");
@@ -18,12 +20,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 60;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
-        }
+            projectile.localNPCHitCooldown = 10;
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<VividBolt>());
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<VividBolt>(), 1D, true);
         }
     }
 }

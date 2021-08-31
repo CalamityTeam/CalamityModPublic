@@ -26,13 +26,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 1.25f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
-            item.useAmmo = 97;
-        }
+            item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
@@ -68,15 +69,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.JackOLantern, (int)((double)damage * 1.65), knockBack * 4f, player.whoAmI, 0f, 0f);
+                float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.JackOLantern, (int)(damage * 1.4), knockBack * 4f, player.whoAmI);
             }
             else
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

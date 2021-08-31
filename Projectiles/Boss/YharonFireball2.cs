@@ -10,70 +10,80 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class YharonFireball2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 34;
+            projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 3600;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.velocity.Y < 0f)
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
             {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+                projectile.frame = 0;
+
+            if (projectile.velocity.Y < -1f)
+            {
+				// 129 frames to get from -50 to -1
                 projectile.velocity.Y *= 0.97f;
             }
             else
             {
-                projectile.velocity.Y *= 1.03f;
-                if (projectile.velocity.Y > 16f)
-                {
+				// 85 frames to get from -1 to 16
+				projectile.velocity.Y += 0.2f;
+				if (projectile.velocity.Y > 16f)
                     projectile.velocity.Y = 16f;
-                }
             }
-            if (projectile.velocity.Y > -1f && projectile.localAI[1] == 0f)
-            {
-                projectile.localAI[1] = 1f;
-                projectile.velocity.Y = 1f;
-            }
+
             projectile.velocity.X *= 0.995f;
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
                 Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
             }
+
             if (projectile.ai[0] >= 2f)
             {
                 projectile.alpha -= 25;
                 if (projectile.alpha < 0)
-                {
                     projectile.alpha = 0;
-                }
             }
+
             if (Main.rand.NextBool(16))
             {
                 Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default, 1f);
@@ -82,52 +92,40 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.velocity.Y < -16f)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.velocity.Y >= -16f;
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14, 0.5f, 0f);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 144;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int d = 0; d < 20; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
             }
             projectile.Damage();
         }
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+			if (projectile.velocity.Y >= -16f)
+				target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

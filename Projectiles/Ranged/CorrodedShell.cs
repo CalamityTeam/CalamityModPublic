@@ -22,12 +22,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.arrow = true;
-            projectile.penetrate = 6;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 6;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.aiStyle = 1;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -39,9 +41,12 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int aura = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<IrradiatedAura>(), (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-					Main.projectile[aura].Calamity().forceRanged = true;
-					Main.projectile[aura].timeLeft = 40;
+                    int aura = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner);
+					if (aura.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[aura].Calamity().forceRanged = true;
+						Main.projectile[aura].timeLeft = 40;
+					}
                 }
             }
         }

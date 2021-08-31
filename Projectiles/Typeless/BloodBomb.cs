@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BloodBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bomb");
@@ -43,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BloodBombExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodBombExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

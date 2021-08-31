@@ -32,7 +32,7 @@ Right click to use as a hammer");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 2;

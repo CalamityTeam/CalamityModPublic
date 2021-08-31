@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Ores
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);
             mineResist = 6f;
-            minPick = 180;
+            minPick = 150;
             soundType = SoundID.Tink;
             dustType = 235;
             Main.tileSpelunker[Type] = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedBrimstoneElemental;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class DoGBeam : ModProjectile
@@ -34,14 +35,15 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 1)
-            {
                 projectile.frame = 0;
-            }
+
             Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.3f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
+
+            int num103 = Player.FindClosest(projectile.Center, 1, 1);
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 120f && projectile.ai[1] > 30f)
+            if (projectile.ai[1] < 90f && projectile.ai[1] > 30f)
             {
                 float scaleFactor2 = projectile.velocity.Length();
                 Vector2 vector11 = Main.player[num103].Center - projectile.Center;
@@ -51,16 +53,16 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }
-            int projectileDamage = Main.expertMode ? 64 : 75;
+
 			if (projectile.timeLeft == 950)
-				projectile.damage = projectileDamage;
-			if (projectile.timeLeft < 85)
+				projectile.damage = (int)projectile.ai[0];
+			if (projectile.timeLeft < 30)
 				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft > 950 || projectile.timeLeft < 85)
+            if (projectile.timeLeft > 950 || projectile.timeLeft < 30)
             {
                 return false;
             }
@@ -73,9 +75,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return new Color(0, 0, 0, 0);
             }
-            if (projectile.timeLeft < 85)
+            if (projectile.timeLeft < 30)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(projectile.timeLeft * 8.5);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class Taser : ModItem
+	public class Taser : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -17,10 +17,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 50;
 			item.height = 26;
 			item.ranged = true;
-			item.damage = 28;
+			item.damage = 22;
 			item.knockBack = 0f;
 			item.useTime = item.useAnimation = 28;
 			item.autoReuse = true;
@@ -31,13 +33,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<TaserHook>();
 			item.shootSpeed = 15f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 50;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 50f;
+			modItem.ChargePerUse = 0.05f;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

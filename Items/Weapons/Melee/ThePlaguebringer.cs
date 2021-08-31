@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pandemic");
-            Tooltip.SetDefault("Fires plague seekers when enemies are near");
+            Tooltip.SetDefault("Fires plague seekers when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<PandemicYoyo>();
             item.shootSpeed = 14f;
 
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.value = Item.buyPrice(gold: 80);
         }
     }

@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class NanoblackReaperRogue : RogueWeapon
     {
-        public static int BaseDamage = 500;
+        public static int BaseDamage = 100;
         public static float Knockback = 9f;
         public static float Speed = 16f;
 
@@ -36,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item18;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
 
             item.Calamity().rogue = true;
             item.shoot = ModContent.ProjectileType<NanoblackMain>();
@@ -48,8 +47,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceRogue = true;
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
@@ -59,11 +58,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             r.SetResult(this);
             r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<GhoulishGouger>());
-            r.AddIngredient(ModContent.ItemType<SoulHarvester>());
-            r.AddIngredient(ModContent.ItemType<EssenceFlayer>());
+            r.AddIngredient(ModContent.ItemType<MoltenAmputator>());
             r.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
-            r.AddIngredient(ModContent.ItemType<DarkPlasma>(), 10);
+            r.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20);
             r.AddIngredient(ItemID.Nanites, 400);
             r.AddRecipe();
         }

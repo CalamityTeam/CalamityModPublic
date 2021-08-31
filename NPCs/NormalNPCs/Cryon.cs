@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
 			npc.coldDamage = true;
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
@@ -75,12 +74,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Frostburn, 300, true);
-            if (Main.rand.NextBool(3))
-            {
-                player.AddBuff(ModContent.BuffType<GlacialState>(), 30, true);
-            }
-        }
+            player.AddBuff(BuffID.Frostburn, 120, true);
+			player.AddBuff(BuffID.Chilled, 90, true);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

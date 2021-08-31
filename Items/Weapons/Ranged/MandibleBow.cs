@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 13;
+            item.damage = 14;
             item.ranged = true;
             item.width = 22;
             item.height = 40;
@@ -24,17 +23,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item5;
             item.autoReuse = false;
             item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 30f;
-            item.useAmmo = 40;
-        }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
+            item.shootSpeed = 15f;
+            item.useAmmo = AmmoID.Arrow;
+			item.Calamity().canFirePointBlankShots = true;
+		}
     }
 }

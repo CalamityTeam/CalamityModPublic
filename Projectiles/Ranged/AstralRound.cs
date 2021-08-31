@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,17 +19,18 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.light = 0.25f;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             aiType = ProjectileID.Bullet;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -49,22 +49,28 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             projectile.spriteDirection = projectile.direction;
-            if (Main.rand.NextBool(2))
-            {
-				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool(2))
 				{
+					int randomDust = Utils.SelectRandom(Main.rand, new int[]
+					{
 					ModContent.DustType<AstralOrange>(),
 					ModContent.DustType<AstralBlue>()
-				});
-                int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-                Main.dust[astral].alpha = projectile.alpha;
-                Main.dust[astral].velocity *= 0f;
-                Main.dust[astral].noGravity = true;
-            }
+					});
+					int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+					Main.dust[astral].alpha = projectile.alpha;
+					Main.dust[astral].velocity *= 0f;
+					Main.dust[astral].noGravity = true;
+				}
+			}
 
 			if (speed == 0f)
 				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, speed, 12f);
+
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, speed, 12f);
             return false;
         }
 

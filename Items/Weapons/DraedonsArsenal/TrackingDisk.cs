@@ -14,14 +14,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Tracking Disk");
             Tooltip.SetDefault("A weapon that, as it flies, processes calculations and fires lasers.\n" +
-							   "Releases a flying disk that fires lasers at nearby enemies\n" +
+                               "Releases a flying disk that fires lasers at nearby enemies\n" +
                                "Stealth strikes allow the disk to fire multiple larger lasers at different targets.\n" +
-							   "Deals less damage against enemies with high defense");
+                               "Deals less damage against enemies with high defense");
         }
         public override void SafeSetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.damage = 25;
-            item.Calamity().rogue = true;
+            modItem.rogue = true;
 
             item.width = 30;
             item.height = 34;
@@ -33,7 +35,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
 
             item.noUseGraphic = true;
 
@@ -43,13 +45,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.shoot = ModContent.ProjectileType<TrackingDiskProjectile>();
             item.shootSpeed = 10f;
 
-            item.Calamity().Chargeable = true;
-            item.Calamity().ChargeMax = 50;
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 50f;
+            modItem.ChargePerUse = 0.08f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f).Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

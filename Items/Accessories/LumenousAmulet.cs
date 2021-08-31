@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Lumenous Amulet");
             Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
+				"Grants immunity to the Crush Depth debuff\n" +
                 "While in the abyss you gain 25% increased max life\n" +
                 "Provides a moderate amount of light in the abyss");
         }
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
@@ -32,7 +34,8 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalAmulet = true;
             modPlayer.lumenousAmulet = true;
-        }
+			player.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
+		}
 
         public override void AddRecipes()
         {

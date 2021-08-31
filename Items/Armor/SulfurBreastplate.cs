@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Breastplate");
-            Tooltip.SetDefault("10% rogue damage and 5% critical strike chance");
+            Tooltip.SetDefault("8% increased rogue damage and 5% increased rogue critical strike chance");
         }
 
         public override void SetDefaults()
@@ -21,13 +21,13 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 1, 15, 0);
-            item.defense = 7;
-            item.rare = 2;
+            item.defense = 6;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingDamage += 0.08f;
             player.Calamity().throwingCrit += 5;
         }
 

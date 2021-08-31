@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HeavenfallenEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heavenfallen Energy");

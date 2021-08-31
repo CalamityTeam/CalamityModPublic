@@ -21,12 +21,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 95;
             item.ranged = true;
-            item.width = 66;
-            item.height = 22;
+            item.width = 74;
+            item.height = 24;
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 60, 0, 0);
@@ -37,10 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.FallenStar;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -49,20 +46,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        type = ModContent.ProjectileType<FallenStarProj>();
-                        break;
-                    case 1:
-                        type = ProjectileID.Starfury;
-                        break;
-                    case 2:
-                        type = ModContent.ProjectileType<AstralStar>();
-                        break;
-                }
-                int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[star].Calamity().forceRanged = true;
+				type = Utils.SelectRandom(Main.rand, new int[]
+				{
+					ModContent.ProjectileType<AstralStar>(),
+					ProjectileID.Starfury,
+					ModContent.ProjectileType<FallenStarProj>()
+				});
+                int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+				if (star.WithinBounds(Main.maxProjectiles))
+					Main.projectile[star].Calamity().forceRanged = true;
             }
             return false;
         }

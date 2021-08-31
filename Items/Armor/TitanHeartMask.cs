@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
 			item.width = 18;
 			item.height = 18;
 			item.value = Item.buyPrice(0, 12, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 12; //43
 		}
 
@@ -33,17 +33,19 @@ namespace CalamityMod.Items.Armor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "20% increased rogue damage and knockback\n" +
+			player.setBonus = "15% increased rogue damage and knockback\n" +
 					"Stealth strikes deal double knockback and cause an astral explosion\n" +
+					"Grants immunity to knockback\n" +
 					"Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
 					"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
 					"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
 					"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.titanHeartSet = true;
-			modPlayer.throwingDamage += 0.2f;
+			modPlayer.throwingDamage += 0.15f;
 			modPlayer.rogueStealthMax += 1f;
 			modPlayer.wearingRogueArmor = true;
+			player.noKnockback = true;
 		}
 
 		public override void UpdateEquip(Player player)

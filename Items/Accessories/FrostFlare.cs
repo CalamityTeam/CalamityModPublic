@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,11 +14,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Frost Flare");
             Tooltip.SetDefault("All melee attacks and projectiles inflict frostburn\n" +
-                "Immunity to frostburn, chilled, and frozen\n" +
-                "Resistant to cold attacks and +1 life regen\n" +
-                "Being above 75% life grants the player 10% increased damage\n" +
-                "Being below 25% life grants the player 10 defense and 15% increased max movement speed and acceleration\n" +
-				"Revengeance drop");
+                "Immunity to frostburn, chilled and frozen\n" +
+                "Being above 75% life grants 10% increased damage\n" +
+                "Being below 25% life grants 10 defense and 15% increased max movement speed and acceleration\n" +
+				"Grants resistance against cold attacks");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 
@@ -25,9 +25,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 24;
-            item.lifeRegen = 1;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
         }
 
@@ -37,10 +36,10 @@ namespace CalamityMod.Items.Accessories
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
 					{
 						line2.text = "Provides heat and cold protection in Death Mode\n" +
-						"Revengeance drop";
+						"Grants resistance against cold attacks";
 					}
 				}
 			}

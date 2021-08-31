@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.Astral
         public override void SetDefaults()
         {
             npc.damage = 50;
-            npc.width = 56;
-            npc.height = 54;
+            npc.width = 66;
+            npc.height = 64;
             npc.aiStyle = 41;
             npc.defense = 14;
 			npc.DR_NERD(0.15f);
@@ -37,7 +37,6 @@ namespace CalamityMod.NPCs.Astral
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<AriesBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 85;

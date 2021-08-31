@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NullShot2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Null");
@@ -21,7 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 120;
             projectile.ranged = true;
             projectile.extraUpdates = 1;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -61,11 +64,11 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 2)
                 {
-                    target.damage += 500;
+                    target.damage += 20;
                 }
                 else if (nullBuff == 3)
                 {
-                    target.damage -= 500;
+                    target.damage -= 20;
                 }
                 else if (nullBuff == 4)
                 {
@@ -77,15 +80,15 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 6)
                 {
-                    target.defense += 20;
+                    target.defense += 10;
                 }
                 else if (nullBuff == 7)
                 {
-                    target.defense -= 20;
+                    target.defense -= 10;
                 }
                 else if (nullBuff == 8)
                 {
-                    target.velocity.Y = -30f;
+                    target.velocity.Y = Main.rand.NextBool(2) ? 30f : -30f;
                 }
                 else
                 {

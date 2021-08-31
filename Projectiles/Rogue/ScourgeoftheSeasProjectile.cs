@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheSeasProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheSeas";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moist Scourge");
@@ -22,7 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 26;
             projectile.height = 26;
             projectile.friendly = true;
-            projectile.aiStyle = 113;
+			projectile.ignoreWater = true;
+			projectile.aiStyle = 113;
             aiType = ProjectileID.BoneJavelin;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
@@ -82,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

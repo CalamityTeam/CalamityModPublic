@@ -13,12 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lunarian Bow");
-            Tooltip.SetDefault("Fires two sliding energy bolts");
+            Tooltip.SetDefault("Fires two arrows at once\n" +
+				"Converts wooden arrows into sliding energy bolts");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 29;
+            item.damage = 32;
             item.ranged = true;
             item.width = 22;
             item.height = 62;
@@ -28,13 +29,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LunarBolt>();
             item.shootSpeed = 8f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,10 +52,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float offsetAmt = i - (projAmt - 1f) / 2f;
                 Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt, default);
                 if (!canHit)
-                {
                     offset -= velocity;
-                }
-                Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI);
+
+				if (type == ProjectileID.WoodenArrowFriendly)
+					Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
 			}
             return false;
         }

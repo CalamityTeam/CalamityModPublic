@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 5);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 }

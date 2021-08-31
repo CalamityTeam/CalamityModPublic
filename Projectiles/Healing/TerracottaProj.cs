@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Healing
 {
 	public class TerracottaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra");
@@ -23,8 +25,7 @@ namespace CalamityMod.Projectiles.Healing
 
 		public override void AI()
 		{
-			projectile.velocity.X *= 0.95f;
-			projectile.velocity.Y *= 0.95f;
+			projectile.velocity *= 0.99f;
 
 			projectile.HealingProjectile(9, (int)projectile.ai[0], 8f, 15f, false, 300);
 			float num498 = projectile.velocity.X * 0.2f;

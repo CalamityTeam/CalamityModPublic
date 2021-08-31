@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.SunkenSea
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -47,9 +43,9 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void AI()
         {
             Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.30f / 255f, (255 - npc.alpha) * 0.30f / 255f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -106,7 +102,7 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent5>()))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
             {
                 npc.active = false;
             }
@@ -289,27 +285,6 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SeaSerpent/SeaSerpentGore1"), 1f);
             }
-        }
-
-        public override bool CheckActive()
-        {
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-            }
-            return true;
         }
     }
 }

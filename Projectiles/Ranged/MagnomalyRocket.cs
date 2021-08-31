@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.tileCollide = false;
-        }
+			projectile.ignoreWater = true;
+		}
 
         public override void AI()
         {
@@ -75,17 +76,15 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[exo].noGravity = true;
 				Main.dust[exo].noLight = true;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 16f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
 			if (projectile.owner == Main.myPlayer)
 			{
-				projectile.position = projectile.Center;
-				projectile.width = projectile.height = 192;
-				projectile.Center = projectile.position;
-				Main.PlaySound(SoundID.Item14, projectile.position);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
+				Main.PlaySound(SoundID.Item14, projectile.Center);
 				//DO NOT REMOVE THIS PROJECTILE
 				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
@@ -121,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

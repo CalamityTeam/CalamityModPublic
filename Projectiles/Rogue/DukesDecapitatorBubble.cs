@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class DukesDecapitatorBubble : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble");
@@ -17,7 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.alpha = 255;
+			projectile.ignoreWater = true;
+			projectile.alpha = 255;
             projectile.penetrate = 1;
 			projectile.timeLeft = 300;
         }
@@ -66,9 +69,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item54, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			int num190 = Main.rand.Next(5, 9);
 			for (int num191 = 0; num191 < num190; num191++)
 			{

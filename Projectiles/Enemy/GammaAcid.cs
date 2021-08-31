@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class GammaAcid : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");
@@ -61,7 +63,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

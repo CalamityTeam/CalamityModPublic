@@ -10,7 +10,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Blood");
-            Tooltip.SetDefault("Permanently makes Rage Mode do 15% more damage\n" +
+            Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
                 "Revengeance drop");
         }
 
@@ -19,22 +19,14 @@ namespace CalamityMod.Items.PermanentBoosters
             item.width = 20;
             item.height = 20;
             item.useAnimation = 30;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.useTime = 30;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item122;
             item.consumable = true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.rageBoostTwo)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => !player.Calamity().rageBoostTwo;
 
         public override bool UseItem(Player player)
         {

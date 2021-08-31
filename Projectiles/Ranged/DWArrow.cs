@@ -24,9 +24,10 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 5;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 10;
             projectile.arrow = true;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -39,12 +40,6 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item12, (int)projectile.position.X, (int)projectile.position.Y);
             }
-
-            // Force damage type based on AI variable (this is outdated code and the weapons themselves should set the force variables)
-            if (projectile.ai[0] == 1f)
-                projectile.Calamity().forceMelee = true;
-            else if (projectile.ai[0] == 2f)
-                projectile.Calamity().forceRogue = true;
 
             Lighting.AddLight(projectile.Center, 0.4f, 0.2f, 0.4f);
             for (int num121 = 0; num121 < 2; num121++)

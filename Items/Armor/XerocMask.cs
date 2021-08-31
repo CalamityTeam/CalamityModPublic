@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("Wrath of the cosmos\n" +
-				"11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
+				"11% increased rogue damage and critical strike chance, 20% increased movement speed\n" +
                 "Temporary immunity to lava");
         }
 
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 20; //71
         }
 
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().throwingDamage += 0.11f;
             player.Calamity().throwingCrit += 11;
-            player.moveSpeed += 0.22f;
+            player.moveSpeed += 0.2f;
             player.lavaMax += 240;
         }
 

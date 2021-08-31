@@ -22,14 +22,14 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<PenumbraBuff>();
-            item.buffTime = 18000;
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
@@ -38,8 +38,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 3);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 2);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
+            recipe.AddIngredient(ItemID.LunarTabletFragment);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

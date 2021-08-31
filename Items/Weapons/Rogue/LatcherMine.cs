@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 3, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<LatcherMineProjectile>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
@@ -42,7 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (stealth.WithinBounds(Main.maxProjectiles))
+				Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
     }

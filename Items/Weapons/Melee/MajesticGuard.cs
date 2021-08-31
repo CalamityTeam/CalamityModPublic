@@ -9,14 +9,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Majestic Guard");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 10 when striking them\n" +
+            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                 "If enemy defense is 0 or below your attacks will heal you");
         }
 
         public override void SetDefaults()
         {
-            item.width = 98;
-            item.damage = 60;
+            item.width = 100;
+			item.height = 100;
+			item.scale = 1.5f;
+			item.damage = 70;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -25,21 +27,20 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 98;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(5))
-                target.defense -= 10;
+			if (target.Calamity().miscDefenseLoss < target.defense)
+				target.Calamity().miscDefenseLoss += 1;
 
-            // Healing effect does not trigger versus dummies
-            if (target.type == NPCID.TargetDummy || player.moonLeech)
+			// Healing effect does not trigger versus dummies
+			if (player.moonLeech)
                 return;
 
-            if (target.defense <= 0 && target.canGhostHeal)
+            if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal)
             {
                 player.statLife += 3;
                 player.HealEffect(3);

@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				projectile.velocity *= 1.001f;
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 20f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 			}
         }
 
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else
 			{
-				target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+				target.AddBuff(BuffID.Frostburn, 300);
 			}
         }
 
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

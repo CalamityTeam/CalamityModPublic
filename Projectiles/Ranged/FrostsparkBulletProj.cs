@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -27,26 +27,32 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.15f, 0.05f, 0.3f);
-            if (Main.rand.NextBool())
-            {
-                int dustType = 15;
-                float spacing = Main.rand.NextFloat(-0.2f, 0.8f);
-                int dust = Dust.NewDust(projectile.Center - spacing * projectile.velocity, 1, 1, dustType);;
-                Main.dust[dust].position = projectile.Center;
-                Main.dust[dust].velocity *= 0.4f;
-                Main.dust[dust].velocity += projectile.velocity * 0.7f;
-                Main.dust[dust].noGravity = true;
-            }
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool())
+				{
+					int dustType = 15;
+					float spacing = Main.rand.NextFloat(-0.2f, 0.8f);
+					int dust = Dust.NewDust(projectile.Center - spacing * projectile.velocity, 1, 1, dustType); ;
+					Main.dust[dust].position = projectile.Center;
+					Main.dust[dust].velocity *= 0.4f;
+					Main.dust[dust].velocity += projectile.velocity * 0.7f;
+					Main.dust[dust].noGravity = true;
+				}
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 
@@ -60,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override void Kill(int timeLeft)

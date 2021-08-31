@@ -31,22 +31,18 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(2))
-            {
-                case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
-                    break;
-                case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
-                    break;
-            }
+			type = Utils.SelectRandom(Main.rand, new int[]
+			{
+				ModContent.ProjectileType<EonBeam>(),
+				ModContent.ProjectileType<EonBeamV2>()
+			});
             int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, Main.myPlayer, 1f);
 			Main.projectile[beam].localNPCHitCooldown = 14;
             int i = Main.myPlayer;
@@ -98,7 +94,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedX2 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 float speedY2 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX2, speedY2, ProjectileID.HallowStar, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
-                Main.projectile[proj].Calamity().forceMelee = true;
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
 
 				speedX2 = num78 + (float)Main.rand.Next(-80, 81) * 0.02f;
 				speedY2 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;

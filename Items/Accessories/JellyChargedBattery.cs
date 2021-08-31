@@ -20,14 +20,13 @@ namespace CalamityMod.Items.Accessories
             item.height = 22;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
             item.accessory = true;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			player.Calamity().voltaicJelly = true;
 			player.Calamity().jellyChargedBattery = true;
-            player.maxMinions ++;
             player.minionDamage += 0.07f;
         }
 

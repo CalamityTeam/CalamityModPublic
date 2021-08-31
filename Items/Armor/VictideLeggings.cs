@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Victide Leggings");
             Tooltip.SetDefault("Movement speed increased by 8%\n" +
-                "Speed greatly increased while submerged in liquid");
+                "Movement speed increased by 30% while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -20,17 +20,13 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 4; //9
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.08f;
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            {
-                player.moveSpeed += 0.5f;
-            }
+            player.moveSpeed += Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) ? 0.3f : 0.08f;
         }
 
         public override void AddRecipes()

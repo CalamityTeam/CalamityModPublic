@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.timeLeft = 300;
 			projectile.alpha = 255;
 			cooldownSlot = 1;
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
@@ -50,13 +51,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			projectile.rotation += projectile.velocity.X * 0.1f;
 
-			int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 1f);
-            Main.dust[num469].noGravity = true;
-            Main.dust[num469].velocity *= 0f;
+			int blood = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 0f, 0f, 100, default, 1f);
+            Main.dust[blood].noGravity = true;
+            Main.dust[blood].velocity *= 0f;
 
-			int num470 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 1f);
-			Main.dust[num470].noGravity = true;
-			Main.dust[num470].velocity *= 0f;
+			int acid = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 1f);
+			Main.dust[acid].noGravity = true;
+			Main.dust[acid].velocity *= 0f;
 		}
 
         public override void Kill(int timeLeft)
@@ -66,29 +67,28 @@ namespace CalamityMod.Projectiles.Boss
 			int num226 = 8;
             for (int num227 = 0; num227 < num226; num227++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 5, vector7.X, vector7.Y, 100, default, 1.2f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 source = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+                source = source.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
+                Vector2 dustVel = source - projectile.Center;
+                int blood = Dust.NewDust(source + dustVel, 0, 0, DustID.Blood, dustVel.X, dustVel.Y, 100, default, 1.2f);
+                Main.dust[blood].noGravity = true;
+                Main.dust[blood].noLight = true;
+                Main.dust[blood].velocity = dustVel;
             }
 
-			for (int num623 = 0; num623 < 6; num623++)
+			for (int d = 0; d < 6; d++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 3f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 2f);
-				Main.dust[num624].velocity *= 2f;
-				Main.dust[num624].noGravity = true;
+				int acid = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 3f);
+				Main.dust[acid].noGravity = true;
+				Main.dust[acid].velocity *= 5f;
+				acid = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 2f);
+				Main.dust[acid].velocity *= 2f;
+				Main.dust[acid].noGravity = true;
 			}
 		}
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 180, true);
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
 		}
 
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

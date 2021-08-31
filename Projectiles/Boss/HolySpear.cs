@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -22,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -30,7 +32,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 200;
             cooldownSlot = 1;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -56,19 +59,20 @@ namespace CalamityMod.Projectiles.Boss
 					velocity = projectile.velocity;
 			}
 
+			float timeGateValue = (!Main.dayTime || CalamityWorld.malice) ? 420f : 540f;
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
 
-				float slowGateValue = 90f;
+				float slowGateValue = (!Main.dayTime || CalamityWorld.malice) ? 60f : 90f;
 				float fastGateValue = 30f;
-				float minVelocity = 3f;
-				float maxVelocity = 12f;
-				float extremeVelocity = 16f;
+				float minVelocity = (!Main.dayTime || CalamityWorld.malice) ? 4f : 3f;
+				float maxVelocity = minVelocity * 4f;
+				float extremeVelocity = maxVelocity * 2f;
 				float deceleration = 0.95f;
 				float acceleration = 1.2f;
 
-				if (projectile.localAI[1] > 480f)
+				if (projectile.localAI[1] >= timeGateValue)
 				{
 					if (projectile.velocity.Length() < extremeVelocity)
 						projectile.velocity *= acceleration;
@@ -91,8 +95,8 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else
 			{
-				float frequency = 0.1f;
-				float amplitude = 2f;
+				float frequency = (!Main.dayTime || CalamityWorld.malice) ? 0.2f : 0.1f;
+				float amplitude = (!Main.dayTime || CalamityWorld.malice) ? 4f : 2f;
 
 				projectile.ai[1] += frequency;
 
@@ -101,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
 			}
 
-			if (projectile.localAI[1] < 540f)
+			if (projectile.localAI[1] < timeGateValue)
 			{
 				projectile.localAI[1] += 1f;
 
@@ -121,7 +125,7 @@ namespace CalamityMod.Projectiles.Boss
 			int blue = projectile.ai[0] != 0f ? 0 : 125;
 			Color baseColor = new Color(255, green, blue, 255);
 
-			if (!Main.dayTime)
+			if (!Main.dayTime || CalamityWorld.malice)
 			{
 				int red = projectile.ai[0] != 0f ? 100 : 175;
 				green = projectile.ai[0] != 0f ? 255 : 175;
@@ -134,7 +138,7 @@ namespace CalamityMod.Projectiles.Boss
 			Color color34 = color33;
 			Vector2 origin5 = value.Size() / 2f;
 			Color color35 = color33 * 0.5f;
-			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+			float num162 = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
 			Vector2 vector29 = new Vector2(1f, 1.5f) * num162;
 			Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
 			color34 *= num162;
@@ -169,8 +173,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-			target.AddBuff(buffType, 120);
+			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			target.AddBuff(buffType, 180);
 		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

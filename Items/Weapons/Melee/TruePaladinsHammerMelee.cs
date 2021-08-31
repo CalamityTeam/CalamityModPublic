@@ -1,12 +1,12 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TruePaladinsHammerMelee : ModItem
+	public class TruePaladinsHammerMelee : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,9 +28,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 28;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<OPHammer>();
+            item.value = Item.buyPrice(gold: 80);
+            item.rare = ItemRarityID.Yellow;
+            item.shoot = ModContent.ProjectileType<FallenPaladinsHammerProj>();
             item.shootSpeed = 14f;
         }
 

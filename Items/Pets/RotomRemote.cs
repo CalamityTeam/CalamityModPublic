@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Pets
 		{
 			DisplayName.SetDefault("Triboluminescent Etomer");
 			Tooltip.SetDefault("Summons an electric troublemaker\n" +
-			"A little note is attached:\n" +
-			"Thank you, Aloe! Very much appreciated from Ben");
+				"A little note is attached:\n" +
+				"Thank you, Aloe! Very much appreciated from Ben");
 		}
 
 		public override void SetDefaults()
@@ -32,8 +32,10 @@ namespace CalamityMod.Items.Pets
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item113;
-			item.value = Item.buyPrice(0, 4, 0, 0);
-			item.rare = 3;
+
+			item.value = Item.buyPrice(gold: 4);
+			item.rare = ItemRarityID.Orange;
+			item.Calamity().devItem = true;
 		}
 
 		public override void UseStyle(Player player)
@@ -46,9 +48,7 @@ namespace CalamityMod.Items.Pets
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Pets/RotomRemoteGlow");
-			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f - 2f);
-			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Pets/RotomRemoteGlow"));
 		}
 
 		public override void AddRecipes()

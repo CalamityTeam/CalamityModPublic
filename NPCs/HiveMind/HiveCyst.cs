@@ -40,15 +40,18 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) || spawnInfo.player.Calamity().corruptionLore)
-            {
+            if (spawnInfo.player.Calamity().disableHiveCystSpawns)
                 return 0f;
-            }
-            else if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
-            {
-                return SpawnCondition.Corruption.Chance * 1.5f;
-            }
-            return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.5f);
+
+            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>());
+            bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.player.ZoneCorrupt;
+            if (anyBossElements || spawnInfo.playerSafe || !corrupt)
+                return 0f;
+            
+            if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
+                return 1.5f;
+
+            return Main.hardMode ? 0.05f : 0.5f;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

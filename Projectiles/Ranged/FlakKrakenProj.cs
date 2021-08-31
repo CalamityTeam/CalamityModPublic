@@ -40,6 +40,13 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.Kill();
                 return;
             }
+
+
+            // This code uses player-specific fields (such as the mouse), and does not need to be run for anyone
+            // other than its owner.
+            if (Main.myPlayer != projectile.owner)
+                return;
+
             projectile.rotation += 0.2f;
             if (projectile.localAI[0] < 1f)
             {
@@ -135,7 +142,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

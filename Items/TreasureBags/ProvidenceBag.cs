@@ -10,6 +10,7 @@ using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -58,11 +59,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<MoltenAmputator>(w)
             );
 
-            float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
-
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
 
             // Vanity

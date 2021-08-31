@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class TrueBattleSpawn : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spawn");

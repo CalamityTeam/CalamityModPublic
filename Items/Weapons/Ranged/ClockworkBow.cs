@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 66;
             item.ranged = true;
             item.width = 34;
             item.height = 100;
@@ -26,14 +26,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.25f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 30f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
@@ -74,20 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
             }
 
-            int num130 = 15;
-            if (Main.rand.NextBool(3))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(4))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(5))
-            {
-                num130++;
-            }
-            for (int num131 = 0; num131 < num130; num131++)
+            for (int num131 = 0; num131 < 10; num131++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
@@ -106,9 +92,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-600, 601) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-600, 601) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, 0f);
+                float speedX4 = num78 + (float)Main.rand.Next(-600, 601) * 0.01f;
+                float speedY5 = num79 + (float)Main.rand.Next(-600, 601) * 0.01f;
+                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i);
                 Main.projectile[projectile].tileCollide = false;
                 Main.projectile[projectile].timeLeft = 240;
                 Main.projectile[projectile].noDropItem = true;

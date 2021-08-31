@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
@@ -27,17 +28,17 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override bool CanUseItem(Player player)
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
                 !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(ModContent.NPCType<CeaselessVoid>()) && !NPC.AnyNPCs(ModContent.NPCType<Signus>()) &&
-				CalamityWorld.DoGSecondStageCountdown <= 0;
+				CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
@@ -46,15 +47,7 @@ namespace CalamityMod.Items.SummonItems
 			if (player.ZoneDungeon)
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
-					for (int num662 = 0; num662 < 2; num662++)
-					{
-						NPC.NewNPC((int)player.Center.X - 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
-						NPC.NewNPC((int)player.Center.X + 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
-						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
-					}
-				}
 				else
 					NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 			}

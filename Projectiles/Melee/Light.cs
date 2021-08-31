@@ -6,7 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Light : ModProjectile
     {
-        private int speedTimer = 120;
+		private const int speedTimerMax = 60;
+        private int speedTimer = 0;
 
         public override void SetStaticDefaults()
         {
@@ -19,7 +20,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 10;
             projectile.height = 10;
-            projectile.aiStyle = 27;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.ignoreWater = true;
@@ -31,26 +31,17 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             projectile.rotation += 0.5f;
-            speedTimer--;
-            if (speedTimer > 60)
-            {
-                projectile.velocity.X = 0f;
-                projectile.velocity.Y = 10f;
-            }
-            else if (speedTimer <= 60)
-            {
-                projectile.velocity.X = 0f;
-                projectile.velocity.Y = -10f;
-            }
-            if (speedTimer <= 0)
-            {
-                speedTimer = 120;
-            }
-        }
+			speedTimer--;
+			if (speedTimer <= 0)
+			{
+				speedTimer = speedTimerMax;
+				projectile.velocity *= -1f;
+			}
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

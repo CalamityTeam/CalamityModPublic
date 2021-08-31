@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.npcSlots = 2f;
-            npc.damage = 110;
+            npc.damage = 70;
             npc.aiStyle = 39;
             npc.width = 46;
             npc.height = 32;
@@ -31,7 +31,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SandTortoiseBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

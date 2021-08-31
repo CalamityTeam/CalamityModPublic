@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.Opacity = 0f;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -65,6 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 270) / 30f), 0f, 1f);
 
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
             Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f * projectile.Opacity);
         }
 
@@ -75,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 			lightColor.R = (byte)(255 * projectile.Opacity);
 			lightColor.G = (byte)(255 * projectile.Opacity);
 			lightColor.B = (byte)(255 * projectile.Opacity);
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
@@ -85,14 +87,6 @@ namespace CalamityMod.Projectiles.Boss
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-			if (projectile.Opacity != 1f)
-				return;
-
-			target.AddBuff(BuffID.Wet, 240);
         }
     }
 }

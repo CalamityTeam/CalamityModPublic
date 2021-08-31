@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Yin-Yo");
             Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
-                "Light shards fly up and down while dark shards fly left and right");
+                "Shards fly back and forth\n" +
+				"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<YinYoyo>();
             item.shootSpeed = 12f;
 
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.buyPrice(gold: 36);
         }
 

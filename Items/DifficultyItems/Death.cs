@@ -1,11 +1,11 @@
-using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.DifficultyItems
 {
     public class Death : ModItem
@@ -15,22 +15,21 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
                 "Allows certain bosses to spawn naturally.\n" +
-				"Certain biomes and events have additional weather effects.\n" +
-				"Lethal lava effects are always enabled.\n" +
-                "Increases enemy damage by 15%.\n" +
+                "Certain biomes and events have additional weather effects.\n" +
+                "Lethal lava effects are always enabled.\n" +
+                "Enemies and bosses buffed by Revengeance Mode are even stronger in this mode.\n" +
                 "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
-                "Makes the abyss more treachorous to navigate.\n" +
+                "Makes the abyss more treacherous to navigate.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +
-                "Increases damage done by several debuffs.\n" +
+                "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
                 "Effect can be toggled on and off.\n" +
-                "Effect will only work if Revengeance Mode is active.\n" +
-                "Using this while a boss is alive will instantly kill you and despawn the boss.");
+                "Effect will only work if Revengeance Mode is active.");
         }
 
         public override void SetDefaults()
         {
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.width = 28;
             item.height = 28;
             item.useAnimation = 45;
@@ -40,80 +39,39 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (!CalamityWorld.revenge || CalamityWorld.bossRushActive)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
 
         public override bool UseItem(Player player)
         {
-            for (int doom = 0; doom < Main.npc.Length; doom++)
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
             {
-                if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-                    Main.npc[doom].active = Main.npc[doom].friendly;
-                    Main.npc[doom].netUpdate = true;
-                }
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                return true;
             }
             if (!CalamityWorld.death)
             {
                 CalamityWorld.death = true;
                 string key = "Mods.CalamityMod.DeathText";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.death = false;
                 string key = "Mods.CalamityMod.DeathText2";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
+            CalamityNetcode.SyncWorld();
 
-            CalamityMod.UpdateServerBoolean();
-
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.RevengeanceBoolSync);
-                netMessage.Write(CalamityWorld.revenge);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DeathBoolSync);
-                netMessage.Write(CalamityWorld.death);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                netMessage.Send();
-            }
             return true;
         }
 

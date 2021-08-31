@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The power of your bees and wasps will rival the Moon Lord himself\n" +
 				"Summons a damaging plague aura around the player to destroy nearby enemies\n" +
                 "Releases bees when damaged\n" +
-                "Friendly bees inflict the plague\n" +
                 "All of your attacks inflict the plague\n" +
 				"Reduces the damage caused to you by the plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
@@ -24,11 +23,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 38;
+            item.width = 42;
+            item.height = 48;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.accessory = true;
         }
 

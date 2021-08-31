@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 21; //51
         }
 
@@ -39,11 +39,15 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased melee damage\n" +
-                "You have a 33% chance to reflect projectiles back at enemies\n" +
+                "Enemies are more likely to target you\n" +
+                "You reflect projectiles back at enemies\n" +
+                "Reflected projectiles deal 50% less damage to you\n" +
+                "This reflect has a 60 second cooldown which is shared with all other dodges and reflects\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
             player.meleeDamage += 0.05f;
+            player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)
@@ -58,9 +62,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-			recipe.AddIngredient(ItemID.CrystalShard, 6);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.CrystalShard, 6);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

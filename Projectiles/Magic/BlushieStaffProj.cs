@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlushieStaffProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private const int xRange = 600;
         private const int yRange = 320;
 
@@ -24,7 +26,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.magic = true;
-        }
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
+		}
 
         public override void AI()
         {
@@ -42,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
             player.itemAnimation = 2;
 
             projectile.ai[0] += 1f;
-            projectile.damage = (int)((projectile.ai[0] - 120f) * 4.5f);
+            projectile.damage = (int)(projectile.ai[0] - 120f); // Max damage = 3480
             if (projectile.damage >= 100 && Main.myPlayer == projectile.owner)
             {
                 if (player.statMana <= 0 && player.manaFlower)

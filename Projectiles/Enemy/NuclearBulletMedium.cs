@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using System;
 using Terraria;
@@ -40,9 +40,8 @@ namespace CalamityMod.Projectiles.Enemy
                 Player player = Main.player[(int)projectile.ai[1]];
                 float inertia = 10f;
                 if (projectile.Distance(player.Center) > 70f)
-                {
-                    projectile.velocity = (projectile.velocity * inertia + projectile.DirectionTo(player.Center) * 18.5f) / (inertia + 1f);
-                }
+                    projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(player.Center) * 18.5f) / (inertia + 1f);
+
                 projectile.tileCollide = true;
             }
             else
@@ -52,7 +51,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
         public override void Kill(int timeLeft)
         {

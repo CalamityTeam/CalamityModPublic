@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StellarKnifeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StellarKnife";
 
         public override void SetStaticDefaults()
         {
@@ -24,11 +26,22 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 32;
             projectile.height = 34;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;
             projectile.Calamity().rogue = true;
         }
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -46,26 +59,17 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[1] += 0.75f;
             if (projectile.ai[1] <= 60f)
             {
-                projectile.rotation += 1f;
+                projectile.rotation -= 1f;
                 projectile.velocity.X *= 0.985f;
                 projectile.velocity.Y *= 0.985f;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-                if (projectile.spriteDirection == -1)
-                {
-                    projectile.rotation -= 1.57f;
-                }
-				projectile.localAI[0]++;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
 				Vector2 center = projectile.Center;
 				float maxDistance = 600f;
 				bool homeIn = false;
-
-				if (projectile.localAI[0] >= 20f && !homeIn) //shorten knife lifespan if it hasn't found a target
-					if (projectile.timeLeft >= 60)
-						projectile.timeLeft = 60;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -86,14 +90,14 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					projectile.timeLeft = 600; //when homing in, the projectile cannot run out of timeLeft, but synthesized timeLeft still runs
 
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (10f + 1f);
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 10f + moveDirection * 30f) / (10f + 1f);
 				}
                 else
                 {
+					//shorten knife lifespan if it hasn't found a target
+					if (projectile.timeLeft > 60)
+						projectile.timeLeft = 60;
                     projectile.velocity.X *= 0.92f;
                     projectile.velocity.Y *= 0.92f;
                 }
@@ -107,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

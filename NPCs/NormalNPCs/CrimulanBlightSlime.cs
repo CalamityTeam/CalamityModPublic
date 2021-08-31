@@ -34,8 +34,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
         }
@@ -66,18 +64,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.ManaSickness, 120, true);
-            player.AddBuff(BuffID.Confused, 120, true);
+            player.AddBuff(BuffID.Cursed, 60, true);
         }
 
         public override void NPCLoot()
         {
             int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
-            Main.item[item].color = new Color(250, 50, 50, 255);
+            Main.item[item].notAmmo = true;
             NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
 
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);
         }
     }
 }

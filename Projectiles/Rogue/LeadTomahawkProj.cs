@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LeadTomahawkProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/LeadTomahawk";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Tomahawk");

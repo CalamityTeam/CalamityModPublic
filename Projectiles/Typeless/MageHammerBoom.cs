@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class MageHammerBoom : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -18,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 6;
         }
     }
 }

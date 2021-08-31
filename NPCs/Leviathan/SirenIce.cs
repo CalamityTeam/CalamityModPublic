@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -20,15 +21,15 @@ namespace CalamityMod.NPCs.Leviathan
             aiType = -1;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            npc.damage = 55;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 100;
             npc.defense = 10;
 			npc.DR_NERD(0.5f);
             npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 10000;
+                npc.lifeMax = 1000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
                 {
@@ -112,7 +113,9 @@ namespace CalamityMod.NPCs.Leviathan
 			player.AddBuff(BuffID.Frostburn, 240, true);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreNPCLoot() => false;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

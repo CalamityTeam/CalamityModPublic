@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 180;
+            item.damage = 155;
             item.magic = true;
             item.mana = 12;
             item.width = 80;
             item.height = 84;
-            item.useTime = 6;
-            item.useAnimation = 12;
+            item.useTime = 8;
+            item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item12;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagicNebulaShot>();
             item.shootSpeed = 18f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         /*public override Vector2? HoldoutOrigin()
@@ -46,8 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(40f, 42f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -82,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Magic
             int num107 = 2;
             for (int num108 = 0; num108 < num107; num108++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(91) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

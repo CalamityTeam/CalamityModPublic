@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,14 +11,15 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmolight");
-            Tooltip.SetDefault("Changes night to day and vice versa");
+            Tooltip.SetDefault("Changes night to day and vice versa\n" +
+				"Does not work while a boss is alive");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -43,7 +45,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
                         Main.moonPhase = 0;
                     }
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             return true;
         }
@@ -51,9 +53,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Daylight>());
-            recipe.AddIngredient(ModContent.ItemType<Moonlight>());
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ItemID.SoulofLight, 7);
+			recipe.AddIngredient(ItemID.SoulofNight, 7);
+			recipe.AddIngredient(ItemID.HellstoneBar, 5);
+			recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

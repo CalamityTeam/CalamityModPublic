@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ContaminatedBileFlask : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ContaminatedBile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Contaminated Bile");
@@ -37,8 +39,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(SoundID.Item107, projectile.Bottom);
             Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
-            explosion.Calamity().stealthStrike = projectile.Calamity().stealthStrike;
-            explosion.timeLeft = explosion.Calamity().stealthStrike ? 60 : 20;
+			if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
+			{
+				explosion.Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+				explosion.timeLeft = explosion.Calamity().stealthStrike ? 60 : 20;
+			}
         }
     }
 }

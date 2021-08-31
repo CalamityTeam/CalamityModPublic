@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 140;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -51,12 +50,9 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 
 				if (homeIn)
-				{
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (11f);
+                {
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 10f + moveDirection * 30f) / (11f);
 				}
                 else
                 {
@@ -69,6 +65,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 250, 250);
+        }
+
+        public override bool CanDamage()
+        {
+            if (projectile.Calamity().stealthStrike && projectile.ai[0] < 60f)
+                return false;
+            return base.CanDamage();
         }
     }
 }

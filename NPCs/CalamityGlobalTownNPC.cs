@@ -1,19 +1,22 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Items.Weapons.Typeless.FiniteUse;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,35 +26,192 @@ namespace CalamityMod.NPCs
 {
 	public class CalamityGlobalTownNPC
 	{
+		#region Town NPC Patreon Name Sets
+		private const int AnglerVanillaNames = 22;
+		private static readonly string[] AnglerNames =
+		{
+			"Dazren",
+		};
+		private const int ArmsDealerVanillaNames = 24;
+		private static readonly string[] ArmsDealerNames =
+		{
+			"Drifter",
+			"Finchi",
+			"Heniek", // <@!363404700445442050> (Kazurgundu#3791)
+			"Fire", // <@!354362326947856384> (fire#0692)
+			"Barney", // <@!634462901431697410> (Potato Power#6578)
+		};
+		private const int ClothierVanillaNames = 25;
+		private static readonly string[] ClothierNames =
+		{
+			"Joeseph Jostar",
+		};
+		private const int CyborgVanillaNames = 22;
+		private static readonly string[] CyborgNames =
+		{
+			"Sylux", // <@!331812782183809025> (Gonk#2451)
+		};
+		private const int DemolitionistVanillaNames = 22;
+		private static readonly string[] DemolitionistNames = null;
+		private const int DryadVanillaNames = 21;
+		private static readonly string[] DryadNames =
+		{
+			"Rythmi",
+			"Izuna",
+			"Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
+			"Cybil", // <@!486507232666845185> (Captain Doofus#????)
+		};
+		private const int DyeTraderVanillaNames = 16;
+		private static readonly string[] DyeTraderNames = null;
+		private const int GoblinTinkererVanillaNames = 25;
+		private static readonly string[] GoblinTinkererNames =
+		{
+			"Verth",
+			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
+			"TingFlarg", // <@!185605031716847616> (Smug#7160)
+		};
+		private const int GuideVanillaNames = 34;
+		private static readonly string[] GuideNames =
+		{
+			"Lapp",
+			"Ben Shapiro",
+			"StreakistYT",
+			"Necroplasmic",
+			"Devin",
+			"Woffle", // <@!185980979427540992> (Chipbeam#2268)
+			"Cameron", // <@!340401981711712258> (CammyWammy#8634)
+			"Wilbur", // <@!295171926324805634> (ChaosChaos#5979)
+		};
+		private const int MechanicVanillaNames = 24;
+		private static readonly string[] MechanicNames =
+		{
+			"Lilly",
+			"Daawn", // <@!206162323541458944> (Daawnily#3859)
+			"Robin", // <@!654737510030639112> (Altzeus#8687)
+			"Curly", // <@!673092101780668416> (Curly~Brace#4830)
+		};
+		private const int MerchantVanillaNames = 23;
+		private static readonly string[] MerchantNames = null;
+		private const int NurseVanillaNames = 24;
+		private static readonly string[] NurseNames =
+		{
+			"Farsni",
+		};
+		private const int PainterVanillaNames = 18;
+		private static readonly string[] PainterNames =
+		{
+			"Picasso", // <@!353316526306361347> (SCONICBOOM#2164 -- for the late Picasso's Bean#2819)
+		};
+		private const int PartyGirlVanillaNames = 17;
+		private static readonly string[] PartyGirlNames = null;
+		private const int PirateVanillaNames = 11;
+		private static readonly string[] PirateNames =
+		{
+			"Tyler Van Hook",
+		};
+		private const int SkeletonMerchantVanillaNames = 10;
+		private static readonly string[] SkeletonMerchantNames =
+		{
+			"Sans Undertale", // <@!145379091648872450> (Shayy#5257)
+			"Papyrus Undertale", // <@!262663471189983242> (Nycro#0001)
+		};
+		private const int SteampunkerVanillaNames = 20;
+		private static readonly string[] SteampunkerNames =
+		{
+			"Vorbis",
+			"Angel",
+		};
+		private const int StylistVanillaNames = 20;
+		private static readonly string[] StylistNames =
+		{
+			"Amber", // <@!114677116473180169> (Mishiro Usui#1295)
+		};
+		private const int TavernkeepVanillaNames = 16;
+		private static readonly string[] TavernkeepNames =
+		{
+			"Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
+			"Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
+		};
+		private const int TaxCollectorVanillaNames = 19;
+		private static readonly string[] TaxCollectorNames =
+		{
+			"Emmett",
+		};
+		private const int TruffleVanillaNames = 12;
+		private static readonly string[] TruffleNames = null;
+		private const int WitchDoctorVanillaNames = 10;
+		private static readonly string[] WitchDoctorNames =
+		{
+			"Sok'ar",
+			"Toxin", // <@!348174404984766465> (Toxin#9598),
+			"Mixcoatl", // <@!284775927294984203> (SharZz#7777)
+			"Khatunz", // <@!303022375191183360> (jackshiz#7839)
+		};
+		private const int WizardVanillaNames = 22;
+		private static readonly string[] WizardNames =
+		{
+			"Mage One-Trick",
+			"Inorim, son of Ivukey",
+			"Jensen",
+			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
+			"Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
+			"Ortho", // <@!264984390910738432> (Worcuus#5225)
+			"Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
+		};
+		#endregion
+
 		#region Town NPC Names
 		public static void ResetTownNPCNameBools(NPC npc, Mod mod)
 		{
-			if (NPC.FindFirstNPC(NPCID.Guide) == -1)
-				CalamityWorld.guideName = false;
-			if (NPC.FindFirstNPC(NPCID.Wizard) == -1)
-				CalamityWorld.wizardName = false;
-			if (NPC.FindFirstNPC(NPCID.Steampunker) == -1)
-				CalamityWorld.steampunkerName = false;
-			if (NPC.FindFirstNPC(NPCID.Stylist) == -1)
-				CalamityWorld.stylistName = false;
-			if (NPC.FindFirstNPC(NPCID.WitchDoctor) == -1)
-				CalamityWorld.witchDoctorName = false;
-			if (NPC.FindFirstNPC(NPCID.TaxCollector) == -1)
-				CalamityWorld.taxCollectorName = false;
-			if (NPC.FindFirstNPC(NPCID.Pirate) == -1)
-				CalamityWorld.pirateName = false;
-			if (NPC.FindFirstNPC(NPCID.Mechanic) == -1)
-				CalamityWorld.mechanicName = false;
-			if (NPC.FindFirstNPC(NPCID.ArmsDealer) == -1)
-				CalamityWorld.armsDealerName = false;
-			if (NPC.FindFirstNPC(NPCID.Dryad) == -1)
-				CalamityWorld.dryadName = false;
-			if (NPC.FindFirstNPC(NPCID.Nurse) == -1)
-				CalamityWorld.nurseName = false;
-			if (NPC.FindFirstNPC(NPCID.Angler) == -1)
-				CalamityWorld.anglerName = false;
-			if (NPC.FindFirstNPC(NPCID.Clothier) == -1)
-				CalamityWorld.clothierName = false;
+			void ResetName(int npcID, ref bool nameBool)
+			{
+				if (NPC.FindFirstNPC(npcID) == -1)
+					nameBool = false;
+			}
+
+			ResetName(NPCID.Angler, ref CalamityWorld.anglerName);
+			ResetName(NPCID.ArmsDealer, ref CalamityWorld.armsDealerName);
+			ResetName(NPCID.Clothier, ref CalamityWorld.clothierName);
+			ResetName(NPCID.Cyborg, ref CalamityWorld.cyborgName);
+			ResetName(NPCID.Demolitionist, ref CalamityWorld.demolitionistName);
+			ResetName(NPCID.Dryad, ref CalamityWorld.dryadName);
+			ResetName(NPCID.DyeTrader, ref CalamityWorld.dyeTraderName);
+			ResetName(NPCID.GoblinTinkerer, ref CalamityWorld.goblinTinkererName);
+			ResetName(NPCID.Guide, ref CalamityWorld.guideName);
+			ResetName(NPCID.Mechanic, ref CalamityWorld.mechanicName);
+			ResetName(NPCID.Merchant, ref CalamityWorld.merchantName);
+			ResetName(NPCID.Nurse, ref CalamityWorld.nurseName);
+			ResetName(NPCID.Painter, ref CalamityWorld.painterName);
+			ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
+			ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
+			ResetName(NPCID.SkeletonMerchant, ref CalamityWorld.skeletonMerchantName);
+			ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
+			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
+			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
+			ResetName(NPCID.TaxCollector, ref CalamityWorld.taxCollectorName);
+			ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
+			ResetName(NPCID.WitchDoctor, ref CalamityWorld.witchDoctorName);
+			ResetName(NPCID.Wizard, ref CalamityWorld.wizardName);
+		}
+
+		// Annoyingly, because npc.GivenName is a property, it can't be passed as a ref parameter.
+		private static string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames)
+		{
+			if (alreadySet || patreonNames is null || patreonNames.Length == 0)
+			{
+				alreadySet = true;
+				return currentName;
+			} 
+
+			alreadySet = true;
+			int index = Main.rand.Next(numVanillaNames + patreonNames.Length);
+
+			// If the roll isn't low enough, then a "vanilla name" was picked, meaning we change nothing.
+			if (index >= patreonNames.Length)
+				return currentName;
+
+			// Change the name to be a randomly selected Patreon name if the roll is low enough.
+			return patreonNames[index];
 		}
 
 		public static void SetPatreonTownNPCName(NPC npc, Mod mod)
@@ -61,262 +221,75 @@ namespace CalamityMod.NPCs
 				npc.Calamity().setNewName = false;
 				switch (npc.type)
 				{
-					case NPCID.Guide:
-						if (CalamityWorld.guideName)
-							break;
-						CalamityWorld.guideName = true;
-						switch (Main.rand.Next(41)) // 34 guide names
-						{
-							case 0:
-								npc.GivenName = "Lapp";
-								break;
-
-							case 1:
-								npc.GivenName = "Ben Shapiro"; 
-								break;
-
-							case 2:
-								npc.GivenName = "StreakistYT";
-								break;
-
-							case 3:
-								npc.GivenName = "Neoplasmatic";
-								break;
-
-							case 4:
-								npc.GivenName = "Devin";
-								break;
-
-							case 5:
-								npc.GivenName = "Woffle"; // patron name for <@!185980979427540992> (Chipbeam#2268)
-								break;
-							
-							case 6:
-								npc.GivenName = "Cameron"; // patron name for <@!340401981711712258> (CammyWammy#8634)
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Wizard:
-						if (CalamityWorld.wizardName)
-							break;
-						CalamityWorld.wizardName = true;
-						switch (Main.rand.Next(26)) // 23 wizard names
-						{
-							case 0:
-								npc.GivenName = "Mage One-Trick";
-								break;
-
-							case 1:
-								npc.GivenName = "Inorim, son of Ivukey";
-								break;
-
-							case 2:
-								npc.GivenName = "Jensen";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Steampunker:
-						if (CalamityWorld.steampunkerName)
-							break;
-						CalamityWorld.steampunkerName = true;
-						switch (Main.rand.Next(23)) // 21 steampunker names
-						{
-							case 0:
-								npc.GivenName = "Vorbis";
-								break;
-
-							case 1:
-								npc.GivenName = "Angel";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Stylist:
-						if (CalamityWorld.stylistName)
-							break;
-						CalamityWorld.stylistName = true;
-						switch (Main.rand.Next(21)) // 20 stylist names
-						{
-							case 0:
-								npc.GivenName = "Amber";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.WitchDoctor:
-						if (CalamityWorld.witchDoctorName)
-							break;
-						CalamityWorld.witchDoctorName = true;
-						switch (Main.rand.Next(11)) // 10 witch doctor names
-						{
-							case 0:
-								npc.GivenName = "Sok'ar";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.TaxCollector:
-						if (CalamityWorld.taxCollectorName)
-							break;
-						CalamityWorld.taxCollectorName = true;
-						switch (Main.rand.Next(21)) // 20 tax collector names
-						{
-							case 0:
-								npc.GivenName = "Emmett";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Pirate:
-						if (CalamityWorld.pirateName)
-							break;
-						CalamityWorld.pirateName = true;
-						switch (Main.rand.Next(12)) // 11 pirate names
-						{
-							case 0:
-								npc.GivenName = "Tyler Van Hook";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Mechanic:
-						if (CalamityWorld.mechanicName)
-							break;
-						CalamityWorld.mechanicName = true;
-						switch (Main.rand.Next(26)) // 24 mechanic names
-						{
-							case 0:
-								npc.GivenName = "Lilly";
-								break;
-
-							case 1:
-								npc.GivenName = "Daawn"; 
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.ArmsDealer:
-						if (CalamityWorld.armsDealerName)
-							break;
-						CalamityWorld.armsDealerName = true;
-						switch (Main.rand.Next(26)) // 24 arms dealer names
-						{
-							case 0:
-								npc.GivenName = "Drifter";
-								break;
-
-							case 1:
-								npc.GivenName = "Finchi"; 
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Dryad:
-						if (CalamityWorld.dryadName)
-							break;
-						CalamityWorld.dryadName = true;
-						switch (Main.rand.Next(23)) // 21 Dryad names
-						{
-							case 0:
-								npc.GivenName = "Rythmi";
-								break;
-
-							case 1:
-								npc.GivenName = "Izuna";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
-					case NPCID.Nurse:
-						if (CalamityWorld.nurseName)
-							break;
-						CalamityWorld.nurseName = true;
-						switch (Main.rand.Next(25)) // 24 nurse names
-						{
-							case 0:
-								npc.GivenName = "Farsni";
-								break;
-
-							default:
-								break;
-						}
-
-						break;
-
 					case NPCID.Angler:
-						if (CalamityWorld.anglerName)
-							break;
-						CalamityWorld.anglerName = true;
-						switch (Main.rand.Next(23)) // 22 angler names
-						{
-							case 0:
-								npc.GivenName = "Dazren";
-								break;
-
-							default:
-								break;
-						}
-
+						npc.GivenName = ChooseName(ref CalamityWorld.anglerName, npc.GivenName, AnglerVanillaNames, AnglerNames);
 						break;
-
+					case NPCID.ArmsDealer:
+						npc.GivenName = ChooseName(ref CalamityWorld.armsDealerName, npc.GivenName, ArmsDealerVanillaNames, ArmsDealerNames);
+						break;
 					case NPCID.Clothier:
-						if (CalamityWorld.clothierName)
-							break;
-						CalamityWorld.clothierName = true;
-						switch (Main.rand.Next(26)) // 25 clothier names
-						{
-							case 0:
-								npc.GivenName = "Joeseph Jostar";
-								break;
-
-							default:
-								break;
-						}
-
+						npc.GivenName = ChooseName(ref CalamityWorld.clothierName, npc.GivenName, ClothierVanillaNames, ClothierNames);
 						break;
-
+					case NPCID.Cyborg:
+						npc.GivenName = ChooseName(ref CalamityWorld.cyborgName, npc.GivenName, CyborgVanillaNames, CyborgNames);
+						break;
+					case NPCID.Demolitionist:
+						npc.GivenName = ChooseName(ref CalamityWorld.demolitionistName, npc.GivenName, DemolitionistVanillaNames, DemolitionistNames);
+						break;
+					case NPCID.Dryad:
+						npc.GivenName = ChooseName(ref CalamityWorld.dryadName, npc.GivenName, DryadVanillaNames, DryadNames);
+						break;
+					case NPCID.DyeTrader:
+						npc.GivenName = ChooseName(ref CalamityWorld.dyeTraderName, npc.GivenName, DyeTraderVanillaNames, DyeTraderNames);
+						break;
+					case NPCID.GoblinTinkerer:
+						npc.GivenName = ChooseName(ref CalamityWorld.goblinTinkererName, npc.GivenName, GoblinTinkererVanillaNames, GoblinTinkererNames);
+						break;
+					case NPCID.Guide:
+						npc.GivenName = ChooseName(ref CalamityWorld.guideName, npc.GivenName, GuideVanillaNames, GuideNames);
+						break;
+					case NPCID.Mechanic:
+						npc.GivenName = ChooseName(ref CalamityWorld.mechanicName, npc.GivenName, MechanicVanillaNames, MechanicNames);
+						break;
+					case NPCID.Merchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.merchantName, npc.GivenName, MerchantVanillaNames, MerchantNames);
+						break;
+					case NPCID.Nurse:
+						npc.GivenName = ChooseName(ref CalamityWorld.nurseName, npc.GivenName, NurseVanillaNames, NurseNames);
+						break;
+					case NPCID.Painter:
+						npc.GivenName = ChooseName(ref CalamityWorld.painterName, npc.GivenName, PainterVanillaNames, PainterNames);
+						break;
+					case NPCID.PartyGirl:
+						npc.GivenName = ChooseName(ref CalamityWorld.partyGirlName, npc.GivenName, PartyGirlVanillaNames, PartyGirlNames);
+						break;
+					case NPCID.Pirate:
+						npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
+						break;
+					case NPCID.SkeletonMerchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.skeletonMerchantName, npc.GivenName, SkeletonMerchantVanillaNames, SkeletonMerchantNames);
+						break;
+					case NPCID.Steampunker:
+						npc.GivenName = ChooseName(ref CalamityWorld.steampunkerName, npc.GivenName, SteampunkerVanillaNames, SteampunkerNames);
+						break;
+					case NPCID.Stylist:
+						npc.GivenName = ChooseName(ref CalamityWorld.stylistName, npc.GivenName, StylistVanillaNames, StylistNames);
+						break;
+					case NPCID.DD2Bartender: // Tavernkeep
+						npc.GivenName = ChooseName(ref CalamityWorld.tavernkeepName, npc.GivenName, TavernkeepVanillaNames, TavernkeepNames);
+						break;
+					case NPCID.TaxCollector:
+						npc.GivenName = ChooseName(ref CalamityWorld.taxCollectorName, npc.GivenName, TaxCollectorVanillaNames, TaxCollectorNames);
+						break;
+					case NPCID.Truffle:
+						npc.GivenName = ChooseName(ref CalamityWorld.truffleName, npc.GivenName, TruffleVanillaNames, TruffleNames);
+						break;
+					case NPCID.WitchDoctor:
+						npc.GivenName = ChooseName(ref CalamityWorld.witchDoctorName, npc.GivenName, WitchDoctorVanillaNames, WitchDoctorNames);
+						break;
+					case NPCID.Wizard:
+						npc.GivenName = ChooseName(ref CalamityWorld.wizardName, npc.GivenName, WizardVanillaNames, WizardNames);
+						break;
 					default:
 						break;
 				}
@@ -806,11 +779,6 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Wizard:
-					if (Main.rand.NextBool(10) && permadong != -1)
-					{
-						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
-					}
-
 					if (Main.rand.NextBool(10) && Main.hardMode)
 					{
 						chat = "Space just got way too close for comfort.";
@@ -819,7 +787,7 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Dryad:
-					if (Main.rand.NextBool(5) && CalamityWorld.buffedEclipse && Main.eclipse)
+					if (Main.rand.NextBool(5) && CalamityWorld.downedDoG && Main.eclipse)
 					{
 						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
 					}
@@ -1211,8 +1179,15 @@ namespace CalamityMod.NPCs
 		#region Shop Stuff
 		public static void ShopSetup(int type, Mod mod, ref Chest shop, ref int nextSlot)
 		{
+			int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
+
 			if (type == NPCID.Merchant)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.WormholePotion, true, Item.buyPrice(0, 0, 25, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ArcheryPotion, NPC.downedBoss1, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.HealingPotion, NPC.downedBoss2);
+				SetShopItem(ref shop, ref nextSlot, ItemID.ManaPotion, NPC.downedBoss2);
+				SetShopItem(ref shop, ref nextSlot, ItemID.TitanPotion, NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
 				SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
@@ -1224,19 +1199,38 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
 			}
 
-			// Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
 			if (type == NPCID.DyeTrader)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemID.DyeTradersScimitar, true, Item.buyPrice(0, 15));
+			}
+
+			if (type == NPCID.Demolitionist)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.MiningPotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.IronskinPotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ShinePotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.SpelunkerPotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ObsidianSkinPotion, NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.EndurancePotion, NPC.downedBoss3, Item.buyPrice(0, goldCost, 0, 0));
 			}
 
 			if (type == NPCID.ArmsDealer)
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
+				bool hasMagnum = Main.LocalPlayer.HasItem(ItemType<Magnum>()) || Main.LocalPlayer.HasItem(ItemType<LightningHawk>()) || Main.LocalPlayer.HasItem(ItemType<ElephantKiller>());
+				SetShopItem(ref shop, ref nextSlot, ItemType<MagnumRounds>(), hasMagnum, Item.buyPrice(0, 3 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemType<GrenadeRounds>(), Main.LocalPlayer.HasItem(ItemType<Bazooka>()), Item.buyPrice(0, 5 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
+				SetShopItem(ref shop, ref nextSlot, ItemID.AmmoReservationPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.HunterPotion, true, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.BattlePotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemID.RifleScope, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 			}
 
 			if (type == NPCID.Stylist)
@@ -1245,11 +1239,13 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
 				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
 				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+				SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
 			}
 
 			if (type == NPCID.Cyborg)
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
 			}
 
@@ -1260,6 +1256,10 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Dryad)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.ThornsPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.FeatherfallPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.RegenerationPotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.SwiftnessPotion, NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
 				SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 2));
@@ -1279,13 +1279,19 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.GoblinTinkerer)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<RangedLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<SummonLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>(), price: Item.buyPrice(1));
+				SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
+			}
+
+			if (type == NPCID.Mechanic)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.BuilderPotion, true, Item.buyPrice(0, 1, 0, 0));
 			}
 
 			if (type == NPCID.Clothier)
@@ -1319,6 +1325,9 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Wizard)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.ManaRegenerationPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
@@ -1326,12 +1335,17 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(3));
 				SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
 			}
 
 			if (type == NPCID.WitchDoctor)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.RagePotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.WrathPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<SunkenSeaFountain>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
@@ -1340,14 +1354,20 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
-				SetShopItem(ref shop, ref nextSlot, ItemType<GypsyPowder>(), NPC.downedGolemBoss, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
 			}
 
+			if (type == NPCID.PartyGirl)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, true, Item.buyPrice(0, 1, 0, 0));
+			}
+
 			if (type == NPCID.SkeletonMerchant)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
 			}
 		}

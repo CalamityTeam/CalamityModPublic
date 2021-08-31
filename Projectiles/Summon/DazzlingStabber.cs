@@ -1,33 +1,24 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class DazzlingStabber : ModProjectile
+    public class DazzlingStabber : ModProjectile
     {
-        public float NPCTargetTimer
-        {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
-        }
-        public float IdleOffsetAngle
-        {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
-        }
-        public const float DistanceToCheck = 1500f;
-        public const float TeleportSlice = 40f;
-        public static readonly float TeleportSliceAngleMax = MathHelper.ToRadians(23f);
+        public Player Owner => Main.player[projectile.owner];
+        public ref float AttackDelay => ref projectile.ai[0];
+        public ref float RestOffsetAngle => ref projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dazzling Stabber");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 25;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -40,128 +31,144 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
+            projectile.timeLeft = 90000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
             projectile.minion = true;
+            projectile.light = 1f;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, Color.White.ToVector3());
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
+
+            ApplyPlayerBuffs();
+            AdjustDamageDynamically();
+            UpdateFrames();
+
+            NPC potentialTarget = projectile.Center.MinionHoming(1100f, Owner);
+
+            if (potentialTarget != null)
+                SliceTarget(potentialTarget);
+            else
+                ReturnToRestingPosition();
+        }
+
+        public void ApplyPlayerBuffs()
+        {
+            Owner.AddBuff(ModContent.BuffType<DazzlingStabberBuff>(), 3600);
+            if (projectile.type == ModContent.ProjectileType<DazzlingStabber>())
+            {
+                if (Owner.dead)
+                    Owner.Calamity().providenceStabber = false;
+                if (Owner.Calamity().providenceStabber)
+                    projectile.timeLeft = 2;
+            }
+        }
+
+        public void AdjustDamageDynamically()
+        {
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
+                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
                 projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<DazzlingStabber>();
-            player.AddBuff(ModContent.BuffType<DazzlingStabberBuff>(), 3600);
-            if (isProperProjectile)
-            {
-                if (player.dead)
-                {
-                    modPlayer.providenceStabber = false;
-                }
-                if (modPlayer.providenceStabber)
-                {
-                    projectile.timeLeft = 2;
-                }
-            }
+        }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
-
-            if (projectile.frameCounter++ > 6)
-            {
+        public void UpdateFrames()
+        {
+            projectile.frameCounter++;
+            if (projectile.frameCounter % 6 == 0)
                 projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
-            }
-
-            if (potentialTarget is null)
-            {
-                projectile.rotation = projectile.rotation.AngleTowards(IdleOffsetAngle, 0.05f);
-                Vector2 destination = player.Center + new Vector2(0f, -120f).RotatedBy(IdleOffsetAngle);
-                projectile.velocity = (destination - projectile.Center) / 15f;
-            }
-            else
-            {
-                NPCTargetTimer++;
-                // Alternate between normal charge and slower charge/knife summon
-                if (NPCTargetTimer % 160f < 100f)
-                {
-                    ChargeAttack(potentialTarget);
-                }
-                // Teleport onto the target and just the rotation for a slice.
-                else if (NPCTargetTimer % 160f == 160f - TeleportSlice)
-                {
-                    TeleportOntoTarget(potentialTarget);
-                }
-                // Slice the target and don't move.
-                else if (NPCTargetTimer % 160f > 160f - TeleportSlice)
-                {
-                    projectile.rotation -= TeleportSliceAngleMax * 2f / TeleportSlice;
-                }
-            }
-            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
         }
 
-        public void ChargeAttack(NPC target)
+        public void SliceTarget(NPC target)
         {
-            if (NPCTargetTimer % 160f < 30f)
+            // Don't do anything if the attack delay is still passing.
+            if (AttackDelay > -60f)
             {
-                projectile.velocity *= 0.99f;
-                projectile.rotation = projectile.rotation.AngleLerp(projectile.AngleTo(target.Center) + MathHelper.PiOver2, 0.25f);
+                AttackDelay--;
+                if (AttackDelay > 0f)
+                    return;
             }
-            else if (NPCTargetTimer % 160f == 30f)
+
+            // Reset the velocity to fly upward if there is very little motion to ensure
+            // that the summon does not get stuck.
+            if (projectile.velocity.Length() < 3f)
+                projectile.velocity = Vector2.UnitY * -12f;
+
+            // If close to the target, slow down dramatically.
+            if (projectile.velocity.Length() > 5f && projectile.WithinRange(target.Center, 90f))
+                projectile.velocity *= 0.93f;
+
+            // Otherwise, if not close, speed up dramatically.
+            else if (projectile.velocity.Length() < 40f)
+                projectile.velocity *= 1.03f;
+
+            float angularTurnSpeed = 0.35f;
+            float angleToTargetCoords = projectile.AngleTo(target.Center);
+
+            if (!projectile.WithinRange(target.Center, 200f))
+                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(angleToTargetCoords, angularTurnSpeed).ToRotationVector2() * projectile.velocity.Length();
+
+            // If not super close to the target but the target is very much in the line of sight of the summon, charge.
+            if (!projectile.WithinRange(target.Center, 75f) && Vector2.Dot(projectile.SafeDirectionTo(target.Center), projectile.velocity.SafeNormalize(Vector2.Zero)) > 0.85f)
             {
-                projectile.velocity = projectile.DirectionTo(target.Center) * 20f;
+                projectile.velocity = projectile.SafeDirectionTo(target.Center) * 36f;
+                AttackDelay = 15f;
+
+                projectile.netUpdate = true;
             }
-            else if (NPCTargetTimer % 160f < 60f)
-            {
-                projectile.velocity *= 0.99f;
-                projectile.rotation = projectile.rotation.AngleLerp(projectile.AngleTo(target.Center) + MathHelper.PiOver2, 0.25f);
-            }
-            else if (NPCTargetTimer % 160f == 60f)
-            {
-                projectile.velocity = projectile.DirectionTo(target.Center) * 16f;
-                for (int i = 0; i < 3; i++)
-                {
-                    float angle = MathHelper.Lerp(-0.3f, 0.3f, i / 3f);
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<DazzlingStabberKnife>(), (int)(projectile.damage * 0.25), 1f, projectile.owner);
-                }
-            }
-            else projectile.velocity *= 0.99f;
+
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
-        public void TeleportOntoTarget(NPC target)
+        public void ReturnToRestingPosition()
         {
-            // Spawn a spiral of holy flame dust.
-            float angleStart = Main.rand.NextFloat(MathHelper.TwoPi);
-            for (int i = 0; i < 30; i++)
+            projectile.rotation = projectile.rotation.AngleTowards(RestOffsetAngle, 0.25f);
+
+            // Rapidly approach the resting position.
+            Vector2 destination = Owner.Center + Vector2.UnitY.RotatedBy(RestOffsetAngle) * -120f;
+            projectile.velocity = (destination - projectile.Center) / 10f;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            for (int i = 1; i < projectile.oldPos.Length; i++)
+                CalamityUtils.DistanceClamp(ref projectile.oldPos[i - 1], ref projectile.oldPos[i], 6f);
+
+            Texture2D trailSegmentTexture = ModContent.GetTexture("CalamityMod/Projectiles/StarProj");
+            for (int i = 2; i < projectile.oldPos.Length; i++)
             {
-                float angle = MathHelper.TwoPi / 30f * i + angleStart;
-                Dust dust = Dust.NewDustPerfect(projectile.Center + angle.ToRotationVector2() * 10f, (int)CalamityDusts.ProfanedFire);
-                dust.velocity = angle.ToRotationVector2() * 5f * MathHelper.Lerp(1f, 0f, i % 6f / 6f);
+                float completionRatio = i / (float)projectile.oldPos.Length;
+                float rotation = (projectile.oldPos[i - 1] - projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2;
+                float scale = MathHelper.Lerp(0.7f, 0.1f, completionRatio) * projectile.scale;
+                Color color = Color.Lerp(Color.LightPink, Color.Goldenrod, completionRatio * 3f % 1f) * 1.5f;
+
+                // Become dimmer the slower the projectile is moving.
+                color *= Utils.InverseLerp(1f, 8f, projectile.velocity.Length(), true);
+
+                // As well as how close the projectile is to pointing away from its rotation.
+                color *= Utils.InverseLerp(0.65f, 0.45f, projectile.velocity.AngleBetween(-(projectile.rotation + MathHelper.PiOver2).ToRotationVector2()) / MathHelper.Pi, true);
+
+                spriteBatch.Draw(trailSegmentTexture,
+                                 projectile.oldPos[i] + projectile.Size * 0.5f + new Vector2(0f, 8f).RotatedBy(projectile.rotation) - Main.screenPosition,
+                                 null,
+                                 color,
+                                 rotation,
+                                 trailSegmentTexture.Size() * 0.5f,
+                                 scale,
+                                 SpriteEffects.None,
+                                 0f);
             }
-
-            Vector2 teleportOffset = Utils.RandomVector2(Main.rand, -12f, 12f);
-
-            projectile.Center = target.Center + teleportOffset;
-            projectile.rotation = projectile.AngleTo(target.Center) + MathHelper.PiOver2 + TeleportSliceAngleMax;
-            projectile.velocity = Vector2.Zero;
-            projectile.netUpdate = true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

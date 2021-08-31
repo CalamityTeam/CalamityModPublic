@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,22 +20,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     projectile.timeLeft = ReelbackTime;
             }
         }
+
+        public Player Owner => Main.player[projectile.owner];
         public float Outwardness => OutwardnessMax * (float)Math.Sin(projectile.timeLeft / (float)Lifetime * MathHelper.Pi);
-        public float InitialRotation
-        {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
-        }
-        public float OutwardnessMax
-        {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
-        }
-        public float SwingDirection
-        {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
-        }
+        public ref float InitialRotation => ref projectile.ai[0];
+        public ref float OutwardnessMax => ref projectile.ai[1];
+        public ref float SwingDirection => ref projectile.localAI[0];
         public const int ChargeTime = 25;
         public const int ReelbackTime = 25;
         public const int Lifetime = ChargeTime + ReelbackTime;
@@ -55,7 +46,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.timeLeft = Lifetime;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
+			projectile.extraUpdates = 1;
             projectile.Calamity().hasInorganicEnemyHitBoost = true;
             projectile.Calamity().inorganicEnemyHitBoost = 0.003f;
         }
@@ -72,17 +64,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.rotation = projectile.AngleTo(player.Center) - MathHelper.PiOver2;
-            if (player.dead)
+            projectile.rotation = projectile.AngleTo(Owner.Center) - MathHelper.PiOver2;
+            if (Owner.dead)
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.direction = (player.Center.X - projectile.Center.X > 0).ToDirectionInt();
+            projectile.direction = (Owner.Center.X - projectile.Center.X > 0).ToDirectionInt();
             projectile.spriteDirection = projectile.direction;
-            ManipulatePlayer(player);
+
+            ManipulateOwnerFields();
 
             if (projectile.timeLeft >= Lifetime - ChargeTime)
             {
@@ -93,31 +85,30 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle) * 29f;
 
                 // Adjust the velocity to go along with the player's if the velocity directions are similar so that the player's movement doesn't hinder the projectile's movement.
-                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), player.velocity.SafeNormalize(Vector2.Zero)) > 0.45f)
+                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), Owner.velocity.SafeNormalize(Vector2.Zero)) > 0.45f)
                 {
-                    projectile.velocity += player.velocity;
+                    projectile.velocity += Owner.velocity;
                 }
-                projectile.tileCollide = true;
             }
             else
             {
-                projectile.velocity = projectile.DirectionTo(player.Center) * 43f;
+                projectile.velocity = projectile.SafeDirectionTo(Owner.Center, Vector2.UnitX * Owner.direction) * 43f;
                 projectile.timeLeft = ReelbackTime;
-                if (projectile.Distance(player.Center) < 45f)
+                if (projectile.WithinRange(Owner.Center, 45f))
                     projectile.Kill();
             }
 
             GenerateIdleDust();
-            if (projectile.timeLeft % 3 == 2 && projectile.Distance(player.Center) > 40f)
+            if (projectile.timeLeft % 3 == 2 && projectile.Distance(Owner.Center) > 40f)
                 SpawnElectricFields();
         }
 
-        public void ManipulatePlayer(Player player)
+        public void ManipulateOwnerFields()
         {
-            player.itemAnimation = 4;
-            player.itemTime = 4;
-            player.ChangeDir(-projectile.direction);
-            player.itemRotation = projectile.rotation + (projectile.spriteDirection == -1).ToInt() * MathHelper.TwoPi;
+            Owner.itemAnimation = 4;
+            Owner.itemTime = 4;
+            Owner.ChangeDir(-projectile.direction);
+            Owner.itemRotation = projectile.rotation + (projectile.spriteDirection == -1).ToInt() * MathHelper.TwoPi;
         }
 
         public void GenerateIdleDust()
@@ -137,20 +128,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.myPlayer != projectile.owner)
                 return;
             Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
-            field.Calamity().forceMelee = true;
-            field.usesLocalNPCImmunity = true;
-            field.localNPCHitCooldown = 3;
-            field.timeLeft = 12;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            projectile.tileCollide = false;
-            projectile.velocity = Vector2.Zero;
-            ReelingBack = true;
-            projectile.netUpdate = true;
-            return false;
+			if (field.whoAmI.WithinBounds(Main.maxProjectiles))
+			{
+				field.Calamity().forceMelee = true;
+				field.usesLocalNPCImmunity = true;
+				field.localNPCHitCooldown = 3;
+				field.timeLeft = 12;
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -172,10 +156,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 Vector2 offset = Vector2.UnitX * -SwingDirection;
                 offset *= Outwardness * (float)Math.Sin(i / 20f * MathHelper.Pi);
-                offset *= Utils.InverseLerp(0f, 300f, player.Distance(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset), true);
+                offset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset), true);
                 bezierPoints.Add(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset);
             }
             bezierPoints.Add(projectile.Center);
+
             BezierCurve bezierCurve = new BezierCurve(bezierPoints.ToArray());
             int totalChains = (int)(projectile.Distance(mountedCenter) / chainTexture.Height);
             totalChains = (int)MathHelper.Clamp(totalChains, 40f, 1000f);

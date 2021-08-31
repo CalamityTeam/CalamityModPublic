@@ -54,32 +54,44 @@ namespace CalamityMod.Projectiles.Melee
         {
 			if (Main.myPlayer != projectile.owner)
 				return;
-            if (target.type == NPCID.TargetDummy || target.lifeMax <= 5 || Main.player[projectile.owner].moonLeech)
+
+            if (target.lifeMax <= 5 || Main.player[projectile.owner].moonLeech)
                 return;
+
             if (Main.player[projectile.owner].lifeSteal <= 0f)
 				return;
 
             float healAmt = damage * Main.rand.NextFloat(0.075f, 0.9f);
             if (healAmt < 1f)
                 healAmt = 1f;
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
 			if (Main.rand.NextBool(3))
-				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
+				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			if (Main.myPlayer != projectile.owner)
 				return;
+
             if (Main.player[projectile.owner].moonLeech)
                 return;
+
             if (Main.player[projectile.owner].lifeSteal <= 0f)
 				return;
 
             float healAmt = damage * Main.rand.NextFloat(0.075f, 0.9f);
             if (healAmt < 1f)
                 healAmt = 1f;
+
+			if (healAmt > CalamityMod.lifeStealCap)
+				healAmt = CalamityMod.lifeStealCap;
+
 			if (Main.rand.NextBool(3))
-				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
+				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
         }
     }
 }

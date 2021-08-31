@@ -26,7 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             aiType = ProjectileID.WoodenArrowFriendly;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void Kill(int timeLeft)
         {
@@ -48,9 +49,12 @@ namespace CalamityMod.Projectiles.Ranged
                         value20 -= value21 * (float)num517;
                         num518 += projectile.oldVelocity.X / 6f;
                         num519 += projectile.oldVelocity.Y / 6f;
-                        int num520 = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 2), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
-                        Main.projectile[num520].Calamity().forceRanged = true;
-                        Main.projectile[num520].penetrate = 2;
+                        int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 2), Main.player[projectile.owner].beeKB(0f), Main.myPlayer);
+						if (bee.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[bee].penetrate = 2;
+							Main.projectile[bee].Calamity().forceRanged = true;
+						}
                     }
                 }
             }
@@ -58,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

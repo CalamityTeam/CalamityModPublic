@@ -8,17 +8,17 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Hallowed Power");
-            Description.SetDefault("Minion damage boosted by 15%");
+            Description.SetDefault("Minion damage boosted by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-			Main.buffNoTimeDisplay[Type] = true;
             longerExpertDebuff = false;
         }
 
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().hallowedPower = true;
-        }
-    }
+		public override void Update(Player player, ref int buffIndex)
+		{
+			player.Calamity().hallowedPower = true;
+			player.minionDamage += 0.1f;
+		}
+	}
 }

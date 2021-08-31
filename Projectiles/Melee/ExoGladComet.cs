@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ExoGladComet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/Exocomet";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet");
@@ -78,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

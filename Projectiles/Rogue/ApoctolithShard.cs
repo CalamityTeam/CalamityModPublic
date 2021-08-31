@@ -1,10 +1,14 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class ApoctolithShard : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Rogue/AbyssalMirrorProjectile";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apoctolith Shard");
@@ -13,6 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.width = 13;
 			projectile.height = 13;
 			projectile.Calamity().rogue = true;
@@ -30,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			//Dust effect
 			int splash = 0;
 			while (splash < 4)

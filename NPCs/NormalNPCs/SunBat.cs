@@ -11,14 +11,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sun Bat");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 7;
         }
 
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
-            npc.aiStyle = 14;
-            aiType = NPCID.Lavabat;
+            npc.aiStyle = -1;
+            aiType = -1;
             npc.damage = 35;
             npc.width = 26;
             npc.height = 20;
@@ -30,20 +30,26 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath4;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SunBatBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override void AI()
+		{
+			CalamityGlobalAI.BuffedBatAI(npc, mod);
+		}
+
+		public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
+			if (npc.velocity.X > 0f)
+				npc.spriteDirection = 1;
+			if (npc.velocity.X < 0f)
+				npc.spriteDirection = -1;
+
+			npc.rotation = npc.velocity.X * 0.1f;
+
+			npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
-        }
-
-        public override void AI()
-        {
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -58,7 +64,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 120, true);
             player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 

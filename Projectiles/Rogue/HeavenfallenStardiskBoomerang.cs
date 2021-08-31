@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HeavenfallenStardisk";
+
         private bool explode = false;
 
         public override void SetStaticDefaults()
@@ -201,7 +203,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
     }

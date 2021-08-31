@@ -1,6 +1,7 @@
 using CalamityMod.Items.SummonItems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,10 +24,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.defense = 0;
             npc.lifeMax = 5;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;
@@ -102,7 +99,16 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.downedPolterghast && !CalamityWorld.rainingAcid) ? SpawnCondition.WormCritter.Chance * 1.569f : 0f;
+			if (!spawnInfo.player.Calamity().ZoneSulphur || CalamityWorld.rainingAcid)
+				return 0f;
+
+			// Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
+			int bloodwormAmt = NPC.CountNPCS(npc.type);
+			float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
+			float baseSpawnRate = CalamityWorld.encounteredOldDuke ? 2.569f : 5.138f;
+			float spawnRate = SpawnCondition.WormCritter.Chance * baseSpawnRate * spawnMult;
+
+			return spawnRate;
         }
 
         public override void OnCatchNPC(Player player, Item item)

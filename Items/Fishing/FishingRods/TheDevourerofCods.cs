@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 20f;
 			item.shoot = ModContent.ProjectileType<DevourerofCodsBobber>();
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
@@ -36,12 +35,9 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             for (int index = 0; index < 10; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int line = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
-                // Protection against projectile cap
-				if (Main.rand.NextBool() && line < Main.maxProjectiles) // randomizing line color
-					Main.projectile[line].Calamity().lineColor = 1;
+                float SpeedX = speedX + Main.rand.NextFloat(-3.75f, 3.75f);
+                float SpeedY = speedY + Main.rand.NextFloat(-3.75f, 3.75f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
             }
             return false;
         }
@@ -50,7 +46,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddRecipeGroup("NForEE", 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

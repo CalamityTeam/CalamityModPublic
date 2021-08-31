@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -7,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.World;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -21,23 +22,20 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 180;
+			npc.GetNPCDamage();
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;
-			npc.lifeMax = 5000;
-			if (CalamityWorld.bossRushActive)
+			npc.lifeMax = 3750;
+			if (BossRushEvent.BossRushActive)
 			{
-				npc.lifeMax = 75000;
+				npc.lifeMax = 7500;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
@@ -58,11 +56,16 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void AI()
 		{
-            npc.rotation += npc.velocity.X * 0.05f;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
+			npc.rotation += npc.velocity.X * 0.05f;
+
             if (npc.alpha > 0)
-            {
-                npc.alpha -= 5;
-            }
+                npc.alpha -= 15;
+
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
@@ -72,16 +75,14 @@ namespace CalamityMod.NPCs.OldDuke
                 if (!player.active || player.dead)
                 {
                     if (npc.timeLeft > 10)
-                    {
                         npc.timeLeft = 10;
-                    }
+
                     return;
                 }
             }
             else if (npc.timeLeft < 600)
-            {
                 npc.timeLeft = 600;
-            }
+
             Vector2 vector = player.Center - npc.Center;
             if (vector.Length() < 40f || npc.ai[3] >= 900f)
             {
@@ -101,9 +102,12 @@ namespace CalamityMod.NPCs.OldDuke
                 return;
             }
 
-            float num1372 = 12f;
-			if (Main.expertMode || CalamityWorld.bossRushActive)
-				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
+            float num1372 = death ? 14f : revenge ? 13f : 12f;
+			if (expertMode || malice)
+			{
+				float speedUpMult = BossRushEvent.BossRushActive ? 0.02f : CalamityWorld.malice ? 0.015f : 0.01f;
+				num1372 += Vector2.Distance(player.Center, npc.Center) * speedUpMult;
+			}
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
@@ -143,7 +147,7 @@ namespace CalamityMod.NPCs.OldDuke
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
 
-			float num1247 = 0.5f;
+			float num1247 = CalamityWorld.malice ? 0.75f : 0.5f;
 			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 			{
 				if (Main.npc[num1248].active)
@@ -167,6 +171,11 @@ namespace CalamityMod.NPCs.OldDuke
 			}
 		}
 
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+		}
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
@@ -175,9 +184,7 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(BuffID.Venom, 180, true);
-			player.AddBuff(BuffID.Poisoned, 180, true);
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
 		}
 
         public override bool CheckDead()
@@ -222,10 +229,10 @@ namespace CalamityMod.NPCs.OldDuke
 				{
 					float velocity = Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandTooth>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;
 				}
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloud>(), damage, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloudOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
             }
 
             return true;

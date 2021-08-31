@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class MalachiteBolt : ModProjectile
 	{
-		public override string Texture => "CalamityMod/Projectiles/Rogue/MalachiteProj";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Malachite";
 
 		public override void SetStaticDefaults()
 		{
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 

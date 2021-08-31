@@ -21,7 +21,7 @@ Reduces life regen by 1");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,7 +29,7 @@ Reduces life regen by 1");
             item.healLife = 200;
             item.consumable = true;
             item.potion = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
         public override bool CanUseItem(Player player)

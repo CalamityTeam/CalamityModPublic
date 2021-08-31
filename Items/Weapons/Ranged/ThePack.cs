@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 2500;
-            item.crit += 8;
+            item.damage = 1000;
             item.ranged = true;
             item.width = 96;
             item.height = 40;
@@ -28,24 +27,25 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ThePackMissile>();
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-40, 0);
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-40, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ThePackMissile>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ThePackMissile>(), damage, knockBack, player.whoAmI);
             return false;
         }
 

@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Eidolist : ModNPC
@@ -28,17 +30,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 60;
             npc.height = 80;
             npc.lifeMax = 10000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 13000;
-            }
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 1, 0, 0);
-            npc.alpha = 50;
+            npc.Opacity = 0f;
             npc.noGravity = true;
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit13;
@@ -62,8 +56,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.4f, 0.5f);
-            if (npc.justHit)
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			npc.Opacity += 0.15f;
+			if (npc.Opacity > 1f)
+				npc.Opacity = 1f;
+
+			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.4f, 0.5f);
+            if (npc.justHit || adultWyrmAlive)
             {
                 hasBeenHit = true;
             }
@@ -120,7 +125,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 return;
             }
             npc.noTileCollide = true;
-            float num1446 = 7f;
+            float num1446 = adultWyrmAlive ? 14f : 7f;
             float num1447 = 480f;
             if (npc.localAI[1] == 1f)
             {
@@ -137,12 +142,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
             npc.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= Main.rand.Next(90, 601))
             {
-                npc.localAI[0] = 0f;
+                npc.localAI[0] = -90f;
+				npc.netUpdate = true;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    float speed = 5f;
+                    float speed = adultWyrmAlive ? 10f : 5f;
                     Vector2 vector = new Vector2(npc.Center.X, npc.Center.Y);
                     float xDist = Main.player[npc.target].Center.X - vector.X + Main.rand.NextFloat(-10f, 10f);
                     float yDist = Main.player[npc.target].Center.Y - vector.Y + Main.rand.NextFloat(-10f, 10f);
@@ -151,7 +157,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     targetDist = speed / targetDist;
                     targetVec.X *= targetDist;
                     targetVec.Y *= targetDist;
-                    int damage = Main.expertMode ? 30 : 40;
+                    int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 30 : 40);
                     if (Main.rand.NextBool(2))
                     {
                         Projectile.NewProjectile(npc.Center, targetVec, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
@@ -298,10 +304,26 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist3"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EidiolistGores/Eidolist4"), npc.scale);
             }
         }
 
-        public override void NPCLoot()
+		public override bool PreNPCLoot()
+		{
+			bool adultWyrmAlive = false;
+			if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+					adultWyrmAlive = true;
+			}
+
+			return !adultWyrmAlive;
+		}
+
+		public override void NPCLoot()
         {
 			if (Main.rand.NextBool(10))
 			{

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,8 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y *= 0.9995f;
+            projectile.velocity *= 0.9995f;
             int addStuff = Main.rand.Next(5);
             blowTimer += addStuff;
             if (blowTimer >= 900)
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Main.PlaySound(SoundID.Item20, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)

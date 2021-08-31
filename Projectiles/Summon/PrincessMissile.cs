@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PrincessMissile : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/PlaguebringerGoliath/PlagueHomingMissile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Bomb");
@@ -77,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

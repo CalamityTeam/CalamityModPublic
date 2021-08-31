@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class WhiterainBlah : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rain");
@@ -42,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num458].velocity += projectile.velocity * 0.1f;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
     }
 }

@@ -28,10 +28,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.lifeMax = 5;
             npc.defense = 5;
 
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 5, 55);
             npc.lavaImmune = true;
             npc.noGravity = false;
@@ -43,11 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.dontTakeDamageFromHostiles = true;
             npc.catchItem = (short)ModContent.ItemType<BabyFlakHermit>();
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void AI()
         {
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
@@ -99,6 +91,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
             if (npc.ai[1] <= 0f)
@@ -124,6 +117,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !CalamityWorld.downedAquaticScourge)

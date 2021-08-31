@@ -3,35 +3,57 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem
     {
+        private static int HammerPower = 200;
+        private static int AxePower = 50;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grax");
-            Tooltip.SetDefault("Hitting an enemy will greatly boost your defense and melee stats for a short time");
+            Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
+                "Right click to use without hammering down walls or chopping down trees");
         }
 
         public override void SetDefaults()
         {
             item.width = 62;
             item.height = 62;
-            item.damage = 500;
+            item.scale = 1.5f;
+            item.damage = 472;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 4;
             item.useTurn = true;
-            item.axe = 50;
-            item.hammer = 200;
+            item.axe = AxePower;
+            item.hammer = HammerPower;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 5;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.axe = 0;
+                item.hammer = 0;
+            }
+            else
+            {
+                item.axe = AxePower;
+                item.hammer = HammerPower;
+            }
+            return base.CanUseItem(player);
         }
 
         public override void AddRecipes()

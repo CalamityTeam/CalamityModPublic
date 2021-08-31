@@ -25,7 +25,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.noGravity = true;
             npc.damage = 135;
             npc.width = 180;
             npc.height = 90;
@@ -34,10 +35,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 165000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath60;
@@ -338,15 +335,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 300, true);
-            player.AddBuff(BuffID.Venom, 300, true);
-            player.AddBuff(BuffID.Rabies, 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
+		}
 
         public override void NPCLoot()
         {

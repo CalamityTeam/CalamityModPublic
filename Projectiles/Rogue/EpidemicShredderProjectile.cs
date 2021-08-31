@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EpidemicShredderProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EpidemicShredder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Epidemic Shredder");
@@ -36,16 +38,15 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.timeLeft < 580f)
             {
-                projectile.velocity = (projectile.velocity * 18f + projectile.DirectionTo(Main.player[projectile.owner].Center) * 18f) / 19f;
+                projectile.velocity = (projectile.velocity * 18f + projectile.SafeDirectionTo(Main.player[projectile.owner].Center) * 18f) / 19f;
                 if (Main.player[projectile.owner].Hitbox.Intersects(projectile.Hitbox))
-                {
                     projectile.Kill();
-                }
             }
             if (projectile.timeLeft % 5 == 0 && projectile.Calamity().stealthStrike)
             {
                 int projIndex2 = Projectile.NewProjectile(projectile.Center, (projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
-                Main.projectile[projIndex2].Calamity().forceRogue = true;
+				if (projIndex2.WithinBounds(Main.maxProjectiles))
+					Main.projectile[projIndex2].Calamity().forceRogue = true;
             }
         }
 
@@ -64,7 +65,8 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.ai[0] == 0f)
                 {
                     int projIndex1 = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
-                    Main.projectile[projIndex1].Calamity().forceRogue = true;
+					if (projIndex1.WithinBounds(Main.maxProjectiles))
+						Main.projectile[projIndex1].Calamity().forceRogue = true;
                     projectile.ai[0] = 12f; //0.2th of a second cooldown
                 }
                 projectile.penetrate--;
@@ -80,7 +82,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 0f)
             {
                 int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
-                Main.projectile[projectileIndex].Calamity().forceRogue = true;
+				if (projectileIndex.WithinBounds(Main.maxProjectiles))
+					Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
@@ -91,7 +94,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 0f)
             {
                 int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
-                Main.projectile[projectileIndex].Calamity().forceRogue = true;
+				if (projectileIndex.WithinBounds(Main.maxProjectiles))
+					Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 300);

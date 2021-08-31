@@ -14,18 +14,17 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Eldritch Soul Artifact");
             Tooltip.SetDefault("Knowledge\n" +
-                "Boosts melee speed by 10%, shoot speed by 25%, rogue damage by 15%, max minions by 2, and reduces mana cost by 15%");
+                "Boosts melee speed by 10%, ranged velocity by 25%, rogue damage by 15%, max minions by 2, and reduces mana cost by 15%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
+            item.width = 64;
+            item.height = 58;
 			item.accessory = true;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-        }
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

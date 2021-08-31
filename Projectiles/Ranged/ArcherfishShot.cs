@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ArcherfishShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Round");
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.timeLeft = 600;
             projectile.extraUpdates = 2;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {

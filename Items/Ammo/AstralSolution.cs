@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Ammo
             item.width = 10;
             item.height = 12;
             item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.maxStack = 999;
             item.consumable = true;
             return;

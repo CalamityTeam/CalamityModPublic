@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Tools
             item.damage = 43;
             item.melee = true;
             item.width = 58;
-            item.height = 46;
+            item.height = 54;
             item.useTime = 19;
             item.useAnimation = 19;
             item.useTurn = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Tools
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
@@ -43,10 +43,7 @@ namespace CalamityMod.Items.Tools
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {

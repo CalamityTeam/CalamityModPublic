@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using System;
 using Terraria;
@@ -17,21 +18,20 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetDefaults()
         {
             npc.aiStyle = 86;
-            npc.damage = 40;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 24;
             npc.defense = 8;
             npc.alpha = 100;
             npc.lifeMax = 220;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 3000;
             }
             npc.knockBackResist = 0f;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-			npc.coldDamage = true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -71,11 +71,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.7f, 0.7f);
-        }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

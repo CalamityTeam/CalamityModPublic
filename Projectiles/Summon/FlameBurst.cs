@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlameBurst : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private float count = 0;
 
         public override void SetStaticDefaults()
@@ -68,74 +70,9 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
-            float num474 = 1200f;
-            bool flag17 = false;
-            int target = (int)projectile.ai[0];
-            if (player.HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				if (npc.CanBeChasedBy(projectile, false))
-				{
-					float num476 = npc.position.X + (float)(npc.width / 2);
-					float num477 = npc.position.Y + (float)(npc.height / 2);
-					float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
-					if (num478 < num474)
-					{
-						num472 = num476;
-						num473 = num477;
-						flag17 = true;
-					}
-				}
-            }
-            else if (Main.npc[target].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[target].Center, 1, 1))
-            {
-                float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-                float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-				float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
-                if (num478 < num474)
-                {
-                    num472 = num476;
-                    num473 = num477;
-                    flag17 = true;
-                }
-            }
-            if (!flag17)
-            {
-                for (int i = 0; i < Main.maxNPCs; ++i)
-                {
-                    NPC npc = Main.npc[i];
-                    if (npc is null || !npc.active)
-                        continue;
-
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-						float num476 = npc.position.X + (float)(npc.width / 2);
-						float num477 = npc.position.Y + (float)(npc.height / 2);
-						float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
-						if (num478 < num474)
-						{
-							num472 = num476;
-							num473 = num477;
-							flag17 = true;
-						}
-                    }
-                }
-            }
-            if (flag17)
-            {
-                float num483 = 20f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = num472 - vector35.X;
-                float num485 = num473 - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-            }
+            NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
+            if (potentialTarget != null)
+                projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 20f) / 21f;
         }
 
         public override void Kill(int timeLeft)

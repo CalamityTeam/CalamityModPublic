@@ -30,7 +30,7 @@ Stealth strikes explode into energy stars");
             item.useTime = 26;
             item.useAnimation = 26;
             item.UseSound = SoundID.Item1;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.Calamity().rogue = true;
 
             item.autoReuse = true;
@@ -42,8 +42,9 @@ Stealth strikes explode into energy stars");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

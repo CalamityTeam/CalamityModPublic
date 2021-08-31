@@ -1,7 +1,9 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +29,17 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 690;
 			cooldownSlot = 1;
-        }
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
 
 		public override void AI()
         {
@@ -48,7 +60,15 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 60)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 
-			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+
+				if (projectile.ai[0] == 0f)
+					projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
+			}
+
+			Lighting.AddLight(projectile.Center, 0.75f * projectile.Opacity, 0f, 0f);
         }
 
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
@@ -58,16 +78,19 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.Opacity != 1f)
 				return;
 
-			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-
-            if (projectile.ai[0] == 0f)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
-        }
+			if (projectile.ai[0] == 0f)
+			{
+				target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+			}
+			else
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			lightColor.R = (byte)(255 * projectile.Opacity);
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

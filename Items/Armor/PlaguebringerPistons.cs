@@ -1,13 +1,11 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Legs)]
+    [AutoloadEquip(EquipType.Legs)]
     public class PlaguebringerPistons : ModItem
     {
         public int counter = 0;
@@ -15,8 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Plaguebringer Pistons");
             Tooltip.SetDefault("13% increased minion damage and 15% increased movement speed\n" +
-			"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
-			"You spawn bees while sprinting or dashing");
+                "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
+                "You spawn bees while sprinting or dashing");
         }
 
         public override void SetDefaults()
@@ -25,21 +23,22 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.defense = 8;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.13f;
             player.moveSpeed += 0.15f;
-			player.Calamity().plaguebringerPistons = true;
+            player.Calamity().plaguebringerPistons = true;
 
-			//Flower Boots code
+            //Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 int x = (int)player.Center.X / 16;
                 int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
-				Tile tile = Main.tile[x, y];
+                Tile tile = Main.tile[x, y];
                 if (tile == null)
                 {
                     tile = new Tile();
@@ -49,7 +48,7 @@ namespace CalamityMod.Items.Armor
                     tile.frameY = 0;
                     tile.slope(0);
                     tile.halfBrick(false);
-					//On dirt blocks, there's a small chance to grow a dye plant
+                    //On dirt blocks, there's a small chance to grow a dye plant
                     if (Main.tile[x, y + 1].type == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.Armor
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-					//On grass, grow flowers
+                    //On grass, grow flowers
                     if (Main.tile[x, y + 1].type == TileID.Grass)
                     {
                         if (Main.rand.NextBool(2))
@@ -95,7 +94,7 @@ namespace CalamityMod.Items.Armor
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-					//On hallowed grass, grow hallowed flowers
+                    //On hallowed grass, grow hallowed flowers
                     else if (Main.tile[x, y + 1].type == TileID.HallowedGrass)
                     {
                         if (Main.rand.NextBool(2))
@@ -123,7 +122,7 @@ namespace CalamityMod.Items.Armor
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-					//On jungle grass, grow jungle flowers
+                    //On jungle grass, grow jungle flowers
                     else if (Main.tile[x, y + 1].type == TileID.JungleGrass)
                     {
                         tile.active(true);
@@ -138,16 +137,16 @@ namespace CalamityMod.Items.Armor
             }
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.BeeGreaves);
-			recipe.AddIngredient(ItemID.FlowerBoots);
-			recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BeeGreaves);
+            recipe.AddIngredient(ItemID.FlowerBoots);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

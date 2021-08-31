@@ -31,7 +31,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -62,12 +62,9 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<TheSyringe>(w)
             );
 
-            float malachiteChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 5);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PoisonBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PoisonPack";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Poison Ball");
@@ -35,30 +37,29 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (projectile.timeLeft < 20)
 				projectile.alpha += 13;
-			if (projectile.Calamity().stealthStrike == true)
+			if (projectile.Calamity().stealthStrike)
 			{
 				projectile.localAI[1]++;
-				if ((double) projectile.localAI[1] >= 35)
+				if (projectile.localAI[1] % 35f == 0f)
 				{
-					Vector2 velocity = projectile.velocity;
-					Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
-					vector2_1.Normalize();
-					Vector2 vector2_2 = vector2_1 * ((float) Main.rand.Next(10, 21) * 0.1f);
-					if (Main.rand.Next(3) == 0)
-						vector2_2 *= 2f;
-					Vector2 vector2_3 = velocity * 0.25f + vector2_2;
-					Vector2 vector2_5 = vector2_3 * 0.8f;
-					int proj = Projectile.NewProjectile(projectile.Center.X - vector2_5.X, projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, Main.rand.Next(569,572), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
-					Main.projectile[proj].Calamity().forceRogue = true;
-					Main.projectile[proj].usesLocalNPCImmunity = true;
-					Main.projectile[proj].localNPCHitCooldown = 45;
-					projectile.localAI[1] = 0.0f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 20f);
+					if (Main.rand.NextBool(3))
+						velocity *= 2f;
+					velocity += projectile.velocity * 0.25f;
+					velocity *= 0.8f;
+					int proj = Projectile.NewProjectile(projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceRogue = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 45;
+					}
 				}
             }
 
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.killSpikyBalls == true)
+			if (modPlayer.killSpikyBalls)
 			{
 				projectile.active = false;
 				projectile.netUpdate = true;

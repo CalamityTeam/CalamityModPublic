@@ -101,7 +101,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.width = 78;
             npc.height = 88;
             npc.damage = 70;
@@ -114,7 +115,6 @@ namespace CalamityMod.NPCs.Astral
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<AtlasBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 100;
@@ -616,18 +616,18 @@ namespace CalamityMod.NPCs.Astral
             }
             else if (spawnInfo.player.InAstral(1) && NPC.downedAncientCultist && !CalamityWorld.downedStarGod)
             {
-                return 0.18f;
+                return 0.27f;
             }
             else if (spawnInfo.player.InAstral(1))
             {
-                return 0.06f;
+                return 0.09f;
             }
             return 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
         }
 
         public override void NPCLoot()

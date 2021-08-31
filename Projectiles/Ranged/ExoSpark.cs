@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -46,9 +46,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
             NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetDistance);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.DirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
-            }
+                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
+
             projectile.rotation = projectile.velocity.ToRotation();
             if (!Main.dedServ)
             {
@@ -72,7 +71,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(ModContent.BuffType<Plague>(), 60);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
             target.AddBuff(BuffID.CursedInferno, 120);

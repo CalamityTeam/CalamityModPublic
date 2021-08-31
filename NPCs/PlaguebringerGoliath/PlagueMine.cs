@@ -1,4 +1,5 @@
-using CalamityMod.World;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,16 +15,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Mine");
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.npcSlots = 1f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 1f;
             npc.width = 42;
             npc.height = 42;
             npc.defense = 10;
-            npc.lifeMax = CalamityWorld.bossRushActive ? 10000 : 100;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 3000 : 300;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -46,7 +49,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
+			Lighting.AddLight(npc.Center, 0.03f, 0.2f, 0f);
+			Player player = Main.player[npc.target];
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -76,12 +80,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.dontTakeDamage = npc.ai[3] >= 180f ? false : true;
             if (npc.ai[3] >= 480f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
             npc.TargetClosest(true);
-            float num1372 = CalamityWorld.bossRushActive ? 10f : 7f;
+            float num1372 = 7f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -120,17 +123,27 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter % 6 == 5)
+                npc.frame.Y += frameHeight;
+
+            if (npc.frame.Y / frameHeight >= Main.npcFrameCount[npc.type])
+                npc.frame.Y = 0;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -142,12 +155,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			return false;
 		}
 
+		public override bool PreNPCLoot() => false;
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
+		}
+
 		public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = 200;
             npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);

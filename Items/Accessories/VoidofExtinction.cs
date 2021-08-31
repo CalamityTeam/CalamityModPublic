@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.expert = true;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.accessory = true;
         }
 
@@ -81,11 +80,16 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                if (Main.rand.NextBool(10))
+                if (player.miscCounter % 10 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
+						Projectile fire = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+						if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							fire.usesLocalNPCImmunity = true;
+							fire.localNPCHitCooldown = 60;
+						}
                     }
                 }
             }

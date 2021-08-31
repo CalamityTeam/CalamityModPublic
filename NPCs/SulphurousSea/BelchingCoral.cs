@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -29,10 +30,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.defense = 25;
             npc.lifeMax = 1000;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 3, 50);
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;
@@ -70,7 +67,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             DropHelper.DropItemChance(npc, ModContent.ItemType<BelchingSaxophone>(), 10);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

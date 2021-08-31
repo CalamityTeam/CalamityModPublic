@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Pets
 					projectile.frame = sleepy ? 16 : 8;
 				}
 			}
-            underwater = player.IsUnderwater() || modPlayer.leviathanAndSirenLore;
+            underwater = player.IsUnderwater();
             if (underwater)
             {
 				if (projectile.frame == 16)

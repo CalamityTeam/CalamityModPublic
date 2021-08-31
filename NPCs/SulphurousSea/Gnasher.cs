@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -16,7 +17,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 25;
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;
@@ -28,10 +30,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.value = Item.buyPrice(0, 0, 0, 60);
             npc.HitSound = SoundID.NPCHit50;
             npc.DeathSound = SoundID.NPCDeath54;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             banner = npc.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
         }
@@ -90,9 +88,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 120, true);
-            player.AddBuff(BuffID.Venom, 120, true);
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

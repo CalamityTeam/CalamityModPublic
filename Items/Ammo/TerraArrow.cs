@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 9;
+            item.damage = 15;
             item.ranged = true;
             item.width = 22;
             item.height = 36;
@@ -24,10 +24,10 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 40);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<TerraArrowMain>();
             item.shootSpeed = 15f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()

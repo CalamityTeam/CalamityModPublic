@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statigel Hood");
-            Tooltip.SetDefault("Increased minion knockback and +1 max minion");
+            Tooltip.SetDefault("Increased minion knockback");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.defense = 4; //20
         }
 
@@ -34,19 +34,20 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "18% increased minion damage\n" +
+			player.setBonus = "18% increased minion damage and +1 max minion\n" +
                 "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
                 "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height\n" +
-				"30% increased jump speed";
+				"12% increased jump speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
 			modPlayer.statigelJump = true;
 			Player.jumpHeight += 5;
-			player.jumpSpeedBoost += 1.5f;
-            player.minionDamage += 0.18f;
-            if (player.whoAmI == Main.myPlayer)
+			player.jumpSpeedBoost += 0.6f;
+			player.minionDamage += 0.18f;
+			player.maxMinions++;
+			if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
                 {
@@ -66,7 +67,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.minionKB += 1.5f;
-            player.maxMinions++;
         }
 
         public override void AddRecipes()

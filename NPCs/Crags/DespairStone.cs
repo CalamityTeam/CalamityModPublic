@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 40;
-            npc.width = 72; //324
-            npc.height = 72; //216
+            npc.width = 72;
+            npc.height = 72;
             npc.defense = 38;
 			npc.DR_NERD(0.35f);
             npc.lifeMax = 120;
@@ -33,27 +33,17 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 190;
-                npc.defense = 185;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 50;
+                npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
         {
             CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -67,7 +57,12 @@ namespace CalamityMod.NPCs.Crags
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -79,6 +74,8 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone2"), npc.scale);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            this.SetUpLamp();
+            this.SetUpLamp(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Lamp");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 11;
+            item.damage = 12;
             item.ranged = true;
             item.width = 22;
             item.height = 46;
@@ -27,19 +27,20 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 16f;
-            item.useAmmo = 40;
-        }
+            item.useAmmo = AmmoID.Arrow;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)((double)damage * 0.4), 0f, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)(damage * 0.4), 0f, player.whoAmI);
             return true;
         }
 

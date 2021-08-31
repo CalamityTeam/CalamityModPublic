@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class ApexShark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/SandyWaifuShark";
+
         private int HitCooldown = 0;
         public override void SetStaticDefaults()
         {
@@ -52,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
                     vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 67, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 85, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].velocity = vector7;
                 }
@@ -75,8 +77,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            float num633 = 700f;
-            float num634 = 1000f;
+            float num633 = 1200f;
+            float num634 = 1500f;
             float num635 = 2200f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<ApexShark>();

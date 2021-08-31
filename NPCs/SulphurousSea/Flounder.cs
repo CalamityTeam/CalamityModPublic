@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,10 +25,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 40;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit50;
             npc.DeathSound = SoundID.NPCDeath53;
@@ -84,8 +81,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Venom, 120, true);
-        }
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -115,7 +112,7 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

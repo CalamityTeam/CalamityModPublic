@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.UseSound = SoundID.Item23;
             item.noMelee = true;

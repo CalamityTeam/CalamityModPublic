@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SpearofDestinyProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
+
 		private bool initialized = false;
 
         public override void SetStaticDefaults()
@@ -23,7 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 2;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
@@ -47,11 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
 			Vector2 center = projectile.Center;
 			float maxDistance = 300f;
@@ -76,17 +75,14 @@ namespace CalamityMod.Projectiles.Rogue
 			if (homeIn)
 			{
                 projectile.extraUpdates = 2;
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
-
-				projectile.velocity = (projectile.velocity * 20f + homeInVector * 12f) / (21f);
+                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
 			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IcebreakerHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Icebreaker";
+
 		private int explosionCount = 0;
 
         public override void SetStaticDefaults()
@@ -21,7 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 30;
             projectile.height = 30;
-            projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.friendly = true;
             projectile.Calamity().rogue = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
@@ -56,7 +59,8 @@ namespace CalamityMod.Projectiles.Rogue
 					if (explosionCount < 3) //max amount of explosions to prevent worm memes
 					{
 						int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-						Main.projectile[ice].Calamity().forceRogue = true;
+						if (ice.WithinBounds(Main.maxProjectiles))
+							Main.projectile[ice].Calamity().forceRogue = true;
 						explosionCount++;
 					}
 
@@ -69,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
 						if (nPC.active && !nPC.dontTakeDamage && !nPC.buffImmune[buffType] && Vector2.Distance(projectile.Center, nPC.Center) <= radius)
 						{
 							if (nPC.FindBuffIndex(buffType) == -1)
-								nPC.AddBuff(buffType, 180, false);
+								nPC.AddBuff(buffType, 60, false);
 						}
 					}
 				}
@@ -86,7 +90,8 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					//no explosion count cap in pvp
 					int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-					Main.projectile[ice].Calamity().forceRogue = true;
+					if (ice.WithinBounds(Main.maxProjectiles))
+						Main.projectile[ice].Calamity().forceRogue = true;
 
 					int buffType = ModContent.BuffType<GlacialState>();
 					float radius = 112f; // 7 blocks
@@ -98,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
 						if ((owner.team != player.team || player.team == 0)  && player.hostile && owner.hostile && !player.dead && !player.buffImmune[buffType] && Vector2.Distance(projectile.Center, player.Center) <= radius)
 						{
 							if (player.FindBuffIndex(buffType) == -1)
-								player.AddBuff(buffType, 180, false);
+								player.AddBuff(buffType, 60, false);
 						}
 					}
 				}

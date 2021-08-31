@@ -13,21 +13,26 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class TrackingDiskProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/TrackingDisk";
+
         public bool ReturningToPlayer
         {
             get => projectile.ai[0] == 1f;
             set => projectile.ai[0] = value.ToInt();
         }
+
         public float Time
         {
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
+
         public const int LaserFireRate = 20;
         public const int MaxLaserCountPerShot = 4; // This only applies to stealth strikes.
         public const float MaxTargetSearchDistance = 480f;
         public const float ReturnAcceleration = 0.15f;
         public const float ReturnMaxSpeed = 12f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tracking Disk");
@@ -74,7 +79,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.velocity.Y += Math.Sign(idealVelocity.Y - projectile.velocity.Y) * ReturnAcceleration;
 
                 if (Time % LaserFireRate == 0f)
-                    AttemptToFireLasers((int)(projectile.damage * 0.4));
+                    AttemptToFireLasers((int)(projectile.damage * 0.25));
 
                 if (Main.myPlayer == projectile.owner)
                 {
@@ -102,7 +107,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (targetCount >= MaxLaserCountPerShot)
                         break;
                     Projectile laser = Projectile.NewProjectileDirect(projectile.Center, 
-                                                                      projectile.DirectionTo(target.Center) * 4f, 
+                                                                      projectile.SafeDirectionTo(target.Center) * 4f, 
                                                                       ModContent.ProjectileType<TrackingDiskLaser>(),
                                                                       damage,
                                                                       projectile.knockBack, 
@@ -118,7 +123,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetSearchDistance);
                 if (potentialTarget != null)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, projectile.knockBack, projectile.owner);
                 }
             }
         }
@@ -142,7 +147,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], ProjectileID.Sets.TrailCacheLength[projectile.type]);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, ProjectileID.Sets.TrailCacheLength[projectile.type]);
             return false;
         }
     }

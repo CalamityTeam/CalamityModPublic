@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Accessories
             item.width = 28;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.ammoCost80 = true;
+			player.Calamity().rangedAmmoCost *= 0.8f;
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.rangedDamage += 0.1f;

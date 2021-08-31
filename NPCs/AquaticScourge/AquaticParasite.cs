@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -21,13 +22,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 28;
             npc.height = 28;
             npc.defense = 5;
-            npc.LifeMaxNERB((Main.hardMode ? 200 : 30), bossRush: 30000);
+            npc.LifeMaxNERB(Main.hardMode ? 200 : 30);
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 60);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -197,7 +194,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Venom, 120, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

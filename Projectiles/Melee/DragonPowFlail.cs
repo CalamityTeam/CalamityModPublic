@@ -138,6 +138,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            // Only perform hit effects after reaching approximately 55% of the way out.
+            if (Main.player[projectile.owner].WithinRange(target.Center, 475f))
+                return;
+
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 8 seconds on-hit
             target.AddBuff(BuffID.Daybreak, 480);
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
@@ -146,16 +150,16 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;
 
-            // No petals or waterfalls when hitting dummies.
-            if (target.type == NPCID.TargetDummy)
-                return;
-
             PetalStorm(target.Center);
             Waterfalls(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            // Only perform hit effects after reaching approximately 55% of the way out.
+            if (projectile.WithinRange(Main.player[projectile.owner].Center, 475f))
+                return;
+
             // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
@@ -182,10 +186,13 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					float angle = Main.rand.NextFloat(MathHelper.TwoPi);
 					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, projectile.owner);
-					petal.rotation = angle;
-					petal.Calamity().forceMelee = true;
-					petal.usesLocalNPCImmunity = true;
-					petal.localNPCHitCooldown = -1;
+					if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						petal.Calamity().forceMelee = true;
+						petal.rotation = angle;
+						petal.usesLocalNPCImmunity = true;
+						petal.localNPCHitCooldown = -1;
+					}
 				}
             }
         }

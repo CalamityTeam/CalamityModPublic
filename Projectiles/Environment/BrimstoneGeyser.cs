@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Environment
 {
     public class BrimstoneGeyser : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dustType = (int)CalamityDusts.Brimstone;
         public override void SetStaticDefaults()
         {

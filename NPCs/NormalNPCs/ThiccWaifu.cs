@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -31,18 +30,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 18;
 			npc.DR_NERD(0.05f);
             npc.lifeMax = 6000;
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 190;
-                npc.defense = 60;
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0.05f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            npc.buffImmune[20] = true;
-            npc.buffImmune[44] = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.rarity = 2;
@@ -289,7 +280,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.Sky.Chance * 0.1f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Electrified, 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -307,7 +303,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
 			DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 2, 3);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), CalamityWorld.downedProvidence, 100, 1, 1);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<StormSaber>(), 5);
         }

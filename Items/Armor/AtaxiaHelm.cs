@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
-            item.defense = 25; //67
+            item.rare = ItemRarityID.Yellow;
+            item.defense = 33; //67
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -58,13 +58,15 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased melee damage\n" +
+                "Enemies are more likely to target you\n" +
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
             player.meleeDamage += 0.05f;
+            player.aggro += 700;
         }
 
         public override void UpdateEquip(Player player)

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpClock();
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Clock");
             AddMapEntry(new Color(191, 142, 111), name);

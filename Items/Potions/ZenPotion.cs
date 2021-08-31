@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zen Potion");
-            Tooltip.SetDefault("Reduces spawn rates...a lot...");
+            Tooltip.SetDefault("Vastly decreases enemy spawn rate");
         }
 
         public override void SetDefaults()
@@ -20,31 +20,35 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Zen>();
-            item.buffTime = 36000;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.buffTime = CalamityUtils.SecondsToFrames(900f);
+            item.value = Item.buyPrice(gold: 2);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
+            recipe.alchemy = true;
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 2);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
             recipe.AddIngredient(ItemID.PinkGel);
+            recipe.AddIngredient(ItemID.Daybloom);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            // Alternative recipe is not "alchemy" because none of the blood orb recipes are
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-			recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 2);
+            recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

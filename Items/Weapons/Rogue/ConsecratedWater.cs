@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class ConsecratedWater : RogueWeapon
     {
         public const int BaseDamage = 48;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Consecrated Water");
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
@@ -37,21 +38,23 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ConsecratedWaterProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 100);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.CrystalShard, 20);
+			recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
+			recipe.AddIngredient(ItemID.CrystalShard, 20);
             recipe.AddIngredient(ItemID.SoulofLight, 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

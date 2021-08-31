@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GhostFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.extraUpdates = 100;
             projectile.timeLeft = 80;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 50;
             projectile.minion = true;
             projectile.minionSlots = 0f;
         }

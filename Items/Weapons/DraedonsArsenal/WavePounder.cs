@@ -8,20 +8,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class WavePounder : RogueWeapon
+    public class WavePounder : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave Pounder");
             Tooltip.SetDefault("It utilizes its power to send heavy shockwaves throughout the area, causing agonizing internal damage.\n" +
-							   "Throws a bomb which explodes into a forceful shockwave\n" +
+                               "Throws a bomb which explodes into a forceful shockwave\n" +
                                "Stealth strikes emit absurdly powerful shockwaves");
         }
 
         public override void SafeSetDefaults()
         {
-            item.damage = 34;
-            item.Calamity().rogue = true;
+            CalamityGlobalItem modItem = item.Calamity();
+
+            item.damage = 75;
+            modItem.rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.width = 26;
@@ -35,19 +37,22 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             item.rare = ItemRarityID.Red;
 
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
             item.UseSound = SoundID.Item1;
 
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<WavePounderProjectile>();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 190;
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 190f;
+            modItem.ChargePerUse = 0.5f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f).Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 94;
             item.height = 92;
             item.melee = true;
-            item.damage = 3651;
+            item.damage = 710;
             item.knockBack = 2.5f;
             item.useAnimation = 19;
             item.useTime = 19;
@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
             item.shootSpeed = 9f;
@@ -73,12 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.ShadowFlame, 480);
             target.AddBuff(BuffID.Ichor, 480);
-
-            // Does not summon extra projectiles versus dummies.
-            if (target.type == NPCID.TargetDummy)
-                return;
-
-			OnHitEffects(player, target.Center);
+            OnHitEffects(player, target.Center);
         }
 
         // On-hit, tosses out five homing projectiles. This is not like Holy Collider.
@@ -86,11 +81,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 480);
             target.AddBuff(BuffID.Ichor, 480);
-			OnHitEffects(player, target.Center);
+            OnHitEffects(player, target.Center);
         }
 
-		private void OnHitEffects(Player player, Vector2 targetPos)
-		{
+        private void OnHitEffects(Player player, Vector2 targetPos)
+        {
 
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
@@ -108,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 velocity *= 8f;
                 Projectile.NewProjectile(targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, item.knockBack, player.whoAmI, 0.0f, 0.0f);
             }
-		}
+        }
 
         // Spawn some fancy dust while swinging
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -141,10 +136,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.BrokenHeroSword);
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 6);
             r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);
             r.AddRecipe();

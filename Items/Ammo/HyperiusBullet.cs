@@ -23,10 +23,10 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.5f;
             item.value = 2000;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<HyperiusBulletProj>();
             item.shootSpeed = 16f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

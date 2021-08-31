@@ -26,7 +26,8 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.WoodenArrowFriendly;
             projectile.arrow = true;
 			projectile.coldDamage = true;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
     }
 }

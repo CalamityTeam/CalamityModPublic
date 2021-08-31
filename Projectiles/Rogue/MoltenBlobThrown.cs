@@ -6,9 +6,11 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MoltenBlobThrown : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/MoltenBlob";
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blob");
+            DisplayName.SetDefault("Molten Blob");
             Main.projFrames[projectile.type] = 2;
         }
 
@@ -55,12 +57,9 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override Color? GetAlpha(Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 150, 0, projectile.alpha);
         }

@@ -12,97 +12,99 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
 	public class AstrageldonSummon : ModProjectile
-    {
-        public bool dust = false;
+	{
+		public bool dust = false;
 		private int attackCounter = 1;
 		private int teleportCounter = 400;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Astrageldon");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Astrageldon");
+			Main.projFrames[projectile.type] = 6;
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 64;
-            projectile.height = 62;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.alpha = 75;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.aiStyle = 26;
-            aiType = ProjectileID.BabySlime;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 64;
+			projectile.height = 62;
+			projectile.netImportant = true;
+			projectile.friendly = true;
+			projectile.minionSlots = 1;
+			projectile.alpha = 75;
+			projectile.timeLeft = 18000;
+			projectile.penetrate = -1;
+			projectile.timeLeft *= 5;
+			projectile.minion = true;
+			projectile.tileCollide = false;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.aiStyle = 26;
+			aiType = ProjectileID.BabySlime;
+		}
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
-        {
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
 			//for platform collision?
-            fallThrough = false;
-            return true;
-        }
+			fallThrough = false;
+			return true;
+		}
 
-        public override void AI()
-        {
-            Player player = Main.player[projectile.owner];;
-            CalamityPlayer modPlayer = player.Calamity();
+		public override void AI()
+		{
+			Player player = Main.player[projectile.owner];;
+			CalamityPlayer modPlayer = player.Calamity();
 			CalamityGlobalProjectile modProj = projectile.Calamity();
 
-            projectile.minionSlots = modProj.lineColor;
-
 			//hitbox size scaling
+			float scale = (float)Math.Log(projectile.minionSlots, 10f) + 1f;
+			if (projectile.scale != scale)
+				projectile.scale = scale;
 			projectile.width = (int)(64f * projectile.scale);
 			projectile.height = (int)(62f * projectile.scale);
 
 			//on spawn effects and flexible minions
-            if (!dust)
-            {
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int dustAmt = 16;
-                for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
-                {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
-                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, ModContent.DustType<AstralOrange>(), vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
-                    Main.dust[dusty].noGravity = true;
-                    Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = vector7;
-                }
-                dust = true;
-            }
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = damage2;
-            }
+			if (!dust)
+			{
+				modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
+				modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				int dustAmt = 16;
+				for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
+				{
+					Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+					vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
+					Vector2 vector7 = vector6 - projectile.Center;
+					int dusty = Dust.NewDust(vector6 + vector7, 0, 0, ModContent.DustType<AstralOrange>(), vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
+					Main.dust[dusty].noGravity = true;
+					Main.dust[dusty].noLight = true;
+					Main.dust[dusty].velocity = vector7;
+				}
+
+				dust = true;
+			}
+			if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
+			{
+				int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
+					modProj.spawnedPlayerMinionDamageValue *
+					player.MinionDamage());
+				projectile.damage = damage2;
+			}
 
 			//Bool setup
-            bool flag64 = projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
-            player.AddBuff(ModContent.BuffType<AstrageldonBuff>(), 3600);
-            if (flag64)
-            {
-                if (player.dead)
-                {
-                    modPlayer.aSlime = false;
-                }
-                if (modPlayer.aSlime)
-                {
-                    projectile.timeLeft = 2;
-                }
-            }
+			bool flag64 = projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
+			player.AddBuff(ModContent.BuffType<AstrageldonBuff>(), 3600);
+			if (flag64)
+			{
+				if (player.dead)
+				{
+					modPlayer.aSlime = false;
+				}
+				if (modPlayer.aSlime)
+				{
+					projectile.timeLeft = 2;
+				}
+			}
 
 			if (projectile.frame == 0 || projectile.frame == 1)
 			{
@@ -212,34 +214,27 @@ namespace CalamityMod.Projectiles.Summon
 						Vector2 laserVel = objectivepos - projectile.Center;
 						laserVel.Normalize();
 						laserVel *= scaleFactor3;
-						int laser = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, laserVel.X, laserVel.Y, projType, projectile.damage, 0f, projectile.owner, 0f, 0f);
+						int laser = Projectile.NewProjectile(projectile.Center, laserVel, projType, projectile.damage, 0f, projectile.owner);
 						projectile.netUpdate = true;
 					}
 				}
 			}
-        }
+		}
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-        }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int y6 = height * projectile.frame;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
-    }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int y6 = height * projectile.frame;
+			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+	}
 }

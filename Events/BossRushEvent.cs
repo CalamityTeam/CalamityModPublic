@@ -1,0 +1,524 @@
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Events
+{
+    public class BossRushEvent
+    {
+        public enum TimeChangeContext
+        {
+            None = 0,
+            Day = 1,
+            Night = -1
+        }
+        public struct Boss
+        {
+            public int EntityID;
+            public int SpecialSpawnCountdown;
+            public bool UsesSpecialSound;
+            public TimeChangeContext ToChangeTimeTo;
+            public OnSpawnContext SpawnContext;
+            public List<int> HostileNPCsToNotDelete;
+
+            public delegate void OnSpawnContext(int type);
+
+            public Boss(int id, TimeChangeContext toChangeTimeTo = TimeChangeContext.None, OnSpawnContext spawnContext = null, int specialSpawnCountdown = -1, bool usesSpecialSound = false, params int[] permittedNPCs)
+            {
+                // Default to a typical SpawnOnPlayer call for boss summoning if nothing else is inputted.
+                if (spawnContext is null)
+                    spawnContext = (type) => NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+
+                EntityID = id;
+                SpecialSpawnCountdown = specialSpawnCountdown;
+                UsesSpecialSound = usesSpecialSound;
+                ToChangeTimeTo = toChangeTimeTo;
+                SpawnContext = spawnContext;
+                HostileNPCsToNotDelete = permittedNPCs.ToList();
+
+                // Add the NPC type to delete blacklist list by default.
+                if (!HostileNPCsToNotDelete.Contains(id))
+                    HostileNPCsToNotDelete.Add(id);
+                if (BossIDsAfterDeath.TryGetValue(id, out int[] deathThings))
+                    HostileNPCsToNotDelete.AddRange(deathThings);
+            }
+        }
+        public static bool BossRushActive = false; // Whether Boss Rush is active or not.
+        public static bool DeactivateStupidFuckingBullshit = false; // Force Boss Rush to inactive.
+        public static int BossRushStage = 0; // Boss Rush Stage.
+        public static int BossRushSpawnCountdown = 180; // Delay before another Boss Rush boss can spawn.
+        public static List<Boss> Bosses = new List<Boss>();
+        public static Dictionary<int, int[]> BossIDsAfterDeath = new Dictionary<int, int[]>();
+        public static Dictionary<int, Action<NPC>> BossDeathEffects = new Dictionary<int, Action<NPC>>();
+        public static readonly Color XerocTextColor = Color.LightCoral;
+        public static int ClosestPlayerToWorldCenter => Player.FindClosest(new Vector2(Main.maxTilesX, Main.maxTilesY) * 16f * 0.5f, 1, 1);
+        public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
+        public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
+
+        #region Loading and Unloading
+        public static void Load()
+        {
+            BossIDsAfterDeath = new Dictionary<int, int[]>()
+            {
+                [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
+                [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
+            };
+
+            Bosses = new List<Boss>()
+            {
+                new Boss(NPCID.QueenBee),
+
+                new Boss(NPCID.BrainofCthulhu, permittedNPCs: NPCID.Creeper),
+
+                new Boss(NPCID.KingSlime, permittedNPCs: new int[] { NPCID.BlueSlime, NPCID.YellowSlime, NPCID.PurpleSlime, NPCID.RedSlime, NPCID.GreenSlime, NPCID.RedSlime,
+                    NPCID.IceSlime, NPCID.UmbrellaSlime, NPCID.Pinky, NPCID.SlimeSpiked, NPCID.RainbowSlime, ModContent.NPCType<KingSlimeJewel>() }),
+
+                new Boss(NPCID.EyeofCthulhu, TimeChangeContext.Night, permittedNPCs: NPCID.ServantofCthulhu),
+
+                new Boss(NPCID.SkeletronPrime, TimeChangeContext.Night, permittedNPCs: new int[] { NPCID.PrimeCannon, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.PrimeLaser, NPCID.Probe }),
+
+                new Boss(NPCID.Golem, TimeChangeContext.Day, type =>
+                {
+                    int shittyStatueBoss = NPC.NewNPC((int)(Main.player[ClosestPlayerToWorldCenter].position.X + Main.rand.Next(-100, 101)), (int)(Main.player[ClosestPlayerToWorldCenter].position.Y - 400f), type, 1);
+                    Main.npc[shittyStatueBoss].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(shittyStatueBoss);
+                }, permittedNPCs: new int[] { NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree }),
+
+                new Boss(ModContent.NPCType<ProfanedGuardianBoss>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianBoss2>(), ModContent.NPCType<ProfanedGuardianBoss3>() }),
+
+                new Boss(NPCID.EaterofWorldsHead, permittedNPCs: new int[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail, NPCID.VileSpit }),
+
+                new Boss(ModContent.NPCType<AstrumAureus>(), TimeChangeContext.Night, permittedNPCs: ModContent.NPCType<AureusSpawn>()),
+
+                new Boss(NPCID.TheDestroyer, TimeChangeContext.Night, specialSpawnCountdown: 300, permittedNPCs: new int[] { NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.Probe }),
+
+                new Boss(NPCID.Spazmatism, TimeChangeContext.Night, type =>
+                {
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, NPCID.Spazmatism);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, NPCID.Retinazer);
+                }, permittedNPCs: NPCID.Retinazer),
+
+                new Boss(ModContent.NPCType<Bumblefuck>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>(), NPCID.Spazmatism, NPCID.Retinazer }),
+
+                new Boss(NPCID.WallofFlesh, spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+                    NPC.SpawnWOF(player.position);
+                }, permittedNPCs: new int[] { NPCID.WallofFleshEye, NPCID.LeechHead, NPCID.LeechBody, NPCID.LeechTail, NPCID.TheHungry, NPCID.TheHungryII }),
+
+                new Boss(ModContent.NPCType<HiveMind>(), permittedNPCs: new int[] { ModContent.NPCType<DankCreeper>(), ModContent.NPCType<DarkHeart>(), ModContent.NPCType<HiveBlob>(), ModContent.NPCType<HiveBlob2>() }),
+
+                new Boss(NPCID.SkeletronHead, TimeChangeContext.Night, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+                    int sans = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
+                    Main.npc[sans].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(sans);
+                }, permittedNPCs: NPCID.SkeletronHand),
+
+                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>(),  }),
+
+                new Boss(ModContent.NPCType<AquaticScourgeHead>(), permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                    ModContent.NPCType<AquaticScourgeTail>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticSeekerHead>(),
+                    ModContent.NPCType<AquaticSeekerBody>(), ModContent.NPCType<AquaticSeekerTail>() }),
+
+                new Boss(ModContent.NPCType<DesertScourgeHead>(), spawnContext: type =>
+                {
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHead>());
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHeadSmall>());
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHeadSmall>());
+                }, permittedNPCs: new int[] { ModContent.NPCType<DesertScourgeBody>(), ModContent.NPCType<DesertScourgeTail>(), ModContent.NPCType<DesertScourgeHeadSmall>(),
+                    ModContent.NPCType<DesertScourgeBodySmall>(), ModContent.NPCType<DesertScourgeTailSmall>(), ModContent.NPCType<DriedSeekerHead>(), ModContent.NPCType<DriedSeekerBody>(),
+                    ModContent.NPCType<DriedSeekerTail>() }),
+
+                new Boss(NPCID.CultistBoss, spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+                    int doctorLooneyTunes = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, type, 1);
+                    Main.npc[doctorLooneyTunes].direction = Main.npc[doctorLooneyTunes].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 90f);
+                    Main.npc[doctorLooneyTunes].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(doctorLooneyTunes);
+                }, permittedNPCs: new int[] { NPCID.CultistBossClone, NPCID.CultistDragonHead, NPCID.CultistDragonBody1, NPCID.CultistDragonBody2, NPCID.CultistDragonBody3, NPCID.CultistDragonBody4,
+                    NPCID.CultistDragonTail, NPCID.AncientCultistSquidhead, NPCID.AncientLight, NPCID.AncientDoom }),
+
+                new Boss(ModContent.NPCType<CrabulonIdle>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    // Delete the pillars spawned by the cultist.
+                    for (int doom = 0; doom < Main.maxNPCs; doom++)
+                    {
+                        bool isPillar = Main.npc[doom].type == NPCID.LunarTowerStardust || Main.npc[doom].type == NPCID.LunarTowerVortex || Main.npc[doom].type == NPCID.LunarTowerNebula || Main.npc[doom].type == NPCID.LunarTowerSolar;
+                        if (Main.npc[doom].active && isPillar)
+                        {
+                            Main.npc[doom].active = false;
+                            Main.npc[doom].netUpdate = true;
+                        }
+                    }
+                    int thePefectOne = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
+                    Main.npc[thePefectOne].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(thePefectOne);
+                }, specialSpawnCountdown: 300, permittedNPCs: ModContent.NPCType<CrabShroom>()),
+
+                new Boss(NPCID.Plantera, permittedNPCs: new int[] { NPCID.PlanterasTentacle, NPCID.PlanterasHook, NPCID.Spore }),
+
+                new Boss(ModContent.NPCType<CeaselessVoid>(), permittedNPCs: ModContent.NPCType<DarkEnergy>()),
+
+                new Boss(ModContent.NPCType<PerforatorHive>(), permittedNPCs: new int[] { ModContent.NPCType<PerforatorHeadLarge>(), ModContent.NPCType<PerforatorBodyLarge>(), ModContent.NPCType<PerforatorTailLarge>(),
+                    ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(),
+                    ModContent.NPCType<PerforatorBodySmall>() ,ModContent.NPCType<PerforatorTailSmall>() }),
+
+                new Boss(ModContent.NPCType<Cryogen>(), permittedNPCs: new int[] { ModContent.NPCType<CryogenIce>(), ModContent.NPCType<IceMass>(), ModContent.NPCType<Cryocore>(), ModContent.NPCType<Cryocore2>() }),
+
+                new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
+
+                new Boss(ModContent.NPCType<Signus>(), specialSpawnCountdown: 360, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<SignusBomb>() }),
+
+                new Boss(ModContent.NPCType<RavagerBody>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(SoundID.Roar, player.position, 2);
+                    int ravager = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
+                    Main.npc[ravager].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(ravager);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<FlamePillar>(), ModContent.NPCType<RockPillar>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerLegRight>(),
+                   ModContent.NPCType<RavagerClawLeft>(), ModContent.NPCType<RavagerClawRight>() }),
+
+                new Boss(NPCID.DukeFishron, spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+                    int dukeFishron = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
+                    Main.npc[dukeFishron].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(dukeFishron);
+                }, permittedNPCs: new int[] { NPCID.DetonatingBubble, NPCID.Sharkron, NPCID.Sharkron2 }),
+
+                new Boss(NPCID.MoonLordCore, spawnContext: type =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, permittedNPCs: new int[] { NPCID.MoonLordLeechBlob, NPCID.MoonLordHand, NPCID.MoonLordHead, NPCID.MoonLordFreeEye }),
+
+                new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.NPCType<AstrumDeusTailSpectral>() }),
+
+                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
+
+                new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueBeeG>(), ModContent.NPCType<PlagueBeeLargeG>(), ModContent.NPCType<PlagueHomingMissile>(),
+                    ModContent.NPCType<PlagueMine>(), ModContent.NPCType<PlaguebringerShade>() }),
+
+                new Boss(ModContent.NPCType<CalamitasRun3>(), TimeChangeContext.Night, specialSpawnCountdown: 420, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
+                    ModContent.NPCType<LifeSeeker>(), ModContent.NPCType<SoulSeeker>() }),
+
+                new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(), ModContent.NPCType<Parasea>(),
+                    ModContent.NPCType<SirenIce>(), NPCID.DetonatingBubble}),
+
+                new Boss(ModContent.NPCType<OldDuke>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+                    int boomerDuke = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
+                    Main.npc[boomerDuke].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(boomerDuke);
+                }, permittedNPCs: new int[] { ModContent.NPCType<OldDukeToothBall>(), ModContent.NPCType<OldDukeSharkron>() }),
+
+                new Boss(ModContent.NPCType<SlimeGodCore>(), permittedNPCs: new int[] { ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodSplit>(), ModContent.NPCType<SlimeGodRunSplit>(),
+                    ModContent.NPCType<SlimeSpawnCorrupt>(), ModContent.NPCType<SlimeSpawnCorrupt2>(), ModContent.NPCType<SlimeSpawnCrimson>(), ModContent.NPCType<SlimeSpawnCrimson2>() }),
+
+                new Boss(ModContent.NPCType<Providence>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), player.Center);
+                    int prov = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), type, 1);
+                    Main.npc[prov].timeLeft *= 20;
+                    CalamityUtils.BossAwakenMessage(prov);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<ProvSpawnOffense>(), ModContent.NPCType<ProvSpawnHealer>(), ModContent.NPCType<ProvSpawnDefense>() }),
+
+                new Boss(ModContent.NPCType<SupremeCalamitas>(), spawnContext: type =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor);
+                    for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+                    {
+                        if (Main.player[playerIndex].active)
+                        {
+                            Player player = Main.player[playerIndex];
+                            if (player.FindBuffIndex(ModContent.BuffType<ExtremeGravity>()) > -1)
+                                player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
+                        }
+                    }
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
+                    CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
+                }, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
+                    ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
+
+                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() }),
+
+                new Boss(ModContent.NPCType<DevourerofGodsHeadS>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBodyS>(), ModContent.NPCType<DevourerofGodsTailS>() })
+            };
+
+            BossDeathEffects = new Dictionary<int, Action<NPC>>()
+            {
+                [NPCID.TheDestroyer] = npc =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
+                },
+                [NPCID.CultistBoss] = npc =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
+                },
+                [NPCID.DukeFishron] = npc =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
+                },
+                [ModContent.NPCType<Providence>()] = npc =>
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
+                },
+                [ModContent.NPCType<DevourerofGodsHeadS>()] = npc =>
+                {
+                    DropHelper.DropItem(npc, ModContent.ItemType<Rock>(), true);
+                    BossRushStage = 0;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    BossRushActive = false;
+
+                    CalamityNetcode.SyncWorld();
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        var netMessage = CalamityMod.Instance.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                        netMessage.Write(BossRushStage);
+                        netMessage.Send();
+                    }
+
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", XerocTextColor);
+                }
+            };
+        }
+
+        public static void Unload()
+        {
+            Bosses = null;
+            BossIDsAfterDeath = null;
+            BossDeathEffects = null;
+        }
+        #endregion
+
+        #region Updates
+        internal static void MiscUpdateEffects()
+        {
+            if (!BossRushActive)
+                return;
+
+            // Prevent Moon Lord from spawning naturally
+            if (NPC.MoonLordCountdown > 0)
+                NPC.MoonLordCountdown = 0;
+
+            // Handle projectile clearing.
+            if (CalamityWorld.bossRushHostileProjKillCounter > 0)
+            {
+                CalamityWorld.bossRushHostileProjKillCounter--;
+                if (CalamityWorld.bossRushHostileProjKillCounter == 1)
+                    CalamityUtils.KillAllHostileProjectiles();
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                    netMessage.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                    netMessage.Send();
+                }
+            }
+        }
+
+        internal static void Update()
+        {
+            if (!BossRushActive)
+            {
+                BossRushSpawnCountdown = 180;
+                if (BossRushStage != 0)
+                {
+                    BossRushStage = 0;
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        var netMessage = CalamityMod.Instance.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                        netMessage.Write(BossRushStage);
+                        netMessage.Send();
+                    }
+                }
+                return;
+            }
+
+            MiscUpdateEffects();
+
+            // Do boss rush countdown and shit if no boss is alive.
+            if (!CalamityPlayer.areThereAnyDamnBosses)
+            {
+                if (BossRushSpawnCountdown > 0)
+                    BossRushSpawnCountdown--;
+
+                // Cooldown and boss spawn
+                if (BossRushSpawnCountdown <= 0)
+                {
+                    // Cooldown before next boss spawns.
+                    BossRushSpawnCountdown = 60;
+
+                    // Increase cooldown post-Fishron.
+                    if (BossRushStage >= Bosses.FindIndex(boss => boss.EntityID == NPCID.DukeFishron))
+                        BossRushSpawnCountdown += 300;
+                    
+                    // Override the spawn countdown if specified.
+                    if (BossRushStage < Bosses.Count - 1 && Bosses[BossRushStage + 1].SpecialSpawnCountdown != -1)
+                        BossRushSpawnCountdown = Bosses[BossRushStage + 1].SpecialSpawnCountdown;
+
+                    // Change time as necessary.
+                    if (Bosses[BossRushStage].ToChangeTimeTo != TimeChangeContext.None)
+                        CalamityUtils.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
+                    
+                    // Play the typical boss roar sound.
+                    if (!Bosses[BossRushStage].UsesSpecialSound)
+                        Main.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position, 0);
+
+                    // And spawn the boss.
+                    Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
+                }
+            }
+        }
+
+        #endregion
+
+        #region On Boss Kill
+        internal static void OnBossKill(NPC npc, Mod mod)
+        {
+            // Eater of Worlds splits in Boss Rush now, so you have to kill every single segment to progress.
+            // Vanilla sets npc.boss to true for the last Eater of Worlds segment to die in NPC.checkDead.
+            // This means we do not need to manually check for other segments ourselves.
+            if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            {
+                if (npc.boss)
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // Anahita and Leviathan manually check for each other (this probably isn't necessary).
+            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan>())
+            {
+                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Siren>();
+                if (!NPC.AnyNPCs(bossType))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // Killing any split Deus head ends the fight instantly. You don't need to kill both.
+            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
+            {
+                BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+            }
+
+            // All Slime God entities must be killed to progress to the next stage.
+            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+            {
+                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
+                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+                else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+                else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()))
+                {
+                    BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                }
+            }
+
+            // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.
+            else if ((Bosses.Any(boss => boss.EntityID == npc.type) && !BossIDsAfterDeath.ContainsKey(npc.type)) ||
+                     BossIDsAfterDeath.Values.Any(killList => killList.Contains(npc.type)))
+            {
+                BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+                if (BossDeathEffects.ContainsKey(npc.type))
+                    BossDeathEffects[npc.type].Invoke(npc);
+            }
+
+            // Sync the stage and progress of Boss Rush whenever a relevant boss dies.
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                netMessage.Write(BossRushStage);
+                netMessage.Send();
+                var netMessage2 = mod.GetPacket();
+                netMessage2.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                netMessage2.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                netMessage2.Send();
+            }
+        }
+        #endregion
+    }
+}

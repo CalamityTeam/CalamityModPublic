@@ -25,11 +25,16 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 20;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 450f, 6f, 10f, 5, ProjectileID.SlimeGun, 0.75);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 30f, 5, ProjectileID.SlimeGun, 0.75);
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

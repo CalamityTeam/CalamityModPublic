@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class LunarBolt2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/LunarBolt";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -21,7 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 180;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {

@@ -6,23 +6,25 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    public class DraedonsForge : ModTile
+    public class DraedonsForge : ModTile //Legacy names used to avoid fucking over people's placed forges and ensure they are converted properly.
     {
-        public override void SetDefaults()
+
+        public override void SetDefaults() 
         {
-            animationFrameHeight = 36;
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            Main.tileLavaDeath[Type] = false;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2); //Changed from 3x2 to 4x2 due to sprite.
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Draedon's Forge");
+            name.SetDefault("Cosmic Anvil");
             AddMapEntry(new Color(0, 255, 0), name);
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Anvils, TileID.Furnaces, TileID.WorkBenches, TileID.LunarCraftingStation,
-                TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.Hellforge, TileID.DemonAltar };
+            adjTiles = new int[] { TileID.Anvils, TileID.TinkerersWorkbench, TileID.WorkBenches, TileID.LunarCraftingStation,
+                TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.DemonAltar }; //Specifically not furnaces
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -35,20 +37,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             r = (float)Main.DiscoR / 255f;
             g = (float)Main.DiscoG / 255f;
             b = (float)Main.DiscoB / 255f;
-        }
-
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-            if (frameCounter > 12)
-            {
-                frameCounter = 0;
-                frame++;
-                if (frame > 3)
-                {
-                    frame = 0;
-                }
-            }
         }
     }
 }

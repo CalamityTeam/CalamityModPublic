@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 595)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

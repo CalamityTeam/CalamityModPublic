@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Ray");
-            Tooltip.SetDefault("Casts an energy ray that splits if enemies are near it");
+            Tooltip.SetDefault("Casts an energy ray that splits into energy on enemy hits\n" +
+                "More energy is created the farther along the ray the hit enemy is");
             Item.staff[item.type] = true;
         }
 
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TerraBeam>();
@@ -41,7 +42,15 @@ namespace CalamityMod.Items.Weapons.Magic
             return new Vector2(15, 15);
         }
 
-        public override void AddRecipes()
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootPosition = position + shootVelocity * 8f;
+            Projectile.NewProjectile(shootPosition, shootVelocity, type, damage, knockBack, player.whoAmI);
+            return false;
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<NightsRay>());

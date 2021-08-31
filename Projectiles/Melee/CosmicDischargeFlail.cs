@@ -28,9 +28,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 6;
 			projectile.coldDamage = true;
+			projectile.extraUpdates = 1;
         }
+
         public override Color SpecialDrawColor => new Color(150, 255, 255);
         public override int ExudeDustType => 67;
         public override int WhipDustType => 187;
@@ -102,10 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            }
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -37,23 +38,13 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
                 if (projectile.Calamity().stealthStrike)
                 {
-                    int dustToUse = Main.rand.Next(0, 4);
-                    int dustType = 0;
-                    switch (dustToUse)
-                    {
-                        case 0:
-                            dustType = 33;
-                            break;
-                        case 1:
-                            dustType = 101;
-                            break;
-                        case 2:
-                            dustType = 111;
-                            break;
-                        case 3:
-                            dustType = 180;
-                            break;
-                    }
+					int dustType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						33,
+						101,
+						111,
+						180
+					});
 
                     int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                     Main.dust[dust].noGravity = true;
@@ -104,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -112,23 +103,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                int dustToUse = Main.rand.Next(0, 4);
-                int dustType = 0;
-                switch (dustToUse)
-                {
-                    case 0:
-                        dustType = 33;
-                        break;
-                    case 1:
-                        dustType = 101;
-                        break;
-                    case 2:
-                        dustType = 111;
-                        break;
-                    case 3:
-                        dustType = 180;
-                        break;
-                }
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					33,
+					101,
+					111,
+					180
+				});
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, 0, 0, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class IcicleArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/IcicleArrow";
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -19,7 +21,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
 			projectile.coldDamage = true;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void SetStaticDefaults()
         {
@@ -34,6 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.1f);
                 Main.dust[index2].noGravity = true;
             }
+			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -57,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 2, 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 3, 0f, projectile.owner);
                 }
             }
         }

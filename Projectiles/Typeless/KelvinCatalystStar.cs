@@ -38,41 +38,30 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.extraUpdates = 1;
 
-                float num472 = projectile.Center.X;
-                float num473 = projectile.Center.Y;
-                float num474 = 500f;
-                bool flag17 = false;
+				Vector2 center = projectile.Center;
+				float maxDistance = 500f;
+				bool homeIn = false;
 
-                for (int num475 = 0; num475 < 200; num475++)
-                {
-                    if (Main.npc[num475].CanBeChasedBy(projectile, false))
-                    {
-                        float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                        if (num478 < num474)
-                        {
-                            num474 = num478;
-                            num472 = num476;
-                            num473 = num477;
-                            flag17 = true;
-                        }
-                    }
-                }
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (Main.npc[i].CanBeChasedBy(projectile, false))
+					{
+						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-                if (flag17)
-                {
-                    float num483 = 12f;
-                    Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num484 = num472 - vector35.X;
-                    float num485 = num473 - vector35.Y;
-                    float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                    num486 = num483 / num486;
-                    num484 *= num486;
-                    num485 *= num486;
-                    projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                }
+						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+						{
+							center = Main.npc[i].Center;
+							homeIn = true;
+							break;
+						}
+					}
+				}
+
+				if (homeIn)
+				{
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
+				}
                 else
                     projectile.Kill();
             }
@@ -96,17 +85,14 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item27, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 24;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 24);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
@@ -116,6 +102,8 @@ namespace CalamityMod.Projectiles.Typeless
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 67, vector7.X * 0.5f, vector7.Y * 0.5f, 100, default, 0.75f);
                 Main.dust[num228].noGravity = true;
             }
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
         }
 

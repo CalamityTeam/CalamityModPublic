@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -12,11 +13,11 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 22;
+            item.width = 26;
+            item.height = 34;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 }

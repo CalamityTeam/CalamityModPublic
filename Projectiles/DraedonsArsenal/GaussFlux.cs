@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussFlux : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
@@ -30,8 +32,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 180;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 14;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()

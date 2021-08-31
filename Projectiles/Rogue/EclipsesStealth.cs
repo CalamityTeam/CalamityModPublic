@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,11 +8,15 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EclipsesStealth : ModProjectile
 	{
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
+		// For more consistent DPS, always alternates between spawning 1 and 2 spears instead of picking randomly
+		private bool spawnTwoSpears = true;
 		private bool changedTimeLeft = false;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Eclipse's Stealth");
+			DisplayName.SetDefault("Eclipse's Fall");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -32,44 +35,59 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.Calamity().rogue = true;
 		}
 
+		// Uses localAI[1] to decide how many frames until the next spear drops.
 		public override void AI()
 		{
-			if (projectile.timeLeft % 5 == 0) //congrats Pinkie... every 5 ticks
+			// Behavior when not sticking to anything
+			if (projectile.ai[0] == 0f)
 			{
-				if (Main.rand.NextBool(2) && Main.myPlayer == projectile.owner)
+				// Keep the spear oriented in the correct direction
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+
+				// Spawn dust while flying
+				if (Main.rand.NextBool(8))
+					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			}
+
+			// Behavior when having impaled a target
+			else
+			{
+				// Eclipse's Fall is guaranteed to impale for 10 seconds, no more, no less
+				if (!changedTimeLeft)
 				{
-					float dmgKBMult = Main.rand.NextFloat(0.4f, 0.6f);
-					int spearAmt = Main.rand.Next(1, 3); //1 to 2 spears
-					for (int n = 0; n < spearAmt; n++)
+					projectile.timeLeft = 600;
+					changedTimeLeft = true;
+				}
+
+				// Spawn spears. As this uses local AI, it's done client-side only.
+				if (projectile.owner == Main.myPlayer)
+				{
+					projectile.localAI[1] -= 1f;
+
+					if (projectile.localAI[1] <= 0f)
 					{
-						CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner);
+						// Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.
+						projectile.localAI[1] = Main.rand.Next(8, 14); // 8 to 13 frames between each spearfall
+
+						int type = ModContent.ProjectileType<EclipsesSmol>();
+						int smolDamage = (int)(projectile.damage * 0.22f);
+						float smolKB = 3f;
+						// Used to be a 50% chance each spearfall for 1 or 2. Now is consistent.
+						int numSpears = spawnTwoSpears ? 2 : 1;
+						spawnTwoSpears = !spawnTwoSpears;
+						for (int i = 0; i < numSpears; ++i)
+							CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, projectile.owner);
 					}
 				}
 			}
 
-			//Behavior when not sticking to anything
-			if (projectile.ai[0] == 0f)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-				if (Main.rand.NextBool(8)) //dust
-				{
-					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				}
-			}
-
-			//Ensures that a spear will last 10 seconds after it hits something
-			if (projectile.ai[0] == 1f && !changedTimeLeft)
-			{
-				projectile.timeLeft = 600;
-				changedTimeLeft = true;
-			}
-
-			//Sticky Behaviour
+			// Sticky behavior. Lets the projectile impale enemies and sticks to its impaled enemy automatically.
 			projectile.StickyProjAI(10);
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+			// Impale the enemy on contact ("sticky behavior").
 			projectile.ModifyHitNPCSticky(1, true);
 		}
 
@@ -84,18 +102,11 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.ai[0] == 1f)
-			{
-				return false;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => projectile.ai[0] != 1f;
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
 	}

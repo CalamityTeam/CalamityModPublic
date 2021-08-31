@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Turret");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -23,7 +22,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.tileCollide = true;
             projectile.sentry = true;
             projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.timeLeft *= 5;
             projectile.penetrate = -1;
         }
 
@@ -93,7 +91,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             for (int i = -1; i <= 1; i += 2)
                             {
                                 Projectile.NewProjectile(shootPosition,
-                                                         Vector2.Normalize(potentialTarget.Center - shootPosition).RotatedBy(i * MathHelper.ToRadians(28f)) * 7f,
+                                                         (potentialTarget.Center - shootPosition).SafeNormalize(Vector2.UnitY).RotatedBy(i * MathHelper.ToRadians(28f)) * 7f,
                                                          ModContent.ProjectileType<PulseTurretShot>(),
                                                          projectile.damage,
                                                          projectile.knockBack,
@@ -102,15 +100,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                                          1f);
                             }
                         }
+
                         if (!Main.dedServ)
                         {
                             for (int i = 0; i < 12; i++)
-                            {
                                 Dust.NewDustPerfect(shootPosition, 173).scale = Main.rand.NextFloat(1.4f, 1.8f);
-                            }
                         }
+
                         projectile.ai[1] = 15f;
-                        projectile.localAI[0] = Math.Sign(projectile.DirectionTo(potentialTarget.Center).X);
+                        projectile.localAI[0] = Math.Sign(projectile.SafeDirectionTo(potentialTarget.Center).X);
                     }
                 }
             }

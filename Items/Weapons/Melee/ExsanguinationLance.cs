@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 44;
-            item.damage = 77;
+            item.damage = 90;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -30,24 +30,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<ExsanguinationLanceProjectile>();
-            item.shootSpeed = 8f;
+            item.shootSpeed = 10f;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-        public override void AddRecipes()
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 10);

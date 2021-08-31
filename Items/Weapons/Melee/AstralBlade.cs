@@ -18,21 +18,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 95;
-            item.crit += 25;
+            item.damage = 85;
             item.melee = true;
-            item.width = 60;
-            item.height = 60;
+            item.width = 80;
+            item.height = 80;
+			item.scale = 1.5f;
             item.useTime = 9;
             item.useAnimation = 9;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void AddRecipes()
         {
@@ -57,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             for (int i = 0; i < 3; i++)
             {
-                Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.7f, 55, 110, -0.07f, 0.07f);
+                Dust d = CalamityUtils.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.7f, 55, 110, -0.07f, 0.07f);
                 if (d != null)
                 {
                     d.customData = 0.03f;

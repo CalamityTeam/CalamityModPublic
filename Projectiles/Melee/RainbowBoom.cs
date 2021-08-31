@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RainbowBoom : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boom");
@@ -19,10 +21,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 20;
             projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 5;
         }
 
         public override void AI()
@@ -84,5 +86,10 @@ namespace CalamityMod.Projectiles.Melee
                 num462++;
             }
         }
-    }
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			projectile.damage = (int)(projectile.damage * 0.9);
+		}
+	}
 }

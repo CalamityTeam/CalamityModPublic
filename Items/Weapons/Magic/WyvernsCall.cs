@@ -30,7 +30,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             item.noMelee = true;
             item.knockBack = 4.75f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<WyvernFeatherPurple>();

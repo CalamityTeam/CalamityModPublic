@@ -29,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -58,8 +58,6 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());
             DropHelper.DropItemChance(player, ModContent.ItemType<LureofEnthrallment>(), 3);
-            float communityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<TheCommunity>(), CalamityWorld.revenge, communityChance);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);

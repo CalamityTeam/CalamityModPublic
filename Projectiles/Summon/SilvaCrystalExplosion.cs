@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SilvaCrystalExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");

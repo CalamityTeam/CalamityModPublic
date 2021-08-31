@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class Judgement : ModItem
     {
         public const int HitsPerFlash = 300;
-        public const int FlashBaseDamage = 80000;
+        public const int FlashBaseDamage = 16000;
         
         private const float SpawnAngleSpread = 0.4f * MathHelper.Pi;
         private const float SpeedRandomness = 0.08f;
@@ -34,8 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.width = 40;
             item.height = 42;
-            item.damage = 2077;
-            item.crit += 20;
+            item.damage = 415;
             item.knockBack = 4f;
             item.magic = true;
             item.mana = 6;
@@ -51,15 +50,15 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<LightBlade>();
             item.shootSpeed = 14f;
 
-            item.value = Item.buyPrice(platinum: 5);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return Vector2.Zero;
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+
+        public override Vector2? HoldoutOffset() => Vector2.Zero;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

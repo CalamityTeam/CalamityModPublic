@@ -17,17 +17,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 38;
+            item.damage = 40;
             item.melee = true;
             item.width = 70;
             item.height = 80;
-            item.useTime = 28;
+			item.scale = 1.25f;
+			item.useTime = 28;
             item.useAnimation = 28;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(BuffID.Ichor, 300);
             if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
                 target.damage = target.defDamage - 5;

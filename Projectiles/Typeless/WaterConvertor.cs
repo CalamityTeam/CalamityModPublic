@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WaterConvertor : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.penetrate = -1;
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public void ConvertShit(Projectile projectile)
         {
-			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int x = (int)(projectile.Center.X / 16f);
 				int y = (int)(projectile.Center.Y / 16f);
@@ -39,23 +41,24 @@ namespace CalamityMod.Projectiles.Typeless
 					{
 						if (projectile.ai[0] == 0f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure);
 						}
 						if (projectile.ai[0] == 1f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt);
 						}
 						if (projectile.ai[0] == 2f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson);
 						}
 						if (projectile.ai[0] == 3f)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+							AstralBiome.ConvertFromAstral(i, j, ConvertType.Hallow);
 						}
 						if (projectile.ai[0] == 4f)
 						{
-							WorldGenerationMethods.ConvertToAstral(i, j);
+							AstralBiome.ConvertToAstral(i, j);
+							NetMessage.SendTileRange(-1, i, j, 1, 1);
 						}
 					}
 				}

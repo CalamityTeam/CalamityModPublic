@@ -10,6 +10,7 @@ using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick()
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
             DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 5);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.revenge && CalamityWorld.downedProvidence);
 
             // Vanity

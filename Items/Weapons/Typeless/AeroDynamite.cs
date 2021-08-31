@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aero Dynamite");
-            Tooltip.SetDefault("Throws a floaty explosive that defies gravity");
+            Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
+			"Throws a floaty explosive that defies gravity");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void UpdateInventory(Player player)

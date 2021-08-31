@@ -5,10 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class ApoctolithProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Apoctolith";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apoctolith");
@@ -20,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.Calamity().rogue = true;
+			projectile.ignoreWater = true;
 		}
 
 		public override void AI()
@@ -41,14 +46,12 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-			if (crit && target.defense > 0)
-			{
-				target.defense -= Math.Min(target.defense, 15);
-			}
+
+			if (crit)
+				target.Calamity().miscDefenseLoss = Math.Min(target.defense, 15);
+
 			if (projectile.Calamity().stealthStrike)
-			{
 				target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
-			}
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
@@ -62,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(21, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Tink, (int)projectile.position.X, (int)projectile.position.Y);
 			//Dust on impact
 			int dust_splash = 0;
 			while (dust_splash < 9)

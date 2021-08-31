@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -39,12 +40,12 @@ namespace CalamityMod.NPCs.HiveMind
         int minimumDriftTime = 300;
         int teleportRadius = 300;
         int decelerationTime = 30;
-        int reelbackFade = 3;       //divide 255 by this for duration of reelback in ticks
+        int reelbackFade = 2;       //divide 255 by this for duration of reelback in ticks
         float arcTime = 45f;        //ticks needed to complete movement for spawn and rain attacks (DEATH ONLY)
-        float driftSpeed = 2f;      //default speed when slowly floating at player
+        float driftSpeed = 1f;      //default speed when slowly floating at player
         float driftBoost = 1f;      //max speed added as health decreases
         int lungeDelay = 90;        //# of ticks long hive mind spends sliding to a stop before lunging
-        int lungeTime = 30;
+        int lungeTime = 33;
         int lungeFade = 15;         //divide 255 by this for duration of hive mind spin before slowing for lunge
         double lungeRots = 0.2;     //number of revolutions made while spinning/fading in for lunge
         bool dashStarted = false;
@@ -63,23 +64,22 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive Mind");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[npc.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 5f;
-            npc.damage = 35;
-            npc.width = 177;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.width = 177;
             npc.height = 142;
             npc.defense = 5;
-            npc.LifeMaxNERB(5800, 7560, 3000000);
+            npc.LifeMaxNERB(5800, 7560, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 6, 0, 0);
             npc.boss = true;
@@ -87,45 +87,42 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
-            else
-                music = MusicID.Boss2;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<HiveMindBag>();
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             if (Main.expertMode)
             {
                 minimumDriftTime = 120;
-                reelbackFade = 5;
+                reelbackFade = 4;
             }
             if (CalamityWorld.revenge)
             {
                 lungeRots = 0.3;
                 minimumDriftTime = 90;
-                reelbackFade = 6;
-                lungeTime = 25;
-                driftSpeed = 3f;
+                reelbackFade = 5;
+                lungeTime = 28;
+                driftSpeed = 2f;
                 driftBoost = 2f;
             }
             if (CalamityWorld.death)
             {
                 lungeRots = 0.4;
                 minimumDriftTime = 60;
-                reelbackFade = 7;
-                lungeTime = 20;
-                driftSpeed = 4f;
+                reelbackFade = 6;
+                lungeTime = 23;
+                driftSpeed = 3f;
                 driftBoost = 1f;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                lungeRots = 0.4;
-                minimumDriftTime = 20;
-                reelbackFade = 15;
-                lungeTime = 10;
-                driftSpeed = 12f;
-            }
+			if (CalamityWorld.malice)
+			{
+				lungeRots = 0.4;
+				minimumDriftTime = 40;
+				reelbackFade = 10;
+				lungeTime = 16;
+				driftSpeed = 6f;
+				driftBoost = 1f;
+			}
             phase2timer = minimumDriftTime;
             rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
         }
@@ -142,7 +139,6 @@ namespace CalamityMod.NPCs.HiveMind
             writer.Write(reelCount);
             writer.Write(counter);
             writer.Write(initialised);
-            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -157,7 +153,6 @@ namespace CalamityMod.NPCs.HiveMind
             reelCount = reader.ReadInt32();
             counter = reader.ReadInt32();
             initialised = reader.ReadBoolean();
-            npc.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void FindFrame(int frameHeight)
@@ -240,7 +235,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         private void SpawnStuff()
         {
-			int maxSpawns = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5 : CalamityWorld.revenge ? 4 : Main.expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+			int maxSpawns = (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice) ? 5 : CalamityWorld.revenge ? 4 : Main.expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
 			for (int i = 0; i < maxSpawns; i++)
 			{
 				int type = NPCID.EaterofSouls;
@@ -251,19 +246,15 @@ namespace CalamityMod.NPCs.HiveMind
 					switch (choice)
 					{
 						case 0:
+						case 1:
 							type = NPCID.EaterofSouls;
 							break;
-						case 1:
+						case 2:
 							type = NPCID.DevourerHead;
 							break;
-						case 2:
-							type = ModContent.NPCType<DankCreeper>();
-							break;
 						case 3:
-							type = ModContent.NPCType<HiveBlob>();
-							break;
 						case 4:
-							type = ModContent.NPCType<HiveBlob2>();
+							type = ModContent.NPCType<DankCreeper>();
 							break;
 						default:
 							break;
@@ -281,7 +272,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.alpha = 0;
             phase2timer = 0;
             deceleration = npc.velocity / 255f * reelbackFade;
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 state = 2;
                 Main.PlaySound(SoundID.ForceRoar, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
@@ -305,27 +296,55 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
-			npc.dontTakeDamage = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? false : true;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            CalamityGlobalNPC.hiveMind = npc.whoAmI;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
-            if (npc.alpha != 0)
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+
+			float enrageScale = 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+            if (!player.ZoneCorrupt || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
+			if (BossRushEvent.BossRushActive)
+				enrageScale += 1f;
+            if (enraged)
+            {
+                npc.Calamity().CurrentlyEnraged = true;
+                enrageScale += 1f;
+            }
+
+			if (npc.alpha != 0)
             {
                 if (npc.damage != 0)
-                {
                     npc.damage = 0;
-                }
             }
             else
-            {
                 npc.damage = npc.defDamage;
-            }
+
             switch (state)
             {
                 case 0: //slowdrift
@@ -333,17 +352,17 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha -= 3;
                     if (nextState == 0)
                     {
-						npc.TargetClosest(true);
-						if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
+						npc.TargetClosest();
+						if ((CalamityWorld.revenge || malice) && lifeRatio < 0.66f)
                         {
-							if (CalamityWorld.death || CalamityWorld.bossRushActive)
+							if (CalamityWorld.death || malice)
 							{
 								do
 									nextState = Main.rand.Next(3, 6);
 								while (nextState == previousState);
 								previousState = nextState;
 							}
-							else if (npc.life < npc.lifeMax * 0.33)
+							else if (lifeRatio < 0.33f)
 							{
 								do
 									nextState = Main.rand.Next(3, 6);
@@ -360,7 +379,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                         else
                         {
-                            if (CalamityWorld.revenge && (Main.rand.NextBool(3) || reelCount == 2))
+                            if ((CalamityWorld.revenge || malice) && (Main.rand.NextBool(3) || reelCount == 2))
                             {
                                 reelCount = 0;
                                 nextState = 2;
@@ -423,25 +442,25 @@ namespace CalamityMod.NPCs.HiveMind
                     phase2timer--;
                     if (phase2timer <= -180) //no stalling drift mode forever
                     {
-                        npc.velocity *= 2f / 255f * reelbackFade;
+                        npc.velocity *= 2f / 255f * (reelbackFade + 2 * (int)enrageScale);
                         ReelBack();
                         npc.netUpdate = true;
                     }
                     else
                     {
                         npc.velocity.Normalize();
-                        if (Main.expertMode || CalamityWorld.bossRushActive) //variable velocity in expert and up
+                        if (Main.expertMode || malice) //variable velocity in expert and up
                         {
-                            npc.velocity *= driftSpeed + driftBoost * (npc.lifeMax - npc.life) / npc.lifeMax;
+                            npc.velocity *= driftSpeed + enrageScale + driftBoost * lifeRatio;
                         }
                         else
                         {
-                            npc.velocity *= driftSpeed;
+                            npc.velocity *= driftSpeed + enrageScale;
                         }
                     }
                     break;
                 case 1: //reelback and teleport
-                    npc.alpha += reelbackFade;
+                    npc.alpha += reelbackFade + 2 * (int)enrageScale;
                     npc.velocity -= deceleration;
                     if (npc.alpha >= 255)
                     {
@@ -473,14 +492,14 @@ namespace CalamityMod.NPCs.HiveMind
                     }
                     break;
                 case 2: //reelback for lunge + death legacy
-                    npc.alpha += reelbackFade;
+                    npc.alpha += reelbackFade + 2 * (int)enrageScale;
                     npc.velocity -= deceleration;
                     if (npc.alpha >= 255)
                     {
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
+                        if ((CalamityWorld.revenge || malice) && lifeRatio < 0.66f)
                         {
 							state = nextState;
                             nextState = 0;
@@ -517,10 +536,10 @@ namespace CalamityMod.NPCs.HiveMind
                         {
                             if (phase2timer <= 0)
                             {
-                                phase2timer = lungeTime;
-                                npc.velocity = player.Center - npc.Center;
+                                phase2timer = lungeTime - 4 * (int)enrageScale;
+                                npc.velocity = player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - npc.Center;
                                 npc.velocity.Normalize();
-                                npc.velocity *= teleportRadius / lungeTime;
+                                npc.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;
                                 Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                             }
@@ -577,7 +596,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
+                                        if ((Main.expertMode || malice) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                         {
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }
@@ -630,8 +649,9 @@ namespace CalamityMod.NPCs.HiveMind
                                 npc.ai[0]++;
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int damage = Main.expertMode ? 14 : 18;
-                                    Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, ModContent.ProjectileType<ShadeNimbusHostile>(), damage, 0, Main.myPlayer, 11, 0);
+									int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+									int damage = npc.GetProjectileDamage(type);
+									Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, type, damage, 0, Main.myPlayer, 11, 0);
                                 }
                                 if (npc.ai[0] == 10)
                                 {
@@ -682,7 +702,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.9f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -737,9 +757,11 @@ namespace CalamityMod.NPCs.HiveMind
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
+			// Legendary drop for Evil boss tier 2
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
 
@@ -754,7 +776,7 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<PerfectDark>(w),
                     DropHelper.WeightStack<LeechingDagger>(w),
@@ -777,25 +799,14 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.4f, 0.6f, 3, 8);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark The Hive Mind as dead
             CalamityWorld.downedHiveMind = true;
-            CalamityMod.UpdateServerBoolean();
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
+            CalamityNetcode.SyncWorld();
         }
     }
 }

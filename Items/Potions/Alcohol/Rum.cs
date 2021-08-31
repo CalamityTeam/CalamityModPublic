@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             DisplayName.SetDefault("Rum");
             Tooltip.SetDefault(@"Sweet and potent, just how I like it
 Boosts life regen by 2 and movement speed by 10%
-Reduces defense by 8");
+Reduces defense by 5%");
         }
 
         public override void SetDefaults()
@@ -21,15 +21,15 @@ Reduces defense by 8");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<RumBuff>();
-            item.buffTime = 18000; //5 minutes
-            item.value = Item.buyPrice(0, 5, 0, 0);
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            item.value = Item.buyPrice(0, 1, 30, 0);
         }
     }
 }

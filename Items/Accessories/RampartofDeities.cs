@@ -8,15 +8,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Shield)]
     public class RampartofDeities : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rampart of Deities");
-            Tooltip.SetDefault("Taking damage grants boosted movement speed for a short time\n" +
-                "Causes stars to fall and gives increased immune time when damaged\n" +
-                "Increases armor penetration by 20 and reduces the cooldown of healing potions\n" +
-                "Provides light underwater and provides a small amount of light in the abyss\n" +
+            Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
+                "Reduces the cooldown of healing potions\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
@@ -27,8 +26,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 44;
+            item.width = 64;
+            item.height = 62;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.defense = 12;
             item.accessory = true;
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Accessories
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
 					{
 						line2.text = "";
 					}
@@ -55,8 +54,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dAmulet = true;
             modPlayer.rampartOfDeities = true;
             modPlayer.fBulwark = true;
-            modPlayer.jellyfishNecklace = true;
-        }
+			player.longInvince = true;
+		}
 
         public override void AddRecipes()
         {

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 31;
+            item.damage = 34;
             item.ranged = true;
             item.width = 18;
             item.height = 36;
@@ -28,13 +28,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 17f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				{
 					type = ProjectileID.FireArrow;
 				}
-                int num121 = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
@@ -70,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 					ProjectileID.HellfireArrow,
 					ProjectileID.IchorArrow
 				});
-                int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;
                 Main.projectile[index].localNPCHitCooldown = 10;

@@ -18,33 +18,37 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 169;
+			item.damage = 150;
 			item.knockBack = 5f;
 			item.useAnimation = item.useTime = 25;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SealedSingularityProj>();
-			item.shootSpeed = 12f;
+			item.shootSpeed = 14f;
 
 			item.noMelee = item.noUseGraphic = true;
 			item.height = item.width = 34;
 			item.UseSound = SoundID.Item106;
-			item.value = CalamityGlobalItem.Rarity13BuyPrice;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.Calamity().donorItem = true;
 		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
-            {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-            return true;
-        }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				// Directly nerf stealth strikes by 20%, but only stealth strikes.
+				int stealthDamage = (int)(damage * 0.8f);
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, stealthDamage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+				return false;
+			}
+			return true;
+		}
 
 		public override void AddRecipes()
 		{
@@ -55,5 +59,5 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-    }
+	}
 }

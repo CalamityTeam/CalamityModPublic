@@ -1,13 +1,19 @@
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHex : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        internal PrimitiveTrail LemniscateDrawer = null;
         public int TargetNPCIndex
         {
             get => (int)projectile.ai[0];
@@ -34,6 +40,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 63;
         }
 
         public override void SetDefaults()
@@ -44,6 +52,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 1;
             projectile.alpha = 255;
         }
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -97,12 +106,15 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < 3; i++)
             {
                 LemniscateAngle += MathHelper.TwoPi / 200f;
-                DrawLemniscate(target);
+                DetermineLemniscatePosition(target);
             }
+
             if (Time < Lifetime * projectile.MaxUpdates)
             {
                 float effectRate = MathHelper.Lerp(0.4f, 1f, Time / (Lifetime * projectile.MaxUpdates - 40));
                 float random = Main.rand.NextFloat();
+
+                projectile.Opacity = Utils.InverseLerp(Lifetime * projectile.MaxUpdates, (Lifetime - 60f) * projectile.MaxUpdates, Time, true);
 
                 // Spawn a bunch of swirling dust and do damage.
                 if (random <= effectRate)
@@ -140,6 +152,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.Kill();
             }
         }
+
         public void DeathDust()
         {
             for (int i = 0; i < 44; i++)
@@ -149,7 +162,8 @@ namespace CalamityMod.Projectiles.Magic
                 dust.noGravity = true;
             }
         }
-        public void DrawLemniscate(NPC target)
+
+        public void DetermineLemniscatePosition(NPC target)
         {
             // This value causes the lemniscate to smoothen out and look better.
             float scale = 2f / (3f - (float)Math.Cos(2 * LemniscateAngle));
@@ -158,16 +172,8 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(LemniscateAngle), (float)Math.Sin(2f * LemniscateAngle) / 2f);
 
             projectile.Center = target.Center + lemniscateOffset * outwardMultiplier;
-
-            // This part isn't actually throughout the projectile's lifetime because of extra updates.
-            float completionValue = Utils.InverseLerp(0f, Lifetime, Time, true);
-            Color dustColor = Color.Lerp(new Color(245, 112, 218), new Color(28, 13, 118), completionValue);
-
-            Dust dust = Dust.NewDustDirect(projectile.Center, 0, 0, Eternity.DustID, newColor: dustColor);
-            dust.velocity = Vector2.Zero;
-            dust.scale = MathHelper.Lerp(0.8f, 1.5f, completionValue);
-            dust.noGravity = true;
         }
+
         public void ChooseNewTarget(NPC newTarget)
         {
             TargetNPCIndex = newTarget.whoAmI;
@@ -178,7 +184,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile proj = Main.projectile[i];
                 if (!proj.active)
                     continue;
-                if (proj.whoAmI != projectile.whoAmI)
+                if (proj.owner != projectile.owner)
                     continue;
                 if (proj.type != ModContent.ProjectileType<EternityCrystal>() && proj.type != ModContent.ProjectileType<EternityCircle>())
                     continue;
@@ -187,24 +193,55 @@ namespace CalamityMod.Projectiles.Magic
                 DeathDust();
             }
         }
+
         public void SpawnSwirlingDust(NPC target)
         {
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 3; i++)
             {
                 float randomAngle = Main.rand.NextFloat() * MathHelper.TwoPi;
                 float outwardnessFactor = Main.rand.NextFloat();
                 Vector2 spawnPosition = target.Center + randomAngle.ToRotationVector2() * MathHelper.Lerp(70f, EternityCircle.TargetOffsetRadius - 60f, outwardnessFactor);
                 Vector2 velocity = (randomAngle - 3f * MathHelper.Pi / 8f).ToRotationVector2() * (10f + 9f * Main.rand.NextFloat() + 4f * outwardnessFactor);
-                Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, Eternity.DustID, new Vector2?(velocity), 0, Main.rand.NextBool(3) ? Eternity.BlueColor : Eternity.PinkColor, 1.4f);
-                swirlingDust.scale = 0.8f;
-                swirlingDust.fadeIn = 0.95f + outwardnessFactor * 0.3f;
+                Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, 267, new Vector2?(velocity), 0, Main.rand.NextBool(3) ? Eternity.BlueColor : Eternity.PinkColor, 1.4f);
+                swirlingDust.scale = 1.2f;
+                swirlingDust.fadeIn = 0.25f + outwardnessFactor * 0.1f;
                 swirlingDust.noGravity = true;
             }
         }
+
         // So that the player can gauge the DPS of this weapon effectively (StrikeNPC alone will not register the DPS to the player. I have to do this myself).
         public void RegisterDPS(int damage)
         {
             Main.player[projectile.owner].addDPS(damage);
         }
-    }
+
+        public Color PrimitiveColorFunction(float completionRatio)
+		{
+            float leftoverTimeScale = (float)Math.Sin(Main.GlobalTime * 4f) * 0.5f + 0.5f;
+            leftoverTimeScale *= 0.5f;
+
+            Color headColor = Color.Lerp(Color.Black, Color.Magenta, 0.1f);
+            Color tailColor = Color.Lerp(Color.Magenta, Color.Cyan, completionRatio * 0.5f + leftoverTimeScale);
+            float opacity = (float)Math.Pow(Utils.InverseLerp(1f, 0.61f, completionRatio, true), 0.4) * projectile.Opacity;
+            float fadeToMagenta = MathHelper.SmoothStep(0f, 1f, (float)Math.Pow(completionRatio, 0.6D));
+
+            return Color.Lerp(headColor, tailColor, fadeToMagenta) * opacity;
+		}
+
+        public float PrimitiveWidthFunction(float completionRatio)
+		{
+            float widthInterpolant = Utils.InverseLerp(0f, 0.12f, completionRatio, true);
+            return MathHelper.SmoothStep(1f, 10f, widthInterpolant);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+            if (LemniscateDrawer is null)
+                LemniscateDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
+
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/EternityStreak"));
+            LemniscateDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 84);
+            return false;
+		}
+	}
 }

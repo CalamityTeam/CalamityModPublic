@@ -13,16 +13,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grand Guardian");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 15 when striking them\n" +
+            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                        "If enemy defense is 0 or below your attacks will heal you\n" +
                        "Striking enemies causes a large explosion\n" +
-                       "Striking enemies that have under half life will make you release rainbow bolts\n" +
+                       "Striking enemies that are under half life will cause them to release rainbow bolts\n" +
                        "Enemies spawn healing orbs on death");
         }
 
         public override void SetDefaults()
         {
-            item.width = 124;
+            item.width = 130;
+            item.height = 130;
             item.damage = 150;
             item.melee = true;
             item.useAnimation = 22;
@@ -32,62 +33,58 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 124;
             item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shootSpeed = 12f;
         }
 
+		public override void UseStyle(Player player)
+	    {
+			player.itemLocation += new Vector2(-32f * player.direction, 12f * player.gravDir).RotatedBy(player.itemRotation);
+		} 
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(5))
-            {
-                target.defense -= 15;
-            }
-            if (target.defense <= 0 && target.canGhostHeal && !player.moonLeech)
+			if (target.Calamity().miscDefenseLoss < target.defense)
+				target.Calamity().miscDefenseLoss += 1;
+
+			if (target.Calamity().miscDefenseLoss >= target.defense && target.canGhostHeal && !player.moonLeech)
             {
                 player.statLife += 4;
                 player.HealEffect(4);
             }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), 0f, player.whoAmI);
-            if (target.life <= (target.lifeMax * 0.5f))
-            {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
-            }
-            if (target.life <= 0 && !player.moonLeech)
-            {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-            }
+
+			OnHitEffects(player, target.Center, target.life, target.lifeMax, knockback, damage, crit);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), 0f, player.whoAmI);
-            if (target.statLife <= (target.statLifeMax2 * 0.5f))
-            {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
-            }
-            if (target.statLife <= 0 && !player.moonLeech)
-            {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
-            }
+			OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack, damage, crit);
         }
+
+		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
+		{
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(damage * 0.5f), 0f, player.whoAmI);
+            if (targetLife <= (targetMaxLife * 0.5f) && player.ownedProjectileCounts[ModContent.ProjectileType<RainBolt>()] < 3)
+            {
+                float randomSpeedX = Main.rand.Next(6, 13);
+                float randomSpeedY = Main.rand.Next(6, 13);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(damage * 0.75f), knockback, player.whoAmI);
+            }
+            if (targetLife <= 0 && !player.moonLeech && player.ownedProjectileCounts[ModContent.ProjectileType<RainHeal>()] < 3)
+            {
+                float randomSpeedX = Main.rand.Next(3, 7);
+                float randomSpeedY = Main.rand.Next(3, 7);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(targetPos.X, targetPos.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+            }
+		}
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

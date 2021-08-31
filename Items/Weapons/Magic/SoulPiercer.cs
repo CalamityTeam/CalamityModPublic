@@ -19,18 +19,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 155;
+            item.damage = 115;
             item.magic = true;
             item.mana = 19;
             item.width = 64;
             item.height = 64;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
@@ -45,15 +44,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(32f, 30f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddRecipeGroup("NForEE", 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

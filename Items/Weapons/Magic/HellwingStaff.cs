@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<HellwingPillar>();
@@ -73,19 +73,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
             }
 
-            int num130 = 7;
-            if (Main.rand.NextBool(6))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(7))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(8))
-            {
-                num130++;
-            }
+            int num130 = 4;
             for (int num131 = 0; num131 < num130; num131++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);

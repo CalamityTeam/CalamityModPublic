@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Adrenaline Mode");
-            Description.SetDefault("150% damage boost.");
+            Description.SetDefault("200% damage boost. Can be boosted by other items up to 245%.");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.StatBuffs
             canBeCleared = false;
         }
 
-        public override void Update(Player player, ref int buffIndex)
+		public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().adrenalineModeActive = true;
         }

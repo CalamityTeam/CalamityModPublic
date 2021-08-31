@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bounding Potion");
-            Tooltip.SetDefault("Grants 10% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height");
+            Tooltip.SetDefault("Grants 5% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height");
         }
 
         public override void SetDefaults()
@@ -20,14 +20,14 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<BoundingBuff>();
-            item.buffTime = 10800;
+            item.buffTime = CalamityUtils.SecondsToFrames(300f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ItemID.Frog);
-            recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>());
+            recipe.AddIngredient(ItemID.Vine);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);
             recipe.AddRecipe();

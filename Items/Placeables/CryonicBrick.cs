@@ -29,12 +29,12 @@ namespace CalamityMod.Items.Placeables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CryonicOre>(), 1);
             recipe.AddIngredient(ItemID.StoneBlock, 1);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this, 10);
             recipe.AddTile(TileID.Furnaces);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CryonicBrickWall>(), 4);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }

@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -9,13 +9,13 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.BrimstoneElemental
@@ -32,18 +32,18 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void SetDefaults()
         {
             npc.npcSlots = 64f;
-            npc.damage = 60;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 12, 0, 0);
-            npc.LifeMaxNERB(30000, 41000, 6500000);
+            npc.LifeMaxNERB(30000, 41000, 650000);
 			npc.DR_NERD(0.15f);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 4;
-                npc.lifeMax *= 8;
+                npc.lifeMax *= 5;
                 npc.value *= 3f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -51,45 +51,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[BuffID.SoulDrain] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
-            else
-                music = MusicID.Boss4;
+            music = CalamityMod.Instance.GetMusicFromMusicMod("LeftAlone") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
         }
 
@@ -98,13 +66,17 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
-		}
+            for (int i = 0; i < 4; i++)
+                writer.Write(npc.Calamity().newAI[i]);
+        }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
+            for (int i = 0; i < 4; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
         public override void AI()
@@ -114,13 +86,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180, true);
         }
 
-        public override void FindFrame(int frameHeight) //9 total frames
+        public override void FindFrame(int frameHeight) // 9 total frames
         {
             npc.frameCounter += 1.0;
             if (npc.ai[0] <= 2f)
@@ -178,10 +147,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+			// Legendary drop for Brimstone Elemental
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 
@@ -192,7 +164,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Brimlance>(w),
                     DropHelper.WeightStack<SeethingDischarge>(w),
@@ -200,7 +172,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
 
                 // Vanity
@@ -211,22 +183,17 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             string key2 = "Mods.CalamityMod.BrimmyBossText";
             Color messageColor2 = Color.Crimson;
             if (!CalamityWorld.downedBrimstoneElemental)
-            {
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-            }
+                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

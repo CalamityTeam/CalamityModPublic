@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalKrisProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/InfernalKris";
+
         public static int spinTime = 280;
 
         public override void SetStaticDefaults()
@@ -112,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 // If this is a stealth strike, make the blade glow orange
                 Color glowColour = new Color(255, 215, 100, 100);
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, glowColour, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], glowColour, 1);
 
                 float minScale = 1.9f;
                 float maxScale = 2.5f;
@@ -121,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             }
             return false;
         }

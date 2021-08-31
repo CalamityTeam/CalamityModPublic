@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicannonShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cannon Shot");
@@ -83,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

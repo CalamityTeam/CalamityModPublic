@@ -1,6 +1,6 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,15 +23,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 40;
             npc.defense = 10;
             npc.lifeMax = Main.hardMode ? 300 : 50;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 50000;
-            }
             npc.knockBackResist = 0.8f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath15;
@@ -47,7 +39,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Venom, 120, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -11,32 +11,32 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blossom Flux");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires a stream of leaves\n" +
-                "Right click to fire a spore orb that explodes into a cloud of spore gas\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires a stream of leaves\n" +
+                "Right click to fire a spore orb that explodes into a cloud of spore gas");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 25;
             item.ranged = true;
-            item.width = 40;
-            item.height = 62;
+            item.width = 38;
+            item.height = 68;
             item.useTime = 4;
             item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0.15f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LeafArrow>();
             item.shootSpeed = 10f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+            item.useAmmo = AmmoID.Arrow;
+
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
+			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {
@@ -64,11 +64,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SporeBomb>(), (int)((double)damage * 4.0), knockBack * 60f, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SporeBomb>(), (int)(damage * 4D), knockBack * 60f, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeafArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeafArrow>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
             item.UseSound = SoundID.Item89;
             item.noMelee = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.autoReuse = true;
 
             item.knockBack = 4f;
-            item.mana = 15;
+            item.mana = 10;
             item.damage = 28;
             item.useTime = item.useAnimation = 25;
             item.shoot = ModContent.ProjectileType<ApexShark>();

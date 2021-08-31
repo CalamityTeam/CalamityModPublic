@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arterial Assault");
-            Tooltip.SetDefault("Fires a chain of arrows from the sky\n" +
-                "Wooden arrows are converted to homing bloodfire arrows");
+            Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
+                "Wooden arrows are converted into homing bloodfire arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 232;
+            item.damage = 128;
             item.ranged = true;
             item.width = 44;
             item.height = 100;
@@ -29,14 +29,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.25f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item102;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.Item102;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             item.shootSpeed = 30f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             return false;

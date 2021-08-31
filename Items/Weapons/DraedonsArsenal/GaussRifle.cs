@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -19,12 +18,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 112;
 			item.height = 36;
 			item.ranged = true;
-			item.damage = 170;
+			item.damage = 150;
 			item.knockBack = 30f;
-			item.useTime = item.useAnimation = 28;
+			item.useTime = item.useAnimation = 32;
 			item.autoReuse = true;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -33,18 +34,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity8BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
 			item.shootSpeed = 27f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 135f;
+			modItem.ChargePerUse = 0.1125f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GaussRifleBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GaussRifleBlast>(), damage, knockBack, player.whoAmI);
 			return false;
 		}
 

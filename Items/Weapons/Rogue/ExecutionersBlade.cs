@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ExecutionersBlade : RogueWeapon
     {
+		private int counter = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Executioner's Blade");
@@ -20,18 +22,19 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 64;
-            item.damage = 420;
+            item.damage = 200;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useTime = 3;
             item.useAnimation = 9;
+            item.reuseDelay = 1;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6.75f;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
             item.shootSpeed = 26f;
             item.Calamity().rogue = true;
@@ -40,15 +43,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(32f, 30f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 11);
-            recipe.AddRecipeGroup("NForEE", 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -56,13 +57,18 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
+            if (usingStealth)
+                damage = (int)(damage * 3.61);
+
+            int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-            return true;
+
+			counter++;
+			if (counter >= item.useAnimation / item.useTime)
+				counter = 0;
+            return false;
         }
     }
 }

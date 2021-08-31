@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 7.5f;
             item.value = 1000;
-            item.rare = 5;
-            item.ammo = 97;
+            item.rare = ItemRarityID.Pink;
+            item.ammo = AmmoID.Bullet;
             item.shoot = ModContent.ProjectileType<RubberMortarRoundProj>();
         }
 

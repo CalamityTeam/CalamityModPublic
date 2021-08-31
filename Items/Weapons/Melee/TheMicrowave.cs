@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<MicrowaveYoyo>();
             item.shootSpeed = 14f;
 
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.value = Item.buyPrice(gold: 95);
         }
     }

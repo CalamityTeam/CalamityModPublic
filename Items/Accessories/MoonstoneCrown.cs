@@ -8,6 +8,9 @@ namespace CalamityMod.Items.Accessories
 {
     public class MoonstoneCrown : ModItem
     {
+        // Base damage of lunar flares on stealth strikes. Increased by rogue damage stats, but not stealth damage.
+        internal const int BaseDamage = 85;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moonstone Crown");
@@ -20,9 +23,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 46;
             item.height = 40;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.accessory = true;
         }
 

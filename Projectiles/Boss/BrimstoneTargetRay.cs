@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
 	public class BrimstoneTargetRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Target Ray");
@@ -169,11 +171,6 @@ namespace CalamityMod.Projectiles.Boss
 				return true;
 			}
 			return false;
-		}
-
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

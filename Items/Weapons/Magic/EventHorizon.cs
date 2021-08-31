@@ -19,25 +19,24 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 30;
+            item.width = 40;
+            item.height = 46;
 
-            item.damage = 369;
+            item.damage = 275;
             item.knockBack = 3.5f;
             item.noMelee = true;
             item.magic = true;
             item.mana = 12;
 
-            item.useTime = 28;
-            item.useAnimation = 28;
+            item.useTime = item.useAnimation = 32;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
 
-            item.UseSound = SoundID.Item84;
+			item.UseSound = SoundID.Item84;
             item.shoot = ModContent.ProjectileType<EventHorizonStar>();
             item.shootSpeed = 25f;
         }

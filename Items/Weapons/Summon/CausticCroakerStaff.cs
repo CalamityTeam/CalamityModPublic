@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             item.damage = 8;
             item.mana = 10;
-            item.width = 10;
-            item.height = 32;
+            item.width = 36;
+            item.height = 42;
             item.useTime = item.useAnimation = 35;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<EXPLODINGFROG>();
@@ -38,11 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                position = Main.MouseWorld;
-                Point mouseTileCoords = position.ToTileCoordinates();
-                if (WorldGen.SolidTile(mouseTileCoords.X, mouseTileCoords.Y + 1))
-                    return false;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                 player.UpdateMaxTurrets();
             }
             return false;

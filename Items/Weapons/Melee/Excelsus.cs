@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 78;
-            item.damage = 340;
+            item.damage = 279;
             item.melee = true;
             item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,25 +29,24 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 94;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ExcelsusMain>();
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.shoot = ModContent.ProjectileType<ExcelsusMain>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(39f, 47f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
+                float SpeedX = speedX + Main.rand.NextFloat(-1.5f, 1.5f);
+                float SpeedY = speedY + Main.rand.NextFloat(-1.5f, 1.5f);
                 switch (index)
                 {
                     case 0:
@@ -67,12 +66,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountain>(), 0, 0, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountain>(), 0, 0, player.whoAmI);
         }
     }
 }

@@ -9,16 +9,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class VoltageStream : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public NPC Target
         {
             get => Main.npc[(int)projectile.ai[1]];
             set => projectile.ai[1] = value.whoAmI;
         }
+
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Voltage Stream");
@@ -76,9 +80,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Dust dust = Dust.NewDustPerfect(Target.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     if (Main.rand.NextBool(6))
-                    {
-                        dust.velocity = Target.DirectionTo(dust.position) * 4.5f;
-                    }
+                        dust.velocity = Target.SafeDirectionTo(dust.position) * 4.5f;
+
                     dust.noGravity = true;
                 }
             }
@@ -110,10 +113,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			projectile.damage = (int)(projectile.damage * 0.75);
-		}
-
-		public override void Kill(int timeLeft)
-		{
 		}
 	}
 }

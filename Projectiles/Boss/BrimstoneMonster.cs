@@ -1,9 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -21,11 +23,13 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetDefaults()
 		{
+			projectile.Calamity().canBreakPlayerDefense = true;
 			projectile.width = 320;
 			projectile.height = 320;
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.hide = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 36000;
 			projectile.Opacity = 0f;
@@ -89,18 +93,18 @@ namespace CalamityMod.Projectiles.Boss
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), projectile.Center);
 			}
 
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
-			Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 3f * projectile.Opacity, 0f, 0f);
 
-			float inertia = (revenge ? 5f : 4.5f) + speedAdd; //100
-			float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
+			float inertia = (revenge ? 4.5f : 5f) + speedAdd;
+			float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f);
 			float minDist = 160f;
 
 			if (NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
 			{
-				inertia *= 0.5f;
+				inertia *= 1.5f;
 				speed *= 0.5f;
 			}
 
@@ -114,20 +118,14 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				if (projectile.Distance(Main.player[target].Center) > minDist)
 				{
-					Vector2 targetVec = projectile.DirectionTo(Main.player[target].Center);
-					if (targetVec.HasNaNs())
-						targetVec = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * (inertia - 1f) + targetVec * speed) / inertia;
+					Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[target].Center, Vector2.UnitY);
+					projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
 				}
 			}
 			else
 			{
-				if (projectile.ai[0] != -1f)
-				{
-					projectile.ai[0] = -1f;
-					projectile.netUpdate = true;
-				}
+				projectile.ai[0] = Player.FindClosest(projectile.Center, 1, 1);
+				projectile.netUpdate = true;
 			}
 
 			if (death)
@@ -195,6 +193,12 @@ namespace CalamityMod.Projectiles.Boss
 
 			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 900);
 			target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
+		}
+
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+		{
+			drawCacheProjsBehindProjectiles.Add(index);
+			drawCacheProjsBehindNPCs.Add(index);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

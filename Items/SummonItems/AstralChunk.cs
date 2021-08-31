@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.AstrumAureus;
 using Terraria;
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 20;
             item.height = 20;
             item.maxStack = 20;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumAureus>());
+            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumAureus>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-50, 50)), (int)(player.position.Y - 150f), ModContent.NPCType<AstrumAureus>(), 1);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<AstrumAureus>(), 1);
 				Main.npc[npc].timeLeft *= 20;
 				CalamityUtils.BossAwakenMessage(npc);
             }

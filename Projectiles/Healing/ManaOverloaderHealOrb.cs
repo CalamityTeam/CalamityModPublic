@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Healing
 {
 	public class ManaOverloaderHealOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Overloader Heal Orb");

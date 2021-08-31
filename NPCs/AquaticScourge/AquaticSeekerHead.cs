@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,21 +23,13 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = Main.hardMode ? 40 : 20;
+            npc.damage = 20;
             npc.width = 22;
             npc.height = 28;
             npc.defense = 5;
-            npc.lifeMax = Main.hardMode ? 500 : 60;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 60000;
-            }
+            npc.lifeMax = 60;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.behindTiles = true;
@@ -53,15 +44,14 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -105,7 +95,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerTail>()))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
             {
                 npc.active = false;
             }
@@ -284,35 +274,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             }
         }
 
-        public override bool CheckActive()
-        {
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 120, true);
-            player.AddBuff(BuffID.Venom, 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 60);
-            }
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 120, true);
         }
     }
 }

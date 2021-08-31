@@ -14,14 +14,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 26;
             projectile.height = 26;
             projectile.hostile = true;
             projectile.penetrate = 1;
 			projectile.alpha = 60;
 			projectile.tileCollide = false;
             projectile.timeLeft = 300;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
@@ -48,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 60)
 				return;
 
-			target.AddBuff(BuffID.Cursed, 90);
+			target.AddBuff(BuffID.Darkness, 120);
         }
     }
 }

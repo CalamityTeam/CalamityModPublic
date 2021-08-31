@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Night's Ray");
-            Tooltip.SetDefault("Fires a dark ray that splits if enemies are near it");
+            Tooltip.SetDefault("Fires a dark ray\n" +
+                "When hitting enemies, they are hit by several new beams from their sides");
             Item.staff[item.type] = true;
         }
 
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 3.25f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<NightsRayBeam>();

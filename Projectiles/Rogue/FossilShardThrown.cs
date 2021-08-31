@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FossilShardThrown : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/FossilShard";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shard");

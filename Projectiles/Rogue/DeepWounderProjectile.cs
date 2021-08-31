@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepWounderProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepWounder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Wounder Projectile");
@@ -20,7 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
         }

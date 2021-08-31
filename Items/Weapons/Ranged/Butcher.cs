@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.useTime = 40;
 			item.useAnimation = 40;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.knockBack = 1f;
 			item.value = Item.buyPrice(0, 36, 0, 0);
 			item.UseSound = SoundID.Item38;
@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.shoot = ModContent.ProjectileType<ButcherGun>();
 			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using Terraria;
@@ -12,8 +13,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne jungle abomination\n" +
-                "Summons the Plaguebringer Goliath\n" +
-				"The boss enrages in the open air of the surface");
+                "Summons the Plaguebringer Goliath");
         }
 
         public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 28;
             item.height = 18;
             item.maxStack = 20;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UelibloomOre>());
             recipe.AddIngredient(ItemID.StoneBlock);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 10);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);

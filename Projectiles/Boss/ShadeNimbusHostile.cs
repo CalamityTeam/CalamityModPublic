@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 28;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
+			projectile.hostile = true;
             projectile.timeLeft = 360;
             projectile.penetrate = -1;
         }
@@ -54,5 +56,10 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
         }
-    }
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.CursedInferno, 90);
+		}
+	}
 }

@@ -20,11 +20,12 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 450;
-        }
+			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+		}
 
         public override void AI()
         {
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+            int num103 = Player.FindClosest(projectile.Center, 1, 1);
             projectile.ai[1] += 1f;
             if (projectile.ai[1] < 250f && projectile.ai[1] > 60f)
             {
@@ -36,14 +37,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }
-            if (projectile.ai[0] < 0f)
-            {
-                if (projectile.velocity.Length() < 18f) //18
-                {
-                    projectile.velocity *= 1.01f;
-                }
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver4;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

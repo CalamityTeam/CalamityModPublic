@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class UltimaRay : BaseLaserbeamProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float HueOffset
         {
             get => projectile.ai[1];

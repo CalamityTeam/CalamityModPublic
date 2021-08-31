@@ -17,11 +17,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 180;
+            item.damage = 147;
             item.magic = true;
-            item.mana = 6;
+            item.mana = 11;
             item.width = 28;
-            item.crit = 3;
             item.height = 30;
             item.useTime = 2;
             item.reuseDelay = 5;
@@ -29,26 +28,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ElementTentacle>();
             item.shootSpeed = 30f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EldritchTome>());
-            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
-            recipe.AddIngredient(ItemID.ShadowFlameHexDoll);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -75,6 +60,19 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, type, damage, knockBack, player.whoAmI, num92, num91);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<EldritchTome>());
+            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
+            recipe.AddIngredient(ItemID.ShadowFlameHexDoll);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddTile(TileID.Bookcases);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

@@ -10,7 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Odd Mushroom");
-            Tooltip.SetDefault("Trippy");
+            Tooltip.SetDefault("Causes you to see many fake, vibrant copies of all nearby entities\n" +
+                "These visual effects may be nauseating or otherwise bad for some\n" +
+                "Trippy");
         }
 
         public override void SetDefaults()
@@ -21,13 +23,13 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.maxStack = 30;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Trippy>();
-            item.buffTime = 216000;
-            item.value = Item.buyPrice(1, 0, 0, 0);
+            item.buffTime = CalamityUtils.SecondsToFrames(3600f);
+            item.value = Item.buyPrice(0, 50, 0, 0);
         }
     }
 }

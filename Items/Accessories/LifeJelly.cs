@@ -1,6 +1,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 24;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.accessory = true;
         }
 
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             player.statLifeMax2 += 20;
             if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
             {
-                player.lifeRegen += 2;
+                player.lifeRegen += 4;
             }
         }
     }

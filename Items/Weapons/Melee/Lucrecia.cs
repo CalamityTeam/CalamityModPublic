@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Lucrecia");
             Tooltip.SetDefault("Finesse\n" +
                 "Striking an enemy makes you immune for a short time\n" +
-                "Using this weapon drains your life\n" +
                 "Fires a DNA chain");
         }
 
@@ -36,25 +35,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<DNA>();
             item.shootSpeed = 32f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.statLife -= 5;
-            if (player.lifeRegen > 0)
-            {
-                player.lifeRegen = 0;
-            }
-            player.lifeRegenTime = 0;
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(-5, true);
-            }
-            if (player.statLife <= 0)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s DNA was destroyed."), 1000.0, 0, false);
-            }
             Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
@@ -81,19 +66,31 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (!player.immune)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
             {
                 player.immune = true;
-                player.immuneTime = 5;
+                player.immuneTime = item.useTime / 5;
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (!player.immune)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
             {
                 player.immune = true;
-                player.immuneTime = 5;
+                player.immuneTime = item.useTime / 5;
             }
         }
     }

@@ -85,17 +85,20 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int s = 0; s < sporeAmt; s++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRanged = true;
-                    Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 30;
+                    int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(projectile.damage * 0.25), 0f, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceRanged = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 30;
+					}
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

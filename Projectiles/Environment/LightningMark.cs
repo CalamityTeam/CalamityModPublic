@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Environment
 {
 	public class LightningMark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lightning Mark");
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Environment
 
 					Vector2 fireFrom = new Vector2(projectile.Center.X, projectile.Center.Y - 900f);
 					int tries = 0;
-					while (Framing.GetTileSafely((int)(fireFrom.X / 16f), (int)(fireFrom.Y / 16f)).active())
+					while (CalamityUtils.ParanoidTileRetrieval((int)(fireFrom.X / 16f), (int)(fireFrom.Y / 16f)).active())
 					{
 						fireFrom.Y += 16f;
 
@@ -40,17 +42,20 @@ namespace CalamityMod.Projectiles.Environment
 							return;
 					}
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.Center.X, (int)projectile.Center.Y);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), projectile.Center);
 					Vector2 ai0 = projectile.Center - fireFrom;
 					float ai = Main.rand.Next(100);
 					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
 
 					int damage = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
 
-					int proj = Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner, ai0.ToRotation(), ai);
-					Main.projectile[proj].extraUpdates += 11;
-					Main.projectile[proj].friendly = true;
-					Main.projectile[proj].Calamity().lineColor = 1;
+					int proj = Projectile.NewProjectile(fireFrom, velocity, ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner, ai0.ToRotation(), ai);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].extraUpdates += 11;
+						Main.projectile[proj].friendly = true;
+						Main.projectile[proj].Calamity().lineColor = 1;
+					}
 				}
 			}
 			else if (projectile.velocity.Y == 0f)
@@ -93,9 +98,6 @@ namespace CalamityMod.Projectiles.Environment
 			return true;
 		}
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 	}
 }

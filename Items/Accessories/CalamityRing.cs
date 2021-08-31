@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void of Calamity");
-            Tooltip.SetDefault("Cursed?\n" +
+            Tooltip.SetDefault("Cursed? Reduces damage reduction by 10%\n" +
 			"15% increase to all damage\n" +
 			"Brimstone fire rains down while invincibility is active");
         }
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 22;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
             item.expert = true;
         }
@@ -34,12 +35,12 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
             player.allDamage += 0.15f;
-            player.endurance -= 0.15f;
+            player.endurance -= 0.1f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.immune)
                 {
-                    if (Main.rand.NextBool(10))
+                    if (player.miscCounter % 10 == 0)
                     {
 						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
                     }

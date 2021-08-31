@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IceStarProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/IceStar";
+
         private bool initStealth = false;
         private Vector2 initialVelocity;
 
@@ -68,11 +70,8 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (homeIn)
 			{
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
-
-				projectile.velocity = (projectile.velocity * 20f + homeInVector * 14f) / (21f);
+				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+				projectile.velocity = (projectile.velocity * 20f + moveDirection * 14f) / (21f);
 			}
             projectile.velocity = initStealth && !homeIn ? initialVelocity : projectile.velocity;
         }

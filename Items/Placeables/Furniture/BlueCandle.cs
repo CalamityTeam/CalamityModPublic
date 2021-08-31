@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Weightless Candle");
-            Tooltip.SetDefault("When placed, nearby players gain 15% movement speed, 10% wing time, and 5% acceleration\n" +
+            Tooltip.SetDefault("When placed, nearby players gain 10% movement speed, 10% wing time, and 5% acceleration\n" +
                 "'The floating flame seems to uplift your very spirit'");
         }
 
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.value = Item.buyPrice(0, 50, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = ItemRarityID.LightPurple;
             item.createTile = ModContent.TileType<Tiles.Furniture.BlueCandle>();
         }
     }

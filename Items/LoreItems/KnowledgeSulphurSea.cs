@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -19,14 +20,11 @@ namespace CalamityMod.Items.LoreItems
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return false;
-        }
+        public override bool CanUseItem(Player player) => false;
 
         public override void AddRecipes()
         {

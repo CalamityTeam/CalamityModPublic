@@ -32,12 +32,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.lavaImmune = true;
             npc.width = 78;
             npc.height = 70;
-            npc.defense = 25;
-            npc.lifeMax = 7500;
+            npc.defense = 50;
+            npc.lifeMax = 5625;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 30, 0);
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath28;
@@ -51,7 +50,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.03f;
             npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.03f;
 
-            npc.damage = puffedUp ? (Main.expertMode ? 230 : 115) : 0;
+            npc.damage = puffedUp ? (Main.expertMode ? 175 : 100) : 0;
 
 
             if (!puffing || !unpuffing)
@@ -121,7 +120,7 @@ namespace CalamityMod.NPCs.Abyss
             Main.PlaySound(SoundID.NPCDeath14, (int)npc.position.X, (int)npc.position.Y);
             if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
             {
-                int damageBoom = 100;
+                int damageBoom = 45;
                 int projectileType = ModContent.ProjectileType<PufferExplosion>();
                 int boom = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
@@ -140,7 +139,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/ChaoticPufferGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
@@ -206,7 +205,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water)
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 0.4f;
+            }
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
@@ -215,13 +218,12 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 10, 26);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
 
             if (puffedUp)
             {

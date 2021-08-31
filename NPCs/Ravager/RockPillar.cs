@@ -1,7 +1,7 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,19 +17,18 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 60;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.width = 60;
             npc.height = 300;
-			npc.DR_NERD(0.5f);
-			npc.lifeMax = CalamityWorld.downedProvidence ? 35000 : 5000;
+			npc.defense = 50;
+			npc.DR_NERD(0.3f);
+			npc.chaseable = false;
+			npc.lifeMax = CalamityWorld.downedProvidence ? 22750 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
@@ -45,34 +44,23 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
 
             if (npc.alpha > 0)
             {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
+				npc.damage = 0;
 
-            if (Math.Abs(npc.velocity.X) > 0.5f)
-            {
-                if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-                {
-                    npc.damage = 400;
-                }
-                else
-                {
-                    npc.damage = Main.expertMode ? 200 : 120;
-                }
+				npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
             }
             else
             {
-                npc.damage = 0;
-            }
+                if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+					npc.damage = (int)(npc.defDamage * 1.5);
+				else
+                    npc.damage = npc.defDamage;
+            }                
 
             if (npc.ai[0] == 0f)
             {
@@ -102,7 +90,7 @@ namespace CalamityMod.NPCs.Ravager
 						}
 
 						npc.noTileCollide = true;
-						npc.velocity.X = 12 * npc.direction;
+						npc.velocity.X = (CalamityWorld.malice ? 15 : 12) * npc.direction;
                         npc.velocity.Y = -28.5f;
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -130,14 +118,18 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+		public override bool CheckActive() => false;
+
+		public override bool PreNPCLoot() => false;
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
+			Main.PlaySound(SoundID.Item14, npc.position);
+			npc.ai[0] = 0f;
+			npc.life = 0;
+			HitEffect(npc.direction, 9999);
+			npc.netUpdate = true;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -168,7 +160,20 @@ namespace CalamityMod.NPCs.Ravager
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-            }
+
+				float y = npc.height / 6f;
+				float randomVelocityScale = 0.25f;
+				for (int i = 0; i < 2; i++)
+				{
+					Vector2 randomVelocity = npc.velocity * Main.rand.NextFloat() * randomVelocityScale;
+					Gore.NewGore(npc.position, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar2"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 2f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar3"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 3f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar4"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 4f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar5"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 5f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar6"), 1f);
+				}
+			}
 			else
 			{
 				for (int num621 = 0; num621 < 2; num621++)

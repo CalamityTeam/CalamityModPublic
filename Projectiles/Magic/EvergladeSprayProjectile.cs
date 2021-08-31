@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EvergladeSprayProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spray");

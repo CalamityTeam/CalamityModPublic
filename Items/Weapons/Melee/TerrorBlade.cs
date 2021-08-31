@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TerrorBlade : ModItem
     {
+        internal const float TerrorBlastMultiplier = 0.3f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Blade");
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 350;
+            item.damage = 630;
             item.melee = true;
             item.useAnimation = 18;
             item.useTime = 18;
@@ -29,25 +31,22 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 80;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<TerrorBeam>();
             item.shootSpeed = 20f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(44f, 38f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"));
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 60);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 60);
         }
     }
 }

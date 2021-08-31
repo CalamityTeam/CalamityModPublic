@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             item.damage = 60;
             item.mana = 10;
-            item.width = 50;
-            item.height = 50;
+            item.width = 72;
+            item.height = 72;
             item.useTime = item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1.25f;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item44;
             item.shoot = ModContent.ProjectileType<SolarGod>();
             item.summon = true;

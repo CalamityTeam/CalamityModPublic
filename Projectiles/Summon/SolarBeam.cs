@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SolarBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");

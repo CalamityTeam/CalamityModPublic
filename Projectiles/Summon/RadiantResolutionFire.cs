@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RadiantResolutionFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -31,9 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             dust.noGravity = true;
             NPC potentialTarget = projectile.Center.MinionHoming(1750f, player);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(potentialTarget.Center) * 20f) / 20f;
-            }
+                projectile.velocity = (projectile.velocity * 19f + projectile.SafeDirectionTo(potentialTarget.Center) * 20f) / 20f;
         }
 
         public override void Kill(int timeLeft)

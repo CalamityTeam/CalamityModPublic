@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -5,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -26,8 +28,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             ModContent.NPCType<WulfrumGyrator>(),
             ModContent.NPCType<WulfrumHovercraft>()
         };
-        public const float ChargeRadiusMax = 200f;
-        public const float SuperchargeTime = 600f;
+        public const float ChargeRadiusMax = 495f;
+        public const float SuperchargeTime = 720f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Pylon");
@@ -42,14 +44,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 44;
             npc.height = 44;
             npc.defense = 4;
-            npc.lifeMax = 49;
+            npc.lifeMax = 92;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 1, 50);
             npc.noGravity = false;
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumPylonBanner>();
         }
@@ -60,8 +61,31 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[npc.target];
 
-            if (!Charging && npc.Distance(player.Center) < ChargeRadiusMax * 0.667f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !Charging && npc.Distance(player.Center) < ChargeRadiusMax * 0.667f)
             {
+                // Spawn some off-screen enemies to act as threats if the player enters the field.
+                int enemiesToSpawn = CalamityWorld.death ? 2 : 1;
+                for (int i = 0; i < enemiesToSpawn; i++)
+                {
+                    int tries = 0;
+                    Vector2 spawnPosition;
+                    do
+                    {
+                        spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(600f, 1015f) * new Vector2(1.5f, 1f);
+                        if (spawnPosition.Y > player.Center.Y)
+                            spawnPosition.Y = player.Center.Y;
+                        if (tries > 500)
+                            break;
+                        tries++;
+                    }
+                    while (WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16)));
+
+                    if (tries < 500)
+                    {
+                        int npcToSpawn = Main.rand.NextBool(2) ? ModContent.NPCType<WulfrumDrone>() : ModContent.NPCType<WulfrumHovercraft>();
+                        NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn);
+                    }
+                }
                 Charging = true;
                 npc.netUpdate = true;
             }
@@ -71,12 +95,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                 if (Main.rand.NextBool(4))
                 {
-                    float dustCount = MathHelper.TwoPi * ChargeRadius / 5f;
+                    float dustCount = MathHelper.TwoPi * ChargeRadius / 8f;
                     for (int i = 0; i < dustCount; i++)
                     {
                         float angle = MathHelper.TwoPi * i / dustCount;
                         Dust dust = Dust.NewDustPerfect(npc.Center, 229);
                         dust.position = npc.Center + angle.ToRotationVector2() * ChargeRadius;
+                        dust.scale = 0.7f;
                         dust.noGravity = true;
                         dust.velocity = npc.velocity;
                     }
@@ -91,8 +116,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     // For some strange reason, the Wulfrum Rover is not counted when it's added to a static list.
                     // What I assume is going on is that it hasn't been loaded yet since it's later alphabetically (Pylon is before Rover).
                     // As a result, they are checked separately.
-                    if (!SuperchargableEnemies.Contains(npcAtIndex.type) &&
-                        npcAtIndex.type != ModContent.NPCType<WulfrumRover>())
+                    if (!SuperchargableEnemies.Contains(npcAtIndex.type) && npcAtIndex.type != ModContent.NPCType<WulfrumRover>())
                         continue;
                     if (npcAtIndex.ai[3] > 0f)
                         continue;
@@ -157,6 +181,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
             DropHelper.DropItem(npc, ModContent.ItemType<EnergyCore>());
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

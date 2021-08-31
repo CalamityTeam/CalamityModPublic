@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clothier's Wrath");
-        }
+			Tooltip.SetDefault("Shoots 3 shadowflame skulls");
+		}
 
         public override void SetDefaults()
         {
@@ -24,14 +25,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+			item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ProjectileID.ClothiersCurse;
             item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -40,8 +41,9 @@ namespace CalamityMod.Items.Weapons.Magic
             for (int i = 0; i < numProj + 1; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                int proj = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().forceMagic = true;
+                int proj = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMagic = true;
             }
             return false;
         }

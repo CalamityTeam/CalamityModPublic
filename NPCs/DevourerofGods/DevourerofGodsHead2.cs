@@ -24,12 +24,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.damage = 180;
-            npc.npcSlots = 5f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
             npc.width = 64;
             npc.height = 76;
             npc.defense = 40;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 50000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -41,10 +41,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -81,12 +77,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             Vector2 vector = npc.Center;
 
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+			bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
-            if (npc.ai[3] > 0f)
-            {
-                npc.realLife = (int)npc.ai[3];
-            }
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
+            if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
 
             if (npc.alpha != 0)
             {
@@ -97,9 +94,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             npc.alpha -= 12;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -155,13 +150,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
 			float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-			float num188 = CalamityWorld.revenge ? 16f : 14f;
-			float num189 = CalamityWorld.revenge ? 0.15f : 0.13f;
+			float num188 = CalamityWorld.malice ? 18f : CalamityWorld.revenge ? 16f : 14f;
+			float num189 = CalamityWorld.malice ? 0.17f : CalamityWorld.revenge ? 0.15f : 0.13f;
 
-			if (Vector2.Distance(player.Center, vector) > 3000f) //RAGE
+			if (increaseSpeedMore)
+			{
+				num188 *= 4f;
+				num189 *= 6f;
+			}
+			else if (increaseSpeed)
 			{
 				num188 *= 2f;
-				num189 *= 2f;
+				num189 *= 3f;
 			}
 
 			for (int num52 = 0; num52 < Main.maxNPCs; num52++)
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow");
@@ -389,7 +389,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
-            player.AddBuff(BuffID.Frostburn, 180, true);
         }
     }
 }

@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 44;
-            item.damage = 128;
-            item.crit += 25;
+            item.damage = 90;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -31,10 +30,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<AstralPikeProj>();
             item.shootSpeed = 13f;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void AddRecipes()
         {

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HalleysComet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Halley's Comet");

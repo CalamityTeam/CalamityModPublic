@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Mask");
-            Tooltip.SetDefault("3% increased rogue damage");
+            Tooltip.SetDefault("10% increased rogue damage");
         }
 
         public override void SetDefaults()
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 75, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 1; //6
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.03f;
+            player.Calamity().throwingDamage += 0.1f;
         }
 
         public override void AddRecipes()

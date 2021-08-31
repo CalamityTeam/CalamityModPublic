@@ -29,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -51,7 +51,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<AbyssalTome>(w),
                 DropHelper.WeightStack<EldritchTome>(w),
                 DropHelper.WeightStack<CorroslimeStaff>(w),
-                DropHelper.WeightStack<CrimslimeStaff>(w)
+                DropHelper.WeightStack<CrimslimeStaff>(w),
+                DropHelper.WeightStack<SlimePuppetStaff>(w)
             );
 
             // Equipment

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item46;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 15);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 36;
             projectile.height = 36;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -41,9 +43,9 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame >= 5)
                 projectile.frame = 0;
 
-            bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+            Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
 			if (projectile.ai[1] == 1f)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
@@ -58,19 +60,16 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
 
-            float turnSpeed = revenge ? 100f : 80f; //100
-            float homeSpeed = revenge ? 20f : 15f; //5
+            float inertia = revenge ? 80f : 100f;
+            float homeSpeed = revenge ? 20f : 15f;
             float minDist = 40f;
             int target = (int)projectile.ai[0];
             if (target >= 0 && Main.player[target].active && !Main.player[target].dead)
             {
                 if (projectile.Distance(Main.player[target].Center) > minDist)
                 {
-                    Vector2 targetVec = projectile.DirectionTo(Main.player[target].Center);
-                    if (targetVec.HasNaNs())
-                        targetVec = Vector2.UnitY;
-
-                    projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + targetVec * homeSpeed) / turnSpeed;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[target].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * homeSpeed) / inertia;
                 }
             }
             else
@@ -106,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneFireblastImpact"), projectile.Center);
 
 			if (projectile.ai[1] == 0f)
 			{

@@ -7,18 +7,21 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class MatterModulator : ModItem
+	public class MatterModulator : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Matter Modulator");
 			Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage.\n" +
-			"Fires a burst of unstable matter that does significantly more damage after hitting a tile\n" +
+			"Fires a burst of unstable matter that does significant damage after striking a tile.\n" +
+			"Before striking a tile, the matter pierces infinitely but deals little damage.\n" +
 			"Deals more damage against enemies with high defenses");
 		}
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 40;
 			item.height = 22;
 			item.ranged = true;
@@ -33,13 +36,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<UnstableMatter>();
 			item.shootSpeed = 7f;
 
-			item.Calamity().ChargeMax = 85;
-			item.Calamity().Chargeable = true;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 85f;
+			modItem.ChargePerUse = 0.075f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

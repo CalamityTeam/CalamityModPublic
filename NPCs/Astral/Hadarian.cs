@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.Astral
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
             bannerItem = ModContent.ItemType<HadarianBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 80;
@@ -203,7 +202,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 1, 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 2, 3);
         }
     }
 }

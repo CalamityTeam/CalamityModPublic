@@ -13,12 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
-            Tooltip.SetDefault("Fires three sliding energy bolts");
+            Tooltip.SetDefault("Fires three arrows at once\n" +
+				"Converts wooden arrows into sliding energy bolts");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
+            item.damage = 39;
             item.ranged = true;
             item.width = 40;
             item.height = 76;
@@ -28,13 +29,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.75f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LunarBolt2>();
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,10 +52,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float offsetAmt = i - (projAmt - 1f) / 2f;
                 Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt, default);
                 if (!canHit)
-                {
                     offset -= velocity;
-                }
-                Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
+
+				if (type == ProjectileID.WoodenArrowFriendly)
+					Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
 			}
             return false;
         }

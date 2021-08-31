@@ -30,9 +30,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 float x = 0f;
                 if (ProvIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
-                }
 
 				float spawnAnimationTimer = 180f;
 				float intensityScalar = 0.25f;
@@ -41,7 +39,7 @@ namespace CalamityMod.NPCs.Providence
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0f; //0.5
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)

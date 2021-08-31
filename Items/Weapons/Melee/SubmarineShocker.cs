@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -42,12 +42,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * player.MeleeDamage() * 0.7f), knockback, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * player.MeleeDamage() * 0.7f), item.knockBack, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), item.knockBack, Main.myPlayer);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             DisplayName.SetDefault("White Wine");
             Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
 Boosts magic damage by 10%
-Reduces defense by 6 and life regen by 1");
+Reduces defense by 6% and life regen by 1");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ Reduces defense by 6 and life regen by 1");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -30,8 +30,8 @@ Reduces defense by 6 and life regen by 1");
             item.consumable = true;
             item.healMana = 400;
             item.buffType = ModContent.BuffType<WhiteWineBuff>();
-            item.buffTime = 10800; //3 minutes
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            item.value = Item.buyPrice(0, 4, 0, 0);
         }
 
 		public override bool UseItem(Player player)

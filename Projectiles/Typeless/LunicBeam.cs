@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class LunicBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -27,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             float num29 = 5f;
-            float num30 = 300f;
+            float num30 = 150f;
             float scaleFactor = 6f;
             Vector2 value7 = new Vector2(10f, 20f);
             float num31 = 1f;

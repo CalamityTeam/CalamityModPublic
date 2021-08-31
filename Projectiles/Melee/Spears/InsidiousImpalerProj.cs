@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 5;
             //projectile.Calamity().trueMelee = true;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
             Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                           projectile.velocity.X * 3.5f, projectile.velocity.Y * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                           projectile.velocity.X * 3.5f, projectile.velocity.Y * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

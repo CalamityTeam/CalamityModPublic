@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Spark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark");
@@ -16,9 +18,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 60;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 15;
             projectile.melee = true;
         }
 
@@ -83,13 +85,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
-    }
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+	}
 }

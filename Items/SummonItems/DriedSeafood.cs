@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.World;
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 28;
             item.height = 28;
             item.maxStack = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<DesertScourgeHead>());
+            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<DesertScourgeHead>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
 			else
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<DesertScourgeHead>());
 
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHeadSmall>());

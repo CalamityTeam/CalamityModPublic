@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FrostyFlareStealth : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Rogue/FrostyFlareProj";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FrostyFlare";
 
         public override void SetDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.velocity.X *= 0.99f;
                 projectile.velocity.Y += 0.25f;
-                projectile.rotation = projectile.velocity.ToRotation();
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
                 if (shoot)
                 {
@@ -57,8 +57,11 @@ namespace CalamityMod.Projectiles.Rogue
 				if (projectile.timeLeft % 10 == 0)
 				{
 					int snowflake = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, Main.rand.Next(3));
-					Main.projectile[snowflake].Calamity().forceRogue = true;
-					Main.projectile[snowflake].timeLeft = 300;
+					if (snowflake.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[snowflake].Calamity().forceRogue = true;
+						Main.projectile[snowflake].timeLeft = 300;
+					}
 				}
 
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172);
@@ -69,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ignoreWater = true;
                 projectile.tileCollide = false;
                 int id = (int)projectile.ai[1];
-                if (id >= 0 && id < Main.maxNPCs && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
+                if (id.WithinBounds(Main.maxNPCs) && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
                 {
                     projectile.Center = Main.npc[id].Center - projectile.velocity * 2f;
                     projectile.gfxOffY = Main.npc[id].gfxOffY;
@@ -95,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.immune[projectile.owner] = 0;
             projectile.ai[0] = 1f;
             projectile.ai[1] = target.whoAmI;
@@ -121,10 +124,8 @@ namespace CalamityMod.Projectiles.Rogue
                         break;
                 }
             }
-            //Main.NewText("found " + flaresFound.ToString());
             if (flaresFound >= maxFlares && oldestFlare >= 0)
             {
-                //Main.NewText("killing flare " + oldestFlare.ToString());
                 Main.projectile[oldestFlare].Kill();
             }
         }
@@ -132,7 +133,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override bool CanDamage() => projectile.ai[0] == 0f;

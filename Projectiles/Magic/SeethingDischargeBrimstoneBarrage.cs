@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneBarrage : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneBarrage";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone");
@@ -56,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -26,35 +26,14 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 110;
-            npc.width = 120;
+			npc.GetNPCDamage();
+			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(20000, 25000, 60000);
+            npc.LifeMaxNERB(9000, 11250, 5000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.lavaImmune = true;
+			npc.noTileCollide = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit51;
@@ -67,14 +46,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 			{
 				return 0f;
 			}
-			return SpawnCondition.SurfaceJungle.Chance * 0.09f;
+			return SpawnCondition.SurfaceJungle.Chance * 0.14f;
 		}
 
 		public override void AI()
         {
+			npc.damage = CalamityPlayer.areThereAnyDamnBosses ? npc.defDamage : (int)(npc.defDamage * 0.8);
+
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
-            npc.damage = npc.defDamage;
 
 			bool increasedAggression = CalamityPlayer.areThereAnyDamnBosses;
 
@@ -89,24 +69,21 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
             }
 
-            npc.noTileCollide = false;
-            npc.noGravity = true;
-
             npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
 
             if (npc.ai[0] == 0f || npc.ai[0] == 1f)
             {
-                for (int num1376 = 0; num1376 < Main.maxNPCs; num1376++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num1376 != npc.whoAmI && Main.npc[num1376].active && Main.npc[num1376].type == npc.type)
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type)
                     {
-                        Vector2 value42 = Main.npc[num1376].Center - npc.Center;
+                        Vector2 value42 = Main.npc[i].Center - npc.Center;
                         if (value42.Length() < (npc.width + npc.height))
                         {
                             value42.Normalize();
                             value42 *= -0.1f;
                             npc.velocity += value42;
-                            NPC nPC6 = Main.npc[num1376];
+                            NPC nPC6 = Main.npc[i];
                             nPC6.velocity -= value42;
                         }
                     }
@@ -135,7 +112,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 Vector2 value43 = new Vector2(0f, -8f);
                 npc.velocity = (npc.velocity * 21f + value43) / 10f;
-                npc.noTileCollide = true;
                 npc.dontTakeDamage = true;
                 return;
             }
@@ -144,30 +120,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 npc.TargetClosest(true);
                 npc.spriteDirection = npc.direction;
-                if (npc.collideX)
-                {
-                    npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
-                    if (npc.velocity.X > 4f)
-                    {
-                        npc.velocity.X = 4f;
-                    }
-                    if (npc.velocity.X < -4f)
-                    {
-                        npc.velocity.X = -4f;
-                    }
-                }
-                if (npc.collideY)
-                {
-                    npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
-                    if (npc.velocity.Y > 4f)
-                    {
-                        npc.velocity.Y = 4f;
-                    }
-                    if (npc.velocity.Y < -4f)
-                    {
-                        npc.velocity.Y = -4f;
-                    }
-                }
                 Vector2 value44 = Main.player[npc.target].Center - npc.Center;
                 if (value44.Length() > 2800f)
                 {
@@ -203,9 +155,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 if (npc.ai[0] == 1f)
                 {
-                    npc.collideX = false;
-                    npc.collideY = false;
-                    npc.noTileCollide = true;
                     if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
                     {
                         npc.TargetClosest(true);
@@ -253,7 +202,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                     }
                     npc.spriteDirection = npc.direction;
                     npc.rotation = (npc.rotation * rotationMult * 0.75f + npc.velocity.X * rotationAmt * 1.25f) / 8f;
-                    npc.noTileCollide = true;
                     Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
                     vector242.Y -= 8f;
                     float scaleFactor22 = increasedAggression ? 18f : 14f;
@@ -288,7 +236,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-                    npc.damage = (int)(npc.defDamage * 1.3);
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;
@@ -299,7 +246,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                     }
                     npc.spriteDirection = npc.direction;
                     npc.velocity *= 1.01f;
-                    npc.noTileCollide = true;
                     npc.ai[1] += 1f;
                     int num1380 = 30;
                     if (npc.ai[1] > num1380)
@@ -322,10 +268,11 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-		public override bool PreNPCLoot() => !CalamityPlayer.areThereAnyDamnBosses;
-
 		public override void NPCLoot()
 		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return;
+
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
 		}
 
@@ -365,14 +312,14 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;

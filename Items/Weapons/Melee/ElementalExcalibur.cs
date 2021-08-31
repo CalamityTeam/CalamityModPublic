@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class ElementalExcalibur : ModItem
     {
-        private static int BaseDamage = 10000;
+        private static int BaseDamage = 2000;
         private int BeamType = 0;
-        private int alpha = 50;
+        private const int alpha = 50;
 
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.damage = BaseDamage;
-            item.crit += 10;
             item.useAnimation = 14;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 14;
@@ -40,16 +39,18 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 92;
             item.height = 92;
             item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             item.shootSpeed = 6f;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(46f, 44f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -77,6 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
 				item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
 				item.shootSpeed = 12f;
 			}
+
 			return base.CanUseItem(player);
 		}
 
@@ -145,38 +147,38 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
-            int healAmount = Main.rand.Next(10) + 10;
+
+            int healAmount = Main.rand.Next(3) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
+
 			if (player.moonLeech)
 				return;
-            int healAmount = Main.rand.Next(10) + 10;
+
+            int healAmount = Main.rand.Next(3) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }

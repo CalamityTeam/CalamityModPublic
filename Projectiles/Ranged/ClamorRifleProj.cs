@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.ranged = true;
-        }
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+		}
 
         public override void AI()
         {
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num155].velocity += projectile.velocity * 0.5f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 18f, 25f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 25f);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
@@ -222,7 +223,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return true;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

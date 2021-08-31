@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.accessory = true;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<LivingDew>());
             recipe.AddIngredient(ItemID.BottledHoney, 10);
             recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<GypsyPowder>());
+            recipe.AddIngredient(ItemID.ButterflyDust);
             recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

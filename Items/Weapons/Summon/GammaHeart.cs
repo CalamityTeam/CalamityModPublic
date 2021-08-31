@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons radioactive heads that are bound by your body\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads");
+            Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
         }
 
         public override void SetDefaults()
@@ -23,24 +22,22 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.UseSound = SoundID.Item42;
             item.summon = true;
-            item.mana = 16;
-            item.damage = 120;
+            item.mana = 10;
+            item.damage = 173;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 15;
             item.shoot = ModContent.ProjectileType<GammaHead>();
             item.shootSpeed = 10f;
             item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
-            {
                 Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-            }
             return false;
         }
     }

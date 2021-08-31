@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 33;
             item.ranged = true;
             item.width = 30;
             item.height = 50;
@@ -27,13 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
-        }
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -53,9 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
                 }
                 int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
-                Main.projectile[index].Calamity().forceRanged = true;
-                Main.projectile[index].usesLocalNPCImmunity = true;
-                Main.projectile[index].localNPCHitCooldown = 10;
+				if (index.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[index].Calamity().forceRanged = true;
+					Main.projectile[index].usesLocalNPCImmunity = true;
+					Main.projectile[index].localNPCHitCooldown = 10;
+				}
             }
             return true;
         }

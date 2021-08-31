@@ -1,3 +1,5 @@
+using CalamityMod.Items;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System;
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			float num = 1.57079637f;
+			float num = MathHelper.PiOver2;
 			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
 			if (projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
 			{
@@ -41,14 +43,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				if (projectile.ai[0] > 4f)
 					projectile.ai[0] = 2f;
 
+				// The Gatling Laser shoots every other frame (effective use time of 2).
 				int fireRate = 2;
 				projectile.ai[1] += 1f;
-				bool flag = false;
+				bool shootThisFrame = false;
 				if (projectile.ai[1] >= fireRate)
 				{
 					projectile.ai[1] = 0f;
-					flag = true;
+					shootThisFrame = true;
 				}
+
 				if (projectile.soundDelay <= 0)
 				{
 					projectile.soundDelay = fireRate * 6;
@@ -59,27 +63,25 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 						gatlingLaserLoop = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireLoop"), (int)projectile.position.X, (int)projectile.position.Y);
 					}
 				}
-				if (flag && Main.myPlayer == projectile.owner && fireLasers)
+				if (shootThisFrame && Main.myPlayer == projectile.owner && fireLasers)
 				{
 					Item gatling = player.ActiveItem();
-					int weaponDamage2 = player.GetWeaponDamage(gatling);
-					bool flag2 = player.channel && !player.noItems && !player.CCed;
+
+					// This grabs the weapon's current damage, taking current charge level into account.
+					int currentDamage = player.GetWeaponDamage(gatling);
+
+					bool stillInUse = player.channel && !player.noItems && !player.CCed;
 
 					// This both checks if the player has sufficient mana and consumes it if they do.
 					// If this is false, the Gatling Laser stops functioning.
-					bool hasMana = player.CheckMana(gatling.mana, true, false);
+					bool hasMana = player.CheckMana(gatling, -1, true, false);
 
-					if (flag2 && hasMana)
+					// Checks if the Gatling Laser has sufficient charge to fire. If this is false, it stops functioning.
+					CalamityGlobalItem modItem = gatling.Calamity();
+					bool hasCharge = modItem.Charge >= GatlingLaser.HoldoutChargeUse;
+
+					if (stillInUse && hasMana && hasCharge)
 					{
-						// Attempt to use power from the held item.
-						if (player.ActiveItem().type >= ItemID.Count &&
-							player.ActiveItem().Calamity().Chargeable &&
-							player.ActiveItem().Calamity().CurrentCharge > 0 &&
-							Main.rand.NextBool((int)(120 / (float)fireRate)))
-						{
-							player.ActiveItem().Calamity().CurrentCharge--;
-						}
-
 						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
 						Vector2 value3 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value2;
@@ -102,7 +104,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 						float velocity = 3f;
 						value2 = projectile.Center;
 						Vector2 spinningpoint = Vector2.Normalize(projectile.velocity) * velocity;
-						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.19634954631328583 - 0.098174773156642914);
+
+						double spread = Math.PI / 32D;
+						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 2D * spread - spread);
+
 						if (float.IsNaN(spinningpoint.X) || float.IsNaN(spinningpoint.Y))
 						{
 							spinningpoint = -Vector2.UnitY;
@@ -116,7 +121,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
 						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
 						float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
-						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, weaponDamage2, projectile.knockBack, projectile.owner, ai0, 0f);
+
+						// Use charge when firing a laser.
+						modItem.Charge -= GatlingLaser.HoldoutChargeUse;
+						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, projectile.knockBack, projectile.owner, ai0, 0f);
 					}
 					else
 					{
@@ -124,7 +132,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							gatlingLaserLoop.Stop();
 
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireEnd"), (int)projectile.position.X, (int)projectile.position.Y);
-
 						projectile.Kill();
 					}
 				}

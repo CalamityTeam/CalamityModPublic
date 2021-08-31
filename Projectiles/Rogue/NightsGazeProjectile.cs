@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NightsGazeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NightsGaze";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Night's Gaze");
@@ -22,27 +24,29 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
+        private int SplitProjDamage => (int)(projectile.damage * 0.6f);
+
         public override void AI()
         {
             if (projectile.ai[0] == 0f)
-            {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45);
-            }
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.ToRadians(45);
 
             if (projectile.Calamity().stealthStrike)
             {
                 if (Main.rand.NextBool(8))
                 {
-                    int projectileDamage = (int)(projectile.damage * 0.75f);
-                    int projectileType = ModContent.ProjectileType<NightsGazeStar>();
+                    int projID = ModContent.ProjectileType<NightsGazeStar>();
+                    int starDamage = SplitProjDamage;
+                    float starKB = 5f;
                     Vector2 velocity = projectile.velocity;
 
-                    int p = Projectile.NewProjectile(projectile.Center, velocity, projectileType, projectileDamage, 5f, projectile.owner, 1f, 0f);
+                    int p = Projectile.NewProjectile(projectile.Center, velocity, projID, starDamage, starKB, projectile.owner, 1f, 0f);
                     Main.projectile[p].penetrate = 1;
                 }
             }
@@ -51,50 +55,31 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), projectile.timeLeft);
-
-            int starCount = 6;
-            int starFrequency = 3;
-            float spread = 20f;
-            for (int i = 0; i < starCount; i++)
-            {
-                int projectileDamage = (int)(projectile.damage * 0.75f);
-                int projectileType = ModContent.ProjectileType<NightsGazeSpark>();
-                if (Main.rand.Next(starCount) < starFrequency)
-                {
-                    projectileType = ModContent.ProjectileType<NightsGazeStar>();
-                }
-                Vector2 velocity = projectile.oldVelocity.RotateRandom(MathHelper.ToRadians(spread));
-                float speed = Main.rand.NextFloat(1.5f, 2f);
-                float moveDuration = Main.rand.Next(5, 15);
-
-                Projectile.NewProjectile(projectile.Center, velocity * speed, projectileType, projectileDamage, 5f, projectile.owner, 0f, moveDuration);
-            }
-
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
+            OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), projectile.timeLeft);
+            OnHitEffects();
+        }
 
-            int starCount = 6;
-            int starFrequency = 3;
+        private void OnHitEffects()
+        {
+            int onHitCount = 6;
+            int chanceOfStar = 2;
             float spread = 20f;
-            for (int i = 0; i < starCount; i++)
+            int projectileDamage = SplitProjDamage;
+            float kb = 5f;
+            int sparkID = ModContent.ProjectileType<NightsGazeSpark>();
+            int starID = ModContent.ProjectileType<NightsGazeStar>();
+            for (int i = 0; i < onHitCount; i++)
             {
-                int projectileDamage = (int)(projectile.damage * 0.75f);
-                int projectileType = ModContent.ProjectileType<NightsGazeSpark>();
-                if (Main.rand.Next(starCount) < starFrequency)
-                {
-                    projectileType = ModContent.ProjectileType<NightsGazeStar>();
-                }
+                int projID = Main.rand.NextBool(chanceOfStar) ? starID : sparkID;
                 Vector2 velocity = projectile.oldVelocity.RotateRandom(MathHelper.ToRadians(spread));
                 float speed = Main.rand.NextFloat(1.5f, 2f);
                 float moveDuration = Main.rand.Next(5, 15);
-
-                Projectile.NewProjectile(projectile.Center, velocity * speed, projectileType, projectileDamage, 5f, projectile.owner, 0f, moveDuration);
+                Projectile.NewProjectile(projectile.Center, velocity * speed, projID, projectileDamage, kb, projectile.owner, 0f, moveDuration);
             }
 
             Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
@@ -112,14 +97,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/NightsGazeProjectileGlow");
-			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
+            Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
             spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
@@ -127,12 +112,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					109,
-					111,
-					132
-				});
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    109,
+                    111,
+                    132
+                });
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X / 3f, projectile.velocity.Y / 3f, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

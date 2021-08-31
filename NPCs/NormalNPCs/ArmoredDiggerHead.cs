@@ -20,7 +20,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 90;
             npc.npcSlots = 10f;
             npc.width = 54;
             npc.height = 54;
@@ -36,10 +37,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
@@ -51,11 +48,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned)
@@ -158,7 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 flag2 = false;
                 npc.velocity.Y = npc.velocity.Y + 1f;
-                if ((double)npc.position.Y > (double)((Main.maxTilesY - 200) * 16))
+                if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
                     npc.velocity.Y = npc.velocity.Y + 1f;
                     num17 = 32f;
@@ -387,12 +383,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override bool CheckActive()
         {
             return false;
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Chilled, 240, true);
-            player.AddBuff(BuffID.Electrified, 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -69,7 +69,7 @@ namespace CalamityMod.Tiles.LivingFire
 			for (int k = 0; k < around.Count; ++k)
 			{
 				Tile tile = Main.tile[around[k][0], around[k][1]];
-				if (tile.active() && (Main.tileSolid[tile.type] || CalamityMod.livingFireBlockList.Contains(tile.type)))
+				if (tile.active() && (Main.tileSolid[tile.type] || CalamityLists.livingFireBlockList.Contains(tile.type)))
 				{
 					return true;
 				}

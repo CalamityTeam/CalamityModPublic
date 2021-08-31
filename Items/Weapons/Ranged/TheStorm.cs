@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("The Storm");
             Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Wooden arrows are converted to lightning bolts");
+                "Converts wooden arrows into lightning bolts");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 44;
+            item.damage = 24;
             item.ranged = true;
             item.width = 34;
             item.height = 50;
@@ -27,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item122;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.Item122;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Bolt>();
             item.shootSpeed = 28f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -83,21 +83,21 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
+                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.01f;
+                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i, 0f, 0f);
+                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i);
                     Main.projectile[num121].noDropItem = true;
-                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i, 0f, 0f);
+                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i);
                     Main.projectile[num122].noDropItem = true;
-                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i, 0f, 0f);
+                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i);
                     Main.projectile[num123].noDropItem = true;
                 }
             }

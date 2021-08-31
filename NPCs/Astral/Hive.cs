@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Astral
         public override void SetDefaults()
         {
             npc.width = 38;
-            npc.height = 60;
+            npc.height = 62;
             npc.aiStyle = -1;
             npc.damage = 55;
             npc.defense = 15;
@@ -38,7 +38,6 @@ namespace CalamityMod.NPCs.Astral
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
             bannerItem = ModContent.ItemType<HiveBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;

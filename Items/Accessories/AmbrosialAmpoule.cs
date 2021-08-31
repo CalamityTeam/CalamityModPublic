@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
         }
 
@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.beeResist = true;
             modPlayer.aAmpoule = true;
+			modPlayer.rOoze = true;
         }
 
         public override void AddRecipes()
@@ -61,7 +62,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
             recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
             recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             item.damage = 58;
-            item.crit += 30;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
@@ -27,20 +26,21 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item31;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.BulletHighVelocity;
             item.shootSpeed = 20f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+            item.useAmmo = AmmoID.Bullet;
+			item.Calamity().challengeDrop = true;
+			item.Calamity().canFirePointBlankShots = true;
+		}
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = 0; i < 2; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i == 1 ? 0 : 2));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, perturbedSpeed, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

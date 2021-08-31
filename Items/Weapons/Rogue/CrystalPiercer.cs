@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 62;
             item.maxStack = 999;
             item.value = 2500;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
@@ -42,11 +42,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].aiStyle = -1;
-                Main.projectile[stealth].tileCollide = false;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].aiStyle = -1;
+					Main.projectile[stealth].tileCollide = false;
+					Main.projectile[stealth].usesLocalNPCImmunity = true;
+				}
                 return false;
             }
             return true;

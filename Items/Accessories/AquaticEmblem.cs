@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing\n" +
                 "Being underwater slowly boosts your defense over time but also slows movement speed\n" +
                 "The defense boost and movement speed reduction slowly vanish while outside of water\n" +
-                "Maximum defense boost is 30, maximum movement speed reduction is 5%\n" +
+                "Maximum defense boost is 50, maximum movement speed reduction is 10%\n" +
                 "Provides a small amount of light in the abyss\n" +
                 "Moderately reduces breath loss in the abyss");
         }
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 18;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
             item.expert = true;
         }

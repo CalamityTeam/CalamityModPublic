@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyLight : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Light");
@@ -41,20 +43,22 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < 16f)
 				projectile.velocity *= 1.01f;
 
-            projectile.ai[1] = Player.FindClosest(projectile.position, projectile.width, projectile.height);
-			int num487 = (int)projectile.ai[1];
-			float num491 = Vector2.Distance(Main.player[num487].Center, projectile.Center);
+			int index = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+			Player player = Main.player[index];
+			if (player is null)
+				return;
 
-			if (num491 < 50f && !Main.player[num487].dead && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
+			float playerDist = Vector2.Distance(player.Center, projectile.Center);
+			if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
             {
-                int num492 = expertMode ? 50 : 35;
-                Main.player[num487].HealEffect(num492, false);
-                Main.player[num487].statLife += num492;
-                if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
+                int healAmt = (int)projectile.ai[1];
+				player.HealEffect(healAmt, false);
+                player.statLife += healAmt;
+                if (player.statLife > player.statLifeMax2)
                 {
-                    Main.player[num487].statLife = Main.player[num487].statLifeMax2;
+                    player.statLife = player.statLifeMax2;
                 }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492);
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, healAmt);
                 projectile.Kill();
             }
         }
@@ -62,21 +66,19 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D value = Main.projectileTexture[projectile.type];
-			Color baseColor = new Color(100, 255, 100, 255);
-			Color color33 = baseColor * 0.5f;
-			color33.A = 0;
+			Color color33 = new Color(54, 209, 54, 0);
 			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
 			Color color34 = color33;
 			Vector2 origin5 = value.Size() / 2f;
 			Color color35 = color33 * 0.5f;
-			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+			float num162 = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
 			Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
 			Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
 			color34 *= num162;
 			color35 *= num162;
 
 			int num163 = 0;
-			Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * CalamityUtils.GetLerpValue(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
+			Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * Utils.InverseLerp(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
 
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
@@ -104,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 50;
             projectile.position.X = projectile.position.X - (projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (projectile.height / 2);
-            for (int num621 = 0; num621 < 10; num621++)
+            for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
@@ -114,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 15; num623++)
+            for (int num623 = 0; num623 < 8; num623++)
             {
                 int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 247, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 34;
             npc.height = 34;
             npc.defense = 45;
-			npc.DR_NERD(0.45f);
+			npc.DR_NERD(0.35f);
 			npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
 			npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.netAlways = true;
             npc.dontCountMe = true;
             banner = ModContent.NPCType<ArmoredDiggerHead>();
@@ -51,11 +47,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -101,12 +96,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.position.X = npc.position.X + num20;
                 npc.position.Y = npc.position.Y + num21;
             }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.Chilled, 120, true);
-            player.AddBuff(BuffID.Electrified, 90, true);
         }
 
         public override bool CheckActive()

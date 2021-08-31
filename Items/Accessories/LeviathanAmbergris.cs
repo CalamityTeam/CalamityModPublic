@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Leviathan Ambergris");
             Tooltip.SetDefault("You leave behind poisonous seawater as you move\n" +
-                               "75% increased movement speed, 10% increase to all damage, and plus 20 defense while submerged in liquid\n" +
+                               "30% increased movement speed, 10% increase to all damage, and plus 20 defense while submerged in liquid\n" +
                                "If you are damaged while submerged in liquid you will gain a damaging aura for a short time\n" +
                                "Being outside of liquid increases all damage by 5% and increases damage reduction by 5%");
         }
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     player.allDamage += 0.1f;
                     player.statDefense += 20;
-                    player.moveSpeed += 0.75f;
+                    player.moveSpeed += 0.3f;
                 }
             }
             if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)

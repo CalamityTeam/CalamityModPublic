@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Tarragon Horned Helm");
             Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
-                "5% increased damage reduction and +3 max minions");
+                "5% increased damage reduction and minion damage");
         }
 
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.text = "5% increased damage reduction and +3 max minions\n" +
+						line2.text = "5% increased damage reduction\n" +
 						"Provides heat protection in Death Mode";
 					}
 				}
@@ -59,19 +59,20 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
-            player.setBonus = "55% increased minion damage\n" +
+            player.setBonus = "50% increased minion damage and +3 max minions\n" +
                 "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Summons a life aura around you that damages nearby enemies";
-            player.minionDamage += 0.55f;
-        }
+            player.minionDamage += 0.5f;
+			player.maxMinions += 3;
+		}
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 3;
             player.endurance += 0.05f;
-            player.lavaMax += 240;
+			player.minionDamage += 0.05f;
+			player.lavaMax += 240;
             player.ignoreWater = true;
         }
 

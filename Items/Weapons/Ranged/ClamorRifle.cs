@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clamor Rifle");
-			Tooltip.SetDefault("Shoots homing energy bolts");
+			Tooltip.SetDefault("Converts musket balls into homing energy bolts");
 		}
 
 		public override void SetDefaults()
@@ -28,17 +28,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.value = Item.buyPrice(0, 36, 0, 0);
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
 			item.autoReuse = true;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
 			item.shootSpeed = 15f;
 			item.useAmmo = AmmoID.Bullet;
+			item.Calamity().canFirePointBlankShots = true;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ClamorRifleProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ClamorRifleProj>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+
 			return false;
 		}
 	}

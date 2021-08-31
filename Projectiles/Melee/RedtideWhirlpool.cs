@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RedtideWhirlpool : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/BrinyTyphoonBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whirlpool");

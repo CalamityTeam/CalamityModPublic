@@ -37,7 +37,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.npcSlots = 5f;
             npc.damage = 50;
             npc.width = 160;
@@ -45,10 +46,9 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.defense = 9999;
 			npc.DR_NERD(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Main.hardMode ? Item.buyPrice(0, 10, 0, 0) : Item.buyPrice(0, 1, 0, 0);
+            npc.value = Main.hardMode ? Item.buyPrice(0, 8, 0, 0) : Item.buyPrice(0, 1, 0, 0);
             npc.HitSound = SoundID.NPCHit4;
             npc.knockBackResist = 0f;
             npc.rarity = 2;
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.SunkenSea
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GiantClamGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
@@ -428,7 +428,7 @@ namespace CalamityMod.NPCs.SunkenSea
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;
             CalamityWorld.downedCLAMHardMode = Main.hardMode || CalamityWorld.downedCLAMHardMode;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
     }
 }

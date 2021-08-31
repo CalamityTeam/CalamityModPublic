@@ -1,4 +1,3 @@
-using CalamityMod.Events;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -14,15 +13,15 @@ namespace CalamityMod.Items.Tools.ClimateChange
             Tooltip.SetDefault("Summons the rain.\n" +
                 "Rain will start some time after this item is used.\n" +
                 "If used while it's raining, the rain will stop some time afterward.\n" +
-				"In Death Mode, using this item while it's raining will reduce the amount of time the rain lingers for\n" +
-				"to one minute; however, not any lower, and this will cause the rain to turn violent for that minute.");
+                "In Death Mode, using this item while it's raining will reduce the amount of time the rain lingers for to one minute.\n" +
+                "However, this will cause the rain to turn violent for that time.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             if (!Main.raining)
             {
-				CalamityUtils.StartRain(true);
+                CalamityUtils.StartRain(true);
             }
             else if (CalamityWorld.death)
             {
@@ -54,46 +53,46 @@ namespace CalamityMod.Items.Tools.ClimateChange
                 Main.raining = false;
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             return true;
         }
 
-		public static void AdjustRainSeverity(bool maxSeverity)
-		{
-			if (maxSeverity)
-			{
-				Main.cloudBGActive = 1f;
-				Main.numCloudsTemp = Main.cloudLimit;
-				Main.numClouds = Main.numCloudsTemp;
-				Main.windSpeedTemp = (float)Main.rand.Next(50, 75) * 0.01f;
-				Main.windSpeedSet = Main.windSpeedTemp;
-				Main.weatherCounter = Main.rand.Next(3600, 18000);
-				Main.maxRaining = 0.89f;
-			}
-			else
-			{
-				if (Main.cloudBGActive >= 1f || (double)Main.numClouds > 150.0)
-				{
-					if (Main.rand.Next(3) == 0)
-						Main.maxRaining = (float)Main.rand.Next(20, 90) * 0.01f;
-					else
-						Main.maxRaining = (float)Main.rand.Next(40, 90) * 0.01f;
-				}
-				else if ((double)Main.numClouds > 100.0)
-				{
-					if (Main.rand.Next(3) == 0)
-						Main.maxRaining = (float)Main.rand.Next(10, 70) * 0.01f;
-					else
-						Main.maxRaining = (float)Main.rand.Next(20, 60) * 0.01f;
-				}
-				else
-				{
-					if (Main.rand.Next(3) == 0)
-						Main.maxRaining = (float)Main.rand.Next(5, 40) * 0.01f;
-					else
-						Main.maxRaining = (float)Main.rand.Next(5, 30) * 0.01f;
-				}
-			}
-		}
+        public static void AdjustRainSeverity(bool maxSeverity)
+        {
+            if (maxSeverity)
+            {
+                Main.cloudBGActive = 1f;
+                Main.numCloudsTemp = Main.cloudLimit;
+                Main.numClouds = Main.numCloudsTemp;
+                Main.windSpeedTemp = (float)Main.rand.Next(50, 75) * 0.01f;
+                Main.windSpeedSet = Main.windSpeedTemp;
+                Main.weatherCounter = Main.rand.Next(3600, 18000);
+                Main.maxRaining = 0.89f;
+            }
+            else
+            {
+                if (Main.cloudBGActive >= 1f || (double)Main.numClouds > 150.0)
+                {
+                    if (Main.rand.Next(3) == 0)
+                        Main.maxRaining = (float)Main.rand.Next(20, 90) * 0.01f;
+                    else
+                        Main.maxRaining = (float)Main.rand.Next(40, 90) * 0.01f;
+                }
+                else if ((double)Main.numClouds > 100.0)
+                {
+                    if (Main.rand.Next(3) == 0)
+                        Main.maxRaining = (float)Main.rand.Next(10, 70) * 0.01f;
+                    else
+                        Main.maxRaining = (float)Main.rand.Next(20, 60) * 0.01f;
+                }
+                else
+                {
+                    if (Main.rand.Next(3) == 0)
+                        Main.maxRaining = (float)Main.rand.Next(5, 40) * 0.01f;
+                    else
+                        Main.maxRaining = (float)Main.rand.Next(5, 30) * 0.01f;
+                }
+            }
+        }
     }
 }

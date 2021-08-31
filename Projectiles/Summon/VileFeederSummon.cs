@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,16 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.timeLeft *= 5;
 			projectile.minion = true;
 		}
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.Calamity().lineColor);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.Calamity().lineColor = reader.ReadInt32();
+        }
 
 		public override void AI()
 		{
@@ -117,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					breakAway = true;
 				}
-				else if (npcIndex < 0 || npcIndex >= Main.maxNPCs)
+				else if (!npcIndex.WithinBounds(Main.maxNPCs))
 				{
 					breakAway = true;
 				}
@@ -173,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					NPC npc = Main.npc[npcIndex];
 					//covers most edge cases like voodoo dolls
-					if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 &&
+					if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 && npc.Calamity().DR < 0.99f &&
 						((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) ||
 						(projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles)) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
 					{

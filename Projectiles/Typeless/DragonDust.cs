@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class DragonDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dust");

@@ -13,6 +13,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Events;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlaguebringerShade : ModNPC
@@ -26,44 +28,23 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 70;
-            npc.npcSlots = 8f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 8f;
             npc.width = 66;
             npc.height = 66;
-            npc.defense = 30;
+            npc.defense = 24;
 			npc.DR_NERD(0.2f);
             npc.lifeMax = 3000;
             npc.value = Item.buyPrice(0, 1, 50, 0);
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 200000;
+                npc.lifeMax = 20000;
             }
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
             animationType = NPCID.QueenBee;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -76,7 +57,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.3f, 0f);
             bool flag113 = false;
-            if (!Main.player[npc.target].ZoneJungle && !CalamityWorld.bossRushActive)
+            if (!Main.player[npc.target].ZoneJungle && !BossRushEvent.BossRushActive)
             {
                 flag113 = true;
                 if (npc.timeLeft > 150)
@@ -101,7 +82,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             }
             bool dead4 = Main.player[npc.target].dead;
             if (dead4 && Main.expertMode)
@@ -177,10 +158,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         {
                             num1044 += 2f;
                         }
-                        if (CalamityWorld.bossRushActive)
-                        {
-                            num1044 *= 1.5f;
-                        }
                         Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                         float num1045 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector117.X;
                         float num1046 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector117.Y;
@@ -199,11 +176,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         num1048 += 1f;
                         num1049 += 0.075f;
-                    }
-                    if (CalamityWorld.bossRushActive)
-                    {
-                        num1048 *= 1.5f;
-                        num1049 *= 1.5f;
                     }
                     if (npc.position.Y + (float)(npc.height / 2) < Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))
                     {
@@ -254,7 +226,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.direction = 1;
                     }
                     npc.spriteDirection = npc.direction;
-                    int num1050 = CalamityWorld.bossRushActive ? 400 : 500;
+                    int num1050 = 500;
                     int num1051 = 1;
                     if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
                     {
@@ -274,7 +246,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.localAI[0] = 0f;
                     npc.velocity *= 0.9f;
                     float num1052 = 0.105f;
-                    if (flag113 || CalamityWorld.bossRushActive)
+                    if (flag113)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.075f;
@@ -295,11 +267,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (flag113)
                 {
                     num1054 = 0.12f;
-                }
-                if (CalamityWorld.bossRushActive)
-                {
-                    num1053 *= 1.5f;
-                    num1054 *= 1.5f;
                 }
                 Vector2 vector118 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num1055 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector118.X;
@@ -392,11 +359,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     float num1063 = 14.5f;
                     float num1064 = 0.105f;
-                    if (CalamityWorld.bossRushActive)
-                    {
-                        num1063 *= 1.5f;
-                        num1064 *= 1.5f;
-                    }
                     vector120 = vector119;
                     num1058 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector120.X;
                     num1059 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector120.Y;
@@ -456,11 +418,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     num1066 = 0.09f;
                     num1065 = 8f;
                 }
-                if (CalamityWorld.bossRushActive)
-                {
-                    num1065 *= 1.5f;
-                    num1066 *= 1.5f;
-                }
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(40 * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
                 Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
@@ -488,19 +445,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
-                        int num1074 = 26;
-                        int num1075 = ModContent.ProjectileType<PlagueStingerGoliathV2>();
-                        if (Main.rand.NextBool(15))
-                        {
-                            num1074 = 33;
-                            num1075 = ModContent.ProjectileType<HiveBombGoliath>();
-                        }
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
+                        int type = Main.rand.NextBool(15) ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    num1066 = CalamityWorld.bossRushActive ? 0.12f : 0.105f;
+                    num1066 = 0.105f;
                     vector122 = vector121;
                     num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
                     num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector122.Y;
@@ -613,14 +565,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
@@ -675,10 +627,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-		public override bool PreNPCLoot() => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
-
         public override void NPCLoot()
         {
+			if (NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()))
+				return;
+
 			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
 			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);
@@ -687,7 +640,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Plague>(), 120, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
         }
     }
 }

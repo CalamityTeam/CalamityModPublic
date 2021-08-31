@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 69;
             item.magic = true;
             item.mana = 21;
-            item.width = 64;
-            item.height = 64;
+            item.width = item.height = 44;
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TridentIcicle>();

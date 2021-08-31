@@ -17,30 +17,27 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 170;
+            item.damage = 128;
             item.summon = true;
             item.sentry = true;
-            item.mana = 25;
+            item.mana = 10;
             item.width = 66;
             item.height = 68;
             item.useTime = item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse != 2)
-            {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 8f);
-				player.UpdateMaxTurrets();
-            }
+			//CalamityUtils.OnlyOneSentry(player, type);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 16f);
+			player.UpdateMaxTurrets();
             return false;
         }
     }

@@ -100,30 +100,6 @@ namespace CalamityMod.Projectiles.Typeless
             float num634 = 2000f;
             float num635 = 3000f;
             float num636 = 150f;
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<DemonshadeRedDevil>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
             bool flag24 = false;
             if (projectile.ai[0] == 2f)
             {
@@ -269,21 +245,24 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (projectile.ai[0] == 0f)
             {
-                float scaleFactor3 = 24f;
-                int num658 = ProjectileID.UnholyTridentFriendly;
+                float speed = 24f;
+                int projType = ProjectileID.UnholyTridentFriendly;
                 if (flag25 && projectile.ai[1] == 0f)
                 {
                     projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, vector46, 0, 0))
+                    if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.Center, projectile.width, projectile.height, vector46, 0, 0))
                     {
-                        Vector2 value19 = vector46 - projectile.Center;
-                        value19.Normalize();
-                        value19 *= scaleFactor3;
-                        int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[num659].timeLeft = 300;
-                        Main.projectile[num659].usesLocalNPCImmunity = true;
-                        Main.projectile[num659].localNPCHitCooldown = 10;
-                        Main.projectile[num659].Calamity().forceTypeless = true; //typeless
+                        Vector2 velocity = vector46 - projectile.Center;
+                        velocity.Normalize();
+                        velocity *= speed;
+                        int trident = Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, Main.myPlayer);
+						if (trident.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[trident].timeLeft = 300;
+							Main.projectile[trident].usesLocalNPCImmunity = true;
+							Main.projectile[trident].localNPCHitCooldown = 10;
+							Main.projectile[trident].Calamity().forceTypeless = true; //typeless
+						}
                         projectile.netUpdate = true;
                     }
                 }

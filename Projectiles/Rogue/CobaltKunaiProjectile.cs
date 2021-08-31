@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CobaltKunaiProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CobaltKunai";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kunai");
@@ -34,7 +36,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

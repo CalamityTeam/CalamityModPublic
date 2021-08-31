@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
@@ -26,13 +26,12 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.rare = ItemRarityID.Purple;
+		}
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
@@ -48,16 +47,6 @@ namespace CalamityMod.Items.SummonItems
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
 
 			return true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedCore>());
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

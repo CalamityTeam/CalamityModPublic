@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Gravistar Sabaton");
             Tooltip.SetDefault("Tap the DOWN key to increase your fall speed for 5 seconds\n" +
-                               "This has a 8 second cooldown\n" +
+                               "This has an 8 second cooldown\n" +
                                "Striking the ground with increased fall speed will cause an astral explosion");
         }
 
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Aorta");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 11f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 220f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 260f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 8.5f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -28,11 +29,20 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = 2;
-        }
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 20;
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void AI()
+		{
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 240f, 6f, 180f, 3, ModContent.ProjectileType<Blood2>(), 0.25);
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

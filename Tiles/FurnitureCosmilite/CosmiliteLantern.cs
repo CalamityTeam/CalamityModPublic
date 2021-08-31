@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            this.SetUpLantern();
+            this.SetUpLantern(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Lantern");
             AddMapEntry(new Color(191, 142, 111), name);
