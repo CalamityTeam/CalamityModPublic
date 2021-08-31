@@ -3361,10 +3361,12 @@ namespace CalamityMod.NPCs
 			}
 
 			// Don't allow large hitbox projectiles or explosions to "snipe" enemies.
-			if (projectile.ranged && (projectile.width + projectile.height) / 2 <= 25 && projectile.velocity != Vector2.Zero)
+			bool hitBullseye = false;
+			if (bullseye != null && projectile.ranged && (projectile.width + projectile.height) / 2 <= 25 && projectile.velocity != Vector2.Zero)
 			{
 				if (bullseye != null)
 				{
+					// Bullseyes are visually larger on bosses, so account for that.
 					float baseBullseyeRadius = npc.IsABoss() ? 116f : 54f;
 					bool hasCollidedWithBullseye;
 					if (projectile.penetrate <= 1 && projectile.penetrate != -1)
@@ -3383,17 +3385,22 @@ namespace CalamityMod.NPCs
 					if (hasCollidedWithBullseye && bullseye.ai[1] == 0f)
 					{
 						crit = true;
-						bullseye.ai[1] = 1f;
+						hitBullseye = true;
+						bullseye.ai[1] = 1f; // Make the bullseye disappear immediately.
 						bullseye.netUpdate = true;
-						damage = (int)(damage * 1.85);
 					}
 				}
 
-				// TODO - Use the 1.4 spawn context system for this.
-				// This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this
-				// better without said system.
+				// TODO -- Use the 1.4 spawn context system for this.
+				// This suffers from the same issues as current crit logic in vanilla, but I have no idea how to do this better without said system.
 				if (modPlayer.spiritOrigin && crit)
-					damage = (int)(damage * MathHelper.Lerp(1.2f, 1.85f, Utils.InverseLerp(6f, 72f, player.ActiveItem().useTime, true)));
+				{
+					// Crits have their damage doubled after ModifyHitNPC, in the StrikeNPC function.
+					// Here, damage is divded by 2 to compensate for that.
+					// This means that the bonus provided by Daawnlight Spirit Origin can be computed as a complete replacement to regular crits.
+					float mult = DaawnlightSpiritOrigin.GetDamageMultiplier(player, modPlayer, hitBullseye) / 2f;
+					damage = (int)(damage * mult);
+				}
 			}
 
 			if (!projectile.npcProj && !projectile.trap)

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Daawnlight");
-            Description.SetDefault("Aim");
+            DisplayName.SetDefault("Archer of Lunamoon");
+            Description.SetDefault("You have a personal spotter");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }

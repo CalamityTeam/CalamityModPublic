@@ -138,7 +138,10 @@ namespace CalamityMod.CalPlayer
 
 			// After everything, reset ranged crit if necessary.
 			if (modPlayer.spiritOrigin)
+			{
+				modPlayer.spiritOriginConvertedCrit = player.rangedCrit - 4;
 				player.rangedCrit = 4;
+			}
 		}
 		#endregion
 

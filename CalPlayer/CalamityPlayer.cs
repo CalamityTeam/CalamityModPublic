@@ -246,6 +246,7 @@ namespace CalamityMod.CalPlayer
         public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
+        public int spiritOriginConvertedCrit = 0;
 
         public const int BeltDodgeCooldown = 3600;
         public const int MirrorDodgeCooldown = 4500;
@@ -1725,6 +1726,7 @@ namespace CalamityMod.CalPlayer
             lumenousAmulet = false;
             aquaticEmblem = false;
             spiritOrigin = false;
+            spiritOriginConvertedCrit = 0;
 
             astralStarRain = false;
 
@@ -2143,6 +2145,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
+            spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
             raiderStack = 0;
