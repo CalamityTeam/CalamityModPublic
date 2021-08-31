@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 							   "Fires an exo beam that homes in on the player and explodes\n" +
 							   "Striking an enemy with the blade causes several comets to fire\n" +
 							   "All attacks briefly freeze enemies hit\n" +
-							   "Enemies hit at very low HP explode into frost energy and freeze nearby enemies\n" +
-							   "The lower your HP the more damage this blade does and heals the player on enemy hits");
+							   "Enemies hit at very low HP explode into frost energy and freeze nearby enemies");
 		}
 
         public override void SetDefaults()
@@ -41,13 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        // Gains 100% of missing health as base damage.
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * player.MeleeDamage();
-		}
-
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.NextBool(4))
@@ -56,8 +48,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
+			if (crit)
+				damage /= 2;
+
 			if (target.life <= (target.lifeMax * 0.05f))
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), damage, knockback, Main.myPlayer);
 
 			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
@@ -75,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
 				for (int comet = 0; comet < 2; comet++)
 				{
 					float ai1 = Main.rand.NextFloat() + 0.5f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
+					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, knockback, player.whoAmI, 0f, ai1);
 				}
 			}
 
@@ -89,8 +84,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
 		{
+			if (crit)
+				damage /= 2;
+
 			if (target.statLife <= (target.statLifeMax2 * 0.05f))
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, item.knockBack, Main.myPlayer);
 
 			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
@@ -108,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Melee
 				for (int comet = 0; comet < 2; comet++)
 				{
 					float ai1 = Main.rand.NextFloat() + 0.5f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, ai1);
+					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, item.knockBack, player.whoAmI, 0f, ai1);
 				}
 			}
 

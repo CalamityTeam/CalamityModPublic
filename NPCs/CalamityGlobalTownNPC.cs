@@ -38,6 +38,8 @@ namespace CalamityMod.NPCs
 			"Drifter",
 			"Finchi",
 			"Heniek", // <@!363404700445442050> (Kazurgundu#3791)
+			"Fire", // <@!354362326947856384> (fire#0692)
+			"Barney", // <@!634462901431697410> (Potato Power#6578)
 		};
 		private const int ClothierVanillaNames = 25;
 		private static readonly string[] ClothierNames =
@@ -45,7 +47,10 @@ namespace CalamityMod.NPCs
 			"Joeseph Jostar",
 		};
 		private const int CyborgVanillaNames = 22;
-		private static readonly string[] CyborgNames = null;
+		private static readonly string[] CyborgNames =
+		{
+			"Sylux", // <@!331812782183809025> (Gonk#2451)
+		};
 		private const int DemolitionistVanillaNames = 22;
 		private static readonly string[] DemolitionistNames = null;
 		private const int DryadVanillaNames = 21;
@@ -54,6 +59,7 @@ namespace CalamityMod.NPCs
 			"Rythmi",
 			"Izuna",
 			"Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
+			"Cybil", // <@!486507232666845185> (Captain Doofus#????)
 		};
 		private const int DyeTraderVanillaNames = 16;
 		private static readonly string[] DyeTraderNames = null;
@@ -62,6 +68,7 @@ namespace CalamityMod.NPCs
 		{
 			"Verth",
 			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
+			"TingFlarg", // <@!185605031716847616> (Smug#7160)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
@@ -73,6 +80,7 @@ namespace CalamityMod.NPCs
 			"Devin",
 			"Woffle", // <@!185980979427540992> (Chipbeam#2268)
 			"Cameron", // <@!340401981711712258> (CammyWammy#8634)
+			"Wilbur", // <@!295171926324805634> (ChaosChaos#5979)
 		};
 		private const int MechanicVanillaNames = 24;
 		private static readonly string[] MechanicNames =
@@ -101,12 +109,17 @@ namespace CalamityMod.NPCs
 		{
 			"Tyler Van Hook",
 		};
+		private const int SkeletonMerchantVanillaNames = 10;
+		private static readonly string[] SkeletonMerchantNames =
+		{
+			"Sans Undertale", // <@!145379091648872450> (Shayy#5257)
+			"Papyrus Undertale", // <@!262663471189983242> (Nycro#0001)
+		};
 		private const int SteampunkerVanillaNames = 20;
 		private static readonly string[] SteampunkerNames =
 		{
 			"Vorbis",
 			"Angel",
-			"Rin", // <@!295171926324805634> (ChaosChaos#5979)
 		};
 		private const int StylistVanillaNames = 20;
 		private static readonly string[] StylistNames =
@@ -114,7 +127,11 @@ namespace CalamityMod.NPCs
 			"Amber", // <@!114677116473180169> (Mishiro Usui#1295)
 		};
 		private const int TavernkeepVanillaNames = 16;
-		private static readonly string[] TavernkeepNames = null;
+		private static readonly string[] TavernkeepNames =
+		{
+			"Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
+			"Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
+		};
 		private const int TaxCollectorVanillaNames = 19;
 		private static readonly string[] TaxCollectorNames =
 		{
@@ -128,6 +145,7 @@ namespace CalamityMod.NPCs
 			"Sok'ar",
 			"Toxin", // <@!348174404984766465> (Toxin#9598),
 			"Mixcoatl", // <@!284775927294984203> (SharZz#7777)
+			"Khatunz", // <@!303022375191183360> (jackshiz#7839)
 		};
 		private const int WizardVanillaNames = 22;
 		private static readonly string[] WizardNames =
@@ -137,6 +155,8 @@ namespace CalamityMod.NPCs
 			"Jensen",
 			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
 			"Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
+			"Ortho", // <@!264984390910738432> (Worcuus#5225)
+			"Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
 		};
 		#endregion
 
@@ -164,6 +184,7 @@ namespace CalamityMod.NPCs
 			ResetName(NPCID.Painter, ref CalamityWorld.painterName);
 			ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
 			ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
+			ResetName(NPCID.SkeletonMerchant, ref CalamityWorld.skeletonMerchantName);
 			ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
 			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
 			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
@@ -244,6 +265,9 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.Pirate:
 						npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
+						break;
+					case NPCID.SkeletonMerchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.skeletonMerchantName, npc.GivenName, SkeletonMerchantVanillaNames, SkeletonMerchantNames);
 						break;
 					case NPCID.Steampunker:
 						npc.GivenName = ChooseName(ref CalamityWorld.steampunkerName, npc.GivenName, SteampunkerVanillaNames, SteampunkerNames);

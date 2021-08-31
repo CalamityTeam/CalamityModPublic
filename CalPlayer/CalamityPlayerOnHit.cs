@@ -242,21 +242,12 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			if (modPlayer.tarraRanged && Main.rand.Next(0, 100) >= 88 && player.ownedProjectileCounts[ProjectileType<TarraEnergy>()] < 5 && (proj.timeLeft <= 2 || proj.penetrate <= 1))
-			{
-				int projAmt = Main.rand.Next(2, 4);
-				for (int projCount = 0; projCount < projAmt; projCount++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(proj.Center, velocity, ProjectileType<TarraEnergy>(), CalamityUtils.DamageSoftCap(proj.damage * 0.33, 65), 0f, proj.owner);
-				}
-			}
 			if (npcCheck)
 			{
-                if (modPlayer.tarraRanged && crit && proj.ranged)
+                if (modPlayer.tarraRanged && proj.ranged && modPlayer.tarraRangedCooldown <= 0)
                 {
-                    int leafAmt = Main.rand.Next(2, 4);
-                    for (int l = 0; l < leafAmt; l++)
+					modPlayer.tarraRangedCooldown = 60;
+					for (int l = 0; l < 2; l++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int FUCKYOU = Projectile.NewProjectile(position, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(proj.damage * 0.25, 60), 0f, player.whoAmI);
@@ -266,7 +257,15 @@ namespace CalamityMod.CalPlayer
 							Main.projectile[FUCKYOU].netUpdate = true;
 						}
                     }
-                }
+					if (player.ownedProjectileCounts[ProjectileType<TarraEnergy>()] < 2)
+					{
+						for (int projCount = 0; projCount < 2; projCount++)
+						{
+							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+							Projectile.NewProjectile(proj.Center, velocity, ProjectileType<TarraEnergy>(), CalamityUtils.DamageSoftCap(proj.damage * 0.33, 65), 0f, proj.owner);
+						}
+					}
+				}
                 if (proj.type == ProjectileType<PolarStar>())
                 {
                     modPlayer.polarisBoostCounter += 1;
@@ -306,8 +305,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 			}
-			if (modPlayer.silvaMage && proj.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
+			if (modPlayer.silvaMage && modPlayer.silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
 			{
+				modPlayer.silvaMageCooldown = 300;
 				Main.PlaySound(SoundID.Zombie, (int)proj.position.X, (int)proj.position.Y, 103);
 				CalamityGlobalProjectile.ExpandHitboxBy(proj, 96);
 				for (int d = 0; d < 3; d++)
@@ -327,6 +327,7 @@ namespace CalamityMod.CalPlayer
 				proj.localNPCHitCooldown = 10;
 				proj.usesLocalNPCImmunity = true;
 				proj.Damage();
+				proj.Kill();
 			}
 		}
 		#endregion

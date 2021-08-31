@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+            Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
 			if (projectile.ai[1] == 1f)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);

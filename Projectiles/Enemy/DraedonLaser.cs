@@ -40,7 +40,10 @@ namespace CalamityMod.Projectiles.Enemy
             if (projectile.localAI[0] == 0f)
             {
                 // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
+                var sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
+                if (sound != null)
+                    sound.Volume *= 0.35f;
+
                 projectile.localAI[0] = 1f;
             }
             projectile.alpha = (int)(Math.Sin(projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);

@@ -64,7 +64,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 120, true);
             player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 

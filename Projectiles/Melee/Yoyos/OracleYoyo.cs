@@ -27,8 +27,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const float MinDischargeRate = 0.05f;
         private const float MaxDischargeRate = 0.53f;
         private const float DischargeRateScaleFactor = 0.003f;
-        private const float ChargePerHit = 3f;
+        private const float ChargePerHit = 4.5f;
         private const int HitsPerOrbVolley = 3;
+
+        // The aura hits once per this many frames.
+        private const int AuraLocalIFrames = 10;
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private const int UpdatesPerFrame = 3;
@@ -66,15 +69,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.MaxUpdates = UpdatesPerFrame;
-
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
+            projectile.localNPCHitCooldown = 7 * UpdatesPerFrame;
         }
 
         public override void AI()
         {
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-				projectile.Kill();
+            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+                projectile.Kill();
 
             // Only do stuff once per frame, despite the yoyo's extra updates.
             if (!projectile.FinalExtraUpdate())
@@ -118,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     Main.PlaySound(SoundID.Item93, (int)projectile.Center.X, (int)projectile.Center.Y);
                 }
 
-                if (AuraFrame % 5 == 4)
+                if (AuraFrame % AuraLocalIFrames == 0)
                 {
                     // The aura's direct damage scales with its charge and with melee stats.
                     float chargeRatio = AuraCharge / MaxCharge;
@@ -128,7 +130,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
             else
                 projectile.soundDelay = 2;
-            AuraFrame++;
+
+            AuraFrame = (AuraFrame + 1) % AuraLocalIFrames;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -236,11 +239,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     if (projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
-						if (p.whoAmI.WithinBounds(Main.maxProjectiles))
-						{
-							p.melee = true;
-							p.Calamity().forceMelee = true;
-						}
+                        if (p.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            p.melee = true;
+                            p.Calamity().forceMelee = true;
+                        }
                     }
                 }
             }

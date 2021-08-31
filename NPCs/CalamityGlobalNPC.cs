@@ -1,10 +1,12 @@
 using CalamityMod.Buffs;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -21,6 +23,9 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -28,6 +33,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
@@ -38,7 +44,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
-using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -88,6 +94,9 @@ namespace CalamityMod.NPCs
 		/// </summary>
 		public bool canBreakPlayerDefense = false;
 
+		// Total defense loss from some true melee hits and other things that reduce defense
+		public int miscDefenseLoss = 0;
+
 		// Distance values for when bosses increase velocity to catch up to their target
 		public const float CatchUpDistance200Tiles = 3200f;
 		public const float CatchUpDistance350Tiles = 5600f;
@@ -112,6 +121,9 @@ namespace CalamityMod.NPCs
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
 
+		// Rage interactions
+		public bool DoesNotGenerateRage = false;
+
         // NewAI
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
@@ -125,8 +137,11 @@ namespace CalamityMod.NPCs
         // Draedons Remote
         public static bool DraedonMayhem = false;
 
+		// Stuff used by the Boss Health UI
+		public bool SplittingWorm = false;
+
 		// Timer for how long an NPC is immune to certain debuffs
-		public const int slowingDebuffResistanceMin = 1200;
+		public const int slowingDebuffResistanceMin = 1800;
 		public int debuffResistanceTimer = 0;
 
 		// Debuffs
@@ -146,7 +161,7 @@ namespace CalamityMod.NPCs
         public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
-        public int marked = 0;
+		public int marked = 0;
         public int irradiated = 0;
         public int bFlames = 0;
         public int hFlames = 0;
@@ -168,6 +183,9 @@ namespace CalamityMod.NPCs
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
+        public int sagePoisonTime = 0;
+        public int sagePoisonDamage = 0;
+        public int vulnerabilityHex = 0;
         public int banishingFire = 0;
 
         // whoAmI Variables
@@ -211,6 +229,9 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
 		public static int adultEidolonWyrmHead = -1;
+
+		// Drawing variables.
+		public FireParticleSet VulnerabilityHexFireDrawer = null;
 
 		// Boss Enrage variable for use with the boss health UI.
 		// The logic behind this is as follows:
@@ -388,6 +409,14 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyer,
 			NPCID.TheDestroyerBody,
 			NPCID.TheDestroyerTail
+		};
+
+		public static List<int> ThanatosIDs = new List<int>
+		{
+			NPCType<ThanatosHead>(),
+			NPCType<ThanatosBody1>(),
+			NPCType<ThanatosBody2>(),
+			NPCType<ThanatosTail>()
 		};
 
 		public static List<int> SkeletronPrimeIDs = new List<int>
@@ -700,9 +729,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
 			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
-			/*ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
-			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
-			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
+			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());
+			ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
@@ -864,7 +893,7 @@ namespace CalamityMod.NPCs
                 if (npc.defense < 0)
                     npc.defense = 0;
 
-                int depthDamage = Main.hardMode ? 80 : 12;
+                int depthDamage = Main.hardMode ? 36 : 12;
                 if (hurtByAbyss)
                     depthDamage = 300;
 
@@ -957,11 +986,13 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(pShred, 1500, 300, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(vulnerabilityHex, 6660, 666, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(sagePoisonTime, 90, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
 
-			int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
+            int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
 			int displayedValue = electrifiedDamage / 5;
 			if (npc.velocity.X == 0)
 				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
@@ -1015,10 +1046,12 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.WallofFleshEye)
 				npc.netAlways = true;
 
+            sagePoisonDamage = 0;
 			if (npc.type == NPCID.Golem && (CalamityWorld.revenge || CalamityWorld.malice))
 				npc.noGravity = true;
 
-            DebuffImmunities(npc);
+			DeclareBossHealthUIVariables(npc);
+			DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
                 BossRushStatChanges(npc, mod);
@@ -1033,10 +1066,18 @@ namespace CalamityMod.NPCs
 
             OtherStatChanges(npc);
         }
-        #endregion
+		#endregion
 
-        #region Debuff Immunities
-        private void DebuffImmunities(NPC npc)
+		#region Boss Health UI Variable Setting
+		public void DeclareBossHealthUIVariables(NPC npc)
+		{
+			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+				SplittingWorm = true;
+		}
+		#endregion
+
+		#region Debuff Immunities
+		private void DebuffImmunities(NPC npc)
         {
 			// Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
 			npc.SetNPCDebuffImmunities();
@@ -1055,7 +1096,10 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 
 			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
+			if (((DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
+				DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
+				(EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
+				npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
 				{
@@ -1078,9 +1122,9 @@ namespace CalamityMod.NPCs
 			// Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
 
-			// Extra Notes:
-			// Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
-			// The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
+            // Extra Notes:
+            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
@@ -1167,6 +1211,7 @@ namespace CalamityMod.NPCs
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)(npc.lifeMax * 0.5);
 			}
+
             if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
@@ -1195,7 +1240,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 3.5);
+                npc.lifeMax = (int)(npc.lifeMax * 4.0);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
@@ -1205,11 +1250,13 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.GolemHeadFree)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.7);
+				npc.width = 88;
+				npc.height = 90;
                 npc.dontTakeDamage = false;
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.35);
+                npc.lifeMax = (int)(npc.lifeMax * 3.0);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
@@ -1724,20 +1771,10 @@ namespace CalamityMod.NPCs
         #region Can Hit Player
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            if (!npc.boss && !npc.friendly && !npc.dontTakeDamage)
-            {
-                if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
-                {
-                    cooldownSlot = 1;
-                }
-            }
-
 			if (target.Calamity().prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (npc.lifeMax < 500)
-				{
 					return false;
-				}
 			}
 
             return true;
@@ -1757,7 +1794,8 @@ namespace CalamityMod.NPCs
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
+				float resistanceGateValue = AstrumDeusIDs.Contains(npc.type) ? 300f : 600f;
+				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 					damage *= 0.01;
 			}
 
@@ -1799,7 +1837,8 @@ namespace CalamityMod.NPCs
                     (gState > 0 ? GlacialState.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
-					Main.LocalPlayer.armorPenetration;
+					Main.LocalPlayer.armorPenetration -
+					miscDefenseLoss;
 
             // Defense can never be negative and has a minimum value of zero.
             if (effectiveDefense < 0)
@@ -1853,12 +1892,24 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = CalamityWorld.malice ? 2f : (!GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR) ? 1.5f : 1f;
 
-				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
-				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+				// Boost Providence timed DR during the night or in Malice Mode
+				if (npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice))
                     DRScalar = 10f;
-				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
+
+				// Boost most worm boss timed DR to prevent speed killing
+				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
+					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
+					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
+					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)) ||
+					ThanatosIDs.Contains(npc.type))
 					DRScalar = 5f;
+
+				// Boost Desert Scourge and Perforator Worm timed DR during Malice Mode to prevent speed killing
+				if (CalamityWorld.malice)
+				{
+					if (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type))
+						DRScalar = 5f;
+				}
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -1977,6 +2028,9 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
+			if (VulnerabilityHexFireDrawer != null)
+				VulnerabilityHexFireDrawer.Update();
+
 			CalamityGlobalTownNPC.SetPatreonTownNPCName(npc, mod);
 
 			// Decrement each immune timer if it's greater than 0.
@@ -2781,425 +2835,12 @@ namespace CalamityMod.NPCs
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
-            switch (BossRushEvent.BossRushStage)
-            {
-                case 0:
-                    if (npc.type != NPCID.QueenBee)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 1:
-                    if (npc.type != NPCID.BrainofCthulhu && npc.type != NPCID.Creeper)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 2:
-                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked && npc.type != NPCType<KingSlimeJewel>() &&
-                        npc.type != NPCID.YellowSlime && npc.type != NPCID.PurpleSlime && npc.type != NPCID.GreenSlime && npc.type != NPCID.RedSlime &&
-                        npc.type != NPCID.IceSlime && npc.type != NPCID.UmbrellaSlime && npc.type != NPCID.RainbowSlime && npc.type != NPCID.Pinky)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 3:
-                    if (npc.type != NPCID.EyeofCthulhu && npc.type != NPCID.ServantofCthulhu)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 4:
-                    if (npc.type != NPCID.SkeletronPrime && npc.type != NPCID.PrimeSaw && npc.type != NPCID.PrimeVice &&
-                        npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser && npc.type != NPCID.Probe)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 5:
-                    if (npc.type != NPCID.Golem && npc.type != NPCID.GolemFistLeft && npc.type != NPCID.GolemFistRight &&
-                        npc.type != NPCID.GolemHead && npc.type != NPCID.GolemHeadFree)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 6:
-                    if (npc.type != NPCType<ProfanedGuardianBoss>() && npc.type != NPCType<ProfanedGuardianBoss2>() &&
-                        npc.type != NPCType<ProfanedGuardianBoss3>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 7:
-                    if (!EaterofWorldsIDs.Contains(npc.type) && npc.type != NPCID.VileSpit)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 8:
-                    if (npc.type != NPCType<AstrumAureus.AstrumAureus>() && npc.type != NPCType<AureusSpawn>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 9:
-                    if (!DestroyerIDs.Contains(npc.type) && npc.type != NPCID.Probe)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 10:
-                    if (npc.type != NPCID.Spazmatism && npc.type != NPCID.Retinazer)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 11:
-                    if (npc.type != NPCType<Bumblefuck>() && npc.type != NPCType<Bumblefuck2>() &&
-                        npc.type != NPCID.Spazmatism && npc.type != NPCID.Retinazer)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 12:
-                    if (npc.type != NPCID.WallofFlesh && npc.type != NPCID.WallofFleshEye && npc.type != NPCID.TheHungry &&
-                        npc.type != NPCID.TheHungryII && npc.type != NPCID.LeechHead && npc.type != NPCID.LeechBody &&
-                        npc.type != NPCID.LeechTail)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 13:
-                    if (npc.type != NPCType<HiveMind.HiveMind>() && npc.type != NPCType<HiveMindP2>() &&
-                        npc.type != NPCType<DarkHeart>() && npc.type != NPCType<HiveBlob>() &&
-                        npc.type != NPCType<DankCreeper>() && npc.type != NPCType<HiveBlob2>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 14:
-                    if (npc.type != NPCID.SkeletronHead && npc.type != NPCID.SkeletronHand)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 15:
-                    if (npc.type != NPCType<StormWeaverHead>() && npc.type != NPCType<StormWeaverBody>() &&
-                        npc.type != NPCType<StormWeaverTail>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-                        npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 16:
-                    if (npc.type != NPCType<AquaticScourgeHead>() && npc.type != NPCType<AquaticScourgeBody>() &&
-                        npc.type != NPCType<AquaticScourgeBodyAlt>() && npc.type != NPCType<AquaticScourgeTail>() &&
-                        npc.type != NPCType<AquaticParasite>() && npc.type != NPCType<AquaticUrchin>() &&
-                        npc.type != NPCType<AquaticSeekerHead>() && npc.type != NPCType<AquaticSeekerBody>() &&
-                        npc.type != NPCType<AquaticSeekerTail>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 17:
-                    if (npc.type != NPCType<DesertScourgeHead>() && npc.type != NPCType<DesertScourgeBody>() &&
-                        npc.type != NPCType<DesertScourgeTail>() && npc.type != NPCType<DesertScourgeHeadSmall>() &&
-                        npc.type != NPCType<DesertScourgeBodySmall>() && npc.type != NPCType<DesertScourgeTailSmall>() &&
-                        npc.type != NPCType<DriedSeekerHead>() && npc.type != NPCType<DriedSeekerBody>() &&
-                        npc.type != NPCType<DriedSeekerTail>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 18:
-                    if (npc.type != NPCID.CultistBoss && npc.type != NPCID.CultistBossClone && npc.type != NPCID.CultistDragonHead &&
-                        npc.type != NPCID.CultistDragonBody1 && npc.type != NPCID.CultistDragonBody2 && npc.type != NPCID.CultistDragonBody3 &&
-                        npc.type != NPCID.CultistDragonBody4 && npc.type != NPCID.CultistDragonTail && npc.type != NPCID.AncientCultistSquidhead &&
-                        npc.type != NPCID.AncientLight && npc.type != NPCID.AncientDoom)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 19:
-                    if (npc.type != NPCType<CrabulonIdle>() && npc.type != NPCType<CrabShroom>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 20:
-                    if (npc.type != NPCID.Plantera && npc.type != NPCID.PlanterasTentacle && npc.type != NPCID.PlanterasHook &&
-                        npc.type != NPCID.Spore)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 21:
-                    if (npc.type != NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != NPCType<DarkEnergy>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 22:
-                    if (npc.type != NPCType<PerforatorHive>() && npc.type != NPCType<PerforatorHeadLarge>() &&
-                        npc.type != NPCType<PerforatorBodyLarge>() && npc.type != NPCType<PerforatorTailLarge>() &&
-                        npc.type != NPCType<PerforatorHeadMedium>() && npc.type != NPCType<PerforatorBodyMedium>() &&
-                        npc.type != NPCType<PerforatorTailMedium>() && npc.type != NPCType<PerforatorHeadSmall>() &&
-                        npc.type != NPCType<PerforatorBodySmall>() && npc.type != NPCType<PerforatorTailSmall>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 23:
-                    if (npc.type != NPCType<Cryogen.Cryogen>() && npc.type != NPCType<CryogenIce>() &&
-                        npc.type != NPCType<IceMass>() && npc.type != NPCType<Cryocore>() &&
-                        npc.type != NPCType<Cryocore2>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 24:
-                    if (npc.type != NPCType<BrimstoneElemental.BrimstoneElemental>() && npc.type != NPCType<Brimling>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 25:
-                    if (npc.type != NPCType<Signus.Signus>() && npc.type != NPCType<SignusBomb>() &&
-                        npc.type != NPCType<CosmicLantern>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 26:
-                    if (npc.type != NPCType<RavagerBody>() && npc.type != NPCType<RavagerHead>() &&
-                        npc.type != NPCType<RavagerClawLeft>() && npc.type != NPCType<RavagerClawRight>() &&
-                        npc.type != NPCType<RavagerLegLeft>() && npc.type != NPCType<RavagerLegRight>() &&
-                        npc.type != NPCType<RavagerHead2>() && npc.type != NPCType<RockPillar>() &&
-                        npc.type != NPCType<FlamePillar>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 27:
-                    if (npc.type != NPCID.DukeFishron && npc.type != NPCID.DetonatingBubble && npc.type != NPCID.Sharkron &&
-                        npc.type != NPCID.Sharkron2)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 28:
-                    if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
-                        npc.type != NPCID.MoonLordLeechBlob && npc.type != NPCID.MoonLordFreeEye)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 29:
-                    if (!AstrumDeusIDs.Contains(npc.type))
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 30:
-                    if (npc.type != NPCType<Polterghast.Polterghast>() && npc.type != NPCType<PhantomFuckYou>() &&
-                        npc.type != NPCType<PolterghastHook>() && npc.type != NPCType<PolterPhantom>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 31:
-                    if (npc.type != NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() && npc.type != NPCType<PlagueBeeG>() &&
-                        npc.type != NPCType<PlagueBeeLargeG>() && npc.type != NPCType<PlagueHomingMissile>() &&
-                        npc.type != NPCType<PlagueMine>() && npc.type != NPCType<PlaguebringerShade>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 32:
-                    if (npc.type != NPCType<Calamitas.Calamitas>() && npc.type != NPCType<CalamitasRun>() &&
-                        npc.type != NPCType<CalamitasRun2>() && npc.type != NPCType<CalamitasRun3>() &&
-                        npc.type != NPCType<LifeSeeker>() && npc.type != NPCType<SoulSeeker>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 33:
-                    if (npc.type != NPCType<Siren>() && npc.type != NPCType<Leviathan.Leviathan>() &&
-                        npc.type != NPCType<AquaticAberration>() && npc.type != NPCType<Parasea>() &&
-                        npc.type != NPCType<SirenIce>() && npc.type != NPCID.DetonatingBubble)
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-				case 34:
-					if (npc.type != NPCType<OldDuke.OldDuke>() && npc.type != NPCType<OldDukeSharkron>() &&
-						npc.type != NPCType<OldDukeToothBall>())
-					{
-						npc.active = false;
-						npc.netUpdate = true;
-					}
-
-					break;
-
-				case 35:
-                    if (npc.type != NPCType<SlimeGod.SlimeGod>() && npc.type != NPCType<SlimeGodRun>() &&
-                        npc.type != NPCType<SlimeGodCore>() && npc.type != NPCType<SlimeGodSplit>() &&
-                        npc.type != NPCType<SlimeGodRunSplit>() && npc.type != NPCType<SlimeSpawnCorrupt>() &&
-                        npc.type != NPCType<SlimeSpawnCorrupt2>() && npc.type != NPCType<SlimeSpawnCrimson>() &&
-                        npc.type != NPCType<SlimeSpawnCrimson2>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 36:
-                    if (npc.type != NPCType<Providence.Providence>() && npc.type != NPCType<ProvSpawnDefense>() &&
-                        npc.type != NPCType<ProvSpawnOffense>() && npc.type != NPCType<ProvSpawnHealer>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 37:
-                    if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
-                        npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
-                        npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
-                        npc.type != NPCType<SCalWormHeart>() && npc.type != NPCType<SupremeCataclysm>() &&
-                        npc.type != NPCType<SupremeCatastrophe>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 38:
-                    if (npc.type != NPCType<Yharon.Yharon>() && npc.type != NPCType<DetonatingFlare>() &&
-                        npc.type != NPCType<DetonatingFlare2>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-
-                case 39:
-                    if (npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-                        npc.type != NPCType<DevourerofGodsTailS>())
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-
-                    break;
-            }
-        }
+			if (!BossRushEvent.Bosses[BossRushEvent.BossRushStage].HostileNPCsToNotDelete.Contains(npc.type))
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+			}
+		}
 		#endregion
 
 		#region Pillar Event Progression Edit
@@ -3497,6 +3138,8 @@ namespace CalamityMod.NPCs
 				bBlood--;
 			if (dFlames > 0)
 				dFlames--;
+			if (vulnerabilityHex > 0)
+				vulnerabilityHex--;
 			if (marked > 0)
 				marked--;
 			if (irradiated > 0)
@@ -3531,14 +3174,20 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
-			if (relicOfResilienceCooldown > 0)
-				relicOfResilienceCooldown--;
-			if (relicOfResilienceWeakness > 0)
-				relicOfResilienceWeakness--;
-			if (GaussFluxTimer > 0)
-				GaussFluxTimer--;
-			if (ladHearts > 0)
+            if (sagePoisonTime > 0)
+                sagePoisonTime--;
+            if (kamiFlu > 0)
+                kamiFlu--;
+            if (relicOfResilienceCooldown > 0)
+                relicOfResilienceCooldown--;
+            if (relicOfResilienceWeakness > 0)
+                relicOfResilienceWeakness--;
+            if (GaussFluxTimer > 0)
+                GaussFluxTimer--;
+            if (ladHearts > 0)
 				ladHearts--;
+            if (vulnerabilityHex > 0)
+                vulnerabilityHex--;
             if (banishingFire > 0)
 				banishingFire--;
 
@@ -3556,12 +3205,14 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.85f;
 					else if (slowed > 0 || tesla > 0 || vaporfied > 0)
 						npc.velocity *= 0.9f;
+					else if (vulnerabilityHex > 0)
+						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-Calamity.MaxNPCSpeed), new Vector2(Calamity.MaxNPCSpeed, 10f));
 					else if (kamiFlu > 420)
 						npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
 				}
 			}
 
-			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
+            if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;
@@ -3668,7 +3319,16 @@ namespace CalamityMod.NPCs
 			if (modPlayer.camper && !player.StandingStill())
 				damage = (int)(damage * 0.1);
 
-			if (npc.type == NPCType<Polterghast.Polterghast>())
+			// True melee resists
+			if (DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
+				PerforatorIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) ||
+				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
+				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>())
+			{
+				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
 				if (item.type == ItemType<GrandDad>())
 					damage = (int)(damage * 0.75);
@@ -3736,281 +3396,236 @@ namespace CalamityMod.NPCs
 					damage = (int)(damage * MathHelper.Lerp(1.2f, 1.85f, Utils.InverseLerp(6f, 72f, player.ActiveItem().useTime, true)));
 			}
 
-			if (modPlayer.camper && !player.StandingStill())
-				damage = (int)(damage * 0.1);
-
 			if (!projectile.npcProj && !projectile.trap)
 			{
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
 					damage = (int)(damage * 1.1);
 			}
 
-			// Nerfed because these are really overpowered
+			// Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
+			if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.ranged)
+			{
+				if (projectile.Calamity().pointBlankShotDuration > 0)
+				{
+					projectile.Calamity().pointBlankShotDuration = 0;
+					damage = (int)(damage * 1.5);
+				}
+			}
+
+			// Nerfed because the primary fire was buffed a lot.
+			if (projectile.type == ProjectileID.MonkStaffT3_AltShot || (projectile.type == ProjectileID.Electrosphere && Main.player[projectile.owner].ActiveItem().type == ItemID.MonkStaffT3))
+				damage /= 4;
+
+			// Nerfed because these are really overpowered.
 			if (projectile.type == ProjectileID.CursedDartFlame)
 				damage /= 2;
 
-			// Expert Mode resists, mostly worms
-			if (Main.expertMode)
+			// Nerf Mushroom Spear mushrooms.
+			if (projectile.type == ProjectileID.Mushroom && Main.player[projectile.owner].ActiveItem().type == ItemID.MushroomSpear)
+				damage /= 2;
+
+			if (projectile.type == ProjectileID.SeedlerNut || projectile.type == ProjectileID.SeedlerThorn)
+				damage /= 3;
+
+			if (CalamityLists.pierceResistList.Contains(npc.type))
+				PierceResistGlobal(projectile, npc, ref damage);
+
+			if (ThanatosIDs.Contains(npc.type))
 			{
-				if (AstrumDeusIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-
-					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
-					{
-						damage = (int)(damage * 0.25);
-					}
-					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>() || projectile.type == ProjectileType<TenebreusTidesWaterSpear>() || projectile.type == ProjectileType<TenebreusTidesWaterSword>())
-					{
-						damage = (int)(damage * 0.5);
-					}
-					else if (projectile.type == ProjectileID.Electrosphere)
-					{
-						damage = (int)(damage * 0.6);
-					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
-					{
-						damage = (int)(damage * 0.75);
-					}
-				}
-				else if (npc.type == NPCType<SCalWormHeart>())
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-				}
-				else if (DevourerOfGodsIDs.Contains(npc.type))
-				{
-                    // No grenade or global pierce resist here, body DR covers this appropriately
-
-                    // 50% resist to Sealed Singularity
-                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
-                        damage = (int)(damage * 0.5);
-
-                    // 25% resist to Wave Pounder
-                    else if (projectile.type == ProjectileType<WavePounderBoom>())
-                        damage = (int)(damage * 0.75);
-
-					// 15% resist to Dark Spark
-					else if (projectile.type == ProjectileType<DarkSparkBeam>())
-						damage = (int)(damage * 0.85);
-				}
-				else if (CosmicGuardianIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-				}
-				else if (npc.type == NPCType<DarkEnergy>())
-				{
-					// 50% resist to Nuclear Fury
-					if (projectile.type == ProjectileType<NuclearFuryProjectile>())
-						damage = (int)(damage * 0.5);
-
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-				}
-				else if (StormWeaverIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-
-					if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
-					{
-						damage = (int)(damage * 0.9);
-					}
-					else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
-					{
-						if (projectile.penetrate == -1)
-							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-						damage = (int)(damage * 0.75);
-					}
-					else if (projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
-					{
-						damage = (int)(damage * 0.5);
-					}
-					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
-					{
-						damage = (int)(damage * 0.5);
-					}
-					else if (projectile.type == ProjectileType<WavePounderBoom>())
-					{
-						damage = (int)(damage * 0.4);
-					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type])
-					{
-						damage = (int)(damage * 0.1);
-					}
-				}
-				else if (DestroyerIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-
-					if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
-					{
-						damage = (int)(damage * 0.75);
-					}
-					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
-					{
-						damage = (int)(damage * 0.5);
-					}
-					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
-					{
-						damage = (int)(damage * 0.38);
-					}
-					else if (projectile.type == ProjectileType<VoltageStream>())
-					{
-						damage = (int)(damage * 0.3);
-					}
-					else if (projectile.type == ProjectileType<SeasSearingSpout>())
-					{
-						damage = (int)(damage * 0.25);
-					}
-				}
-				else if (AquaticScourgeIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-
-					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
-					{
-						damage = (int)(damage * 0.9);
-					}
-					else if (projectile.type == ProjectileType<VoltageStream>())
-					{
-						damage = (int)(damage * 0.75);
-					}
-					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
-					{
-						damage = (int)(damage * 0.5);
-					}
-					else if (projectile.type == ProjectileType<Brimblast>())
-					{
-						if (projectile.penetrate == -1)
-							projectile.penetrate = 2;
-						damage = (int)(damage * 0.1);
-					}
-				}
-				else if (PerforatorIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-				}
-				else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
-				{
-					if (npc.type == NPCID.Creeper)
-						GrenadeResist(projectile, ref damage);
-
-					PierceResistGlobal(projectile, ref damage);
-
-					if (projectile.type == ProjectileType<SparklingBeam>())
-					{
-						damage = (int)(damage * 0.7);
-					}
-				}
-				else if (DesertScourgeIDs.Contains(npc.type))
-				{
-					GrenadeResist(projectile, ref damage);
-					PierceResistGlobal(projectile, ref damage);
-				}
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
 			}
-
-			if (DevourerOfGodsIDs.Contains(npc.type))
+			else if (npc.type == NPCType<RavagerBody>())
 			{
-				if (projectile.Calamity().stealthStrike)
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (AstrumDeusIDs.Contains(npc.type))
+			{
+				// 75% resist to Stardust Dragon Staff and Plaguenades.
+				if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
+					damage = (int)(damage * 0.25);
+
+				// 50% resist to true melee.
+				else if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+
+				// 25% resist to Lazhar, Inferno Fork, Cosmic Rainbow, Plague Staff, Resurrection Butterfly, Eidolon Staff and Charged Blaster Cannon.
+				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
+					damage = (int)(damage * 0.75);
+			}
+			else if (npc.type == NPCType<BrimstoneHeart>())
+			{
+				// 30% resist to Surge Driver's alt click comets.
+				if (projectile.type == ProjectileType<PrismComet>())
+					damage = (int)(damage * 0.7);
+
+				// 20% resist to Executioner's Blade stealth strikes.
+				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+					damage = (int)(damage * 0.8);
+			}
+			else if (DevourerOfGodsIDs.Contains(npc.type))
+			{
+				// 15% increased damage from Time Bolt stealth strikes.
+				if (projectile.type == ProjectileType<TimeBoltKnife>())
 				{
-					if (projectile.type == ProjectileType<TimeBoltKnife>())
+					if (projectile.Calamity().stealthStrike)
 						damage = (int)(damage * 1.15);
 				}
-
-				if (projectile.type == ProjectileType<ValedictionBoomerang>())
-					damage = (int)(damage * 0.9);
 			}
-
-			// Other projectile resists
-            if (npc.type == NPCType<OldDuke.OldDuke>())
+			else if (npc.type == NPCType<DarkEnergy>())
 			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (StormWeaverIDs.Contains(npc.type))
+			{
+				// 10% resist to Shattered Sun.
+				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
+					damage = (int)(damage * 0.9);
+
+				// 25% resist to Molten Amputator blobs.
+				else if (projectile.type == ProjectileType<MoltenBlobThrown>())
+					damage = (int)(damage * 0.75);
+
+				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
+					damage = (int)(damage * 0.5);
+
+				// 90% resist to Stardust Dragon Staff.
+				else if (ProjectileID.Sets.StardustDragon[projectile.type])
+					damage = (int)(damage * 0.1);
+			}
+			else if (DestroyerIDs.Contains(npc.type))
+			{
+				// 25% resist to Spear of Paleolith, Desecrated Water, Kelvin Catalyst and Pearlwood Bow.
+				if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>())
+					damage = (int)(damage * 0.75);
+
+				// 50% resist to true melee and Dormant Brimseekers.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (AquaticScourgeIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee and Dormant Brimseekers.
+				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					damage = (int)(damage * 0.5);
+			}
+			else if (PerforatorIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCID.Creeper)
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (EaterofWorldsIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (DesertScourgeIDs.Contains(npc.type))
+			{
+				// 50% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.5);
+			}
+			else if (npc.type == NPCType<OldDuke.OldDuke>())
+			{
+				// 20.5% resist to Time Bolt.
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
                     damage = (int)(damage * 0.795);
 
-				if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
+				// 61% resist to Last Mourning.
+				else if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
 					damage = (int)(damage * 0.39);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
+				// 5% resist to Celestial Reaper.
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
+				// 5% resist to Celestial Reaper.
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
-			else if (npc.type == NPCType<DarkEnergy>())
-			{
-				if (projectile.type == ProjectileType<WavePounderBoom>())
-					damage = (int)(damage * 0.5);
-			}
 			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{
-				if (projectile.type == ProjectileType<EndoBeam>() || projectile.type == ProjectileType<RadiantResolutionOrb>() || projectile.type == ProjectileType<RadiantResolutionFire>() || 
-					projectile.type == ProjectileType<PowerfulRaven>())
-				{
-					damage = (int)(damage * 0.85);
-				}
-				if (projectile.type == ProjectileType<PoleWarperSummon>() || projectile.type == ProjectileType<CosmicViperHomingRocket>() || projectile.type == ProjectileType<CosmicViperSplittingRocket>())
-					damage = (int)(damage * 0.8);
-
-				if (projectile.type == ProjectileType<MechwormHead>() || projectile.type == ProjectileType<MechwormBody>() || projectile.type == ProjectileType<MechwormTail>())
-					damage = (int)(damage * 0.81);
+				// 10% resist to Onyxia.
+				if (projectile.type == ProjectileID.BlackBolt)
+					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
 			{
+				// 10% resist to Phoenix Flame Barrage.
 				if (projectile.type == ProjectileType<HolyFlame>())
 					damage = (int)(damage * 0.9);
 			}
-			else if (npc.type == NPCType<SCalWormHeart>())
-			{
-				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
-					damage = (int)(damage * 0.8);
-			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
-				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+				// 85% resist to Chicken Cannon.
+				if (projectile.type == ProjectileType<ChickenExplosion>())
+					damage = (int)(damage * 0.15);
+				
+				// 30% resist to Murasama.
+				else if (projectile.type == ProjectileType<MurasamaSlash>())
+					damage = (int)(damage * 0.7);
+
+				// 25% resist to Yharim's Crystal.
+				else if (projectile.type == ProjectileType<YharimsCrystalBeam>())
+					damage = (int)(damage * 0.75);
+
+				// 10% resist to Surge Driver's alt click comets and Executioner's Blade stealth strikes.
+				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>() || projectile.type == ProjectileType<PrismComet>())
 					damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
+				// 25% resist to Resurrection Butterfly.
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCID.DukeFishron)
 			{
+				// 35% increased damage from Resurrection Butterfly.
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 					damage = (int)(damage * 1.35);
 			}
+
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
 		}
 
-		private void GrenadeResist(Projectile projectile, ref int damage)
+		private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
 		{
 			if (GrenadeResistIDs.Contains(projectile.type))
-				damage = (int)(damage * 0.2);
-		}
-
-		private void PierceResistGlobal(Projectile projectile, ref int damage)
-		{
-			if (projectile.IsSummon() || projectile.aiStyle == 99)
-				return;
-
-			if (projectile.penetrate == -1)
 			{
-				damage = (int)(damage * 0.5);
+				if (!EaterofWorldsIDs.Contains(npc.type))
+					damage = (int)(damage * 0.2);
+				else if (!Main.expertMode)
+					damage = (int)(damage * 0.2);
 			}
-			else if (projectile.penetrate > 1)
-			{
-				float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
-				damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
-			}
+
+			float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
+			if (damageReduction > projectile.Calamity().PierceResistCap)
+				damageReduction = projectile.Calamity().PierceResistCap;
+
+			damage -= (int)(damage * damageReduction);
+
+			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.IsSummon() && projectile.aiStyle != 99)
+				projectile.Calamity().timesPierced++;
 		}
 		#endregion
 
@@ -4187,8 +3802,8 @@ namespace CalamityMod.NPCs
 			// Boosts
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
 			{
-				spawnRate = (int)(spawnRate * 0.5);
-				maxSpawns = (int)(maxSpawns * 5f);
+				spawnRate = (int)(spawnRate * 0.75);
+				maxSpawns = (int)(maxSpawns * 3f);
 			}
 
 			if (player.Calamity().clamity)
@@ -4400,6 +4015,9 @@ namespace CalamityMod.NPCs
 				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
 					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
 			}
+
+			if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+				pool.Remove(NPCID.VoodooDemon);
 		}
         #endregion
 
@@ -4772,7 +4390,9 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff"));
 					if (sulphurPoison > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning"));
-					if (vaporfied > 0)
+                    if (sagePoisonTime > 0)
+                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SagePoison"));
+                    if (vaporfied > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Vaporfied"));
 
 					// Stat debuffs
@@ -4910,6 +4530,21 @@ namespace CalamityMod.NPCs
                     return false;
             }
 
+			if (npc.type == NPCID.GolemHeadFree)
+			{
+				// Draw the head as usual.
+				Texture2D golemHeadTexture = Main.npcTexture[npc.type];
+				Vector2 headDrawPosition = npc.Center + Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+				spriteBatch.Draw(golemHeadTexture, headDrawPosition, npc.frame, npc.GetAlpha(drawColor), 0f, npc.frame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
+
+				// Draw the eyes. The way vanilla handles this is hardcoded bullshit that cannot handle different hitboxes and thus requires rewriting.
+				Color eyeColor = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, 0);
+				Vector2 eyesDrawPosition = headDrawPosition - npc.scale * new Vector2(1f, 12f);
+				Rectangle eyesFrame = new Rectangle(0, 0, Main.golemTexture[1].Width, Main.golemTexture[1].Height / 2);
+				spriteBatch.Draw(Main.golemTexture[1], eyesDrawPosition, eyesFrame, eyeColor, 0f, eyesFrame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
+				return false;
+			}
+
             if (Main.LocalPlayer.Calamity().trippy)
             {
                 SpriteEffects spriteEffects = SpriteEffects.None;
@@ -4958,6 +4593,24 @@ namespace CalamityMod.NPCs
                     Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(position9.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
                 }
             }
+			else
+			{
+				if (npc.Calamity().vulnerabilityHex > 0)
+				{
+					float compactness = npc.width * 0.6f;
+					if (compactness < 10f)
+						compactness = 10f;
+					float power = npc.height / 100f;
+					if (power > 2.75f)
+						power = 2.75f;
+					if (VulnerabilityHexFireDrawer is null || VulnerabilityHexFireDrawer.LocalTimer >= VulnerabilityHexFireDrawer.SetLifetime)
+						VulnerabilityHexFireDrawer = new FireParticleSet(npc.Calamity().vulnerabilityHex, 1, Color.Red * 1.25f, Color.Red, compactness, power);
+					else
+						VulnerabilityHexFireDrawer.DrawSet(npc.Bottom - Vector2.UnitY * (12f - npc.gfxOffY));
+				}
+				else
+					VulnerabilityHexFireDrawer = null;
+			}
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
             if (npc.type == NPCID.DD2EterniaCrystal)
@@ -5251,7 +4904,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedBrimstoneElemental;
 			}
-			else if (type == NPCType<Calamitas.Calamitas>() || type == NPCType<CalamitasRun3>())
+			else if (type == NPCType<CalamitasRun3>())
 			{
 				return CalamityWorld.downedCalamitas;
 			}
@@ -5314,6 +4967,10 @@ namespace CalamityMod.NPCs
 			else if (type == NPCType<Yharon.Yharon>())
 			{
 				return CalamityWorld.downedYharon;
+			}
+			else if (type == NPCType<Artemis>() || type == NPCType<Apollo>() || type == NPCType<AresBody>() || type == NPCType<AresGaussNuke>() || type == NPCType<AresLaserCannon>() || type == NPCType<AresPlasmaFlamethrower>() || type == NPCType<AresTeslaCannon>() || type == NPCType<ThanatosHead>() || type == NPCType<ThanatosBody1>() || type == NPCType<ThanatosBody2>() || type == NPCType<ThanatosTail>())
+			{
+				return CalamityWorld.downedExoMechs;
 			}
 			else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
 			{

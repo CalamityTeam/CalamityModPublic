@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Cursed, 60);
+            target.AddBuff(BuffID.Darkness, 90);
         }
 
         public override void Kill(int timeLeft)

@@ -2,10 +2,10 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -94,6 +94,15 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegenTime = 0;
 				lifeRegenLost += 16;
             }
+
+			if (modPlayer.weakBrimstoneFlames)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				lifeRegenLost += 5;
+			}
 
             if (modPlayer.bFlames)
             {
@@ -400,7 +409,24 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
                 lifeRegenLost += 42; //the meaning of death
-            }
+			}
+
+			if (modPlayer.witheredDebuff)
+			{
+				modPlayer.witheredWeaponHoldTime += modPlayer.witheringWeaponEnchant.ToDirectionInt();
+				if (modPlayer.witheredWeaponHoldTime < 0)
+				{
+					modPlayer.witheredWeaponHoldTime = 0;
+				}
+				else
+				{
+					lifeRegenLost += (int)(5D * Math.Pow(1.5D, modPlayer.witheredWeaponHoldTime / 87D));
+					if (player.lifeRegen > 0)
+						player.lifeRegen = 0;
+				}
+			}
+			else
+				modPlayer.witheredWeaponHoldTime = 0;
 
 			player.lifeRegen -= (int)(lifeRegenLost * lifeRegenMult);
 
@@ -454,7 +480,7 @@ namespace CalamityMod.CalPlayer
 				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
                 if (lesserEffect)
                 {
-                    player.lifeRegen += 1;
+                    player.lifeRegen += modPlayer.astralArcanum ? 2 : 1;
                     player.statDefense += defenseBoost;
                 }
                 else
@@ -464,11 +490,11 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += 4;
+                        player.lifeRegen += modPlayer.astralArcanum ? 6 : 4;
                         player.statDefense += defenseBoost;
                     }
                     else
-                        player.lifeRegen += 2;
+                        player.lifeRegen += modPlayer.astralArcanum ? 3 : 2;
                 }
             }
             else if (modPlayer.crownJewel)
@@ -639,7 +665,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				if (player.StandingStill() && player.itemAnimation == 0)
-					player.lifeRegen += 2;
+					player.lifeRegen += 4;
 			}
 
 			if (modPlayer.aAmpoule)
@@ -652,6 +678,11 @@ namespace CalamityMod.CalPlayer
 				}
 				player.lifeRegenTime += 1;
 				player.lifeRegen += 2;
+			}
+			else if (modPlayer.rOoze)
+			{
+				if (!Main.dayTime)
+					player.lifeRegen += 4;
 			}
 
 			if (modPlayer.ursaSergeant)
@@ -741,8 +772,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.regenator)
 			{
-				player.lifeRegenTime += 8;
-				player.lifeRegen += 16;
+				player.lifeRegenTime += 6;
+				player.lifeRegen += 12;
 			}
             if (modPlayer.handWarmer && modPlayer.eskimoSet)
             {

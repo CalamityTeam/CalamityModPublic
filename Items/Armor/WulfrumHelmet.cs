@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Helmet");
-            Tooltip.SetDefault("6% increased minion damage");
+            Tooltip.SetDefault("10% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.06f;
+            player.minionDamage += 0.1f;
         }
 
         public override void AddRecipes()

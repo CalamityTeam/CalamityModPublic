@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
-            projectile.height = 30;
+			projectile.width = 34;
+            projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -75,9 +75,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-            target.AddBuff(BuffID.Frostburn, 300, true);
-            target.AddBuff(BuffID.Darkness, 300, true);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
         }
 
         public override void Kill(int timeLeft)

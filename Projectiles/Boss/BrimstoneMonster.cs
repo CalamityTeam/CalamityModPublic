@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
-			Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, 3f * projectile.Opacity, 0f, 0f);
 
 			float inertia = (revenge ? 4.5f : 5f) + speedAdd;
 			float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f);

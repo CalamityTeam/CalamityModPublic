@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -191,7 +192,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

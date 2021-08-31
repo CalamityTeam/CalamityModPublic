@@ -1,11 +1,13 @@
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +15,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-	public class SulphurousSea : ModWorld
+	public class SulphurousSea
 	{
         #region Fields and Properties
         public static int BiomeWidth
@@ -91,6 +93,7 @@ namespace CalamityMod.World
 			PlaceColumns();
 			PlaceRustyChests();
 			CreateBeachNearSea();
+			PlaceScrapPiles();
 		}
         #endregion
 
@@ -575,19 +578,10 @@ namespace CalamityMod.World
 								int type = WorldGen.genRand.Next(6);
 								type++;
 								int height = heightFromType(type);
+
 								PlaceStalactite(trueX, y, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalactite{type}"));
 								if (WorldGen.SolidTile(trueX, y + dy + 1))
-								{
 									PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalacmite{type}"));
-								}
-								
-								// Reset the slope/half brick variables for the tiles below/above the pairs, so that it doesn't look like there's an
-								// imaginary gap between the stalactite and tile it's attached to.
-								Main.tile[trueX, y - 1].slope(0);
-								Main.tile[trueX, y - 1].halfBrick(false);
-
-								Main.tile[trueX, y + dy + 1].slope(0);
-								Main.tile[trueX, y + dy + 1].halfBrick(false);
 							}
 						}
 					}
@@ -647,7 +641,7 @@ namespace CalamityMod.World
 		}
 		public static void PlaceStalacmite(int x, int y, int height, ushort type)
 		{
-			for (int dy = height - 1; dy >= 0; dy--)
+			for (int dy = height - 1; dy > 0; dy--)
 			{
 				ushort oldWall = Main.tile[x, y + dy].wall;
 				Main.tile[x, y - dy] = new Tile
@@ -691,7 +685,7 @@ namespace CalamityMod.World
 							SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type) &&
 							CalamityUtils.ParanoidTileRetrieval(x, y + 1).active())
 						{
-							chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+							chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
 						}
 					}
 				}
@@ -836,6 +830,86 @@ namespace CalamityMod.World
 			}
 		}
 		#endregion
+
+		#region Scrap Piles
+		public static void PlaceScrapPiles()
+		{
+			int tries = 0;
+			List<Vector2> pastPlacementPostiion = new List<Vector2>();
+			for (int i = 0; i < 3; i++)
+			{
+				tries++;
+				if (tries > 20000)
+					continue;
+
+				int x = WorldGen.genRand.Next(75, BiomeWidth - 85);
+				if (!CalamityWorld.abyssSide)
+					x = Main.maxTilesX - x;
+				int y = WorldGen.genRand.Next(YStart + (int)(BlockDepth * 0.3f), YStart + (int)(BlockDepth * 0.8f));
+
+				Point pilePlacementPosition = new Point(x, y);
+
+				// If the selected position is sitting inside of a tile, try again.
+				if (WorldGen.SolidTile(pilePlacementPosition.X, pilePlacementPosition.Y))
+				{
+					i--;
+					continue;
+				}
+
+				// If the selected position is close to other piles, try again.
+				if (pastPlacementPostiion.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < 85f))
+				{
+					i--;
+					continue;
+				}
+
+				// Otherwise, decide which pile should be created.
+				bool createLargePile = WorldGen.genRand.NextBool(3);
+				int pileVariant = WorldGen.genRand.Next(4);
+				string schematicName = $"{(createLargePile ? "Large " : string.Empty)}Sulphurous Scrap {pileVariant + 1}";
+				Vector2? wrappedSchematicArea = SchematicManager.GetSchematicArea(schematicName);
+
+				// Create a log message if for some reason the schematic in question doesn't exist.
+				if (!wrappedSchematicArea.HasValue)
+				{
+					CalamityMod.Instance.Logger.Warn($"Tried to place a schematic with name \"{schematicName}\". No matching schematic file found.");
+					continue;
+				}
+
+				Vector2 schematicArea = wrappedSchematicArea.Value;
+
+				// Decide the placement position by searching downward and looking for the lowest point.
+				// If the position is quite steep, try again.
+				Vector2 left = pilePlacementPosition.ToVector2() - Vector2.UnitX * schematicArea.X * 0.5f;
+				Vector2 right = pilePlacementPosition.ToVector2() + Vector2.UnitX * schematicArea.X * 0.5f;
+				while (!WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)left.X, (int)left.Y)))
+					left.Y++;
+				while (!WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)right.X, (int)right.Y)))
+					right.Y++;
+
+				if (Math.Abs(left.Y - right.Y) >= 20f)
+				{
+					i--;
+					continue;
+				}
+
+				// If the placement position ended up in the abyss, try again.
+				if (left.Y >= YStart + BlockDepth + 5 || right.Y >= YStart + BlockDepth + 5)
+				{
+					i--;
+					continue;
+				}
+
+				// Pick the lowest point vertically.
+				Point bottomCenter = new Point(pilePlacementPosition.X, (int)Math.Max(left.Y, right.Y) + 6);
+				bool _ = false;
+				SchematicManager.PlaceSchematic<Action<Chest>>(schematicName, bottomCenter, SchematicAnchor.BottomCenter, ref _);
+
+				pastPlacementPostiion.Add(bottomCenter.ToVector2());
+				tries = 0;
+			}
+		}
+		#endregion Scrap Piles
 
 		#region Misc Functions
 		public static List<int> YStartWhitelist = new List<int>()

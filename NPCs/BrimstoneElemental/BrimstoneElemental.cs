@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
 
                 // Vanity

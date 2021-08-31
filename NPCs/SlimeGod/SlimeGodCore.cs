@@ -397,7 +397,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
 								float chargeVelocity = death ? 12f : 9f;
-								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
+								npc.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - vectorCenter) * chargeVelocity;
 								npc.TargetClosest();
 								return;
 							}
@@ -659,7 +659,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, !CalamityWorld.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 
@@ -679,7 +679,8 @@ namespace CalamityMod.NPCs.SlimeGod
 					DropHelper.WeightStack<AbyssalTome>(w),
 					DropHelper.WeightStack<EldritchTome>(w),
 					DropHelper.WeightStack<CorroslimeStaff>(w),
-					DropHelper.WeightStack<CrimslimeStaff>(w)
+					DropHelper.WeightStack<CrimslimeStaff>(w),
+					DropHelper.WeightStack<SlimePuppetStaff>(w)
 				);
 
 				// Vanity
@@ -736,6 +737,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.VortexDebuff, 120, true);
-        }
+			player.AddBuff(BuffID.Weak, 120, true);
+			player.AddBuff(BuffID.Darkness, 120, true);
+		}
     }
 }

@@ -69,8 +69,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
-            bool vodka = player.Calamity().fabsolVodka;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Fabsol>(), CalamityWorld.revenge && vodka);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);

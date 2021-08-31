@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
         private const int NoHitFrames = 10;
         private const int NoDrawFrames = 5;
         
-        public override string Texture => "CalamityMod/Projectiles/Melee/GhastlySoulSmall";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Soul");
@@ -26,8 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+            projectile.width = projectile.height = 36;
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.ignoreWater = true;

@@ -26,19 +26,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (projectile.timeLeft < 300)
-                projectile.tileCollide = true;
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
 
-            projectile.frameCounter++;
+			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 5)
-            {
                 projectile.frame = 0;
-            }
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 

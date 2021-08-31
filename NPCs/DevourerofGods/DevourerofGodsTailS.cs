@@ -82,7 +82,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            if (invinceTime > 0)
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
+			if (invinceTime > 0)
             {
                 invinceTime--;
                 npc.dontTakeDamage = true;
@@ -112,27 +114,31 @@ namespace CalamityMod.NPCs.DevourerofGods
 			else
 				npc.takenDamageMultiplier = 1.25f;
 
-			if (npc.velocity.X < 0f)
-                npc.spriteDirection = -1;
-            else if (npc.velocity.X > 0f)
-                npc.spriteDirection = 1;
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DevourerofGodsHeadS>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
 
-            bool flag = false;
-            if (npc.ai[1] <= 0f)
-                flag = true;
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
-                flag = true;
-            if (flag)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
-            }
-
-            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
-                npc.active = false;
-
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
             {
                 npc.alpha -= 42;
@@ -196,7 +202,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (!npc.dontTakeDamage)
@@ -319,7 +325,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
-            player.AddBuff(BuffID.Frostburn, 180, true);
 
 			if (player.Calamity().dogTextCooldown <= 0)
 			{

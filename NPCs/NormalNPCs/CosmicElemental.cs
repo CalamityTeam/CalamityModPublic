@@ -110,10 +110,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.rand.NextBool(10))
             {
                 DropHelper.DropItemFromWeightedSet(npc,
-                    DropHelper.WeightStack(ItemID.BoneSword, 5),
-                    DropHelper.WeightStack(ItemID.Starfury, 2),
-                    DropHelper.WeightStack(ItemID.EnchantedSword, 2),
-                    DropHelper.WeightStack(ItemID.Arkhalis, 1));
+                    DropHelper.WeightStack(ItemID.BoneSword, 5f, 1),
+                    DropHelper.WeightStack(ItemID.Starfury, 2f, 1),
+                    DropHelper.WeightStack(ItemID.EnchantedSword, 2f, 1),
+                    DropHelper.WeightStack(ItemID.Arkhalis, 1f, 1));
             }
         }
     }

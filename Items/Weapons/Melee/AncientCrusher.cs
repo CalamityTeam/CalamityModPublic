@@ -46,12 +46,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), damage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+			if (crit)
+				damage /= 2;
+
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), damage, item.knockBack, Main.myPlayer);
         }
     }
 }

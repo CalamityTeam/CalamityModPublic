@@ -189,6 +189,6 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot() => DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
     }
 }

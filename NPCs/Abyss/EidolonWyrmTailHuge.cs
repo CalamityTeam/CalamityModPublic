@@ -1,3 +1,4 @@
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,7 +21,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 86;
             npc.height = 120;
             npc.defense = 0;
-			npc.LifeMaxNERB(1750000, 2012500);
+			npc.LifeMaxNERB(2100000, 2415000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -44,7 +45,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.damage = 0;
 
-            if (npc.ai[2] > 0f)
+			// Difficulty modes
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
 			// Check if other segments are still alive, if not, die
@@ -52,14 +59,17 @@ namespace CalamityMod.NPCs.Abyss
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
+				{
 					shouldDespawn = false;
+					break;
+				}
 			}
 			if (!shouldDespawn)
 			{
-				if (npc.ai[1] > 0f)
-					shouldDespawn = false;
-				else if (Main.npc[(int)npc.ai[1]].life > 0)
-					shouldDespawn = false;
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
 			}
 			if (shouldDespawn)
 			{
@@ -71,8 +81,8 @@ namespace CalamityMod.NPCs.Abyss
 
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
-			float chargePhaseGateValue = 300f;
-			float lightningChargePhaseGateValue = 180f;
+			float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+			float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
 			bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.FastCharge);
 			bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)EidolonWyrmHeadHuge.Phase.LightningCharge;
@@ -139,7 +149,7 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlowHuge").Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127, 127, 127, 0).MultiplyRGBA(Color.LightYellow) * npc.Opacity;
             Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/EidolonWyrmTailGlowHuge"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);

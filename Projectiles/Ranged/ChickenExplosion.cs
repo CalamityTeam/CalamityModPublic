@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ChickenExplosion : ModProjectile
@@ -11,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            DisplayName.SetDefault("Kentucky Fried Explosion");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 150;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -36,62 +37,42 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
                 projectile.localAI[0] += 1f;
             }
-            bool flag15 = false;
-            bool flag16 = false;
-            if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
+
+            EmitDust();
+        }
+
+        public void EmitDust()
+        {
+            if (Main.dedServ)
+                return;
+
+            for (int i = 0; i < 70; i++)
             {
-                flag15 = true;
-            }
-            if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (flag15 && flag16)
-            {
-                projectile.Kill();
-            }
-            float num461 = 25f;
-            if (projectile.ai[0] > 180f)
-            {
-                num461 -= (projectile.ai[0] - 180f) / 2f;
-            }
-            if (num461 <= 0f)
-            {
-                num461 = 0f;
-                projectile.Kill();
-            }
-            num461 *= 0.7f;
-            projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
-            {
-                float num463 = (float)Main.rand.Next(-120, 121);
-                float num464 = (float)Main.rand.Next(-120, 121);
-                float num465 = (float)Main.rand.Next(36, 108);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2.5f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = projectile.Center.X;
-                Main.dust[num467].position.Y = projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
-                expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
-                expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
-                num462++;
+                // The exponent being greater than 1 gives the randomness a bias towards 0. This means that more dust will spawn
+                // closer to the center than the edge.
+                Vector2 dustSpawnOffset = Main.rand.NextVector2Unit() * (float)Math.Pow(Main.rand.NextFloat(), 2.4D) * projectile.Size * 0.5f;
+
+                // Dust should fly off more quickly the farther away it is from the center.
+                // At 5% out, a speed of 5 pixels/second is achieved. At 85%, a speed of 15 pixels/second is.
+                // Direction is determined based on the outward direction rotated by anywhere from -90 to 90 degrees.
+                Vector2 dustVelocity = dustSpawnOffset.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.PiOver2 * Main.rand.NextFloatDirection());
+                dustVelocity *= MathHelper.Lerp(5f, 15f, Utils.InverseLerp(0.05f, 0.85f, (dustSpawnOffset / projectile.Size / 0.5f).Length()));
+
+                // Fire variants.
+                int dustType = 6;
+                if (Main.rand.NextBool(4))
+                    dustType = 244;
+
+                // Smoke.
+                if (Main.rand.NextBool(7))
+                    dustType = 31;
+
+                Dust flame = Dust.NewDustPerfect(projectile.Center + dustSpawnOffset, dustType, dustVelocity);
+                flame.scale = Main.rand.NextFloat(0.85f, 1.3f);
+                flame.noGravity = true;
             }
         }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, projectile.Size.Length() * 0.5f, targetHitbox);
     }
 }

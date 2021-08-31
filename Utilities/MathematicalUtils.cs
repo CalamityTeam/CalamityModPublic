@@ -1,11 +1,71 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 
 namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+
+		internal static readonly List<Vector2> Directions = new List<Vector2>()
+		{
+			new Vector2(-1f, -1f),
+			new Vector2(1f, -1f),
+			new Vector2(-1f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(0f, -1f),
+			new Vector2(-1f, 0f),
+			new Vector2(0f, 1f),
+			new Vector2(1f, 0f),
+		};
+
+		/// <summary>
+		/// Computes 2-dimensional Perlin Noise, which gives "random" but continuous values.
+		/// </summary>
+		/// <param name="x">The X position on the map.</param>
+		/// <param name="y">The Y position on the map.</param>
+		/// <param name="octaves">A metric of "instability" of the noise. The higher this is, the more unstable. Lower of bounds of 2-3 are preferable.</param>
+		/// <param name="seed">The seed for the noise.</param>
+		/// <returns></returns>
+		public static float PerlinNoise2D(float x, float y, int octaves, int seed)
+		{
+			float SmoothFunction(float n) => 3f * n * n - 2f * n * n * n;
+			float NoiseGradient(int s, int noiseX, int noiseY, float xd, float yd)
+			{
+				int hash = s;
+				hash ^= 1619 * noiseX;
+				hash ^= 31337 * noiseY;
+
+				hash = hash * hash * hash * 60493;
+				hash = (hash >> 13) ^ hash;
+
+				Vector2 g = Directions[hash & 7];
+
+				return xd * g.X + yd * g.Y;
+			}
+
+			int frequency = (int)Math.Pow(2D, octaves);
+			x *= frequency;
+			y *= frequency;
+
+			int flooredX = (int)x;
+			int flooredY = (int)y;
+			int ceilingX = flooredX + 1;
+			int ceilingY = flooredY + 1;
+			float interpolatedX = x - flooredX;
+			float interpolatedY = y - flooredY;
+			float interpolatedX2 = interpolatedX - 1;
+			float interpolatedY2 = interpolatedY - 1;
+
+			float fadeX = SmoothFunction(interpolatedX);
+			float fadeY = SmoothFunction(interpolatedY);
+
+			float smoothX = MathHelper.Lerp(NoiseGradient(seed, flooredX, flooredY, interpolatedX, interpolatedY), NoiseGradient(seed, ceilingX, flooredY, interpolatedX2, interpolatedY), fadeX);
+			float smoothY = MathHelper.Lerp(NoiseGradient(seed, flooredX, ceilingY, interpolatedX, interpolatedY2), NoiseGradient(seed, ceilingX, ceilingY, interpolatedX2, interpolatedY2), fadeX);
+			return MathHelper.Lerp(smoothX, smoothY, fadeY);
+		}
+
 		/// <summary>
 		/// Computes the Manhattan Distance between two points. This is typically used as a cheaper alternative to Euclidean Distance.
 		/// </summary>
@@ -19,6 +79,14 @@ namespace CalamityMod
 		/// <param name="v1">The first vector.</param>
 		/// <param name="v2">The second vector.</param>
 		public static float AngleBetween(this Vector2 v1, Vector2 v2) => (float)Math.Acos(Vector2.Dot(v1.SafeNormalize(Vector2.Zero), v2.SafeNormalize(Vector2.Zero)));
+
+		// NOTE: A similar function to this one exists in 1.4, but it is not the same underlying function. Check Turn01ToCyclic010 in Utils.cs to see the effect.
+
+		/// <summary>
+		/// Converts a 0-1 bound to a 0-1-0 bump. This function automatically clamps the value to the necessary 0-1 range.
+		/// </summary>
+		/// <param name="value">The value to convert.</param>
+		public static float Convert01To010(float value) => (float)Math.Sin(MathHelper.Pi * MathHelper.Clamp(value, 0f, 1f));
 
 		/// <summary>
 		/// Uses a rewritten horizontal range formula to determine the direction to fire a projectile in order for it to hit a destination. Falls back on a certain value if no such direction can exist. If no fallback is provided, a clamp is used.

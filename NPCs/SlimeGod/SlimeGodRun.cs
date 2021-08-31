@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -9,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.SlimeGod
 {
 	[AutoloadBossHead]
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.position.Y = player.Center.Y / 16 * 16f - (npc.height / 2) - 150f;
             }
 
-			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * 0.005f;
+			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * (malice ? 0.008f : 0.005f);
 
 			if (npc.life / (float)npc.lifeMax <= 0.5f && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
@@ -167,6 +167,8 @@ namespace CalamityMod.NPCs.SlimeGod
 				npc.localAI[0] += enraged ? 6f : flag100 ? 1f : 2f;
 				if (revenge)
 					npc.localAI[0] += 0.5f;
+				if (malice)
+					npc.localAI[0] += 1f;
 
 				if (npc.localAI[0] >= 450f && Vector2.Distance(player.Center, npc.Center) > 160f)
 				{
@@ -631,7 +633,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Cursed, 90, true);
-        }
+			player.AddBuff(BuffID.Darkness, 300, true);
+		}
     }
 }

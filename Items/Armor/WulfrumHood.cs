@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Visage");
-            Tooltip.SetDefault("3% increased magic damage");
+            Tooltip.SetDefault("10% increased magic damage");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.03f;
+            player.magicDamage += 0.1f;
         }
 
         public override void AddRecipes()

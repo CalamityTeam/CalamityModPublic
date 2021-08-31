@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 56;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = -1;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
@@ -31,18 +32,23 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-        }
+			writer.Write(projectile.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-        }
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
+			if (projectile.position.Y > projectile.ai[1] - 32f)
+				projectile.tileCollide = true;
+
 			// Deal no damage and increment the variable used to kill the projectile after 15 seconds
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 900f)
+			projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] > 900f)
 			{
                 projectile.localAI[0] += 10f;
 				projectile.damage = 0;
@@ -183,14 +189,14 @@ namespace CalamityMod.Projectiles.Boss
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 16f && projectile.ai[1] <= 900f && projectile.ai[1] > 120f;
+			return minDist <= 16f && projectile.localAI[1] <= 900f && projectile.localAI[1] > 120f;
 		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			if (projectile.ai[1] > 900f)
+			if (projectile.localAI[1] > 900f)
 			{
-				byte b2 = (byte)((26f - (projectile.ai[1] - 900f)) * 10f);
+				byte b2 = (byte)((26f - (projectile.localAI[1] - 900f)) * 10f);
 				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
 				return new Color(b2, b2, b2, a2);
 			}
@@ -205,7 +211,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.ai[1] <= 900f && projectile.ai[1] > 120f)
+			if (projectile.localAI[1] <= 900f && projectile.localAI[1] > 120f)
 				target.AddBuff(BuffID.Ichor, 240);
         }
     }

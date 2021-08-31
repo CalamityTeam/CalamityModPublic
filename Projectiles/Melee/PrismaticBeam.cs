@@ -85,7 +85,9 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-        }
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

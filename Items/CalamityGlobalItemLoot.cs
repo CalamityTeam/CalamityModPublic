@@ -29,6 +29,10 @@ namespace CalamityMod.Items
 
 			else if (context == "bossBag")
 				BossBagLoot(player, itemID);
+
+			// Bat Hook is now acquired from Vampires.
+			else if (context == "goodieBag")
+				DropHelper.BlockDrops(ItemID.BatHook);
 		}
 
 		#region Boss Bags
@@ -39,10 +43,6 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
-				case ItemID.EyeOfCthulhuBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
-					break;
-
 				case ItemID.QueenBeeBossBag:
 					// Drop weapons Calamity style instead of mutually exclusive.
 					int[] queenBeeWeapons = new int[]

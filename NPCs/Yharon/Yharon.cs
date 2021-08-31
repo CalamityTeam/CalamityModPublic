@@ -2070,6 +2070,7 @@ namespace CalamityMod.NPCs.Yharon
                     int direction = (targetData.Center.X > vectorCenter.X) ? 1 : -1;
                     npc.velocity = new Vector2(direction, 0f) * fireballBreathPhaseVelocity;
                     npc.direction = npc.spriteDirection = direction;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), npc.Center);
                 }
 
                 if (npc.ai[1] >= fireballBreathTimer)
@@ -2131,6 +2132,7 @@ namespace CalamityMod.NPCs.Yharon
                         npc.rotation += pie;
 
                     npc.velocity = vector6 * splittingFireballBreathPhaseVelocity;
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), npc.Center);
                 }
                 else
                 {
@@ -2674,7 +2676,7 @@ namespace CalamityMod.NPCs.Yharon
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -2725,14 +2727,14 @@ namespace CalamityMod.NPCs.Yharon
 					color39 *= 1f - num157;
 					Vector2 vector42 = npc.Center + (num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 					vector42 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					vector42 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture, vector43, npc.frame, invincible ? invincibleColor : npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (flag8 || npc.ai[0] == 4f || startSecondAI)
@@ -2801,7 +2803,7 @@ namespace CalamityMod.NPCs.Yharon
 						color41 *= (num153 - num163) / 15f;
 						Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 						vector44 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-						vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 						if (flag9 || npc.ai[0] == 10f || startSecondAI)
@@ -2829,7 +2831,7 @@ namespace CalamityMod.NPCs.Yharon
 						color42 *= 1f - num157;
 						Vector2 vector45 = npc.Center + (num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 						vector45 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-						vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						vector45 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 						spriteBatch.Draw(texture, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 						if (flag9 || npc.ai[0] == 10f || startSecondAI)
@@ -2877,37 +2879,37 @@ namespace CalamityMod.NPCs.Yharon
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
 
-			// Phase 1 drops: Contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
-			{
-				// Weapons
-				float w = DropHelper.NormalWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack<DragonRage>(w),
-					DropHelper.WeightStack<TheBurningSky>(w),
-					DropHelper.WeightStack<DragonsBreath>(w),
-					DropHelper.WeightStack<ChickenCannon>(w),
-					DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-					DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-					DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-					DropHelper.WeightStack<FinalDawn>(w)
-				);
+            // Normal drops: Everything that would otherwise be in the bag
+            if (!Main.expertMode)
+            {
+                // Weapons
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<DragonRage>(w),
+                    DropHelper.WeightStack<TheBurningSky>(w),
+                    DropHelper.WeightStack<DragonsBreath>(w),
+                    DropHelper.WeightStack<ChickenCannon>(w),
+                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
+                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                    DropHelper.WeightStack<FinalDawn>(w)
+                );
 
-				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-			}
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
 
-			// Materials
-			int soulFragMin = Main.expertMode ? 22 : 15;
-			int soulFragMax = Main.expertMode ? 28 : 22;
-			DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
+                // Materials
+                int soulFragMin = 15;
+                int soulFragMax = 22;
+                DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
-			// Equipment
-			DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+                // Equipment
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
+            }
 
-			// Vanity
-			DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
+            // Vanity
+            DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
 
 			// Other
 			// DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
@@ -2916,7 +2918,7 @@ namespace CalamityMod.NPCs.Yharon
 			// If Yharon has not been killed yet, notify players of Auric Ore
 			if (!CalamityWorld.downedYharon)
 			{
-				WorldGenerationMethods.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, .6f, .8f);
+				CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.6f, 0.8f, 6, 12);
 
 				string key = "Mods.CalamityMod.AuricOreText";
 				Color messageColor = Color.Gold;

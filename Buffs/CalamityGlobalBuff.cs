@@ -11,12 +11,11 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-			/*if (type == BuffID.HornetMinion || type == BuffID.ImpMinion || type == BuffID.SpiderMinion || type == BuffID.TwinEyesMinion ||
-				type == BuffID.PirateMinion || type == BuffID.SharknadoMinion || type == BuffID.UFOMinion || type == BuffID.StardustMinion ||
-				type == BuffID.StardustGuardianMinion || type == BuffID.StardustDragonMinion)
-				Main.persistentBuff[type] = true;*/
-
-			if (type == BuffID.SugarRush)
+			if (type == BuffID.Panic)
+			{
+				player.moveSpeed -= 0.5f;
+			}
+			else if (type == BuffID.SugarRush)
 			{
 				player.moveSpeed -= 0.1f;
 			}
@@ -113,7 +112,19 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
-                case BuffID.BeetleEndurance1:
+				case BuffID.BeetleMight1:
+					tip = "Melee damage increased by 10%";
+					break;
+
+				case BuffID.BeetleMight2:
+					tip = "Melee damage increased by 20%";
+					break;
+
+				case BuffID.BeetleMight3:
+					tip = "Melee damage increased by 30%";
+					break;
+
+				case BuffID.BeetleEndurance1:
                     tip = "Damage taken reduced by 10%";
                     break;
 

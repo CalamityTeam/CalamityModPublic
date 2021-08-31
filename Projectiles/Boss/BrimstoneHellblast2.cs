@@ -1,9 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneHellblast2 : ModProjectile
@@ -31,6 +33,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			// Cal Clone bullet hell projectiles accelerate after a certain time has passed
+			if (projectile.ai[0] == 2f && Main.expertMode && projectile.timeLeft < 1260)
+			{
+				if (projectile.velocity.Length() < (CalamityWorld.malice ? 10f : 8f))
+					projectile.velocity *= 1.01f;
+			}
+
             projectile.frameCounter++;
             if (projectile.frameCounter >= 10)
             {
@@ -45,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 1440) / 60f), 0f, 1f);
 
-            Lighting.AddLight(projectile.Center, 0.9f, 0f, 0f);
+            Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
 
             if (projectile.velocity.X < 0f)
             {

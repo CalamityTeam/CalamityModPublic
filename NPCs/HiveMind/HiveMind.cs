@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
 				if (NPC.AnyNPCs(ModContent.NPCType<DankCreeper>()))
 				{
-					npc.Calamity().DR = 0.99f;
+					npc.Calamity().DR = 0.9999f;
 					npc.Calamity().unbreakableDR = true;
 				}
 				else

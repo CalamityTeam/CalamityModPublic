@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
@@ -97,7 +98,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
 
 			if (npc.Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice))
@@ -138,6 +139,9 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.player.Calamity().disableNaturalScourgeSpawns)
+                return 0f;
+
             if (spawnInfo.playerSafe)
                 return 0f;
 
@@ -184,12 +188,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
-                DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
-
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
@@ -201,7 +199,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CorrosiveSpine>(), 9);
 
                 // Vanity
@@ -260,8 +257,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 360, true);
-            player.AddBuff(BuffID.Venom, 360, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 360, true);
         }
     }
 }

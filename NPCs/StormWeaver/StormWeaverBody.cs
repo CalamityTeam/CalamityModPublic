@@ -67,39 +67,39 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
             if (npc.ai[2] > 0f)
-            {
                 npc.realLife = (int)npc.ai[2];
-            }
+
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            if (npc.velocity.X < 0f)
-            {
-                npc.spriteDirection = -1;
-            }
-            else if (npc.velocity.X > 0f)
-            {
-                npc.spriteDirection = 1;
-            }
-            bool flag1 = false;
-            if (npc.ai[1] <= 0f)
-            {
-                flag1 = true;
-            }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
-            {
-                flag1 = true;
-            }
-            if (flag1)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 30.0);
-                npc.checkDead();
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+
+			// Check if other segments are still alive, if not, die
+			bool shouldDespawn = true;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<StormWeaverHead>())
+				{
+					shouldDespawn = false;
+					break;
+				}
+			}
+			if (!shouldDespawn)
+			{
+				if (npc.ai[1] <= 0f)
+					shouldDespawn = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					shouldDespawn = true;
+			}
+			if (shouldDespawn)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+			}
+
+			if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 if (npc.alpha != 0)
                 {
@@ -110,16 +110,15 @@ namespace CalamityMod.NPCs.StormWeaver
                         Main.dust[num935].noLight = true;
                     }
                 }
+
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
+
             if (Main.player[npc.target].dead)
-            {
                 npc.TargetClosest(false);
-            }
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -149,14 +148,11 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
+
                 if (num191 < 0f)
-                {
                     npc.spriteDirection = -1;
-                }
                 else if (num191 > 0f)
-                {
                     npc.spriteDirection = 1;
-                }
             }
         }
 
@@ -191,7 +187,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(BuffID.Electrified, 90, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

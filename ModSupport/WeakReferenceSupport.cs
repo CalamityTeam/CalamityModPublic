@@ -42,6 +42,10 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -103,6 +107,7 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedBoomerDuke = () => CalamityWorld.downedBoomerDuke;
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
+		public static readonly Func<bool> DownedExoMechs = () => CalamityWorld.downedExoMechs;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
 		public static readonly Func<bool> DownedAdultEidolonWyrm = () => CalamityWorld.downedAdultEidolonWyrm;
 
@@ -140,7 +145,7 @@ namespace CalamityMod
 			{ "OldDuke", 16.5f },
 			{ "DevourerOfGods", 17f },
 			{ "Yharon", 18f },
-			// { "Draedon", 18.5f },
+			{ "ExoMechs", 18.5f },
 			{ "SupremeCalamitas", 19f },
 			{ "AdultEidolonWyrm", 19.5f },
 			// { "Yharim", 20f },
@@ -335,7 +340,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("AquaticScourge", out float order);
 				List<int> segments = new List<int>() { NPCType<AquaticScourgeHead>(), NPCType<AquaticScourgeBody>(), NPCType<AquaticScourgeBodyAlt>(), NPCType<AquaticScourgeTail>() };
 				int summon = ItemType<Seafood>();
-				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemType<BleachedAnglingKit>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemType<BleachedAnglingKit>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<KnowledgeAquaticScourge>(), ItemType<KnowledgeSulphurSea>() };
 				string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
 				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
@@ -424,7 +429,7 @@ namespace CalamityMod
 				int summon = ItemType<AncientMedallion>();
 				List<int> loot = new List<int>() { ItemType<RavagerBag>(), ItemType<FleshyGeodeT1>(), ItemType<FleshyGeodeT2>(), ItemType<UltimusCleaver>(), ItemType<RealmRavager>(), ItemType<Hematemesis>(), ItemType<SpikecragStaff>(), ItemType<CraniumSmasher>(), ItemType<CorpusAvertor>(), ItemType<BloodPact>(), ItemType<FleshTotem>(), ItemType<BloodflareCore>(), ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<RavagerTrophy>(), ItemType<RavagerMask>(), ItemType<KnowledgeRavager>() };
-				string instructions = $"Use an [i:{summon}]";
+				string instructions = $"Use a [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The automaton of misshapen victims went looking for the true perpetrator.", new Color(0xB2, 0x22, 0x22));
 				string bossLogTex = "CalamityMod/NPCs/Ravager/Ravager_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Ravager", order, segments, DownedRavager, summon, loot, collection, instructions, despawn, bossLogTex);
@@ -572,12 +577,28 @@ namespace CalamityMod
 				AddBoss(bossChecklist, calamity, "Yharon", order, type, DownedYharon, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
+			// Exo Mechs
+			// Loot requires edits
+			// Collection requires edits
+			// Instructions require edits
+			// Despawn requires edits
+			/*{
+				BossDifficulty.TryGetValue("ExoMechs", out float order);
+				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
+				List<int> loot = new List<int>() { ItemType<LeviathanBag>(), ItemType<Greentide>(), ItemType<Leviatitan>(), ItemType<SirensSong>(), ItemType<Atlantis>(), ItemType<GastricBelcherStaff>(), ItemType<BrackishFlask>(), ItemType<LeviathanTeeth>(), ItemType<LureofEnthrallment>(), ItemType<LeviathanAmbergris>(), ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion };
+				List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<LeviathanMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanandSiren>() };
+				string instructions = "By using a high-tech computer thing that somebody as stupid as you shouldn't be able to use, but whatever";
+				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
+				string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
+				AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
+			}*/
+
 			// Supreme Calamitas
 			{
 				BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
 				int type = NPCType<SupremeCalamitas>();
 				int summon = ItemType<EyeofExtinction>();
-				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Animus>(), ItemType<Azathoth>(), ItemType<Contagion>(), ItemType<CrystylCrusher>(), ItemType<Judgement>(), ItemType<DraconicDestruction>(), ItemType<Earth>(), ItemType<Endogenesis>(), ItemType<Fabstaff>(), ItemType<RoyalKnivesMelee>(), ItemType<NanoblackReaperRogue>(), ItemType<RedSun>(), ItemType<ScarletDevil>(), ItemType<SomaPrime>(), ItemType<BlushieStaff>(), ItemType<Svantechnical>(), ItemType<BensUmbrella>(), ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ItemType<Megafleet>(), ItemType<PrototypeAndromechaRing>(), ItemType<Vehemenc>(), ItemType<AngelicAlliance>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
@@ -653,7 +674,7 @@ namespace CalamityMod
 
 			// Eye of Cthulhu
 			AddLoot(bossChecklist, "EyeofCthulhu",
-				new List<int>() { ItemType<VictoryShard>(), ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
+				new List<int>() { ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
 				new List<int>() { ItemType<KnowledgeEyeofCthulhu>() }
 			);
 
@@ -784,7 +805,7 @@ namespace CalamityMod
 
 			// Frost Moon
 			AddLoot(bossChecklist, "Frost Moon",
-				new List<int>() { ItemType<HolidayHalberd>(), ItemType<EndothermicEnergy>() },
+				new List<int>() { ItemType<EndothermicEnergy>() },
 				null
 			);
 			AddLoot(bossChecklist, "Ice Queen",

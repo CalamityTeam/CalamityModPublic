@@ -333,7 +333,8 @@ namespace CalamityMod.NPCs.Ravager
                             npc.ai[1] += 1f;
                     }
 
-                    if (npc.ai[1] >= 300f)
+					float jumpGateValue = 180f;
+					if (npc.ai[1] >= jumpGateValue)
                         npc.ai[1] = -20f;
                     else if (npc.ai[1] == -1f)
                     {
@@ -466,6 +467,10 @@ namespace CalamityMod.NPCs.Ravager
 							npc.noTileCollide = true;
 						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
 							npc.noTileCollide = false;
+
+						// Prevent falling forever in second phase
+						if (npc.ai[0] == 2f && npc.velocity.Y > 0f && npc.Top.Y > Main.player[npc.target].Bottom.Y + 16f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+							npc.noTileCollide = false;
 					}
 
 					Vector2 targetVector = player.position;
@@ -592,7 +597,7 @@ namespace CalamityMod.NPCs.Ravager
 				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
 				if (malice)
 				{
-					gravity *= 2f;
+					gravity *= 1.25f;
 					maxFallSpeed *= 1.25f;
 				}
 
@@ -636,7 +641,7 @@ namespace CalamityMod.NPCs.Ravager
             Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Height / Main.npcFrameCount[npc.type]) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Blue);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow"), vector,
                 npc.frame, color, npc.rotation, vector11, 1f, spriteEffects, 0f);

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.damage = 60;
-            item.mana = 20;
+            item.mana = 10;
             item.width = 52;
             item.height = 50;
             item.useTime = item.useAnimation = 25;
@@ -48,10 +48,10 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 foreach (TooltipLine line2 in list)
                 {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
                     {
                         line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
-                        "Revengeance Drop";
+						"On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding";
                     }
                 }
             }

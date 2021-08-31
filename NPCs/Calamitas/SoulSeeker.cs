@@ -173,14 +173,14 @@ namespace CalamityMod.NPCs.Calamitas
 					afterImageColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					afterimagePos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, npc.frame, afterImageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 drawPos = npc.Center - Main.screenPosition;
 			drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.Calamitas
 					glowColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					afterimagePos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, afterimagePos, npc.frame, glowColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}

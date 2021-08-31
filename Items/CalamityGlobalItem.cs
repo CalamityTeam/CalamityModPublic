@@ -6,8 +6,10 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -15,8 +17,10 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -50,19 +54,48 @@ namespace CalamityMod.Items
 				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
 			}
 		}
-        #endregion
+		#endregion
 
-        // Miscellaneous stuff
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		#region Enchantment Variables
+		public Enchantment? AppliedEnchantment = null;
+		public float DischargeEnchantExhaustion = 0;
+		public float DischargeExhaustionRatio
+		{
+			get
+			{
+				float ratio = DischargeEnchantExhaustion / DischargeEnchantExhaustionCap;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+		public const float DischargeEnchantExhaustionCap = 1600f;
+		public const float DischargeEnchantMinDamageFactor = 0.77f;
+		public const float DischargeEnchantMaxDamageFactor = 1.26f;
+		#endregion
+
+		// Miscellaneous stuff
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
 		public bool challengeDrop = false;
+		public bool canFirePointBlankShots = false;
 
-		// See RogueWeapon.cs for rogue modifier shit
-		#region Modifiers
-		public CalamityGlobalItem()
+        public static readonly Color[] ExoPalette = new Color[]
+        {
+            new Color(250, 255, 112),
+            new Color(211, 235, 108),
+            new Color(166, 240, 105),
+            new Color(105, 240, 220),
+            new Color(64, 130, 145),
+            new Color(145, 96, 145),
+            new Color(242, 112, 73),
+            new Color(199, 62, 62),
+        };
+
+        // See RogueWeapon.cs for rogue modifier shit
+        #region Modifiers
+        public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
 		}
@@ -71,6 +104,7 @@ namespace CalamityMod.Items
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 			myClone.StealthGenBonus = StealthGenBonus;
+			myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 			myClone.Charge = Charge;
 			return myClone;
 		}
@@ -90,15 +124,8 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
-                item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
+            if (item.maxStack == 99)
                 item.maxStack = 999;
-
-            if (item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe)
-                item.maxStack = 20;
-
-            if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
-                item.value = Item.buyPrice(0, 0, 5, 0);
 
 			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
 				item.useTurn = true;
@@ -115,16 +142,407 @@ namespace CalamityMod.Items
 				item.useAnimation = (int)(item.useAnimation * 0.8);
 			}
 
+			switch (item.type)
+			{
+				// Point-blank shot weapons
+				case ItemID.WoodenBow:
+				case ItemID.BorealWoodBow:
+				case ItemID.PalmWoodBow:
+				case ItemID.RichMahoganyBow:
+				case ItemID.CopperBow:
+				case ItemID.TinBow:
+				case ItemID.ShadewoodBow:
+				case ItemID.EbonwoodBow:
+				case ItemID.IronBow:
+				case ItemID.LeadBow:
+				case ItemID.SilverBow:
+				case ItemID.TungstenBow:
+				case ItemID.GoldBow:
+				case ItemID.PlatinumBow:
+				case ItemID.DemonBow:
+				case ItemID.TendonBow:
+				case ItemID.MoltenFury:
+				case ItemID.BeesKnees:
+				case ItemID.HellwingBow:
+				case ItemID.FlareGun:
+				case ItemID.Minishark:
+				case ItemID.Blowpipe:
+				case ItemID.FlintlockPistol:
+				case ItemID.SnowballCannon:
+				case ItemID.Boomstick:
+				case ItemID.Revolver:
+				case ItemID.RedRyder:
+				case ItemID.Sandgun:
+				case ItemID.Musket:
+				case ItemID.TheUndertaker:
+				case ItemID.Blowgun:
+				//case ItemID.QuadBarrelShotgun:
+				case ItemID.Handgun:
+				case ItemID.PhoenixBlaster:
+				case ItemID.PainterPaintballGun:
+				case ItemID.Harpoon:
+				case ItemID.IceBow:
+				case ItemID.ShadowFlameBow:
+				case ItemID.Marrow:
+				case ItemID.PulseBow:
+				case ItemID.DD2PhoenixBow:
+				case ItemID.Tsunami:
+				//case ItemID.Eventide:
+				case ItemID.Phantasm:
+				case ItemID.CobaltRepeater:
+				case ItemID.PalladiumRepeater:
+				case ItemID.MythrilRepeater:
+				case ItemID.OrichalcumRepeater:
+				case ItemID.AdamantiteRepeater:
+				case ItemID.TitaniumRepeater:
+				case ItemID.HallowedRepeater:
+				case ItemID.ChlorophyteShotbow:
+				case ItemID.StakeLauncher:
+				case ItemID.ClockworkAssaultRifle:
+				case ItemID.Gatligator:
+				case ItemID.Shotgun:
+				case ItemID.OnyxBlaster:
+				case ItemID.Uzi:
+				case ItemID.DartRifle:
+				case ItemID.DartPistol:
+				case ItemID.Megashark:
+				case ItemID.VenusMagnum:
+				case ItemID.TacticalShotgun:
+				case ItemID.SniperRifle:
+				case ItemID.CandyCornRifle:
+				case ItemID.ChainGun:
+				case ItemID.VortexBeater:
+				case ItemID.SDMG:
+					canFirePointBlankShots = true;
+					break;
+
+				case ItemID.Dynamite:
+				case ItemID.StickyDynamite:
+				case ItemID.BouncyDynamite:
+				case ItemID.StickyBomb:
+				case ItemID.BouncyBomb:
+					item.maxStack = 999;
+					break;
+
+				case ItemID.BlueSolution:
+				case ItemID.DarkBlueSolution:
+				case ItemID.GreenSolution:
+				case ItemID.PurpleSolution:
+				case ItemID.RedSolution:
+					item.value = Item.buyPrice(0, 0, 5, 0);
+					break;
+
+				// Increase Pirate Map and Snow Globe stacks to 20
+				case ItemID.PirateMap:
+				case ItemID.SnowGlobe:
+					item.maxStack = 20;
+					break;
+
+				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.CelestialSigil:
+					item.maxStack = 1;
+					item.consumable = false;
+					break;
+
+				// True melee weapon adjustments
+				case ItemID.SlapHand:
+					item.damage = 120;
+					break;
+
+				case ItemID.TaxCollectorsStickOfDoom:
+					item.damage = 70;
+					break;
+
+				case ItemID.Anchor:
+					item.damage = 107;
+					break;
+
+				case ItemID.GolemFist:
+					item.damage = 150;
+					break;
+
+				case ItemID.BreakerBlade:
+					item.damage = 97;
+					break;
+
+				case ItemID.StylistKilLaKillScissorsIWish:
+					item.damage = 33;
+					break;
+
+				case ItemID.BladeofGrass:
+					item.damage = 65;
+					break;
+
+				case ItemID.FieryGreatsword:
+					item.damage = 98;
+					item.useTime = 45;
+					item.useAnimation = 45;
+					break;
+
+				case ItemID.CobaltSword:
+					item.damage = 80;
+					break;
+
+				case ItemID.MythrilSword:
+					item.damage = 100;
+					item.useTime = 25;
+					item.useAnimation = 25;
+					break;
+
+				case ItemID.AdamantiteSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.PalladiumSword:
+					item.damage = 100;
+					break;
+
+				case ItemID.OrichalcumSword:
+					item.damage = 82;
+					break;
+
+				case ItemID.TitaniumSword:
+					item.damage = 77;
+					break;
+
+				case ItemID.Excalibur:
+					item.damage = 125;
+					break;
+
+				case ItemID.Bladetongue:
+					item.damage = 120;
+					item.scale = 1.75f;
+					break;
+
+				case ItemID.TheHorsemansBlade:
+					item.damage = 95;
+					break;
+
+				case ItemID.Keybrand:
+					item.damage = 184;
+					item.useTime = 18;
+					item.useAnimation = 18;
+					break;
+
+				case ItemID.AdamantiteGlaive:
+					item.damage = 65;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.ChlorophytePartisan:
+					item.damage = 100;
+					break;
+
+				case ItemID.CobaltNaginata:
+					item.damage = 90;
+					break;
+
+				case ItemID.Gungnir:
+					item.damage = 92;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.MythrilHalberd:
+					item.damage = 95;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.OrichalcumHalberd:
+					item.damage = 98;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.TitaniumTrident:
+					item.damage = 72;
+					item.shootSpeed *= 1.25f;
+					break;
+
+				case ItemID.DaoofPow:
+					item.damage = 160;
+					break;
+
+				case ItemID.TheRottedFork:
+					item.damage = 20;
+					break;
+
+				case ItemID.Swordfish:
+					item.damage = 38;
+					break;
+
+				case ItemID.DarkLance:
+					item.damage = 68;
+					break;
+
+				case ItemID.MushroomSpear:
+					item.damage = 100;
+					break;
+
+				case ItemID.BluePhasesaber:
+				case ItemID.RedPhasesaber:
+                case ItemID.GreenPhasesaber:
+                case ItemID.WhitePhasesaber:
+                case ItemID.YellowPhasesaber:
+                case ItemID.PurplePhasesaber:
+					item.damage = 72;
+					item.useTime = 20;
+					item.useAnimation = 20;
+					break;
+
+				case ItemID.PaladinsHammer:
+					item.damage = 100;
+					break;
+
+				case ItemID.Katana:
+					item.useTime = 15;
+					item.useAnimation = 15;
+					break;
+
+				case ItemID.FalconBlade:
+					item.damage = 40;
+					break;
+
+				case ItemID.ChainKnife:
+					item.damage = 14;
+					break;
+
+				case ItemID.DD2SquireDemonSword:
+					item.damage = 110;
+					break;
+
+				case ItemID.PurpleClubberfish:
+					item.damage = 45;
+					item.knockBack = 10f;
+					break;
+
+				case ItemID.ChristmasTreeSword:
+					item.damage = 155;
+					break;
+
+				case ItemID.MonkStaffT1:
+					item.damage = 110;
+					break;
+
+				case ItemID.Terrarian:
+					item.damage = 352;
+					break;
+
+				case ItemID.RainbowRod:
+					item.damage = 130;
+					break;
+
+				case ItemID.BlizzardStaff:
+					item.damage = 41;
+					item.mana = 7;
+					break;
+
+				case ItemID.LaserMachinegun:
+					item.damage = 39;
+					break;
+
+				case ItemID.StardustDragonStaff:
+					item.damage = 20;
+					break;
+
+				case ItemID.MonkStaffT3:
+					item.damage = 225;
+					break;
+
+				case ItemID.BookStaff:
+					item.mana = 10;
+					break;
+
+				case ItemID.UnholyTrident:
+					item.mana = 14;
+					break;
+
+				case ItemID.FrostStaff:
+					item.mana = 9;
+					break;
+
+				case ItemID.BookofSkulls:
+					item.mana = 12;
+					break;
+
+				// Total defense pre-buff = 78, Total defense post-buff = 94
+				case ItemID.SolarFlareHelmet:
+					item.defense = 29; // 5 more defense
+					break;
+
+				case ItemID.SolarFlareBreastplate:
+					item.defense = 41; // 7 more defense
+					break;
+
+				case ItemID.SolarFlareLeggings:
+					item.defense = 24; // 4 more defense
+					break;
+
+				// Total defense pre-buff = 7, Total defense post-buff = 15
+				case ItemID.GladiatorHelmet:
+					item.defense = 3; // 1 more defense
+					break;
+
+				case ItemID.GladiatorBreastplate:
+					item.defense = 5; // 2 more defense
+					break;
+
+				case ItemID.GladiatorLeggings:
+					item.defense = 4; // 2 more defense
+					break;
+
+				// Total defense pre-buff = 31, 50, 35, Total defense post-buff = 36, 55, 40
+				case ItemID.HallowedPlateMail:
+					item.defense = 18; // 3 more defense
+					break;
+
+				case ItemID.HallowedGreaves:
+					item.defense = 13; // 2 more defense
+					break;
+
+				// Not Expert because ML drops it in Normal so that it can be used with the lore item
+				case ItemID.GravityGlobe:
+					item.expert = false;
+					item.rare = ItemRarityID.Red;
+					break;
+
+				case ItemID.SuspiciousLookingTentacle:
+					item.expert = true;
+					break;
+
+				case ItemID.PearlwoodHammer:
+					item.hammer += 35; // 80% hammer power
+					item.useAnimation = 20;
+					item.useTime = 15;
+					item.damage *= 4;
+					item.tileBoost += 1;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.PearlwoodBow:
+					item.useAnimation += 8; // 35
+					item.useTime += 8; // 35
+					item.shootSpeed += 3.4f; // 10f
+					item.knockBack += 1f; // 1f
+					item.rare = ItemRarityID.LightRed;
+					item.damage = (int)(item.damage * 2.1);
+					canFirePointBlankShots = true;
+					break;
+
+				case ItemID.PearlwoodSword:
+					item.damage *= 4;
+					item.rare = ItemRarityID.LightRed;
+					break;
+
+				case ItemID.StarCannon:
+					item.UseSound = null;
+					break;
+			}
+
 			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
 			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
-			else if (item.type == ItemID.Terrarian)
-				item.damage = (int)(item.damage * 1.85);
-			else if (item.type == ItemID.RainbowRod)
-				item.damage = (int)(item.damage * 1.75);
 			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 1.66);
 			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
@@ -141,82 +559,12 @@ namespace CalamityMod.Items
 				item.damage = (int)(item.damage * 0.9);
 			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.75);
-			else if (item.type == ItemID.BlizzardStaff)
-				item.damage = (int)(item.damage * 0.7);
-			else if (item.type == ItemID.LaserMachinegun)
-				item.damage = (int)(item.damage * 0.65);
-			else if (item.type == ItemID.StardustDragonStaff)
-				item.damage = (int)(item.damage * 0.5);
-
-            if (item.type == ItemID.BookStaff)
-                item.mana = 10;
-            else if (item.type == ItemID.UnholyTrident)
-                item.mana = 14;
-            else if (item.type == ItemID.FrostStaff)
-                item.mana = 9;
-            else if (item.type == ItemID.BookofSkulls)
-                item.mana = 12;
-            else if (item.type == ItemID.BlizzardStaff)
-                item.mana = 7;
-            else if (item.type == ItemID.SolarFlareHelmet) //total defense pre-buff = 78 post-buff = 94
-                item.defense = 29; //5 more defense
-            else if (item.type == ItemID.SolarFlareBreastplate)
-                item.defense = 41; //7 more defense
-            else if (item.type == ItemID.SolarFlareLeggings)
-                item.defense = 24; //4 more defense
-            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 15
-                item.defense = 3; //1 more defense
-            else if (item.type == ItemID.GladiatorBreastplate)
-                item.defense = 5; //2 more defense
-            else if (item.type == ItemID.GladiatorLeggings)
-                item.defense = 4; //2 more defense
-            else if (item.type == ItemID.HallowedPlateMail) //total defense pre-buff = 31, 50, 35 post-buff = 36, 55, 40
-                item.defense = 18; //3 more defense
-            else if (item.type == ItemID.HallowedGreaves)
-                item.defense = 13; //2 more defense
 
 			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
+
 			if (CalamityLists.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
-
-			// not expert because ML drops it in normal so that it can be used with the lore item
-            if (item.type == ItemID.GravityGlobe)
-			{
-				item.expert = false;
-				item.rare = ItemRarityID.Red;
-			}
-            
-            if (item.type == ItemID.SuspiciousLookingTentacle)
-                item.expert = true;
-
-            if (item.type == ItemID.PearlwoodHammer)
-			{
-                item.hammer += 35; //80% hammer power
-				item.useAnimation = 20;
-				item.useTime = 15;
-				item.damage *= 4;
-				item.tileBoost += 1;
-				item.rare = ItemRarityID.LightRed;
-			}
-            if (item.type == ItemID.PearlwoodBow)
-			{
-				item.useAnimation += 8; //35
-				item.useTime += 8; //35
-				item.shootSpeed += 3.4f; //10f
-				item.knockBack += 1f; //1f
-				item.rare = ItemRarityID.LightRed;
-				item.damage = (int)(item.damage * 2.1);
-			}
-            if (item.type == ItemID.PearlwoodSword)
-			{
-				item.damage *= 4;
-				item.rare = ItemRarityID.LightRed;
-			}
-			if (item.type == ItemID.StarCannon)
-				item.UseSound = null;
-			if (item.type == ItemID.CelestialSigil)
-				item.consumable = false;
         }
         #endregion
 
@@ -224,7 +572,21 @@ namespace CalamityMod.Items
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			CalamityPlayer modPlayer = player.Calamity();
-            if (rogue)
+			if (Main.myPlayer == player.whoAmI && player.Calamity().cursedSummonsEnchant && NPC.CountNPCS(ModContent.NPCType<CalamitasEnchantDemon>()) < 2)
+			{
+				CalamityNetcode.NewNPC_ClientSide(Main.MouseWorld, ModContent.NPCType<CalamitasEnchantDemon>(), player);
+				Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, Main.MouseWorld);
+			}
+
+			bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
+			if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
+			{
+				int monsterDamage = (int)(165000 * player.MagicDamage());
+				Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
+				Projectile.NewProjectile(player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
+			}
+
+			if (rogue)
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
@@ -464,12 +826,12 @@ namespace CalamityMod.Items
 			}
             return true;
         }
-        #endregion
+		#endregion
 
-        #region SavingAndLoading
-        public override bool NeedsSaving(Item item)
+		#region SavingAndLoading
+		public override bool NeedsSaving(Item item)
         {
-            return true;
+            return rogue || canFirePointBlankShots || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -480,14 +842,18 @@ namespace CalamityMod.Items
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
-				["reforgeTier"] = reforgeTier
-            };
+				["reforgeTier"] = reforgeTier,
+				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
+				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
+				["canFirePointBlankShots"] = canFirePointBlankShots
+			};
         }
 
         public override void Load(Item item, TagCompound tag)
         {
             rogue = tag.GetBool("rogue");
-            timesUsed = tag.GetInt("timesUsed");
+			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
+			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
@@ -496,8 +862,16 @@ namespace CalamityMod.Items
             else
                 Charge = tag.GetFloat("charge");
 
+			DischargeEnchantExhaustion = tag.GetFloat("DischargeEnchantExhaustion");
 			reforgeTier = tag.GetInt("reforgeTimer");
-        }
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				item.Calamity().AppliedEnchantment.Value.CreationEffect?.Invoke(item);
+			}
+		}
 
         public override void LoadLegacy(Item item, BinaryReader reader)
         {
@@ -511,6 +885,7 @@ namespace CalamityMod.Items
             {
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
+				canFirePointBlankShots = flags[1];
 			}
             else
             {
@@ -522,24 +897,38 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
+			flags[1] = canFirePointBlankShots;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
-        }
+			writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+			writer.Write(DischargeEnchantExhaustion);
+		}
 
         public override void NetReceive(Item item, BinaryReader reader)
         {
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
+			canFirePointBlankShots = flags[1];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
-        }
+
+			Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
+			if (savedEnchantment.HasValue)
+			{
+				AppliedEnchantment = savedEnchantment.Value;
+				bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+				if (hasCreationEffect)
+					item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+			}
+			DischargeEnchantExhaustion = reader.ReadSingle();
+		}
         #endregion
 
         #region Pickup Item Changes
@@ -574,6 +963,15 @@ namespace CalamityMod.Items
 					player.Calamity().evilSmasherBoost = 0;
 			}
 
+			if (player.HasBuff(BuffID.ParryDamageBuff))
+			{
+				if (item.type != ItemID.DD2SquireDemonSword)
+				{
+					player.parryDamageBuff = false;
+					player.ClearBuff(BuffID.ParryDamageBuff);
+				}
+			}
+
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
@@ -585,7 +983,7 @@ namespace CalamityMod.Items
 				NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
 			}
 
-            return base.UseItem(item, player);
+			return base.UseItem(item, player);
         }
 
         public override bool AltFunctionUse(Item item, Player player)
@@ -629,6 +1027,21 @@ namespace CalamityMod.Items
                             (Main.projectile[i].modProjectile as IgneousBlade).Firing = true;
                             Main.projectile[i].tileCollide = true;
                             Main.projectile[i].netUpdate = true;
+                        }
+                    }
+                }
+                return false;
+            }
+            if (player.ActiveItem().type == ModContent.ItemType<VoidConcentrationStaff>() && player.ownedProjectileCounts[ModContent.ProjectileType<VoidConcentrationBlackhole>()] == 0)
+            {
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].modProjectile is VoidConcentrationAura)
+                    {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
+                        {
+                            (Main.projectile[i].modProjectile as VoidConcentrationAura).HandleRightClick();
+                            break;
                         }
                     }
                 }
@@ -694,7 +1107,7 @@ namespace CalamityMod.Items
             if (PopupGUIManager.AnyGUIsActive)
                 return false;
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
                 return false; // Don't use weapons if you're charging with a spear
@@ -715,6 +1128,22 @@ namespace CalamityMod.Items
             // Conversion for Profaned Soul Crystal
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
 				return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
+
+			if (!item.IsAir)
+			{
+				// Exhaust the weapon if it has the necessary enchant.
+				if (modPlayer.dischargingItemEnchant)
+				{
+					float exhaustionCost = item.useTime * 2.25f;
+					if (exhaustionCost < 10f)
+						exhaustionCost = 10f;
+					DischargeEnchantExhaustion = MathHelper.Clamp(DischargeEnchantExhaustion - exhaustionCost, 0.001f, DischargeEnchantExhaustionCap);
+				}
+
+				// Otherwise, if it doesn't, clear exhaustion.
+				else
+					DischargeEnchantExhaustion = 0;
+			}
 
             // Check for sufficient charge if this item uses charge.
             if (item.type >= ItemID.Count && modItem.UsesCharge)
@@ -812,7 +1241,11 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-			// Nerf archery potion damage buff from 1.2x to 1.05x
+			// Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
+			if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
+				mult *= 0.66f;
+
+			// Nerf archery potion damage buff from 1.2x to 1.05x.
 			if (item.useAmmo == AmmoID.Arrow && player.archery)
 				mult *= 0.875f;
 
@@ -821,7 +1254,11 @@ namespace CalamityMod.Items
 
             // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
             CalamityGlobalItem modItem = item.Calamity();
-            if (!item.summon && (modItem?.UsesCharge ?? false))
+
+			if (!item.summon && modItem.DischargeEnchantExhaustion > 0f)
+				mult *= DischargeEnchantmentDamageFormula();
+
+			if (!item.summon && (modItem?.UsesCharge ?? false))
             {
                 // At exactly zero charge, do not perform any multiplication.
                 // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
@@ -831,9 +1268,20 @@ namespace CalamityMod.Items
             }
         }
 
-        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
-        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
-        internal float ChargeDamageFormula()
+		internal float DischargeEnchantmentDamageFormula()
+		{
+			// This exponential has the properties of beginning at 0 and ending at 1, yet also has their signature rising curve.
+			// It is therefore perfect for a potential interpolant.
+			float interpolant = (float)Math.Pow(2D, DischargeExhaustionRatio) - 1f;
+
+			// No further smoothening is required in the form of a Smoothstep remap.
+			// A linear interpolation works fine; the exponential already has the desired curve shape.
+			return MathHelper.Lerp(DischargeEnchantMinDamageFactor, DischargeEnchantMaxDamageFactor, interpolant);
+		}
+
+		// This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+		// Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+		internal float ChargeDamageFormula()
         {
             float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
             float y = 1.087f - 0.08f / (x + 0.07f);
@@ -1475,8 +1923,11 @@ namespace CalamityMod.Items
 				player.endurance += 0.01f;
 			}
 
-            if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
+            // TODO -- make all prefixes relevant. Details in Ozz's todo.
+			/*
+			if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
 				player.armorPenetration += 1;
+			*/
 
 			if (item.prefix == PrefixID.Brisk)
 				player.moveSpeed += 0.01f;
@@ -1617,6 +2068,48 @@ namespace CalamityMod.Items
 		}
 		#endregion
 
+		#region Inventory Drawing
+		internal static ChargingEnergyParticleSet EnchantmentEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 24f);
+
+		internal static void UpdateAllParticleSets()
+		{
+			EnchantmentEnergyParticles.Update();
+		}
+
+		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			void drawItemManually(Color color, float generalScale)
+			{
+				Texture2D itemTexture = Main.itemTexture[item.type];
+				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
+			}
+
+			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
+				return true;
+
+			// Draw all particles.
+			float currentPower = 0f;
+			int calamitasNPCIndex = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			if (calamitasNPCIndex != -1)
+				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
+
+			position += frame.Size() * 0.25f;
+			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
+			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
+
+			float pulse = Main.GlobalTime * 0.79f % 1f;
+			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
+			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
+			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
+			drawItemManually(pulseColor, pulseScale);
+			drawItemManually(drawColor, 1f);
+
+			return false;
+		}
+		#endregion
+
 		#region Reforging
 		private int NewPrefixType(Item item)
 		{
@@ -1734,51 +2227,8 @@ namespace CalamityMod.Items
 			}
 			else if (item.melee)
 			{
-				if (item.knockBack == 0f)
-				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Keen = 1
-							prefix = 1;
-							break;
-						case 2:
-							// Hurtful = 2
-							prefix = 2;
-							break;
-						case 3:
-							// Zealous = 3
-							prefix = 3;
-							break;
-						case 4:
-						case 5:
-						case 6:
-							// Demonic = 4
-							prefix = 4;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Keen;
-							break;
-						case 2:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 3:
-							prefix = PrefixID.Zealous;
-							break;
-						case 4:
-							prefix = PrefixID.Demonic;
-							break;
-					}
-				}
 				// Yoyos, Flails, Spears, etc.
-				else if (item.channel || item.noMelee)
+				if (item.channel || item.noMelee)
 				{
 					switch (reforgeTier)
 					{
@@ -1961,530 +2411,308 @@ namespace CalamityMod.Items
 			}
 			else if (item.ranged)
 			{
-				if (item.knockBack == 0f)
+				switch (reforgeTier)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Keen = 1, Nimble = 2, Powerful = 3
-							prefix = Main.rand.Next(1, 4);
-							break;
-						case 2:
-							// Hurtful = 4, Zealous = 5, Quick = 6
-							prefix = Main.rand.Next(4, 7);
-							break;
-						case 3:
-							// Agile = 7, Murderous = 8, Sighted = 9
-							prefix = Main.rand.Next(7, 10);
-							break;
-						case 4:
-							// Deadly = 10
-							prefix = 10;
-							break;
-						case 5:
-							// Rapid = 11, Hasty = 12
-							prefix = Main.rand.Next(11, 13);
-							break;
-						case 6:
-							// Demonic = 13
-							prefix = 13;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Keen;
-							break;
-						case 2:
-							prefix = PrefixID.Nimble;
-							break;
-						case 3:
-							prefix = PrefixID.Powerful;
-							break;
-						case 4:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 5:
-							prefix = PrefixID.Zealous;
-							break;
-						case 6:
-							prefix = PrefixID.Quick;
-							break;
-						case 7:
-							prefix = PrefixID.Agile;
-							break;
-						case 8:
-							prefix = PrefixID.Murderous;
-							break;
-						case 9:
-							prefix = PrefixID.Sighted;
-							break;
-						case 10:
-							prefix = PrefixID.Deadly;
-							break;
-						case 11:
-							prefix = PrefixID.Rapid;
-							break;
-						case 12:
-							prefix = PrefixID.Hasty;
-							break;
-						case 13:
-							prefix = PrefixID.Demonic;
-							break;
-					}
+					case 0:
+						break;
+					case 1:
+						// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
+						prefix = Main.rand.Next(1, 6);
+						break;
+					case 2:
+						// Hurtful = 6, Zealous = 7, Quick = 8
+						prefix = Main.rand.Next(6, 9);
+						break;
+					case 3:
+						// Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
+						prefix = Main.rand.Next(9, 14);
+						break;
+					case 4:
+						// Superior = 14, Demonic = 15, Deadly = 16, Intimidating = 17, Unpleasant = 18
+						prefix = Main.rand.Next(14, 19);
+						break;
+					case 5:
+						// Godly = 19, Rapid = 20, Hasty = 21, Deadly2 = 22, Staunch = 23
+						prefix = Main.rand.Next(19, 24);
+						break;
+					case 6:
+						// Unreal = 24
+						prefix = 24;
+						break;
 				}
-				// All other ranged weapons
-				else
+				switch (prefix)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
-							prefix = Main.rand.Next(1, 6);
-							break;
-						case 2:
-							// Hurtful = 6, Zealous = 7, Quick = 8
-							prefix = Main.rand.Next(6, 9);
-							break;
-						case 3:
-							// Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
-							prefix = Main.rand.Next(9, 14);
-							break;
-						case 4:
-							// Superior = 14, Demonic = 15, Deadly = 16, Intimidating = 17, Unpleasant = 18
-							prefix = Main.rand.Next(14, 19);
-							break;
-						case 5:
-							// Godly = 19, Rapid = 20, Hasty = 21, Deadly2 = 22, Staunch = 23
-							prefix = Main.rand.Next(19, 24);
-							break;
-						case 6:
-							// Unreal = 24
-							prefix = 24;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Keen;
-							break;
-						case 2:
-							prefix = PrefixID.Ruthless;
-							break;
-						case 3:
-							prefix = PrefixID.Nimble;
-							break;
-						case 4:
-							prefix = PrefixID.Nasty;
-							break;
-						case 5:
-							prefix = PrefixID.Powerful;
-							break;
-						case 6:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 7:
-							prefix = PrefixID.Zealous;
-							break;
-						case 8:
-							prefix = PrefixID.Quick;
-							break;
-						case 9:
-							prefix = PrefixID.Forceful;
-							break;
-						case 10:
-							prefix = PrefixID.Strong;
-							break;
-						case 11:
-							prefix = PrefixID.Agile;
-							break;
-						case 12:
-							prefix = PrefixID.Sighted;
-							break;
-						case 13:
-							prefix = PrefixID.Murderous;
-							break;
-						case 14:
-							prefix = PrefixID.Superior;
-							break;
-						case 15:
-							prefix = PrefixID.Demonic;
-							break;
-						case 16:
-							prefix = PrefixID.Deadly;
-							break;
-						case 17:
-							prefix = PrefixID.Intimidating;
-							break;
-						case 18:
-							prefix = PrefixID.Unpleasant;
-							break;
-						case 19:
-							prefix = PrefixID.Godly;
-							break;
-						case 20:
-							prefix = PrefixID.Rapid;
-							break;
-						case 21:
-							prefix = PrefixID.Hasty;
-							break;
-						case 22:
-							prefix = PrefixID.Deadly2;
-							break;
-						case 23:
-							prefix = PrefixID.Staunch;
-							break;
-						case 24:
-							prefix = PrefixID.Unreal;
-							break;
-					}
+					case -2:
+						break;
+					case 1:
+						prefix = PrefixID.Keen;
+						break;
+					case 2:
+						prefix = PrefixID.Ruthless;
+						break;
+					case 3:
+						prefix = PrefixID.Nimble;
+						break;
+					case 4:
+						prefix = PrefixID.Nasty;
+						break;
+					case 5:
+						prefix = PrefixID.Powerful;
+						break;
+					case 6:
+						prefix = PrefixID.Hurtful;
+						break;
+					case 7:
+						prefix = PrefixID.Zealous;
+						break;
+					case 8:
+						prefix = PrefixID.Quick;
+						break;
+					case 9:
+						prefix = PrefixID.Forceful;
+						break;
+					case 10:
+						prefix = PrefixID.Strong;
+						break;
+					case 11:
+						prefix = PrefixID.Agile;
+						break;
+					case 12:
+						prefix = PrefixID.Sighted;
+						break;
+					case 13:
+						prefix = PrefixID.Murderous;
+						break;
+					case 14:
+						prefix = PrefixID.Superior;
+						break;
+					case 15:
+						prefix = PrefixID.Demonic;
+						break;
+					case 16:
+						prefix = PrefixID.Deadly;
+						break;
+					case 17:
+						prefix = PrefixID.Intimidating;
+						break;
+					case 18:
+						prefix = PrefixID.Unpleasant;
+						break;
+					case 19:
+						prefix = PrefixID.Godly;
+						break;
+					case 20:
+						prefix = PrefixID.Rapid;
+						break;
+					case 21:
+						prefix = PrefixID.Hasty;
+						break;
+					case 22:
+						prefix = PrefixID.Deadly2;
+						break;
+					case 23:
+						prefix = PrefixID.Staunch;
+						break;
+					case 24:
+						prefix = PrefixID.Unreal;
+						break;
 				}
 			}
 			else if (item.magic)
 			{
-				if (item.knockBack == 0f)
+				switch (reforgeTier)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Keen = 1, Nimble = 2
-							prefix = Main.rand.Next(1, 3);
-							break;
-						case 2:
-							// Hurtful = 3, Zealous = 4, Quick = 5, Manic = 6
-							prefix = Main.rand.Next(3, 7);
-							break;
-						case 3:
-							// Agile = 7, Murderous = 8, Adept = 9
-							prefix = Main.rand.Next(7, 10);
-							break;
-						case 4:
-							// Deadly = 10
-							prefix = 10;
-							break;
-						case 5:
-							// Mystic = 11
-							prefix = 11;
-							break;
-						case 6:
-							// Demonic = 12
-							prefix = 12;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Keen;
-							break;
-						case 2:
-							prefix = PrefixID.Nimble;
-							break;
-						case 3:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 4:
-							prefix = PrefixID.Zealous;
-							break;
-						case 5:
-							prefix = PrefixID.Quick;
-							break;
-						case 6:
-							prefix = PrefixID.Manic;
-							break;
-						case 7:
-							prefix = PrefixID.Agile;
-							break;
-						case 8:
-							prefix = PrefixID.Murderous;
-							break;
-						case 9:
-							prefix = PrefixID.Adept;
-							break;
-						case 10:
-							prefix = PrefixID.Deadly;
-							break;
-						case 11:
-							prefix = PrefixID.Mystic;
-							break;
-						case 12:
-							prefix = PrefixID.Demonic;
-							break;
-					}
+					case 0:
+						break;
+					case 1:
+						// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
+						prefix = Main.rand.Next(1, 6);
+						break;
+					case 2:
+						// Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
+						prefix = Main.rand.Next(6, 11);
+						break;
+					case 3:
+						// Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
+						prefix = Main.rand.Next(11, 17);
+						break;
+					case 4:
+						// Superior = 17, Demonic = 18, Deadly = 19, Mystic = 20
+						prefix = Main.rand.Next(17, 21);
+						break;
+					case 5:
+						// Godly = 21, Masterful = 22
+						prefix = Main.rand.Next(21, 23);
+						break;
+					case 6:
+						// Mythical = 23
+						prefix = 23;
+						break;
 				}
-				// All other magic weapons
-				else
+				switch (prefix)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
-							prefix = Main.rand.Next(1, 6);
-							break;
-						case 2:
-							// Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
-							prefix = Main.rand.Next(6, 11);
-							break;
-						case 3:
-							// Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
-							prefix = Main.rand.Next(11, 17);
-							break;
-						case 4:
-							// Superior = 17, Demonic = 18, Deadly = 19, Mystic = 20
-							prefix = Main.rand.Next(17, 21);
-							break;
-						case 5:
-							// Godly = 21, Masterful = 22
-							prefix = Main.rand.Next(21, 23);
-							break;
-						case 6:
-							// Mythical = 23
-							prefix = 23;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Keen;
-							break;
-						case 2:
-							prefix = PrefixID.Ruthless;
-							break;
-						case 3:
-							prefix = PrefixID.Nimble;
-							break;
-						case 4:
-							prefix = PrefixID.Nasty;
-							break;
-						case 5:
-							prefix = PrefixID.Furious;
-							break;
-						case 6:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 7:
-							prefix = PrefixID.Zealous;
-							break;
-						case 8:
-							prefix = PrefixID.Quick;
-							break;
-						case 9:
-							prefix = PrefixID.Taboo;
-							break;
-						case 10:
-							prefix = PrefixID.Manic;
-							break;
-						case 11:
-							prefix = PrefixID.Forceful;
-							break;
-						case 12:
-							prefix = PrefixID.Strong;
-							break;
-						case 13:
-							prefix = PrefixID.Agile;
-							break;
-						case 14:
-							prefix = PrefixID.Murderous;
-							break;
-						case 15:
-							prefix = PrefixID.Adept;
-							break;
-						case 16:
-							prefix = PrefixID.Celestial;
-							break;
-						case 17:
-							prefix = PrefixID.Superior;
-							break;
-						case 18:
-							prefix = PrefixID.Demonic;
-							break;
-						case 19:
-							prefix = PrefixID.Deadly;
-							break;
-						case 20:
-							prefix = PrefixID.Mystic;
-							break;
-						case 21:
-							prefix = PrefixID.Godly;
-							break;
-						case 22:
-							prefix = PrefixID.Masterful;
-							break;
-						case 23:
-							prefix = PrefixID.Mythical;
-							break;
-					}
+					case -2:
+						break;
+					case 1:
+						prefix = PrefixID.Keen;
+						break;
+					case 2:
+						prefix = PrefixID.Ruthless;
+						break;
+					case 3:
+						prefix = PrefixID.Nimble;
+						break;
+					case 4:
+						prefix = PrefixID.Nasty;
+						break;
+					case 5:
+						prefix = PrefixID.Furious;
+						break;
+					case 6:
+						prefix = PrefixID.Hurtful;
+						break;
+					case 7:
+						prefix = PrefixID.Zealous;
+						break;
+					case 8:
+						prefix = PrefixID.Quick;
+						break;
+					case 9:
+						prefix = PrefixID.Taboo;
+						break;
+					case 10:
+						prefix = PrefixID.Manic;
+						break;
+					case 11:
+						prefix = PrefixID.Forceful;
+						break;
+					case 12:
+						prefix = PrefixID.Strong;
+						break;
+					case 13:
+						prefix = PrefixID.Agile;
+						break;
+					case 14:
+						prefix = PrefixID.Murderous;
+						break;
+					case 15:
+						prefix = PrefixID.Adept;
+						break;
+					case 16:
+						prefix = PrefixID.Celestial;
+						break;
+					case 17:
+						prefix = PrefixID.Superior;
+						break;
+					case 18:
+						prefix = PrefixID.Demonic;
+						break;
+					case 19:
+						prefix = PrefixID.Deadly;
+						break;
+					case 20:
+						prefix = PrefixID.Mystic;
+						break;
+					case 21:
+						prefix = PrefixID.Godly;
+						break;
+					case 22:
+						prefix = PrefixID.Masterful;
+						break;
+					case 23:
+						prefix = PrefixID.Mythical;
+						break;
 				}
 			}
 			else if (item.summon)
 			{
-				if (item.knockBack == 0f)
+				switch (reforgeTier)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Nimble = 1
-							prefix = 1;
-							break;
-						case 2:
-							// Hurtful = 2, Quick = 3, Manic = 4
-							prefix = Main.rand.Next(2, 5);
-							break;
-						case 3:
-							// Adept = 5
-							prefix = 5;
-							break;
-						case 4:
-							// Deadly = 6
-							prefix = 6;
-							break;
-						case 5:
-							// Mystic = 7
-							prefix = 7;
-							break;
-						case 6:
-							// Demonic = 8
-							prefix = 8;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Nimble;
-							break;
-						case 2:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 3:
-							prefix = PrefixID.Quick;
-							break;
-						case 4:
-							prefix = PrefixID.Manic;
-							break;
-						case 5:
-							prefix = PrefixID.Adept;
-							break;
-						case 6:
-							prefix = PrefixID.Deadly;
-							break;
-						case 7:
-							prefix = PrefixID.Mystic;
-							break;
-						case 8:
-							prefix = PrefixID.Demonic;
-							break;
-					}
+					case 0:
+						break;
+					case 1:
+						// Nimble = 1, Furious = 2
+						prefix = Main.rand.Next(1, 3);
+						break;
+					case 2:
+						// Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
+						prefix = Main.rand.Next(3, 7);
+						break;
+					case 3:
+						// Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
+						prefix = Main.rand.Next(7, 11);
+						break;
+					case 4:
+						// Deadly = 11, Mystic = 12, Superior = 13, Demonic = 14
+						prefix = Main.rand.Next(11, 15);
+						break;
+					case 5:
+						// Masterful = 15, Mythical = 16, Godly = 17
+						prefix = Main.rand.Next(15, 18);
+						break;
+					case 6:
+						// Ruthless = 18
+						prefix = 18;
+						break;
 				}
-				// All other summon weapons
-				else
+				switch (prefix)
 				{
-					switch (reforgeTier)
-					{
-						case 0:
-							break;
-						case 1:
-							// Nimble = 1, Furious = 2
-							prefix = Main.rand.Next(1, 3);
-							break;
-						case 2:
-							// Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
-							prefix = Main.rand.Next(3, 7);
-							break;
-						case 3:
-							// Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
-							prefix = Main.rand.Next(7, 11);
-							break;
-						case 4:
-							// Deadly = 11, Mystic = 12, Superior = 13, Demonic = 14
-							prefix = Main.rand.Next(11, 15);
-							break;
-						case 5:
-							// Masterful = 15, Mythical = 16, Godly = 17
-							prefix = Main.rand.Next(15, 18);
-							break;
-						case 6:
-							// Ruthless = 18
-							prefix = 18;
-							break;
-					}
-					switch (prefix)
-					{
-						case -2:
-							break;
-						case 1:
-							prefix = PrefixID.Nimble;
-							break;
-						case 2:
-							prefix = PrefixID.Furious;
-							break;
-						case 3:
-							prefix = PrefixID.Hurtful;
-							break;
-						case 4:
-							prefix = PrefixID.Quick;
-							break;
-						case 5:
-							prefix = PrefixID.Taboo;
-							break;
-						case 6:
-							prefix = PrefixID.Manic;
-							break;
-						case 7:
-							prefix = PrefixID.Forceful;
-							break;
-						case 8:
-							prefix = PrefixID.Strong;
-							break;
-						case 9:
-							prefix = PrefixID.Adept;
-							break;
-						case 10:
-							prefix = PrefixID.Celestial;
-							break;
-						case 11:
-							prefix = PrefixID.Deadly;
-							break;
-						case 12:
-							prefix = PrefixID.Mystic;
-							break;
-						case 13:
-							prefix = PrefixID.Superior;
-							break;
-						case 14:
-							prefix = PrefixID.Demonic;
-							break;
-						case 15:
-							prefix = PrefixID.Masterful;
-							break;
-						case 16:
-							prefix = PrefixID.Mythical;
-							break;
-						case 17:
-							prefix = PrefixID.Godly;
-							break;
-						case 18:
-							prefix = PrefixID.Ruthless;
-							break;
-					}
+					case -2:
+						break;
+					case 1:
+						prefix = PrefixID.Nimble;
+						break;
+					case 2:
+						prefix = PrefixID.Furious;
+						break;
+					case 3:
+						prefix = PrefixID.Hurtful;
+						break;
+					case 4:
+						prefix = PrefixID.Quick;
+						break;
+					case 5:
+						prefix = PrefixID.Taboo;
+						break;
+					case 6:
+						prefix = PrefixID.Manic;
+						break;
+					case 7:
+						prefix = PrefixID.Forceful;
+						break;
+					case 8:
+						prefix = PrefixID.Strong;
+						break;
+					case 9:
+						prefix = PrefixID.Adept;
+						break;
+					case 10:
+						prefix = PrefixID.Celestial;
+						break;
+					case 11:
+						prefix = PrefixID.Deadly;
+						break;
+					case 12:
+						prefix = PrefixID.Mystic;
+						break;
+					case 13:
+						prefix = PrefixID.Superior;
+						break;
+					case 14:
+						prefix = PrefixID.Demonic;
+						break;
+					case 15:
+						prefix = PrefixID.Masterful;
+						break;
+					case 16:
+						prefix = PrefixID.Mythical;
+						break;
+					case 17:
+						prefix = PrefixID.Godly;
+						break;
+					case 18:
+						prefix = PrefixID.Ruthless;
+						break;
 				}
 			}
 			else if (item.Calamity().rogue)

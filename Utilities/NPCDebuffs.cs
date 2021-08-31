@@ -17,6 +17,7 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
@@ -103,7 +104,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<BrimstoneElemental>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<Brimling>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
-				{ ModContent.NPCType<Calamitas>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun3>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<CalamitasRun2>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
@@ -189,7 +189,7 @@ namespace CalamityMod
 				{ ModContent.NPCType<SupremeCatastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<SupremeCataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<SoulSeekerSupreme>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-				{ ModContent.NPCType<SCalWormHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+				{ ModContent.NPCType<BrimstoneHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 				{ ModContent.NPCType<SCalWormHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },

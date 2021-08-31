@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             // Attach to some arbitrary thing/position optionally. (The ai[1] value is a reserved for this in vanilla's Phantasmal Deathray)
             AttachToSomething();
 
-            // Ensure the the velocity is a unit vector and is not a <0,0> vector.
+            // Ensure the the velocity is a unit vector. This has NaN safety in place with a fallback of <0, -1>.
             projectile.velocity = projectile.velocity.SafeNormalize(-Vector2.UnitY);
 
             Time++;
@@ -79,11 +79,9 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// </summary>
         public virtual void DetermineScale()
         {
-            projectile.scale = (float)Math.Sin(Time / Lifetime * MathHelper.Pi) * 6f * MaxScale;
+            projectile.scale = (float)Math.Sin(Time / Lifetime * MathHelper.Pi) * ScaleExpandRate * MaxScale;
             if (projectile.scale > MaxScale)
-            {
                 projectile.scale = MaxScale;
-            }
         }
         
         /// <summary>
@@ -92,7 +90,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public virtual void AttachToSomething() { }
 
         /// <summary>
-        /// Calculates the current laser's length. By default does not collide with tiles. <see cref="DetermineLaserLength_CollideWithTiles"/> is a generic laser collision method if you want to do that.
+        /// Calculates the current laser's length. By default does not collide with tiles. <see cref="DetermineLaserLength_CollideWithTiles"/> is a generic laser collision method if you want to use it.
         /// </summary>
         /// <returns>The laser length as a float.</returns>
         public virtual float DetermineLaserLength() => MaxLaserLength;
@@ -115,6 +113,62 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale, MaxLaserLength, laserLengthSamplePoints);
             return laserLengthSamplePoints.Average();
         }
+
+        protected internal void DrawBeamWithColor(SpriteBatch spriteBatch, Color beamColor, float scale)
+        {
+            // Start texture drawing.
+            spriteBatch.Draw(LaserBeginTexture,
+                             projectile.Center - Main.screenPosition,
+                             null,
+                             beamColor,
+                             projectile.rotation,
+                             LaserBeginTexture.Size() / 2f,
+                             scale,
+                             SpriteEffects.None,
+                             0f);
+
+            // Prepare things for body drawing.
+            float laserBodyLength = LaserLength;
+            laserBodyLength -= (LaserBeginTexture.Height / 2 + LaserEndTexture.Height) * scale;
+            Vector2 centerOnLaser = projectile.Center;
+            centerOnLaser += projectile.velocity * scale * LaserBeginTexture.Height / 2f;
+
+            // Body drawing.
+            if (laserBodyLength > 0f)
+            {
+                float laserOffset = LaserMiddleTexture.Height * scale;
+                float incrementalBodyLength = 0f;
+                while (incrementalBodyLength + 1f < laserBodyLength)
+                {
+                    spriteBatch.Draw(LaserMiddleTexture,
+                                     centerOnLaser - Main.screenPosition,
+                                     null,
+                                     beamColor,
+                                     projectile.rotation,
+                                     LaserMiddleTexture.Width * 0.5f * Vector2.UnitX,
+                                     scale,
+                                     SpriteEffects.None,
+                                     0f);
+                    incrementalBodyLength += laserOffset;
+                    centerOnLaser += projectile.velocity * laserOffset;
+                }
+            }
+
+            // End texture drawing.
+            if (Math.Abs(LaserLength - DetermineLaserLength()) < 30f)
+            {
+                Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
+                spriteBatch.Draw(LaserEndTexture,
+                                 laserEndCenter,
+                                 null,
+                                 beamColor,
+                                 projectile.rotation,
+                                 LaserEndTexture.Frame(1, 1, 0, 0).Top(),
+                                 scale,
+                                 SpriteEffects.None,
+                                 0f);
+            }
+        }
         #endregion
 
         #region Hook Overrides
@@ -134,78 +188,30 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             if (projectile.velocity == Vector2.Zero)
                 return false;
 
-            // Start texture drawing.
-            spriteBatch.Draw(LaserBeginTexture,
-                             projectile.Center - Main.screenPosition,
-                             null,
-                             LaserOverlayColor,
-                             projectile.rotation,
-                             LaserBeginTexture.Size() / 2f,
-                             projectile.scale,
-                             SpriteEffects.None,
-                             0f);
-
-            // Prepare things for body drawing.
-            float laserBodyLength = LaserLength;
-            laserBodyLength -= (LaserBeginTexture.Height / 2 + LaserEndTexture.Height) * projectile.scale;
-            Vector2 centerOnLaser = projectile.Center;
-            centerOnLaser += projectile.velocity * projectile.scale * LaserBeginTexture.Height / 2f;
-
-            // Body drawing.
-            if (laserBodyLength > 0f)
-            {
-                float laserOffset = LaserMiddleTexture.Height * projectile.scale;
-                float incrementalBodyLength = 0f;
-                while (incrementalBodyLength + 1f < laserBodyLength)
-                {
-                    spriteBatch.Draw(LaserMiddleTexture,
-                                     centerOnLaser - Main.screenPosition,
-                                     null,
-                                     LaserOverlayColor,
-                                     projectile.rotation,
-                                     LaserMiddleTexture.Width * 0.5f * Vector2.UnitX,
-                                     projectile.scale,
-                                     SpriteEffects.None,
-                                     0f);
-                    incrementalBodyLength += laserOffset;
-                    centerOnLaser += projectile.velocity * laserOffset;
-                }
-            }
-
-            // End texture drawing.
-            if (Math.Abs(LaserLength - DetermineLaserLength()) < 30f)
-            {
-                Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
-                spriteBatch.Draw(LaserEndTexture,
-                                 laserEndCenter,
-                                 null,
-                                 LaserOverlayColor,
-                                 projectile.rotation,
-                                 LaserEndTexture.Frame(1, 1, 0, 0).Top(),
-                                 projectile.scale,
-                                 SpriteEffects.None,
-                                 0f);
-            }
+            DrawBeamWithColor(spriteBatch, LaserOverlayColor, projectile.scale);
             return false;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (projHitbox.Intersects(targetHitbox))
                 return true;
-            float unused = 69420f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, ref unused);
+            float _ = 0f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, ref _);
         }
-        #endregion
 
-        #region Virtual Properties
-        public virtual float Lifetime => 120f;
-        public virtual float MaxScale => 1f;
-        public virtual float MaxLaserLength => 2400f; // Be careful with this. Going too high will cause lag.
+        public override bool ShouldUpdatePosition() => false;
+		#endregion
+
+		#region Overridable Properties
+		public abstract float Lifetime { get; }
+        public abstract float MaxScale { get; }
+        public abstract float MaxLaserLength { get; } // Be careful with this. Going too high will cause lag.
+        public abstract Texture2D LaserBeginTexture { get; }
+        public abstract Texture2D LaserMiddleTexture { get; }
+        public abstract Texture2D LaserEndTexture { get; }
+        public virtual float ScaleExpandRate => 4f;
         public virtual Color LightCastColor => Color.White;
         public virtual Color LaserOverlayColor => Color.White * 0.9f;
-        public virtual Texture2D LaserBeginTexture { get; }
-        public virtual Texture2D LaserMiddleTexture { get; }
-        public virtual Texture2D LaserEndTexture { get; }
         #endregion
     }
 }

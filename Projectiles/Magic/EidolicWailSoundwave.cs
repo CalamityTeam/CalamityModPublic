@@ -29,7 +29,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
             projectile.timeLeft = 450;
-        }
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
+		}
 
         public override void AI()
         {

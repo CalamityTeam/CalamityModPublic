@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 90000;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
@@ -36,12 +36,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            float lifeSpan = 50f;
+            float spinCycleTime = 50f;
 
 			// If the player is dead, destroy the projectile
-            if (player.dead)
+            if (player.dead || !player.channel)
             {
                 projectile.Kill();
+                player.reuseDelay = 2;
                 return;
             }
 
@@ -59,25 +60,16 @@ namespace CalamityMod.Projectiles.Melee
             }
 			
             projectile.ai[0] += 1f;
-            projectile.rotation += MathHelper.TwoPi * 2f / lifeSpan * (float)direction;
-            bool halfWay = projectile.ai[0] == lifeSpan / 2f;
-            if (projectile.ai[0] >= lifeSpan || (halfWay && !player.controlUseItem))
+            projectile.rotation += MathHelper.TwoPi * 2f / spinCycleTime * (float)direction;
+            int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
+            if (projectile.ai[0] % spinCycleTime > spinCycleTime * 0.5f && expectedDirection != projectile.velocity.X)
             {
-                projectile.Kill();
-                player.reuseDelay = 2;
+                player.ChangeDir(expectedDirection);
+                projectile.velocity = Vector2.UnitX * expectedDirection;
+                projectile.rotation -= MathHelper.Pi;
+                projectile.netUpdate = true;
             }
-            else if (halfWay)
-            {
-                int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
-                if (expectedDirection != projectile.velocity.X)
-                {
-                    player.ChangeDir(expectedDirection);
-                    projectile.velocity = Vector2.UnitX * expectedDirection;
-                    projectile.rotation -= MathHelper.Pi;
-                    projectile.netUpdate = true;
-                }
-            }
-			SpawnDust(player, direction);
+            SpawnDust(player, direction);
 			PositionAndRotation(player);
 			VisibilityAndLight();
         }
@@ -174,7 +166,7 @@ namespace CalamityMod.Projectiles.Melee
 					modPlayer.dragonRageHits = 0;
 				}
 
-				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				Main.projectile[proj].Calamity().forceMelee = true;
 			}
 		}
@@ -190,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
 				Vector2 velocity = new Vector2(0f, speed);
 				velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
 
-				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 3, projectile.knockBack / 3f, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 8, projectile.knockBack / 3f, projectile.owner);
 			}
 		}
 

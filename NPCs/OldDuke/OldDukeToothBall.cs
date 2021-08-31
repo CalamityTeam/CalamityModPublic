@@ -56,11 +56,16 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void AI()
 		{
-            npc.rotation += npc.velocity.X * 0.05f;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
+
+			npc.rotation += npc.velocity.X * 0.05f;
+
             if (npc.alpha > 0)
-            {
                 npc.alpha -= 15;
-            }
+
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
@@ -70,16 +75,14 @@ namespace CalamityMod.NPCs.OldDuke
                 if (!player.active || player.dead)
                 {
                     if (npc.timeLeft > 10)
-                    {
                         npc.timeLeft = 10;
-                    }
+
                     return;
                 }
             }
             else if (npc.timeLeft < 600)
-            {
                 npc.timeLeft = 600;
-            }
+
             Vector2 vector = player.Center - npc.Center;
             if (vector.Length() < 40f || npc.ai[3] >= 900f)
             {
@@ -99,9 +102,12 @@ namespace CalamityMod.NPCs.OldDuke
                 return;
             }
 
-            float num1372 = 12f;
-			if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
-				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
+            float num1372 = death ? 14f : revenge ? 13f : 12f;
+			if (expertMode || malice)
+			{
+				float speedUpMult = BossRushEvent.BossRushActive ? 0.02f : CalamityWorld.malice ? 0.015f : 0.01f;
+				num1372 += Vector2.Distance(player.Center, npc.Center) * speedUpMult;
+			}
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
@@ -141,7 +147,7 @@ namespace CalamityMod.NPCs.OldDuke
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
 
-			float num1247 = 0.5f;
+			float num1247 = CalamityWorld.malice ? 0.75f : 0.5f;
 			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 			{
 				if (Main.npc[num1248].active)
@@ -178,9 +184,7 @@ namespace CalamityMod.NPCs.OldDuke
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(BuffID.Venom, 180, true);
-			player.AddBuff(BuffID.Poisoned, 180, true);
-			player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+			player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
 		}
 
         public override bool CheckDead()

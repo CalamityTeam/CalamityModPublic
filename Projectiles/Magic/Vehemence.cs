@@ -1,3 +1,6 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,6 +12,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Vehemence : ModProjectile
     {
+        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[projectile.owner];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");
@@ -18,8 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
+            projectile.width = projectile.height = 32;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
@@ -31,24 +35,81 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Lighting.AddLight(projectile.Center, 0.45f, 0f, 0.45f);
-            for (int num457 = 0; num457 < 2; num457++)
+            Lighting.AddLight(projectile.Center, Color.DarkRed.ToVector3());
+
+            if (Time == 0f)
+                GenerateInitialBurstDust();
+
+            GenerateHelicalDust();
+            Time++;
+        }
+
+        private void GenerateInitialBurstDust()
+        {
+            if (Main.dedServ)
+                return;
+
+            for (int i = 0; i < 40; i++)
             {
-                int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 65, 0f, 0f, 100, default, 2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.15f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                float angle = MathHelper.TwoPi * i / 40f;
+
+                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + projectile.velocity * 7f, 27);
+                brimstoneMagic.velocity = angle.ToRotationVector2() * 15f;
+                brimstoneMagic.color = Color.Lerp(Color.Red, Color.MediumPurple, (float)Math.Sin(angle) * 0.5f + 0.5f);
+                brimstoneMagic.scale = 1.6f;
+                brimstoneMagic.noGravity = true;
+            }
+        }
+
+        private void GenerateHelicalDust()
+        {
+            if (Main.dedServ)
+                return;
+
+            // Helical brimstone dust from the back of the projectile.
+            for (int i = -1; i <= 1; i += 2)
+            {
+                float helixOffset = (float)Math.Sin(Time / 45f * MathHelper.TwoPi) * i * 8f;
+                Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
+
+                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.Brimstone);
+                brimstoneMagic.velocity = Vector2.Zero;
+                brimstoneMagic.scale = 1.1f;
+                brimstoneMagic.noGravity = true;
             }
         }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item74, projectile.position);
-            for (int j = 0; j <= 25; j++)
+            if (Main.myPlayer == projectile.owner)
             {
-                int num459 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 65, 0f, 0f, 100, default, 1f);
-                Main.dust[num459].noGravity = true;
-                Main.dust[num459].velocity *= 0.1f;
+                int damage = (int)(Vehemenc.VehemenceSkullDamage * Owner.MagicDamage());
+                for (int i = 0; i < 18; i++)
+                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<VehemenceSkull>(), damage, projectile.knockBack, projectile.owner);
+            }
+
+            if (!Main.dedServ)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        Vector2 shootVelocity = projectile.velocity.RotatedBy(MathHelper.Lerp(-0.35f, 0.35f, j / 4f)) * Main.rand.NextFloat(0.75f, 1.1f);
+                        Vector2 spawnPosition = projectile.Center + shootVelocity.SafeNormalize(Vector2.Zero) * 10f;
+
+                        Dust blood = Dust.NewDustPerfect(spawnPosition, DustID.Blood);
+                        blood.velocity = shootVelocity;
+                        blood.scale = MathHelper.Lerp(1.7f, 0.85f, i / 20f);
+                    }
+                }
+                for (int i = 0; i < 60; i++)
+                {
+                    Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool(2) ? (int)CalamityDusts.Brimstone : 27);
+                    brimstoneMagic.velocity = Main.rand.NextVector2Circular(18f, 18f);
+                    brimstoneMagic.scale = 1.7f;
+                    brimstoneMagic.noGravity = true;
+                }
             }
         }
 
@@ -56,8 +117,8 @@ namespace CalamityMod.Projectiles.Magic
         {
             double lifeAmount = target.life;
             double lifeMax = target.lifeMax;
-            double damageMult = lifeAmount / lifeMax * 7;
-            damage = (int)Math.Pow(damage, damageMult);
+            double damageExponent = lifeAmount / lifeMax * 7;
+            damage = (int)Math.Pow(damage, damageExponent);
             if (damage > 200000)
                 damage = 200000;
         }
@@ -65,13 +126,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.life == target.lifeMax)
-            {
-                target.AddBuff(BuffID.ShadowFlame, 12000);
-                target.AddBuff(BuffID.Ichor, 12000);
-                target.AddBuff(BuffID.Frostburn, 12000);
-                target.AddBuff(BuffID.OnFire, 12000);
-                target.AddBuff(BuffID.Poisoned, 12000);
-            }
+                target.AddBuff(ModContent.BuffType<DemonFlames>(), 18000);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

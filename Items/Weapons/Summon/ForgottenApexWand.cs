@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.autoReuse = true;
 
             item.knockBack = 4f;
-            item.mana = 15;
+            item.mana = 10;
             item.damage = 28;
             item.useTime = item.useAnimation = 25;
             item.shoot = ModContent.ProjectileType<ApexShark>();

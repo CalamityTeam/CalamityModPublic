@@ -55,6 +55,8 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 19;
+			projectile.Calamity().PierceResistHarshness = 0.06f;
+			projectile.Calamity().PierceResistCap = 0.4f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -229,7 +231,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else {
 				// Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem().mana, true))
+				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem(), -1, true))
 				{
 					projectile.Kill();
 				}

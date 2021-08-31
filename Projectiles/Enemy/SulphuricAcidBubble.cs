@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -103,8 +104,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 return;
             }
-            target.AddBuff(BuffID.Venom, 120);
-            projectile.Kill();
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+			projectile.Kill();
         }
 
         public override void Kill(int timeLeft)

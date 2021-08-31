@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
+            projectile.minionSlots = 0.5f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] += (float)Main.rand.Next(1, 3);
 
             // Reset timer
-            if (projectile.ai[1] > 70f)
+            if (projectile.ai[1] > 300f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, projectileType, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, targetIndex, 0f);
+                            Projectile.NewProjectile(projectile.Center, perturbedSpeed, projectileType, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, targetIndex, 0f);
                         }
                         projectile.netUpdate = true;
                     }

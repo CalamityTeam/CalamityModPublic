@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 			aiType = ProjectileID.Bullet;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -120,7 +121,7 @@ namespace CalamityMod.Projectiles.Ranged
 			return true;
 		}
 
-		public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f;
+		public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f && target.CanBeChasedBy(projectile);
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
 

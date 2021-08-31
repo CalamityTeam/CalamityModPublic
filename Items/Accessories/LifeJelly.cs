@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             player.statLifeMax2 += 20;
             if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
             {
-                player.lifeRegen += 2;
+                player.lifeRegen += 4;
             }
         }
     }

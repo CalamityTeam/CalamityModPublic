@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.UseSound = SoundID.DD2_DarkMageHealImpact;
             item.summon = true;
-            item.mana = 12;
+            item.mana = 10;
             item.damage = 56;
             item.knockBack = 2f;
             item.autoReuse = true;

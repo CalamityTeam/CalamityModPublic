@@ -22,6 +22,9 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -42,6 +45,7 @@ using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -187,6 +191,7 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             CalamityLists.LoadLists();
+            EnchantmentManager.LoadAllEnchantments();
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
@@ -322,6 +327,7 @@ namespace CalamityMod
             bossVelocityDamageScaleValues?.Clear();
             bossVelocityDamageScaleValues = null;
 
+            EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
 
@@ -407,14 +413,14 @@ namespace CalamityMod
                 { NPCID.Crab, 0.05f },
                 { NPCID.Crawdad, 0.2f },
                 { NPCID.Crawdad2, 0.2f },
-                { NPCID.CultistBoss, 0.1f },
+                { NPCID.CultistBoss, 0.15f },
                 { NPCID.DD2Betsy, 0.1f },
                 { NPCID.DD2OgreT2, 0.1f },
                 { NPCID.DD2OgreT3, 0.15f },
                 { NPCID.DeadlySphere, 0.4f },
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
-                { NPCID.DukeFishron, 0.1f },
+                { NPCID.DukeFishron, 0.15f },
                 { NPCID.DungeonGuardian, 0.999999f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
@@ -448,9 +454,9 @@ namespace CalamityMod
                 { NPCID.MartianTurret, 0.2f },
                 { NPCID.MartianWalker, 0.35f },
                 { NPCID.Mimic, 0.3f },
-                { NPCID.MoonLordCore, 0.05f },
-                { NPCID.MoonLordHand, 0.05f },
-                { NPCID.MoonLordHead, 0.05f },
+                { NPCID.MoonLordCore, 0.15f },
+                { NPCID.MoonLordHand, 0.15f },
+                { NPCID.MoonLordHead, 0.15f },
                 { NPCID.Mothron, 0.2f },
                 { NPCID.MothronEgg, 0.5f },
                 { NPCID.MourningWood, 0.1f },
@@ -548,8 +554,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 },
-                { ModContent.NPCType<Calamitas>(), 1200 },
-                { ModContent.NPCType<CalamitasRun3>(), 11400 },
+                { ModContent.NPCType<CalamitasRun3>(), 14400 },
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<Siren>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 },
@@ -577,6 +582,13 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
+				{ ModContent.NPCType<Apollo>(), 21600 },
+				{ ModContent.NPCType<Artemis>(), 21600 },
+				{ ModContent.NPCType<AresBody>(), 21600 },
+				{ ModContent.NPCType<AresGaussNuke>(), 21600 },
+				{ ModContent.NPCType<AresLaserCannon>(), 21600 },
+				{ ModContent.NPCType<AresPlasmaFlamethrower>(), 21600 },
+				{ ModContent.NPCType<AresTeslaCannon>(), 21600 },
 				{ ModContent.NPCType<ThanatosHead>(), 21600 },
 				{ ModContent.NPCType<ThanatosBody1>(), 21600 },
 				{ ModContent.NPCType<ThanatosBody2>(), 21600 },
@@ -656,7 +668,6 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-                { ModContent.NPCType<Calamitas>(), velocityScaleMin },
                 { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
@@ -705,6 +716,8 @@ namespace CalamityMod
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
+				{ ModContent.NPCType<Artemis>(), velocityScaleMin },
 				{ ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
 				{ ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
@@ -898,6 +911,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
                 {
                     ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Calamitas Enchantment UI
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Calamitas Enchantment", () =>
+                {
+                    CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 
@@ -1392,49 +1412,6 @@ namespace CalamityMod
         {
             // Apply the calculated darkness value for the local player.
             CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            if (CalamityGlobalNPC.holyBoss != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.holyBoss].active)
-                {
-                    if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
-                    {
-                        float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
-                        float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
-                        float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
-
-                        float baseDistance = 2800f;
-                        float shorterFlameCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-                        float shorterSpearCocoonDistance = (CalamityWorld.death || CalamityWorld.malice || !Main.dayTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
-                        float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
-
-                        bool guardianAlive = false;
-                        if (CalamityGlobalNPC.holyBossAttacker != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
-                                guardianAlive = true;
-                        }
-                        if (CalamityGlobalNPC.holyBossDefender != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
-                                guardianAlive = true;
-                        }
-                        if (CalamityGlobalNPC.holyBossHealer != -1)
-                        {
-                            if (Main.npc[CalamityGlobalNPC.holyBossHealer].active)
-                                guardianAlive = true;
-                        }
-
-                        float maxDistance = guardianAlive ? baseDistance : (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
-                        float drawDarknessDistance = maxDistance - 400f;
-                        float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
-                        scale -= intensityScalar;
-
-                        // Return to prevent running other darkness code
-                        return;
-                    }
-                }
-            }
-
             float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
 
             if (modPlayer.ZoneAbyss)

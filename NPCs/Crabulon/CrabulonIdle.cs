@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.Crabulon
                 Main.dust[sporeDust].noGravity = true;
                 Main.dust[sporeDust].velocity *= 0.5f;
                 npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 420f)
+                if (npc.justHit || npc.ai[1] >= 600f)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 npc.velocity *= 0.98f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (death ? 5f : revenge ? 30f : 60f))
+                if (npc.ai[1] >= (death ? 5f : revenge ? 10f : 15f))
                 {
 					npc.TargetClosest();
 					npc.noGravity = true;
@@ -279,51 +279,38 @@ namespace CalamityMod.NPCs.Crabulon
                     if (npc.direction < 0)
                         npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
                 }
+
                 int num854 = 80;
                 int num855 = 20;
                 Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
-                bool flag52 = false;
-                if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
-                {
-                    flag52 = true;
-                }
-                if (flag52)
+
+                bool fallDownOnTopOfTarget = npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f;
+                if (fallDownOnTopOfTarget)
                 {
                     npc.velocity.Y += 0.5f;
                 }
                 else if (Collision.SolidCollision(position2, num854, num855))
                 {
                     if (npc.velocity.Y > 0f)
-                    {
                         npc.velocity.Y = 0f;
-                    }
-                    if (npc.velocity.Y > -0.2)
-                    {
+
+                    if (npc.velocity.Y > -0.2f)
                         npc.velocity.Y -= 0.025f;
-                    }
                     else
-                    {
                         npc.velocity.Y -= 0.2f;
-                    }
+
                     if (npc.velocity.Y < -4f)
-                    {
                         npc.velocity.Y = -4f;
-                    }
                 }
                 else
                 {
                     if (npc.velocity.Y < 0f)
-                    {
                         npc.velocity.Y = 0f;
-                    }
-                    if (npc.velocity.Y < 0.1)
-                    {
+
+                    if (npc.velocity.Y < 0.1f)
                         npc.velocity.Y += 0.025f;
-                    }
                     else
-                    {
                         npc.velocity.Y += 0.5f;
-                    }
                 }
 
                 if (npc.ai[1] % 25f == 24f)
@@ -339,10 +326,9 @@ namespace CalamityMod.NPCs.Crabulon
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
+
                 if (npc.velocity.Y > 10f)
-                {
                     npc.velocity.Y = 10f;
-                }
             }
             else if (npc.ai[0] == 3f)
             {
@@ -379,7 +365,7 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.ai[1] += !revenge ? 4f : 1f;
                     }
 
-					float jumpGateValue = 300f / (enrageScale + 1f);
+					float jumpGateValue = (malice ? 30f : 240f) / (enrageScale + 1f);
                     if (npc.ai[1] >= jumpGateValue)
                     {
                         npc.ai[1] = -20f;
@@ -461,12 +447,18 @@ namespace CalamityMod.NPCs.Crabulon
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							float velocityX = npc.ai[2] == 0f ? -4f : 4f;
-							for (int x = 0; x < 20; x++)
+							int totalMushrooms = malice ? 50 : 20;
+							int shotSpacingDecrement = malice ? 80 : 100;
+							if (malice)
+								shotSpacing = 2000;
+
+							for (int x = 0; x < totalMushrooms; x++)
 							{
 								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing -= 100;
+								shotSpacing -= shotSpacingDecrement;
 							}
-							shotSpacing = 1000;
+
+							shotSpacing = malice ? 2000 : 1000;
 						}
 					}
 
@@ -625,7 +617,7 @@ namespace CalamityMod.NPCs.Crabulon
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(Main.npcTexture[npc.type].Width, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
 			if (npc.ai[0] > 2f)
@@ -633,7 +625,7 @@ namespace CalamityMod.NPCs.Crabulon
 				vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
 				vector43 = npc.Center - Main.screenPosition;
 				vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 				spriteBatch.Draw(textureAttack, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -644,7 +636,7 @@ namespace CalamityMod.NPCs.Crabulon
 				vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
 				vector43 = npc.Center - Main.screenPosition;
 				vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 
 				spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
