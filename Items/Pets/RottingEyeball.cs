@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Pets
 		{
 			/*item.DefaultToVanitypet(ModContent.ProjectileType<MiniHiveMind>(), ModContent.BuffType<HiveMindPet>());
 			item.rare = -13;*/
-			item.value = Item.buyPrice(0, 25, 0, 0);
+			item.value = Item.buyPrice(0, 4, 0, 0);
 			item.damage = 0;
 			item.useTime = item.useAnimation = 20;
 			item.useStyle = 1;
