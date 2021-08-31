@@ -245,6 +245,7 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
+        public int spiritOriginBullseyeShootCountdown = 0;
 
         public const int BeltDodgeCooldown = 3600;
         public const int MirrorDodgeCooldown = 4500;
@@ -337,6 +338,7 @@ namespace CalamityMod.CalPlayer
         public int ladHearts = 0;
         public bool sparks = false;
         public bool sirenPet = false;
+        public bool spiritOriginPet = false;
         public bool fox = false;
         public bool chibii = false;
         public bool brimling = false;
@@ -522,6 +524,7 @@ namespace CalamityMod.CalPlayer
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool aquaticEmblem = false;
+        public bool spiritOrigin = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
         public bool voidOfExtinction = false;
@@ -1485,6 +1488,7 @@ namespace CalamityMod.CalPlayer
             ladShark = false;
             sparks = false;
             sirenPet = false;
+            spiritOriginPet = false;
             fox = false;
             chibii = false;
             brimling = false;
@@ -1720,6 +1724,7 @@ namespace CalamityMod.CalPlayer
             abyssalAmulet = false;
             lumenousAmulet = false;
             aquaticEmblem = false;
+            spiritOrigin = false;
 
             astralStarRain = false;
 
