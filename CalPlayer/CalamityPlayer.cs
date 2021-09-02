@@ -352,6 +352,7 @@ namespace CalamityMod.CalPlayer
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
+        public bool hiveMindPet = false;
         public bool bendyPet = false;
         public bool littleLightPet = false;
         #endregion
@@ -1501,6 +1502,7 @@ namespace CalamityMod.CalPlayer
             babyGhostBell = false;
             radiator = false;
             scalPet = false;
+            hiveMindPet = false;
             bendyPet = false;
             littleLightPet = false;
 
