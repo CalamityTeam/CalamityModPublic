@@ -1440,7 +1440,7 @@ namespace CalamityMod.CalPlayer
 				player.endurance += modPlayer.sponge ? 0.15f : 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
-					player.manaRegenBonus += 2;
+					player.manaRegenBonus += 4;
 			}
 
 			// Sea Shell bonus
@@ -1473,13 +1473,10 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.aAmpoule)
 			{
-				player.endurance += 0.05f;
-				player.pickSpeed -= 0.25f;
-				player.buffImmune[BuffID.Venom] = true;
+				player.endurance += 0.07f;
 				player.buffImmune[BuffID.Frozen] = true;
 				player.buffImmune[BuffID.Chilled] = true;
 				player.buffImmune[BuffID.Frostburn] = true;
-				player.buffImmune[BuffID.Poisoned] = true;
 			}
 			if (modPlayer.cFreeze)
 			{

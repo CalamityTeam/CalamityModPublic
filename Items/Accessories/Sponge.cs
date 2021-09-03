@@ -89,7 +89,9 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<TheAbsorber>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

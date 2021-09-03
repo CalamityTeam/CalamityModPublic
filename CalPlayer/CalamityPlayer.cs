@@ -7629,7 +7629,7 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < range)
                         {
-                            float duration = Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+                            float duration = Main.rand.Next(300 + (int)damage / 3, 480 + (int)damage / 2);
                             npc.AddBuff(BuffID.Confused, (int)duration, false);
                             if (amalgam)
                             {
@@ -10787,7 +10787,7 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (sirenBoobs)
                 light += 1;
-            if (aAmpoule) // sponge inherits this and doesn't stack with ampoule
+            if (aAmpoule)
                 light += 1;
             else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
                 light += 1;
