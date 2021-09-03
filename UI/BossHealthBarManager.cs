@@ -412,7 +412,7 @@ namespace CalamityMod.UI
             public int ComboDamageCountdown;
             public long PreviousLife;
             public long HealthAtStartOfCombo;
-            public long MaxLifePriorToDying;
+            public long InitialMaxLife;
             public NPC AssociatedNPC => Main.npc.IndexInRange(NPCIndex) ? Main.npc[NPCIndex] : null;
             public int NPCType => AssociatedNPC?.type ?? -1;
             public long CombinedNPCLife
@@ -509,7 +509,7 @@ namespace CalamityMod.UI
             {
                 get
                 {
-                    float lifeRatio = CombinedNPCLife / (float)CombinedNPCMaxLife;
+                    float lifeRatio = CombinedNPCLife / (float)InitialMaxLife;
 
                     // Handle division by 0 edge-cases.
                     if (float.IsNaN(lifeRatio) || float.IsInfinity(lifeRatio))
@@ -548,17 +548,6 @@ namespace CalamityMod.UI
 
             public void Update()
             {
-                // Update timers as necessary.
-                if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType)
-                {
-                    EnrageTimer = Utils.Clamp(EnrageTimer - 4, 0, EnrageAnimationTime);
-                    CloseAnimationTimer = Utils.Clamp(CloseAnimationTimer + 1, 0, CloseAnimationTime);
-                    return;
-                }
-
-                OpenAnimationTimer = Utils.Clamp(OpenAnimationTimer + 1, 0, OpenAnimationTime);
-                EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
-
                 // Handle combos.
                 if (CombinedNPCLife != PreviousLife && PreviousLife != 0)
                 {
@@ -572,8 +561,20 @@ namespace CalamityMod.UI
 
                 if (ComboDamageCountdown > 0)
                     ComboDamageCountdown--;
-                if (CombinedNPCMaxLife != 0 && MaxLifePriorToDying == 0)
-                    MaxLifePriorToDying = CombinedNPCMaxLife;
+
+                // Update timers as necessary.
+                if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType)
+                {
+                    EnrageTimer = Utils.Clamp(EnrageTimer - 4, 0, EnrageAnimationTime);
+                    CloseAnimationTimer = Utils.Clamp(CloseAnimationTimer + 1, 0, CloseAnimationTime);
+                    return;
+                }
+
+                OpenAnimationTimer = Utils.Clamp(OpenAnimationTimer + 1, 0, OpenAnimationTime);
+                EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
+
+                if (CombinedNPCMaxLife != 0 && InitialMaxLife == 0)
+                    InitialMaxLife = CombinedNPCMaxLife;
             }
 
             public void Draw(SpriteBatch sb, int x, int y)
@@ -595,7 +596,7 @@ namespace CalamityMod.UI
                 // Draw a red damage health bar if performing a conbo.
                 if (ComboDamageCountdown > 0)
                 {
-                    int comboBarWidth = (int)(BarMaxWidth * HealthAtStartOfCombo / (float)CombinedNPCMaxLife) - mainBarWidth;
+                    int comboBarWidth = (int)(BarMaxWidth * HealthAtStartOfCombo / (float)InitialMaxLife) - mainBarWidth;
                     float alpha = 1f;
 
                     // Shrink the bar on the last 6 frames of the damage countdown.
@@ -653,7 +654,7 @@ namespace CalamityMod.UI
                     else
                     {
                         // Draw the precise life.
-                        string actualLifeText = $"({CombinedNPCLife} / {(AssociatedNPC is null || !AssociatedNPC.active ? MaxLifePriorToDying : CombinedNPCMaxLife)})";
+                        string actualLifeText = $"({CombinedNPCLife} / {InitialMaxLife})";
                         Vector2 textAreaSize = Main.fontItemStack.MeasureString(actualLifeText) * SmallTextScale;
                         float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
                         float verticalDrawPosition = y + MainBarYOffset + 17;

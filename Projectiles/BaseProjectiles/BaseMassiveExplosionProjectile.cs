@@ -1,20 +1,15 @@
-using CalamityMod.DataStructures;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseMassiveExplosionProjectile : ModProjectile
     {
-        public ScreenShakeSpot ScreenShakeSpot;
         public ref float CurrentRadius => ref projectile.ai[0];
         public ref float MaxRadius => ref projectile.ai[1];
         public virtual bool UsesScreenshake { get; } = false;
@@ -26,38 +21,13 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         // Use the invisible projectile by default. This can be overridden in child types if desired.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        // Declare this projectile as needing to use the UUID system if it uses screen shake spots, due to a need for said spots to reference their parent projectile.
-        public sealed override void SetStaticDefaults()
-        {
-            SafeSetStaticDefaults();
-            if (UsesScreenshake)
-                ProjectileID.Sets.NeedsUUID[projectile.type] = true;
-        }
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(ScreenShakeSpot.ScreenShakePower);
-            writer.WriteVector2(ScreenShakeSpot.Position);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            projectile.localAI[0] = reader.ReadSingle();
-            ScreenShakeSpot = new ScreenShakeSpot(reader.ReadInt32(), reader.ReadVector2());
-        }
-
         public override void AI()
         {
             if (UsesScreenshake)
             {
-                if (projectile.localAI[0] == 0f)
-                {
-                    ScreenShakeSpot = new ScreenShakeSpot(0, projectile.Center);
-                    projectile.localAI[0] = 1f;
-                }
-                ScreenShakeSpot.ScreenShakePower = GetScreenshakePower(projectile.timeLeft / (float)Lifetime);
-                ScreenShakeSpot.Position = projectile.Center;
-                CalamityWorld.ScreenShakeSpots[Projectile.GetByUUID(projectile.owner, projectile.whoAmI)] = ScreenShakeSpot;
+                float screenShakePower = GetScreenshakePower(projectile.timeLeft / (float)Lifetime) * Utils.InverseLerp(1300f, 0f, projectile.Distance(Main.LocalPlayer.Center), true);
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
+                    Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
             }
 
             // Expand outward.
@@ -88,17 +58,5 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
-
-        public override void Kill(int timeLeft)
-        {
-            // Remove the explosion associated with this projectile's UUID.
-            if (UsesScreenshake)
-                CalamityWorld.ScreenShakeSpots.Remove(Projectile.GetByUUID(projectile.owner, projectile.whoAmI));
-            SafeKill(timeLeft);
-        }
-
-        public virtual void SafeSetStaticDefaults() { }
-        
-        public virtual void SafeKill(int timeLeft) { }
     }
 }

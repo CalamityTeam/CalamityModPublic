@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimson Slime Spawn");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[npc.type] = 5;
         }
 
         public override void SetDefaults()
@@ -31,7 +31,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.lifeMax = 12000;
             }
             npc.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
             npc.alpha = 55;
             npc.lavaImmune = false;
             npc.noGravity = false;
@@ -39,6 +38,35 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+			int frameY = 1;
+			if (!Main.dedServ)
+			{
+				if (!Main.NPCLoaded[npc.type] || Main.npcTexture[npc.type] is null)
+					return;
+				frameY = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			}
+			int aiState = 0;
+			if (npc.aiAction == 0)
+				aiState = npc.velocity.Y >= 0f ? (npc.velocity.Y <= 0f ? (npc.velocity.X == 0f ? 0 : 1) : 3) : 2;
+			else if (npc.aiAction == 1)
+				aiState = 4;
+
+			npc.frameCounter++;
+			if (aiState > 0)
+				npc.frameCounter++;
+			if (aiState == 4)
+				npc.frameCounter++;
+			if (npc.frameCounter >= 8f)
+			{
+				npc.frame.Y += frameY;
+				npc.frameCounter = 0f;
+			}
+			if (npc.frame.Y >= frameY * Main.npcFrameCount[npc.type])
+				npc.frame.Y = 0;
         }
 
         public override void AI()

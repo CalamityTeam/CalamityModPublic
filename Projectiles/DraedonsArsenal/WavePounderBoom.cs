@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public override bool UsesScreenshake => projectile.Calamity().stealthStrike;
 		public override float GetScreenshakePower(float pulseCompletionRatio) => CalamityUtils.Convert01To010(pulseCompletionRatio) * 16f;
 		public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Yellow * 1.6f, Color.White, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
-		public override void SafeSetStaticDefaults() => DisplayName.SetDefault("Explosion");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Explosion");
 
 		public override void SetDefaults()
 		{

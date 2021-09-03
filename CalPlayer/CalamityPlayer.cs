@@ -245,6 +245,8 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
+        public int spiritOriginBullseyeShootCountdown = 0;
+        public int spiritOriginConvertedCrit = 0;
 
         public const int BeltDodgeCooldown = 3600;
         public const int MirrorDodgeCooldown = 4500;
@@ -337,6 +339,7 @@ namespace CalamityMod.CalPlayer
         public int ladHearts = 0;
         public bool sparks = false;
         public bool sirenPet = false;
+        public bool spiritOriginPet = false;
         public bool fox = false;
         public bool chibii = false;
         public bool brimling = false;
@@ -349,6 +352,7 @@ namespace CalamityMod.CalPlayer
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
+        public bool hiveMindPet = false;
         public bool bendyPet = false;
         public bool littleLightPet = false;
         #endregion
@@ -522,6 +526,7 @@ namespace CalamityMod.CalPlayer
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool aquaticEmblem = false;
+        public bool spiritOrigin = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
         public bool voidOfExtinction = false;
@@ -1485,6 +1490,7 @@ namespace CalamityMod.CalPlayer
             ladShark = false;
             sparks = false;
             sirenPet = false;
+            spiritOriginPet = false;
             fox = false;
             chibii = false;
             brimling = false;
@@ -1496,6 +1502,7 @@ namespace CalamityMod.CalPlayer
             babyGhostBell = false;
             radiator = false;
             scalPet = false;
+            hiveMindPet = false;
             bendyPet = false;
             littleLightPet = false;
 
@@ -1720,6 +1727,8 @@ namespace CalamityMod.CalPlayer
             abyssalAmulet = false;
             lumenousAmulet = false;
             aquaticEmblem = false;
+            spiritOrigin = false;
+            spiritOriginConvertedCrit = 0;
 
             astralStarRain = false;
 
@@ -2111,28 +2120,6 @@ namespace CalamityMod.CalPlayer
                 Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower, GeneralScreenShakePower);
                 GeneralScreenShakePower = MathHelper.Clamp(GeneralScreenShakePower - 0.185f, 0f, 20f);
             }
-
-            if (CalamityWorld.ScreenShakeSpots.Count > 0)
-            {
-                // Fail-safe to ensure that spots don't last forever.
-                Dictionary<int, ScreenShakeSpot> screenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
-                List<int> screenShakeUUIDs = CalamityWorld.ScreenShakeSpots.Keys.ToList();
-                for (int i = 0; i < CalamityWorld.ScreenShakeSpots.Count; i++)
-                {
-                    int uuid = screenShakeUUIDs[i];
-                    if (Main.projectile[uuid].active)
-                    {
-                        screenShakeSpots.Add(uuid, CalamityWorld.ScreenShakeSpots[uuid]);
-                    }
-                }
-                CalamityWorld.ScreenShakeSpots = screenShakeSpots;
-
-                foreach (var spot in CalamityWorld.ScreenShakeSpots)
-                {
-                    float maxPower = Utils.InverseLerp(1300f, 0f, Vector2.Distance(spot.Value.Position, player.Center), true) * spot.Value.ScreenShakePower;
-                    Main.screenPosition += Main.rand.NextVector2Circular(maxPower, maxPower);
-                }
-            }
         }
         #endregion
 
@@ -2160,6 +2147,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
+            spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
             raiderStack = 0;

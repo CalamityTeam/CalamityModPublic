@@ -52,7 +52,6 @@ namespace CalamityMod.World
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
-        public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
         // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
