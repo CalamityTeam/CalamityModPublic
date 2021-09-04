@@ -187,6 +187,7 @@ namespace CalamityMod.NPCs
         public int sagePoisonDamage = 0;
         public int vulnerabilityHex = 0;
         public int banishingFire = 0;
+		public int wither = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -1837,6 +1838,7 @@ namespace CalamityMod.NPCs
                     (gState > 0 ? GlacialState.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
+					(wither > 0 ? WitherDebuff.DefenseReduction : 0) -
 					Main.LocalPlayer.armorPenetration -
 					miscDefenseLoss;
 
@@ -3190,6 +3192,8 @@ namespace CalamityMod.NPCs
                 vulnerabilityHex--;
             if (banishingFire > 0)
 				banishingFire--;
+            if (wither > 0)
+				wither--;
 
 			// Queen Bee is completely immune to having her movement impaired if not in a high difficulty mode.
 			if (npc.type == NPCID.QueenBee && !CalamityWorld.revenge && !CalamityWorld.malice && !BossRushEvent.BossRushActive)
@@ -4433,6 +4437,8 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WarCleave"));
 					if (wDeath > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WhisperingDeath"));
+					if (wither > 0)
+						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WitherDebuff"));
 
 					// Vanilla damage over time debuffs
 					if (electrified > 0)
