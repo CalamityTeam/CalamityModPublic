@@ -23,9 +23,8 @@ namespace CalamityMod.Items.Accessories
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +
-				"Increased defense, movement speed and damage reduction while submerged in liquid\n" +
-				"Enemies take damage when they hit you\n" +
-                "Taking a hit will make you move very fast for a short time\n" +
+		"Increased defense, movement speed and damage reduction while submerged in liquid\n" +
+		"Enemies take damage when they hit you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
@@ -49,8 +48,7 @@ namespace CalamityMod.Items.Accessories
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
 					{
-						line2.text = "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
-						"Provides cold protection in Death Mode";
+						line2.text += "\nProvides cold protection in Death Mode";
 					}
 				}
 			}
@@ -59,7 +57,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.gShell = true;
+	    // Removed Giant Shell speed boost from Sponge
+            // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
