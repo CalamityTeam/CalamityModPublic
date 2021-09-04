@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.localNPCHitCooldown = 15;
 			projectile.extraUpdates = 1;
 			projectile.scale = 2f;
+			projectile.tileCollide = false;
 		}
 
 		public override void AI()
@@ -93,15 +94,6 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.alpha = 0;
 			}
-		}
-
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			projectile.ai[0] = 1f;
-			projectile.netUpdate = true;
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			return false;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
