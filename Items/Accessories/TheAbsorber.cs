@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Taking a hit will make you move very fast for a short time\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "10% increased damage reduction\n" +
-                "Enemy attacks will have part of their damage absorbed and used to heal you");
+                "5% of the damage from enemy attacks is absorbed and converted into healing");
         }
 
         public override void SetDefaults()
