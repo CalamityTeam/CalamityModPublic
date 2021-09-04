@@ -355,6 +355,7 @@ namespace CalamityMod.CalPlayer
         public bool hiveMindPet = false;
         public bool bendyPet = false;
         public bool littleLightPet = false;
+		public bool pineapplePet = false;
         #endregion
 
         #region Rage
@@ -1505,6 +1506,7 @@ namespace CalamityMod.CalPlayer
             hiveMindPet = false;
             bendyPet = false;
             littleLightPet = false;
+			pineapplePet = false;
 
             onyxExcavator = false;
             angryDog = false;
