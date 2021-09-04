@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 				"Enemies take damage when they hit you\n" +
                 "Taking a hit will make you move very fast for a short time\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
-                "Enemy attacks will have part of their damage absorbed and used to heal you");
+                "6.25% of the damage from enemy attacks is absorbed and converted into healing");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
         }
 
