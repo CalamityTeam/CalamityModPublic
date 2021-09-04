@@ -130,6 +130,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
             // World generation
+            IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon += PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls += PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;
@@ -177,6 +178,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
             // World generation
+            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -712,6 +714,54 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region World generation
+
+        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+        private static void ReplacePharaohSetInPyramids(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Determine the area which determines the held item.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(36)))
+            {
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid item selector value.");
+                return;
+            }
+
+            int startOfItemSelection = cursor.Index;
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc(34)))
+            {
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid loot room left position.");
+                return;
+            }
+            int endOfItemSelection = cursor.Index;
+
+            // And delete it completely with intent to replace it.
+            // Nuances with compliation appear to make simple a load + remove by constant not work.
+            cursor.Index = startOfItemSelection;
+            cursor.RemoveRange(endOfItemSelection - startOfItemSelection);
+
+            // And select the item type directly.
+            cursor.Emit(OpCodes.Ldloc, 36);
+            cursor.EmitDelegate<Func<int, int>>(choice =>
+            {
+                int test = 5;
+                choice = 1;
+                switch (choice)
+                {
+                    case 0:
+                        return ItemID.SandstorminaBottle;
+
+                    // TODO - Replace this with an amber hook in 1.4 to make more sense thematically.
+                    case 1:
+                        return ItemID.RubyHook;
+                    case 2:
+                    default:
+                        return ItemID.FlyingCarpet;
+                }
+            });
+            cursor.Emit(OpCodes.Stloc, 36);
+        }
+
         private static void PreventDungeonHorizontalCollisions(ILContext il)
         {
             // Prevent the Dungeon from appearing near the Sulph sea.
@@ -928,19 +978,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        // UNUSED -- This IL edit doesn't edit the right function, the Pharaoh Mask is definitely not in NPC.scaleStats
-        private static void ReplacePharaohSetInPyramids()
-        {
-            // Replace the Pharaoh's Set in Pyramid gen with something actually useful.
-            IL.Terraria.NPC.scaleStats += (il) =>
-            {
-                var cursor = new ILCursor(il);
-                cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(848)); // The ID of the Pharaoh's Mask.
-                cursor.Remove();
-                cursor.Emit(OpCodes.Ldc_I4, 1240); // Replace the Mask with a Ruby Hook, in 1.4 I will replace this with an Amber Hook so it makes more sense.
-                // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-            };
-        }
         #endregion
 
         #region Helper Functions
