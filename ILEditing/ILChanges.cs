@@ -744,8 +744,6 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 36);
             cursor.EmitDelegate<Func<int, int>>(choice =>
             {
-                int test = 5;
-                choice = 1;
                 switch (choice)
                 {
                     case 0:
