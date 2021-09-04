@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			DisplayName.SetDefault("Rem's Revenge");
 			Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
-			"Inflicts the Wither debuff on hit, dropping enemy defense");
+			"Summons blood explosions and lowers enemy defense on hit");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 600;
+			item.damage = 415;
 			item.melee = true;
 			item.width = 44;
 			item.height = 34;
