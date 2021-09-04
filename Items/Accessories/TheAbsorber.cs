@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they hit you\n" +
-                "Taking a hit will make you move very fast for a short time\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "10% increased damage reduction\n" +
                 "5% of the damage from enemy attacks is absorbed and converted into healing");
@@ -36,7 +35,8 @@ namespace CalamityMod.Items.Accessories
 		public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.gShell = true;
+	    // Removed Giant Shell speed boost from The Absorber
+            // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
