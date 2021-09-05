@@ -783,6 +783,7 @@ namespace CalamityMod.CalPlayer
         public bool waterLeechBleeding = false;
 		public bool divineBlessCooldown = false;
 		public bool banishingFire = false;
+		public bool wither = false;
         #endregion
 
         #region Buff
@@ -1862,6 +1863,7 @@ namespace CalamityMod.CalPlayer
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
 			banishingFire = false;
+			wither = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -2239,6 +2241,7 @@ namespace CalamityMod.CalPlayer
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
 			banishingFire = false;
+			wither = false;
             #endregion
 
             #region Rogue

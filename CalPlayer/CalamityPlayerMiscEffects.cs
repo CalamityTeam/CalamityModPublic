@@ -3023,6 +3023,11 @@ namespace CalamityMod.CalPlayer
 				player.endurance *= 0.75f;
 			}
 
+			if (modPlayer.wither)
+			{
+				player.statDefense -= WitherDebuff.DefenseReduction;
+			}
+
 			if (modPlayer.gState)
 			{
 				player.statDefense -= GlacialState.DefenseReduction;
