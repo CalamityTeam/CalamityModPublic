@@ -1794,7 +1794,7 @@ namespace CalamityMod.NPCs
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				float resistanceGateValue = AstrumDeusIDs.Contains(npc.type) ? 300f : 600f;
+				float resistanceGateValue = (AstrumDeusIDs.Contains(npc.type) && newAI[0] != 0f) ? 300f : 600f;
 				if (newAI[1] < resistanceGateValue || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 					damage *= 0.01;
 			}

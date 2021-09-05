@@ -287,7 +287,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+								Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
+								Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
 								Main.npc[a].active = false;
 						}
 					}
@@ -683,9 +687,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							// Fire deathray telegraph beams
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
+								if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
+								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"),
+										(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+								}
+
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"), npc.Center);
 									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{

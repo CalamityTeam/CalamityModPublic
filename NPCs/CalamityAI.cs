@@ -3250,10 +3250,6 @@ namespace CalamityMod.NPCs
 			else
 				npc.damage = npc.defDamage;
 
-			// 5 seconds of resistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 300f)
-				calamityGlobalNPC.newAI[1] += 1f;
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -3290,6 +3286,11 @@ namespace CalamityMod.NPCs
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
+
+			// 5 seconds of resistance in phase 2, 10 seconds in phase 1, to prevent spawn killing
+			float resistanceTime = doubleWormPhase ? 300f : 600f;
+			if (calamityGlobalNPC.newAI[1] < resistanceTime)
+				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Set timed DR
 			if (!doubleWormPhase)

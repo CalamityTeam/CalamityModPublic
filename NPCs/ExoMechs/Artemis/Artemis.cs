@@ -271,7 +271,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+								Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
 								Main.npc[a].active = false;
 						}
 					}
@@ -415,6 +419,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				npc.localAI[3] = 1f;
 				calamityGlobalNPC.newAI[2] = 0f;
 				calamityGlobalNPC.newAI[3] = 0f;
+
+				// Set frames to phase transition frames, which begin on frame 30
+				// Reset the frame counter
+				npc.frameCounter = 0D;
+
+				// X = 3 sets to frame 27
+				frameX = 3;
+
+				// Y = 3 sets to frame 30
+				frameY = 3;
 			}
 
 			// Passive and Immune phases
@@ -890,9 +904,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			{
 				if (AIState == (float)Phase.Normal)
 				{
-					int frameLimit = npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase1 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase1 : attackFrameLimit_Phase1;
-					if (phase2)
-						frameLimit += 60;
+					int frameLimit = phase2 ? (npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase2 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase2 : attackFrameLimit_Phase2) :
+						(npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase1 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase1 : attackFrameLimit_Phase1);
 
 					if (npc.frameCounter >= 10D)
 					{
@@ -902,21 +915,22 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						// Increment the Y frame
 						frameY++;
 
+						// Reset the Y frame if greater than 9
+						if (frameY == maxFramesY)
+						{
+							frameX++;
+							frameY = 0;
+						}
+
 						// Reset the frames
 						int currentFrame = (frameX * maxFramesY) + frameY;
 						if (currentFrame > frameLimit)
-						{
-							frameX = (currentFrame / (maxFramesY + 1)) - 1;
-							frameY = 0;
-						}
+							frameX = frameY = phase2 ? (npc.Calamity().newAI[3] == 0f ? 6 : npc.Calamity().newAI[3] == 1f ? 7 : 8) : (npc.Calamity().newAI[3] == 0f ? 0 : npc.Calamity().newAI[3] == 1f ? 1 : 2);
 					}
 				}
 				else if (AIState == (float)Phase.Charge || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.Deathray)
 				{
-					int frameLimit = attackFrameLimit_Phase1;
-					if (phase2)
-						frameLimit += 60;
-
+					int frameLimit = phase2 ? attackFrameLimit_Phase2 : attackFrameLimit_Phase1;
 					if (npc.frameCounter >= 10D)
 					{
 						// Reset frame counter
@@ -925,13 +939,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						// Increment the Y frame
 						frameY++;
 
+						// Reset the Y frame if greater than 9
+						if (frameY == maxFramesY)
+						{
+							frameX++;
+							frameY = 0;
+						}
+
 						// Reset the frames
 						int currentFrame = (frameX * maxFramesY) + frameY;
 						if (currentFrame > frameLimit)
-						{
-							frameX = (currentFrame / (maxFramesY + 1)) - 1;
-							frameY = 0;
-						}
+							frameX = frameY = phase2 ? 8 : 2;
 					}
 				}
 			}

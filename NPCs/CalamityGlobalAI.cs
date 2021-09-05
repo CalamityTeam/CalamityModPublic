@@ -1548,6 +1548,7 @@ namespace CalamityMod.NPCs
 					float ai0Holdover = npc.ai[0];
                     float newAI1Holdover = calamityGlobalNPC.newAI[1];
 					int aiTimer = calamityGlobalNPC.AITimer;
+					int slowingDebuffResistTimer = calamityGlobalNPC.debuffResistanceTimer;
 
                     // Actually transform the body segment into a head segment.
 					npc.SetDefaultsKeepPlayerInteraction(npc.type);
@@ -1558,6 +1559,7 @@ namespace CalamityMod.NPCs
                     CalamityGlobalNPC newCGN = npc.Calamity();
                     newCGN.newAI[1] = newAI1Holdover;
                     newCGN.AITimer = aiTimer;
+					newCGN.debuffResistanceTimer = slowingDebuffResistTimer;
                     npc.TargetClosest();
 					npc.netUpdate = true;
                     npc.netSpam = 0;
@@ -1571,13 +1573,15 @@ namespace CalamityMod.NPCs
                     int whoAmI = npc.whoAmI;
 					float ai1Holdover = npc.ai[1];
 					int aiTimer = calamityGlobalNPC.AITimer;
+					int slowingDebuffResistTimer = calamityGlobalNPC.debuffResistanceTimer;
 
 					// Actually transform the body segment into a tail segment.
-                    npc.SetDefaultsKeepPlayerInteraction(npc.type);
+					npc.SetDefaultsKeepPlayerInteraction(npc.type);
                     npc.life = (int)(npc.lifeMax * segmentLifeRatio);
                     npc.whoAmI = whoAmI;
                     npc.ai[1] = ai1Holdover;
                     npc.Calamity().AITimer = aiTimer;
+					npc.Calamity().debuffResistanceTimer = slowingDebuffResistTimer;
 					npc.TargetClosest();
 					npc.netUpdate = true;
                     npc.netSpam = 0;
