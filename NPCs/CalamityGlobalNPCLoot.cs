@@ -1086,6 +1086,11 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
                     break;
 
+                case NPCID.Goldfish:
+                case NPCID.GoldfishWalker:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PineapplePet>(), 0.002f);
+                    break;
+
                 default:
                     break;
             }
