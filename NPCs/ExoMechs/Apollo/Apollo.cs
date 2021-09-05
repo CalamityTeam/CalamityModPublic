@@ -555,6 +555,28 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			}*/
 		}
 
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 100f && npc.Opacity == 1f;
+		}
+
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -619,10 +641,44 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Color afterimageBaseColor = Color.White;
+			int numAfterimages = 5;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+				}
+			}
+
 			Vector2 center = npc.Center - Main.screenPosition;
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Apollo/ApolloGlow");
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+				}
+			}
+
 			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;

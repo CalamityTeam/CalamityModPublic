@@ -142,9 +142,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					npc.Opacity = 0f;
 			}
 
+			// Number of body segments
+			int numSegments = ThanatosHead.minLength;
+
 			// Set timer to whoAmI so that segments don't all fire lasers at the same time
 			if (npc.localAI[2] == 0f)
+			{
 				npc.localAI[2] = npc.ai[0];
+				if (npc.localAI[2] > numSegments)
+					npc.localAI[2] -= numSegments;
+			}
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -174,11 +181,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
+					double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
 					{
 						float divisor = 120f;
-						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -190,6 +196,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								npc.Calamity().newAI[0] += 1f;
 								if (npc.Calamity().newAI[0] >= 72f)
 								{
+									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
@@ -242,15 +249,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					else
 					{
 						// This is only used in deathray phase to prevent laser spam
-						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = 5D;
-						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
-
-						npc.ai[3] += 1f;
-						float shootProjectile = 120f;
-						float timer = npc.ai[0] + 15f;
-						float divisor = timer + shootProjectile;
-						if ((npc.ai[3] % divisor == 0f && (npc.localAI[2] % segmentDivisor == 0f || !berserk)) || npc.Calamity().newAI[0] > 0f)
+						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? 5D : numSegmentsAbleToFire));
+						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
+						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -260,6 +261,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								npc.Calamity().newAI[0] += 1f;
 								if (npc.Calamity().newAI[0] >= 72f)
 								{
+									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
@@ -332,12 +334,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
+				if (npc.ai[3] > 0f)
+					npc.ai[3] = 0f;
+
 				// Set alternating laser-firing body segments every 3 seconds
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] >= 180f)
 				{
 					npc.localAI[1] = 0f;
 					npc.localAI[2] += 1f;
+					if (npc.localAI[2] > numSegments)
+						npc.localAI[2] -= numSegments;
 				}
 
 				npc.Calamity().newAI[0] -= 1f;

@@ -209,10 +209,8 @@ namespace CalamityMod.NPCs.StormWeaver
 						npc.localAI[0] = 0f;
 						npc.netUpdate = true;
 
-						int random = Main.rand.Next(250, 501);
-						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + random : Main.player[npc.target].position.X - random;
-						random = Main.rand.Next(250, 501);
-						float yPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.Y + random : Main.player[npc.target].position.Y - random;
+						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 250f : Main.player[npc.target].position.X - 250f;
+						float yPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.Y + 250f : Main.player[npc.target].position.Y - 250f;
 						Vector2 spawnPos = new Vector2(xPos, yPos);
 
 						int type = ProjectileID.CultistBossLightningOrb;

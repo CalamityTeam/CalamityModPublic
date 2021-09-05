@@ -374,6 +374,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				baseVelocity *= 1.5f;
 				turnDegrees *= 1.5f;
 			}
+
+			// Increase top velocity if target is dead
+			if (targetDead)
+				baseVelocity *= 4f;
+
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
 			float chargeTurnSpeedMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
