@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else if (berserk)
 				deathrayPhaseGateValue *= 0.85f;
 
-			float deathrayPhaseVelocity = passivePhase ? 12f : 15f;
+			float deathrayPhaseVelocity = passivePhase ? 9f : 12f;
 			if (lastMechAlive)
 				deathrayPhaseVelocity *= 1.2f;
 			else if (berserk)
