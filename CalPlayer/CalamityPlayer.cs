@@ -452,6 +452,7 @@ namespace CalamityMod.CalPlayer
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
+		public int nCoreCooldown = 0;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
         public bool abyssalDivingSuitCooldown = false;
@@ -2176,6 +2177,7 @@ namespace CalamityMod.CalPlayer
             jetPackDirection = 0;
             andromedaCripple = 0;
             theBeeCooldown = 0;
+			nCoreCooldown = 0;
             killSpikyBalls = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
@@ -4338,31 +4340,33 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (nCore && Main.rand.NextBool(10))
+            if (nCore && nCoreCooldown <= 0)
             {
-                Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
 
-                for (int j = 0; j < 25; j++)
-                {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust dust = Main.dust[num];
-                    dust.position.X += Main.rand.Next(-20, 21);
-                    dust.position.Y += Main.rand.Next(-20, 21);
-                    dust.velocity *= 0.9f;
-                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-                    if (Main.rand.NextBool(2))
-                        dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                }
+				for (int j = 0; j < 50; j++)
+				{
+					int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
+					Dust dust = Main.dust[num];
+					dust.position.X += Main.rand.Next(-20, 21);
+					dust.position.Y += Main.rand.Next(-20, 21);
+					dust.velocity *= 0.9f;
+					dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+					dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+					if (Main.rand.NextBool(2))
+						dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+				}
 
-                player.statLife += 100;
-                player.HealEffect(100);
+				player.statLife += 100;
+				player.HealEffect(100);
 
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+				if (player.statLife > player.statLifeMax2)
+					player.statLife = player.statLifeMax2;
 
-                return false;
-            }
+				nCoreCooldown = CalamityUtils.SecondsToFrames(90f);
+
+				return false;
+			}
 
 			if (dashMod == 9 && player.dashDelay < 0)
 			{
