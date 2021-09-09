@@ -1,5 +1,9 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
@@ -15,7 +19,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
-	//[AutoloadBossHead]
+	[AutoloadBossHead]
 	public class AresBody : ModNPC
     {
 		public enum Phase
@@ -89,7 +93,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
+            npc.value = Item.buyPrice(3, 33, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -97,6 +101,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.netAlways = true;
 			npc.boss = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -689,18 +694,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			potionType = ModContent.ItemType<OmegaHealingPotion>();
 		}
 
-		// Needs edits
 		public override void NPCLoot()
         {
-			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
+			// DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
-			
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -716,10 +713,38 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Mark Exo Mechs as dead
 			if (!otherExoMechsAlive)
+				DropExoMechLoot(npc);
+		}
+
+		public static void DropExoMechLoot(NPC npc)
+		{
+			DropHelper.DropBags(npc);
+
+			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
 			{
-				CalamityWorld.downedExoMechs = true;
-				CalamityNetcode.SyncWorld();
-			}*/
+				// Weapons
+				float w = DropHelper.NormalWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<SpineOfThanatos>(w),
+					DropHelper.WeightStack<PhotonRipper>(w),
+					DropHelper.WeightStack<SurgeDriver>(w),
+					DropHelper.WeightStack<TheJailor>(w),
+					DropHelper.WeightStack<RefractionRotor>(w),
+					DropHelper.WeightStack<TheAtomSplitter>(w)
+				);
+
+				// Vanity
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
+			}
+
+			CalamityWorld.downedExoMechs = true;
+			CalamityNetcode.SyncWorld();
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

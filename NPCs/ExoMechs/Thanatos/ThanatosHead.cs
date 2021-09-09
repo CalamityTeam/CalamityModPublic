@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
@@ -16,9 +17,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
-	//[AutoloadBossHead]
 	public class ThanatosHead : ModNPC
     {
+		public static int normalIconIndex;
+		public static int vulnerableIconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalHead";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableHead";
+
+			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
+			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(vulnerableIconPath, -1);
+			vulnerableIconIndex = ModContent.GetModBossHeadSlot(vulnerableIconPath);
+		}
+
 		public enum Phase
 		{
 			Charge = 0,
@@ -110,7 +125,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
+            npc.value = Item.buyPrice(3, 33, 0, 0);
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -120,9 +135,23 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.boss = true;
 			npc.chaseable = false;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			if (vulnerable)
+				index = vulnerableIconIndex;
+			else
+				index = normalIconIndex;
+		}
+
+		public override void BossHeadRotation(ref float rotation)
+		{
+			rotation = npc.rotation;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
@@ -150,7 +179,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
-        public override void AI()
+		public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -895,17 +924,21 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			potionType = ModContent.ItemType<OmegaHealingPotion>();
 		}
 
+		public override bool SpecialNPCLoot()
+		{
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+				ModContent.NPCType<ThanatosHead>(),
+				ModContent.NPCType<ThanatosBody1>(),
+				ModContent.NPCType<ThanatosBody2>(),
+				ModContent.NPCType<ThanatosTail>());
+			npc.position = Main.npc[closestSegmentID].position;
+			return false;
+		}
+
 		public override void NPCLoot()
         {
-			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
+			// DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosTrophy>(), 10);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
-			
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
@@ -919,12 +952,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					otherExoMechsAlive = true;
 			}
 
-			// Mark Exo Mechs as dead
 			if (!otherExoMechsAlive)
-			{
-				CalamityWorld.downedExoMechs = true;
-				CalamityNetcode.SyncWorld();
-			}*/
+				AresBody.DropExoMechLoot(npc);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

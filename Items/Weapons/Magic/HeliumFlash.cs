@@ -99,8 +99,8 @@ namespace CalamityMod.Items.Weapons.Magic
             r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
             r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
             r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            r.AddIngredient(ItemID.FragmentSolar, 80);
-            r.AddIngredient(ItemID.FragmentNebula, 20);
+            r.AddIngredient(ItemID.FragmentSolar, 20);
+            r.AddIngredient(ItemID.FragmentNebula, 5);
             r.AddRecipe();
         }
     }

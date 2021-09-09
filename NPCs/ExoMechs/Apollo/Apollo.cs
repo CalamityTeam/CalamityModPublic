@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
@@ -15,9 +16,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
-	//[AutoloadBossHead]
 	public class Apollo : ModNPC
     {
+		public static int phase1IconIndex;
+		public static int phase2IconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string phase1IconPath = "CalamityMod/NPCs/ExoMechs/Apollo/ApolloHead";
+			string phase2IconPath = "CalamityMod/NPCs/ExoMechs/Apollo/ApolloPhase2Head";
+
+			CalamityMod.Instance.AddBossHeadTexture(phase1IconPath, -1);
+			phase1IconIndex = ModContent.GetModBossHeadSlot(phase1IconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(phase2IconPath, -1);
+			phase2IconIndex = ModContent.GetModBossHeadSlot(phase2IconPath);
+		}
+
 		public enum Phase
 		{
 			Normal = 0,
@@ -95,7 +110,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
+            npc.value = Item.buyPrice(3, 33, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -103,9 +118,18 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             npc.netAlways = true;
 			npc.boss = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			if (npc.life / (float)npc.lifeMax < 0.6f)
+				index = phase2IconIndex;
+			else
+				index = phase1IconIndex;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
@@ -688,23 +712,25 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			return false;
 		}
 
+		public override bool SpecialNPCLoot()
+		{
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+				ModContent.NPCType<Artemis.Artemis>(),
+				ModContent.NPCType<Apollo>());
+			npc.position = Main.npc[closestSegmentID].position;
+			return false;
+		}
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ModContent.ItemType<OmegaHealingPotion>();
 		}
 
-		// Needs edits
 		public override void NPCLoot()
         {
-			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
+			// DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisTrophy>(), 10);
+			// DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloTrophy>(), 10);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
-			
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -718,12 +744,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					otherExoMechsAlive = true;
 			}
 
-			// Mark Exo Mechs as dead
 			if (!otherExoMechsAlive)
-			{
-				CalamityWorld.downedExoMechs = true;
-				CalamityNetcode.SyncWorld();
-			}*/
+				AresBody.DropExoMechLoot(npc);
 		}
 
 		// Needs edits

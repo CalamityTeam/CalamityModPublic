@@ -271,15 +271,6 @@ namespace CalamityMod.CalPlayer
 			{
 				float rageGen = 0f;
 
-				// Draedon's Heart provides constant rage generation that scales with missing health.
-				if (modPlayer.draedonsHeart)
-				{
-					float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
-					float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
-					float dhRageGen = modPlayer.rageMax * rageGainLerp / 60f;
-					if (rageGen < dhRageGen)
-						rageGen = dhRageGen;
-				}
 				// Shattered Community provides constant rage generation (stronger than Heart of Darkness).
 				if (modPlayer.shatteredCommunity)
 				{
@@ -3883,7 +3874,6 @@ namespace CalamityMod.CalPlayer
 			// Draedon's Heart bonus
 			if (modPlayer.draedonsHeart)
 			{
-				player.allDamage += 0.05f;
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.statDefense += (int)(player.statDefense * 0.75);
 			}

@@ -15,9 +15,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Artemis
 {
-	//[AutoloadBossHead]
 	public class Artemis : ModNPC
     {
+		public static int phase1IconIndex;
+		public static int phase2IconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string phase1IconPath = "CalamityMod/NPCs/ExoMechs/Artemis/ArtemisHead";
+			string phase2IconPath = "CalamityMod/NPCs/ExoMechs/Artemis/ArtemisPhase2Head";
+
+			CalamityMod.Instance.AddBossHeadTexture(phase1IconPath, -1);
+			phase1IconIndex = ModContent.GetModBossHeadSlot(phase1IconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(phase2IconPath, -1);
+			phase2IconIndex = ModContent.GetModBossHeadSlot(phase2IconPath);
+		}
+
 		public enum Phase
 		{
 			Normal = 0,
@@ -120,7 +134,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -130,7 +143,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			if (npc.life / (float)npc.lifeMax < 0.6f)
+				index = phase2IconIndex;
+			else
+				index = phase1IconIndex;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
@@ -166,6 +187,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
 
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			// Target variable
+			Player player = Main.player[npc.target];
+
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
@@ -182,6 +214,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 				{
+					// Set target to Apollo's target if Apollo is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].target];
+
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life;
@@ -225,17 +260,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// If Artemis and Apollo don't go berserk
 			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoPrimeLifeRatio < 0.4f;
-
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
-
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
-
-			// Target variable
-			Player player = Main.player[npc.target];
 
 			// Spawn Apollo if it doesn't exist after the first 10 frames have passed
 			if (npc.ai[0] < 10f)
@@ -1003,43 +1027,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			return false;
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ModContent.ItemType<OmegaHealingPotion>();
-		}
-
-		// Needs edits
-		public override void NPCLoot()
-        {
-			/*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
-
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
-			
-			// Check if the other exo mechs are alive
-			bool otherExoMechsAlive = false;
-			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-					otherExoMechsAlive = true;
-			}
-			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
-					otherExoMechsAlive = true;
-			}
-
-			// Mark Exo Mechs as dead
-			if (!otherExoMechsAlive)
-			{
-				CalamityWorld.downedExoMechs = true;
-				CalamityNetcode.SyncWorld();
-			}*/
-		}
+		public override bool PreNPCLoot() => false;
 
 		// Needs edits
 		public override void HitEffect(int hitDirection, double damage)

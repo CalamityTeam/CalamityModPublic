@@ -14,8 +14,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
-    public class ThanatosBody2 : ModNPC
+	public class ThanatosBody2 : ModNPC
     {
+		public static int normalIconIndex;
+		public static int vulnerableIconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody";
+
+			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
+			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(vulnerableIconPath, -1);
+			vulnerableIconIndex = ModContent.GetModBossHeadSlot(vulnerableIconPath);
+		}
+
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
@@ -53,6 +68,19 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.chaseable = false;
 			npc.boss = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+		}
+
+		public override void BossHeadSlot(ref int index)
+		{
+			if (vulnerable)
+				index = vulnerableIconIndex;
+			else
+				index = normalIconIndex;
+		}
+
+		public override void BossHeadRotation(ref float rotation)
+		{
+			rotation = npc.rotation;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -401,9 +429,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			SmokeDrawer.Update();
 
+			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
+
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
+            float num191 = player.position.X + (player.width / 2);
+            float num192 = player.position.Y + (player.height / 2);
             num191 = (int)(num191 / 16f) * 16;
             num192 = (int)(num192 / 16f) * 16;
             vector18.X = (int)(vector18.X / 16f) * 16;

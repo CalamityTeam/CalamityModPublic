@@ -578,20 +578,19 @@ namespace CalamityMod
 			}
 
 			// Exo Mechs
-			// Loot requires edits
 			// Collection requires edits
 			// Instructions require edits
 			// Despawn requires edits
-			/*{
+			{
 				BossDifficulty.TryGetValue("ExoMechs", out float order);
 				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
-				List<int> loot = new List<int>() { ItemType<LeviathanBag>(), ItemType<Greentide>(), ItemType<Leviatitan>(), ItemType<SirensSong>(), ItemType<Atlantis>(), ItemType<GastricBelcherStaff>(), ItemType<BrackishFlask>(), ItemType<LeviathanTeeth>(), ItemType<LureofEnthrallment>(), ItemType<LeviathanAmbergris>(), ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<LeviathanMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanandSiren>() };
-				string instructions = "By using a high-tech computer thing that somebody as stupid as you shouldn't be able to use, but whatever";
+				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
+				//List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
+				string instructions = "By using a high-tech computer thing";
 				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
-				string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
-				AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
-			}*/
+				//string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
+				//AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
+			}
 
 			// Supreme Calamitas
 			{
