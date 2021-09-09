@@ -7,7 +7,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
 using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
@@ -53,7 +53,32 @@ namespace CalamityMod.NPCs.TownNPCs
 
 		public override string TownNPCName() => "Calamitas";
 
-		public override string GetChat() => "Mrrp is cringe.";
+		// For Mrrp when he works on this.
+		// These comments can be removed once he's done modifying this and understands how it works.
+
+		// The way this works is by having an RNG based on weights.
+		// With certain conditions (such as if a blood moon is happening) you can add possibilities
+		// to the RNG via textSelector.Add("text", weight);
+		// Text can always appear assuming the weight is greater than 0 and there's no if condition deciding whether it can.
+		// The higher the weight is, the more likely it is to be selected from all the choices.
+		// To give an example of this, assume you have two possibilities:
+		// "a" with a weight of 1, and "b" with a weight of 5. The chance of "a" being displayed would be
+		// 1/6, while "b" wold have a 5/6 chance of being displayed.
+		// If only one possibility exists it will be the only thing that is displayed, regardless of weight.
+		public override string GetChat()
+		{
+			WeightedRandom<string> textSelector = new WeightedRandom<string>(Main.rand);
+			textSelector.Add("Test", 0.95);
+
+			// Select a possibility from the RNG and choose it as the thing that should be said.
+			string thingToSay = textSelector.Get();
+
+			// Have a flat chance (1/4444) to simply ignore the above selection and say something humorous instead.
+			if (Main.rand.NextBool(4444))
+				thingToSay = "Mrrp is cringe.";
+
+			return thingToSay;
+		}
 
 		public override void SetChatButtons(ref string button, ref string button2) => button = "Enchant";
 
