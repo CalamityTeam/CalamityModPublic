@@ -58,11 +58,15 @@ namespace CalamityMod.CalPlayer
 
 			// No category
 
-			// Give the player some jump speed boost at base while wings or balloons are equipped
-			if (player.wingsLogic > 0 || player.jumpBoost)
+			// Give the player a 24% jump speed boost while wings are equipped
+			// Give the player a 10% jump speed boost while not using wings and not using a balloon
+			if (player.wingsLogic > 0)
 				player.jumpSpeedBoost += 1.2f;
+			else if (!player.jumpBoost)
+				player.jumpSpeedBoost += 0.5f;
 
-			// Reduce balloon jump boosts because they'd be too powerful when stacked with wings
+			// Reduce balloon jump speed boosts by 15% because they'd be too powerful when stacked with wings
+			// Normally gives 30%, now gives 15%
 			if (player.jumpBoost)
 				player.jumpSpeedBoost -= 0.75f;
 
@@ -4137,7 +4141,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
 			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
 				(player.wereWolf ? 0.2f : 0f) +
-				(player.jumpBoost ? 0.75f : 0f);
+				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.rageDamageStat = (int)(100D * modPlayer.RageDamageBoost);
 			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());
