@@ -619,6 +619,7 @@ namespace CalamityMod.CalPlayer
         public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
+        public bool BloomStoneRegen = false;
         #endregion
 
         #region Armor Set
@@ -1708,6 +1709,7 @@ namespace CalamityMod.CalPlayer
 			roverDrive = false;
             rottenDogTooth = false;
 			angelicAlliance = false;
+            BloomStoneRegen = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
