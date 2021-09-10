@@ -199,15 +199,17 @@ namespace CalamityMod.NPCs.TownNPCs
             }
 
 			IList<string> donorList = new List<string>(CalamityLists.donatorList);
-			string[] donors = new string[12];
-			for (int i = 0; i < 12; i++)
+			int maxDonorsListed = 15;
+			string[] donors = new string[maxDonorsListed];
+			for (int i = 0; i < maxDonorsListed; i++)
 			{
 				donors[i] = donorList[Main.rand.Next(donorList.Count)];
 				donorList.Remove(donors[i]);
 			}
 
 			dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
-				", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + " and " + donors[11] + "! You're all pretty good! ...wait, who are you again?");
+				", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + ", " + donors[11] + ", " + donors[12] + ", " + donors[13] +
+				" and " + donors[14] + "! You're all pretty good!");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
