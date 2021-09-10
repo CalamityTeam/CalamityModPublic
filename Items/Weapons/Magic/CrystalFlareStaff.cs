@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
             recipe.AddIngredient(ItemID.FrostCore);
             recipe.AddIngredient(ItemID.FrostStaff);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
