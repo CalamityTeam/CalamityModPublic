@@ -428,6 +428,16 @@ namespace CalamityMod.CalPlayer
 			else
 				modPlayer.witheredWeaponHoldTime = 0;
 
+			if (modPlayer.ManaBurn)
+			{
+				int debuffIndex = player.FindBuffIndex(ModContent.BuffType<ManaBurn>());
+				float debuffIntensity = debuffIndex == -1 ? 0f : player.buffTime[debuffIndex] / (float)Player.manaSickTimeMax;
+
+				lifeRegenLost += (int)(Math.Sqrt(debuffIntensity) * Math.Pow(6D, debuffIntensity + 1f));
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+			}
+
 			player.lifeRegen -= (int)(lifeRegenLost * lifeRegenMult);
 
 			// Buffs

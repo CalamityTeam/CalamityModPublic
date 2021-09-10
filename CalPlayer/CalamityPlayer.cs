@@ -620,6 +620,7 @@ namespace CalamityMod.CalPlayer
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
         public bool BloomStoneRegen = false;
+        public bool ChaosStone = false;
         #endregion
 
         #region Armor Set
@@ -790,6 +791,7 @@ namespace CalamityMod.CalPlayer
 		public bool divineBlessCooldown = false;
 		public bool banishingFire = false;
 		public bool wither = false;
+        public bool ManaBurn = false;
         #endregion
 
         #region Buff
@@ -1710,6 +1712,7 @@ namespace CalamityMod.CalPlayer
             rottenDogTooth = false;
 			angelicAlliance = false;
             BloomStoneRegen = false;
+            ChaosStone = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1871,6 +1874,7 @@ namespace CalamityMod.CalPlayer
 			divineBlessCooldown = false;
 			banishingFire = false;
 			wither = false;
+            ManaBurn = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -4539,7 +4543,7 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
                 }
-                if (manaOverloader)
+                if (manaOverloader || ManaBurn)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
                 }
