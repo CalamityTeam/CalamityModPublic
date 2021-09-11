@@ -161,11 +161,11 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     for (int i = 0; i < 35; i++)
                     {
-                        Dust burstDust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.PurpleCosmolite);
+                        Dust burstDust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.PurpleCosmilite);
                         burstDust.velocity = (MathHelper.TwoPi * i / 35f).ToRotationVector2().RotatedByRandom(0.035f) * 12f;
                         burstDust.noGravity = true;
 
-                        burstDust = Dust.NewDustDirect(projectile.Center, 70, 70, (int)CalamityDusts.PurpleCosmolite);
+                        burstDust = Dust.NewDustDirect(projectile.Center, 70, 70, (int)CalamityDusts.PurpleCosmilite);
                         burstDust.velocity = Main.rand.NextVector2CircularEdge(6f, 6f);
                         burstDust.scale = Main.rand.NextFloat(1.3f, 1.75f);
                     }
@@ -412,7 +412,7 @@ namespace CalamityMod.Projectiles.Summon
                 // Spawn a little bit of dust when the portals are destroyed.
                 if (!Main.dedServ)
                     for (int j = 0; j < 16; j++)
-                        Dust.NewDustDirect(proj.position, 45, 45, (int)CalamityDusts.PurpleCosmolite);
+                        Dust.NewDustDirect(proj.position, 45, 45, (int)CalamityDusts.PurpleCosmilite);
             }
         }
         #endregion

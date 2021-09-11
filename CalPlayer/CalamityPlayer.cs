@@ -4124,7 +4124,7 @@ namespace CalamityMod.CalPlayer
 
 			for (int j = 0; j < 30; j++)
 			{
-				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 				Dust dust = Main.dust[num];
 				dust.position.X += Main.rand.Next(-20, 21);
 				dust.position.Y += Main.rand.Next(-20, 21);
@@ -8462,7 +8462,7 @@ namespace CalamityMod.CalPlayer
 
 							for (int j = 0; j < 30; j++)
 							{
-								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 								Dust dust2 = Main.dust[dust];
 								dust2.position.X += Main.rand.Next(-20, 21);
 								dust2.position.Y += Main.rand.Next(-20, 21);
@@ -8678,7 +8678,7 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 50f;
 					for (int m = 0; m < 24; m++)
 					{
-						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2.75f);
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2.75f);
 						Main.dust[num14].velocity *= 0.1f;
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8910,7 +8910,7 @@ namespace CalamityMod.CalPlayer
 
 						for (int d = 0; d < 60; d++)
 						{
-							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
 							Dust dust = Main.dust[idx];
 							dust.position.X += Main.rand.NextFloat(-5f, 5f);
 							dust.position.Y += Main.rand.NextFloat(-5f, 5f);
@@ -9193,7 +9193,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num7].velocity.X *= 0.2f;
 						Main.dust[num7].velocity.Y *= 0.2f;
 						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -9267,7 +9267,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num12].velocity.X *= 0.2f;
 						Main.dust[num12].velocity.Y *= 0.2f;
 						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);

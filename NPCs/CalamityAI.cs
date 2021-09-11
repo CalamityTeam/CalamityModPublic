@@ -4320,7 +4320,7 @@ namespace CalamityMod.NPCs
 							dustVelocity = dustVelocityScalar / dustVelocity;
 							dustVelocityX *= dustVelocity;
 							dustVelocityY *= dustVelocity;
-							int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 5f);
+							int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 5f);
 							Main.dust[dust].noGravity = true;
 							Main.dust[dust].position.X = vector.X;
 							Main.dust[dust].position.Y = vector.Y;

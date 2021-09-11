@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Boss
         {
 			for (int num621 = 0; num621 < 3; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 1.2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.2f);
 				Main.dust[num622].velocity *= 3f;
 				Main.dust[num622].noGravity = true;
 				if (Main.rand.NextBool(2))
@@ -122,10 +122,10 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			for (int num623 = 0; num623 < 5; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 1.7f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.7f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 1f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 2f;
 			}
