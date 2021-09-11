@@ -355,6 +355,30 @@ namespace CalamityMod.Events
                 return 1;
             }
 		}
+
+        public static int MusicToPlay
+        {
+            get
+            {
+                if (CalamityMod.Instance.musicMod != null)
+                    return CalamityMod.Instance.GetMusicFromMusicMod($"BossRushTier{CurrentTier}") ?? 0;
+
+                switch (CurrentTier)
+                {
+                    case 1:
+                        return MusicID.Boss1;
+                    case 2:
+                        return MusicID.Boss4;
+                    case 3:
+                        return MusicID.Boss2;
+                    case 4:
+                        return MusicID.Boss3;
+                    case 5:
+                        return MusicID.LunarBoss;
+                }
+                return 0;
+            }
+        }
 		#endregion Properties
 
 		#region Updates

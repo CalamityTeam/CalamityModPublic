@@ -825,11 +825,15 @@ namespace CalamityMod
                         }
                     }
 
-                    if (musicMod != null && BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
+                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
+                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
+                    /*
+                    if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
                     {
-                        music = musicMod.GetSoundSlot(SoundType.Music, $"Sounds/Music/BossRushTier{BossRushEvent.CurrentTier}");
+                        music = BossRushEvent.MusicToPlay;
                         priority = MusicPriority.BossHigh;
                     }
+                    */
                 }
             }
         }
