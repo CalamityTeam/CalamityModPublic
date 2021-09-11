@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         private const int TurnBlueFrameDelay = 7;
         // Radius of the "circle of inaccuracy" surrounding the mouse. Blue bullets will aim at this circle.
         private const float MouseAimDeviation = 13f;
+        private const int TextureHeight = 136;
 
         private bool BlueMode => projectile.ai[0] != 0f;
         public override string Texture => "CalamityMod/Projectiles/Ranged/GodSlayerSlugPurple";
@@ -95,10 +96,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ai[1] = BlueNoCollideFrames;
             projectile.tileCollide = false;
 
-            // Reduce damage, but remove piercing
+            // Reduce damage, but remove piercing. Reset local iframes so the bullet, turned blue, may always strike again.
             projectile.damage = (int)(0.3f * projectile.damage);
             projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = false;
+            for (int i = 0; i < Main.maxNPCs; i++)
+                projectile.localNPCImmunity[i] = 0;
 
             // Reset projectile lifetime so it can fly again for its full possible range
             projectile.timeLeft = Lifetime - NoDrawFrames * projectile.MaxUpdates;
@@ -126,13 +128,18 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 bulletToMouseVec = CalamityUtils.SafeDirectionTo(projectile, mouseTargetVec, -Vector2.UnitY);
             projectile.velocity = bulletToMouseVec * projectile.localAI[0];
 
-            // Set all old positions to the bullet's warp position so that there aren't weird afterimages
+            // Set all old positions to the bullet's warp position so that there aren't weird afterimages.
+            // If an old position is uninitialized (0,0 aka never used), then don't change it.
             for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; ++i)
-                projectile.oldPos[i] = projectile.position;
+            {
+                Vector2 oldPosElem = projectile.oldPos[i];
+                if (!(oldPosElem == Vector2.Zero))
+                    projectile.oldPos[i] = projectile.position;
+            }
 
             // Now that the bullet has warped, produce a tiny puff of dust at its back for effect.
-            Vector2 dustPos = projectile.Center - bulletToMouseVec * TextureBlue.Height;
-            ProduceWarpCrossDust(dustPos, (int)CalamityDusts.BlueCosmilite);
+            Vector2 warpInDustPos = projectile.Center - bulletToMouseVec * TextureHeight;
+            ProduceWarpCrossDust(warpInDustPos, (int)CalamityDusts.BlueCosmilite);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 140);
@@ -156,7 +163,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.Damage();
 
             // Create a fancy triangle of dust.
-            int dustID = 180;
+            int dustID = (int)CalamityDusts.BlueCosmilite;
             int numDust = 9;
             float triangleAngle = Main.rand.NextFloat(MathHelper.TwoPi);
             for (int i = 0; i < numDust; ++i)
