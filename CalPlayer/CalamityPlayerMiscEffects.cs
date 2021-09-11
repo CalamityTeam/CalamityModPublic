@@ -5,6 +5,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
@@ -13,6 +14,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
@@ -497,6 +499,45 @@ namespace CalamityMod.CalPlayer
 					break;
 				}
 			}
+
+			// Calculate/reset DoG cart rotations based on whether the DoG cart is in use.
+			if (player.mount.Active && player.mount.Type == ModContent.MountType<DoGCartMount>())
+			{
+				modPlayer.SmoothenedMinecartRotation = MathHelper.Lerp(modPlayer.SmoothenedMinecartRotation, DelegateMethods.Minecart.rotation, 0.05f);
+
+				// Initialize segments from null if necessary.
+				int direction = (player.velocity.SafeNormalize(Vector2.UnitX * player.direction).X > 0f).ToDirectionInt();
+				if (player.velocity.X == 0f)
+					direction = player.direction;
+
+				float idealRotation = DoGCartMount.CalculateIdealWormRotation(player);
+				float minecartRotation = DelegateMethods.Minecart.rotation;
+				if (Math.Abs(minecartRotation) < 0.5f)
+					minecartRotation = 0f;
+				Vector2 stickOffset = minecartRotation.ToRotationVector2() * player.velocity.Length() * direction * 1.25f;
+				for (int i = 0; i < modPlayer.DoGCartSegments.Length; i++)
+				{
+					if (modPlayer.DoGCartSegments[i] is null)
+					{
+                        modPlayer.DoGCartSegments[i] = new DoGCartSegment
+                        {
+                            Center = player.Center - idealRotation.ToRotationVector2() * i * 20f
+                        };
+                    }
+				}
+
+				Vector2 startingStickPosition = player.Center + stickOffset + Vector2.UnitY * 12f;
+				modPlayer.DoGCartSegments[0].Update(player, startingStickPosition, idealRotation);
+				modPlayer.DoGCartSegments[0].Center = startingStickPosition;
+
+				for (int i = 1; i < modPlayer.DoGCartSegments.Length; i++)
+				{
+					Vector2 waveOffset = DoGCartMount.CalculateSegmentWaveOffset(i, player);
+					modPlayer.DoGCartSegments[i].Update(player, modPlayer.DoGCartSegments[i - 1].Center + waveOffset, modPlayer.DoGCartSegments[i - 1].Rotation);
+				}
+			}
+			else
+				modPlayer.DoGCartSegments = new DoGCartSegment[modPlayer.DoGCartSegments.Length];
 
 			// Dust on hand when holding the phosphorescent gauntlet.
 			if (player.ActiveItem().type == ModContent.ItemType<PhosphorescentGauntlet>())
