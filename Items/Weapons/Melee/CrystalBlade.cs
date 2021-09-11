@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            recipe = new ModRecipe(mod);
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.AnyCobaltBar, 8);
+            recipe.AddRecipeGroup("AnyCobaltBar", 8);
             recipe.AddIngredient(ItemID.PixieDust, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

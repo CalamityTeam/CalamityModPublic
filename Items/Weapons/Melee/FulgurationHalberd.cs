@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.AnyAdamantiteBar, 10);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
