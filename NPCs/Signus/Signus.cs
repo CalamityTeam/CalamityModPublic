@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.rand.Next(3) < 1)
                     {
-                        int num1012 = Dust.NewDust(vectorCenter - new Vector2(70f), 70 * 2, 70 * 2, (int)CalamityDusts.PurpleCosmolite, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                        int num1012 = Dust.NewDust(vectorCenter - new Vector2(70f), 70 * 2, 70 * 2, (int)CalamityDusts.PurpleCosmilite, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                         Main.dust[num1012].noGravity = true;
                         Main.dust[num1012].velocity *= 0.2f;
                         Main.dust[num1012].fadeIn = 1f;
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.Signus
                 Vector2 position = new Vector2(npc.ai[1] * 16f - (npc.width / 2), npc.ai[2] * 16f - (npc.height / 2));
                 for (int m = 0; m < 5; m++)
                 {
-                    int dust = Dust.NewDust(position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 90, default, 2f);
+                    int dust = Dust.NewDust(position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 90, default, 2f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].fadeIn = 1f;
                 }
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.Signus
 
                     for (int n = 0; n < 15; n++)
                     {
-                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 90, default, 3f);
+                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 90, default, 3f);
                         Main.dust[num39].noGravity = true;
                     }
 
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.Signus
 
                         for (int num621 = 0; num621 < 5; num621++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                            int num622 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity *= 3f;
                             Main.dust[num622].noGravity = true;
                             if (Main.rand.NextBool(2))
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.Signus
                                 Main.dust[num622].scale = 0.5f;
                                 Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
-                            int num623 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                            int num623 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                             Main.dust[num623].velocity *= 3f;
                             Main.dust[num623].noGravity = true;
                             if (Main.rand.NextBool(2))
@@ -360,15 +360,15 @@ namespace CalamityMod.NPCs.Signus
 
                         for (int num623 = 0; num623 < 20; num623++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                            int num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                             Main.dust[num624].noGravity = true;
                             Main.dust[num624].velocity *= 5f;
-                            num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                            num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                             Main.dust[num624].velocity *= 2f;
-                            int num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                            int num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                             Main.dust[num625].noGravity = true;
                             Main.dust[num625].velocity *= 5f;
-                            num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                            num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                             Main.dust[num625].velocity *= 2f;
                         }
                     }
@@ -830,7 +830,7 @@ namespace CalamityMod.NPCs.Signus
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -842,7 +842,7 @@ namespace CalamityMod.NPCs.Signus
                 npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -852,10 +852,10 @@ namespace CalamityMod.NPCs.Signus
                 }
                 for (int num623 = 0; num623 < 60; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
                 float randomSpread = Main.rand.Next(-200, 200) / 100;
