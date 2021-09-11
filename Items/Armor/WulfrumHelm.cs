@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Helm");
-            Tooltip.SetDefault("3% increased melee damage");
+            Tooltip.SetDefault("10% increased melee damage");
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.03f;
+            player.meleeDamage += 0.1f;
         }
 
         public override void AddRecipes()

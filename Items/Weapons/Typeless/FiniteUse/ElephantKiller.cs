@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void SetDefaults()
         {
             item.damage = 2000;
-            item.width = 46;
+            item.width = 56;
             item.height = 26;
             item.useTime = 19;
             item.useAnimation = 19;

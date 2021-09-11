@@ -11,6 +11,8 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
@@ -284,6 +286,9 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 },
 
+				{ ModContent.NPCType<Apollo>(), 0.8 },
+				{ ModContent.NPCType<Artemis>(), 0.8 },
+
 				{ ModContent.NPCType<ThanatosHead>(), 0.8 },
 				{ ModContent.NPCType<ThanatosBody1>(), 0.8 },
 				{ ModContent.NPCType<ThanatosBody2>(), 0.8 },
@@ -543,6 +548,9 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } },
 
+				{ ModContent.NPCType<Apollo>(), new int[] { 350, 560, 592, 608, 768 } },
+				{ ModContent.NPCType<Artemis>(), new int[] { 330, 528, 560, 576, 690 } },
+
 				{ ModContent.NPCType<ThanatosHead>(), new int[] { 400, 640, 680, 704, 864 } },
 				{ ModContent.NPCType<ThanatosBody1>(), new int[] { 330, 528, 560, 576, 690 } },
 				{ ModContent.NPCType<ThanatosBody2>(), new int[] { 330, 528, 560, 576, 690 } },
@@ -798,14 +806,20 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 
+				// { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				// { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
+				// { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 450, 676, 712, 732, 1068 } },
+
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 
-				//{ new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 500, 752, 788, 808, 1182 } },

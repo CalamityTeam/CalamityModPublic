@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 58;
 			item.height = 58;
 			item.scale = 1.5f;
-			item.damage = 110;
+			item.damage = 135;
             item.melee = true;
             item.useAnimation = item.useTime = 15;
             item.useTurn = true;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.37), knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.3), knockBack, player.whoAmI);
             return false;
         }
 

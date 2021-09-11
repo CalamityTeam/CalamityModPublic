@@ -920,7 +920,7 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ItemID.TurtleShell, 3);
             r.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 9);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.FrozenTurtleShell);
             r.AddRecipe();
 

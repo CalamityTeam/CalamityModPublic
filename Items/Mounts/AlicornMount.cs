@@ -1,7 +1,7 @@
 using CalamityMod.Buffs.Mounts;
 using CalamityMod.CalPlayer;
+using CalamityMod.NPCs.TownNPCs;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -67,7 +67,48 @@ namespace CalamityMod.Items.Mounts
             }
         }
 
-        public override void UpdateEffects(Player player)
+		public override void SetMount(Player player, ref bool skipDust)
+		{
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].type == ModContent.NPCType<FAP>())
+				{
+					Main.npc[i].active = false;
+					Main.npc[i].netUpdate = true;
+					break;
+				}
+			}
+		}
+
+		public override void Dismount(Player player, ref bool skipDust)
+		{
+			bool anyPlayerOnFabMount = false;
+			for (int i = 0; i < Main.maxPlayers; i++)
+			{
+				Player player2 = Main.player[i];
+				if (!player2.active)
+					continue;
+
+				// The player that is dismounting is technically not on the mount anymore.
+				if (player2.Calamity().fab && player2.whoAmI != player.whoAmI)
+				{
+					anyPlayerOnFabMount = true;
+					break;
+				}
+			}
+
+			// Spawn Cirrus if no other players are on the Alicorn mount.
+			if (!anyPlayerOnFabMount)
+			{
+				if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
+				}
+			}
+		}
+
+		public override void UpdateEffects(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fabsolVodka)

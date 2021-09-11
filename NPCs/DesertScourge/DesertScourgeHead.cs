@@ -586,7 +586,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropEntireWeightedSet(npc, weapons);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SandCloak>(), 10);
 
                 // Vanity

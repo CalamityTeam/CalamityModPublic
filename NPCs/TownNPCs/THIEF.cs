@@ -20,10 +20,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public static List<string> PossibleNames = new List<string>()
         {
-			//Patron names
-			"Xplizzy", // <@!98826096237109248> Whitegiraffe #6342
+            // Patron names
+            "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
+	    "Freakish", // <@!750363283520749598> Freakish#0001
 
-			//Original names
+            // Original names
             "Laura", "Mie", "Bonnie",
             "Sarah", "Diane", "Kate",
             "Penelope", "Marisa", "Maribel",

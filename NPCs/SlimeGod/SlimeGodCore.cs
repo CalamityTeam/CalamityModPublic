@@ -659,7 +659,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, !CalamityWorld.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 

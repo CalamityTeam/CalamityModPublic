@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Archaic Powder");
-            Tooltip.SetDefault("20% increased mining speed, 7% damage reduction, and +3 defense while underground or in the underworld");
+            Tooltip.SetDefault("20% increased mining speed, 5% damage reduction and +10 defense while underground or in the underworld");
         }
 
         public override void SetDefaults()
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight)
             {
-                player.statDefense += 3;
-                player.endurance += 0.07f;
+                player.statDefense += 10;
+                player.endurance += 0.05f;
                 player.pickSpeed -= 0.2f;
             }
         }

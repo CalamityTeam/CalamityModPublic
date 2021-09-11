@@ -104,6 +104,9 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.player.Calamity().disableAnahitaSpawns)
+                return 0f;
+
             if (spawnInfo.playerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
                 NPC.AnyNPCs(npc.type) ||
@@ -114,20 +117,19 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 return 0f;
             }
+
             if (!Main.hardMode)
-            {
                 return SpawnCondition.OceanMonster.Chance * 0.025f;
-            }
+
             if (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas)
-            {
                 return SpawnCondition.OceanMonster.Chance * 0.1f;
-            }
+
             return SpawnCondition.OceanMonster.Chance * 0.4f;
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensHeart>(), CalamityWorld.revenge, 0.25f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SirensHeart>(), 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 14);
 			recipe.AddIngredient(ModContent.ItemType<TitanHeart>());
-			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

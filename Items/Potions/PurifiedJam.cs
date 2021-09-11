@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Potions
             DisplayName.SetDefault("Purified Jam");
             Tooltip.SetDefault("Makes you immune to all damage and most debuffs for 10 seconds\n" +
                "Causes potion sickness when consumed\n" +
-               "Cannot be consumed while potion sickness is active\n" +
-               "Revengeance drop");
+               "Cannot be consumed while potion sickness is active");
         }
 
         public override void SetDefaults()

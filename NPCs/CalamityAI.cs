@@ -2824,31 +2824,33 @@ namespace CalamityMod.NPCs
                 if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
                     flag52 = true;
 
-                if (flag52)
-                    npc.velocity.Y += 0.5f;
-                else if (Collision.SolidCollision(position2, num854, num855))
-                {
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = 0f;
+				if (flag52)
+				{
+					npc.velocity.Y += 0.5f;
+				}
+				else if (Collision.SolidCollision(position2, num854, num855))
+				{
+					if (npc.velocity.Y > 0f)
+						npc.velocity.Y = 0f;
 
-                    if (npc.velocity.Y > -0.2)
-                        npc.velocity.Y -= 0.025f;
-                    else
-                        npc.velocity.Y -= 0.2f;
+					if (npc.velocity.Y > -0.2)
+						npc.velocity.Y -= 0.025f;
+					else
+						npc.velocity.Y -= 0.2f;
 
-                    if (npc.velocity.Y < -4f)
-                        npc.velocity.Y = -4f;
-                }
-                else
-                {
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = 0f;
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
+				}
+				else
+				{
+					if (npc.velocity.Y < 0f)
+						npc.velocity.Y = 0f;
 
-                    if (npc.velocity.Y < 0.1)
-                        npc.velocity.Y += 0.025f;
-                    else
-                        npc.velocity.Y += 0.5f;
-                }
+					if (npc.velocity.Y < 0.1)
+						npc.velocity.Y += 0.025f;
+					else
+						npc.velocity.Y += 0.5f;
+				}
 
                 // Walk for a maximum of 6 seconds
                 npc.ai[1] += 1f;
@@ -3248,10 +3250,6 @@ namespace CalamityMod.NPCs
 			else
 				npc.damage = npc.defDamage;
 
-			// 5 seconds of resistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 300f)
-				calamityGlobalNPC.newAI[1] += 1f;
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -3288,6 +3286,11 @@ namespace CalamityMod.NPCs
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
 			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
+
+			// 5 seconds of resistance in phase 2, 10 seconds in phase 1, to prevent spawn killing
+			float resistanceTime = doubleWormPhase ? 300f : 600f;
+			if (calamityGlobalNPC.newAI[1] < resistanceTime)
+				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Set timed DR
 			if (!doubleWormPhase)

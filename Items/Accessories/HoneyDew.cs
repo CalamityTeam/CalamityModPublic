@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Honey Dew");
-            Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle\n" +
+            Tooltip.SetDefault("5% increased damage reduction, +5 defense and increased life regen while in the Jungle\n" +
             "Poison and Venom immunity\n" +
             "Honey-like life regen with no speed penalty\n" +
             "Most bee/hornet enemies and projectiles do 75% damage to you");
@@ -30,22 +30,24 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.beeResist = true;
+
             if (player.ZoneJungle)
             {
                 player.lifeRegen += 1;
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }
+
             player.buffImmune[BuffID.Venom] = true;
             player.buffImmune[BuffID.Poisoned] = true;
+
             if (!player.honey && player.lifeRegen < 0)
             {
                 player.lifeRegen += 2;
                 if (player.lifeRegen > 0)
-                {
                     player.lifeRegen = 0;
-                }
             }
+
             player.lifeRegenTime += 1;
             player.lifeRegen += 2;
         }

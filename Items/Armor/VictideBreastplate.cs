@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Victide Breastplate");
             Tooltip.SetDefault("5% increased damage reduction and critical strike chance\n" +
-                "Defense increased while submerged in liquid");
+                "+5 defense and 10% increased damage reduction while submerged in liquid");
         }
 
         public override void SetDefaults()
