@@ -139,6 +139,9 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.player.Calamity().disableNaturalScourgeSpawns)
+                return 0f;
+
             if (spawnInfo.playerSafe)
                 return 0f;
 

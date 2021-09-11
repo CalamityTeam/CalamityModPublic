@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -80,6 +81,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(frameX);
+			writer.Write(frameY);
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			for (int i = 0; i < 4; i++)
@@ -88,6 +91,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			frameX = reader.ReadInt32();
+			frameY = reader.ReadInt32();
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)
@@ -128,11 +133,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 					otherExoMechsAlive++;
 			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-					otherExoMechsAlive++;
-			}
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -169,7 +169,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresBody>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+								Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
 								Main.npc[a].active = false;
 						}
 					}
@@ -237,18 +241,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 20f * baseVelocityMult;
+			float baseVelocity = 16f * baseVelocityMult;
 			float baseAcceleration = 1f;
-			float decelerationVelocityMult = 0.85f;
 			if (berserk)
 			{
 				baseVelocity *= 1.5f;
 				baseAcceleration *= 1.5f;
 			}
-			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
+
+			Vector2 distanceFromDestination = destination - npc.Center;
+			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Whether Ares Laser Arm should move to its spot or not
-			float movementDistanceGateValue = 32f;
+			float movementDistanceGateValue = 50f;
 			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
@@ -258,7 +263,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else if (berserk)
 				deathrayPhaseGateValue *= 0.85f;
 
-			float deathrayPhaseVelocity = passivePhase ? 12f : 15f;
+			float deathrayPhaseVelocity = passivePhase ? 9f : 12f;
 			if (lastMechAlive)
 				deathrayPhaseVelocity *= 1.2f;
 			else if (berserk)
@@ -281,10 +286,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					if (!targetDead)
 					{
-						if (moveToLocation)
-							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-						else
-							npc.velocity *= decelerationVelocityMult;
+						// Inverse lerp returns the percentage of progress between A and B
+						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+						// Min velocity
+						float minVelocity = distanceFromDestination.Length();
+						float minVelocityCap = baseVelocity;
+						if (minVelocity > minVelocityCap)
+							minVelocity = minVelocityCap;
+
+						// Max velocity
+						Vector2 maxVelocity = distanceFromDestination / 24f;
+						float maxVelocityCap = minVelocityCap * 3f;
+						if (maxVelocity.Length() > maxVelocityCap)
+							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 					}
 
 					calamityGlobalNPC.newAI[1] += 1f;
@@ -304,11 +321,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
-							// Fly in place
-							if (moveToLocation)
-								npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-							else
-								npc.velocity *= decelerationVelocityMult;
+							// Inverse lerp returns the percentage of progress between A and B
+							float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+							// Min velocity
+							float minVelocity = distanceFromDestination.Length();
+							float minVelocityCap = baseVelocity;
+							if (minVelocity > minVelocityCap)
+								minVelocity = minVelocityCap;
+
+							// Max velocity
+							Vector2 maxVelocity = distanceFromDestination / 24f;
+							float maxVelocityCap = minVelocityCap * 3f;
+							if (maxVelocity.Length() > maxVelocityCap)
+								maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 							// Set frames to deathray charge up frames, which begin on frame 12
 							if (calamityGlobalNPC.newAI[2] == 1f)
@@ -328,11 +356,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							// Fire regular Thanatos lasers if Ares is in deathray phase, otherwise, fire deathray
 							if (fireNormalLasers)
 							{
-								// Fly in place
-								if (moveToLocation)
-									npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-								else
-									npc.velocity *= decelerationVelocityMult;
+								// Inverse lerp returns the percentage of progress between A and B
+								float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+								// Min velocity
+								float minVelocity = distanceFromDestination.Length();
+								float minVelocityCap = baseVelocity;
+								if (minVelocity > minVelocityCap)
+									minVelocity = minVelocityCap;
+
+								// Max velocity
+								Vector2 maxVelocity = distanceFromDestination / 24f;
+								float maxVelocityCap = minVelocityCap * 3f;
+								if (maxVelocity.Length() > maxVelocityCap)
+									maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+								npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 								// Fire a Thanatos laser
 								int numLasers = lastMechAlive ? 3 : 2;
@@ -467,10 +506,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Color afterimageBaseColor = Color.White;
+			int numAfterimages = 5;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+				}
+			}
+
 			Vector2 center = npc.Center - Main.screenPosition;
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresLaserCannonGlow");
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+				}
+			}
+
 			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;

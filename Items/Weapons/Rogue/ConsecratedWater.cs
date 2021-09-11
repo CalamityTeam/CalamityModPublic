@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 100);
 			recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-			recipe.AddIngredient(ItemID.CrystalShard, 20);
+			recipe.AddIngredient(ItemID.CrystalShard, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

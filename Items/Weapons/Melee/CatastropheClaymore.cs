@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 15);
+            recipe.AddIngredient(ItemID.CrystalShard, 7);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddRecipeGroup("CursedFlameIchor", 5);
             recipe.AddIngredient(ItemID.SoulofMight, 3);

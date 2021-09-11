@@ -52,7 +52,6 @@ namespace CalamityMod.World
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
-        public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
         // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
@@ -182,6 +181,7 @@ namespace CalamityMod.World
         public static bool downedDoG = false;
         public static bool downedBumble = false;
         public static bool downedYharon = false;
+		public static bool downedExoMechs = false;
         public static bool downedSCal = false;
 		public static bool downedAdultEidolonWyrm = false;
         public static bool downedGSS = false;
@@ -283,6 +283,7 @@ namespace CalamityMod.World
             downedSentinel2 = false;
             downedSentinel3 = false;
             downedYharon = false;
+			downedExoMechs = false;
             downedSCal = false;
 			downedAdultEidolonWyrm = false;
             downedCLAM = false;
@@ -350,6 +351,8 @@ namespace CalamityMod.World
                 downed.Add("secondSentinels");
             if (downedYharon)
                 downed.Add("yharon");
+			if (downedExoMechs)
+				downed.Add("exoMechs");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
 			if (downedAdultEidolonWyrm)
@@ -512,6 +515,7 @@ namespace CalamityMod.World
             downedSentinel3 = downed.Contains("signus");
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
+			downedExoMechs = downed.Contains("exoMechs");
             downedSCal = downed.Contains("supremeCalamitas");
 			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
@@ -698,6 +702,7 @@ namespace CalamityMod.World
 				malice = flags11[0];
 				HasGeneratedLuminitePlanetoids = flags11[1];
 				downedAdultEidolonWyrm = flags11[2];
+				downedExoMechs = flags11[3];
             }
             else
             {
@@ -814,6 +819,7 @@ namespace CalamityMod.World
 			flags11[0] = malice;
 			flags11[1] = HasGeneratedLuminitePlanetoids;
 			flags11[2] = downedAdultEidolonWyrm;
+			flags11[3] = downedExoMechs;
 
 			writer.Write(flags);
             writer.Write(flags2);
@@ -941,6 +947,7 @@ namespace CalamityMod.World
 			malice = flags11[0];
 			HasGeneratedLuminitePlanetoids = flags11[1];
 			downedAdultEidolonWyrm = flags11[2];
+			downedExoMechs = flags11[3];
 
 			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();

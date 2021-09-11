@@ -1,5 +1,11 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -13,7 +19,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
-	//[AutoloadBossHead]
+	[AutoloadBossHead]
 	public class AresBody : ModNPC
     {
 		public enum Phase
@@ -58,9 +64,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Default life ratio for the other mechs
 		private const float defaultLifeRatio = 5f;
 
-		// Max distance from the target before they are unable to hear sound telegraphs
-		private const float soundDistance = 2800f;
-
 		// Variable used to stop the arm spawning loop
 		private bool armsSpawned = false;
 
@@ -90,7 +93,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
+            npc.value = Item.buyPrice(3, 33, 0, 0);
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -98,10 +101,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.netAlways = true;
 			npc.boss = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(frameX);
+			writer.Write(frameY);
+			writer.Write(armsSpawned);
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
@@ -111,6 +118,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			frameX = reader.ReadInt32();
+			frameY = reader.ReadInt32();
+			armsSpawned = reader.ReadBoolean();
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
@@ -181,8 +191,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
-			bool exoSpazAlive = false;
-			bool exoRetAlive = false;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
@@ -191,46 +200,34 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					exoWormAlive = true;
 				}
 			}
+
+			// There is no point in checking for the other twin because they have linked HP
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
 				{
 					otherExoMechsAlive++;
-					exoSpazAlive = true;
-				}
-			}
-			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
-				{
-					otherExoMechsAlive++;
-					exoRetAlive = true;
+					exoTwinsAlive = true;
 				}
 			}
 
 			// These are 5 by default to avoid triggering passive phases after the other mechs are dead
 			float exoWormLifeRatio = defaultLifeRatio;
-			float exoSpazLifeRatio = defaultLifeRatio;
-			float exoRetLifeRatio = defaultLifeRatio;
+			float exoTwinsLifeRatio = defaultLifeRatio;
 			if (exoWormAlive)
 				exoWormLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechWorm].lifeMax;
-			if (exoSpazAlive)
-				exoSpazLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
-			if (exoRetAlive)
-				exoRetLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].lifeMax;
-			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoSpazLifeRatio + exoRetLifeRatio;
+			if (exoTwinsAlive)
+				exoTwinsLifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].lifeMax;
+			float totalOtherExoMechLifeRatio = exoWormLifeRatio + exoTwinsLifeRatio;
 
 			// Check if any of the other mechs are passive
 			bool exoWormPassive = false;
-			bool exoSpazPassive = false;
-			bool exoRetPassive = false;
+			bool exoTwinsPassive = false;
 			if (exoWormAlive)
 				exoWormPassive = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].Calamity().newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive;
-			/*if (exoSpazAlive)
-				exoSpazPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.SecondaryPhase.Passive;
-			if (exoRetAlive)
-				exoRetPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Calamity().newAI[1] == (float)Artemis.SecondaryPhase.Passive;*/
-			bool anyOtherExoMechPassive = exoWormPassive || exoSpazPassive || exoRetPassive;
+			if (exoTwinsAlive)
+				exoTwinsPassive = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] == (float)Apollo.Apollo.SecondaryPhase.Passive;
+			bool anyOtherExoMechPassive = exoWormPassive || exoTwinsPassive;
 
 			// Phases
 			bool spawnOtherExoMechs = lifeRatio > 0.4f && otherExoMechsAlive == 0 && lifeRatio < 0.7f;
@@ -238,7 +235,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			// If Ares doesn't go berserk
-			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoSpazLifeRatio < 0.4f || exoRetLifeRatio < 0.4f;
+			bool otherMechIsBerserk = exoWormLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -273,7 +270,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						for (int a = 0; a < Main.maxNPCs; a++)
 						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() || Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>())
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() ||
+								Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
 								Main.npc[a].active = false;
 						}
 					}
@@ -305,6 +306,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// If not berserk
 			// Phase 6 - 4
+
+			// Berserk, final phase of Ares
 			// Phase 7 - 1, 2
 
 			// Adjust opacity
@@ -335,7 +338,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocity = 14f * baseVelocityMult;
 			float baseAcceleration = 1f;
 			float decelerationVelocityMult = 0.85f;
 			if (berserk)
@@ -343,14 +346,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				baseVelocity *= 1.5f;
 				baseAcceleration *= 1.5f;
 			}
-			Vector2 desiredVelocity = Vector2.Normalize(destination - npc.Center) * baseVelocity;
+			Vector2 distanceFromDestination = destination - npc.Center;
+			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Distance from target
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
-			// Whether Ares should move to its spot or not
-			float movementDistanceGateValue = 32f;
-			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
+			// Distance where Ares stops moving
+			float movementDistanceGateValue = 50f;
 
 			// Gate values
 			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
@@ -374,8 +377,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							{
 								// Spawn code here
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ThanatosHead>());
-								// NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis>());
-								// NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
+								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo.Apollo>());
 							}
 						}
 					}
@@ -430,7 +433,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)SecondaryPhase.PassiveAndImmune:
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
-					if ((exoWormLifeRatio < 0.7f || exoSpazLifeRatio < 0.7f || exoRetLifeRatio < 0.7f) && !otherMechIsBerserk)
+					if ((exoWormLifeRatio < 0.7f || exoTwinsLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
 						// Tells Ares to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
@@ -458,10 +461,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 					if (!targetDead)
 					{
-						if (moveToLocation)
-							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-						else
-							npc.velocity *= decelerationVelocityMult;
+						// Inverse lerp returns the percentage of progress between A and B
+						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+						// Min velocity
+						float minVelocity = distanceFromDestination.Length();
+						float minVelocityCap = baseVelocity;
+						if (minVelocity > minVelocityCap)
+							minVelocity = minVelocityCap;
+
+						// Max velocity
+						Vector2 maxVelocity = distanceFromDestination / 24f;
+						float maxVelocityCap = minVelocityCap * 3f;
+						if (maxVelocity.Length() > maxVelocityCap)
+							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 					}
 
 					if (berserk)
@@ -483,7 +498,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						if (distanceFromTarget > deathrayDistanceGateValue && calamityGlobalNPC.newAI[3] == 0f)
 						{
-							Vector2 desiredVelocity2 = Vector2.Normalize(destination - npc.Center) * baseVelocity;
+							Vector2 desiredVelocity2 = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 							npc.SimpleFlyMovement(desiredVelocity2, baseAcceleration);
 						}
 						else
@@ -631,10 +646,44 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Color afterimageBaseColor = Color.White;
+			int numAfterimages = 5;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+				}
+			}
+
 			Vector2 center = npc.Center - Main.screenPosition;
 			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Ares/AresBodyGlow");
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int i = 1; i < numAfterimages; i += 2)
+				{
+					Color afterimageColor = drawColor;
+					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+					afterimageColor = npc.GetAlpha(afterimageColor);
+					afterimageColor *= (numAfterimages - i) / 15f;
+					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+				}
+			}
+
 			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;
@@ -645,18 +694,58 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			potionType = ModContent.ItemType<OmegaHealingPotion>();
 		}
 
-		// Needs edits
 		public override void NPCLoot()
         {
-            /*DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
+			// DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);*/
-        }
+			// Check if the other exo mechs are alive
+			bool otherExoMechsAlive = false;
+			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+					otherExoMechsAlive = true;
+			}
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive = true;
+			}
+
+			// Mark Exo Mechs as dead
+			if (!otherExoMechsAlive)
+				DropExoMechLoot(npc);
+		}
+
+		public static void DropExoMechLoot(NPC npc)
+		{
+			DropHelper.DropBags(npc);
+
+			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
+			{
+				// Weapons
+				float w = DropHelper.NormalWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<SpineOfThanatos>(w),
+					DropHelper.WeightStack<PhotonRipper>(w),
+					DropHelper.WeightStack<SurgeDriver>(w),
+					DropHelper.WeightStack<TheJailor>(w),
+					DropHelper.WeightStack<RefractionRotor>(w),
+					DropHelper.WeightStack<TheAtomSplitter>(w)
+				);
+
+				// Vanity
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
+				// DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
+			}
+
+			CalamityWorld.downedExoMechs = true;
+			CalamityNetcode.SyncWorld();
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

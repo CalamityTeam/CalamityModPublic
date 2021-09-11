@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             item.width = 12;
             item.height = 30;
-            item.maxStack = 99;
+            item.maxStack = 999;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;

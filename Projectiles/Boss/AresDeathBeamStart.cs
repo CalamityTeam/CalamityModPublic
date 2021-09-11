@@ -70,20 +70,22 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.Kill();
 
 			float num801 = 1f;
+			float duration = 600f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 600f)
+            if (projectile.localAI[0] >= duration)
             {
                 projectile.Kill();
                 return;
             }
 
-			projectile.scale = (float)Math.Sin(projectile.localAI[0] * (float)Math.PI / 600f) * 10f * num801;
+			projectile.scale = (float)Math.Sin(projectile.localAI[0] * (float)Math.PI / duration) * 10f * num801;
             if (projectile.scale > num801)
                 projectile.scale = num801;
 
 			float num804 = projectile.velocity.ToRotation();
 			float divisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
-			num804 += MathHelper.TwoPi / divisor;
+			float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, projectile.localAI[0] / duration);
+			num804 += rotationAmt;
 			projectile.rotation = num804 - MathHelper.PiOver2;
 			projectile.velocity = num804.ToRotationVector2();
 

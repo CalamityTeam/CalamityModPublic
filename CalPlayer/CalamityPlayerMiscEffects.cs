@@ -58,11 +58,15 @@ namespace CalamityMod.CalPlayer
 
 			// No category
 
-			// Give the player some jump speed boost at base while wings or balloons are equipped
-			if (player.wingsLogic > 0 || player.jumpBoost)
+			// Give the player a 24% jump speed boost while wings are equipped
+			// Give the player a 10% jump speed boost while not using wings and not using a balloon
+			if (player.wingsLogic > 0)
 				player.jumpSpeedBoost += 1.2f;
+			else if (!player.jumpBoost)
+				player.jumpSpeedBoost += 0.5f;
 
-			// Reduce balloon jump boosts because they'd be too powerful when stacked with wings
+			// Reduce balloon jump speed boosts by 15% because they'd be too powerful when stacked with wings
+			// Normally gives 30%, now gives 15%
 			if (player.jumpBoost)
 				player.jumpSpeedBoost -= 0.75f;
 
@@ -134,6 +138,13 @@ namespace CalamityMod.CalPlayer
 					modPlayer.packetTimer = 0;
 					modPlayer.StandardSync();
 				}
+			}
+
+			// After everything, reset ranged crit if necessary.
+			if (modPlayer.spiritOrigin)
+			{
+				modPlayer.spiritOriginConvertedCrit = player.rangedCrit - 4;
+				player.rangedCrit = 4;
 			}
 		}
 		#endregion
@@ -264,15 +275,6 @@ namespace CalamityMod.CalPlayer
 			{
 				float rageGen = 0f;
 
-				// Draedon's Heart provides constant rage generation that scales with missing health.
-				if (modPlayer.draedonsHeart)
-				{
-					float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
-					float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
-					float dhRageGen = modPlayer.rageMax * rageGainLerp / 60f;
-					if (rageGen < dhRageGen)
-						rageGen = dhRageGen;
-				}
 				// Shattered Community provides constant rage generation (stronger than Heart of Darkness).
 				if (modPlayer.shatteredCommunity)
 				{
@@ -548,6 +550,31 @@ namespace CalamityMod.CalPlayer
 				player.width = 20;
 				player.height = 42;
 				modPlayer.resetHeightandWidth = false;
+			}
+
+			// Summon bullseyes on nearby targets.
+			if (player.Calamity().spiritOrigin)
+            {
+				int bullseyeType = ModContent.ProjectileType<SpiritOriginBullseye>();
+				List<int> alreadyTargetedNPCs = new List<int>();
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+						continue;
+
+					alreadyTargetedNPCs.Add((int)Main.projectile[i].ai[0]);
+				}
+
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+						continue;
+
+					if (Main.myPlayer == player.whoAmI && Main.npc[i].WithinRange(player.Center, 2000f))
+						Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, bullseyeType, 0, 0f, player.whoAmI, i);
+					if (player.Calamity().spiritOriginBullseyeShootCountdown <= 0)
+						player.Calamity().spiritOriginBullseyeShootCountdown = 45;
+				}
 			}
 
 			// Proficiency level ups
@@ -1131,6 +1158,8 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.spiritOriginBullseyeShootCountdown > 0)
+				modPlayer.spiritOriginBullseyeShootCountdown--;
 			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
 				modPlayer.phantomicHeartRegen--;
 			if (modPlayer.phantomicBulwarkCooldown > 0)
@@ -1175,6 +1204,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.jetPackDash--;
 			if (modPlayer.theBeeCooldown > 0)
 				modPlayer.theBeeCooldown--;
+			if (modPlayer.nCoreCooldown > 0)
+				modPlayer.nCoreCooldown--;
 			if (modPlayer.jellyDmg > 0f)
 				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
@@ -1437,10 +1468,10 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += 0.05f;
 				player.jumpSpeedBoost += 0.25f;
 				player.thorns += 0.5f;
-				player.endurance += 0.1f;
+				player.endurance += modPlayer.sponge ? 0.15f : 0.1f;
 
 				if (player.StandingStill() && player.itemAnimation == 0)
-					player.manaRegenBonus += 2;
+					player.manaRegenBonus += 4;
 			}
 
 			// Sea Shell bonus
@@ -1473,13 +1504,10 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.aAmpoule)
 			{
-				player.endurance += 0.05f;
-				player.pickSpeed -= 0.25f;
-				player.buffImmune[BuffID.Venom] = true;
+				player.endurance += 0.07f;
 				player.buffImmune[BuffID.Frozen] = true;
 				player.buffImmune[BuffID.Chilled] = true;
 				player.buffImmune[BuffID.Frostburn] = true;
-				player.buffImmune[BuffID.Poisoned] = true;
 			}
 			if (modPlayer.cFreeze)
 			{
@@ -2992,6 +3020,11 @@ namespace CalamityMod.CalPlayer
 				player.endurance *= 0.75f;
 			}
 
+			if (modPlayer.wither)
+			{
+				player.statDefense -= WitherDebuff.DefenseReduction;
+			}
+
 			if (modPlayer.gState)
 			{
 				player.statDefense -= GlacialState.DefenseReduction;
@@ -3075,10 +3108,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.dAmulet)
-			{
-				player.panic = true;
 				player.pStone = true;
-			}
 
 			if (modPlayer.fBulwark)
 			{
@@ -3848,7 +3878,6 @@ namespace CalamityMod.CalPlayer
 			// Draedon's Heart bonus
 			if (modPlayer.draedonsHeart)
 			{
-				player.allDamage += 0.05f;
 				if (player.StandingStill() && player.itemAnimation == 0)
 					player.statDefense += (int)(player.statDefense * 0.75);
 			}
@@ -4112,7 +4141,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
 			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
 				(player.wereWolf ? 0.2f : 0f) +
-				(player.jumpBoost ? 0.75f : 0f);
+				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.rageDamageStat = (int)(100D * modPlayer.RageDamageBoost);
 			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());

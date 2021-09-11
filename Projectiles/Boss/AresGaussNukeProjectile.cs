@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (Main.myPlayer == projectile.owner)
 			{
 				// Explosion waves
-				for (int i = 0; i < 7; i++)
+				for (int i = 0; i < 5; i++)
 				{
 					Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, 0f, Main.myPlayer);
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))

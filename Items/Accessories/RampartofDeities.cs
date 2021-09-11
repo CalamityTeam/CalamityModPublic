@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rampart of Deities");
-            Tooltip.SetDefault("Taking damage grants boosted movement speed for a short time\n" +
-                "Causes stars to fall and gives increased immune time when damaged\n" +
+            Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
                 "Reduces the cooldown of healing potions\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Accessories
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
 					{
 						line2.text = "";
 					}

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increased life regen and magic damage while submerged in liquid\n" +
+            player.setBonus = "+3 life regen and 10% increased magic damage while submerged in liquid\n" +
                     "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                     "This seashell does true damage and does not benefit from any damage class\n" +
                     "Provides increased underwater mobility and slightly reduces breath loss in the abyss";

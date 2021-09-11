@@ -670,14 +670,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.aAmpoule)
 			{
-				if (!player.honey && player.lifeRegen < 0)
-				{
-					player.lifeRegen += 2;
-					if (player.lifeRegen > 0)
-						player.lifeRegen = 0;
-				}
-				player.lifeRegenTime += 1;
-				player.lifeRegen += 2;
+				player.lifeRegen += 4;
 			}
 			else if (modPlayer.rOoze)
 			{

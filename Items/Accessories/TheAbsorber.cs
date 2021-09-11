@@ -1,7 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,15 +17,14 @@ namespace CalamityMod.Items.Accessories
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they hit you\n" +
-                "Taking a hit will make you move very fast for a short time\n" +
-                "You emit a mushroom spore and spark explosion when you are hit\n" +
+                "You emit a cloud of mushroom spores when you are hit\n" +
                 "10% increased damage reduction\n" +
-                "Enemy attacks will have part of their damage absorbed and used to heal you");
+                "5% of the damage from enemy attacks is absorbed and converted into healing");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 6;
+            item.defense = 10;
             item.width = 20;
             item.height = 24;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
@@ -37,8 +35,8 @@ namespace CalamityMod.Items.Accessories
 		public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.aSpark = true;
-            modPlayer.gShell = true;
+	    // Removed Giant Shell speed boost from The Absorber
+            // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
@@ -53,7 +51,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<CrawCarapace>());
             recipe.AddIngredient(ModContent.ItemType<FungalCarapace>());
             recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
-            recipe.AddIngredient(ModContent.ItemType<AmidiasSpark>());
             recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
@@ -67,7 +64,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<FungalCarapace>());
             recipe.AddIngredient(ModContent.ItemType<GiantShell>());
             recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
-            recipe.AddIngredient(ModContent.ItemType<AmidiasSpark>());
             recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);

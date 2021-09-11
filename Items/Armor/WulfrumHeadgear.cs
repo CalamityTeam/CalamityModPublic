@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Headgear");
-            Tooltip.SetDefault("3% increased ranged damage");
+            Tooltip.SetDefault("10% increased ranged damage");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.03f;
+            player.rangedDamage += 0.1f;
         }
 
         public override void AddRecipes()

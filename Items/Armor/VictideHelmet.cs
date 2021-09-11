@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Victide Helmet");
-            Tooltip.SetDefault("9% increased minion damage");
+            Tooltip.SetDefault("10% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increased life regen and minion damage while submerged in liquid\n" +
+            player.setBonus = "+3 life regen and 10% increased minion damage while submerged in liquid\n" +
                 "Summons a sea urchin to protect you\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.09f;
+            player.minionDamage += 0.1f;
         }
 
         public override void AddRecipes()

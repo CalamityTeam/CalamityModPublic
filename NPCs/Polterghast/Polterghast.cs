@@ -25,10 +25,24 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Polterghast
 {
-	[AutoloadBossHead]
     public class Polterghast : ModNPC
     {
-        private int despawnTimer = 600;
+		public static int phase1IconIndex;
+		public static int phase3IconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string phase1IconPath = "CalamityMod/NPCs/Polterghast/Polterghast_Head_Boss";
+			string phase3IconPath = "CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss";
+
+			CalamityMod.Instance.AddBossHeadTexture(phase1IconPath, -1);
+			phase1IconIndex = ModContent.GetModBossHeadSlot(phase1IconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(phase3IconPath, -1);
+			phase3IconIndex = ModContent.GetModBossHeadSlot(phase3IconPath);
+		}
+
+		private int despawnTimer = 600;
 		private const int chargeTelegraphTimerMax = 15;
 		private int chargeTelegraphTimer = chargeTelegraphTimerMax;
 		private bool reachedChargingPoint = false;
@@ -68,7 +82,21 @@ namespace CalamityMod.NPCs.Polterghast
             bossBag = ModContent.ItemType<PolterghastBag>();
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			bool phase3 = npc.life / (float)npc.lifeMax < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
+			if (phase3)
+				index = phase3IconIndex;
+			else
+				index = phase1IconIndex;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
 			writer.Write(chargeTelegraphTimer);

@@ -28,6 +28,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -125,6 +126,11 @@ namespace CalamityMod.CalPlayer
 		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool disableVoodooSpawns = false;
+        public bool disablePerfCystSpawns = false;
+        public bool disableHiveCystSpawns = false;
+        public bool disableNaturalScourgeSpawns = false;
+        public bool disableAnahitaSpawns = false;
         public bool blazingMouseDamageEffects = false;
         public bool ableToDrawBlazingMouse = false;
         public float blazingMouseAuraFade = 0f;
@@ -240,6 +246,8 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
+        public int spiritOriginBullseyeShootCountdown = 0;
+        public int spiritOriginConvertedCrit = 0;
 
         public const int BeltDodgeCooldown = 3600;
         public const int MirrorDodgeCooldown = 4500;
@@ -332,6 +340,7 @@ namespace CalamityMod.CalPlayer
         public int ladHearts = 0;
         public bool sparks = false;
         public bool sirenPet = false;
+        public bool spiritOriginPet = false;
         public bool fox = false;
         public bool chibii = false;
         public bool brimling = false;
@@ -344,8 +353,10 @@ namespace CalamityMod.CalPlayer
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
+        public bool hiveMindPet = false;
         public bool bendyPet = false;
         public bool littleLightPet = false;
+		public bool pineapplePet = false;
         #endregion
 
         #region Rage
@@ -442,6 +453,7 @@ namespace CalamityMod.CalPlayer
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
+		public int nCoreCooldown = 0;
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
         public bool abyssalDivingSuitCooldown = false;
@@ -459,6 +471,7 @@ namespace CalamityMod.CalPlayer
         public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
+		public bool sponge = false;
         public bool rOoze = false;
         public bool pAmulet = false;
         public bool fBarrier = false;
@@ -516,6 +529,7 @@ namespace CalamityMod.CalPlayer
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool aquaticEmblem = false;
+        public bool spiritOrigin = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
         public bool voidOfExtinction = false;
@@ -771,6 +785,7 @@ namespace CalamityMod.CalPlayer
         public bool waterLeechBleeding = false;
 		public bool divineBlessCooldown = false;
 		public bool banishingFire = false;
+		public bool wither = false;
         #endregion
 
         #region Buff
@@ -1391,7 +1406,7 @@ namespace CalamityMod.CalPlayer
         {
             // Max health bonuses
             if (absorber)
-                player.statLifeMax2 += 20;
+                player.statLifeMax2 += sponge ? 30 : 20;
             player.statLifeMax2 +=
                 (mFruit ? 25 : 0) +
                 (bOrange ? 25 : 0) +
@@ -1479,6 +1494,7 @@ namespace CalamityMod.CalPlayer
             ladShark = false;
             sparks = false;
             sirenPet = false;
+            spiritOriginPet = false;
             fox = false;
             chibii = false;
             brimling = false;
@@ -1490,8 +1506,10 @@ namespace CalamityMod.CalPlayer
             babyGhostBell = false;
             radiator = false;
             scalPet = false;
+            hiveMindPet = false;
             bendyPet = false;
             littleLightPet = false;
+			pineapplePet = false;
 
             onyxExcavator = false;
             angryDog = false;
@@ -1595,6 +1613,7 @@ namespace CalamityMod.CalPlayer
             seaShell = false;
             absorber = false;
             aAmpoule = false;
+			sponge = false;
             rOoze = false;
             pAmulet = false;
             fBarrier = false;
@@ -1713,6 +1732,8 @@ namespace CalamityMod.CalPlayer
             abyssalAmulet = false;
             lumenousAmulet = false;
             aquaticEmblem = false;
+            spiritOrigin = false;
+            spiritOriginConvertedCrit = 0;
 
             astralStarRain = false;
 
@@ -1844,6 +1865,7 @@ namespace CalamityMod.CalPlayer
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
 			banishingFire = false;
+			wither = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -2044,6 +2066,12 @@ namespace CalamityMod.CalPlayer
             soulSeeker = false;
             perditionBeacon = false;
 
+            disableVoodooSpawns = false;
+            disablePerfCystSpawns = false;
+            disableHiveCystSpawns = false;
+            disableNaturalScourgeSpawns = false;
+            disableAnahitaSpawns = false;
+
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
 
@@ -2098,28 +2126,6 @@ namespace CalamityMod.CalPlayer
                 Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower, GeneralScreenShakePower);
                 GeneralScreenShakePower = MathHelper.Clamp(GeneralScreenShakePower - 0.185f, 0f, 20f);
             }
-
-            if (CalamityWorld.ScreenShakeSpots.Count > 0)
-            {
-                // Fail-safe to ensure that spots don't last forever.
-                Dictionary<int, ScreenShakeSpot> screenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
-                List<int> screenShakeUUIDs = CalamityWorld.ScreenShakeSpots.Keys.ToList();
-                for (int i = 0; i < CalamityWorld.ScreenShakeSpots.Count; i++)
-                {
-                    int uuid = screenShakeUUIDs[i];
-                    if (Main.projectile[uuid].active)
-                    {
-                        screenShakeSpots.Add(uuid, CalamityWorld.ScreenShakeSpots[uuid]);
-                    }
-                }
-                CalamityWorld.ScreenShakeSpots = screenShakeSpots;
-
-                foreach (var spot in CalamityWorld.ScreenShakeSpots)
-                {
-                    float maxPower = Utils.InverseLerp(1300f, 0f, Vector2.Distance(spot.Value.Position, player.Center), true) * spot.Value.ScreenShakePower;
-                    Main.screenPosition += Main.rand.NextVector2Circular(maxPower, maxPower);
-                }
-            }
         }
         #endregion
 
@@ -2147,6 +2153,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
+            spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
             raiderStack = 0;
@@ -2171,6 +2178,7 @@ namespace CalamityMod.CalPlayer
             jetPackDirection = 0;
             andromedaCripple = 0;
             theBeeCooldown = 0;
+			nCoreCooldown = 0;
             killSpikyBalls = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
@@ -2236,6 +2244,7 @@ namespace CalamityMod.CalPlayer
             waterLeechBleeding = false;
 			divineBlessCooldown = false;
 			banishingFire = false;
+			wither = false;
             #endregion
 
             #region Rogue
@@ -4339,31 +4348,33 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (nCore && Main.rand.NextBool(10))
+            if (nCore && nCoreCooldown <= 0)
             {
-                Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
 
-                for (int j = 0; j < 25; j++)
-                {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust dust = Main.dust[num];
-                    dust.position.X += Main.rand.Next(-20, 21);
-                    dust.position.Y += Main.rand.Next(-20, 21);
-                    dust.velocity *= 0.9f;
-                    dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-                    if (Main.rand.NextBool(2))
-                        dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
-                }
+				for (int j = 0; j < 50; j++)
+				{
+					int num = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 100, default, 2f);
+					Dust dust = Main.dust[num];
+					dust.position.X += Main.rand.Next(-20, 21);
+					dust.position.Y += Main.rand.Next(-20, 21);
+					dust.velocity *= 0.9f;
+					dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+					dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+					if (Main.rand.NextBool(2))
+						dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+				}
 
-                player.statLife += 100;
-                player.HealEffect(100);
+				player.statLife += 100;
+				player.HealEffect(100);
 
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+				if (player.statLife > player.statLifeMax2)
+					player.statLife = player.statLifeMax2;
 
-                return false;
-            }
+				nCoreCooldown = CalamityUtils.SecondsToFrames(90f);
+
+				return false;
+			}
 
 			if (dashMod == 9 && player.dashDelay < 0)
 			{
@@ -5729,7 +5740,8 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityMod.bossVelocityDamageScaleValues.TryGetValue(npc.type, out float velocityScalar);
 
-                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f))
+                if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f) ||
+					(npc.type == ModContent.NPCType<Apollo>() && npc.life / (float)npc.lifeMax < 0.6f))
                     velocityScalar = CalamityMod.bitingEnemeyVelocityScale;
 
                 if (npc.velocity == Vector2.Zero)
@@ -7462,7 +7474,7 @@ namespace CalamityMod.CalPlayer
 
 				if (absorber)
 				{
-					int healAmt = (int)(damage / 20D);
+					int healAmt = (int)(damage / (sponge ? 16D : 20D));
 					player.statLife += healAmt;
 					player.HealEffect(healAmt);
 				}
@@ -7622,7 +7634,7 @@ namespace CalamityMod.CalPlayer
 
                         if (npcDist < range)
                         {
-                            float duration = Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+                            float duration = Main.rand.Next(300 + (int)damage / 3, 480 + (int)damage / 2);
                             npc.AddBuff(BuffID.Confused, (int)duration, false);
                             if (amalgam)
                             {
@@ -7834,7 +7846,7 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int fDamage = (int)(56 * player.AverageDamage());
+                    int fDamage = (int)(70 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (int i = 0; i < 4; i++)
@@ -7844,8 +7856,8 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int spore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
                             int spore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            Main.projectile[spore1].timeLeft = 120;
-                            Main.projectile[spore2].timeLeft = 120;
+                            Main.projectile[spore1].timeLeft = 300;
+                            Main.projectile[spore2].timeLeft = 300;
                         }
                     }
                 }
@@ -10780,7 +10792,7 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (sirenBoobs)
                 light += 1;
-            if (aAmpoule) // sponge inherits this and doesn't stack with ampoule
+            if (aAmpoule)
                 light += 1;
             else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
                 light += 1;

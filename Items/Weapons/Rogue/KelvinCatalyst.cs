@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 70;
+            item.damage = 60;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.height = 20;
-            item.value = Item.buyPrice(gold: 48);
-            item.rare = ItemRarityID.LightPurple;
+            item.value = Item.buyPrice(gold: 36);
+            item.rare = ItemRarityID.Pink;
             item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<FrostFlare>(), 2);
             recipe.AddIngredient(ItemID.FrostCore, 2);
             recipe.AddIngredient(ModContent.ItemType<CryoStone>());
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

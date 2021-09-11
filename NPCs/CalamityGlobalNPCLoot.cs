@@ -992,11 +992,7 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.SharkToothNecklace, Main.expertMode ? 15 : 25);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<JoyfulHeart>(), Main.expertMode ? 15 : 25);
                     break;
-
-                case NPCID.PresentMimic:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<HolidayHalberd>(), Main.expertMode ? 4 : 7);
-                    break;
-
+                    
                 case NPCID.IchorSticker:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<IchorSpear>(), Main.expertMode ? 15 : 25);
                     break;
@@ -1088,6 +1084,11 @@ namespace CalamityMod.NPCs
                 case NPCID.BloodJelly:
                 case NPCID.FungoFish:
                     DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
+                    break;
+
+                case NPCID.Goldfish:
+                case NPCID.GoldfishWalker:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PineapplePet>(), 0.002f);
                     break;
 
                 default:

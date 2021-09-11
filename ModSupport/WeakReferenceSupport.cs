@@ -42,6 +42,10 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -103,6 +107,7 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedBoomerDuke = () => CalamityWorld.downedBoomerDuke;
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
+		public static readonly Func<bool> DownedExoMechs = () => CalamityWorld.downedExoMechs;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
 		public static readonly Func<bool> DownedAdultEidolonWyrm = () => CalamityWorld.downedAdultEidolonWyrm;
 
@@ -140,7 +145,7 @@ namespace CalamityMod
 			{ "OldDuke", 16.5f },
 			{ "DevourerOfGods", 17f },
 			{ "Yharon", 18f },
-			// { "Draedon", 18.5f },
+			{ "ExoMechs", 18.5f },
 			{ "SupremeCalamitas", 19f },
 			{ "AdultEidolonWyrm", 19.5f },
 			// { "Yharim", 20f },
@@ -287,7 +292,7 @@ namespace CalamityMod
 				List<int> phases = new List<int>() { NPCType<HiveMind>(), NPCType<HiveMindP2>() };
 				int summon = ItemType<Teratoma>();
 				List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
-				List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>() };
+				List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>(), ItemType<RottingEyeball>() };
 				string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
 				string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
 				AddBoss(bossChecklist, calamity, "Hive Mind", order, phases, DownedHiveMind, summon, loot, collection, instructions, despawn);
@@ -572,6 +577,21 @@ namespace CalamityMod
 				AddBoss(bossChecklist, calamity, "Yharon", order, type, DownedYharon, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
+			// Exo Mechs
+			// Collection requires edits
+			// Instructions require edits
+			// Despawn requires edits
+			{
+				BossDifficulty.TryGetValue("ExoMechs", out float order);
+				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
+				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
+				//List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
+				string instructions = "By using a high-tech computer thing";
+				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
+				//string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
+				//AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
+			}
+
 			// Supreme Calamitas
 			{
 				BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
@@ -784,7 +804,7 @@ namespace CalamityMod
 
 			// Frost Moon
 			AddLoot(bossChecklist, "Frost Moon",
-				new List<int>() { ItemType<HolidayHalberd>(), ItemType<EndothermicEnergy>() },
+				new List<int>() { ItemType<EndothermicEnergy>() },
 				null
 			);
 			AddLoot(bossChecklist, "Ice Queen",

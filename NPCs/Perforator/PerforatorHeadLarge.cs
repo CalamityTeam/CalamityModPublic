@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.Perforator
 			bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;
 			bool quickFall = npc.Calamity().newAI[1] == 2f;
 
-			float speed = 8f;
+			float speed = 0.09f;
 			float turnSpeed = 0.06f;
 
 			if (expertMode)
