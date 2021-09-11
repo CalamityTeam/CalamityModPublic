@@ -20,6 +20,16 @@ namespace CalamityMod.World
                 return _random.NextFloat(oneInThisValue) <= 1f;
             }
         }
+
+        public class IsWater : GenCondition
+        {
+            protected override bool CheckValidity(int x, int y)
+            {
+                Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                return tile.liquid >= 200 && !tile.honey() && !tile.lava();
+            }
+        }
+
         public class IsNotTouchingAir : GenCondition
         {
             private bool _useDiagonals;

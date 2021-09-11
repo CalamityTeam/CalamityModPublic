@@ -13,6 +13,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -136,6 +137,8 @@ namespace CalamityMod.CalPlayer
         public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
         public bool GivenBrimstoneLocus = false;
+        public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
+        public float SmoothenedMinecartRotation;
         #endregion
 
         #region Tile Entity Trackers
@@ -2898,34 +2901,27 @@ namespace CalamityMod.CalPlayer
             {
                 if (!player.chaosState)
                 {
-                    float teleportRange = 320f;
                     Vector2 teleportLocation;
-                    teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+                    teleportLocation.X = Main.mouseX + Main.screenPosition.X;
                     if (player.gravDir == 1f)
-                    {
-                        teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
-                    }
+                        teleportLocation.Y = Main.mouseY + Main.screenPosition.Y - player.height;
                     else
+                        teleportLocation.Y = Main.screenPosition.Y + Main.screenHeight - Main.mouseY;
+
+                    teleportLocation.X -= player.width * 0.5f;
+                    Vector2 teleportOffset = teleportLocation - player.position;
+                    if (teleportOffset.Length() > SpectralVeil.TeleportRange)
                     {
-                        teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
-                    }
-                    teleportLocation.X -= (float)(player.width / 2);
-                    Vector2 playerToTeleport = teleportLocation - player.position;
-                    if (playerToTeleport.Length() > teleportRange)
-                    {
-                        playerToTeleport.Normalize();
-                        playerToTeleport *= teleportRange;
-                        teleportLocation = player.position + playerToTeleport;
+                        teleportOffset = teleportOffset.SafeNormalize(Vector2.Zero) * SpectralVeil.TeleportRange;
+                        teleportLocation = player.position + teleportOffset;
                     }
                     if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
                     {
-                        int x = (int)(teleportLocation.X / 16f);
-                        int y = (int)(teleportLocation.Y / 16f);
                         if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
                         {
                             rogueStealth -= rogueStealthMax * 0.25f;
 
-                            player.Teleport(teleportLocation, 1, 0);
+                            player.Teleport(teleportLocation, 1);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration;
@@ -2938,7 +2934,7 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
-                            Vector2 step = playerToTeleport / numDust;
+                            Vector2 step = teleportOffset / numDust;
                             for (int i = 0; i < numDust; i++)
                             {
                                 int dustIndex = Dust.NewDust(player.Center - (step * i), 1, 1, 21, step.X, step.Y);
@@ -2947,8 +2943,8 @@ namespace CalamityMod.CalPlayer
                             }
 
                             player.immune = true;
-                            player.immuneTime = 120;
-                            spectralVeilImmunity = 120;
+                            player.immuneTime = 150;
+                            spectralVeilImmunity = 150;
                             for (int k = 0; k < player.hurtCooldowns.Length; k++)
                                 player.hurtCooldowns[k] = player.immuneTime;
                         }
@@ -4054,7 +4050,7 @@ namespace CalamityMod.CalPlayer
 
             if (spectralVeil && spectralVeilImmunity > 0)
             {
-                SpectralVeil();
+                SpectralVeilDodge();
                 return true;
             }
 
@@ -4095,7 +4091,7 @@ namespace CalamityMod.CalPlayer
             return false;
         }
 
-        private void SpectralVeil()
+        private void SpectralVeilDodge()
         {
             player.immune = true;
             player.immuneTime = spectralVeilImmunity; //Set immunity before setting this variable to 0
@@ -4136,7 +4132,7 @@ namespace CalamityMod.CalPlayer
 
 			for (int j = 0; j < 30; j++)
 			{
-				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 				Dust dust = Main.dust[num];
 				dust.position.X += Main.rand.Next(-20, 21);
 				dust.position.Y += Main.rand.Next(-20, 21);
@@ -6961,9 +6957,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
-                    player.AddBuff(BuffID.Frozen, 60);
-                    player.AddBuff(BuffID.Chilled, 120);
-                    player.AddBuff(BuffID.Frostburn, 240);
+                    player.AddBuff(BuffID.Frozen, 90);
+                    player.AddBuff(BuffID.Chilled, 180);
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
@@ -8475,7 +8470,7 @@ namespace CalamityMod.CalPlayer
 
 							for (int j = 0; j < 30; j++)
 							{
-								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 								Dust dust2 = Main.dust[dust];
 								dust2.position.X += Main.rand.Next(-20, 21);
 								dust2.position.Y += Main.rand.Next(-20, 21);
@@ -8691,7 +8686,7 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 50f;
 					for (int m = 0; m < 24; m++)
 					{
-						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2.75f);
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2.75f);
 						Main.dust[num14].velocity *= 0.1f;
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8923,7 +8918,7 @@ namespace CalamityMod.CalPlayer
 
 						for (int d = 0; d < 60; d++)
 						{
-							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
 							Dust dust = Main.dust[idx];
 							dust.position.X += Main.rand.NextFloat(-5f, 5f);
 							dust.position.Y += Main.rand.NextFloat(-5f, 5f);
@@ -9206,7 +9201,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num7].velocity.X *= 0.2f;
 						Main.dust[num7].velocity.Y *= 0.2f;
 						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -9280,7 +9275,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num12].velocity.X *= 0.2f;
 						Main.dust[num12].velocity.Y *= 0.2f;
 						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);

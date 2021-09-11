@@ -164,10 +164,10 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<DesertScourgeHead>(), spawnContext: type =>
                 {
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHead>());
-                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHeadSmall>());
-                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertScourgeHeadSmall>());
-                }, permittedNPCs: new int[] { ModContent.NPCType<DesertScourgeBody>(), ModContent.NPCType<DesertScourgeTail>(), ModContent.NPCType<DesertScourgeHeadSmall>(),
-                    ModContent.NPCType<DesertScourgeBodySmall>(), ModContent.NPCType<DesertScourgeTailSmall>(), ModContent.NPCType<DriedSeekerHead>(), ModContent.NPCType<DriedSeekerBody>(),
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertNuisanceHead>());
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, ModContent.NPCType<DesertNuisanceHead>());
+                }, permittedNPCs: new int[] { ModContent.NPCType<DesertScourgeBody>(), ModContent.NPCType<DesertScourgeTail>(), ModContent.NPCType<DesertNuisanceHead>(),
+                    ModContent.NPCType<DesertNuisanceBody>(), ModContent.NPCType<DesertNuisanceTail>(), ModContent.NPCType<DriedSeekerHead>(), ModContent.NPCType<DriedSeekerBody>(),
                     ModContent.NPCType<DriedSeekerTail>() }),
 
                 new Boss(NPCID.CultistBoss, spawnContext: type =>
