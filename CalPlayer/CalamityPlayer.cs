@@ -6953,9 +6953,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
-                    player.AddBuff(BuffID.Frozen, 60);
-                    player.AddBuff(BuffID.Chilled, 120);
-                    player.AddBuff(BuffID.Frostburn, 240);
+                    player.AddBuff(BuffID.Frozen, 90);
+                    player.AddBuff(BuffID.Chilled, 180);
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
