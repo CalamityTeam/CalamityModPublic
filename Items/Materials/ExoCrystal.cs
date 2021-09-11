@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exocrystal");
-            Tooltip.SetDefault("It shimmers with untold power");
+            Tooltip.SetDefault("Fractal energies shimmer across its surface");
         }
 
         public override void SetDefaults()
