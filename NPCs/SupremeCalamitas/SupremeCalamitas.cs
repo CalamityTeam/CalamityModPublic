@@ -2752,7 +2752,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, 18, 26);
+                DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, 18, 27);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
