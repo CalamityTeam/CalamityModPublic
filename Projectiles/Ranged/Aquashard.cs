@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int projAmt = Main.rand.Next(2, 4);
+            int projAmt = Main.rand.Next(1, 3);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < projAmt; i++)
