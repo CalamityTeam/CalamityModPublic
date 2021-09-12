@@ -1,3 +1,11 @@
+using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Cooldowns;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
