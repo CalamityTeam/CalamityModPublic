@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Magnomaly Cannon");
             Tooltip.SetDefault("Launches a powerful exo rocket to nuke anything and everything\n" +
-				"Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit\n" +
+                "Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit\n" +
                 "66% chance to not consume rockets");
         }
 
@@ -65,8 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<BlissfulBombardier>());
             recipe.AddIngredient(ModContent.ItemType<AethersWhisper>());
             recipe.AddIngredient(ItemID.ElectrosphereLauncher);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

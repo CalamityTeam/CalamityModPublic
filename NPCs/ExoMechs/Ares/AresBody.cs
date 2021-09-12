@@ -726,7 +726,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Materials
 			int minCrystalQuantity = Main.expertMode ? 15 : 12;
 			int maxCrystalQuantity = Main.expertMode ? 18 : 15;
-			DropHelper.DropItem(npc, ModContent.ItemType<ExoCrystal>(), true, minCrystalQuantity, maxCrystalQuantity);
+			DropHelper.DropItem(npc, ModContent.ItemType<ExoPrism>(), true, minCrystalQuantity, maxCrystalQuantity);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
