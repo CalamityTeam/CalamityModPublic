@@ -18,11 +18,15 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
+            // You cannot face the Cosmic Anvil left or right, it only has one orientation
+            TileObjectData.newTile.Direction = Terraria.Enums.TileObjectDirection.None;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmic Anvil");
             AddMapEntry(new Color(159, 125, 201), name);
             disableSmartCursor = true;
+            // Visual Studio complains about this line. However, if you change it to DustID.BubbleBurst_Purple, it won't compile.
+            dustType = 179;
             adjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
         }
 

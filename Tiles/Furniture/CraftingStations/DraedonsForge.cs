@@ -25,11 +25,16 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Draedon's Forge");
             AddMapEntry(new Color(230, 157, 41), name);
             disableSmartCursor = true;
+            dustType = DustID.Platinum; // 84
             adjTiles = new int[] {
                 TileID.WorkBenches,
+                TileID.Chairs,
+                TileID.Tables,
                 TileID.Anvils,
                 TileID.MythrilAnvil,
                 ModContent.TileType<CosmicAnvil>(),
+                TileID.Furnaces,
+                TileID.Hellforge,
                 TileID.AdamantiteForge,
                 TileID.TinkerersWorkbench,
                 TileID.LunarCraftingStation,
@@ -42,7 +47,6 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.DraedonsForge>());
         }
 
-        // TODO -- does this make Draedon's Forge constantly exo-disco out?
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = (float)Main.DiscoR / 255f;
