@@ -1,0 +1,34 @@
+﻿using CalamityMod.Items.Placeables.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+
+namespace CalamityMod.Tiles.Furniture.CraftingStations
+{
+    public class CosmicAnvil : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Cosmic Anvil");
+            AddMapEntry(new Color(159, 125, 201), name);
+            disableSmartCursor = true;
+            adjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<CosmicAnvilItem>());
+        }
+    }
+}
