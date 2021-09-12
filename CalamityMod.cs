@@ -266,6 +266,9 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
+            Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
@@ -821,13 +824,37 @@ namespace CalamityMod
                             priority = MusicPriority.BossMedium;
                         }
                     }
+
+                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
+                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
+                    /*
+                    if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
+                    {
+                        music = BossRushEvent.MusicToPlay;
+                        priority = MusicPriority.BossHigh;
+                    }
+                    */
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region Mod Support
-        public override void PostSetupContent() => WeakReferenceSupport.Setup();
+		#region Lighting Effects
+		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+		{
+            if (Main.gameMenu)
+                BossRushEvent.StartTimer = 0;
+
+            if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
+            {
+                backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+                tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+            }
+        }
+		#endregion
+
+		#region Mod Support
+		public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
         #endregion

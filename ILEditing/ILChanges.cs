@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;

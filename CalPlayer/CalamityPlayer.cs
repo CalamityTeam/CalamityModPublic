@@ -65,6 +65,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -2505,27 +2506,8 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                if (!CalamityGlobalNPC.AnyLivingPlayers())
-                {
-                    BossRushEvent.BossRushActive = false;
-                    BossRushEvent.BossRushStage = 0;
-                    CalamityNetcode.SyncWorld();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(BossRushEvent.BossRushStage);
-                        netMessage.Send();
-                    }
-                    for (int doom = 0; doom < Main.maxNPCs; doom++)
-                    {
-                        if (Main.npc[doom].active && Main.npc[doom].boss)
-                        {
-                            Main.npc[doom].active = false;
-                            Main.npc[doom].netUpdate = true;
-                        }
-                    }
-                }
+                if (player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
 
 			if (player.respawnTimer > 300)
@@ -2539,8 +2521,34 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region BiomeStuff
+        internal static readonly FieldInfo EffectsField = typeof(SkyManager).GetField("_effects", BindingFlags.NonPublic | BindingFlags.Instance);
+
         public override void UpdateBiomeVisuals()
         {
+            bool useBossRushBackground = BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100;
+
+            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", useBossRushBackground);
+            if (useBossRushBackground)
+            {
+                // Clear all other skies, including the vanilla ones.
+                Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
+                bool updateRequired = false;
+                foreach (string skyName in skies.Keys)
+				{
+                    if (skies[skyName].IsActive() && skyName != "CalamityMod:BossRush")
+                    {
+                        skies[skyName].Opacity = 0f;
+                        skies[skyName].Deactivate();
+                        updateRequired = true;
+                    }
+                }
+
+                if (updateRequired)
+                    SkyManager.Instance.Update(new GameTime());
+
+                return;
+            }
+
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
 
