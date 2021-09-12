@@ -1,4 +1,6 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
@@ -119,6 +121,10 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
+            IL.Terraria.Player.QuickHeal += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -131,6 +137,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
             // World generation
+            IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon += PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls += PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;
@@ -167,6 +174,10 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
+            IL.Terraria.Player.QuickHeal -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
@@ -179,6 +190,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
             // World generation
+            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -379,6 +391,88 @@ namespace CalamityMod.ILEditing
                     projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
             }
             return proj;
+        }
+
+        private static void ApplyManaBurnIfNeeded(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))
+            {
+                LogFailure("Mana Burn Application", "Could not locate the mana sickness buff ID.");
+                return;
+            }
+
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Func<Player, int>>(player =>
+            {
+                if (!player.active || !player.Calamity().ChaosStone)
+                    return BuffID.ManaSickness;
+                return ModContent.BuffType<ManaBurn>();
+            });
+        }
+
+        private static void AllowBuffTimeStackingForManaBurn(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Get a label that points to the final return before doing anything else.
+            cursor.GotoFinalRet();
+
+            ILLabel finalReturn = cursor.DefineLabel();
+            cursor.MarkLabel(finalReturn);
+
+            // After the label has been created go back to the beginning of the method.
+            cursor.Goto(0);
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchStloc(4)))
+            {
+                LogFailure("Mana Burn Time Stacking", "Could not locate the buff loop incremental variable.");
+                return;
+            }
+
+            int startOfBuffTimeLogic = cursor.Index - 1;
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdsfld<Main>("vanityPet")))
+            {
+                LogFailure("Mana Burn Time Stacking", "Could not locate the Main.vanityPet load.");
+                return;
+            }
+
+            // Clear away the vanilla logic and re-add it with a delegate.
+            // The alternative is a mess of various labels and branches.
+            int endOfBuffTimeLogic = cursor.Index;
+            cursor.Goto(startOfBuffTimeLogic);
+            cursor.RemoveRange(endOfBuffTimeLogic - startOfBuffTimeLogic);
+
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.Emit(OpCodes.Ldarg_1);
+            cursor.Emit(OpCodes.Ldloc_0);
+            cursor.EmitDelegate<Func<Player, int, int, bool>>((player, type, buffTime) =>
+            {
+                for (int j = 0; j < Player.MaxBuffs; j++)
+                {
+                    if (player.buffType[j] == type)
+                    {
+                        if (!BuffLoader.ReApply(type, player, buffTime, j))
+                        {
+                            if (type == BuffID.ManaSickness || type == ModContent.BuffType<ManaBurn>())
+                            {
+                                player.buffTime[j] += buffTime;
+                                if (player.buffTime[j] > Player.manaSickTimeMax)
+                                    player.buffTime[j] = Player.manaSickTimeMax;
+
+                            }
+                            else if (player.buffTime[j] < buffTime)
+                                player.buffTime[j] = buffTime;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            });
+            cursor.Emit(OpCodes.Brtrue, finalReturn);
         }
 
         #region Fire Cursor
@@ -723,6 +817,52 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region World generation
+
+        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+        private static void ReplacePharaohSetInPyramids(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Determine the area which determines the held item.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(36)))
+            {
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid item selector value.");
+                return;
+            }
+
+            int startOfItemSelection = cursor.Index;
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc(34)))
+            {
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid loot room left position.");
+                return;
+            }
+            int endOfItemSelection = cursor.Index;
+
+            // And delete it completely with intent to replace it.
+            // Nuances with compliation appear to make simple a load + remove by constant not work.
+            cursor.Index = startOfItemSelection;
+            cursor.RemoveRange(endOfItemSelection - startOfItemSelection);
+
+            // And select the item type directly.
+            cursor.Emit(OpCodes.Ldloc, 36);
+            cursor.EmitDelegate<Func<int, int>>(choice =>
+            {
+                switch (choice)
+                {
+                    case 0:
+                        return ItemID.SandstorminaBottle;
+
+                    // TODO - Replace this with an amber hook in 1.4 to make more sense thematically.
+                    case 1:
+                        return ItemID.RubyHook;
+                    case 2:
+                    default:
+                        return ItemID.FlyingCarpet;
+                }
+            });
+            cursor.Emit(OpCodes.Stloc, 36);
+        }
+
         private static void PreventDungeonHorizontalCollisions(ILContext il)
         {
             // Prevent the Dungeon from appearing near the Sulph sea.
@@ -939,19 +1079,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        // UNUSED -- This IL edit doesn't edit the right function, the Pharaoh Mask is definitely not in NPC.scaleStats
-        private static void ReplacePharaohSetInPyramids()
-        {
-            // Replace the Pharaoh's Set in Pyramid gen with something actually useful.
-            IL.Terraria.NPC.scaleStats += (il) =>
-            {
-                var cursor = new ILCursor(il);
-                cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(848)); // The ID of the Pharaoh's Mask.
-                cursor.Remove();
-                cursor.Emit(OpCodes.Ldc_I4, 1240); // Replace the Mask with a Ruby Hook, in 1.4 I will replace this with an Amber Hook so it makes more sense.
-                // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-            };
-        }
         #endregion
 
         #region Helper Functions

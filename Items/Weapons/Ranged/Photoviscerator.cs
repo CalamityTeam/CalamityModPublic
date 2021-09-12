@@ -111,6 +111,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<CleansingBlaze>());
             recipe.AddIngredient(ModContent.ItemType<HalleysInferno>());
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

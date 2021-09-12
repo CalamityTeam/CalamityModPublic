@@ -32,7 +32,8 @@ namespace CalamityMod
             EditFireGauntletRecipe();
 			EditMechBossSummonRecipes();
 			EditWingRecipes();
-			EditPhasesaberRecipes();
+            EditEvilBulletRecipes();
+            EditPhasesaberRecipes();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -185,6 +186,16 @@ namespace CalamityMod
 				s.requiredTile[0] = TileID.Anvils;
 			});
 		}
+
+        // Change Ichor, and Cursed Bullets/Arrows to be pre-Hardmode Boss
+        private static void EditEvilBulletRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.IchorBullet || x.createItem.type == ItemID.IchorArrow || x.createItem.type == ItemID.CursedBullet || x.createItem.type == ItemID.CursedArrow).ToList().ForEach(s =>
+            {
+                s.requiredTile[0] = TileID.Anvils;
+            });
+        }
 
 		// Change Phasesaber recipes to require 20 Crystal Shards
 		private static void EditPhasesaberRecipes()
@@ -920,7 +931,7 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ItemID.TurtleShell, 3);
             r.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 9);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.FrozenTurtleShell);
             r.AddRecipe();
 

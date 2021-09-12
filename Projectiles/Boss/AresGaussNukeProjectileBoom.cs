@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override Color GetCurrentExplosionColor(float pulseCompletionRatio) => Color.Lerp(Color.Yellow * 1.6f, Color.White, MathHelper.Clamp(pulseCompletionRatio * 2.2f, 0f, 1f));
 		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		public override void SafeSetStaticDefaults() => DisplayName.SetDefault("Gauss Explosion");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gauss Explosion");
 
 		public override void SetDefaults()
 		{

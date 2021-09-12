@@ -14,8 +14,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
-    public class ThanatosBody2 : ModNPC
+	public class ThanatosBody2 : ModNPC
     {
+		public static int normalIconIndex;
+		public static int vulnerableIconIndex;
+
+		internal static void LoadHeadIcons()
+		{
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody";
+
+			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
+			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
+
+			CalamityMod.Instance.AddBossHeadTexture(vulnerableIconPath, -1);
+			vulnerableIconIndex = ModContent.GetModBossHeadSlot(vulnerableIconPath);
+		}
+
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
@@ -55,6 +70,19 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 		}
 
+		public override void BossHeadSlot(ref int index)
+		{
+			if (vulnerable)
+				index = vulnerableIconIndex;
+			else
+				index = normalIconIndex;
+		}
+
+		public override void BossHeadRotation(ref float rotation)
+		{
+			rotation = npc.rotation;
+		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.chaseable);
@@ -62,6 +90,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			writer.Write(vulnerable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -73,6 +102,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			vulnerable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -141,15 +171,36 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					npc.Opacity = 0f;
 			}
 
+			// Number of body segments
+			int numSegments = ThanatosHead.minLength;
+
 			// Set timer to whoAmI so that segments don't all fire lasers at the same time
 			if (npc.localAI[2] == 0f)
+			{
 				npc.localAI[2] = npc.ai[0];
+				if (npc.localAI[2] > numSegments)
+					npc.localAI[2] -= numSegments;
+			}
+
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Check if the other exo mechs are alive
+			int otherExoMechsAlive = 0;
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					otherExoMechsAlive++;
+			}
+			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+					otherExoMechsAlive++;
+			}
 
 			// Set the AI to become more aggressive if head is berserk
-			if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Deathray)
-				npc.Calamity().newAI[3] = 1f;
+			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 
-			bool berserk = npc.Calamity().newAI[3] == 1f;
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
@@ -159,11 +210,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
+					double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
 					{
 						float divisor = 120f;
-						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
 						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -175,6 +225,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								npc.Calamity().newAI[0] += 1f;
 								if (npc.Calamity().newAI[0] >= 72f)
 								{
+									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
@@ -227,15 +278,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					else
 					{
 						// This is only used in deathray phase to prevent laser spam
-						int numSegments = ThanatosHead.minLength;
-						double numSegmentsAbleToFire = 5D;
-						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
-
-						npc.ai[3] += 1f;
-						float shootProjectile = 120f;
-						float timer = npc.ai[0] + 15f;
-						float divisor = timer + shootProjectile;
-						if ((npc.ai[3] % divisor == 0f && (npc.localAI[2] % segmentDivisor == 0f || !berserk)) || npc.Calamity().newAI[0] > 0f)
+						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? 5D : numSegmentsAbleToFire));
+						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
+						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -245,6 +290,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								npc.Calamity().newAI[0] += 1f;
 								if (npc.Calamity().newAI[0] >= 72f)
 								{
+									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
@@ -317,12 +363,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
+				if (npc.ai[3] > 0f)
+					npc.ai[3] = 0f;
+
 				// Set alternating laser-firing body segments every 3 seconds
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] >= 180f)
 				{
 					npc.localAI[1] = 0f;
 					npc.localAI[2] += 1f;
+					if (npc.localAI[2] > numSegments)
+						npc.localAI[2] -= numSegments;
 				}
 
 				npc.Calamity().newAI[0] -= 1f;
@@ -378,9 +429,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			SmokeDrawer.Update();
 
+			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
+
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
+            float num191 = player.position.X + (player.width / 2);
+            float num192 = player.position.Y + (player.height / 2);
             num191 = (int)(num191 / 16f) * 16;
             num192 = (int)(num192 / 16f) * 16;
             vector18.X = (int)(vector18.X / 16f) * 16;

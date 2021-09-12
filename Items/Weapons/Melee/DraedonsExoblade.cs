@@ -127,6 +127,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			recipe.AddIngredient(ModContent.ItemType<PhoenixBlade>());
 			recipe.AddIngredient(ModContent.ItemType<StellarStriker>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

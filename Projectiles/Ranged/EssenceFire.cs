@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
                     num296 = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int dustType = (int)CalamityDusts.PurpleCosmolite;
+                int dustType = (int)CalamityDusts.PurpleCosmilite;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 1; num298++)

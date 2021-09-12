@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.Astral
 				npc.Center = npc.position;
                 for (int d = 0; d < 5; d++)
                 {
-                    int purple = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    int purple = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[purple].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -268,10 +268,10 @@ namespace CalamityMod.NPCs.Astral
                 }
                 for (int d = 0; d < 10; d++)
                 {
-                    int cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                    int cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                     Main.dust[cosmos].noGravity = true;
                     Main.dust[cosmos].velocity *= 5f;
-                    cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[cosmos].velocity *= 2f;
                 }
 				CalamityUtils.ExplosionGores(npc.Center, 3);

@@ -13,17 +13,14 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ambrosial Ampoule");
-            Tooltip.SetDefault("25% increased mining speed\n" +
-                "You emit light\n" +
-                "5% increased damage reduction and increased life regen\n" +
-                "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
-                "Honey-like life regen with no speed penalty\n" +
-                "Most bee/hornet enemies and projectiles do 75% damage to you");
+            Tooltip.SetDefault("You emit light\n" +
+                "7% increased damage reduction and increased life regen\n" +
+                "Freeze, chill and frostburn immunity");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 4;
+            item.defense = 6;
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -37,9 +34,9 @@ namespace CalamityMod.Items.Accessories
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.text = "Most bee/hornet enemies and projectiles do 75% damage to you\n" +
+						line2.text = "Freeze, chill and frostburn immunity\n" +
 						"Provides cold protection in Death Mode";
 					}
 				}
@@ -49,7 +46,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.beeResist = true;
             modPlayer.aAmpoule = true;
 			modPlayer.rOoze = true;
         }
@@ -58,20 +54,14 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CorruptFlask>());
-            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
             recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CrimsonFlask>());
-            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
             recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

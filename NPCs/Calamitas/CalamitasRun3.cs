@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.Calamitas
                 );
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);

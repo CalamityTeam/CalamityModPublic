@@ -333,7 +333,8 @@ namespace CalamityMod.NPCs.Ravager
                             npc.ai[1] += 1f;
                     }
 
-                    if (npc.ai[1] >= 300f)
+					float jumpGateValue = 180f;
+					if (npc.ai[1] >= jumpGateValue)
                         npc.ai[1] = -20f;
                     else if (npc.ai[1] == -1f)
                     {
@@ -465,6 +466,10 @@ namespace CalamityMod.NPCs.Ravager
 						if ((player.position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (player.position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
 							npc.noTileCollide = true;
 						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
+							npc.noTileCollide = false;
+
+						// Prevent falling forever in second phase
+						if (npc.ai[0] == 2f && npc.velocity.Y > 0f && npc.Top.Y > Main.player[npc.target].Bottom.Y + 16f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 							npc.noTileCollide = false;
 					}
 

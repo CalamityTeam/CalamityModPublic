@@ -61,8 +61,8 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<FrostFlare>(), 5);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 5);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);

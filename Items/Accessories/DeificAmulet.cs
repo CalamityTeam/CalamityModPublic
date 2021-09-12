@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deific Amulet");
-			Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
-				"Causes stars to fall and gives increased immune time when damaged\n" +
+			Tooltip.SetDefault("Causes stars to fall and grants increased immune time when damaged\n" +
 				"Reduces the cooldown of healing potions\n");
         }
 
@@ -36,7 +35,6 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CharmofMyths);
-            recipe.AddIngredient(ItemID.PanicNecklace);
             recipe.AddIngredient(ItemID.StarVeil);
             recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
             recipe.AddIngredient(ItemID.MeteoriteBar, 10);

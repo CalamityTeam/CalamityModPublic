@@ -7,13 +7,16 @@ namespace CalamityMod.Items.Accessories
 {
 	public class SpectralVeil : ModItem
     {
+        public const float TeleportRange = 845f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spectral Veil");
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +
+                "If you dodge something while invulnerable, you instantly gain full stealth\n" +
 				"Teleportation is disabled while Chaos State is active\n" +
-                "If you dodge something while invulnerable, you instantly gain full stealth");
+                "Provides 10% increaed movement speed\n" +
+                "Stealth generates 20% faster while moving");
         }
 
         public override void SetDefaults()
@@ -34,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                 {
-                    line2.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a short range teleport and render you momentarily invulnerable";
+                    line2.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable";
                 }
             }
         }
@@ -42,6 +45,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().spectralVeil = true;
+            player.Calamity().stealthGenMoving += 0.2f;
+            player.moveSpeed += 0.1f;
         }
     }
 }

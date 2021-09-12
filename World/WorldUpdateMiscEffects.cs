@@ -793,8 +793,8 @@ namespace CalamityMod.World
                             }
                             else if (bossType == ModContent.NPCType<DesertScourgeHead>())
                             {
-                                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHeadSmall>());
-                                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHeadSmall>());
+                                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertNuisanceHead>());
+                                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertNuisanceHead>());
                             }
                             if (bossType == NPCID.DukeFishron)
                             {

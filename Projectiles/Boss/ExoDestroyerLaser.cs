@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -144,6 +145,9 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 			}
 
+			// If the Ares Laser Cannon is the owner
+			bool aresLaserIsOwner = ThingToAttachTo.type == ModContent.NPCType<AresLaserCannon>();
+
 			// Fade in after telegraphs have faded.
 			if (TelegraphDelay > TelegraphTotalTime)
             {
@@ -181,6 +185,9 @@ namespace CalamityMod.Projectiles.Boss
 				// Set destination of the laser, the target's center.
 				Destination = projectile.velocity;
 
+				if (aresLaserIsOwner)
+					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
+
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
 				Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
@@ -205,6 +212,9 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				// Set start of telegraph to the npc center.
 				projectile.Center = ThingToAttachTo.Center;
+
+				if (aresLaserIsOwner)
+					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
 
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
@@ -231,9 +241,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
 			if (TelegraphDelay > TelegraphTotalTime)
-			{
 				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-			}
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
@@ -249,16 +257,16 @@ namespace CalamityMod.Projectiles.Boss
 				lightColor.G = (byte)(255 * projectile.Opacity);
 				lightColor.B = (byte)(255 * projectile.Opacity);
 				CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-				return true;
+				return false;
 			}
 
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
 
-            float yScale = 4f;
+            float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
-                yScale = MathHelper.Lerp(0f, 4f, TelegraphDelay / 15f);
+                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 15f);
             if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-                yScale = MathHelper.Lerp(4f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
+                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
 
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
@@ -267,8 +275,8 @@ namespace CalamityMod.Projectiles.Boss
             Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
             Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
-            colorOuter *= 0.7f;
-            colorInner *= 0.7f;
+            colorOuter *= 0.6f;
+            colorInner *= 0.6f;
 
             spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorInner, Velocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0f);
             spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorOuter, Velocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0f);

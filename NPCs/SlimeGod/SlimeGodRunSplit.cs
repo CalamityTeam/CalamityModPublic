@@ -385,8 +385,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noTileCollide = true;
                     npc.noGravity = true;
                 }
-                npc.velocity.Y += 0.2f;
-				float velocityLimit = death ? 16f : revenge ? 15f : expertMode ? 14f : 13f;
+                npc.velocity.Y += 0.3f;
+				float velocityLimit = malice ? 22f : death ? 16f : revenge ? 15f : expertMode ? 14f : 13f;
 				if (npc.velocity.Y > velocityLimit)
                 {
                     npc.velocity.Y = velocityLimit;

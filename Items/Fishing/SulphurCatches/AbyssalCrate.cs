@@ -51,10 +51,6 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItem(player, ModContent.ItemType<SulphurousSandstone>(), 5, 10);
             DropHelper.DropItem(player, ModContent.ItemType<HardenedSulphurousSandstone>(), 5, 10);
             DropHelper.DropItem(player, ModContent.ItemType<Acidwood>(), 5, 10);
-            DropHelper.DropItemChance(player, ItemID.Starfish, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.Seashell, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.Coral, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VictoryShard>(), 0.25f, 2, 3);
             DropHelper.DropItemCondition(player, ModContent.ItemType<SulfuricScale>(), CalamityWorld.downedEoCAcidRain, 0.1f, 1, 3);
             DropHelper.DropItemCondition(player, ModContent.ItemType<CorrodedFossil>(), CalamityWorld.downedAquaticScourgeAcidRain, 0.1f, 1, 3);
             DropHelper.DropItemCondition(player, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.2f, 2, 5);

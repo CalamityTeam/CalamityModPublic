@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<CosmicShiv>());
             recipe.AddIngredient(ModContent.ItemType<Lucrecia>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
