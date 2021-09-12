@@ -145,6 +145,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.HitEffect(0, 10.0);
 				npc.checkDead();
 				npc.active = false;
+				return;
 			}
 
 			// Set vulnerable to false by default
