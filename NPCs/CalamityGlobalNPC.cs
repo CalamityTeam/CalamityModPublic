@@ -3605,6 +3605,10 @@ namespace CalamityMod.NPCs
 				// 10% resist to Celestus.
 				else if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
 					damage = (int)(damage * 0.9);
+
+				// 15% vulnerability to the Atom Splitter (Yes, this is kinda weird, but it's what Piky asked for).
+				else if (projectile.type == ProjectileType<TheAtomSplitterProjectile>() || projectile.type == ProjectileType<TheAtomSplitterDuplicate>())
+					damage = (int)(damage * 1.15);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
