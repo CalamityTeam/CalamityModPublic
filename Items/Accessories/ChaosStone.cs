@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Chaos Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "When drinking mana potions you recieve Mana Burn instead of Mana Sickness\n" +
-                "Mana Burn does not apply any magic damage penalties. Instead, you take damage over time relative to the intensity of the debuff");
+                "Mana Sickness from drinking mana potions is replaced by Mana Burn\n" +
+                "Mana Burn deals damage over time relative to the intensity of the debuff\n" +
+                "This debuff does not reduce your magic damage");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 7));
         }
 
