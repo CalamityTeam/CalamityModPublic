@@ -193,6 +193,12 @@ namespace CalamityMod
                         int stage = reader.ReadInt32();
                         BossRushEvent.BossRushStage = stage;
                         break;
+                    case CalamityModMessageType.BossRushStartTimer:
+                        BossRushEvent.StartTimer = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.BossRushEndTimer:
+                        BossRushEvent.EndTimer = reader.ReadInt32();
+                        break;
                     case CalamityModMessageType.BossSpawnCountdownSync:
                         int countdown2 = reader.ReadInt32();
                         CalamityWorld.bossSpawnCountdown = countdown2;
@@ -343,6 +349,8 @@ namespace CalamityMod
 
         // Boss Rush
         BossRushStage,
+        BossRushStartTimer,
+        BossRushEndTimer,
         BossSpawnCountdownSync,
         BossTypeSync,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".

@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -721,6 +722,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			DropHelper.DropBags(npc);
 
 			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+
+			// Materials
+			int minCrystalQuantity = Main.expertMode ? 15 : 12;
+			int maxCrystalQuantity = Main.expertMode ? 18 : 15;
+			DropHelper.DropItem(npc, ModContent.ItemType<ExoCrystal>(), true, minCrystalQuantity, maxCrystalQuantity);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

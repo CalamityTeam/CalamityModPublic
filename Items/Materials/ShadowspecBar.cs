@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Materials
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>());
+            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>());
             recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

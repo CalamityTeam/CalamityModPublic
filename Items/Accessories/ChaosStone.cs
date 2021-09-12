@@ -11,7 +11,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Chaos Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "I don't know what this should do, pls help");
+                "Mana Sickness from drinking mana potions is replaced by Mana Burn\n" +
+                "Mana Burn deals damage over time relative to the intensity of the debuff\n" +
+                "This debuff does not reduce your magic damage");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 7));
         }
 
@@ -24,9 +26,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        /*public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            
-        }*/
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().ChaosStone = true;
     }
 }

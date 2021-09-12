@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<AncientIceChunk>());
             recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
             recipe.AddIngredient(ModContent.ItemType<EnergyStaff>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

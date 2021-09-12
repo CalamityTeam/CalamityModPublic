@@ -112,6 +112,9 @@ namespace CalamityMod.Items
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
 
+					// Equipment
+					DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 5);
+
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
 					DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 					break;

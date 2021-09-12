@@ -64,7 +64,8 @@ Stealth strikes release energy as they fly");
 			recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
 
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

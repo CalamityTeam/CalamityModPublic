@@ -64,7 +64,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 5);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

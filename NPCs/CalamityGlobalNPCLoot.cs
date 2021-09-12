@@ -295,9 +295,12 @@ namespace CalamityMod.NPCs
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
-				}
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
+                    // Equipment
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
+                }
+
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
 				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
 
 				// Legendary drop for Plantera

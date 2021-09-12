@@ -57,6 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
 			recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -3637,14 +3637,33 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int i = 0; i < Main.projectile.Length; i++)
+					int auraType = ModContent.ProjectileType<TeslaAura>();
+					for (int i = 0; i < Main.maxProjectiles; i++)
 					{
-						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<TeslaAura>() && Main.projectile[i].owner == player.whoAmI)
-						{
-							Main.projectile[i].Kill();
-							break;
-						}
+						if (Main.projectile[i].type != auraType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+							continue;
+
+						Main.projectile[i].Kill();
+						break;
 					}
+				}
+			}
+
+			if (modPlayer.CryoStone)
+			{
+				if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
+					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(player.AverageDamage() * 70), 0f, player.whoAmI);
+            }
+            else if (player.whoAmI == Main.myPlayer)
+			{
+				int shieldType = ModContent.ProjectileType<CryonicShield>();
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type != shieldType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+						continue;
+
+					Main.projectile[i].Kill();
+					break;
 				}
 			}
 

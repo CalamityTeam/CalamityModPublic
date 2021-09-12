@@ -65,6 +65,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -618,6 +619,9 @@ namespace CalamityMod.CalPlayer
         public bool rottenDogTooth = false;
 		public bool angelicAlliance = false;
 		public int angelicActivate = -1;
+        public bool BloomStoneRegen = false;
+        public bool ChaosStone = false;
+        public bool CryoStone = false;
         #endregion
 
         #region Armor Set
@@ -788,6 +792,7 @@ namespace CalamityMod.CalPlayer
 		public bool divineBlessCooldown = false;
 		public bool banishingFire = false;
 		public bool wither = false;
+        public bool ManaBurn = false;
         #endregion
 
         #region Buff
@@ -1707,6 +1712,9 @@ namespace CalamityMod.CalPlayer
 			roverDrive = false;
             rottenDogTooth = false;
 			angelicAlliance = false;
+            BloomStoneRegen = false;
+            ChaosStone = false;
+            CryoStone = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1868,6 +1876,7 @@ namespace CalamityMod.CalPlayer
 			divineBlessCooldown = false;
 			banishingFire = false;
 			wither = false;
+            ManaBurn = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -2505,27 +2514,8 @@ namespace CalamityMod.CalPlayer
 
             if (BossRushEvent.BossRushActive)
             {
-                if (!CalamityGlobalNPC.AnyLivingPlayers())
-                {
-                    BossRushEvent.BossRushActive = false;
-                    BossRushEvent.BossRushStage = 0;
-                    CalamityNetcode.SyncWorld();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(BossRushEvent.BossRushStage);
-                        netMessage.Send();
-                    }
-                    for (int doom = 0; doom < Main.maxNPCs; doom++)
-                    {
-                        if (Main.npc[doom].active && Main.npc[doom].boss)
-                        {
-                            Main.npc[doom].active = false;
-                            Main.npc[doom].netUpdate = true;
-                        }
-                    }
-                }
+                if (player.whoAmI == 0 && !CalamityGlobalNPC.AnyLivingPlayers() && CalamityUtils.CountProjectiles(ModContent.ProjectileType<BossRushFailureEffectThing>()) == 0)
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
 
 			if (player.respawnTimer > 300)
@@ -2539,8 +2529,34 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region BiomeStuff
+        internal static readonly FieldInfo EffectsField = typeof(SkyManager).GetField("_effects", BindingFlags.NonPublic | BindingFlags.Instance);
+
         public override void UpdateBiomeVisuals()
         {
+            bool useBossRushBackground = BossRushEvent.BossRushActive && BossRushEvent.StartTimer > 100;
+
+            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", useBossRushBackground);
+            if (useBossRushBackground)
+            {
+                // Clear all other skies, including the vanilla ones.
+                Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
+                bool updateRequired = false;
+                foreach (string skyName in skies.Keys)
+				{
+                    if (skies[skyName].IsActive() && skyName != "CalamityMod:BossRush")
+                    {
+                        skies[skyName].Opacity = 0f;
+                        skies[skyName].Deactivate();
+                        updateRequired = true;
+                    }
+                }
+
+                if (updateRequired)
+                    SkyManager.Instance.Update(new GameTime());
+
+                return;
+            }
+
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
 
@@ -4124,7 +4140,7 @@ namespace CalamityMod.CalPlayer
 
 			for (int j = 0; j < 30; j++)
 			{
-				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+				int num = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 				Dust dust = Main.dust[num];
 				dust.position.X += Main.rand.Next(-20, 21);
 				dust.position.Y += Main.rand.Next(-20, 21);
@@ -4529,7 +4545,7 @@ namespace CalamityMod.CalPlayer
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
                 }
-                if (manaOverloader)
+                if (manaOverloader || ManaBurn)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
                 }
@@ -8462,7 +8478,7 @@ namespace CalamityMod.CalPlayer
 
 							for (int j = 0; j < 30; j++)
 							{
-								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+								int dust = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
 								Dust dust2 = Main.dust[dust];
 								dust2.position.X += Main.rand.Next(-20, 21);
 								dust2.position.Y += Main.rand.Next(-20, 21);
@@ -8678,7 +8694,7 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 50f;
 					for (int m = 0; m < 24; m++)
 					{
-						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2.75f);
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2.75f);
 						Main.dust[num14].velocity *= 0.1f;
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8910,7 +8926,7 @@ namespace CalamityMod.CalPlayer
 
 						for (int d = 0; d < 60; d++)
 						{
-							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+							int idx = Dust.NewDust(player.position, player.width, player.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
 							Dust dust = Main.dust[idx];
 							dust.position.X += Main.rand.NextFloat(-5f, 5f);
 							dust.position.Y += Main.rand.NextFloat(-5f, 5f);
@@ -9193,7 +9209,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num7].velocity.X *= 0.2f;
 						Main.dust[num7].velocity.Y *= 0.2f;
 						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -9267,7 +9283,7 @@ namespace CalamityMod.CalPlayer
                     }
 					else if (dashMod == 9)
 					{
-						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmolite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, (int)CalamityDusts.PurpleCosmilite, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
 						Main.dust[num12].velocity.X *= 0.2f;
 						Main.dust[num12].velocity.Y *= 0.2f;
 						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
