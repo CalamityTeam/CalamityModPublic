@@ -11,8 +11,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Bloom Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "You regen life quickly while grounded. This effect works best during daytime\n" +
-                "You also grow flowers on the grass beneath you. This has a chance to grow very random dye plants on grassless dirt");
+                "You quickly regenerate life while on the ground\n" +
+                "This effect works best during daytime\n" +
+                "Flowers grow if you are standing on grass\n" +
+                "Random dye plants will grow while standing on grassless dirt");
         }
 
         public override void SetDefaults()
