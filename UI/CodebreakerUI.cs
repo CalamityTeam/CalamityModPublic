@@ -16,7 +16,7 @@ using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
-    public static class DraedonDecryptUI
+    public static class CodebreakerUI
     {
         public static int ViewedTileEntityID = -1;
         public static bool AwaitingCloseConfirmation = false;

@@ -105,9 +105,9 @@ namespace CalamityMod.Tiles.DraedonSummoner
             player.CancelSignsAndChests();
 
             // If this is the tile the player is currently looking at, the associated tile entity doesn't really exist, or it's simply not upgraded enough, close the GUI.
-            if (codebreakerTileEntity is null || codebreakerTileEntity.ID == DraedonDecryptUI.ViewedTileEntityID || !codebreakerTileEntity.ContainsDecryptionComputer)
+            if (codebreakerTileEntity is null || codebreakerTileEntity.ID == CodebreakerUI.ViewedTileEntityID || !codebreakerTileEntity.ContainsDecryptionComputer)
             {
-                DraedonDecryptUI.ViewedTileEntityID = -1;
+                CodebreakerUI.ViewedTileEntityID = -1;
                 Main.PlaySound(SoundID.MenuClose);
             }
 
@@ -115,8 +115,8 @@ namespace CalamityMod.Tiles.DraedonSummoner
             else if (codebreakerTileEntity != null)
             {
                 // Play a sound depending on whether the player had another codebreaker open previously.
-                Main.PlaySound(DraedonDecryptUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
-                DraedonDecryptUI.ViewedTileEntityID = codebreakerTileEntity.ID;
+                Main.PlaySound(CodebreakerUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                CodebreakerUI.ViewedTileEntityID = codebreakerTileEntity.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
             }

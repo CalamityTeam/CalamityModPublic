@@ -958,7 +958,7 @@ namespace CalamityMod
                 // Codebreaker UI.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
                 {
-                    DraedonDecryptUI.Draw(Main.spriteBatch);
+                    CodebreakerUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 
