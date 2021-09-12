@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				for (int i = 0; i < 3; i++)
 				{
-					Vector2 spikeVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.56f, 0.56f, i / 3f)) * 6f;
+					Vector2 spikeVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.43f, 0.43f, i / 3f)) * 6f;
 					Projectile.NewProjectile(projectile.Top, spikeVelocity, ModContent.ProjectileType<SageNeedle>(), projectile.damage, projectile.knockBack, projectile.owner);
 				}
 			}
