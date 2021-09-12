@@ -109,6 +109,9 @@ namespace CalamityMod.NPCs.Other
                     magic.scale = Main.rand.NextFloat(1.2f, 1.56f);
                     magic.noGravity = true;
                 }
+
+                for (int i = 1; i <= 4; i++)
+                    Gore.NewGoreDirect(npc.Center, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/LecherousOrb/LecherousGore{i}"));
             }
         }
 
