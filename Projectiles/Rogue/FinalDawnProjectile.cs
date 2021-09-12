@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Rogue
 						int stealth = Projectile.NewProjectile(projectile.Center,
 												 projectile.velocity,
 												 ModContent.ProjectileType<FinalDawnHorizontalSlash>(),
-												 (int)(projectile.damage * 1.5f),
+												 (int)(projectile.damage * 1.275f),
 												 projectile.knockBack,
 												 projectile.owner);
 						Main.projectile[stealth].Calamity().stealthStrike = true;
