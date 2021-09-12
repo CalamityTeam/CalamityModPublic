@@ -621,6 +621,7 @@ namespace CalamityMod.CalPlayer
 		public int angelicActivate = -1;
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
+        public bool CryoStone = false;
         #endregion
 
         #region Armor Set
@@ -1713,6 +1714,7 @@ namespace CalamityMod.CalPlayer
 			angelicAlliance = false;
             BloomStoneRegen = false;
             ChaosStone = false;
+            CryoStone = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
