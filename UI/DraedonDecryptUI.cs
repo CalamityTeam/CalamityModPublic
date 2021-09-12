@@ -88,7 +88,7 @@ namespace CalamityMod.UI
                     DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * 110f);
             }
 
-            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 48f);
+            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(140f, backgroundTexture.Height - 44f);
             if (codebreakerTileEntity.ReadyToSummonDreadon && CalamityWorld.AbleToSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 

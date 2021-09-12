@@ -5,6 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using ApolloBoss = CalamityMod.NPCs.ExoMechs.Apollo.Apollo;
+using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
+
 namespace CalamityMod.NPCs.ExoMechs
 {
     public class Draedon : ModNPC
@@ -36,6 +39,7 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.defense = 9999;
             npc.lifeMax = 50;
             npc.friendly = true;
+            npc.noGravity = true;
             npc.dontTakeDamage = true;
             npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
@@ -88,30 +92,28 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public void SummonExoMech()
         {
-            // Summon Thanatos underground.
-            Vector2 thanatosSpawnPosition = PlayerToFollow.Center + Vector2.UnitY * 2100f;
-
-            // Summon Ares in the sky, directly above the player.
-            Vector2 aresSpawnPosition = PlayerToFollow.Center - Vector2.UnitY * 1400f;
-            // CalamityUtils.SpawnBossBetter(thanatosSpawnPosition, ModContent.NPCType<Ares>());
-
-            // Summon Apollo and Artemis above the player to their sides.
-            Vector2 artemisSpawnPosition = PlayerToFollow.Center + new Vector2(1100f, -1600f);
-            Vector2 apolloSpawnPosition = PlayerToFollow.Center + new Vector2(-1100f, -1600f);
-
             switch (MechToSummon)
             {
+                // Summon Thanatos underground.
                 case ExoMech.Destroyer:
+                    Vector2 thanatosSpawnPosition = PlayerToFollow.Center + Vector2.UnitY * 2100f;
                     NPC thanatos = CalamityUtils.SpawnBossBetter(thanatosSpawnPosition, ModContent.NPCType<ThanatosHead>());
                     if (thanatos != null)
                         thanatos.velocity = thanatos.SafeDirectionTo(PlayerToFollow.Center) * 40f;
                     break;
+
+                // Summon Ares in the sky, directly above the player.
                 case ExoMech.Prime:
+                    Vector2 aresSpawnPosition = PlayerToFollow.Center - Vector2.UnitY * 1400f;
                     CalamityUtils.SpawnBossBetter(aresSpawnPosition, ModContent.NPCType<AresBody>());
                     break;
+
+                // Summon Apollo and Artemis above the player to their sides.
                 case ExoMech.Twins:
-                    //CalamityUtils.SpawnBossBetter(artemisSpawnPosition, ModContent.NPCType<Artemis>());
-                    //CalamityUtils.SpawnBossBetter(apolloSpawnPosition, ModContent.NPCType<Apollo>());
+                    Vector2 artemisSpawnPosition = PlayerToFollow.Center + new Vector2(-1100f, -1600f);
+                    Vector2 apolloSpawnPosition = PlayerToFollow.Center + new Vector2(1100f, -1600f);
+                    CalamityUtils.SpawnBossBetter(artemisSpawnPosition, ModContent.NPCType<ArtemisBoss>());
+                    CalamityUtils.SpawnBossBetter(apolloSpawnPosition, ModContent.NPCType<ApolloBoss>());
                     break;
             }
         }
