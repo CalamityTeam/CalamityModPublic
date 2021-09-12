@@ -431,44 +431,44 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
 
-			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = player.position.X + (player.width / 2);
-            float num192 = player.position.Y + (player.height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
+			Vector2 npcCenter = npc.Center;
+			float targetCenterX = player.Center.X;
+			float targetCenterY = player.Center.Y;
+			targetCenterX = (int)(targetCenterX / 16f) * 16;
+			targetCenterY = (int)(targetCenterY / 16f) * 16;
+			npcCenter.X = (int)(npcCenter.X / 16f) * 16;
+			npcCenter.Y = (int)(npcCenter.Y / 16f) * 16;
+			targetCenterX -= npcCenter.X;
+			targetCenterY -= npcCenter.Y;
 
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
-            {
-                try
-                {
-                    vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num191 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-                } catch
-                {
-                }
+			float distanceFromTarget = (float)Math.Sqrt(targetCenterX * targetCenterX + targetCenterY * targetCenterY);
+			if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
+			{
+				try
+				{
+					npcCenter = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					targetCenterX = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;
+					targetCenterY = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - npcCenter.Y;
+				}
+				catch
+				{
+				}
 
-                npc.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = npc.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
-                npc.velocity = Vector2.Zero;
-                npc.position.X = npc.position.X + num191;
-                npc.position.Y = npc.position.Y + num192;
+				npc.rotation = (float)Math.Atan2(targetCenterY, targetCenterX) + MathHelper.PiOver2;
+				distanceFromTarget = (float)Math.Sqrt(targetCenterX * targetCenterX + targetCenterY * targetCenterY);
+				distanceFromTarget = (distanceFromTarget - npc.width) / distanceFromTarget;
+				targetCenterX *= distanceFromTarget;
+				targetCenterY *= distanceFromTarget;
+				npc.velocity = Vector2.Zero;
+				npc.position.X = npc.position.X + targetCenterX;
+				npc.position.Y = npc.position.Y + targetCenterY;
 
-                if (num191 < 0f)
-                    npc.spriteDirection = -1;
-                else if (num191 > 0f)
-                    npc.spriteDirection = 1;
-            }
-        }
+				if (targetCenterX < 0f)
+					npc.spriteDirection = -1;
+				else if (targetCenterX > 0f)
+					npc.spriteDirection = 1;
+			}
+		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
