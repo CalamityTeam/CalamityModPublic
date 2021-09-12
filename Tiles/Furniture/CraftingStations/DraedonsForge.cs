@@ -15,17 +15,22 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4); // Uses 5x4 style, but reduces height to 3.
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
             TileObjectData.newTile.Origin = new Point16(2, 1);
             TileObjectData.addTile(Type);
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Draedon's Forge");
             AddMapEntry(new Color(230, 157, 41), name);
+
+            animationFrameHeight = 54;
             disableSmartCursor = true;
             dustType = DustID.Platinum; // 84
+
             adjTiles = new int[] {
                 TileID.WorkBenches,
                 TileID.Chairs,
@@ -40,6 +45,16 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
                 TileID.LunarCraftingStation,
                 TileID.DemonAltar
             };
+        }
+
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            frameCounter++;
+            if (frameCounter >= 11)
+            {
+                frame = (frame + 1) % 4;
+                frameCounter = 0;
+            }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
