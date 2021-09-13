@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Other
                 int demon = Projectile.NewProjectile(npc.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, npc.target);
                 if (Main.projectile.IndexInRange(demon))
                 {
-                    Main.projectile[demon].ai[1] = Main.rand.Next(-10, 0);
+                    Main.projectile[demon].ai[1] = Main.rand.Next(-40, 0);
                     Main.projectile[demon].friendly = friendly;
                     Main.projectile[demon].hostile = !friendly;
                     Main.projectile[demon].netUpdate = true;

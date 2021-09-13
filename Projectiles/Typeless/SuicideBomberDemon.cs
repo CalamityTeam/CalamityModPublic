@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
             projectile.Opacity = 0f;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 600;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -173,7 +173,9 @@ namespace CalamityMod.Projectiles.Typeless
                 HasDamagedSomething = true;
                 projectile.netUpdate = true;
             }
-                
+
+            if (Time >= 300f)
+                projectile.Kill();
 
             projectile.frameCounter++;
         }
@@ -189,6 +191,15 @@ namespace CalamityMod.Projectiles.Typeless
                 explosion.scale = 1.35f;
                 explosion.fadeIn = 0.45f;
                 explosion.noGravity = true;
+
+                if (Main.rand.NextBool(3))
+                    explosion.scale *= 1.45f;
+
+                if (Main.rand.NextBool(6))
+                {
+                    explosion.scale *= 1.75f;
+                    explosion.fadeIn += 0.4f;
+                }
             }
         }
 
@@ -201,7 +212,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public Color FlameTrailColorFunction(float completionRatio)
         {
-            float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true);
+            float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true);
             Color startingColor = Color.Lerp(Color.Cyan, Color.White, 0.4f);
             Color middleColor = Color.Lerp(Color.Orange, Color.Yellow, 0.3f);
             Color endColor = Color.Lerp(Color.Orange, Color.Red, 0.67f);
@@ -210,6 +221,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            spriteBatch.EnterShaderRegion();
+
             // Initialize the flame trail drawer.
             if (FlameTrailDrawer is null)
                 FlameTrailDrawer = new PrimitiveTrail(FlameTrailWidthFunction, FlameTrailColorFunction, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
@@ -219,26 +232,41 @@ namespace CalamityMod.Projectiles.Typeless
 
             Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemon");
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonGlowmask");
+            Texture2D orbTexture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonOrb");
             if (projectile.friendly)
             {
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonFriendly");
                 glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonGlowmaskFriendly");
+                orbTexture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonOrbFriendly");
             }
             Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             SpriteEffects direction = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            // Draw the flame trail once ready.
-            if (Time >= 90f)
-            {
-                Vector2 trailOffset = projectile.Size * 0.5f;
-                trailOffset += Vector2.UnitY.RotatedBy(projectile.rotation) * (float)Math.Abs(Math.Sin(projectile.rotation)) * 14f;
-                FlameTrailDrawer.Draw(projectile.oldPos, trailOffset - Main.screenPosition, 61);
-            }
-
             // Draw the base sprite and glowmask.
             spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
             spriteBatch.Draw(glowmask, drawPosition, frame, projectile.GetAlpha(Color.White), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
+
+            // Draw the flame trail and flame orb once ready.
+            if (Time >= 90f)
+            {
+                float flameOrbGlowIntensity = Utils.InverseLerp(90f, 98f, Time, true);
+                for (int i = 0; i < 12; i++)
+				{
+                    Color flameOrbColor = Color.LightCyan * flameOrbGlowIntensity * 0.125f;
+                    flameOrbColor.A = 0;
+                    Vector2 flameOrbDrawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTime * 2f).ToRotationVector2();
+                    flameOrbDrawOffset *= flameOrbGlowIntensity * 3f;
+                    spriteBatch.Draw(orbTexture, drawPosition + flameOrbDrawOffset, frame, projectile.GetAlpha(flameOrbColor), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
+                }
+
+                Vector2 trailOffset = projectile.Size * 0.5f;
+                trailOffset += (projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * 20f;
+                FlameTrailDrawer.Draw(projectile.oldPos, trailOffset - Main.screenPosition, 61);
+            }
+
+            spriteBatch.ExitShaderRegion();
+
             return false;
         }
 
