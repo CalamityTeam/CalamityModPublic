@@ -74,7 +74,7 @@ namespace CalamityMod
 		public static float ManhattanDistance(this Vector2 a, Vector2 b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 
 		/// <summary>
-		/// Wraps an angle between -90 and 90 degrees. If an angle goes past this rangle it'll loop back to the other end.
+		/// Wraps an angle between -90 and 90 degrees. If an angle goes past this range it'll go back to the other end.
 		/// </summary>
 		/// <param name="theta"></param>
 		/// <returns></returns>
