@@ -23,6 +23,8 @@ namespace CalamityMod.Projectiles.Typeless
         {
             DisplayName.SetDefault("Demon");
             Main.projFrames[projectile.type] = 12;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 11;
         }
 
         public override void SetDefaults()
@@ -51,8 +53,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 11;
             Time++;
 
             // Decide an owner if necessary.
@@ -218,8 +218,12 @@ namespace CalamityMod.Projectiles.Typeless
             GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
             Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemon");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonGlowmask");
             if (projectile.friendly)
+            {
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonFriendly");
+                glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/SuicideBomberDemonGlowmaskFriendly");
+            }
             Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             SpriteEffects direction = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -232,8 +236,9 @@ namespace CalamityMod.Projectiles.Typeless
                 FlameTrailDrawer.Draw(projectile.oldPos, trailOffset - Main.screenPosition, 61);
             }
 
-            // Draw the base sprite.
+            // Draw the base sprite and glowmask.
             spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
+            spriteBatch.Draw(glowmask, drawPosition, frame, projectile.GetAlpha(Color.White), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
             return false;
         }
 
