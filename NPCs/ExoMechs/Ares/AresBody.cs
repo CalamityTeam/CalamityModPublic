@@ -323,6 +323,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					AIState = (float)Phase.Normal;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
+					npc.dontTakeDamage = true;
 
 					npc.velocity.Y -= 2f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
