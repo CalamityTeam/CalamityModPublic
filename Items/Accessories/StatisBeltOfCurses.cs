@@ -46,9 +46,9 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StatisNinjaBelt>());
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 10);
-            //This is not a mistake.  Only Nightmare Fuel is intentional for thematics.
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            // This is not a mistake. Requiring only Nightmare Fuel is intentional for thematics.
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

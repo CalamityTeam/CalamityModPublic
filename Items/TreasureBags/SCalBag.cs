@@ -1,14 +1,15 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-
+using Terraria.ModLoader;
 using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.Items.TreasureBags
@@ -39,21 +40,27 @@ namespace CalamityMod.Items.TreasureBags
         {
             player.TryGettingDevArmor();
 
+            // Materials
+            DropHelper.DropItem(player, ModContent.ItemType<CalamitousEssence>(), 25, 35);
+
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(player,
-                DropHelper.WeightStack<Vehemenc>(w),
+                DropHelper.WeightStack<Violence>(w),
+                DropHelper.WeightStack<Condemnation>(w),
                 DropHelper.WeightStack<Heresy>(w),
+                DropHelper.WeightStack<Vehemenc>(w),
                 DropHelper.WeightStack<Perdition>(w),
                 DropHelper.WeightStack<Vigilance>(w),
-                DropHelper.WeightStack<Sacrifice>(w),
-                DropHelper.WeightStack<Violence>(w)
-            );
+                DropHelper.WeightStack<Sacrifice>(w)
+                );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Calamity>());
 
             // Vanity
+
+            // SCal vanity set (This drops all at once, or not at all)
             if (Main.rand.NextBool(7))
             {
                 DropHelper.DropItem(player, ModContent.ItemType<AshenHorns>());
@@ -61,6 +68,9 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.DropItem(player, ModContent.ItemType<SCalRobes>());
                 DropHelper.DropItem(player, ModContent.ItemType<SCalBoots>());
             }
+
+            // The Brimstone Jewel is an expert-only vanity
+            DropHelper.DropItem(player, ModContent.ItemType<BrimstoneJewel>());
         }
     }
 }

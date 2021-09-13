@@ -496,7 +496,7 @@ namespace CalamityMod.CalPlayer
 						break;
 					}
 				}
-				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), (int)(400 * player.RogueDamage()), 15f, Main.myPlayer, 16f, 16f);
+				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), (int)(550 * player.RogueDamage()), 15f, Main.myPlayer, 16f, 16f);
 				if (projectileIndex.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[projectileIndex].Calamity().forceTypeless = true;

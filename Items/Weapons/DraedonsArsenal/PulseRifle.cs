@@ -72,8 +72,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -86,8 +87,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            // TODO -- cosmic anvil
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

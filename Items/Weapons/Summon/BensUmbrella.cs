@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			recipe.AddIngredient(ModContent.ItemType<SarosPossession>());
 			recipe.AddIngredient(ItemID.Umbrella);
 			recipe.AddIngredient(ItemID.TopHat);
-			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

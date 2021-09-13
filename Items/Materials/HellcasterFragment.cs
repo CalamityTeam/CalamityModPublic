@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Materials
             item.width = 10;
             item.height = 14;
             item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 16);
+            item.value = Item.sellPrice(gold: 45);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
     }

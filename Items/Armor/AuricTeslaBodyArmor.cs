@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Body)]
+    [AutoloadEquip(EquipType.Body)]
     public class AuricTeslaBodyArmor : ModItem
     {
         public override void SetStaticDefaults()
@@ -32,17 +32,17 @@ namespace CalamityMod.Items.Armor
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "You will freeze enemies near you when you are struck\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+                    {
+                        line2.text = "You will freeze enemies near you when you are struck\n" +
+                        "Provides heat and cold protection in Death Mode";
+                    }
+                }
+            }
         }
 
         public override void UpdateEquip(Player player)
@@ -62,9 +62,9 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
             recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
-			recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

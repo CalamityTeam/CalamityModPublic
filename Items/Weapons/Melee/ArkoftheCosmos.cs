@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -109,8 +109,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<FourSeasonsGalaxia>());
             recipe.AddIngredient(ModContent.ItemType<ArkoftheElements>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -127,8 +127,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			CalamityPlayer modPlayer = player.Calamity();
-			bool astral = modPlayer.ZoneAstral;
+            CalamityPlayer modPlayer = player.Calamity();
+            bool astral = modPlayer.ZoneAstral;
             bool jungle = player.ZoneJungle;
             bool snow = player.ZoneSnow;
             bool beach = player.ZoneBeach;

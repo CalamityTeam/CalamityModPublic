@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Body)]
+    [AutoloadEquip(EquipType.Body)]
     public class FearmongerPlateMail : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Plate Mail");
             Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" +
-			"5% increased damage and critical strike chance");
+            "5% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ItemID.SpookyBreastplate);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ItemID.SoulofFright, 12);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

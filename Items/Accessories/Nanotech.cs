@@ -3,23 +3,24 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class Nanotech : ModItem
+    public class Nanotech : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanotech");
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
-				"Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
+                "Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
                 "15% increased rogue damage and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 150 times\n" +
-				"Max rogue damage boost is 15%\n" +
-				"This line is modified below");
+                "Max rogue damage boost is 15%\n" +
+                "This line is modified below");
         }
 
         public override void SetDefaults()
@@ -60,8 +61,10 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
             recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
             recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
+            recipe.AddIngredient(ItemID.LunarBar, 8);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class ExoCrystal : ModItem
+    public class ExoPrism : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exocrystal");
+            DisplayName.SetDefault("Exo Prism");
             Tooltip.SetDefault("Fractal energies shimmer across its surface");
         }
 
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Materials
             item.height = 52;
             item.maxStack = 999;
             item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(gold: 24);
+            item.value = Item.sellPrice(gold: 60);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

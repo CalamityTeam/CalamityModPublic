@@ -62,14 +62,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddIngredient(ModContent.ItemType<SolarFlare>());
             r.AddIngredient(ModContent.ItemType<TheObliterator>());
-            r.AddIngredient(ModContent.ItemType<Lacerator>());
-            r.AddIngredient(ModContent.ItemType<Verdant>());
-            r.AddIngredient(ModContent.ItemType<Chaotrix>());
-            r.AddIngredient(ModContent.ItemType<Quagmire>());
-            r.AddIngredient(ModContent.ItemType<Shimmerspark>());
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.AddRecipe();
         }
     }

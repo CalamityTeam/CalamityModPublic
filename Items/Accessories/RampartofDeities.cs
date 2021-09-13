@@ -64,8 +64,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DeificAmulet>());
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 20);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -82,8 +82,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MagneticMeltdown>());
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WandofSparking);
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

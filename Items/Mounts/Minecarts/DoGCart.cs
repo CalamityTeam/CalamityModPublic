@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Mounts.Minecarts
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 1);
             recipe.AddIngredient(ItemID.Wire, 60);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

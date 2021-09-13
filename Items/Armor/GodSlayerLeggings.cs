@@ -1,6 +1,6 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -35,9 +35,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

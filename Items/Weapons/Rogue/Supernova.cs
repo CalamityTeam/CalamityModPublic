@@ -31,7 +31,7 @@ Stealth strikes release energy as they fly");
             item.UseSound = SoundID.Item15;
             item.autoReuse = true;
             item.height = 36;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             item.shootSpeed = 16f;
@@ -43,10 +43,10 @@ Stealth strikes release energy as they fly");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                damage = (int)(damage * 0.9f);
+                damage = (int)(damage * 1.08f);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -61,10 +61,8 @@ Stealth strikes release energy as they fly");
             recipe.AddIngredient(ModContent.ItemType<ShockGrenade>(), 200);
             recipe.AddIngredient(ModContent.ItemType<Penumbra>());
             recipe.AddIngredient(ModContent.ItemType<StarofDestruction>());
-			recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
-
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

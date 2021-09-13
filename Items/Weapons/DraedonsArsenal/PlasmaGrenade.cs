@@ -51,9 +51,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             if (player.Calamity().StealthStrikeAvailable())
                 damage = (int)(damage * 1.05);
 
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
@@ -62,8 +62,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }

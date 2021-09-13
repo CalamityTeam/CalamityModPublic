@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class GalaxySmasherMelee : ModItem
+    public class GalaxySmasherMelee : ModItem
     {
         public static int BaseDamage = 264;
         public static float Speed = 18f;
@@ -53,8 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            r.AddTile(TileID.LunarCraftingStation);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.AddRecipe();
         }
     }

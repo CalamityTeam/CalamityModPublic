@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eye of Extinction");
-            Tooltip.SetDefault("Summons Supreme Calamitas at the altar but is not consumed");
+            Tooltip.SetDefault("Use at the Altar of the Accursed to summon Supreme Calamitas\n" + "Not consumable");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.SummonItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 15);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

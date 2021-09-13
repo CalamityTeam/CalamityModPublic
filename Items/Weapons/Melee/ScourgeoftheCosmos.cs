@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity14BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
         }
 
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
             recipe.AddIngredient(ModContent.ItemType<Bonebreaker>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

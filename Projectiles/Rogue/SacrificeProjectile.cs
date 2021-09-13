@@ -23,15 +23,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 62;
-            projectile.height = 18;
+            projectile.width = projectile.height = 62;
             projectile.friendly = true;
             projectile.ignoreWater = true;
+            projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            projectile.localNPCHitCooldown = 9;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(AbleToHealOwner);
@@ -79,6 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (StickingToAnything && projectile.timeLeft > 90)
                 projectile.timeLeft = 90;
+
             projectile.StickyProjAI(50);
         }
 
@@ -93,16 +94,6 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
             return false;
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
-            return false;
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
 
         public override void Kill(int timeLeft)
         {

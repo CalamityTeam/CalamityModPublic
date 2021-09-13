@@ -1,5 +1,6 @@
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -31,10 +32,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
             item.summon = true;
 
-			item.value = CalamityGlobalItem.Rarity15BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-		}
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
@@ -45,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.XenoStaff);
             recipe.AddIngredient(ItemID.MoonlordTurretStaff);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
