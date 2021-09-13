@@ -56,13 +56,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<GhoulishGouger>());
             r.AddIngredient(ModContent.ItemType<MoltenAmputator>());
-            r.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
             r.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20);
             r.AddIngredient(ItemID.Nanites, 400);
+            r.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddRecipe();
         }
     }

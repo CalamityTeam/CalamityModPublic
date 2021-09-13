@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaPlumedHelm : ModItem
     {
         public override void SetStaticDefaults()
@@ -65,9 +65,9 @@ namespace CalamityMod.Items.Armor
                 player.lifeRegen += 10;
             }
 
-			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
-				modPlayer.dashMod = 9;
-		}
+            if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+                modPlayer.dashMod = 9;
+        }
 
         public override void UpdateEquip(Player player)
         {
@@ -84,9 +84,9 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerMask>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHelm>());
             recipe.AddIngredient(ModContent.ItemType<TarragonHelmet>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

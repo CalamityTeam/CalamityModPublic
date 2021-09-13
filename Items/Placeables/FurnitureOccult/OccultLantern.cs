@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 18);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 1);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

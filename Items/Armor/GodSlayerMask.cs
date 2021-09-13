@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -41,22 +41,22 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerThrowing = true;
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
-			string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
-			player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
-				"Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
-				"Enemies you dash through take massive damage\n" +
-				"During the dash you are immune to most debuffs\n" +
-				"The dash has a 15 second cooldown\n" +
-				"While at full HP all of your rogue stats are boosted by 10%\n" +
+            string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
+            player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
+                "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
+                "Enemies you dash through take massive damage\n" +
+                "During the dash you are immune to most debuffs\n" +
+                "The dash has a 15 second cooldown\n" +
+                "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 
-			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
-				modPlayer.dashMod = 9;
-		}
+            if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+                modPlayer.dashMod = 9;
+        }
 
         public override void UpdateEquip(Player player)
         {
@@ -69,9 +69,8 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

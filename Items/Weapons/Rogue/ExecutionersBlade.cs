@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ExecutionersBlade : RogueWeapon
     {
-		private int counter = 0;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
@@ -43,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 11);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -65,9 +66,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))
                 Main.projectile[stealth].Calamity().stealthStrike = true;
 
-			counter++;
-			if (counter >= item.useAnimation / item.useTime)
-				counter = 0;
+            counter++;
+            if (counter >= item.useAnimation / item.useTime)
+                counter = 0;
             return false;
         }
     }

@@ -62,7 +62,6 @@ Stealth strikes release energy as they fly");
             recipe.AddIngredient(ModContent.ItemType<Penumbra>());
             recipe.AddIngredient(ModContent.ItemType<StarofDestruction>());
             recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
-
             recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

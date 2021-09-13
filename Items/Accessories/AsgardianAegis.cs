@@ -2,13 +2,14 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shield)]
+    [AutoloadEquip(EquipType.Shield)]
     public class AsgardianAegis : ModItem
     {
         public override void SetStaticDefaults()
@@ -49,13 +50,13 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.dashMod = 4;
+            modPlayer.dashMod = 4;
             modPlayer.elysianAegis = true;
             modPlayer.abaddon = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;
-			player.lifeRegen++;
+            player.lifeRegen++;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;
@@ -81,8 +82,9 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AsgardsValor>());
             recipe.AddIngredient(ModContent.ItemType<ElysianAegis>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

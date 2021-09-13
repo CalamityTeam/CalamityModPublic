@@ -71,8 +71,7 @@ namespace CalamityMod.Items.Materials
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 60);
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
-            // TODO -- Cosmic Anvil, you won't have DF yet for Auric Bars
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this, 5);
             recipe.AddRecipe();
         }

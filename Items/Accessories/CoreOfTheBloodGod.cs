@@ -44,8 +44,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<BloodPact>());
             recipe.AddIngredient(ModContent.ItemType<FleshTotem>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

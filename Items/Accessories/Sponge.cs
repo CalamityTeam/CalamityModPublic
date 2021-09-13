@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class Sponge : ModItem
     {
-		public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
+        public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
 
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Accessories
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +
-		"Increased defense, movement speed and damage reduction while submerged in liquid\n" +
-		"Enemies take damage when they hit you\n" +
+                "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
+                "Enemies take damage when they hit you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
@@ -42,27 +42,27 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
-					{
-						line2.text += "\nProvides cold protection in Death Mode";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+                    {
+                        line2.text += "\nProvides cold protection in Death Mode";
+                    }
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-	    // Removed Giant Shell speed boost from Sponge
+            // Removed Giant Shell speed boost from Sponge
             // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
-			modPlayer.sponge = true;
+            modPlayer.sponge = true;
             player.statManaMax2 += 30;
         }
 
@@ -88,11 +88,11 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<TheAbsorber>());
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

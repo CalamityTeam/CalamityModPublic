@@ -56,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 player.itemTime = item.useTime;
-				CalamityUtils.KillShootProjectileMany(player, new int[]
-				{
-					type,
-					ModContent.ProjectileType<EndoCooperLimbs>(),
-					ModContent.ProjectileType<EndoBeam>()
-				});
+                CalamityUtils.KillShootProjectileMany(player, new int[]
+                {
+                    type,
+                    ModContent.ProjectileType<EndoCooperLimbs>(),
+                    ModContent.ProjectileType<EndoBeam>()
+                });
 
                 SummonEndoCooper(AttackMode, Main.MouseWorld, damage, knockBack, player, out _, out _);
 
@@ -97,9 +97,9 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CryogenicStaff>());
             recipe.AddIngredient(ItemID.BlizzardStaff);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 99);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 100);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 15);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
