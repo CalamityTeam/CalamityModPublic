@@ -10,14 +10,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings)]
     public class CelestialTracers : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Tracers");
             Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
-				"Counts as wings\n" +
+                "Counts as wings\n" +
                 "Horizontal speed: 12\n" +
                 "Acceleration multiplier: 3\n" +
                 "Excellent vertical speed\n" +
@@ -40,17 +40,17 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
-					{
-						line2.text = "Being hit for over 200 damage will make you immune for an extended period of time\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
+                    {
+                        line2.text = "Being hit for over 200 damage will make you immune for an extended period of time\n" +
+                        "Provides heat protection in Death Mode";
+                    }
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -105,8 +105,8 @@ namespace CalamityMod.Items.Accessories.Wings
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ElysianTracers>());
             recipe.AddIngredient(ModContent.ItemType<DrewsWings>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

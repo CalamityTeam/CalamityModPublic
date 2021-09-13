@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Placeables.Furniture
             recipe.AddIngredient(ModContent.ItemType<BotanicChair>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteChair>());
             recipe.AddIngredient(ModContent.ItemType<SilvaChair>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
         }
     }

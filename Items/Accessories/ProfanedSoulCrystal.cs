@@ -274,13 +274,13 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             PSCRecipe recipe = new PSCRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>());
+            recipe.AddIngredient(ItemID.ObsidianRose);
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>());
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 50);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 100);
-            recipe.AddIngredient(ItemID.ObsidianRose);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<ProfanedBasin>());
             recipe.needLava = true;
             recipe.SetResult(this);

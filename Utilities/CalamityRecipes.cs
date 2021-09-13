@@ -27,11 +27,11 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-			EditLeatherRecipe();
-			EditTerraBladeRecipe();
+            EditLeatherRecipe();
+            EditTerraBladeRecipe();
             EditFireGauntletRecipe();
-			EditMechBossSummonRecipes();
-			EditWingRecipes();
+            EditMechBossSummonRecipes();
+            EditWingRecipes();
             EditEvilBulletRecipes();
             EditPhasesaberRecipes();
             AstralAlternatives();
@@ -68,15 +68,15 @@ namespace CalamityMod
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
-			// Hallowed Bars
-			r = GetNewRecipe();
-			r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
-			r.AddTile(TileID.AdamantiteForge);
-			r.SetResult(ItemID.HallowedBar);
-			r.AddRecipe();
+            // Hallowed Bars
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
+            r.AddTile(TileID.AdamantiteForge);
+            r.SetResult(ItemID.HallowedBar);
+            r.AddRecipe();
 
-			// Ectoplasm from Ectoblood
-			r = GetNewRecipe();
+            // Ectoplasm from Ectoblood
+            r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Ectoplasm);
@@ -93,8 +93,8 @@ namespace CalamityMod
             // Life Crystal
             r = GetNewRecipe();
             r.AddIngredient(ItemID.StoneBlock, 5);
-			r.AddIngredient(ItemID.Ruby, 2);
-			r.AddIngredient(ItemID.HealingPotion);
+            r.AddIngredient(ItemID.Ruby, 2);
+            r.AddIngredient(ItemID.HealingPotion);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.LifeCrystal);
             r.AddRecipe();
@@ -115,18 +115,18 @@ namespace CalamityMod
             r.AddRecipe();
         }
 
-		// Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
-		private static void EditLeatherRecipe()
-		{
-			List<Recipe> rec = Main.recipe.ToList();
-			rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
-			{
-				s.requiredItem[0].stack = 2;
-			});
-		}
+        // Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
+        private static void EditLeatherRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 2;
+            });
+        }
 
-		// Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
-		private static void EditTerraBladeRecipe()
+        // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
+        private static void EditTerraBladeRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.TerraBlade).ToList().ForEach(s =>
@@ -169,23 +169,23 @@ namespace CalamityMod
             });
         }
 
-		private static void EditMechBossSummonRecipes()
-		{
-			List<Recipe> rec = Main.recipe.ToList();
-			rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
-			{
-				s.requiredTile[0] = TileID.Anvils;
-			});
-		}
+        private static void EditMechBossSummonRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
+            {
+                s.requiredTile[0] = TileID.Anvils;
+            });
+        }
 
-		private static void EditWingRecipes()
-		{
-			List<Recipe> rec = Main.recipe.ToList();
-			rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
-			{
-				s.requiredTile[0] = TileID.Anvils;
-			});
-		}
+        private static void EditWingRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
+            {
+                s.requiredTile[0] = TileID.Anvils;
+            });
+        }
 
         // Change Ichor, and Cursed Bullets/Arrows to be pre-Hardmode Boss
         private static void EditEvilBulletRecipes()
@@ -197,19 +197,19 @@ namespace CalamityMod
             });
         }
 
-		// Change Phasesaber recipes to require 20 Crystal Shards
-		private static void EditPhasesaberRecipes()
-		{
-			List<Recipe> rec = Main.recipe.ToList();
-			rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
-			x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
-			{
-				s.requiredItem[1].stack = 20;
-			});
-		}
+        // Change Phasesaber recipes to require 20 Crystal Shards
+        private static void EditPhasesaberRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
+            x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
+            {
+                s.requiredItem[1].stack = 20;
+            });
+        }
 
-		#region Astral Alternatives
-		private static void AstralAlternatives()
+        #region Astral Alternatives
+        private static void AstralAlternatives()
         {
             //Bowl
             ModRecipe r = GetNewRecipe();
@@ -795,19 +795,19 @@ namespace CalamityMod
             r.SetResult(ItemID.EskimoPants);
             r.AddRecipe();
 
-			// Pharaoh set
-			r = GetNewRecipe();
-			r.AddIngredient(ItemID.AncientCloth, 3);
-			r.AddTile(TileID.Loom);
-			r.SetResult(ItemID.PharaohsMask);
-			r.AddRecipe();
+            // Pharaoh set
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.AncientCloth, 3);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.PharaohsMask);
+            r.AddRecipe();
 
-			r = GetNewRecipe();
-			r.AddIngredient(ItemID.AncientCloth, 4);
-			r.AddTile(TileID.Loom);
-			r.SetResult(ItemID.PharaohsRobe);
-			r.AddRecipe();
-		}
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.AncientCloth, 4);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.PharaohsRobe);
+            r.AddRecipe();
+        }
         #endregion
 
         #region AnkhShield
@@ -1019,14 +1019,14 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyCobaltBar", group);
 
-			group = new RecipeGroup(() => "Any Mythril Bar", new int[]
-			{
-				ItemID.MythrilBar,
-				ItemID.OrichalcumBar
-			});
-			RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+            group = new RecipeGroup(() => "Any Mythril Bar", new int[]
+            {
+                ItemID.MythrilBar,
+                ItemID.OrichalcumBar
+            });
+            RecipeGroup.RegisterGroup("AnyMythrilBar", group);
 
-			group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
             {
                 ItemID.AdamantiteBar,
                 ItemID.TitaniumBar
@@ -1098,11 +1098,11 @@ namespace CalamityMod
                 ItemID.HallowedHelmet,
                 ItemID.HallowedHeadgear,
                 ItemID.HallowedMask/*,
-				ItemID.HallowedHood,
+                ItemID.HallowedHood,
                 ItemID.AncientHallowedHelmet,
                 ItemID.AncientHallowedHeadgear,
                 ItemID.AncientHallowedMask,
-				ItemID.AncientHallowedHood*/
+                ItemID.AncientHallowedHood*/
             });
             RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
 
@@ -1152,19 +1152,19 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
-			group = new RecipeGroup(() => "Any Large Gem", new int[]
-			{
-				ItemID.LargeAmber,
-				ItemID.LargeAmethyst,
-				ItemID.LargeDiamond,
-				ItemID.LargeEmerald,
-				ItemID.LargeRuby,
-				ItemID.LargeSapphire,
-				ItemID.LargeTopaz
-			});
-			RecipeGroup.RegisterGroup("AnyLargeGem", group);
+            group = new RecipeGroup(() => "Any Large Gem", new int[]
+            {
+                ItemID.LargeAmber,
+                ItemID.LargeAmethyst,
+                ItemID.LargeDiamond,
+                ItemID.LargeEmerald,
+                ItemID.LargeRuby,
+                ItemID.LargeSapphire,
+                ItemID.LargeTopaz
+            });
+            RecipeGroup.RegisterGroup("AnyLargeGem", group);
 
-			group = new RecipeGroup(() => "Any Food Item", new int[]
+            group = new RecipeGroup(() => "Any Food Item", new int[]
             {
                 ItemID.CookedFish,
                 ItemID.CookedMarshmallow,
@@ -1224,16 +1224,16 @@ namespace CalamityMod
                 ItemID.BetsyWings,
                 ItemID.ArkhalisWings,
                 ItemID.LeinforsWings,
-				ItemID.BejeweledValkyrieWing,
-				/*
-				ItemID.GhostarsWings,
-				ItemID.GroxTheGreatWings,
-				ItemID.FoodBarbarianWings,
-				ItemID.SafemanWings,
-				ItemID.CreativeWings,
-				ItemID.RainbowWings,
-				ItemID.LongRainbowTrailWings,
-				*/
+                ItemID.BejeweledValkyrieWing,
+                /*
+                ItemID.GhostarsWings,
+                ItemID.GroxTheGreatWings,
+                ItemID.FoodBarbarianWings,
+                ItemID.SafemanWings,
+                ItemID.CreativeWings,
+                ItemID.RainbowWings,
+                ItemID.LongRainbowTrailWings,
+                */
                 ModContent.ItemType<SkylineWings>(),
                 ModContent.ItemType<StarlightWings>(),
                 ModContent.ItemType<AureateWings>(),

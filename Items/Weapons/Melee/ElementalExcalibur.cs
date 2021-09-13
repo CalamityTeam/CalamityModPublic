@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Elemental Excalibur");
             Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
                 "Fires rainbow beams that change their behavior based on their color\n" +
-				"Right click for true melee");
+                "Right click for true melee");
         }
 
         public override void SetDefaults()
@@ -45,12 +45,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -64,37 +64,37 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-		public override bool AltFunctionUse(Player player) => true;
+        public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.shoot = ProjectileID.None;
-				item.shootSpeed = 0f;
-			}
-			else
-			{
-				item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
-				item.shootSpeed = 12f;
-			}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.shoot = ProjectileID.None;
+                item.shootSpeed = 0f;
+            }
+            else
+            {
+                item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+                item.shootSpeed = 12f;
+            }
 
-			return base.CanUseItem(player);
-		}
+            return base.CanUseItem(player);
+        }
 
-		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-		{
-			if (player.altFunctionUse == 2)
-				damage *= 2;
-		}
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (player.altFunctionUse == 2)
+                damage *= 2;
+        }
 
-		public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
-		{
-			if (player.altFunctionUse == 2)
-				damage *= 2;
-		}
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        {
+            if (player.altFunctionUse == 2)
+                damage *= 2;
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {
@@ -175,8 +175,8 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
 
-			if (player.moonLeech)
-				return;
+            if (player.moonLeech)
+                return;
 
             int healAmount = Main.rand.Next(3) + 10;
             player.statLife += healAmount;
@@ -188,14 +188,14 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<GreatswordofBlah>());
             recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ItemID.LargeDiamond, 3);
-            recipe.AddIngredient(ItemID.LightShard, 10);
-            recipe.AddIngredient(ItemID.DarkShard, 10);
+            recipe.AddIngredient(ItemID.LargeDiamond);
+            recipe.AddIngredient(ItemID.LightShard, 3);
+            recipe.AddIngredient(ItemID.DarkShard, 3);
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 50);
-            recipe.AddIngredient(ItemID.SoulofNight, 50);
+            recipe.AddIngredient(ItemID.SoulofLight, 20);
+            recipe.AddIngredient(ItemID.SoulofNight, 20);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

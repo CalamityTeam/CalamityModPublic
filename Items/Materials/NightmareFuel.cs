@@ -7,10 +7,10 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-	public class NightmareFuel : ModItem
+    public class NightmareFuel : ModItem
     {
-		public int frameCounter = 0;
-		public int frame = 0;
+        public int frameCounter = 0;
+        public int frame = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nightmare Fuel");
@@ -28,18 +28,18 @@ namespace CalamityMod.Items.Materials
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-		{
-			Texture2D texture = Main.itemTexture[item.type];
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-			return false;
-		}
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = Main.itemTexture[item.type];
+            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            return false;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/NightmareFuelGlow");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/NightmareFuelGlow");
+            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+        }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

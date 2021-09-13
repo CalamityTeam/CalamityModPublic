@@ -1,14 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -31,7 +29,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SupremeCalamitas : ModNPC
+	public class SupremeCalamitas : ModNPC
     {
         internal enum FrameAnimationType
         {
@@ -2741,37 +2739,34 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
             npc.Center = initialRitualPosition;
 
-            // Make the town NPC spawn.
-            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
-
             DropHelper.DropBags(npc);
-
-            // Increase the player's SCal kill count
-            if (Main.player[npc.target].Calamity().sCalKillCount < 5)
-                Main.player[npc.target].Calamity().sCalKillCount++;
 
 			// Legendary drop for SCal
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
 
-			// Materials
-			int essenceMin = Main.expertMode ? 30 : 20;
-            int essenceMax = Main.expertMode ? 40 : 30;
-            DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
+            // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
+            // It is one of extremely few Deathmode exclusive drops in the game
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
 
+            // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
-                // Weapons.
+                // Materials
+                DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, 18, 27);
+
+                // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
-                    DropHelper.WeightStack<Vehemenc>(w),
+                    DropHelper.WeightStack<Violence>(w),
+                    DropHelper.WeightStack<Condemnation>(w),
                     DropHelper.WeightStack<Heresy>(w),
+                    DropHelper.WeightStack<Vehemenc>(w),
                     DropHelper.WeightStack<Perdition>(w),
                     DropHelper.WeightStack<Vigilance>(w),
-                    DropHelper.WeightStack<Sacrifice>(w),
-                    DropHelper.WeightStack<Violence>(w)
+                    DropHelper.WeightStack<Sacrifice>(w)
                 );
 
-                // Vanity.
+                // SCal vanity set (This drops all at once, or not at all)
                 if (Main.rand.NextBool(7))
                 {
                     DropHelper.DropItem(npc, ModContent.ItemType<AshenHorns>());
@@ -2781,13 +2776,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
             }
 
-            // Vanity
-            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
-
             // Other
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
+
+            // Increase the player's SCal kill count
+            if (Main.player[npc.target].Calamity().sCalKillCount < 5)
+                Main.player[npc.target].Calamity().sCalKillCount++;
+
+            // Spawn the SCal NPC directly where the boss was
+            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 12, ModContent.NPCType<WITCH>());
 
             // Mark Supreme Calamitas as defeated
             CalamityWorld.downedSCal = true;

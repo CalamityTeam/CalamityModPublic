@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ExoGladProj>();
             item.shootSpeed = 19f;
@@ -52,8 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<GalileoGladius>());
             recipe.AddIngredient(ModContent.ItemType<CosmicShiv>());
             recipe.AddIngredient(ModContent.ItemType<Lucrecia>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -65,27 +63,27 @@ namespace CalamityMod.Items.Weapons.Melee
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			target.ExoDebuffs();
-			OnHitEffects(player);
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            target.ExoDebuffs();
+            OnHitEffects(player);
+        }
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			target.ExoDebuffs();
-			OnHitEffects(player);
-		}
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.ExoDebuffs();
+            OnHitEffects(player);
+        }
 
         private void OnHitEffects(Player player)
         {
-			bool isImmune = false;
-			for (int j = 0; j < player.hurtCooldowns.Length; j++)
-			{
-				if (player.hurtCooldowns[j] > 0)
-					isImmune = true;
-			}
-			if (!isImmune)
+            bool isImmune = false;
+            for (int j = 0; j < player.hurtCooldowns.Length; j++)
+            {
+                if (player.hurtCooldowns[j] > 0)
+                    isImmune = true;
+            }
+            if (!isImmune)
             {
                 player.immune = true;
                 if (player.immuneTime < item.useTime)
@@ -102,5 +100,5 @@ namespace CalamityMod.Items.Weapons.Melee
                 CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
         }
-	}
+    }
 }

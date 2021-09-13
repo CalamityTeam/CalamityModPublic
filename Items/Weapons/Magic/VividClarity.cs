@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Vivid Clarity");
             Tooltip.SetDefault("Fires five randomized beams of elemental energy at the cursor\n" +
-							   "On enemy and tile hits, beams either explode into a big flash,\n" +
-							   "summon an additonal laser from the sky,\n" +
-							   "or split into energy orbs\n" +
-                               "High IQ increases the weapon's potential");
+                               "On enemy and tile hits, beams either explode into a big flash,\n" +
+                               "summon an additonal laser from the sky,\n" +
+                               "or split into energy orbs\n" +
+                               "Its majesty inspires a stroke of unparalleled genius");
             Item.staff[item.type] = true;
         }
 
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
@@ -84,8 +84,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
             recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
             recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
@@ -52,9 +52,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Phantasm);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

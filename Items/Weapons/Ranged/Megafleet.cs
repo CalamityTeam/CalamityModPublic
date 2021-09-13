@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -64,8 +64,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Seadragon>());
+            recipe.AddIngredient(ItemID.SoulofFright, 30);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ItemID.SoulofMight, 30);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

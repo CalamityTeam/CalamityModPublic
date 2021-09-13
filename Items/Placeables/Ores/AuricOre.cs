@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Ores
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Ore");
+            Tooltip.SetDefault("Laced with the dormant power of a deity");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Ores
             item.width = 10;
             item.height = 10;
             item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 2);
+            item.value = Item.sellPrice(gold: 4);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
     }

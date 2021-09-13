@@ -59,11 +59,11 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-			recipe.AddIngredient(ItemID.SkyBlueFlower);
+            recipe.AddIngredient(ItemID.SkyBlueFlower);
             recipe.AddIngredient(ItemID.FragmentSolar, 15);
-			recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

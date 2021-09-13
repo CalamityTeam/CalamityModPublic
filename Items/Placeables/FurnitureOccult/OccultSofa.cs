@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 5);
             recipe.AddIngredient(ItemID.Silk, 2);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

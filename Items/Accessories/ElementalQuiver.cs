@@ -44,8 +44,10 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MagicQuiver);
             recipe.AddIngredient(ModContent.ItemType<DaedalusEmblem>());
+            recipe.AddIngredient(ItemID.LunarBar, 8);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

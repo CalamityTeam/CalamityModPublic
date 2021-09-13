@@ -1,14 +1,15 @@
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class GodsParanoia : RogueWeapon
+    public class GodsParanoia : RogueWeapon
     {
         private static int damage = 98;
         private static int knockBack = 5;
@@ -46,33 +47,33 @@ Right click to delete all existing spiky balls");
 
         }
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.shoot = ProjectileID.None;
-				item.shootSpeed = 0f;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
-			}
-			else
-			{
-				item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
-				item.shootSpeed = 5f;
-				int UseMax = item.stack;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
-			}
-		}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.shoot = ProjectileID.None;
+                item.shootSpeed = 0f;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
+            }
+            else
+            {
+                item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+                item.shootSpeed = 5f;
+                int UseMax = item.stack;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
+            }
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = false;
+            modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
                 damage = (int)(damage * 1.345);
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -81,7 +82,7 @@ Right click to delete all existing spiky balls");
         public override bool AltFunctionUse(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = true;
+            modPlayer.killSpikyBalls = true;
             return true;
         }
 
@@ -90,8 +91,8 @@ Right click to delete all existing spiky balls");
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

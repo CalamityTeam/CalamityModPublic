@@ -77,10 +77,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.LargeRuby);
+            r.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
+            r.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
             r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            r.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.SetResult(this);
             r.AddRecipe();
         }

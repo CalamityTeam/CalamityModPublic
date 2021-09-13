@@ -1,11 +1,11 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Elysian Tracers");
             Tooltip.SetDefault("Ludicrous speed!\n" +
-				"Counts as wings\n" +
+                "Counts as wings\n" +
                 "Horizontal speed: 10.5\n" +
                 "Acceleration multiplier: 2.75\n" +
                 "Great vertical speed\n" +
@@ -39,17 +39,17 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
-					{
-						line2.text = "Temporary immunity to lava\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
+                    {
+                        line2.text = "Temporary immunity to lava\n" +
+                        "Provides heat protection in Death Mode";
+                    }
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -105,7 +105,8 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddIngredient(ModContent.ItemType<InfinityBoots>());
             recipe.AddIngredient(ModContent.ItemType<ElysianWings>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

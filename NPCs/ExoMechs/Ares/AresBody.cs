@@ -723,19 +723,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
 
-			// Materials
-			int minCrystalQuantity = Main.expertMode ? 15 : 12;
-			int maxCrystalQuantity = Main.expertMode ? 18 : 15;
-			DropHelper.DropItem(npc, ModContent.ItemType<ExoCrystal>(), true, minCrystalQuantity, maxCrystalQuantity);
-
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
 			{
+				// Materials
+				DropHelper.DropItem(npc, ModContent.ItemType<ExoPrism>(), true, 24, 32);
+
 				// Weapons
 				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack<SpineOfThanatos>(w),
 					DropHelper.WeightStack<PhotonRipper>(w),
+					DropHelper.WeightStack<SpineOfThanatos>(w),
 					DropHelper.WeightStack<SurgeDriver>(w),
 					DropHelper.WeightStack<TheJailor>(w),
 					DropHelper.WeightStack<RefractionRotor>(w),
