@@ -87,16 +87,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		private const float soundDistance = 2800f;
 
 		// Normal animation duration
-		private const float defaultAnimationDuration = 100f;
-
-		// Total duration of attack telegraphs
-		private const float attackTelegraphDuration = 100f;
+		private const float defaultAnimationDuration = 60f;
 
 		// Total duration of the phase transition
-		private const float phaseTransitionDuration = 300f;
+		private const float phaseTransitionDuration = 180f;
 
 		// Where the timer should be when the lens pops off
-		private const float lensPopTime = 80f;
+		private const float lensPopTime = 48f;
 
 		// Total duration of the deathray telegraph
 		private const float deathrayTelegraphDuration = 60f;
@@ -436,6 +433,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
+			// Velocity during deathray spin phase
+			float spinVelocity = baseVelocity * 0.25f;
+
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
 			{
@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										rotationDirection = player.direction;
 
 									// Set spin velocity
-									npc.velocity.X = MathHelper.Pi * spinRadius / baseVelocity;
+									npc.velocity.X = MathHelper.Pi * spinRadius / spinVelocity;
 									npc.velocity *= -rotationDirection;
 									npc.netUpdate = true;
 
@@ -786,7 +786,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									}
 								}
 								else
-									npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / baseVelocity * -rotationDirection);
+									npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocity * -rotationDirection);
 							}
 						}
 						else
@@ -908,7 +908,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.PhaseTransition)
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= 6D)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
@@ -931,7 +931,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					int frameLimit = phase2 ? (npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase2 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase2 : attackFrameLimit_Phase2) :
 						(npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase1 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase1 : attackFrameLimit_Phase1);
 
-					if (npc.frameCounter >= 10D)
+					if (npc.frameCounter >= 6D)
 					{
 						// Reset frame counter
 						npc.frameCounter = 0D;
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				else if (AIState == (float)Phase.Charge || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.Deathray)
 				{
 					int frameLimit = phase2 ? attackFrameLimit_Phase2 : attackFrameLimit_Phase1;
-					if (npc.frameCounter >= 10D)
+					if (npc.frameCounter >= 6D)
 					{
 						// Reset frame counter
 						npc.frameCounter = 0D;

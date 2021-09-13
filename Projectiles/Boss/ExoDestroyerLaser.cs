@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 4200f;
-		public const float LaserVelocity = 12f;
+		public const float LaserVelocity = 14f;
 
 		public override void SetStaticDefaults()
         {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
+			if (projectile.frameCounter > 12)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;
