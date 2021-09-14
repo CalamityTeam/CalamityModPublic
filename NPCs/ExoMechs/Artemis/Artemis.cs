@@ -371,7 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = lastMechAlive ? 45f : 60f;
+			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
@@ -388,9 +388,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				}
 				else if (spinningPoint != default)
 				{
+					rateOfRotation = 0f;
 					float x = spinningPoint.X - npc.Center.X;
 					float y = spinningPoint.Y - npc.Center.Y;
-					rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
+					npc.rotation = (float)Math.Atan2(y, x) + MathHelper.PiOver2;
 				}
 				else
 				{
@@ -399,7 +400,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
 				}
 
-				// Do not set this during charge phase
+				// Do not set this during charge or deathray phases
 				if (rateOfRotation != 0f)
 					npc.rotation = npc.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
 			}
@@ -634,7 +635,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
-									Vector2 projectileDestination = player.Center + player.velocity * predictionAmt;
+									Vector2 projectileDestination = player.Center + predictionVector;
 									Vector2 offset = laserVelocity * 70f;
 									Projectile.NewProjectile(npc.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 								}
@@ -654,12 +655,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									/*int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
+									int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-									Vector2 laserVelocity = Vector2.Normalize(rotationVector);
-									Vector2 projectileDestination = player.Center + player.velocity * predictionAmt;
-									Vector2 offset = laserVelocity * 70f;
-									Projectile.NewProjectile(npc.Center + offset, projectileDestination, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);*/
+									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
+									Vector2 offset = laserVelocity * 50f;
+									Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
 								}
 							}
 
@@ -737,14 +737,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							int type = ModContent.ProjectileType<ExoDestroyerLaser>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-							Vector2 laserVelocity = Vector2.Normalize(aimedVector);
+							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
 							int spread = 3 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 3;
 							float rotation = MathHelper.ToRadians(spread);
+							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
 							for (int i = 0; i < numLasersPerSpread + 1; i++)
 							{
 								Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numLasersPerSpread - 1)));
-								Vector2 offset = Vector2.Normalize(perturbedSpeed) * 70f;
-								Projectile.NewProjectile(npc.Center + offset, player.Center + perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+								Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+								Vector2 offset = normalizedPerturbedSpeed * 70f;
+								Vector2 newCenter = npc.Center + offset;
+								Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 							}
 						}
 					}
@@ -777,11 +780,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							spinningPoint = npc.Center + Vector2.UnitY * spinRadius;
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								/*int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
+								int type = ModContent.ProjectileType<ArtemisDeathrayTelegraph>();
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 								Vector2 laserVelocity = Vector2.Normalize(spinningPoint - npc.Center);
 								Vector2 offset = laserVelocity * 70f;
-								Projectile.NewProjectile(npc.Center + offset, spinningPoint, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);*/
+								Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
 							}
 							npc.netUpdate = true;
 						}
@@ -808,11 +811,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								// Fire deathray
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									/*int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
+									int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
-										Main.projectile[laser].ai[0] = npc.whoAmI;*/
+										Main.projectile[laser].ai[0] = npc.whoAmI;
 								}
 							}
 							else
