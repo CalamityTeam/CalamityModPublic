@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Magic
             StickToOwner();
 
             Vector2 drawPosition = Main.MouseWorld + new Vector2(Main.zoomX, Main.zoomY);
-            GhostlyFusableParticleSet.Instance.SpawnParticle(drawPosition + Main.rand.NextVector2Circular(6f, 6f));
+            GhostlyFusableParticleSet.Instance.SpawnParticle(drawPosition + Main.rand.NextVector2Circular(6f, 6f), 1f);
 
             if (!Owner.channel)
                 projectile.Kill();

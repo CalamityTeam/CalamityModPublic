@@ -49,7 +49,8 @@ namespace CalamityMod.Particles
 		public abstract Color BorderColor { get; }
 		public abstract Effect BackgroundShader { get; }
 		public abstract Effect EdgeShader { get; }
-		public abstract FusableParticle SpawnParticle(Vector2 center);
+		public abstract Texture2D BackgroundTexture { get; }
+		public abstract FusableParticle SpawnParticle(Vector2 center, float sizeStrength);
 		public abstract void UpdateBehavior(FusableParticle particle);
 		public abstract void DrawParticles();
 
@@ -117,16 +118,15 @@ namespace CalamityMod.Particles
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
 				
 				// Draw the current target with the specified shader.
-				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(7f);
+				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(16f);
 				particleSet.EdgeShader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
 				particleSet.EdgeShader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
 				particleSet.EdgeShader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
 				particleSet.EdgeShader.Parameters["renderTargetArea"].SetValue(new Vector2(particleSet.GetRenderTarget.Width, particleSet.GetRenderTarget.Height));
 				particleSet.EdgeShader.Parameters["borderColor"].SetValue(particleSet.BorderColor.ToVector3());
 
-				Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG");
-				Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
-				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
+				Main.graphics.GraphicsDevice.Textures[1] = particleSet.BackgroundTexture;
+				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(particleSet.BackgroundTexture.Size());
 				particleSet.EdgeShader.CurrentTechnique.Passes[0].Apply();
 				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
 

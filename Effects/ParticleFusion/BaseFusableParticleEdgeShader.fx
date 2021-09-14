@@ -26,7 +26,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     coords += screenMoveOffset / renderTargetArea;
     
     float4 color = tex2D(uImage0, coords);
-    float downscaleFactor = max(uImageSize1.x, uImageSize1.y) / max(renderTargetArea.x, renderTargetArea.y) / 2;
+    float downscaleFactor = float2(40, 40) / max(renderTargetArea.x, renderTargetArea.y) / 2;
     float2 movedCoords = frac((renderTargetArea * originalCoords + uWorldPosition) * downscaleFactor);
     float4 backgroundColor = tex2D(uImage1, movedCoords);
     float positionNoiseInterpolant = sin(2.71828182846 * uWorldPosition.x / 25) + sin(1.57079632679 * uWorldPosition.x / 25);

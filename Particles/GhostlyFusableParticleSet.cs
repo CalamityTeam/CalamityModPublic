@@ -14,7 +14,8 @@ namespace CalamityMod.Particles
 		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.45f) * 1.4f;
 		public override Effect BackgroundShader { get; }
 		public override Effect EdgeShader => GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
-		public override FusableParticle SpawnParticle(Vector2 center)
+		public override Texture2D BackgroundTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG");
+		public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
 		{
 			Particles.Add(new FusableParticle(center, Main.rand.NextFloat(84f, 100f)));
 			return Particles.Last();
