@@ -30,15 +30,26 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.65f, 0f, 0.1f);
-
             StickToOwner();
 
-            Vector2 drawPosition = Main.MouseWorld + new Vector2(Main.zoomX, Main.zoomY);
-            GhostlyFusableParticleSet.Instance.SpawnParticle(drawPosition + Main.rand.NextVector2Circular(6f, 6f), 1f);
-
+            // Die if the owner is no longer channeling the item.
+            int congregationType = ModContent.ProjectileType<SpiritCongregation>();
             if (!Owner.channel)
                 projectile.Kill();
+
+            // Summon a congregation of spirits if the player doesn't have one already.
+            else if (Owner.ownedProjectileCounts[congregationType] <= 0)
+			{
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Vector2 spiritSpawnPosition = projectile.Center - Vector2.UnitY * 12f;
+                    Projectile.NewProjectile(spiritSpawnPosition, -Vector2.UnitY * 10f, congregationType, projectile.damage, projectile.knockBack, projectile.owner);
+                }
+                Main.PlaySound(SoundID.DD2_EtherianPortalOpen, projectile.Center);
+			}
+
+            // Emit light.
+            Lighting.AddLight(projectile.Center, 0.65f, 0f, 0.1f);
         }
 
         public void StickToOwner()
@@ -53,5 +64,8 @@ namespace CalamityMod.Projectiles.Magic
             Owner.itemAnimation = 2;
             Owner.itemRotation = 0f;
         }
+
+        // This is just a casting item. It should not do contact damage.
+        public override bool CanDamage() => false;
 	}
 }

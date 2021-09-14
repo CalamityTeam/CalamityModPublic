@@ -13,14 +13,18 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 float edgeBorderSize;
+bool borderShouldBeSolid;
+float3 edgeBorderColor;
 float2 screenArea;
 float2 renderTargetArea;
-float3 borderColor;
 float2 screenMoveOffset;
+bool invertedScreen;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 originalCoords = coords;
+    if (invertedScreen)
+        coords.y = 1 - coords.y;
     
     // Account for screen movements. Not doing this causes the scene to move based on that.
     coords += screenMoveOffset / renderTargetArea;
@@ -41,8 +45,17 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 belowColor = tex2D(uImage0, coords - float2(0, edgeOffset.y));
     float4 leftColor = tex2D(uImage0, coords + float2(edgeOffset.x, 0));
     float4 rightColor = tex2D(uImage0, coords - float2(edgeOffset.x, 0));
-    if (aboveColor.r < 0.95 || belowColor.r < 0.95 || leftColor.r < 0.95 || rightColor.r < 0.95)
-        return float4(borderColor, 1) * color.a;
+    float checkThreshold = 0.02;
+    if (!borderShouldBeSolid)
+        checkThreshold = 0.95;
+    if (aboveColor.r < checkThreshold || belowColor.r < checkThreshold || leftColor.r < checkThreshold || rightColor.r < checkThreshold)
+    {
+        float borderOpacity = color.a;
+        if (borderOpacity > 0 && borderShouldBeSolid)
+            borderOpacity = 1;
+        
+        return float4(edgeBorderColor, 1) * borderOpacity;
+    }
     
     return backgroundColor;
 }

@@ -406,15 +406,15 @@ namespace CalamityMod
 
         #region MidUpdateProjectileItem
         public override void MidUpdateProjectileItem()
-		{
+        {
             // Update all fusable particles.
             // This are really only visual and as such don't really need any complex netcode.
             foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in BaseFusableParticleSet.ParticleSets)
-			{
+            {
                 foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
                     particleSet.ParticleSet.UpdateBehavior(particle);
             }
-		}
+        }
 		#endregion
 
 		#region Vanilla Enemy DR

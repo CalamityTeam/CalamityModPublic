@@ -1,4 +1,3 @@
-using CalamityMod.Effects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
@@ -11,26 +10,25 @@ namespace CalamityMod.Particles
 	public class GhostlyFusableParticleSet : BaseFusableParticleSet
 	{
 		public static GhostlyFusableParticleSet Instance => GetParticleSetByType(typeof(GhostlyFusableParticleSet)).ParticleSet as GhostlyFusableParticleSet;
-		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.45f) * 1.4f;
+		public override float BorderSize => 5f;
+		public override bool BorderShouldBeSolid => false;
+		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.35f) * 1.4f;
 		public override Effect BackgroundShader { get; }
 		public override Effect EdgeShader => GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
 		public override Texture2D BackgroundTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG");
 		public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
 		{
-			Particles.Add(new FusableParticle(center, Main.rand.NextFloat(84f, 100f)));
+			Particles.Add(new FusableParticle(center, sizeStrength));
 			return Particles.Last();
 		}
 
 		public override void UpdateBehavior(FusableParticle particle)
 		{
-			particle.Size = MathHelper.Clamp(particle.Size - 0.45f, 0f, 100f);
+			particle.Size = MathHelper.Clamp(particle.Size - 1.5f, 0f, 400f) * 0.975f;
 		}
 
 		public override void DrawParticles()
 		{
-			// Clear away any particles that shouldn't exist anymore.
-			Particles.RemoveAll(p => p.Size <= 1f);
-
 			foreach (FusableParticle particle in Particles)
 			{
 				Texture2D fusableParticleBase = ModContent.GetTexture("CalamityMod/ExtraTextures/FusableParticleBase");

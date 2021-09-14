@@ -46,7 +46,9 @@ namespace CalamityMod.Particles
 
 		public RenderTarget2D GetRenderTarget => RenderCollection.RenderTarget;
 
-		public abstract Color BorderColor { get; }
+		public virtual float BorderSize => 0f;
+		public virtual bool BorderShouldBeSolid => false;
+		public virtual Color BorderColor => Color.Transparent;
 		public abstract Effect BackgroundShader { get; }
 		public abstract Effect EdgeShader { get; }
 		public abstract Texture2D BackgroundTexture { get; }
@@ -69,9 +71,7 @@ namespace CalamityMod.Particles
 					BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
 					RenderTarget2D renderTarget = null;
 					if (Main.netMode != NetmodeID.Server)
-					{
 						renderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents);
-					}
 
 					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, renderTarget);
 					ParticleSets.Add(particleRenderCollection);
@@ -90,7 +90,11 @@ namespace CalamityMod.Particles
 			Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
 			// Draw the particles.
-			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+			// Clear away any particles that shouldn't exist anymore.
+			Particles.RemoveAll(p => p.Size <= 1f);
+
 			DrawParticles();
 			Main.spriteBatch.End();
 
@@ -113,21 +117,24 @@ namespace CalamityMod.Particles
 		{
 			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
 			{
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
 				
 				// Draw the current target with the specified shader.
-				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(16f);
+				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
+				particleSet.EdgeShader.Parameters["borderShouldBeSolid"].SetValue(particleSet.BorderShouldBeSolid);
+				particleSet.EdgeShader.Parameters["edgeBorderColor"].SetValue(particleSet.BorderColor.ToVector3());
 				particleSet.EdgeShader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
 				particleSet.EdgeShader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
 				particleSet.EdgeShader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
 				particleSet.EdgeShader.Parameters["renderTargetArea"].SetValue(new Vector2(particleSet.GetRenderTarget.Width, particleSet.GetRenderTarget.Height));
-				particleSet.EdgeShader.Parameters["borderColor"].SetValue(particleSet.BorderColor.ToVector3());
+				particleSet.EdgeShader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
 
 				Main.graphics.GraphicsDevice.Textures[1] = particleSet.BackgroundTexture;
 				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(particleSet.BackgroundTexture.Size());
 				particleSet.EdgeShader.CurrentTechnique.Passes[0].Apply();
+
 				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
 
 				Main.spriteBatch.End();
