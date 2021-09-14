@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("XS-01 Artemis");
+            DisplayName.SetDefault("XS-03 Apollo");
 		}
 
         public override void SetDefaults()
