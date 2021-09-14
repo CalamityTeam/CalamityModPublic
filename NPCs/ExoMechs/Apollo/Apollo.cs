@@ -780,6 +780,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			}
 		}
 
+		public override bool CheckDead()
+		{
+			// Kill Artemis if he's still alive when Apollo dies
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				NPC nPC = Main.npc[i];
+				if (nPC.active && nPC.type == ModContent.NPCType<Artemis.Artemis>())
+				{
+					nPC.life = 0;
+					nPC.HitEffect(0, 10.0);
+					nPC.checkDead();
+					nPC.active = false;
+				}
+			}
+			return true;
+		}
+
 		public override bool CheckActive() => false;
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
