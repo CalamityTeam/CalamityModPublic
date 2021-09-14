@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
@@ -10,17 +11,18 @@ namespace CalamityMod.Particles
 	public class GhostlyFusableParticleSet : BaseFusableParticleSet
 	{
 		public static GhostlyFusableParticleSet Instance => GetParticleSetByType(typeof(GhostlyFusableParticleSet)).ParticleSet as GhostlyFusableParticleSet;
+		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.45f) * 1.4f;
 		public override Effect BackgroundShader { get; }
-		public override Effect EdgeShader => CalamityShaders.BaseFusableParticleEdgeShader;
+		public override Effect EdgeShader => GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
 		public override FusableParticle SpawnParticle(Vector2 center)
 		{
-			Particles.Add(new FusableParticle(center, Main.rand.NextFloat(64f, 85f)));
+			Particles.Add(new FusableParticle(center, Main.rand.NextFloat(84f, 100f)));
 			return Particles.Last();
 		}
 
 		public override void UpdateBehavior(FusableParticle particle)
 		{
-			particle.Size = MathHelper.Clamp(particle.Size - 0.7f, 0f, 100f);
+			particle.Size = MathHelper.Clamp(particle.Size - 0.45f, 0f, 100f);
 		}
 
 		public override void DrawParticles()
