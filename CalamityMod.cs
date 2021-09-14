@@ -62,6 +62,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod.Particles;
 
 namespace CalamityMod
 {
@@ -274,6 +275,8 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
+            BaseFusableParticleSet.LoadParticleRenderTargets();
+            Main.OnPreDraw += _ => BaseFusableParticleSet.PrepareFusableParticleTargets();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
@@ -350,6 +353,8 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            Main.OnPreDraw -= _ => BaseFusableParticleSet.PrepareFusableParticleTargets();
+
             RipperUI.Unload();
             AstralArcanumUI.Unload();
 
@@ -399,8 +404,21 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Vanilla Enemy DR
-        private void SetupVanillaDR()
+        #region MidUpdateProjectileItem
+        public override void MidUpdateProjectileItem()
+		{
+            // Update all fusable particles.
+            // This are really only visual and as such don't really need any complex netcode.
+            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in BaseFusableParticleSet.ParticleSets)
+			{
+                foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
+                    particleSet.ParticleSet.UpdateBehavior(particle);
+            }
+		}
+		#endregion
+
+		#region Vanilla Enemy DR
+		private void SetupVanillaDR()
         {
             DRValues = new SortedDictionary<int, float> {
                 { NPCID.AngryBonesBig, 0.2f },

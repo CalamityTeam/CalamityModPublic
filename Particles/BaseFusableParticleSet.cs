@@ -1,0 +1,139 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Particles
+{
+	public abstract class BaseFusableParticleSet
+	{
+		public class FusableParticleRenderCollection
+		{
+			public BaseFusableParticleSet ParticleSet;
+			public RenderTarget2D RenderTarget;
+			public FusableParticleRenderCollection(BaseFusableParticleSet set, RenderTarget2D renderTarget)
+			{
+				ParticleSet = set;
+				RenderTarget = renderTarget;
+			}
+		}
+
+		public class FusableParticle
+		{
+			public Vector2 Center;
+			public float Size;
+			public Vector2 TopLeft => Center + new Vector2(-1f, -1f) * Size * 0.5f;
+			public Vector2 TopRight => Center + new Vector2(1f, -1f) * Size * 0.5f;
+			public Vector2 BottomLeft => Center + new Vector2(-1f, 1f) * Size * 0.5f;
+			public Vector2 BottomRight => Center + new Vector2(1f, 1f) * Size * 0.5f;
+
+			public FusableParticle(Vector2 center, float size)
+			{
+				Center = center;
+				Size = size;
+			}
+		}
+
+		internal static readonly List<FusableParticleRenderCollection> ParticleSets = new List<FusableParticleRenderCollection>();
+
+		public FusableParticleRenderCollection RenderCollection => GetParticleSetByType(GetType());
+
+		public List<FusableParticle> Particles = new List<FusableParticle>();
+
+		public RenderTarget2D GetRenderTarget => RenderCollection.RenderTarget;
+
+		public abstract Effect BackgroundShader { get; }
+		public abstract Effect EdgeShader { get; }
+		public abstract FusableParticle SpawnParticle(Vector2 center);
+		public abstract void UpdateBehavior(FusableParticle particle);
+		public abstract void DrawParticles();
+
+		internal static void LoadParticleRenderTargets()
+		{
+			// Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
+			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for it to use.
+			foreach (Type type in typeof(CalamityMod).Assembly.GetTypes())
+			{
+				// Don't load abstract classes; they cannot have instances.
+				if (type.IsAbstract)
+					continue;
+
+				if (type.IsSubclassOf(typeof(BaseFusableParticleSet)))
+				{
+					BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
+					RenderTarget2D renderTarget = null;
+					if (Main.netMode != NetmodeID.Server)
+					{
+						renderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents);
+					}
+
+					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, renderTarget);
+					ParticleSets.Add(particleRenderCollection);
+				}
+			}
+		}
+
+		internal virtual void DrawSet()
+		{
+			// Don't bother doing anything if this method is called serverside.
+			if (Main.netMode == NetmodeID.Server)
+				return;
+
+			// Go to the specialized render target for this particle set and clear the entire thing to use a base of transparent pixels.
+			Main.instance.GraphicsDevice.SetRenderTarget(GetRenderTarget);
+			Main.instance.GraphicsDevice.Clear(Color.Transparent);
+
+			// Draw the particles.
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+			DrawParticles();
+			Main.spriteBatch.End();
+
+			// Return to using the previous render targets after done drawing everything to this target.
+			Main.instance.GraphicsDevice.SetRenderTarget(null);
+		}
+
+		internal static void PrepareFusableParticleTargets()
+		{
+			// Don't attempt to draw anything serverside.
+			if (Main.netMode == NetmodeID.Server)
+				return;
+
+			// Draw all fusable particles.
+			foreach (FusableParticleRenderCollection particleSet in ParticleSets)
+				particleSet.ParticleSet.DrawSet();
+		}
+
+		internal static void RenderAllFusableParticles()
+		{
+			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
+			{
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+
+				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
+
+				// Draw the current target with the specified shader.
+				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(2f);
+				particleSet.EdgeShader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+				particleSet.EdgeShader.Parameters["renderTargetArea"].SetValue(new Vector2(particleSet.GetRenderTarget.Width, particleSet.GetRenderTarget.Height));
+				particleSet.EdgeShader.Parameters["borderColor"].SetValue(Color.Transparent.ToVector3());
+
+				Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/EternityStreak");
+				Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
+				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
+				particleSet.EdgeShader.CurrentTechnique.Passes[0].Apply();
+				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
+
+				Main.spriteBatch.End();
+			}
+		}
+
+		public static FusableParticleRenderCollection GetParticleSetByType(Type type)
+		{
+			return ParticleSets.First(s => s.ParticleSet.GetType() == type);
+		}
+	}
+}

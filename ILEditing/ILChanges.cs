@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
@@ -124,6 +125,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
+			IL.Terraria.Main.DoDraw += DrawFusableParticles;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -153,10 +155,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
-        /// <summary>
-        /// Unloads all IL Editing changes in the mod.
-        /// </summary>
-        internal static void Unload()
+		/// <summary>
+		/// Unloads all IL Editing changes in the mod.
+		/// </summary>
+		internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
@@ -176,6 +178,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
+            IL.Terraria.Main.DoDraw -= DrawFusableParticles;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
@@ -559,6 +562,19 @@ namespace CalamityMod.ILEditing
             Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
         }
         #endregion
+
+        private static void DrawFusableParticles(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("SortDrawCacheWorms")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the reference method to attach to.");
+                return;
+            }
+
+            cursor.EmitDelegate<Action>(() => BaseFusableParticleSet.RenderAllFusableParticles());
+        }
+
         #endregion
 
         #region Damage and health balance

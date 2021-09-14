@@ -1,4 +1,5 @@
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
 using CalamityMod.Projectiles.Melee;
@@ -307,6 +308,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			{
 				[ModContent.ItemType<TheCommunity>()] = ModContent.ItemType<ShatteredCommunity>(),
 				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>(),
+				[ModContent.ItemType<GhastlyVisage>()] = ModContent.ItemType<GruesomeEminence>(),
 			};
 		}
 
