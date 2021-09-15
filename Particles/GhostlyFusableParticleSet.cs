@@ -9,7 +9,6 @@ namespace CalamityMod.Particles
 {
 	public class GhostlyFusableParticleSet : BaseFusableParticleSet
 	{
-		public static GhostlyFusableParticleSet Instance => GetParticleSetByType(typeof(GhostlyFusableParticleSet)).ParticleSet as GhostlyFusableParticleSet;
 		public override float BorderSize => 5f;
 		public override bool BorderShouldBeSolid => false;
 		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.35f) * 1.4f;

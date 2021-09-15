@@ -1,11 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
@@ -38,9 +35,7 @@ namespace CalamityMod.Particles
 			}
 		}
 
-		internal static readonly List<FusableParticleRenderCollection> ParticleSets = new List<FusableParticleRenderCollection>();
-
-		public FusableParticleRenderCollection RenderCollection => GetParticleSetByType(GetType());
+		public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
 		public List<FusableParticle> Particles = new List<FusableParticle>();
 
@@ -56,29 +51,6 @@ namespace CalamityMod.Particles
 		public abstract FusableParticle SpawnParticle(Vector2 center, float sizeStrength);
 		public abstract void UpdateBehavior(FusableParticle particle);
 		public abstract void DrawParticles();
-
-		internal static void LoadParticleRenderTargets()
-		{
-			// Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
-			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for it to use.
-			foreach (Type type in typeof(CalamityMod).Assembly.GetTypes())
-			{
-				// Don't load abstract classes; they cannot have instances.
-				if (type.IsAbstract)
-					continue;
-
-				if (type.IsSubclassOf(typeof(BaseFusableParticleSet)))
-				{
-					BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
-					RenderTarget2D renderTarget = null;
-					if (Main.netMode != NetmodeID.Server)
-						renderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents);
-
-					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, renderTarget);
-					ParticleSets.Add(particleRenderCollection);
-				}
-			}
-		}
 
 		internal void PrepareRenderTargetForDrawing()
 		{
@@ -101,52 +73,6 @@ namespace CalamityMod.Particles
 
 			// Return to using the previous render targets after done drawing everything to this target.
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
-		}
-
-		internal static void PrepareFusableParticleTargets()
-		{
-			// Don't attempt to draw anything serverside.
-			if (Main.netMode == NetmodeID.Server)
-				return;
-
-			// Prepare the render target for all fusable particles.
-			foreach (FusableParticleRenderCollection particleSet in ParticleSets)
-				particleSet.ParticleSet.PrepareRenderTargetForDrawing();
-		}
-
-		internal static void RenderAllFusableParticles()
-		{
-			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
-			{
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
-
-				// Draw the current target with the specified shader.
-				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
-				particleSet.EdgeShader.Parameters["borderShouldBeSolid"].SetValue(particleSet.BorderShouldBeSolid);
-				particleSet.EdgeShader.Parameters["edgeBorderColor"].SetValue(particleSet.BorderColor.ToVector3());
-				particleSet.EdgeShader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
-				particleSet.EdgeShader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
-				particleSet.EdgeShader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
-				particleSet.EdgeShader.Parameters["renderTargetArea"].SetValue(new Vector2(particleSet.GetRenderTarget.Width, particleSet.GetRenderTarget.Height));
-				particleSet.EdgeShader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
-
-				Main.graphics.GraphicsDevice.Textures[1] = particleSet.BackgroundTexture;
-				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(particleSet.BackgroundTexture.Size());
-				particleSet.EdgeShader.CurrentTechnique.Passes[0].Apply();
-
-				particleSet.PrepareOptionalShaderData(particleSet.EdgeShader);
-
-				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
-
-				Main.spriteBatch.End();
-			}
-		}
-
-		public static FusableParticleRenderCollection GetParticleSetByType(Type type)
-		{
-			return ParticleSets.First(s => s.ParticleSet.GetType() == type);
 		}
 	}
 }

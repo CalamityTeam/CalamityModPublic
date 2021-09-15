@@ -275,8 +275,8 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
-            BaseFusableParticleSet.LoadParticleRenderTargets();
-            Main.OnPreDraw += _ => BaseFusableParticleSet.PrepareFusableParticleTargets();
+            FusableParticleManager.LoadParticleRenderTargets();
+            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
@@ -353,7 +353,7 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
-            Main.OnPreDraw -= _ => BaseFusableParticleSet.PrepareFusableParticleTargets();
+            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Unload();
             AstralArcanumUI.Unload();
@@ -409,7 +409,7 @@ namespace CalamityMod
         {
             // Update all fusable particles.
             // These are really only visual and as such don't really need any complex netcode.
-            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in BaseFusableParticleSet.ParticleSets)
+            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in FusableParticleManager.ParticleSets)
             {
                 foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
                     particleSet.ParticleSet.UpdateBehavior(particle);

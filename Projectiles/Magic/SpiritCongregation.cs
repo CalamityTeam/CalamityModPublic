@@ -189,12 +189,12 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				// Summon a base particle.
 				Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * particleSize / 26f;
-				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, particleSize);
+				FusableParticleManager.GetParticleSetByType<GhostlyFusableParticleSet>().SpawnParticle(spawnPosition, particleSize);
 
 				// And an "ahead" particle that spawns based on current movement.
 				// This causes the "head" of the overall thing to have bumps when moving.
 				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 65f;
-				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, particleSize * 0.4f);
+				FusableParticleManager.GetParticleSetByType<GhostlyFusableParticleSet>().SpawnParticle(spawnPosition, particleSize * 0.4f);
 			}
 
 			// Release gas projectiles randomly. This does not happen when dying.

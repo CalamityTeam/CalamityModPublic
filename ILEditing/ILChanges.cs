@@ -572,7 +572,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            cursor.EmitDelegate<Action>(() => BaseFusableParticleSet.RenderAllFusableParticles());
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles());
         }
 
         #endregion
