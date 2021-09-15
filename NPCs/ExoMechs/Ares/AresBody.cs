@@ -110,7 +110,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			writer.Write(frameX);
 			writer.Write(frameY);
 			writer.Write(armsSpawned);
-			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			for (int i = 0; i < 4; i++)
@@ -122,7 +121,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
 			armsSpawned = reader.ReadBoolean();
-			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)

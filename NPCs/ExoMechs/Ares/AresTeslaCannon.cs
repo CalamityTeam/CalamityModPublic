@@ -83,7 +83,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			writer.Write(frameX);
 			writer.Write(frameY);
-			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
@@ -93,7 +92,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
-			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
