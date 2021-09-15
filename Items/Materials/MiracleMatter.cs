@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Materials
             pulse = (float)Math.Pow(pulse, 3D);
 
             float outwardnessFactor = MathHelper.Lerp(-0.3f, 1.2f, pulse);
-            Color drawColor = CalamityUtils.MulticolorLerp(pulse, new Color(255, 218, 99), new Color(249, 134, 44));
+            Color drawColor = Color.Lerp(new Color(255, 218, 99), new Color(249, 134, 44), pulse);
             drawColor *= MathHelper.Lerp(0.35f, 0.67f, CalamityUtils.Convert01To010(pulse));
             drawColor.A = 25;
             for (int i = 0; i < 8; i++)
