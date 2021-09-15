@@ -35,9 +35,10 @@ namespace CalamityMod.Particles
 			}
 		}
 
-		public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
 		public List<FusableParticle> Particles = new List<FusableParticle>();
+
+		public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
 		public RenderTarget2D GetRenderTarget => RenderCollection.RenderTarget;
 
@@ -52,6 +53,9 @@ namespace CalamityMod.Particles
 		public abstract void UpdateBehavior(FusableParticle particle);
 		public abstract void DrawParticles();
 
+		/// <summary>
+		/// Temporarily moves from the backbuffer to a specialized render target, draws all particles, and caches the resulting render target for drawing later.
+		/// </summary>
 		internal void PrepareRenderTargetForDrawing()
 		{
 			// Don't bother doing anything if this method is called serverside.
@@ -62,16 +66,18 @@ namespace CalamityMod.Particles
 			Main.instance.GraphicsDevice.SetRenderTarget(GetRenderTarget);
 			Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
-			// Draw the particles.
+			// Prepare the sprite batch for specialized drawing now that the graphics device has moved to a new render target.
 			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 			// Clear away any particles that shouldn't exist anymore.
 			Particles.RemoveAll(p => p.Size <= 1f);
 
+			// Draw the surviving particles.
 			DrawParticles();
+
 			Main.spriteBatch.End();
 
-			// Return to using the previous render targets after done drawing everything to this target.
+			// Return to using the backbuffers after done drawing everything to this target.
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 		}
 	}

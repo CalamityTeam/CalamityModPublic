@@ -275,7 +275,7 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
-            FusableParticleManager.LoadParticleRenderTargets();
+            FusableParticleManager.LoadParticleRenderSets();
             Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Load();
@@ -353,6 +353,7 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            FusableParticleManager.UnloadParticleRenderSets();
             Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Unload();
