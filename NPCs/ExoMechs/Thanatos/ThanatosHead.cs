@@ -549,7 +549,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// Fly underneath target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
 
-					// Fire lasers while passive
+					// Do nothing while immune
 					AIState = (float)Phase.UndergroundLaserBarrage;
 
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk

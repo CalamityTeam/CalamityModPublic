@@ -156,7 +156,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			writer.Write(pickNewLocation);
 			writer.Write(rotationDirection);
 			writer.WriteVector2(spinningPoint);
-			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
@@ -174,7 +173,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			pickNewLocation = reader.ReadBoolean();
 			rotationDirection = reader.ReadInt32();
 			spinningPoint = reader.ReadVector2();
-			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
@@ -343,7 +341,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// Gate values
 			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
 			float timeToLineUpAttack = lastMechAlive ? 20f : 30f;
-			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
 
 			// Spin variables
 			float spinRadius = 500f;
@@ -504,6 +501,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							// Reset everything
 							npc.ai[3] = 1f;
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[1] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							rotationDirection = 0;
 							npc.TargetClosest();
 						}
 					}
@@ -516,6 +519,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							// Tells Artemis to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
+							npc.localAI[0] = 0f;
+							npc.localAI[1] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							rotationDirection = 0;
 							npc.TargetClosest();
 						}
 
@@ -525,6 +534,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.localAI[0] = 0f;
+							npc.localAI[1] = 0f;
+							npc.localAI[2] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 0f;
+							rotationDirection = 0;
 							npc.TargetClosest();
 						}
 					}
@@ -534,11 +549,20 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				// Fire projectiles less often
 				case (int)SecondaryPhase.Passive:
 
+					// Fire lasers while passive
+					AIState = (float)Phase.Normal;
+
 					// Enter passive and invincible phase if one of the other exo mechs is berserk
 					if (otherMechIsBerserk)
 					{
 						// Reset everything
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						rotationDirection = 0;
 						npc.TargetClosest();
 					}
 
@@ -546,6 +570,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					if (berserk)
 					{
 						// Reset everything
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						rotationDirection = 0;
 						npc.TargetClosest();
 
 						// Never be passive if berserk
@@ -557,18 +587,33 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				// Fly above target and become immune
 				case (int)SecondaryPhase.PassiveAndImmune:
 
+					// Do nothing while immune
+					AIState = (float)Phase.Normal;
+
 					// Enter the fight again if any of the other exo mechs is below 70% and the other mechs aren't berserk
 					if ((exoWormLifeRatio < 0.7f || exoPrimeLifeRatio < 0.7f) && !otherMechIsBerserk)
 					{
 						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						rotationDirection = 0;
 						npc.TargetClosest();
 					}
 
 					if (berserk)
 					{
 						// Reset everything
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.localAI[2] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
+						rotationDirection = 0;
 						npc.TargetClosest();
 
 						// Never be passive if berserk
@@ -617,7 +662,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// newAI[3] tells Artemis what animation state it's currently in
 					bool attacking = calamityGlobalNPC.newAI[3] >= 2f;
 					bool firingLasers = attacking && calamityGlobalNPC.newAI[3] + 2f < attackPhaseGateValue;
-					calamityGlobalNPC.newAI[2] += 1f;
+
+					// Only increase attack timer if not in immune phase
+					if (SecondaryAIState != (float)SecondaryPhase.PassiveAndImmune)
+						calamityGlobalNPC.newAI[2] += 1f;
+
 					if (calamityGlobalNPC.newAI[2] >= defaultAnimationDuration || attacking)
 					{
 						if (firingLasers)
@@ -650,31 +699,45 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						calamityGlobalNPC.newAI[3] += 1f;
 						if (lineUpAttack)
 						{
-							// Draw a large laser telegraph for the charge
-							if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f)
+							// Return to normal laser phase if in passive state
+							if (SecondaryAIState == (float)SecondaryPhase.Passive)
 							{
-								if (Main.netMode != NetmodeID.MultiplayerClient)
-								{
-									int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
-									Vector2 offset = laserVelocity * 50f;
-									Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
-								}
+								pickNewLocation = true;
+								calamityGlobalNPC.newAI[2] = 0f;
+								calamityGlobalNPC.newAI[3] = 0f;
+								chargeVelocityNormalized = default;
+								npc.TargetClosest();
 							}
-
-							if (doBigAttack)
+							else
 							{
-								if (phase2)
+								// Draw a large laser telegraph for the charge
+								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f)
 								{
-									AIState = npc.localAI[2] == 1f ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
+									if (Main.netMode != NetmodeID.MultiplayerClient)
+									{
+										int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+										Vector2 laserVelocity = Vector2.Normalize(aimedVector);
+										Vector2 offset = laserVelocity * 50f;
+										Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									}
 								}
-								else
+
+								if (doBigAttack)
 								{
-									// Charge until a certain distance is reached and then return to normal phase
-									AIState = (float)Phase.Charge;
-									npc.velocity = chargeVelocityNormalized * chargeVelocity;
-									chargeVelocityNormalized = default;
+									if (phase2)
+									{
+										AIState = npc.localAI[2] == 1f ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
+										calamityGlobalNPC.newAI[3] = 0f;
+									}
+									else
+									{
+										// Charge until a certain distance is reached and then return to normal phase
+										AIState = (float)Phase.Charge;
+										calamityGlobalNPC.newAI[3] = 0f;
+										npc.velocity = chargeVelocityNormalized * chargeVelocity;
+										chargeVelocityNormalized = default;
+									}
 								}
 							}
 						}
@@ -698,7 +761,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							pickNewLocation = true;
 							AIState = (float)Phase.Normal;
 							calamityGlobalNPC.newAI[2] = 0f;
-							calamityGlobalNPC.newAI[3] = 0f;
 							npc.TargetClosest();
 						}
 					}
@@ -760,7 +822,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = berserk ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
 						npc.TargetClosest();
 					}
 
@@ -851,7 +912,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
-						calamityGlobalNPC.newAI[3] = 0f;
 						npc.TargetClosest();
 					}
 
@@ -892,7 +952,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
 						npc.TargetClosest();
 					}
 
