@@ -84,18 +84,19 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.Calamity().stealthStrike)
             {
                 int bladeType = ModContent.ProjectileType<PrismShurikenBlade>();
+                int rocketDamage = (int)(projectile.damage * 0.8);
                 for (int i = 0; i < 6; i++)
                 {
                     Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
                     Vector2 spawnPosition = projectile.Center + projectile.Size * 0.5f * projectile.scale * shootDirection * 0.85f;
-                    Projectile.NewProjectile(spawnPosition, projectile.velocity * 0.5f + shootDirection * 7f, bladeType, projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(spawnPosition, projectile.velocity * 0.5f + shootDirection * 7f, bladeType, rocketDamage, projectile.knockBack, projectile.owner);
                 }
             }
 
             if (CalamityUtils.CountProjectiles(shootType) > 24)
                 return;
 
-            int energyDamage = (int)(projectile.damage * 0.66);
+            int energyDamage = (int)(projectile.damage * 0.495);
             float baseDirectionRotation = Main.rand.NextFloat(MathHelper.TwoPi);
             for (int i = 0; i < EnergyShotCount; i++)
             {

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -44,25 +45,28 @@ namespace CalamityMod.Items.TreasureBags
         {
             player.TryGettingDevArmor();
 
+            // Materials
+            DropHelper.DropItem(player, ModContent.ItemType<ExoPrism>(), 30, 40);
+
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(player,
-				DropHelper.WeightStack<SpineOfThanatos>(w),
-				DropHelper.WeightStack<PhotonRipper>(w),
-				DropHelper.WeightStack<SurgeDriver>(w),
-				DropHelper.WeightStack<TheJailor>(w),
-				DropHelper.WeightStack<RefractionRotor>(w),
-				DropHelper.WeightStack<TheAtomSplitter>(w)
-			);
+                DropHelper.WeightStack<PhotonRipper>(w),
+                DropHelper.WeightStack<SpineOfThanatos>(w),
+                DropHelper.WeightStack<SurgeDriver>(w),
+                DropHelper.WeightStack<TheJailor>(w),
+                DropHelper.WeightStack<RefractionRotor>(w),
+                DropHelper.WeightStack<TheAtomSplitter>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DraedonsHeart>());
 
-			// Vanity
-			// DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
-			// DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
-			// DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
-			// DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
+            // Vanity
+            // DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
+            // DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
+            // DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
+            // DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
         }
     }
 }

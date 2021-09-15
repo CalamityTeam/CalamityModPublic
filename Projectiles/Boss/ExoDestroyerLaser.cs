@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 4200f;
-		public const float LaserVelocity = 12f;
+		public const float LaserVelocity = 10f;
 
 		public override void SetStaticDefaults()
         {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
+			if (projectile.frameCounter > 12)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
 					// If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
 					if (Velocity != Vector2.Zero)
 					{
-						projectile.extraUpdates = 2;
+						projectile.extraUpdates = 3;
 						projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
 						Velocity = Vector2.Zero;
 						projectile.netUpdate = true;
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
                 // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (Velocity != Vector2.Zero)
                 {
-					projectile.extraUpdates = 2;
+					projectile.extraUpdates = 3;
 					projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
 					Velocity = Vector2.Zero;
                     projectile.netUpdate = true;

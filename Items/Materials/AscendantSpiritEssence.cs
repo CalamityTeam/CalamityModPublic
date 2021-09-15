@@ -1,17 +1,16 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {
     public class AscendantSpiritEssence : ModItem
     {
-		public int frameCounter = 0;
-		public int frame = 0;
+        public int frameCounter = 0;
+        public int frame = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ascendant Spirit Essence");
@@ -26,21 +25,21 @@ namespace CalamityMod.Items.Materials
             item.maxStack = 999;
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.sellPrice(gold: 25);
+            item.value = Item.sellPrice(gold: 40);
         }
 
-		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-		{
-			Texture2D texture = Main.itemTexture[item.type];
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-			return false;
-		}
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = Main.itemTexture[item.type];
+            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            return false;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AscendantSpiritEssenceGlow");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AscendantSpiritEssenceGlow");
+            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+        }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
@@ -54,8 +53,8 @@ namespace CalamityMod.Items.Materials
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 2);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

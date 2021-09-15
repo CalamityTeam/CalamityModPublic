@@ -37,6 +37,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
@@ -153,8 +154,9 @@ namespace CalamityMod
         public static List<int> minibossList;
 		public static List<int> heartDropBlockList;
 		public static List<int> pierceResistList;
+		public static List<int> pierceResistExceptionList;
 
-        public static List<int> legOverrideList;
+		public static List<int> legOverrideList;
 
         public static List<int> kamiDebuffColorImmuneList;
 
@@ -2004,7 +2006,11 @@ namespace CalamityMod
                 NPCType<DevourerofGodsTailS>(),
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
-				NPCType<ThanatosTail>()
+				NPCType<ThanatosTail>(),
+				NPCType<AresLaserCannon>(),
+				NPCType<AresTeslaCannon>(),
+				NPCType<AresPlasmaFlamethrower>(),
+				NPCType<AresGaussNuke>()
 			};
 
             needsDebuffIconDisplayList = new List<int>()
@@ -2771,7 +2777,31 @@ namespace CalamityMod
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
 				NPCType<ThanatosTail>(),
-				NPCType<BrimstoneHeart>()
+				NPCType<BrimstoneHeart>(),
+				NPCType<AresBody>(),
+				NPCType<AresLaserCannon>(),
+				NPCType<AresTeslaCannon>(),
+				NPCType<AresPlasmaFlamethrower>(),
+				NPCType<AresGaussNuke>()
+			};
+
+			pierceResistExceptionList = new List<int>()
+			{
+				ProjectileID.FlyingKnife,
+				ProjectileID.Arkhalis,
+				ProjectileID.MonkStaffT3,
+				ProjectileType<FlakKrakenProj>(),
+				ProjectileType<MurasamaSlash>(),
+				ProjectileType<OmnibladeSwing>(),
+				ProjectileType<DragonRageStaff>(),
+				ProjectileType<YateveoBloomProj>(),
+				ProjectileType<UrchinBall>(),
+				ProjectileType<TyphonsGreedStaff>(),
+				ProjectileType<DevilsSunriseProj>(),
+				ProjectileType<DevilsSunriseCyclone>(),
+				ProjectileType<PhaseslayerProjectile>(),
+				ProjectileType<TaserHook>(),
+				ProjectileType<Snowflake>()
 			};
 
 			bossMinionList = new List<int>()
@@ -3003,8 +3033,9 @@ namespace CalamityMod
             minibossList = null;
 			heartDropBlockList = null;
 			pierceResistList = null;
+			pierceResistExceptionList = null;
 
-            legOverrideList = null;
+			legOverrideList = null;
 
             kamiDebuffColorImmuneList = null;
 

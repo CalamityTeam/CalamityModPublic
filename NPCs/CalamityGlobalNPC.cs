@@ -46,6 +46,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -3608,6 +3609,14 @@ namespace CalamityMod.NPCs
 				// 10% resist to Surge Driver's alt click comets and Executioner's Blade stealth strikes.
 				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>() || projectile.type == ProjectileType<PrismComet>())
 					damage = (int)(damage * 0.9);
+
+				// 10% resist to Celestus.
+				else if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
+					damage = (int)(damage * 0.9);
+
+				// 15% vulnerability to the Atom Splitter (Yes, this is kinda weird, but it's what Piky asked for).
+				else if (projectile.type == ProjectileType<TheAtomSplitterProjectile>() || projectile.type == ProjectileType<TheAtomSplitterDuplicate>())
+					damage = (int)(damage * 1.15);
 			}
 			else if (npc.type == NPCID.CultistBoss)
 			{
@@ -3642,7 +3651,7 @@ namespace CalamityMod.NPCs
 
 			damage -= (int)(damage * damageReduction);
 
-			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.IsSummon() && projectile.aiStyle != 99)
+			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.IsSummon() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
 				projectile.Calamity().timesPierced++;
 		}
 		#endregion

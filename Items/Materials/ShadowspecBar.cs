@@ -12,9 +12,11 @@ namespace CalamityMod.Items.Materials
     {
         public int frameCounter = 0;
         public int frame = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowspec Bar");
+            Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
         }
 
         public override void SetDefaults()
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Materials
             item.autoReuse = true;
             item.consumable = true;
 
-            item.value = Item.sellPrice(gold: 85);
+            item.value = Item.sellPrice(platinum: 1, gold: 92);
             item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
         }
@@ -53,7 +55,7 @@ namespace CalamityMod.Items.Materials
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>());
-            recipe.AddIngredient(ModContent.ItemType<ExoCrystal>());
+            recipe.AddIngredient(ModContent.ItemType<ExoPrism>());
             recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,9 +21,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 100;
-			item.height = 100;
-			item.scale = 1.5f;
-			item.damage = 890;
+            item.height = 100;
+            item.scale = 1.5f;
+            item.damage = 890;
             item.melee = true;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow"));
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -145,8 +146,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

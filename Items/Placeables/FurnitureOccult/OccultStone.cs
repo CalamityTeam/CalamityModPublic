@@ -1,8 +1,8 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Walls;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultStone : ModItem
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
             recipe.AddIngredient(ItemID.Silk, 15);
             recipe.SetResult(this, 150);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OccultStoneWall>(), 4);
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OccultPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

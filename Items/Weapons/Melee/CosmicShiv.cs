@@ -6,6 +6,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -54,8 +55,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
 
             recipe.SetResult(this);
             recipe.AddRecipe();

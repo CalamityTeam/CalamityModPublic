@@ -65,8 +65,8 @@ namespace CalamityMod.Items.Accessories
 			recipe.AddIngredient(ItemType<SulfuricScale>(), 15);
 			recipe.AddIngredient(ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ItemType<CosmiliteBar>(), 5);
-			recipe.AddIngredient(ItemType<AscendantSpiritEssence>());
-			recipe.AddTile(TileType<DraedonsForge>());
+			recipe.AddIngredient(ItemType<AscendantSpiritEssence>(), 4);
+			recipe.AddTile(TileType<CosmicAnvil>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             recipe.AddIngredient(ModContent.ItemType<VoidChair>());
             recipe.AddIngredient(ModContent.ItemType<AuricBar>());
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
         }
     }

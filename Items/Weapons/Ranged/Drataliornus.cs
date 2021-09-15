@@ -102,16 +102,10 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BlossomFlux>());
-            recipe.AddIngredient(ModContent.ItemType<DaemonsFlame>());
-            recipe.AddIngredient(ModContent.ItemType<Deathwind>());
-            recipe.AddIngredient(ModContent.ItemType<HeavenlyGale>());
-            recipe.AddIngredient(ModContent.ItemType<DragonsBreath>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<ChickenCannon>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AngryChickenStaff>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<YharimsGift>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 60);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

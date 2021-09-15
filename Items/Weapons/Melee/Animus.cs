@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 82;
             item.height = 84;
-			item.scale = 1.5f;
+            item.scale = 1.5f;
             item.damage = 800;
             item.melee = true;
             item.useAnimation = 11;
@@ -45,11 +45,11 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			float damageMult = player.Calamity().animusBoost;
-			damageMult -= 1f;
-			mult += damageMult;
-		}
+        {
+            float damageMult = player.Calamity().animusBoost;
+            damageMult -= 1f;
+            mult += damageMult;
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

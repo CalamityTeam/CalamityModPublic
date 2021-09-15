@@ -92,11 +92,11 @@ namespace CalamityMod.Projectiles.Boss
                 return true;
 
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
-            float yScale = 4f;
+            float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
-                yScale = MathHelper.Lerp(0f, 4f, TelegraphDelay / 15f);
+                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 15f);
             if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-                yScale = MathHelper.Lerp(4f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
+                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
 
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);

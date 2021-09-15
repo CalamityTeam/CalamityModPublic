@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Ammo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }

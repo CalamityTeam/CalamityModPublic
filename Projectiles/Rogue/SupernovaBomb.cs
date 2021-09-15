@@ -64,16 +64,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation += projectile.velocity.X * 0.1f;
 
 			//stealth strike
-            if (projectile.Calamity().stealthStrike == true)
-            {
-				if (projectile.timeLeft % 8 == 0)
-				{
-					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-				}
-            }
+            if (projectile.Calamity().stealthStrike && projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
+                Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.48), projectile.knockBack, projectile.owner, 0f, 0f);
         }
 
         public override void Kill(int timeLeft)

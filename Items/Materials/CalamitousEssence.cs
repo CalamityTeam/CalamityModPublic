@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ashes of Annihilation");
-            Tooltip.SetDefault("It burns with untold power");
+            Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 6));
         }
 
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Materials
             item.height = 56;
             item.maxStack = 999;
             item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(gold: 24);
+            item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

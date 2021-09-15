@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1);
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.SetResult(this, 20);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrickWall>(), 4);
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmilitePlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
         }
     }

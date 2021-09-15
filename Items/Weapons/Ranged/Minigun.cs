@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 22f;
             item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.Violet;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -61,8 +61,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ChainGun);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<ClockGatlignum>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
