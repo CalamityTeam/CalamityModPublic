@@ -408,7 +408,7 @@ namespace CalamityMod
         public override void MidUpdateProjectileItem()
         {
             // Update all fusable particles.
-            // This are really only visual and as such don't really need any complex netcode.
+            // These are really only visual and as such don't really need any complex netcode.
             foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in BaseFusableParticleSet.ParticleSets)
             {
                 foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
