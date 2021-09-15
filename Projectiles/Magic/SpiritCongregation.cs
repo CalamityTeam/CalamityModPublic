@@ -51,6 +51,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.ignoreWater = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 6;
+			projectile.timeLeft = 90000;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
