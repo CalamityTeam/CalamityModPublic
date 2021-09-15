@@ -644,6 +644,7 @@ namespace CalamityMod
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<GhastlyVisageProj>(),
                 ProjectileType<ApotheosisWorm>(),
+                ProjectileType<SpiritCongregation>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),

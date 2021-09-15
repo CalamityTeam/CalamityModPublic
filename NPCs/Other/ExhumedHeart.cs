@@ -85,6 +85,9 @@ namespace CalamityMod.NPCs.Other
             if (ChainDrawer is null)
                 ChainDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction);
 
+            if (npc.Center == Owner.Center)
+                return true;
+
             List<Vector2> points = new List<Vector2>()
             {
                 npc.Center,
