@@ -60,7 +60,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.dontCountMe = true;
@@ -154,7 +153,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
-			npc.dontTakeDamage = invisiblePhase;
+			npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
 			if (!invisiblePhase)
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
@@ -399,12 +398,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().DR = vulnerable ? 0f : 0.9999f;
 			npc.Calamity().unbreakableDR = !vulnerable;
 
+			// Increase overall damage taken while vulnerable
+			npc.takenDamageMultiplier = vulnerable ? 1.1f : 1f;
+
 			// Vent noise and steam
 			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
 				// Light
-				Lighting.AddLight(npc.Center, 0.35f, 0.05f, 0.05f);
+				Lighting.AddLight(npc.Center, 0.35f * npc.Opacity, 0.05f * npc.Opacity, 0.05f * npc.Opacity);
 
 				// Noise
 				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
@@ -422,7 +424,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			else
 			{
 				// Light
-				Lighting.AddLight(npc.Center, 0.05f, 0.2f, 0.2f);
+				Lighting.AddLight(npc.Center, 0.05f * npc.Opacity, 0.2f * npc.Opacity, 0.2f * npc.Opacity);
 
 				npc.localAI[0] = 0f;
 			}
@@ -511,7 +513,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
 				{
-					if (npc.frameCounter >= 10D)
+					if (npc.frameCounter >= 6D)
 					{
 						npc.frame.Y += frameHeight;
 						npc.frameCounter = 0D;
@@ -522,7 +524,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 				else
 				{
-					if (npc.frameCounter >= 10D)
+					if (npc.frameCounter >= 6D)
 					{
 						npc.frame.Y -= frameHeight;
 						npc.frameCounter = 0D;
@@ -533,7 +535,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 			else
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= 6D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;
@@ -571,6 +573,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			if (npc.soundDelay == 0)
+			{
+				npc.soundDelay = 8;
+
+				if (vulnerable)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
+				else
+					Main.PlaySound(SoundID.NPCHit4, npc.Center);
+			}
+
 			int baseDust = vulnerable ? 3 : 1;
 			for (int k = 0; k < baseDust; k++)
 				Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);

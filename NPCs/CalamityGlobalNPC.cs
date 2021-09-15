@@ -45,6 +45,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -3643,7 +3644,7 @@ namespace CalamityMod.NPCs
 
 			damage -= (int)(damage * damageReduction);
 
-			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.IsSummon() && projectile.aiStyle != 99)
+			if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.IsSummon() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
 				projectile.Calamity().timesPierced++;
 		}
 		#endregion

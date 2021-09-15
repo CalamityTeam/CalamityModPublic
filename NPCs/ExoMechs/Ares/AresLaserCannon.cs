@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private const float defaultLifeRatio = 5f;
 
 		// Total duration of the deathray telegraph
-		private const float deathrayTelegraphDuration = 240f;
+		private const float deathrayTelegraphDuration = 144f;
 
 		// Total duration of the deathray
 		private const float deathrayDuration = 60f;
@@ -147,39 +147,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (npc.life > Main.npc[(int)npc.ai[1]].life)
 				npc.life = Main.npc[(int)npc.ai[1]].life;
 
-			// Despawn if target is dead
-			bool targetDead = false;
-			if (player.dead)
-			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
-				if (player.dead)
-				{
-					targetDead = true;
-
-					AIState = (float)Phase.Nothing;
-					calamityGlobalNPC.newAI[1] = 0f;
-					calamityGlobalNPC.newAI[2] = 0f;
-
-					npc.velocity.Y -= 2f;
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 2f;
-
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-					{
-						for (int a = 0; a < Main.maxNPCs; a++)
-						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
-								Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
-								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
-								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
-								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
-								Main.npc[a].active = false;
-						}
-					}
-				}
-			}
-
 			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
 			// Passive phase check
@@ -234,7 +201,40 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Light
-			Lighting.AddLight(npc.Center, 0.25f, 0.1f, 0.1f);
+			Lighting.AddLight(npc.Center, 0.25f * npc.Opacity, 0.1f * npc.Opacity, 0.1f * npc.Opacity);
+
+			// Despawn if target is dead
+			if (player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (player.dead)
+				{
+					AIState = (float)Phase.Nothing;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.dontTakeDamage = true;
+
+					npc.velocity.Y -= 2f;
+					if ((double)npc.position.Y < Main.topWorld + 16f)
+						npc.velocity.Y -= 2f;
+
+					if ((double)npc.position.Y < Main.topWorld + 16f)
+					{
+						for (int a = 0; a < Main.maxNPCs; a++)
+						{
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+								Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
+								Main.npc[a].active = false;
+						}
+					}
+
+					return;
+				}
+			}
 
 			// Default vector to fly to
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
@@ -257,13 +257,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool moveToLocation = Vector2.Distance(npc.Center, destination) > movementDistanceGateValue;
 
 			// Gate values
-			float deathrayPhaseGateValue = 420f;
+			float deathrayPhaseGateValue = 450f;
 			if (lastMechAlive)
 				deathrayPhaseGateValue *= 0.7f;
 			else if (berserk)
 				deathrayPhaseGateValue *= 0.85f;
 
-			float deathrayPhaseVelocity = passivePhase ? 9f : 12f;
+			float deathrayPhaseVelocity = (passivePhase ? 9f : 12f) * baseVelocityMult;
 			if (lastMechAlive)
 				deathrayPhaseVelocity *= 1.2f;
 			else if (berserk)
@@ -284,25 +284,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Do nothing, rotate to aim at the target and fly in place
 				case (int)Phase.Nothing:
 
-					if (!targetDead)
-					{
-						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+					// Inverse lerp returns the percentage of progress between A and B
+					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-						// Min velocity
-						float minVelocity = distanceFromDestination.Length();
-						float minVelocityCap = baseVelocity;
-						if (minVelocity > minVelocityCap)
-							minVelocity = minVelocityCap;
+					// Min velocity
+					float minVelocity = distanceFromDestination.Length();
+					float minVelocityCap = baseVelocity;
+					if (minVelocity > minVelocityCap)
+						minVelocity = minVelocityCap;
 
-						// Max velocity
-						Vector2 maxVelocity = distanceFromDestination / 24f;
-						float maxVelocityCap = minVelocityCap * 3f;
-						if (maxVelocity.Length() > maxVelocityCap)
-							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+					// Max velocity
+					Vector2 maxVelocity = distanceFromDestination / 24f;
+					float maxVelocityCap = minVelocityCap * 3f;
+					if (maxVelocity.Length() > maxVelocityCap)
+						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-					}
+					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 					calamityGlobalNPC.newAI[1] += 1f;
 					if (calamityGlobalNPC.newAI[1] >= deathrayPhaseGateValue)
@@ -316,127 +313,124 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Move close to target, reduce velocity when close enough, create telegraph beams, fire deathrays
 				case (int)Phase.Deathray:
 
-					if (!targetDead)
+					calamityGlobalNPC.newAI[2] += 1f;
+					if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 					{
-						calamityGlobalNPC.newAI[2] += 1f;
-						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
+						// Inverse lerp returns the percentage of progress between A and B
+						float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+						// Min velocity
+						float minVelocity2 = distanceFromDestination.Length();
+						float minVelocityCap2 = baseVelocity;
+						if (minVelocity2 > minVelocityCap2)
+							minVelocity2 = minVelocityCap2;
+
+						// Max velocity
+						Vector2 maxVelocity2 = distanceFromDestination / 24f;
+						float maxVelocityCap2 = minVelocityCap2 * 3f;
+						if (maxVelocity2.Length() > maxVelocityCap2)
+							maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
+
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+
+						// Set frames to deathray charge up frames, which begin on frame 12
+						if (calamityGlobalNPC.newAI[2] == 1f)
+						{
+							// Reset the frame counter
+							npc.frameCounter = 0D;
+
+							// X = 1 sets to frame 8
+							frameX = 1;
+
+							// Y = 4 sets to frame 12
+							frameY = 4;
+						}
+					}
+					else
+					{
+						// Fire regular Thanatos lasers if Ares is in deathray phase, otherwise, fire deathray
+						if (fireNormalLasers)
 						{
 							// Inverse lerp returns the percentage of progress between A and B
-							float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+							float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
 							// Min velocity
-							float minVelocity = distanceFromDestination.Length();
-							float minVelocityCap = baseVelocity;
-							if (minVelocity > minVelocityCap)
-								minVelocity = minVelocityCap;
+							float minVelocity3 = distanceFromDestination.Length();
+							float minVelocityCap3 = baseVelocity;
+							if (minVelocity3 > minVelocityCap3)
+								minVelocity3 = minVelocityCap3;
 
 							// Max velocity
-							Vector2 maxVelocity = distanceFromDestination / 24f;
-							float maxVelocityCap = minVelocityCap * 3f;
-							if (maxVelocity.Length() > maxVelocityCap)
-								maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+							Vector2 maxVelocity3 = distanceFromDestination / 24f;
+							float maxVelocityCap3 = minVelocityCap3 * 3f;
+							if (maxVelocity3.Length() > maxVelocityCap3)
+								maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
 
-							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
 
-							// Set frames to deathray charge up frames, which begin on frame 12
-							if (calamityGlobalNPC.newAI[2] == 1f)
+							// Fire a Thanatos laser
+							int numLasers = lastMechAlive ? 3 : 2;
+							float divisor = deathrayDuration / numLasers;
+
+							if (calamityGlobalNPC.newAI[2] % divisor == 0f)
 							{
-								// Reset the frame counter
-								npc.frameCounter = 0D;
-
-								// X = 1 sets to frame 8
-								frameX = 1;
-
-								// Y = 4 sets to frame 12
-								frameY = 4;
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+									int damage = npc.GetProjectileDamage(type);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+									Vector2 laserVelocity = Vector2.Normalize(player.Center - npc.Center);
+									Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
+									Projectile.NewProjectile(npc.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+								}
 							}
 						}
 						else
 						{
-							// Fire regular Thanatos lasers if Ares is in deathray phase, otherwise, fire deathray
-							if (fireNormalLasers)
-							{
-								// Inverse lerp returns the percentage of progress between A and B
-								float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+							// Two possible variants: 1 - Horizontal, 2 - Vertical
 
-								// Min velocity
-								float minVelocity = distanceFromDestination.Length();
-								float minVelocityCap = baseVelocity;
-								if (minVelocity > minVelocityCap)
-									minVelocity = minVelocityCap;
-
-								// Max velocity
-								Vector2 maxVelocity = distanceFromDestination / 24f;
-								float maxVelocityCap = minVelocityCap * 3f;
-								if (maxVelocity.Length() > maxVelocityCap)
-									maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-								npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-
-								// Fire a Thanatos laser
-								int numLasers = lastMechAlive ? 3 : 2;
-								float divisor = deathrayDuration / numLasers;
-
-								if (calamityGlobalNPC.newAI[2] % divisor == 0f)
-								{
-									if (Main.netMode != NetmodeID.MultiplayerClient)
-									{
-										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
-										int damage = npc.GetProjectileDamage(type);
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-										Vector2 laserVelocity = Vector2.Normalize(player.Center - npc.Center);
-										Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
-										Projectile.NewProjectile(npc.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-									}
-								}
-							}
+							// Movement while firing deathray
+							if (horizontalLaserSweep)
+								desiredVelocity.X = 0f;
 							else
+								desiredVelocity.Y = 0f;
+
+							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
+							npc.velocity = horizontalLaserSweep ? new Vector2(deathrayPhaseVelocity, npc.velocity.Y) : new Vector2(npc.velocity.X, deathrayPhaseVelocity);
+
+							// Fire deathray
+							if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
 							{
-								// Two possible variants: 1 - Horizontal, 2 - Vertical
-
-								// Movement while firing deathray
-								if (horizontalLaserSweep)
-									desiredVelocity.X = 0f;
-								else
-									desiredVelocity.Y = 0f;
-
-								npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-								npc.velocity = horizontalLaserSweep ? new Vector2(deathrayPhaseVelocity, npc.velocity.Y) : new Vector2(npc.velocity.X, deathrayPhaseVelocity);
-
-								// Fire deathray
-								if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
+								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									if (Main.netMode != NetmodeID.MultiplayerClient)
-									{
-										int type = ModContent.ProjectileType<AresLaserBeamStart>();
-										int damage = npc.GetProjectileDamage(type);
-										float offset = 84f;
-										float offset2 = 16f;
-										Vector2 source = horizontalLaserSweep ? new Vector2(npc.Center.X - offset2 * npc.direction, npc.Center.Y + offset) : new Vector2(npc.Center.X + offset * npc.direction, npc.Center.Y + offset2);
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), source);
-										Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
-										if (laserVelocity.HasNaNs())
-											laserVelocity = -Vector2.UnitY;
+									int type = ModContent.ProjectileType<AresLaserBeamStart>();
+									int damage = npc.GetProjectileDamage(type);
+									float offset = 84f;
+									float offset2 = 16f;
+									Vector2 source = horizontalLaserSweep ? new Vector2(npc.Center.X - offset2 * npc.direction, npc.Center.Y + offset) : new Vector2(npc.Center.X + offset * npc.direction, npc.Center.Y + offset2);
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), source);
+									Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
+									if (laserVelocity.HasNaNs())
+										laserVelocity = -Vector2.UnitY;
 
-										Projectile.NewProjectile(source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-									}
+									Projectile.NewProjectile(source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 								}
 							}
 						}
+					}
 
-						if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
-						{
-							// Reset
-							AIState = (float)Phase.Nothing;
-							calamityGlobalNPC.newAI[2] = 0f;
+					if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
+					{
+						// Reset
+						AIState = (float)Phase.Nothing;
+						calamityGlobalNPC.newAI[2] = 0f;
 
-							// Change deathray sweep type for next deathray phase
-							calamityGlobalNPC.newAI[3] += 1f;
-							if (calamityGlobalNPC.newAI[3] > 1f)
-								calamityGlobalNPC.newAI[3] = 0f;
+						// Change deathray sweep type for next deathray phase
+						calamityGlobalNPC.newAI[3] += 1f;
+						if (calamityGlobalNPC.newAI[3] > 1f)
+							calamityGlobalNPC.newAI[3] = 0f;
 
-							npc.TargetClosest();
-						}
+						npc.TargetClosest();
 					}
 
 					break;
@@ -453,7 +447,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.frameCounter += 1D;
 			if (AIState == (float)Phase.Nothing)
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= 6D)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
@@ -475,7 +469,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			else
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= 6D)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
