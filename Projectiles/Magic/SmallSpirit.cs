@@ -8,23 +8,23 @@ namespace CalamityMod.Projectiles.Magic
     {
         public Player Owner => Main.player[projectile.owner];
         public Projectile ProjectileOwner
-		{
-			get
-			{
+        {
+            get
+            {
                 int spiritType = ModContent.ProjectileType<SpiritCongregation>();
                 for (int i = 0; i < Main.maxProjectiles; i++)
-				{
-                    if (Main.projectile[i].type != spiritType || Main.projectile[i].identity != projectile.ai[0] || 
+                {
+                    if (Main.projectile[i].type != spiritType || Main.projectile[i].identity != projectile.ai[0] ||
                         Main.projectile[i].owner != projectile.owner)
                     {
                         continue;
                     }
 
                     return Main.projectile[i];
-				}
+                }
                 return null;
-			}
-		}
+            }
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Small Angry Spirit");
@@ -75,10 +75,10 @@ namespace CalamityMod.Projectiles.Magic
 
             // Die if no valid target exists or the projectile owner is absent.
             if (target is null || ProjectileOwner is null || !ProjectileOwner.active)
-			{
+            {
                 projectile.Kill();
                 return;
-			}
+            }
 
             // If not close to the target, redirect towards them.
             if (!projectile.WithinRange(target.Center, 260f))
@@ -98,16 +98,18 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
-		public override void Kill(int timeLeft)
-		{
+        public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+
+        public override void Kill(int timeLeft)
+        {
             for (int i = 0; i < 6; i++)
-			{
+            {
                 Dust phantoplasm = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(12f, 12f), 261);
                 phantoplasm.color = Color.Lerp(Color.LightPink, Color.Red, Main.rand.NextFloat(0.67f));
                 phantoplasm.scale = 1.2f;
                 phantoplasm.fadeIn = 0.55f;
                 phantoplasm.noGravity = true;
             }
-		}
-	}
+        }
+    }
 }

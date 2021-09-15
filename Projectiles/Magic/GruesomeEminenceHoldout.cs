@@ -1,7 +1,4 @@
-using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,21 +36,21 @@ namespace CalamityMod.Projectiles.Magic
 
             // Summon a congregation of spirits if the player doesn't have one already.
             else if (Owner.ownedProjectileCounts[congregationType] <= 0)
-			{
+            {
                 if (Main.myPlayer == projectile.owner)
                 {
                     Vector2 spiritSpawnPosition = projectile.Center - Vector2.UnitY * 12f;
                     Projectile.NewProjectile(spiritSpawnPosition, -Vector2.UnitY * 10f, congregationType, projectile.damage, projectile.knockBack, projectile.owner);
                 }
                 Main.PlaySound(SoundID.DD2_EtherianPortalOpen, projectile.Center);
-			}
+            }
 
             // Emit light.
             Lighting.AddLight(projectile.Center, 0.65f, 0f, 0.1f);
         }
 
         public void StickToOwner()
-		{
+        {
             projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f;
             projectile.rotation = 0f;
             projectile.spriteDirection = projectile.direction;
@@ -67,5 +64,5 @@ namespace CalamityMod.Projectiles.Magic
 
         // This is just a casting item. It should not do contact damage.
         public override bool CanDamage() => false;
-	}
+    }
 }

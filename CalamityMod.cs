@@ -404,7 +404,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region MidUpdateProjectileItem
+        #region Fusable Particle Updating
         public override void MidUpdateProjectileItem()
         {
             // Update all fusable particles.
@@ -415,10 +415,10 @@ namespace CalamityMod
                     particleSet.ParticleSet.UpdateBehavior(particle);
             }
         }
-		#endregion
+        #endregion
 
-		#region Vanilla Enemy DR
-		private void SetupVanillaDR()
+        #region Vanilla Enemy DR
+        private void SetupVanillaDR()
         {
             DRValues = new SortedDictionary<int, float> {
                 { NPCID.AngryBonesBig, 0.2f },

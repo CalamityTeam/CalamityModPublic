@@ -49,6 +49,7 @@ namespace CalamityMod.Particles
 		public virtual float BorderSize => 0f;
 		public virtual bool BorderShouldBeSolid => false;
 		public virtual Color BorderColor => Color.Transparent;
+		public virtual void PrepareOptionalShaderData(Effect effect) { }
 		public abstract Effect BackgroundShader { get; }
 		public abstract Effect EdgeShader { get; }
 		public abstract Texture2D BackgroundTexture { get; }
@@ -120,7 +121,7 @@ namespace CalamityMod.Particles
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
-				
+
 				// Draw the current target with the specified shader.
 				particleSet.EdgeShader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
 				particleSet.EdgeShader.Parameters["borderShouldBeSolid"].SetValue(particleSet.BorderShouldBeSolid);
@@ -134,6 +135,8 @@ namespace CalamityMod.Particles
 				Main.graphics.GraphicsDevice.Textures[1] = particleSet.BackgroundTexture;
 				particleSet.EdgeShader.Parameters["uImageSize1"].SetValue(particleSet.BackgroundTexture.Size());
 				particleSet.EdgeShader.CurrentTechnique.Passes[0].Apply();
+
+				particleSet.PrepareOptionalShaderData(particleSet.EdgeShader);
 
 				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
 

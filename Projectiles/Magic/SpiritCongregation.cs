@@ -13,9 +13,10 @@ namespace CalamityMod.Projectiles.Magic
 		public Vector2 HoverOffset = Vector2.Zero;
 		public ref float Time => ref projectile.ai[0];
 		public ref float BaseDamage => ref projectile.ai[1];
+		public ref float DeathCounter => ref projectile.localAI[0];
 		public Player Owner => Main.player[projectile.owner];
 		public float CurrentPower => (float)Math.Pow(Utils.InverseLerp(15f, 840f, Time, true), 4D);
-		public float CongregationRadius => MathHelper.SmoothStep(54f, 215f, CurrentPower);
+		public float CongregationDiameter => MathHelper.SmoothStep(54f, 215f, CurrentPower);
 		public float MovementSpeed
 		{
 			get
@@ -49,20 +50,41 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 7;
+			projectile.localNPCHitCooldown = 6;
 		}
 
-		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(HoverOffset);
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(DeathCounter);
+			writer.WriteVector2(HoverOffset);
+		}
 
-		public override void ReceiveExtraAI(BinaryReader reader) => HoverOffset = reader.ReadVector2();
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			DeathCounter = reader.ReadSingle();
+			HoverOffset = reader.ReadVector2();
+		}
 
 		public override void AI()
 		{
+			// If close to dying slow down and do nothing else.
+			if (DeathCounter > 0f)
+			{
+				DeathCounter++;
+				if (DeathCounter >= 35f)
+					projectile.Kill();
+				projectile.velocity *= 0.98f;
+				EmitGhostGas();
+				return;
+			}
+
 			if (Main.myPlayer == projectile.owner)
 			{
+				// Prepare for death prior to not being channeled.
 				if (!Owner.channel)
 				{
-					projectile.Kill();
+					DeathCounter = 1f;
+					projectile.netUpdate = true;
 					return;
 				}
 
@@ -151,24 +173,32 @@ namespace CalamityMod.Projectiles.Magic
 
 		public void EmitGhostGas()
 		{
-			float radius = CongregationRadius;
+			float particleSize = CongregationDiameter;
 			if (projectile.oldPosition != projectile.position && Time > 2f)
-				radius += (projectile.oldPosition - projectile.position).Length() * 4.2f;
-			if (radius > 600f)
-				radius = 600f;
+				particleSize += (projectile.oldPosition - projectile.position).Length() * 4.2f;
+
+			// Place a hard limit on particle sizes.
+			if (particleSize > 500f)
+				particleSize = 500f;
+
+			// Make particles shrink when dying.
+			particleSize *= MathHelper.Lerp(1f, 0.5f, Utils.InverseLerp(0f, 35f, DeathCounter, true));
 
 			int particleSpawnCount = Main.rand.NextBool(3) ? 3 : 1;
 			for (int i = 0; i < particleSpawnCount; i++)
 			{
-				Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
-				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, radius);
+				// Summon a base particle.
+				Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * particleSize / 26f;
+				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, particleSize);
 
-				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * radius / 65f;
-				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, radius * 0.4f);
+				// And an "ahead" particle that spawns based on current movement.
+				// This causes the "head" of the overall thing to have bumps when moving.
+				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 65f;
+				GhostlyFusableParticleSet.Instance.SpawnParticle(spawnPosition, particleSize * 0.4f);
 			}
 
-			// Create gas projectiles randomly.
-			if (Main.myPlayer == projectile.owner && Main.rand.NextBool(11))
+			// Release gas projectiles randomly. This does not happen when dying.
+			if (Main.myPlayer == projectile.owner && Main.rand.NextBool(11) && DeathCounter <= 0f)
 			{
 				Vector2 dustVelocity = -projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(1.04f) * 1.5f;
 				Projectile.NewProjectile(projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, projectile.owner);
@@ -185,7 +215,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			for (int i = 0; i < projectile.oldPos.Length; i++)
 			{
-				float hitboxRadius = CongregationRadius * MathHelper.Lerp(1f, 0.37f, i / (float)projectile.oldPos.Length) * 0.7f;
+				float hitboxRadius = CongregationDiameter * MathHelper.Lerp(0.45f, 0.17f, i / (float)projectile.oldPos.Length);
 				Vector2 hitboxCircle = Vector2.One * hitboxRadius;
 				if (CalamityUtils.CircularHitboxCollision(projectile.oldPos[i] + hitboxCircle * 0.5f, hitboxRadius, targetHitbox))
 					return true;

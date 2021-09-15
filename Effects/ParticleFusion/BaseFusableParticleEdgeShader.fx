@@ -18,6 +18,7 @@ float3 edgeBorderColor;
 float2 screenArea;
 float2 renderTargetArea;
 float2 screenMoveOffset;
+float2 generalBackgroundOffset;
 bool invertedScreen;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
@@ -30,27 +31,34 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     coords += screenMoveOffset / renderTargetArea;
     
     float4 color = tex2D(uImage0, coords);
+    
+    // Determine how much downscaling is required to reasonably zoom in on things.
     float downscaleFactor = float2(40, 40) / max(renderTargetArea.x, renderTargetArea.y) / 2;
-    float2 movedCoords = frac((renderTargetArea * originalCoords + uWorldPosition) * downscaleFactor);
-    float4 backgroundColor = tex2D(uImage1, movedCoords);
-    float positionNoiseInterpolant = sin(2.71828182846 * uWorldPosition.x / 25) + sin(1.57079632679 * uWorldPosition.x / 25);
-    positionNoiseInterpolant = positionNoiseInterpolant * 0.5 + 0.5;
+    float2 backgroundCoords = frac((renderTargetArea * (originalCoords + generalBackgroundOffset) + uWorldPosition) * downscaleFactor);
+    float4 backgroundColor = tex2D(uImage1, backgroundCoords);
     
     // Equivalent to edgeBorderSize pixels in both the X and Y direction.
     float2 edgeOffset = float2(edgeBorderSize, edgeBorderSize) / renderTargetArea;
     
-    // Check if the cardinal directions are not intersecting with any other parts of the render target.
+    // Check if the cardinal directions are not intersecting with any other active parts of the render target.
     // If one of them isn't, that means that a border should be rendered.
     float4 aboveColor = tex2D(uImage0, coords + float2(0, edgeOffset.y));
     float4 belowColor = tex2D(uImage0, coords - float2(0, edgeOffset.y));
     float4 leftColor = tex2D(uImage0, coords + float2(edgeOffset.x, 0));
     float4 rightColor = tex2D(uImage0, coords - float2(edgeOffset.x, 0));
+    
+    // Invert color check thresholds based on whether the border should be solid when drawing.
     float checkThreshold = 0.02;
     if (!borderShouldBeSolid)
         checkThreshold = 0.95;
+    
+    // If any cardinal color is sufficiently close to transparency choose an edge border color.
+    // Opacity multipliers ensure that this does not affect completely invisible areas of the render target.
     if (aboveColor.r < checkThreshold || belowColor.r < checkThreshold || leftColor.r < checkThreshold || rightColor.r < checkThreshold)
     {
         float borderOpacity = color.a;
+        
+        // Use binary opacity if the border should be solid when drawing.
         if (borderOpacity > 0 && borderShouldBeSolid)
             borderOpacity = 1;
         

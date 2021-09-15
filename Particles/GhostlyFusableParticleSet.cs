@@ -27,6 +27,12 @@ namespace CalamityMod.Particles
 			particle.Size = MathHelper.Clamp(particle.Size - 1.5f, 0f, 400f) * 0.975f;
 		}
 
+		public override void PrepareOptionalShaderData(Effect effect)
+		{
+			Vector2 offset = Vector2.UnitX * Main.GlobalTime * 0.03f;
+			effect.Parameters["generalBackgroundOffset"].SetValue(offset);
+		}
+
 		public override void DrawParticles()
 		{
 			foreach (FusableParticle particle in Particles)
