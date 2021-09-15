@@ -786,7 +786,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC nPC = Main.npc[i];
-				if (nPC.active && nPC.type == ModContent.NPCType<Artemis.Artemis>())
+				if (nPC.active && nPC.type == ModContent.NPCType<Artemis.Artemis>() && nPC.life > 0)
 				{
 					nPC.life = 0;
 					nPC.HitEffect(0, 10.0);
