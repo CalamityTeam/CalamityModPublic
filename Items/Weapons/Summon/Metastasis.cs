@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Metastasis : ModItem
     {
-        public const string PoeticTooltipLine = "The serpent's string of fate spun onwards as if it had not been cut short,\n" +
+        public const string PoeticTooltipLine = "A contemplated possible future of the cosmic serpent,\n" +
             "A gruesome warning for those blinded by the hunger for power.";
 
         public override void SetStaticDefaults()
