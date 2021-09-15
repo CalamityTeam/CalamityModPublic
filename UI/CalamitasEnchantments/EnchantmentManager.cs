@@ -308,6 +308,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			{
 				[ModContent.ItemType<TheCommunity>()] = ModContent.ItemType<ShatteredCommunity>(),
 				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>(),
+				[ModContent.ItemType<StaffoftheMechworm>()] = ModContent.ItemType<Metastasis>(),
 				[ModContent.ItemType<GhastlyVisage>()] = ModContent.ItemType<GruesomeEminence>(),
 			};
 		}

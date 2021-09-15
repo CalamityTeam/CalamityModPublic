@@ -2926,7 +2926,8 @@ namespace CalamityMod
                 ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
-                ProjectileType<EndoHydraHead>()
+                ProjectileType<EndoHydraHead>(),
+                ProjectileType<SepulcherMinion>()
             };
 
             ZeroMinionSlotExceptionList = new List<int>()

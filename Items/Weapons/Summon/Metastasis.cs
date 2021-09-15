@@ -6,18 +6,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class StaffoftheMechworm2 : ModItem
+    public class Metastasis : ModItem
     {
-        // This is unfinished atm.
-        public override bool Autoload(ref string name) => false;
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Staff of the Mechworm (But Exhumed!)");
+            DisplayName.SetDefault("Metastasis");
             Tooltip.SetDefault("Summons a sepulcher to fight for you\n" +
                 "While the sepulcher is active brimstone hearts will begin to appear and orbit you\n" +
-                "The sepulcher will attempt to attack you more and more frequently depending on how many hearts are present\n" +
-                "The sepulcher takes up 4 minion slots");
+                "It will attempt to attack you more and more frequently depending on how many hearts are present\n" +
+                "It takes up 4 minion slots");
         }
 
         public override void SetDefaults()
@@ -30,10 +27,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-			item.value = CalamityGlobalItem.Rarity15BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-			item.UseSound = SoundID.DD2_BetsySummon;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.UseSound = SoundID.DD2_BetsySummon;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SepulcherMinion>();
             item.shootSpeed = 10f;
