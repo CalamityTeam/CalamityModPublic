@@ -28,7 +28,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     // doing nothing at all.
     float horizontalOffset = pow(offsetBase, 3) * uOpacity * 0.46;
     float2 samplePosition = float2(saturate(coords.x + horizontalOffset), coords.y);
-    return tex2D(uImage0, samplePosition);
+    return tex2D(uImage0, samplePosition) * float4(uSecondaryColor, uSaturation);
 }
 technique Technique1
 {

@@ -1,7 +1,10 @@
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,10 +29,11 @@ namespace CalamityMod.NPCs.ExoMechs
             set => npc.ai[1] = (int)value;
         }
         public static readonly Color TextColor = new Color(155, 255, 255);
+        public const int TeleportFadeinTime = 45;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon");
-            Main.npcFrameCount[npc.type] = 12;
+            Main.npcFrameCount[npc.type] = 1;
         }
 
         public override void SetDefaults()
@@ -47,6 +51,8 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void AI()
         {
+            npc.Opacity = Utils.InverseLerp(0f, 8f, TalkTimer, true);
+            npc.spriteDirection = (PlayerToFollow.Center.X < npc.Center.X).ToDirectionInt();
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == 90f)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
@@ -65,8 +71,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText3", TextColor);
                 npc.netUpdate = true;
             }
-
-            npc.velocity = Vector2.UnitY * Utils.InverseLerp(0f, 50f, TalkTimer, true) * Utils.InverseLerp(65f, 50f, TalkTimer, true) * -4.5f;
 
             // Make the screen rumble and summon the exo mechs.
             if (TalkTimer < 375f)
@@ -118,16 +122,40 @@ namespace CalamityMod.NPCs.ExoMechs
             }
         }
 
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter++;
-            if (npc.frameCounter > 5)
-            {
-                npc.frameCounter = 0f;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= frameHeight * 6)
-                    npc.frame.Y = 0;
-            }
-        }
-    }
+        // Draedon should not manually despawn.
+        public override bool CheckActive() => false;
+
+		public override Color? GetAlpha(Color drawColor)
+		{
+            float teleportFade = Utils.InverseLerp(0f, TeleportFadeinTime, TalkTimer, true);
+            Color color = Color.Lerp(drawColor, Color.Cyan, 1f - (float)Math.Pow(teleportFade, 3D));
+            color.A = (byte)(int)(teleportFade * 255f);
+
+            return color * npc.Opacity;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+            if (TalkTimer > TeleportFadeinTime)
+                return true;
+
+            spriteBatch.EnterShaderRegion();
+
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 drawPosition = npc.Center - Main.screenPosition - Vector2.UnitY * 38f;
+            Vector2 origin = npc.frame.Size() * 0.5f;
+            Color color = npc.GetAlpha(drawColor);
+            SpriteEffects direction = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            GameShaders.Misc["CalamityMod:Glitch"].UseOpacity(1f - TalkTimer / TeleportFadeinTime);
+            GameShaders.Misc["CalamityMod:Glitch"].UseSecondaryColor(color);
+            GameShaders.Misc["CalamityMod:Glitch"].UseSaturation(color.A / 255f);
+            GameShaders.Misc["CalamityMod:Glitch"].Apply();
+
+            spriteBatch.Draw(texture, drawPosition, npc.frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, direction, 0f);
+
+            spriteBatch.ExitShaderRegion();
+
+            return false;
+		}
+	}
 }
