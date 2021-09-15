@@ -93,6 +93,8 @@ namespace CalamityMod.Items
             new Color(199, 62, 62),
         };
 
+		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
+
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
         public CalamityGlobalItem()

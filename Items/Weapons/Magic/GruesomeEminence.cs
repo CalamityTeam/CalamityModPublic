@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -9,12 +8,16 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class GruesomeEminence : ModItem
     {
+        public const string PoeticTooltipLine = "The spirits of the amalgam could never pass on to their desired afterlife,\n" +
+            "Tainted and melded by rage as they were.";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gruesome Eminence");
             Tooltip.SetDefault("Summons spirits near the cursor\n" +
                 "At first, the spirits will fly wildly. This can hurt enemies and players\n" +
-                "However, over time they will begin to accumulate to create a single, controllable monstrosity");
+                "However, over time they will begin to accumulate to create a single, controllable monstrosity\n" +
+               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
         }
 
         public override void SetDefaults()

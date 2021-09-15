@@ -8,13 +8,17 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Metastasis : ModItem
     {
+        public const string PoeticTooltipLine = "The serpent's string of fate spun onwards as if it had not been cut short,\n" +
+            "A gruesome warning for those blinded by the hunger for power.";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Metastasis");
             Tooltip.SetDefault("Summons a sepulcher to fight for you\n" +
                 "While the sepulcher is active brimstone hearts will begin to appear and orbit you\n" +
                 "It will attempt to attack you more and more frequently depending on how many hearts are present\n" +
-                "It takes up 4 minion slots");
+                "It takes up 4 minion slots\n" +
+               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
         }
 
         public override void SetDefaults()

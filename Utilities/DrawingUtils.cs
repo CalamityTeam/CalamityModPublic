@@ -424,8 +424,18 @@ namespace CalamityMod
 
 		public static string ColorMessage(string msg, Color color)
 		{
-			StringBuilder sb = new StringBuilder(msg.Length + 12);
-			sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+			StringBuilder sb;
+			if (!msg.Contains("\n"))
+			{
+				sb = new StringBuilder(msg.Length + 12);
+				sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+			}
+			else
+			{
+				sb = new StringBuilder();
+				foreach (string newlineSlice in msg.Split('\n'))
+					sb.Append("[c/").Append(color.Hex3()).Append(':').Append(newlineSlice).Append(']').Append('\n');
+			}
 			return sb.ToString();
 		}
 

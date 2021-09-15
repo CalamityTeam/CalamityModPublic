@@ -8,12 +8,16 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class CindersOfLament : ModItem
     {
+        public const string PoeticTooltipLine = "The Witch, a sinner of her own making,\n" +
+            "Within her mind her demon lies, ever patient, until the end of time.";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinders of Lament");
             Tooltip.SetDefault("Summons either Cataclysm or Catastrophe at the mouse position\n" +
                 "They will look at you for a moment before charging at you\n" +
-                "They can do damage to both you and enemies");
+                "They can do damage to both you and enemies\n" +
+               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
         }
 
         public override void SetDefaults()
