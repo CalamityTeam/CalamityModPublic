@@ -87,7 +87,7 @@ namespace CalamityMod.UI
             }
 
             Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(62f, backgroundTexture.Height - 44f);
-            if (codebreakerTileEntity.ReadyToSummonDreadon && CalamityWorld.AbleToSummonDraedon)
+            if (codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
