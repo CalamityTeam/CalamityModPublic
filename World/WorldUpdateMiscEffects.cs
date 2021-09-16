@@ -134,12 +134,6 @@ namespace CalamityMod.World
             if (Main.netMode != NetmodeID.MultiplayerClient && DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
                 Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 70, 0f);
 
-            if (DraedonSummonCountdown < 150)
-            {
-                float fadeToWhite = Utils.InverseLerp(150f, 90f, DraedonSummonCountdown, true) * Utils.InverseLerp(30f, 50f, DraedonSummonCountdown, true);
-                MoonlordDeathDrama.RequestLight(fadeToWhite, Main.LocalPlayer.Center);
-            }
-
             if (DraedonSummonCountdown == 0)
                 NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>(), 0, 0f, (int)DraedonMechToSummon);
         }
