@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public PrimitiveTrail RayDrawer = null;
-        private const int Lifetime = CalamityWorld.DraedonSummonCountdownMax - 150;
+        private const int Lifetime = CalamityWorld.DraedonSummonCountdownMax - 60;
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Giant Fuck-off Deathray of Doom");
 
@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
             if (projectile.localAI[0] == 0f)
 			{
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
                 for (int i = 0; i < 36; i++)
 				{
                     Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
