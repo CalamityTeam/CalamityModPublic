@@ -69,6 +69,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.NPCs.ExoMechs;
 
 namespace CalamityMod.NPCs
 {
@@ -231,6 +232,7 @@ namespace CalamityMod.NPCs
         public static int SCalCatastrophe = -1;
         public static int SCal = -1;
         public static int SCalWorm = -1;
+		public static int draedon = -1;
 		public static int draedonExoMechWorm = -1;
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
@@ -735,6 +737,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
+			ResetSavedIndex(ref draedon, NPCType<Draedon>());
 			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
 			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());

@@ -968,6 +968,14 @@ namespace CalamityMod
                     PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
+
+                // Exo Mech selection.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Exo Mech Selection", () =>
+                {
+                    if (Main.LocalPlayer.Calamity().AbleToSelectExoMech)
+                        ExoMechSelectionUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
             }
 
             // Invasion UIs.

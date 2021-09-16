@@ -117,9 +117,12 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-                new [] { "DraedonIntroductionText1", "OK this is somewhat better." },
-                new [] { "DraedonIntroductionText2", "My chair's flame defies physics, but that's OK." },
-                new [] { "DraedonIntroductionText3", "Well anyway here's your exo mechs lmao" },
+                new [] { "DraedonIntroductionText1", "This is a meeting that has been a long time coming." },
+                new [] { "DraedonIntroductionText2", "The machine you constructed, deciphering and incercepting my channels of communication. It is no small feat of ingenuity." },
+                new [] { "DraedonIntroductionText3", "I must be upfront, as this is a unique opportunity. Your observations have not been one-sided, and I have grown " +
+                                                    "interested in your remarkable progression." },
+                new [] { "DraedonIntroductionText4", "Humor me, in a battle with the results of my tinkering." },
+                new [] { "DraedonIntroductionText5", "You may choose your first opponent." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
