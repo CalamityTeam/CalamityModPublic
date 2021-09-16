@@ -16,14 +16,6 @@ namespace CalamityMod.NPCs.ExoMechs
 {
     public class Draedon : ModNPC
     {
-        public enum ExoMech
-        {
-            None,
-            Destroyer,
-            Prime,
-            Twins
-        }
-
         public Vector2 HoverDestinationOffset
 		{
             get => new Vector2(npc.ai[1], npc.ai[2]);

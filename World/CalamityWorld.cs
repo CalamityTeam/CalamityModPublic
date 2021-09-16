@@ -164,7 +164,7 @@ namespace CalamityMod.World
 
         // Draedon Summoning stuff.
         public static int DraedonSummonCountdown = 0;
-        public static Draedon.ExoMech DraedonMechToSummon;
+        public static ExoMech DraedonMechToSummon;
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
         public static bool AbleToSummonDraedon
         {
@@ -1012,7 +1012,7 @@ namespace CalamityMod.World
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();
-            DraedonMechToSummon = (Draedon.ExoMech)reader.ReadInt32();
+            DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
         }
         #endregion

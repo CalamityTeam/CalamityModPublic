@@ -31,12 +31,12 @@ namespace CalamityMod.UI
             Vector2 primeIconDrawOffset = new Vector2(0f, -140f);
             Vector2 twinsIconDrawOffset = new Vector2(78f, -124f);
 
-            HandleInteractionWithButton(baseDrawPosition + destroyerIconDrawOffset, Draedon.ExoMech.Destroyer);
-            HandleInteractionWithButton(baseDrawPosition + primeIconDrawOffset, Draedon.ExoMech.Prime);
-            HandleInteractionWithButton(baseDrawPosition + twinsIconDrawOffset, Draedon.ExoMech.Twins);
+            HandleInteractionWithButton(baseDrawPosition + destroyerIconDrawOffset, ExoMech.Destroyer);
+            HandleInteractionWithButton(baseDrawPosition + primeIconDrawOffset, ExoMech.Prime);
+            HandleInteractionWithButton(baseDrawPosition + twinsIconDrawOffset, ExoMech.Twins);
         }
 
-        public static bool HandleInteractionWithButton(Vector2 drawPosition, Draedon.ExoMech exoMech)
+        public static bool HandleInteractionWithButton(Vector2 drawPosition, ExoMech exoMech)
         {
             float iconScale;
             string description;
@@ -44,18 +44,18 @@ namespace CalamityMod.UI
 
             switch (exoMech)
             {
-                case Draedon.ExoMech.Destroyer:
+                case ExoMech.Destroyer:
                     iconScale = DestroyerIconScale;
                     iconMechTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_THanos");
                     description = "Thanatos, a serpentine terror with impervious armor and innumerable laser turrets.";
                     break;
-                case Draedon.ExoMech.Prime:
+                case ExoMech.Prime:
                     iconScale = PrimeIconScale;
                     iconMechTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_Ares");
                     description = "Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.";
                     break;
                 default:
-                case Draedon.ExoMech.Twins:
+                case ExoMech.Twins:
                     iconScale = TwinsIconScale;
                     iconMechTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/HeadIcon_ArtemisApollo");
                     description = "Artemis and Apollo, a pair of extremely agile destroyers with pulse cannons.";
@@ -63,7 +63,7 @@ namespace CalamityMod.UI
             }
 
             // Check for mouse collision/clicks.
-            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, iconMechTexture.Size() * iconScale);
+            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, iconMechTexture.Size() * iconScale * 0.9f);
 
             // Check if the mouse is hovering over the contact button area.
             bool hoveringOverIcon = MouseScreenArea.Intersects(clickArea);
@@ -99,14 +99,14 @@ namespace CalamityMod.UI
             // And update to reflect the new scale.
             switch (exoMech)
             {
-                case Draedon.ExoMech.Destroyer:
+                case ExoMech.Destroyer:
                     DestroyerIconScale = iconScale;
                     break;
-                case Draedon.ExoMech.Prime:
+                case ExoMech.Prime:
                     PrimeIconScale = iconScale;
                     break;
                 default:
-                case Draedon.ExoMech.Twins:
+                case ExoMech.Twins:
                     TwinsIconScale = iconScale;
                     break;
             }

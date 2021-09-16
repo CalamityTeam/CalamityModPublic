@@ -39,9 +39,9 @@ namespace CalamityMod.World
         public static void PerformWorldUpdates()
         {
             // Reset the exo mech to summon if Draedon is absent.
-            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonMechToSummon != Draedon.ExoMech.None && CalamityGlobalNPC.draedon == -1)
+            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
 			{
-                DraedonMechToSummon = Draedon.ExoMech.None;
+                DraedonMechToSummon = ExoMech.None;
                 CalamityNetcode.SyncWorld();
             }
 
