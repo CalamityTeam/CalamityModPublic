@@ -2,6 +2,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Silva Armor");
             Tooltip.SetDefault("+80 max life\n" +
                        "12% increased damage and 8% increased critical strike chance\n" +
-					   "Grants immunity to the irradiated debuff");
+                       "Grants immunity to the irradiated debuff");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Armor
             item.height = 24;
             item.value = Item.buyPrice(0, 72, 0, 0);
             item.defense = 44;
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<LeadCore>());
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
