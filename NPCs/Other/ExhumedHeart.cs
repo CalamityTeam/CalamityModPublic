@@ -11,7 +11,6 @@ namespace CalamityMod.NPCs.Other
 {
     public class ExhumedHeart : ModNPC
     {
-        public PrimitiveTrail ChainDrawer = null;
         public ref float Time => ref npc.ai[0];
         public Player Owner
         {
@@ -78,23 +77,6 @@ namespace CalamityMod.NPCs.Other
         {
             float colorInterpolant = MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 0.34f, completionRatio, true) * Utils.InverseLerp(1.07f, 0.66f, completionRatio, true));
             return Color.Lerp(Color.DarkRed * 0.7f, Color.Red, colorInterpolant) * 0.425f;
-        }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (ChainDrawer is null)
-                ChainDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction);
-
-            if (npc.Center == Owner.Center)
-                return true;
-
-            List<Vector2> points = new List<Vector2>()
-            {
-                npc.Center,
-                Owner.Center
-            };
-            ChainDrawer.Draw(points, -Main.screenPosition, 40);
-            return true;
         }
 
         public override void FindFrame(int frameHeight)
