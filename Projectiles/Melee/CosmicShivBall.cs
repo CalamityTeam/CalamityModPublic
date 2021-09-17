@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBall : ModProjectile
     {
-        // TODO - Please for the love of god refactor this at some point. It is ancient
+        // TODO - Please for the love of god refactor this at some point. It is ancient.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC target = null;
@@ -64,8 +64,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 float inertia = 35f;
                 float homingSpeed = 33.5f;
-                Vector2 idealVElocity = projectile.SafeDirectionTo(target.Center, Vector2.UnitX) * homingSpeed;
-                projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVElocity) / inertia;
+                Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center, Vector2.UnitX) * homingSpeed;
+                projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
             }
             else
             {
