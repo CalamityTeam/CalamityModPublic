@@ -57,7 +57,8 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<Starfall>());
             recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
             recipe.AddIngredient(ModContent.ItemType<RelicofRuin>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

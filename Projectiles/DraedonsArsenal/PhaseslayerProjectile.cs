@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 7;
+			projectile.localNPCHitCooldown = 13;
 		}
 
 		// Vanilla Terraria doesn't sync projectile rotation, but it does sync velocity.

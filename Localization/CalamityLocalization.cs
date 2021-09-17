@@ -117,7 +117,14 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-				new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+                new [] { "DraedonIntroductionText1", "This is a meeting that has been a long time coming." },
+                new [] { "DraedonIntroductionText2", "The machine you constructed, deciphering and incercepting my channels of communication. It is no small feat of ingenuity." },
+                new [] { "DraedonIntroductionText3", "I must be upfront, as this is a unique opportunity. Your observations have not been one-sided, and I have grown " +
+                                                    "interested in your remarkable progression." },
+                new [] { "DraedonIntroductionText4", "Humor me, in a battle with the results of my tinkering." },
+                new [] { "DraedonIntroductionText5", "You may choose your first opponent." },
+
+                new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
 				new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
 				new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
@@ -181,7 +188,7 @@ namespace CalamityMod.Localization
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
-                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }
+                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
             };
         }
 

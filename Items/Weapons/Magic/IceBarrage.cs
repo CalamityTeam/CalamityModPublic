@@ -71,7 +71,8 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.BlizzardStaff);
             recipe.AddIngredient(ItemID.IceRod);
             recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 23);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);

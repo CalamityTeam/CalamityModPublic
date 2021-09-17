@@ -954,11 +954,26 @@ namespace CalamityMod
                     CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
+                
+                // Codebreaker UI.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
+                {
+                    CodebreakerUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
 
                 // Popup GUIs.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
                 {
                     PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Exo Mech selection.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Exo Mech Selection", () =>
+                {
+                    if (Main.LocalPlayer.Calamity().AbleToSelectExoMech)
+                        ExoMechSelectionUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
             }

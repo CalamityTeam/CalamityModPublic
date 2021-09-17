@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<StarSputter>());
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

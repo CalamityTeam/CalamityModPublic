@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             r.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
             r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.SetResult(this);
             r.AddRecipe();

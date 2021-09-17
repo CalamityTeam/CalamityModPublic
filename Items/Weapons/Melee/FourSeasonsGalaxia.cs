@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 70;
-            item.damage = 66;
+            item.damage = 99;
             item.melee = true;
             item.useAnimation = 18;
             item.useTime = 18;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OmegaBiomeBlade>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

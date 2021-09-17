@@ -80,8 +80,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<OnyxChainBlaster>());
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 6);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
             r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.SetResult(this);
             r.AddRecipe();

@@ -19,6 +19,7 @@ namespace CalamityMod.TileEntities
 
 			byte factoryType = ModContent.GetInstance<TEPowerCellFactory>().type;
 			byte chargerType = ModContent.GetInstance<TEChargingStation>().type;
+			byte codebreakerType = ModContent.GetInstance<TECodebreaker>().type;
 
 			var enumerator = TileEntity.ByID.Values.GetEnumerator();
 			do
@@ -55,6 +56,13 @@ namespace CalamityMod.TileEntities
 					// Specifically on multiplayer clients, manually update the turret's rotation every frame. This is exactly the same code run server side.
 					// This makes sure they visually track targets in multiplayer. It will NOT fire projectiles; that code can only run server side.
 					turret.UpdateAngle();
+				}
+				else if (te.type == codebreakerType)
+				{
+					// Specifically on multiplayer clients, manually update the time variables of the Codebreaker every frame.
+					// This is done so that clients can accurately gauge how complete decryptions are.
+					TECodebreaker codebreaker = (TECodebreaker)te;
+					codebreaker.UpdateTime();
 				}
 			} while (enumerator.MoveNext());
 		}

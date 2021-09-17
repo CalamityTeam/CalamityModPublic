@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<PrimordialEarth>());
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

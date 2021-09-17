@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.Phantasm);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

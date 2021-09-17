@@ -39,8 +39,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyLeggings);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ItemID.SoulofFright, 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
