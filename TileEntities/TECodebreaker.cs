@@ -174,13 +174,16 @@ namespace CalamityMod.TileEntities
 				return;
 
 			ModPacket packet = mod.GetPacket();
+			BitsByte containmentFlagWrapper = new BitsByte();
+			containmentFlagWrapper[0] = ContainsDecryptionComputer;
+			containmentFlagWrapper[1] = ContainsSensorArray;
+			containmentFlagWrapper[2] = ContainsAdvancedDisplay;
+			containmentFlagWrapper[3] = ContainsVoltageRegulationSystem;
+			containmentFlagWrapper[4] = ContainsCoolingCell;
+
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerConstituents);
 			packet.Write(ID);
-			packet.Write(ContainsDecryptionComputer);
-			packet.Write(ContainsSensorArray);
-			packet.Write(ContainsAdvancedDisplay);
-			packet.Write(ContainsVoltageRegulationSystem);
-			packet.Write(ContainsCoolingCell);
+			packet.Write(containmentFlagWrapper);
 		}
 
 		public static void ReadConstituentsUpdateSync(Mod mod, BinaryReader reader)
@@ -190,11 +193,12 @@ namespace CalamityMod.TileEntities
 
 			// Continue reading to the end even if a tile entity with the given ID does not exist.
 			// Not doing this will cause errors/bugs.
-			bool containsDecryptionComputer = reader.ReadBoolean();
-			bool containsSensorArray = reader.ReadBoolean();
-			bool containsAdvancedDisplay = reader.ReadBoolean();
-			bool containsVoltageRegulationSystem = reader.ReadBoolean();
-			bool containsCoolingCell = reader.ReadBoolean();
+			BitsByte containmentFlagWrapper = reader.ReadByte();
+			bool containsDecryptionComputer = containmentFlagWrapper[0];
+			bool containsSensorArray = containmentFlagWrapper[1];
+			bool containsAdvancedDisplay = containmentFlagWrapper[2];
+			bool containsVoltageRegulationSystem = containmentFlagWrapper[3];
+			bool containsCoolingCell = containmentFlagWrapper[4];
 
 			// After doing reading, check again to see if the tile entity is actually there.
 			// If it isn't don't bother doing anything else.
