@@ -125,6 +125,10 @@ namespace CalamityMod.Tiles.DraedonSummoner
             // If this is the tile the player is currently looking at, the associated tile entity doesn't really exist, or it's simply not upgraded enough, close the GUI.
             if (codebreakerTileEntity is null || codebreakerTileEntity.ID == CodebreakerUI.ViewedTileEntityID || !codebreakerTileEntity.ContainsDecryptionComputer)
             {
+                // Create a warning if someone attempts to click on a codebreaker without a computer with which to open the UI.
+                if (!codebreakerTileEntity.ContainsDecryptionComputer)
+                    CombatText.NewText(player.Hitbox, Color.Cyan, "No decryption computer installed");
+
                 CodebreakerUI.ViewedTileEntityID = -1;
                 Main.PlaySound(SoundID.MenuClose);
             }
