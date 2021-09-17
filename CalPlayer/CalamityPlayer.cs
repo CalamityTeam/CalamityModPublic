@@ -1089,6 +1089,10 @@ namespace CalamityMod.CalPlayer
         public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, int.MaxValue, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
         #endregion Draw Effects
 
+        #region Draedon Summoning
+        public bool AbleToSelectExoMech = false;
+        #endregion Draedon Summoning
+
         #endregion
 
         #region SavingAndLoading
@@ -2121,6 +2125,8 @@ namespace CalamityMod.CalPlayer
             flatStealthLossReduction = 0;
 
             lastProjectileHit = null;
+
+            AbleToSelectExoMech = false;
 
             CalamityPlayerMiscEffects.EnchantHeldItemEffects(player, player.Calamity(), player.ActiveItem());
         }

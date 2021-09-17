@@ -1,5 +1,7 @@
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,9 +52,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && item.Calamity().Charge > 0;
 
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
             recipe.AddIngredient(ItemID.HallowedBar, 10);

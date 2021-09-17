@@ -23,6 +23,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.DraedonLabThings;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
@@ -53,19 +54,22 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.Walls.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.DataStructures;
+using CalamityMod.NPCs.ExoMechs;
 
 namespace CalamityMod.NPCs
 {
@@ -76,6 +80,8 @@ namespace CalamityMod.NPCs
 		public float DR { get; set; } = 0f;
 
 		public int KillTime { get; set; } = 0;
+
+		public bool ShouldFallThroughPlatforms;
 
 		/// <summary>
 		/// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
@@ -226,6 +232,7 @@ namespace CalamityMod.NPCs
         public static int SCalCatastrophe = -1;
         public static int SCal = -1;
         public static int SCalWorm = -1;
+		public static int draedon = -1;
 		public static int draedonExoMechWorm = -1;
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
@@ -730,6 +737,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
+			ResetSavedIndex(ref draedon, NPCType<Draedon>());
 			ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
 			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());
@@ -1024,6 +1032,8 @@ namespace CalamityMod.NPCs
         #region Set Defaults
         public override void SetDefaults(NPC npc)
         {
+			ShouldFallThroughPlatforms = false;
+
 			for (int i = 0; i < maxPlayerImmunities; i++)
 				dashImmunityTime[i] = 0;
 
@@ -3922,9 +3932,55 @@ namespace CalamityMod.NPCs
                 safeRangeX = (int)(1920 / 16 * 0.32); //0.52
             }
         }
-        #endregion
+		#endregion
 
-        #region Edit Spawn Pool
+		#region Edit Spawn Pool
+
+		internal static readonly FieldInfo MaxSpawnsField = typeof(NPC).GetField("maxSpawns", BindingFlags.NonPublic | BindingFlags.Static);
+		public static void AttemptToSpawnLabCritters(Player player)
+		{
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+				return;
+
+			int spawnRate = 400;
+			int maxSpawnCount = (int)MaxSpawnsField.GetValue(null);
+			NPCLoader.EditSpawnRate(player, ref spawnRate, ref maxSpawnCount);
+			for (int i = 0; i < 18; i++)
+			{
+				int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
+				int checkPositionY = (int)(player.Center.Y / 16 + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
+				Vector2 checkPosition = new Vector2(checkPositionX, checkPositionY);
+
+				Tile aboveSpawnTile = CalamityUtils.ParanoidTileRetrieval(checkPositionX, checkPositionY - 1);
+				bool nearLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.SunkenSeaLabCenter / 16f) < 180f;
+				nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.PlanetoidLabCenter / 16f) < 180f;
+				nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
+				nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.HellLabCenter / 16f) < 180f;
+				nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.IceLabCenter / 16f) < 180f;
+
+				bool isLabWall = aboveSpawnTile.wall == WallType<HazardChevronWall>() || aboveSpawnTile.wall == WallType<LaboratoryPanelWall>() || aboveSpawnTile.wall == WallType<LaboratoryPlateBeam>();
+				isLabWall |= aboveSpawnTile.wall == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.wall == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.wall == WallType<RustedPlateBeam>();
+				if (!isLabWall || !nearLab || Collision.SolidCollision((checkPosition - new Vector2(2f, 2f)).ToWorldCoordinates(), 4, 4) || player.activeNPCs >= maxSpawnCount || !Main.rand.NextBool(spawnRate))
+					continue;
+
+				WeightedRandom<int> pool = new WeightedRandom<int>();
+				pool.Add(NPCID.None, 0f);
+				pool.Add(NPCType<RepairUnitCritter>(), 0.5f);
+
+				int typeToSpawn = pool.Get();
+				if (typeToSpawn != NPCID.None)
+				{
+					int spawnedNPC = NPCLoader.SpawnNPC(typeToSpawn, checkPositionX, checkPositionY - 1);
+					if (Main.netMode == NetmodeID.Server && spawnedNPC < Main.maxNPCs)
+					{
+						Main.npc[spawnedNPC].position.Y -= 8f;
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, spawnedNPC);
+						return;
+					}
+				}
+			}
+		}
+
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
 			bool calamityBiomeZone = spawnInfo.player.Calamity().ZoneAbyss ||

@@ -1,15 +1,15 @@
-using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class PrismRay : ModProjectile
     {
         public Vector2 StartingPosition;
-        public Color RayColor => CalamityUtils.MulticolorLerp(RayHue, CalamityGlobalItem.ExoPalette);
+        public Color RayColor => CalamityUtils.MulticolorLerp(RayHue, CalamityUtils.ExoPalette);
         public Color HueDownscaledRayColor => RayColor * 0.66f;
         public ref float RayHue => ref projectile.ai[0];
         public ref float Time => ref projectile.localAI[1];

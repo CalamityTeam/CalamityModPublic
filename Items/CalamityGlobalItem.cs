@@ -81,18 +81,6 @@ namespace CalamityMod.Items
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 
-        public static readonly Color[] ExoPalette = new Color[]
-        {
-            new Color(250, 255, 112),
-            new Color(211, 235, 108),
-            new Color(166, 240, 105),
-            new Color(105, 240, 220),
-            new Color(64, 130, 145),
-            new Color(145, 96, 145),
-            new Color(242, 112, 73),
-            new Color(199, 62, 62),
-        };
-
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
         public CalamityGlobalItem()
@@ -1159,7 +1147,7 @@ namespace CalamityMod.Items
 
                     // If you have enough charge, decrement charge on the spot because this hook runs exactly once every time you use an item.
                     // Mana has to be checked separately or you'll fail to use the weapon on a mana check later and still have consumed charge.
-                    if (player.CheckMana(item))
+                    if (player.CheckMana(item) && item.modItem.CanUseItem(player))
                         Charge -= chargeNeeded;
                 }
             }

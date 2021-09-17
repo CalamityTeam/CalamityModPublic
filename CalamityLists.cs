@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -162,6 +163,8 @@ namespace CalamityMod
         public static List<int> MinionsToNotResurrectList;
         public static List<int> ZeroMinionSlotExceptionList;
         public static List<int> DontCopyOriginalMinionAIList;
+
+        public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
         public static void LoadLists()
         {
@@ -2940,6 +2943,14 @@ namespace CalamityMod
             {
                 ProjectileType<GammaHead>()
             };
+
+            EncryptedSchematicIDRelationship = new Dictionary<int, int>()
+            {
+                [1] = ItemType<EncryptedSchematicPlanetoid>(),
+                [2] = ItemType<EncryptedSchematicJungle>(),
+                [3] = ItemType<EncryptedSchematicHell>(),
+                [4] = ItemType<EncryptedSchematicIce>(),
+            };
         }
 
         public static void UnloadLists()
@@ -3031,6 +3042,8 @@ namespace CalamityMod
             MinionsToNotResurrectList = null;
             ZeroMinionSlotExceptionList = null;
             DontCopyOriginalMinionAIList = null;
+
+            EncryptedSchematicIDRelationship = null;
         }
     }
 }
