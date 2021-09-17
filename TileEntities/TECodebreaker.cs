@@ -184,6 +184,7 @@ namespace CalamityMod.TileEntities
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerConstituents);
 			packet.Write(ID);
 			packet.Write(containmentFlagWrapper);
+			packet.Send();
 		}
 
 		public static void ReadConstituentsUpdateSync(Mod mod, BinaryReader reader)
@@ -228,6 +229,7 @@ namespace CalamityMod.TileEntities
 			packet.Write(InputtedCellCount);
 			packet.Write(InitialCellCountBeforeDecrypting);
 			packet.Write(HeldSchematicID);
+			packet.Send();
 		}
 
 		public static void ReadContainmentSync(Mod mod, BinaryReader reader)
@@ -265,6 +267,7 @@ namespace CalamityMod.TileEntities
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerDecryptCountdown);
 			packet.Write(ID);
 			packet.Write(DecryptionCountdown);
+			packet.Send();
 		}
 
 		public static void ReadDecryptCountdownSync(Mod mod, BinaryReader reader)
