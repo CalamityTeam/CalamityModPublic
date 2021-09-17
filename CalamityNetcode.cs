@@ -216,6 +216,9 @@ namespace CalamityMod
                         int type = reader.ReadInt32();
                         CalamityWorld.bossType = type;
                         break;
+                    case CalamityModMessageType.EndBossRush:
+                        BossRushEvent.EndEffects();
+                        break;
                     case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
                         CalamityWorld.bossRushHostileProjKillCounter = countdown3;
@@ -380,6 +383,7 @@ namespace CalamityMod
         BossRushEndTimer,
         BossSpawnCountdownSync,
         BossTypeSync,
+        EndBossRush,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".
         TeleportPlayer, // also used by Astral Arcanum.
 
