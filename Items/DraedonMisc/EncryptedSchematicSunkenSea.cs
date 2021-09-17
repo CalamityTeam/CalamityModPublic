@@ -11,9 +11,9 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Schematic");
-            Tooltip.SetDefault("You can barely make out its text. It states:\n" +
-                "Something idk\n" +
-                "Having this item in your inventory permanently unlocks special equipment");
+            Tooltip.SetDefault("You can barely make out its text...\n" +
+                "Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen\n" +
+                "Picking up this item or holding it in your inventory permanently unlocks new recipes");
         }
 
         public override void SetDefaults()

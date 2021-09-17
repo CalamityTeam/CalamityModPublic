@@ -11,7 +11,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Encrypted Schematic");
-            Tooltip.SetDefault("Requires a Codebreaker with a computer to decrypt");
+            Tooltip.SetDefault("Requires a Codebreaker with a basic decryption computer to decrypt");
         }
 
         public override void SetDefaults()
