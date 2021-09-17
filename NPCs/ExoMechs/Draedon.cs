@@ -387,7 +387,7 @@ namespace CalamityMod.NPCs.ExoMechs
             spriteBatch.EnterShaderRegion();
 
             Texture2D texture = Main.npcTexture[npc.type];
-            Texture2D glowmask = Main.npcTexture[npc.type];
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/DraedonGlowmask");
             Rectangle frame = npc.frame;
 
             Vector2 drawPosition = npc.Center - Main.screenPosition - Vector2.UnitY * 38f;
@@ -404,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
             spriteBatch.ExitShaderRegion();
 
-            if (TalkTimer >= TeleportFadeinTime)
+            if (TalkTimer > TeleportFadeinTime)
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, direction, 0f);
 
             return false;
