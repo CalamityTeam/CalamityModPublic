@@ -1053,7 +1053,7 @@ namespace CalamityMod.World
             roxShrinePlaced = false;
 
             // This will only be applied at world-gen time to new worlds.
-            // Only worlds will never receive this marker naturally.
+            // Old worlds will never receive this marker naturally.
             IsWorldAfterDraedonUpdate = true;
         }
         #endregion
