@@ -19,9 +19,27 @@ namespace CalamityMod.Tiles.DraedonSummoner
         public const int OriginOffsetX = 2;
         public const int OriginOffsetY = 7;
         public const int SheetSquare = 18;
+        public static Texture2D TileTexture;
+        public static Texture2D ComputerTexture;
+        public static Texture2D SensorTexture;
+        public static Texture2D DisplayTexture;
+        public static Texture2D VoltageRegulatorTexture;
+        public static Texture2D VoltageRegulatorTexture2;
+        public static Texture2D CoolingCellTexture;
 
         public override void SetDefaults()
         {
+            if (!Main.dedServ)
+            {
+                TileTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
+                ComputerTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
+                SensorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
+                DisplayTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
+                VoltageRegulatorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
+                VoltageRegulatorTexture2 = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
+                CoolingCellTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
+            }
+
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -53,7 +71,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
 
         // Prevent the tile from being destroyed while it's busy decrypting.
         // If it's destroyed the tile entity would be too and the resources used on decryption would be lost for nothing.
-		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
             if (codebreakerTileEntity is null)
@@ -61,7 +79,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             if (codebreakerTileEntity.DecryptionCountdown > 0)
                 return false;
             return true;
-		}
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -137,39 +155,33 @@ namespace CalamityMod.Tiles.DraedonSummoner
             // Grab the tile entity because it stores the information regarding what is actually attached.
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
 
-            Texture2D tex = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
-            Texture2D computerTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
-            Texture2D sensorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
-            Texture2D displayTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
-            Texture2D voltageRegulatorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
-            Texture2D voltageRegulatorTexture2 = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
-            Texture2D coolingCellTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             if (t.halfBrick())
                 offset.Y += 8f;
+
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
             Rectangle frame = new Rectangle(frameXPos, frameYPos, 16, 16);
 
             if ((!t.halfBrick() && t.slope() == 0) || t.halfBrick())
             {
-                spriteBatch.Draw(tex, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TileTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
                 // Place secondary parts.
                 if (codebreakerTileEntity != null)
                 {
                     if (codebreakerTileEntity.ContainsDecryptionComputer)
-                        spriteBatch.Draw(computerTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(ComputerTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsVoltageRegulationSystem)
-                        spriteBatch.Draw(voltageRegulatorTexture2, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(VoltageRegulatorTexture2, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsSensorArray)
-                        spriteBatch.Draw(sensorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(SensorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsCoolingCell)
-                        spriteBatch.Draw(coolingCellTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(CoolingCellTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsVoltageRegulationSystem)
-                        spriteBatch.Draw(voltageRegulatorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(VoltageRegulatorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsAdvancedDisplay)
-                        spriteBatch.Draw(displayTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(DisplayTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
             return false;
