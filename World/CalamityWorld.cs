@@ -892,6 +892,11 @@ namespace CalamityMod.World
             writer.Write(DraedonSummonCountdown);
             writer.Write((int)DraedonMechToSummon);
             writer.WriteVector2(DraedonSummonPosition);
+            writer.WriteVector2(SunkenSeaLabCenter);
+            writer.WriteVector2(PlanetoidLabCenter);
+            writer.WriteVector2(JungleLabCenter);
+            writer.WriteVector2(HellLabCenter);
+            writer.WriteVector2(IceLabCenter);
         }
         #endregion
 
@@ -1014,6 +1019,11 @@ namespace CalamityMod.World
             DraedonSummonCountdown = reader.ReadInt32();
             DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
+            SunkenSeaLabCenter = reader.ReadVector2();
+            PlanetoidLabCenter = reader.ReadVector2();
+            JungleLabCenter = reader.ReadVector2();
+            HellLabCenter = reader.ReadVector2();
+            IceLabCenter = reader.ReadVector2();
         }
         #endregion
 
