@@ -284,11 +284,11 @@ namespace CalamityMod.NPCs.ExoMechs
             Vector2 origin = npc.frame.Size() * 0.5f;
             Color color = npc.GetAlpha(drawColor);
             SpriteEffects direction = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            GameShaders.Misc["CalamityMod:Glitch"].UseOpacity(MathHelper.Clamp(1f - TalkTimer / TeleportFadeinTime, 0f, 1f) * 0.38f);
-            GameShaders.Misc["CalamityMod:Glitch"].UseSecondaryColor(color);
-            GameShaders.Misc["CalamityMod:Glitch"].UseSaturation(color.A / 255f);
-            GameShaders.Misc["CalamityMod:Glitch"].Shader.Parameters["frameCount"].SetValue(new Vector2(2f, Main.npcFrameCount[npc.type]));
-            GameShaders.Misc["CalamityMod:Glitch"].Apply();
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(MathHelper.Clamp(1f - TalkTimer / TeleportFadeinTime, 0f, 1f) * 0.38f);
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(color);
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(color.A / 255f);
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(new Vector2(2f, Main.npcFrameCount[npc.type]));
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
 
             spriteBatch.Draw(texture, drawPosition, npc.frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, direction, 0f);
 
