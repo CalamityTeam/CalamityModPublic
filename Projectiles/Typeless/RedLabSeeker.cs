@@ -31,6 +31,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public static void Behavior(Projectile projectile, Vector2 destination, Color dustColor, ref float time)
         {
+            projectile.ai[1] = 0f;
+
             if (time < 45f)
                 projectile.velocity = Vector2.UnitY * Utils.InverseLerp(0f, 25f, time, true) * Utils.InverseLerp(30f, 25f, time, true) * -4.5f;
             else if (time < 80f)
@@ -39,7 +41,11 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 if (projectile.WithinRange(destination, 420f))
                 {
+                    projectile.ai[1] = 1f;
                     projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.UnitY * (float)Math.Sin((time - 80f) / 24f) * 2.5f, 0.15f);
+
+                    if (!projectile.WithinRange(destination, 30f))
+                        projectile.Center = projectile.Center.MoveTowards(destination, 10f);
                     projectile.rotation *= 0.95f;
                     projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.1f);
                 }
@@ -85,7 +91,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
-            if (Time > 80f)
+            if (Time > 80f && projectile.ai[1] == 0f)
             {
                 for (int i = 0; i < 24; i += 2)
                 {

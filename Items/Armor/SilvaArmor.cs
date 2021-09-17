@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
             recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ModContent.ItemType<LeadCore>());
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
