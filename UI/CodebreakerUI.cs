@@ -51,6 +51,7 @@ namespace CalamityMod.UI
             if (MouseScreenArea.Intersects(backgroundArea))
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
+            bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
             Vector2 backgroundTopLeft = BackgroundCenter - backgroundTexture.Size() * 0.5f;
 
             // Draw the cell payment slot icon.
@@ -64,6 +65,7 @@ namespace CalamityMod.UI
             Vector2 costDisplayLocation = schematicSlotDrawCenter + Vector2.UnitY * 20f;
             Vector2 costVerificationLocation = costDisplayLocation + Vector2.UnitY * 60f;
             Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f);
+            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(58f, backgroundTexture.Height - 48f);
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
@@ -76,7 +78,14 @@ namespace CalamityMod.UI
                 DisplayCostText(costDisplayLocation, cost);
 
                 if (codebreakerTileEntity.InputtedCellCount >= cost)
+                {
+                    if (canSummonDraedon)
+                    {
+                        costVerificationLocation.X -= 15f;
+                        summonButtonCenter.X += 15f;
+                    }
                     DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation);
+                }
             }
             else if (codebreakerTileEntity.DecryptionCountdown > 0)
             {
@@ -86,8 +95,7 @@ namespace CalamityMod.UI
                     DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * 110f);
             }
 
-            Vector2 summonButtonCenter = backgroundTopLeft + new Vector2(62f, backgroundTexture.Height - 44f);
-            if (codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon)
+            if (canSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
