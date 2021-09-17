@@ -96,24 +96,25 @@ namespace CalamityMod.UI
                 DrawDecryptCancelConfirmationText(textPanelCenter);
 
             // Draw the schematic icon.
-            Texture2D emptySchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotEmpty");
-            Texture2D occupiedSchematicIconTexture = emptySchematicIconTexture;
+            Texture2D schematicIconBG = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotBackground");
+            Texture2D schematicIconTexture = schematicIconBG;
             int schematicType = 0;
 
             if (codebreakerTileEntity.HeldSchematicID > 0)
                 schematicType = CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID];
 
             if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
-                occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotFullPlanetoid");
+                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicPlanetoid");
             if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
-                occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotFullJungle");
+                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicJungle");
             if (schematicType == ModContent.ItemType<EncryptedSchematicHell>())
-                occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotFullHell");
+                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicHell");
             if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
-                occupiedSchematicIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotFullIce");
+                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicIce");
 
-            Texture2D schematicTexture = codebreakerTileEntity.HeldSchematicID != 0 ? occupiedSchematicIconTexture : emptySchematicIconTexture;
-            spriteBatch.Draw(schematicTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(schematicIconBG, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconBG.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            if (codebreakerTileEntity.HeldSchematicID != 0)
+                spriteBatch.Draw(schematicIconTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
             HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size());
 
             // Create a temporary item for drawing purposes.
