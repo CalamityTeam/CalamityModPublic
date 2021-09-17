@@ -101,6 +101,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
+
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 			{
 				npc.life = 0;
@@ -470,7 +472,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			return false;
 		}
-
+		
 		public override bool PreNPCLoot() => false;
 
 		public override void HitEffect(int hitDirection, double damage)

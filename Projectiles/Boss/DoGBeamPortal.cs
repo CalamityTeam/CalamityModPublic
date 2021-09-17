@@ -45,6 +45,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+			{
+				projectile.active = false;
+				projectile.netUpdate = true;
+				return;
+			}
+
 			Player player = Main.player[projectile.owner];
 
 			if (start)

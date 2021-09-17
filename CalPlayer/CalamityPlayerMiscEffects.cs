@@ -161,57 +161,6 @@ namespace CalamityMod.CalPlayer
 		{
 			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
-				// This effect is way too annoying during the fight so I disabled it - Fab
-				// Signus headcrab effect
-				/*if (CalamityGlobalNPC.signus != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.signus].active)
-					{
-						if (Vector2.Distance(player.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
-						{
-							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
-
-							// Reduce the power of Signus darkness based on your light level.
-							float multiplier = 1f;
-							switch (modPlayer.GetTotalLightStrength())
-							{
-								case 0:
-									break;
-								case 1:
-								case 2:
-									multiplier = 0.75f;
-									break;
-								case 3:
-								case 4:
-									multiplier = 0.5f;
-									break;
-								case 5:
-								case 6:
-									multiplier = 0.25f;
-									break;
-								default:
-									multiplier = 0f;
-									break;
-							}
-
-							// Increased darkness in Death Mode
-							if (CalamityWorld.death)
-								multiplier += (1f - multiplier) * 0.1f;
-
-							// Total darkness
-							float signusDarkness = signusLifeRatio * multiplier;
-
-							// Headcrab effect
-							if (!modPlayer.ZoneAbyss && !player.headcovered)
-							{
-								float screenObstructionAmt = MathHelper.Clamp(signusDarkness, 0f, 0.63f);
-								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.33f, 0.1f, 0.2f);
-								ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
-							}
-						}
-					}
-				}*/
-
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
 				/*if (Main.masterMode)

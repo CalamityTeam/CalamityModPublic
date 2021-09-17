@@ -139,6 +139,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			CalamityGlobalNPC.draedonExoMechPrime = npc.whoAmI;
 
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
+
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
@@ -248,6 +250,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				npc.ai[3] = 1f;
 
 			// Phases
+			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
@@ -379,7 +382,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					// Spawn the other mechs if Ares is first
 					if (otherExoMechsAlive == 0)
 					{
-						if (npc.ai[3] == 0f)
+						if (spawnOtherExoMechs)
 						{
 							// Reset everything
 							npc.ai[3] = 1f;

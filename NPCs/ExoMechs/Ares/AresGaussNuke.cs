@@ -103,6 +103,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
+
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 			{
 				npc.life = 0;

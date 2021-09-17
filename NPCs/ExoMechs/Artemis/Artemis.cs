@@ -190,6 +190,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			CalamityGlobalNPC.draedonExoMechTwinRed = npc.whoAmI;
 
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
+
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || malice;
@@ -276,6 +278,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
+			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
@@ -492,7 +495,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// Note: Only Apollo spawns the mechs because the twins HP values are linked
 					if (otherExoMechsAlive == 0)
 					{
-						if (npc.ai[3] == 0f)
+						if (spawnOtherExoMechs)
 						{
 							// Reset everything
 							npc.ai[3] = 1f;
