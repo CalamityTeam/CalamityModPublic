@@ -314,8 +314,9 @@ namespace CalamityMod.NPCs.ExoMechs
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Width = 102;
+
             int xFrame = npc.frame.X / npc.frame.Width;
-            int yFrame = npc.frame.Y / npc.frame.Height;
+            int yFrame = npc.frame.Y / frameHeight;
             int frame = xFrame * Main.npcFrameCount[npc.type] + yFrame;
 
             // Prepare to stand up if called for and not already doing so.
@@ -347,7 +348,7 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             npc.frame.X = frame / Main.npcFrameCount[npc.type] * npc.frame.Width;
-            npc.frame.Y = frame % Main.npcFrameCount[npc.type] * npc.frame.Height;
+            npc.frame.Y = frame % Main.npcFrameCount[npc.type] * frameHeight;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
