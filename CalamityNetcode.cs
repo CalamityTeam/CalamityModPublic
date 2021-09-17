@@ -240,6 +240,17 @@ namespace CalamityMod
                         CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
                         break;
 
+                    // 
+                    // Draedon Summoner stuff
+                    // 
+                    case CalamityModMessageType.CodebreakerSummonStuff:
+                        CalamityWorld.DraedonSummonCountdown = reader.ReadInt32();
+                        CalamityWorld.DraedonSummonPosition = reader.ReadVector2();
+                        break;
+                    case CalamityModMessageType.ExoMechSelection:
+                        CalamityWorld.DraedonMechToSummon = (ExoMech)reader.ReadInt32();
+                        break;
+
                     //
                     // Death Mode environmental syncs
                     //
@@ -358,6 +369,10 @@ namespace CalamityMod
         UpdateCodebreakerConstituents,
         UpdateCodebreakerContainedStuff,
         UpdateCodebreakerDecryptCountdown,
+
+        // Draedon Summoner
+        CodebreakerSummonStuff,
+        ExoMechSelection,
 
         // Boss Rush
         BossRushStage,

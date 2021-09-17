@@ -76,7 +76,11 @@ namespace CalamityMod.UI
                 if (Main.mouseLeft && Main.mouseLeftRelease)
 				{
                     CalamityWorld.DraedonMechToSummon = exoMech;
-                    CalamityNetcode.SyncWorld();
+
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.ExoMechSelection);
+                    netMessage.Write((int)CalamityWorld.DraedonMechToSummon);
+                    netMessage.Send();
                 }
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
             }
