@@ -125,6 +125,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 
+			// Ravager platform fall fix
+
+
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats += RemoveExpertHardmodeScaling;

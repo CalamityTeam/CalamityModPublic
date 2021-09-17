@@ -142,7 +142,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 		public override void BossHeadSlot(ref int index)
 		{
-			if (npc.life / (float)npc.lifeMax < 0.6f)
+			if (SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune)
+				index = -1;
+			else if (npc.life / (float)npc.lifeMax < 0.6f)
 				index = phase2IconIndex;
 			else
 				index = phase1IconIndex;
@@ -350,19 +352,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float movementDistanceGateValue = 100f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 14f * baseVelocityMult;
-			float baseAcceleration = 1f;
+			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocity = 18f * baseVelocityMult;
 			float decelerationVelocityMult = 0.85f;
-			if (berserk)
-			{
-				baseVelocity *= 1.5f;
-				baseAcceleration *= 1.5f;
-			}
 
 			// Charge variables
 			float chargeVelocity = malice ? 60f : death ? 50f : revenge ? 45f : expertMode ? 40f : 30f;
-			float chargeDistance = 1800f;
+			float chargeDistance = 2000f;
 			float chargeDuration = chargeDistance / chargeVelocity;
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
@@ -421,9 +417,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					rotationDirection = 0;
 					npc.dontTakeDamage = true;
 
-					npc.velocity.Y -= 2f;
+					npc.velocity.Y -= 1f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 2f;
+						npc.velocity.Y -= 1f;
 
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
@@ -465,8 +461,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
-			// Velocity during deathray spin phase
-			float spinVelocity = baseVelocity * 0.25f;
+			// Duration of deathray spin to do a full circle
+			float spinTime = 120f - baseVelocity * 2.5f;
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
@@ -507,7 +503,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
-							npc.TargetClosest();
 						}
 					}
 					else
@@ -525,7 +520,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
-							npc.TargetClosest();
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
@@ -540,7 +534,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
-							npc.TargetClosest();
 						}
 					}
 
@@ -563,7 +556,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
-						npc.TargetClosest();
 					}
 
 					// If Artemis and Apollo are the first mechs to go berserk
@@ -576,7 +568,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
-						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -602,7 +593,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
-						npc.TargetClosest();
 					}
 
 					if (berserk)
@@ -614,7 +604,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
-						npc.TargetClosest();
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -706,7 +695,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								calamityGlobalNPC.newAI[2] = 0f;
 								calamityGlobalNPC.newAI[3] = 0f;
 								chargeVelocityNormalized = default;
-								npc.TargetClosest();
 							}
 							else
 							{
@@ -725,16 +713,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 								if (doBigAttack)
 								{
+									calamityGlobalNPC.newAI[3] = 0f;
 									if (phase2)
 									{
 										AIState = npc.localAI[2] == 1f ? (float)Phase.Deathray : (float)Phase.LaserShotgun;
-										calamityGlobalNPC.newAI[3] = 0f;
 									}
 									else
 									{
 										// Charge until a certain distance is reached and then return to normal phase
 										AIState = (float)Phase.Charge;
-										calamityGlobalNPC.newAI[3] = 0f;
 										npc.velocity = chargeVelocityNormalized * chargeVelocity;
 										chargeVelocityNormalized = default;
 									}
@@ -761,7 +748,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							pickNewLocation = true;
 							AIState = (float)Phase.Normal;
 							calamityGlobalNPC.newAI[2] = 0f;
-							npc.TargetClosest();
 						}
 					}
 
@@ -799,16 +785,20 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							int type = ModContent.ProjectileType<ExoDestroyerLaser>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+
 							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-							int spread = 3 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 3;
+							int spread = 15 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 15;
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
+
 							for (int i = 0; i < numLasersPerSpread + 1; i++)
 							{
-								Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numLasersPerSpread - 1)));
+								Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
 								Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+
 								Vector2 offset = normalizedPerturbedSpeed * 70f;
 								Vector2 newCenter = npc.Center + offset;
+
 								Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 							}
 						}
@@ -822,7 +812,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = berserk ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;
@@ -865,7 +854,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									rotationDirection = player.direction;
 
 								// Set spin velocity
-								npc.velocity.X = MathHelper.Pi * spinRadius / spinVelocity;
+								npc.velocity.X = MathHelper.Pi * spinRadius / spinTime;
 								npc.velocity *= -rotationDirection;
 								npc.netUpdate = true;
 
@@ -880,7 +869,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								}
 							}
 							else
-								npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocity * -rotationDirection);
+								npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinTime * -rotationDirection);
 						}
 					}
 					else
@@ -912,7 +901,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;
@@ -956,7 +944,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						npc.localAI[1] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;
@@ -982,7 +969,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 100f && npc.Opacity == 1f;
+			return minDist <= 100f && npc.Opacity == 1f && AIState == (float)Phase.Charge;
 		}
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit) => !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);

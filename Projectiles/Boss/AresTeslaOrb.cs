@@ -50,6 +50,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
+			if (projectile.velocity.Length() < 24f)
+				projectile.velocity *= 1.01f;
+
 			int fadeOutTime = 15;
 			int fadeInTime = 3;
 			if (projectile.timeLeft < fadeOutTime)
