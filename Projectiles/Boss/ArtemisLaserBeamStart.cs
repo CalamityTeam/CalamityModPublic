@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
 			// The direction of the host NPC.
 			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
-			// Offset to move the beam forward so that it starts inside the NPC's mouth.
+			// Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
 			float beamStartForwardsOffset = -70f;
 
 			// Set the starting location of the beam to the center of the NPC.

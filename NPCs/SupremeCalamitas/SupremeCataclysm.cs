@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			// Reduce acceleration if target is holding a true melee weapon
 			Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 			{
 				num677 *= 0.5f;
 			}

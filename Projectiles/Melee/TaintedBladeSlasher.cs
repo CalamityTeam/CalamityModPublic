@@ -118,6 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 90000;
             projectile.usesLocalNPCImmunity = true;
             projectile.noEnchantments = true;
+			projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(VerticalOffset);

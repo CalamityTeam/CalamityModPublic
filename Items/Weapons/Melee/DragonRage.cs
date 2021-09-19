@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.Calamity().trueMelee = true;
+		}
     }
 }

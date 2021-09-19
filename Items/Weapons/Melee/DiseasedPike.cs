@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<DiseasedPikeSpear>();
             item.shootSpeed = 10f;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 	}

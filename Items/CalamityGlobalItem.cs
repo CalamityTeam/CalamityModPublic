@@ -80,6 +80,7 @@ namespace CalamityMod.Items
         public bool devItem = false;
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
+		public bool trueMelee = false;
 
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
@@ -204,6 +205,42 @@ namespace CalamityMod.Items
 					canFirePointBlankShots = true;
 					break;
 
+				// Set projectile true melee items to be true melee, this is so bosses know when the player is using a true melee projectile weapon
+				case ItemID.Spear:
+				case ItemID.Trident:
+				case ItemID.PalladiumPike:
+				case ItemID.ObsidianSwordfish:
+				case ItemID.CobaltDrill:
+				case ItemID.MythrilDrill:
+				case ItemID.AdamantiteDrill:
+				case ItemID.PalladiumDrill:
+				case ItemID.OrichalcumDrill:
+				case ItemID.TitaniumDrill:
+				case ItemID.ChlorophyteDrill:
+				case ItemID.CobaltChainsaw:
+				case ItemID.MythrilChainsaw:
+				case ItemID.AdamantiteChainsaw:
+				case ItemID.PalladiumChainsaw:
+				case ItemID.OrichalcumChainsaw:
+				case ItemID.TitaniumChainsaw:
+				case ItemID.ChlorophyteChainsaw:
+				case ItemID.VortexDrill:
+				case ItemID.VortexChainsaw:
+				case ItemID.NebulaDrill:
+				case ItemID.NebulaChainsaw:
+				case ItemID.SolarFlareDrill:
+				case ItemID.SolarFlareChainsaw:
+				case ItemID.StardustDrill:
+				case ItemID.StardustChainsaw:
+				case ItemID.Drax:
+				case ItemID.ChlorophyteJackhammer:
+				case ItemID.SawtoothShark:
+				case ItemID.Arkhalis:
+				case ItemID.ButchersChainsaw:
+				case ItemID.MonkStaffT2:
+					trueMelee = true;
+					break;
+
 				case ItemID.Dynamite:
 				case ItemID.StickyDynamite:
 				case ItemID.BouncyDynamite:
@@ -313,6 +350,7 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.AdamantiteGlaive:
+					trueMelee = true;
 					item.damage = 65;
 					item.shootSpeed *= 1.25f;
 					break;
@@ -322,25 +360,30 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.CobaltNaginata:
+					trueMelee = true;
 					item.damage = 90;
 					break;
 
 				case ItemID.Gungnir:
+					trueMelee = true;
 					item.damage = 92;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.MythrilHalberd:
+					trueMelee = true;
 					item.damage = 95;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.OrichalcumHalberd:
+					trueMelee = true;
 					item.damage = 98;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.TitaniumTrident:
+					trueMelee = true;
 					item.damage = 72;
 					item.shootSpeed *= 1.25f;
 					break;
@@ -350,18 +393,22 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.TheRottedFork:
+					trueMelee = true;
 					item.damage = 20;
 					break;
 
 				case ItemID.Swordfish:
+					trueMelee = true;
 					item.damage = 38;
 					break;
 
 				case ItemID.DarkLance:
+					trueMelee = true;
 					item.damage = 68;
 					break;
 
 				case ItemID.MushroomSpear:
+					trueMelee = true;
 					item.damage = 100;
 					break;
 
@@ -407,6 +454,7 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.MonkStaffT1:
+					trueMelee = true;
 					item.damage = 110;
 					break;
 
@@ -819,7 +867,7 @@ namespace CalamityMod.Items
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || canFirePointBlankShots || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -833,7 +881,8 @@ namespace CalamityMod.Items
 				["reforgeTier"] = reforgeTier,
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
 				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
-				["canFirePointBlankShots"] = canFirePointBlankShots
+				["canFirePointBlankShots"] = canFirePointBlankShots,
+				["trueMelee"] = trueMelee
 			};
         }
 
@@ -841,6 +890,7 @@ namespace CalamityMod.Items
         {
             rogue = tag.GetBool("rogue");
 			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
+			trueMelee = tag.GetBool("trueMelee");
 			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -874,6 +924,7 @@ namespace CalamityMod.Items
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
 				canFirePointBlankShots = flags[1];
+				trueMelee = flags[2];
 			}
             else
             {
@@ -886,6 +937,7 @@ namespace CalamityMod.Items
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
 			flags[1] = canFirePointBlankShots;
+			flags[2] = trueMelee;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -901,6 +953,7 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
 			canFirePointBlankShots = flags[1];
+			trueMelee = flags[2];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();

@@ -45,7 +45,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
             item.shootSpeed = ShootSpeed;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

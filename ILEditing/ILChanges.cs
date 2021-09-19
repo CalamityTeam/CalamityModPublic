@@ -2,6 +2,9 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
@@ -127,7 +130,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 
 			// Ravager platform fall fix
-
+			On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -336,6 +339,15 @@ namespace CalamityMod.ILEditing
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, forced);
         }
+
+		private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+		{
+			if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
+				self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
+				return true;
+
+			return orig(self);
+		}
 
         private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
         {

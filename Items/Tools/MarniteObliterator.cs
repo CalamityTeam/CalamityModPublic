@@ -33,7 +33,8 @@ namespace CalamityMod.Items.Tools
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
             item.shootSpeed = 40f;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
         public override void AddRecipes()
         {

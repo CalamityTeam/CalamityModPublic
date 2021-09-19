@@ -170,6 +170,8 @@ namespace CalamityMod.NPCs.Ravager
 
 			bool immunePhase = headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive;
 			bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive && expertMode;
+			bool phase2 = npc.ai[0] == 2f;
+			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y;
 
 			if (immunePhase)
 			{
@@ -306,10 +308,16 @@ namespace CalamityMod.NPCs.Ravager
                 }
             }
 
-            if (npc.ai[0] == 0f)
-            {
-				npc.noTileCollide = false;
+			if (npc.noTileCollide && !player.dead)
+			{
+				if (npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y)
+					npc.noTileCollide = false;
+				else if (Collision.CanHit(npc.position, npc.width, npc.height, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+					npc.noTileCollide = false;
+			}
 
+			if (npc.ai[0] == 0f)
+            {
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X *= 0.8f;
@@ -335,10 +343,14 @@ namespace CalamityMod.NPCs.Ravager
 
 					float jumpGateValue = 180f;
 					if (npc.ai[1] >= jumpGateValue)
-                        npc.ai[1] = -20f;
-                    else if (npc.ai[1] == -1f)
-                    {
-                        npc.TargetClosest();
+					{
+						npc.ai[1] = -20f;
+					}
+					else if (npc.ai[1] == -1f)
+					{
+						npc.noTileCollide = true;
+
+						npc.TargetClosest();
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -353,7 +365,7 @@ namespace CalamityMod.NPCs.Ravager
 							if (distanceBelowTarget > 0f)
 								calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * multiplier;
 
-							float speedMultLimit = malice ? 4f : 3f;
+							float speedMultLimit = malice ? 3f : 2f;
 							if (calamityGlobalNPC.newAI[1] > speedMultLimit)
 								calamityGlobalNPC.newAI[1] = speedMultLimit;
 
@@ -363,7 +375,6 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (expertMode && !finalPhase)
 						{
-							npc.noTileCollide = true;
 							if (shouldFall)
 								velocityY = 1f;
 
@@ -382,19 +393,16 @@ namespace CalamityMod.NPCs.Ravager
 						}
 
 						if (finalPhase)
-						{
-							npc.noTileCollide = true;
 							calamityGlobalNPC.newAI[2] = player.direction;
-						}
 
 						float playerLocation = npc.Center.X - player.Center.X;
 						npc.direction = playerLocation < 0 ? 1 : -1;
 
 						npc.velocity.X = velocityX * npc.direction;
-                        npc.velocity.Y = velocityY;
+						npc.velocity.Y = velocityY;
 
-                        npc.ai[0] = finalPhase ? 2f : 1f;
-                        npc.ai[1] = 0f;
+						npc.ai[0] = finalPhase ? 2f : 1f;
+						npc.ai[1] = 0f;
 					}
                 }
 
@@ -460,21 +468,12 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-					// Fall through
-					if (!player.dead && expertMode)
-					{
-						if ((player.position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (player.position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
-							npc.noTileCollide = true;
-						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
-							npc.noTileCollide = false;
-					}
-
 					Vector2 targetVector = player.position;
 					float aimY = targetVector.Y - 640f;
 					float distanceFromTargetPos = Math.Abs(npc.Top.Y - aimY);
 					bool inRange = npc.Top.Y <= aimY + 160f && npc.Top.Y >= aimY - 16f;
 
-					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
+					if (phase2 && npc.ai[1] == 0f)
 					{
 						calamityGlobalNPC.newAI[3] += 1f;
 
@@ -492,7 +491,7 @@ namespace CalamityMod.NPCs.Ravager
 					}
 
 					float maxOffset = death ? 320f * (1f - lifeRatio) : 240f * (1f - lifeRatio);
-					float offset = npc.ai[0] == 2f ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
+					float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
 					if (Math.Abs(player.velocity.X) < 0.5f)
@@ -504,7 +503,7 @@ namespace CalamityMod.NPCs.Ravager
                     {
 						npc.damage = npc.defDamage;
 
-						if (npc.ai[0] == 2f)
+						if (phase2)
 						{
 							float stopBeforeFallTime = malice ? 25f : 30f;
 							if (expertMode)
@@ -565,7 +564,7 @@ namespace CalamityMod.NPCs.Ravager
 						if (!leftLegActive)
 							velocityX += 1f;
 
-						if (npc.ai[0] == 2f)
+						if (phase2)
 						{
 							npc.damage = 0;
 							velocityXChange *= velocityMult;
@@ -589,8 +588,8 @@ namespace CalamityMod.NPCs.Ravager
 
 			void CustomGravity()
 			{
-				float gravity = npc.ai[0] == 2f ? 0f : 0.45f;
-				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 15f;
+				float gravity = phase2 ? 0f : 0.45f;
+				float maxFallSpeed = reduceFallSpeed ? 12f : phase2 ? 24f : 15f;
 				if (malice)
 				{
 					gravity *= 1.25f;
@@ -608,14 +607,14 @@ namespace CalamityMod.NPCs.Ravager
 			player = Main.player[npc.target];
 			if (npc.target <= 0 || npc.target == 255 || player.dead || !player.active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 			}
 
             int distanceFromTarget = 5600;
             if (Vector2.Distance(npc.Center, player.Center) > distanceFromTarget)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
 				player = Main.player[npc.target];
 
 				if (Vector2.Distance(npc.Center, player.Center) > distanceFromTarget)

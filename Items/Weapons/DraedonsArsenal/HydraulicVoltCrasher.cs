@@ -45,6 +45,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.melee = true;
             item.channel = true;
 
+			modItem.trueMelee = true;
             modItem.UsesCharge = true;
             modItem.MaxCharge = 85f;
             modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.

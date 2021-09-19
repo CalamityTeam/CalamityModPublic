@@ -1367,7 +1367,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num824 *= 0.5f;
 						}
@@ -1619,7 +1619,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num413 *= 0.5f;
 						}
@@ -1735,7 +1735,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.HeldItem;
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num833 *= 0.5f;
 						}
@@ -2021,7 +2021,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num824 *= 0.5f;
 						}
@@ -2266,7 +2266,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num413 *= 0.5f;
 						}
@@ -2383,7 +2383,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num833 *= 0.5f;
 						}

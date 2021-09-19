@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 7;
-            //projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;
