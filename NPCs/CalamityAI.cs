@@ -2616,6 +2616,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
+			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
 			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
@@ -3213,9 +3214,9 @@ namespace CalamityMod.NPCs
 			void CustomGravity()
 			{
 				float gravity = 0.36f + 0.12f * enrageScale;
-				float maxFallSpeed = 12f + 4f * enrageScale;
+				float maxFallSpeed = reduceFallSpeed ? 12f : 12f + 4f * enrageScale;
 
-				if (calamityGlobalNPC.newAI[0] > 1f)
+				if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
 
 				npc.velocity.Y += gravity;
