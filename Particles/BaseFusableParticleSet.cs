@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -35,6 +36,17 @@ namespace CalamityMod.Particles
 			}
 		}
 
+		public int LayerCount
+		{
+			get
+			{
+				// Not doing this will result in inevitable crashes down the line as the graphics engine fails.
+				if (BackgroundShaders.Count != BackgroundTextures.Count)
+					throw new InvalidOperationException("The number of texture maps and shaders are not equivalent.");
+
+				return BackgroundShaders.Count;
+			}
+		}
 
 		public List<FusableParticle> Particles = new List<FusableParticle>();
 

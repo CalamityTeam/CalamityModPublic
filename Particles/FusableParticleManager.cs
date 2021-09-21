@@ -41,10 +41,10 @@ namespace CalamityMod.Particles
 					BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
 					List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
 
-					// Only generate a render target to use if this isn't called serverside.
+					// Only generate render targets to use if this isn't called serverside.
 					if (Main.netMode != NetmodeID.Server)
 					{
-						for (int i = 0; i < instance.BackgroundShaders.Count; i++)
+						for (int i = 0; i < instance.LayerCount; i++)
 							backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents));
 					}
 
@@ -97,11 +97,11 @@ namespace CalamityMod.Particles
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
 				List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
 
-				for (int i = 0; i < particleSet.BackgroundShaders.Count; i++)
-				{
-					// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
-					Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
+				for (int i = 0; i < particleSet.LayerCount; i++)
+				{
 					Effect shader = particleSet.BackgroundShaders[i];
 
 					// Draw the current target with the specified shader.
@@ -128,9 +128,9 @@ namespace CalamityMod.Particles
 
 					// And draw the particle set's render target with said shader.
 					Main.spriteBatch.Draw(backgroundTargets[i], Vector2.Zero, Color.White);
-
-					Main.spriteBatch.End();
 				}
+
+				Main.spriteBatch.End();
 			}
 		}
 

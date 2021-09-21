@@ -10,9 +10,9 @@ namespace CalamityMod.Particles
 {
 	public class GhostlyFusableParticleSet : BaseFusableParticleSet
 	{
-		public override float BorderSize => 5f;
+		public override float BorderSize => 3f;
 		public override bool BorderShouldBeSolid => false;
-		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.5f) * 1.4f;
+		public override Color BorderColor => Color.Lerp(Color.Fuchsia, Color.Black, 0.55f) * 0.85f;
 		public override List<Effect> BackgroundShaders
 		{
 			get

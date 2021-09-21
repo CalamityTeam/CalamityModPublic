@@ -1,4 +1,6 @@
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -25,6 +27,9 @@ namespace CalamityMod.Projectiles.Magic
                 return null;
             }
         }
+
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Small Angry Spirit");
@@ -33,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 18;
+            projectile.width = projectile.height = 28;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -43,6 +48,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            float radius = MathHelper.SmoothStep(84f, 44f, (float)Math.Sqrt(1f - projectile.timeLeft / 360f));
+
             // Handle frames.
             projectile.frameCounter++;
             projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
@@ -60,12 +67,14 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.hostile = false;
 
+                radius += 72f;
+
                 target = ProjectileOwner;
                 flySpeed = 29f;
                 flyInertia = 5f;
 
                 // Die if close to the owner projectile, effectively being absorbed.
-                projectile.Center = projectile.Center.MoveTowards(target.Center, 20f);
+                projectile.Center = projectile.Center.MoveTowards(target.Center, 8.5f);
                 if (projectile.WithinRange(target.Center, 84f))
                     projectile.Kill();
 
@@ -96,6 +105,10 @@ namespace CalamityMod.Projectiles.Magic
 
             // Decide rotation.
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
+            // Emit particles.
+            Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
+            FusableParticleManager.GetParticleSetByType<GhostlyFusableParticleSet>().SpawnParticle(spawnPosition, radius);
         }
 
         public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
