@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float movementDistanceGateValue = 100f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 18f * baseVelocityMult;
 			float decelerationVelocityMult = 0.85f;
 
