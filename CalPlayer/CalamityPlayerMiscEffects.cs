@@ -5,12 +5,14 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -126,6 +128,9 @@ namespace CalamityMod.CalPlayer
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
 
+			// Check if schematics are present on the mouse, for the sake of registering their recipes.
+			CheckIfMouseItemIsSchematic(player);
+
 			// Update all particle sets for items.
 			// This must be done here instead of in the item logic because these sets are not properly instanced
 			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
@@ -156,57 +161,6 @@ namespace CalamityMod.CalPlayer
 		{
 			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
-				// This effect is way too annoying during the fight so I disabled it - Fab
-				// Signus headcrab effect
-				/*if (CalamityGlobalNPC.signus != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.signus].active)
-					{
-						if (Vector2.Distance(player.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
-						{
-							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
-
-							// Reduce the power of Signus darkness based on your light level.
-							float multiplier = 1f;
-							switch (modPlayer.GetTotalLightStrength())
-							{
-								case 0:
-									break;
-								case 1:
-								case 2:
-									multiplier = 0.75f;
-									break;
-								case 3:
-								case 4:
-									multiplier = 0.5f;
-									break;
-								case 5:
-								case 6:
-									multiplier = 0.25f;
-									break;
-								default:
-									multiplier = 0f;
-									break;
-							}
-
-							// Increased darkness in Death Mode
-							if (CalamityWorld.death)
-								multiplier += (1f - multiplier) * 0.1f;
-
-							// Total darkness
-							float signusDarkness = signusLifeRatio * multiplier;
-
-							// Headcrab effect
-							if (!modPlayer.ZoneAbyss && !player.headcovered)
-							{
-								float screenObstructionAmt = MathHelper.Clamp(signusDarkness, 0f, 0.63f);
-								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.33f, 0.1f, 0.2f);
-								ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
-							}
-						}
-					}
-				}*/
-
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
 				/*if (Main.masterMode)
@@ -4284,6 +4238,54 @@ namespace CalamityMod.CalPlayer
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
 			}
+		}
+		#endregion
+
+		#region Mouse Item Checks
+		public static void CheckIfMouseItemIsSchematic(Player player)
+		{
+			if (Main.myPlayer != player.whoAmI)
+				return;
+
+			bool shouldSync = false;
+
+			// ActiveItem doesn't need to be checked as the other possibility involves
+			// the item in question already being in the inventory.
+			if (Main.mouseItem != null && !Main.mouseItem.IsAir)
+			{
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicSunkenSea>() && !RecipeUnlockHandler.HasFoundSunkenSeaSchematic)
+				{
+					RecipeUnlockHandler.HasFoundSunkenSeaSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicPlanetoid>() && !RecipeUnlockHandler.HasFoundPlanetoidSchematic)
+				{
+					RecipeUnlockHandler.HasFoundPlanetoidSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicJungle>() && !RecipeUnlockHandler.HasFoundJungleSchematic)
+				{
+					RecipeUnlockHandler.HasFoundJungleSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicHell>() && !RecipeUnlockHandler.HasFoundHellSchematic)
+				{
+					RecipeUnlockHandler.HasFoundHellSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicIce>() && !RecipeUnlockHandler.HasFoundIceSchematic)
+				{
+					RecipeUnlockHandler.HasFoundIceSchematic = true;
+					shouldSync = true;
+				}
+			}
+
+			if (shouldSync)
+				CalamityNetcode.SyncWorld();
 		}
 		#endregion
 

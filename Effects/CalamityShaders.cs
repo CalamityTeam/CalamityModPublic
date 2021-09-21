@@ -12,9 +12,11 @@ namespace CalamityMod.Effects
         public static Effect LightShader;
         public static Effect SCalMouseShader;
         public static Effect TentacleShader;
+        public static Effect TeleportDisplacementShader;
         public static Effect LightDistortionShader;
         public static Effect PhaseslayerRipShader;
         public static Effect FadedUVMapStreakShader;
+        public static Effect FlameStreakShader;
         public static Effect FadingSolidTrailShader;
         public static Effect ScarletDevilShader;
         public static Effect BordernadoFireShader;
@@ -32,6 +34,7 @@ namespace CalamityMod.Effects
             AstralFogShader = CalamityMod.Instance.GetEffect("Effects/CustomShader");
             LightShader = CalamityMod.Instance.GetEffect("Effects/LightBurstShader");
             TentacleShader = CalamityMod.Instance.GetEffect("Effects/TentacleShader");
+            TeleportDisplacementShader = CalamityMod.Instance.GetEffect("Effects/TeleportDisplacementShader");
             SCalMouseShader = CalamityMod.Instance.GetEffect("Effects/SCalMouseShader");
             LightDistortionShader = CalamityMod.Instance.GetEffect("Effects/DistortionShader");
             PhaseslayerRipShader = CalamityMod.Instance.GetEffect("Effects/PhaseslayerRipShader");
@@ -39,6 +42,7 @@ namespace CalamityMod.Effects
             BordernadoFireShader = CalamityMod.Instance.GetEffect("Effects/BordernadoFire");
             PrismCrystalShader = CalamityMod.Instance.GetEffect("Effects/PrismCrystalStreak");
             FadedUVMapStreakShader = CalamityMod.Instance.GetEffect("Effects/FadedUVMapStreak");
+            FlameStreakShader = CalamityMod.Instance.GetEffect("Effects/Flame");
             FadingSolidTrailShader = CalamityMod.Instance.GetEffect("Effects/FadingSolidTrail");
             ImpFlameTrailShader = CalamityMod.Instance.GetEffect("Effects/ImpFlameTrail");
             SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
@@ -52,9 +56,11 @@ namespace CalamityMod.Effects
 
             GameShaders.Misc["CalamityMod:FireMouse"] = new MiscShaderData(new Ref<Effect>(SCalMouseShader), "DyePass");
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"] = new MiscShaderData(new Ref<Effect>(TeleportDisplacementShader), "GlitchPass");
             GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"] = new MiscShaderData(new Ref<Effect>(PhaseslayerRipShader), "TrailPass");
             GameShaders.Misc["CalamityMod:TrailStreak"] = new MiscShaderData(new Ref<Effect>(FadedUVMapStreakShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:Flame"] = new MiscShaderData(new Ref<Effect>(FlameStreakShader), "TrailPass");
             GameShaders.Misc["CalamityMod:FadingSolidTrail"] = new MiscShaderData(new Ref<Effect>(FadingSolidTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"] = new MiscShaderData(new Ref<Effect>(ScarletDevilShader), "TrailPass");
             GameShaders.Misc["CalamityMod:Bordernado"] = new MiscShaderData(new Ref<Effect>(BordernadoFireShader), "TrailPass");

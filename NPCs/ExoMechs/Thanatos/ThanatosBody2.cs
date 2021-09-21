@@ -71,7 +71,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void BossHeadSlot(ref int index)
 		{
-			if (vulnerable)
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune)
+				index = -1;
+			else if (vulnerable)
 				index = vulnerableIconIndex;
 			else
 				index = normalIconIndex;
@@ -210,7 +212,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
-					double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
+					double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
 					{
 						float divisor = 120f;
@@ -278,7 +280,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					else
 					{
 						// This is only used in deathray phase to prevent laser spam
-						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? 5D : numSegmentsAbleToFire));
+						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? numSegmentsAbleToFire * 2f : numSegmentsAbleToFire));
 						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{

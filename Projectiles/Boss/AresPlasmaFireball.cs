@@ -48,9 +48,12 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-				projectile.tileCollide = true;
+			if (projectile.ai[0] != -1f)
+			{
+				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+					projectile.tileCollide = true;
+			}
 
 			int fadeInTime = 3;
 			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
@@ -157,6 +160,11 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				// Plasma bolts
 				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
+
+				// Reduce the total amount of projectiles by half if Apollo is shooting them
+				if (projectile.ai[0] == -1f)
+					totalProjectiles /= 2;
+
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
 				float velocity = projectile.velocity.Length();

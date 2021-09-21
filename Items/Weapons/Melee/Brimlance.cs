@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<BrimlanceProj>();
             item.shootSpeed = 12f;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 	}

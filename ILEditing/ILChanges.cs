@@ -2,6 +2,9 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
@@ -111,6 +114,7 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
@@ -126,6 +130,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 			IL.Terraria.Main.DoDraw += DrawFusableParticles;
+
+			// Ravager platform fall fix
+			On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -164,6 +171,7 @@ namespace CalamityMod.ILEditing
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
@@ -212,6 +220,15 @@ namespace CalamityMod.ILEditing
         #region IL Editing Routines and Injections
 
         #region Mechanics / features
+
+        // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
+        private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
+        {
+            if (self.active && self.Calamity().ShouldFallThroughPlatforms)
+                fall = true;
+            orig(self, fall, cPosition, cWidth, cHeight);
+        }
+
         private static void PermitNighttimeTownNPCSpawning(ILContext il)
         {
             // Don't do town NPC spawning at the end (which lies after a !Main.dayTime return).
@@ -325,6 +342,15 @@ namespace CalamityMod.ILEditing
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, forced);
         }
+
+		private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+		{
+			if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
+				self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
+				return true;
+
+			return orig(self);
+		}
 
         private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
         {

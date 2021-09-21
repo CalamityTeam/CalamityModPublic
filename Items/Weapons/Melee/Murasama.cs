@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.shootSpeed = 24f;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
+			item.Calamity().trueMelee = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

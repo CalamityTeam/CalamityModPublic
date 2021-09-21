@@ -51,9 +51,6 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 20;
-
-			// Not considered true melee to prevent Titan Scale from triggering.
-			// projectile.Calamity().trueMelee = true;
 		}
 
 		public override void AI()

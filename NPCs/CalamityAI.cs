@@ -1637,7 +1637,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 				{
 					num824 *= 0.5f;
 				}
@@ -1753,7 +1753,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 				{
 					num833 *= 0.5f;
 				}
@@ -2616,6 +2616,7 @@ namespace CalamityMod.NPCs
 			// Phases
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
+			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
 			bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
@@ -2773,7 +2774,7 @@ namespace CalamityMod.NPCs
                     // Increase defense
                     npc.defense = npc.defDefense;
 
-                    // Stop colliding with tiles
+					// Stop colliding with tiles
                     npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
@@ -2782,8 +2783,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
-
-				CustomGravity();
+				else
+					CustomGravity();
 			}
 
             // Walk
@@ -2815,41 +2816,50 @@ namespace CalamityMod.NPCs
                         npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
                 }
 
-                // Walk through tiles if colliding with tiles and player is out of reach
-                int num854 = 80;
-                int num855 = 20;
-                Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
-
-                bool flag52 = false;
-                if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
-                    flag52 = true;
-
-				if (flag52)
+				if (Collision.CanHit(npc.position, npc.width, npc.height, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height) && player.position.Y <= npc.position.Y + npc.height)
 				{
-					npc.velocity.Y += 0.5f;
-				}
-				else if (Collision.SolidCollision(position2, num854, num855))
-				{
-					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = 0f;
-
-					if (npc.velocity.Y > -0.2)
-						npc.velocity.Y -= 0.025f;
-					else
-						npc.velocity.Y -= 0.2f;
-
-					if (npc.velocity.Y < -4f)
-						npc.velocity.Y = -4f;
+					CustomGravity();
+					npc.noTileCollide = false;
 				}
 				else
 				{
-					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = 0f;
+					npc.noTileCollide = true;
+					// Walk through tiles if colliding with tiles and player is out of reach
+					int num854 = 80;
+					int num855 = 20;
+					Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
 
-					if (npc.velocity.Y < 0.1)
-						npc.velocity.Y += 0.025f;
-					else
+					bool flag52 = false;
+					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f)
+						flag52 = true;
+
+					if (flag52)
+					{
 						npc.velocity.Y += 0.5f;
+					}
+					else if (Collision.SolidCollision(position2, num854, num855))
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y = 0f;
+
+						if (npc.velocity.Y > -0.2)
+							npc.velocity.Y -= 0.025f;
+						else
+							npc.velocity.Y -= 0.2f;
+
+						if (npc.velocity.Y < -4f)
+							npc.velocity.Y = -4f;
+					}
+					else
+					{
+						if (npc.velocity.Y < 0f)
+							npc.velocity.Y = 0f;
+
+						if (npc.velocity.Y < 0.1)
+							npc.velocity.Y += 0.025f;
+						else
+							npc.velocity.Y += 0.5f;
+					}
 				}
 
                 // Walk for a maximum of 6 seconds
@@ -3204,9 +3214,9 @@ namespace CalamityMod.NPCs
 			void CustomGravity()
 			{
 				float gravity = 0.36f + 0.12f * enrageScale;
-				float maxFallSpeed = 12f + 4f * enrageScale;
+				float maxFallSpeed = reduceFallSpeed ? 12f : 12f + 4f * enrageScale;
 
-				if (calamityGlobalNPC.newAI[0] > 1f)
+				if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
 
 				npc.velocity.Y += gravity;

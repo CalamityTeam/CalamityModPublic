@@ -1,3 +1,5 @@
+using CalamityMod.NPCs;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -50,6 +52,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
+			if (projectile.velocity.Length() < 24f)
+				projectile.velocity *= 1.01f;
+
 			int fadeOutTime = 15;
 			int fadeInTime = 3;
 			if (projectile.timeLeft < fadeOutTime)
@@ -137,9 +142,12 @@ namespace CalamityMod.Projectiles.Boss
 
 		public Projectile GetOrbToAttachTo()
 		{
+			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+				return null;
+
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
-				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active)
+				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active || Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays)
 					continue;
 
 				return Main.projectile[i];

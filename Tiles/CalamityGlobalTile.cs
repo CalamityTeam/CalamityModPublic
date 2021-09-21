@@ -8,6 +8,7 @@ using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
@@ -587,8 +588,10 @@ namespace CalamityMod.Tiles
 			int[] invincibleTiles = new int[]
 			{
 				ModContent.TileType<DraedonLabTurret>(),
-				ModContent.TileType<AstralBeacon>()
+				ModContent.TileType<AstralBeacon>(),
+				ModContent.TileType<CodebreakerTile>()
 			};
+
 			// Prevent tiles below invincible tiles from being destroyed. This is like chests in vanilla.
 			if (CalamityUtils.ParanoidTileRetrieval(i, j - 1).active() &&
 				CalamityUtils.ParanoidTileRetrieval(i, j).type !=

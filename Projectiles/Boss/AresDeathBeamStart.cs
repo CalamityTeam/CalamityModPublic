@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
 				samplingPoint = vector78.Value;
 
 			float[] array3 = new float[(int)num805];
-			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
+			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 4800f, array3);
 			float num807 = 0f;
 			for (int num808 = 0; num808 < array3.Length; num808++)
 			{
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
 			// Fire laser through walls at max length if target cannot be seen
 			if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
 			{
-				num807 = 2400f;
+				num807 = 4800f;
 			}
 
 			float amount = 0.5f;

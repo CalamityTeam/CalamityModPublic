@@ -128,11 +128,50 @@ namespace CalamityMod.Projectiles
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
         {
-            if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
-                trueMelee = true;
-
             switch (projectile.type)
             {
+				case ProjectileID.Spear:
+                case ProjectileID.Trident:
+                case ProjectileID.TheRottedFork:
+                case ProjectileID.Swordfish:
+                case ProjectileID.DarkLance:
+                case ProjectileID.CobaltNaginata:
+                case ProjectileID.PalladiumPike:
+                case ProjectileID.MythrilHalberd:
+                case ProjectileID.OrichalcumHalberd:
+                case ProjectileID.AdamantiteGlaive:
+                case ProjectileID.TitaniumTrident:
+                case ProjectileID.MushroomSpear:
+                case ProjectileID.Gungnir:
+                case ProjectileID.ObsidianSwordfish:
+                case ProjectileID.CobaltDrill:
+                case ProjectileID.MythrilDrill:
+                case ProjectileID.AdamantiteDrill:
+                case ProjectileID.PalladiumDrill:
+                case ProjectileID.OrichalcumDrill:
+                case ProjectileID.TitaniumDrill:
+                case ProjectileID.ChlorophyteDrill:
+                case ProjectileID.CobaltChainsaw:
+                case ProjectileID.MythrilChainsaw:
+                case ProjectileID.AdamantiteChainsaw:
+                case ProjectileID.PalladiumChainsaw:
+                case ProjectileID.OrichalcumChainsaw:
+                case ProjectileID.TitaniumChainsaw:
+                case ProjectileID.ChlorophyteChainsaw:
+                case ProjectileID.VortexDrill:
+                case ProjectileID.VortexChainsaw:
+                case ProjectileID.NebulaDrill:
+                case ProjectileID.NebulaChainsaw:
+                case ProjectileID.SolarFlareDrill:
+                case ProjectileID.SolarFlareChainsaw:
+                case ProjectileID.StardustDrill:
+                case ProjectileID.StardustChainsaw:
+                case ProjectileID.Hamdrax:
+                case ProjectileID.ChlorophyteJackhammer:
+                case ProjectileID.SawtoothShark:
+					trueMelee = true;
+					break;
+
 				case ProjectileID.Bullet:
 				case ProjectileID.MeteorShot:
 				case ProjectileID.BulletHighVelocity:
@@ -203,10 +242,12 @@ namespace CalamityMod.Projectiles
 
 				case ProjectileID.Arkhalis:
 				case ProjectileID.ButchersChainsaw:
+					trueMelee = true;
 					projectile.scale = 1.5f;
 					break;
 
 				case ProjectileID.MonkStaffT1:
+					trueMelee = true;
 					projectile.scale = 3f;
 					break;
 
@@ -227,6 +268,7 @@ namespace CalamityMod.Projectiles
                     break;
 
 				case ProjectileID.MonkStaffT2:
+					trueMelee = true;
 					projectile.idStaticNPCHitCooldown = 18;
 					break;
 

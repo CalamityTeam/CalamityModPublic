@@ -5,9 +5,10 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
 using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
@@ -53,7 +54,74 @@ namespace CalamityMod.NPCs.TownNPCs
 
 		public override string TownNPCName() => "Calamitas";
 
-		public override string GetChat() => "Mrrp is cringe.";
+		// The way this works is by having an RNG based on weights.
+		// With certain conditions (such as if a blood moon is happening) you can add possibilities
+		// to the RNG via textSelector.Add("text", weight);
+		// Text can always appear assuming the weight is greater than 0 and there's no if condition deciding whether it can.
+		// The higher the weight is, the more likely it is to be selected from all the choices.
+		// To give an example of this, assume you have two possibilities:
+		// "a" with a weight of 1, and "b" with a weight of 5. The chance of "a" being displayed would be
+		// 1/6, while "b" wold have a 5/6 chance of being displayed.
+		// If only one possibility exists it will be the only thing that is displayed, regardless of weight.
+		public override string GetChat()
+		{
+			WeightedRandom<string> textSelector = new WeightedRandom<string>(Main.rand);
+
+			if (npc.homeless)
+			{
+				textSelector.Add("I'm considering moving back to that old cave of mine.");
+				textSelector.Add("I certainly can't return to the Tyrant's old dwellings now, have you got any places to stay?");
+			}
+			else
+			{
+				textSelector.Add("I can't pay rent, but if you've got any dead relative you want me to try and... what? You don't?");
+				textSelector.Add("One of these days, I was thinking of starting a garden with the flowers from the old capitol of hell." +
+					"I love the smell of brimstone in the morning.");
+				textSelector.Add("I think I've settled comfortably, thank you very much.");
+				textSelector.Add("Many seasons have gone by since I first met with the Tyrant, and only now did I break free." +
+					"I wish I'd been stronger...");
+				textSelector.Add("If you've got any curses you want dispelled... well I'm not your person.");
+
+				if (!Main.dayTime)
+				{
+					if (Main.bloodMoon)
+					{
+						textSelector.Add("Such an unnatural shade of red. Nothing like my brimstone flames.", 5.15);
+						textSelector.Add("I can't work with nights like these. The stars seem to have shrunk away in fear.", 5.15);
+					}
+					else
+					{
+						textSelector.Add("These undead are horrific, I can't stand to look at them. How could anyone be satisfied" +
+							"with such amateur work?", 2.8);
+						textSelector.Add("I don't think it's a stretch to say that astrology is utter nonsense... but it was a hobby" +
+							"of mine once.", 2.8);
+					}
+				}
+
+				if (BirthdayParty.PartyIsUp)
+					textSelector.Add("If another person asks me if I can dance or not, I will light their hat on fire.", 5.5);
+
+				if (NPC.AnyNPCs(NPCType<SEAHOE>()))
+				{
+					textSelector.Add("I cannot understand the Sea King. He does not seem to want me dead. That amount of compassion" +
+						"I just can't understand.", 1.45);
+				}
+				if (NPC.AnyNPCs(NPCType<DILF>()))
+				{
+					textSelector.Add("That frosty old man... even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
+						"get along with him.", 1.45);
+				}
+			}
+
+			// Select a possibility from the RNG and choose it as the thing that should be said.
+			string thingToSay = textSelector.Get();
+
+			// Have a flat chance (1/4444) to simply ignore the above selection and say something humorous instead.
+			if (Main.rand.NextBool(4444))
+				thingToSay = "Mrrp is cringe.";
+
+			return thingToSay;
+		}
 
 		public override void SetChatButtons(ref string button, ref string button2) => button = "Enchant";
 

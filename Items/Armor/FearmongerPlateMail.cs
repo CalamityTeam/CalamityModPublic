@@ -37,8 +37,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyBreastplate);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
             recipe.AddIngredient(ItemID.SoulofFright, 12);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();

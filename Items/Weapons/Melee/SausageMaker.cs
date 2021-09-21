@@ -33,7 +33,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<SausageMakerSpear>();
             item.shootSpeed = 6f;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

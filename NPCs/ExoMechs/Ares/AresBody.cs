@@ -105,7 +105,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			if (SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune)
+				index = -1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(frameX);
 			writer.Write(frameY);
@@ -132,6 +138,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			CalamityGlobalNPC.draedonExoMechPrime = npc.whoAmI;
+
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 
 			// Difficulty modes
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -242,6 +250,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				npc.ai[3] = 1f;
 
 			// Phases
+			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
@@ -323,9 +332,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					calamityGlobalNPC.newAI[3] = 0f;
 					npc.dontTakeDamage = true;
 
-					npc.velocity.Y -= 2f;
+					npc.velocity.Y -= 1f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 2f;
+						npc.velocity.Y -= 1f;
 
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
@@ -348,15 +357,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 14f * baseVelocityMult;
-			float baseAcceleration = 1f;
+			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocity = 18f * baseVelocityMult;
+			float baseAcceleration = berserk ? 1.5f : 1f;
 			float decelerationVelocityMult = 0.85f;
-			if (berserk)
-			{
-				baseVelocity *= 1.5f;
-				baseAcceleration *= 1.5f;
-			}
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
@@ -378,7 +382,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					// Spawn the other mechs if Ares is first
 					if (otherExoMechsAlive == 0)
 					{
-						if (npc.ai[3] == 0f)
+						if (spawnOtherExoMechs)
 						{
 							// Reset everything
 							npc.ai[3] = 1f;

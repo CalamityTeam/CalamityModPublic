@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		private const float defaultLifeRatio = 5f;
 
 		// Base distance from the target for most attacks
-		private const float baseDistance = 800f;
+		private const float baseDistance = 400f;
 
 		// Base distance from target location in order to continue turning
 		private const float baseTurnDistance = 160f;
@@ -139,7 +139,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void BossHeadSlot(ref int index)
 		{
-			if (vulnerable)
+			if (SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune)
+				index = -1;
+			else if (vulnerable)
 				index = vulnerableIconIndex;
 			else
 				index = normalIconIndex;
@@ -248,6 +250,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.ai[3] = 1f;
 
 			// Phases
+			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
@@ -372,9 +375,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					chargeVelocityScalar = 0f;
 					npc.dontTakeDamage = true;
 
-					npc.velocity.Y -= 2f;
+					npc.velocity.Y -= 1f;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 2f;
+						npc.velocity.Y -= 1f;
 
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
@@ -406,19 +409,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargeLocationDistance = turnDistance * 0.2f;
 
 			// Laser Barrage variables
-			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 1.5f : baseDistance;
+			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 2f : baseDistance;
 			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
 			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
-			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 7f * baseVelocityMult;
-			float turnDegrees = baseVelocity * 0.11f;
-			if (berserk)
-			{
-				baseVelocity *= 1.5f;
-				turnDegrees *= 1.5f;
-			}
+			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocity = 9f * baseVelocityMult;
+			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.5f : 1f);
 
 			// Increase top velocity if target is dead
 			if (targetDead)
@@ -454,7 +452,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					// Spawn the other mechs if Thanatos is first
 					if (otherExoMechsAlive == 0)
 					{
-						if (npc.ai[3] == 0f)
+						if (spawnOtherExoMechs)
 						{
 							// Reset everything
 							npc.ai[3] = 1f;

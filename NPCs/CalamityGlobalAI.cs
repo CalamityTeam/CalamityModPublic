@@ -5401,7 +5401,7 @@ namespace CalamityMod.NPCs
 						num422 = 0.175f;
 					}
 					// Reduce acceleration if target is holding a true melee weapon
-					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 					{
 						num421 *= 0.75f;
 						num422 *= 0.5f;
@@ -5512,7 +5512,7 @@ namespace CalamityMod.NPCs
 					num431 = 0.25f;
 				}
 				// Reduce acceleration if target is holding a true melee weapon
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 				{
 					num430 *= 0.75f;
 					num431 *= 0.5f;
@@ -5974,7 +5974,7 @@ namespace CalamityMod.NPCs
 
 					// Reduce acceleration if target is holding a true melee weapon
 					Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 					{
 						num399 *= 0.75f;
 						num400 *= 0.5f;
@@ -6084,7 +6084,7 @@ namespace CalamityMod.NPCs
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 						{
 							num409 *= 0.75f;
 							num410 *= 0.5f;
@@ -7409,7 +7409,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
 				{
 					acceleration *= 0.5f;
 				}
@@ -9896,8 +9896,10 @@ namespace CalamityMod.NPCs
 
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (enrage || turboEnrage)) || enraged;
 
-            // Alpha
-            if (npc.alpha > 0)
+			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y;
+
+			// Alpha
+			if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
                 if (npc.alpha < 0)
@@ -9959,11 +9961,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Jump
-            if (npc.ai[0] == 0f)
-            {
-                npc.noTileCollide = false;
+			if (npc.noTileCollide && !Main.player[npc.target].dead)
+			{
+				if (npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y)
+					npc.noTileCollide = false;
+				else if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+					npc.noTileCollide = false;
+			}
 
+			// Jump
+			if (npc.ai[0] == 0f)
+            {
                 if (npc.velocity.Y == 0f)
                 {
                     // Laser fire when head is dead
@@ -10145,15 +10153,6 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-					// Fall through
-					if (!Main.player[npc.target].dead)
-					{
-						if ((Main.player[npc.target].position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
-							npc.noTileCollide = true;
-						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
-							npc.noTileCollide = false;
-					}
-
                     // Velocity when falling
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width)
                     {
@@ -10195,9 +10194,9 @@ namespace CalamityMod.NPCs
 			void CustomGravity()
 			{
 				float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
-				float maxFallSpeed = turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
+				float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
-				if (calamityGlobalNPC.newAI[0] > 1f)
+				if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
 
 				npc.velocity.Y += gravity;
@@ -10524,7 +10523,7 @@ namespace CalamityMod.NPCs
 			if (enraged)
 				turboEnrage = true;
 
-			if (turboEnrage)
+			if (turboEnrage && NPC.golemBoss >= 0)
 			{
 				npc.Calamity().DR = 0.9999f;
 				npc.Calamity().unbreakableDR = true;

@@ -348,7 +348,7 @@ namespace CalamityMod.UI
                     continue;
 
                 bool isEoWSegment = Main.npc[i].type == NPCID.EaterofWorldsBody || Main.npc[i].type == NPCID.EaterofWorldsTail;
-                if ((Main.npc[i].IsABoss() && !isEoWSegment) || MinibossHPBarList.Contains(Main.npc[i].type))
+                if ((Main.npc[i].IsABoss() && !isEoWSegment) || MinibossHPBarList.Contains(Main.npc[i].type) || Main.npc[i].Calamity().CanHaveBossHealthBar)
                     AttemptToAddBar(i);
             }
 

@@ -33,7 +33,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.shootSpeed = 8f;
-        }
+			item.Calamity().trueMelee = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

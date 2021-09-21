@@ -227,7 +227,7 @@ namespace CalamityMod.World
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogHell>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<Murasama>(), 1));
-                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematicHell>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -273,6 +273,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedMurasama = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    CalamityWorld.HellLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }
@@ -298,7 +299,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSunkenSea>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicSunkenSea>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -345,6 +346,7 @@ namespace CalamityMod.World
 
             bool hasPlacedLogAndSchematic = false;
             PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
         }
         #endregion
 
@@ -365,7 +367,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicIce>(), 1));
             }
             // If it's a frozen chest.
             if (type == TileID.Containers)
@@ -424,6 +426,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    CalamityWorld.IceLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }
@@ -448,7 +451,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogJungle>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicJungle>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -503,6 +506,7 @@ namespace CalamityMod.World
                 {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    CalamityWorld.JungleLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
                     break;
                 }
             }
@@ -541,7 +545,7 @@ namespace CalamityMod.World
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogPlanetoid>(), 1));
-                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicPlanetoid>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {

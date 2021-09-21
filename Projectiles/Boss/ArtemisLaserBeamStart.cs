@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
 			// The direction of the host NPC.
 			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
 
-			// Offset to move the beam forward so that it starts inside the NPC's mouth.
+			// Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
 			float beamStartForwardsOffset = -70f;
 
 			// Set the starting location of the beam to the center of the NPC.
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 			float arraySize = 3f;
             Vector2 samplingPoint = projectile.Center;
             float[] samples = new float[(int)arraySize];
-            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, 2400f, samples);
+            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, 4800f, samples);
             float laserLength = 0f;
             for (int i = 0; i < samples.Length; i++)
             {
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Fire laser through walls at max length if target cannot be seen
             if (!Collision.CanHitLine(ThingToAttachTo.Center, 1, 1, Main.player[ThingToAttachTo.target].Center, 1, 1))
-                laserLength = 2400f;
+                laserLength = 4800f;
 
 			float amount = 0.5f;
 			LengthOfLaser = MathHelper.Lerp(LengthOfLaser, laserLength, amount);

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,9 +36,9 @@ namespace CalamityMod.Items.Mounts
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DD2PetDragon);
             recipe.AddIngredient(ItemID.SoulofNight, 100);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
