@@ -357,9 +357,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 18f * baseVelocityMult;
-			float baseAcceleration = berserk ? 1.5f : 1f;
+			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;

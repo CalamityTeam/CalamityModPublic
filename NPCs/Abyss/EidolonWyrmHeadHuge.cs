@@ -443,6 +443,8 @@ namespace CalamityMod.NPCs.Abyss
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.netUpdate = true;
+								npc.netSpam -= 5;
 							}
 							else
 							{
@@ -620,6 +622,8 @@ namespace CalamityMod.NPCs.Abyss
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.netUpdate = true;
+								npc.netSpam -= 5;
 							}
 							else
 							{
@@ -726,6 +730,8 @@ namespace CalamityMod.NPCs.Abyss
 
 								chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.netUpdate = true;
+								npc.netSpam -= 5;
 							}
 							else
 							{
@@ -998,6 +1004,8 @@ namespace CalamityMod.NPCs.Abyss
 
 								chargeDestination = destination + lightningChargeVectorFlipped + player.velocity * chargePredictionAmt;
 								npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
+								npc.netUpdate = true;
+								npc.netSpam -= 5;
 							}
 							else
 							{

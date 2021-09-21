@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 
-			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -213,10 +213,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.ai[3] += 1f;
 
 					double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
-					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
+					if (berserk)
+						numSegmentsAbleToFire *= 1.5;
+
+					float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
+					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
 						float divisor = 120f;
-						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -279,8 +283,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						// This is only used in deathray phase to prevent laser spam
-						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? numSegmentsAbleToFire * 2f : numSegmentsAbleToFire));
 						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{

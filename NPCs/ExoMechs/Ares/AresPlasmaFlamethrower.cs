@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 375f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 160f);
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 22f * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
