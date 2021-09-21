@@ -13,6 +13,7 @@ namespace CalamityMod.Particles
 		public override float BorderSize => 3f;
 		public override bool BorderShouldBeSolid => false;
 		public override Color BorderColor => Color.Lerp(Color.Fuchsia, Color.Black, 0.55f) * 0.85f;
+		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverWater;
 		public override List<Effect> BackgroundShaders
 		{
 			get
@@ -69,9 +70,9 @@ namespace CalamityMod.Particles
 
 		public override void DrawParticles()
 		{
+			Texture2D fusableParticleBase = ModContent.GetTexture("CalamityMod/ExtraTextures/FusableParticleBase");
 			foreach (FusableParticle particle in Particles)
 			{
-				Texture2D fusableParticleBase = ModContent.GetTexture("CalamityMod/ExtraTextures/FusableParticleBase");
 				Vector2 drawPosition = particle.Center - Main.screenPosition;
 				Vector2 origin = fusableParticleBase.Size() * 0.5f;
 				Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size();

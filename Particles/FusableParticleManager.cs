@@ -86,7 +86,7 @@ namespace CalamityMod.Particles
 		/// <summary>
 		/// Renders each cached <see cref="FusableParticleRenderCollection"/> instance with its connecting shader.
 		/// </summary>
-		internal static void RenderAllFusableParticles()
+		internal static void RenderAllFusableParticles(FusableParticleRenderLayer renderLayer)
 		{
 			// Don't attempt to render anything serverside.
 			if (Main.netMode == NetmodeID.Server)
@@ -95,7 +95,17 @@ namespace CalamityMod.Particles
 			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
 			{
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
+
+				// Ignore particle sets of incompatible render layers.
+				// They will be drawn later when appropriate.
+				if (renderLayer != particleSet.RenderLayer)
+					continue;
+
+				bool needsRestartAtEnd = renderLayer == FusableParticleRenderLayer.OverWater;
 				List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
+
+				if (needsRestartAtEnd)
+					Main.spriteBatch.End();
 
 				// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -131,6 +141,9 @@ namespace CalamityMod.Particles
 				}
 
 				Main.spriteBatch.End();
+
+				if (needsRestartAtEnd)
+					Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 			}
 		}
 

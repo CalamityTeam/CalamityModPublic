@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -592,13 +593,30 @@ namespace CalamityMod.ILEditing
         private static void DrawFusableParticles(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
+
+            // Over NPCs but before Projectiles.
             if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("SortDrawCacheWorms")))
             {
-                LogFailure("Fusable Particle Rendering", "Could not locate the reference method to attach to.");
+                LogFailure("Fusable Particle Rendering", "Could not locate the SortDrawCacheWorms reference method to attach to.");
                 return;
             }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverNPCsBeforeProjectiles));
 
-            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles());
+            // Over Players.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Main>("DrawPlayers")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawPlayers reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverPlayers));
+
+            // Over Water.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<MoonlordDeathDrama>("DrawWhite")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawWhite reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
         }
 
         #endregion
