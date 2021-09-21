@@ -132,7 +132,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you this.");
             }
 
-            dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be super gay.");
+			dialogue.Add("I HATE WALMART!");
+			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be super gay.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
 
             if (BirthdayParty.PartyIsUp)
