@@ -2181,6 +2181,9 @@ namespace CalamityMod.NPCs
 
                     case NPCID.Golem:
                         return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod);
+					case NPCID.GolemFistLeft:
+					case NPCID.GolemFistRight:
+						return CalamityGlobalAI.BuffedGolemFistAI(npc, enraged > 0, mod);
                     case NPCID.GolemHead:
                         return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
                     case NPCID.GolemHeadFree:
