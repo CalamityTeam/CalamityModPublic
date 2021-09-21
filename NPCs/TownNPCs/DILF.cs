@@ -76,12 +76,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
             IList<string> dialogue = new List<string>();
 
-            if (Main.dayTime)
+            if (Main.dayTime && !Main.player[Main.myPlayer].ZoneSnow)
             {
-                dialogue.Add("The tundra’s unnatural state is not all my doing. Decades ago, I came across it and amplified the climate with my magic.");
-                dialogue.Add("If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.");
-                dialogue.Add("You have the makings of a gifted mage. Tell me, what do you think of ice magic?");
-                dialogue.Add("Flowers and the like don’t hold a candle to the beauty of intricately formed ice.");
+                dialogue.Add("The sun beats down harshly upon my creations here. If you would allow me to conjure a blizzard every now and then...");
+                dialogue.Add("I must admit, I’m not quite used to this weather. It's far too warm for my tastes...");
             }
             else
             {
