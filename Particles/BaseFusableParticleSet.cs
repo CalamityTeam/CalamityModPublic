@@ -11,11 +11,11 @@ namespace CalamityMod.Particles
 		public class FusableParticleRenderCollection
 		{
 			public BaseFusableParticleSet ParticleSet;
-			public RenderTarget2D RenderTarget;
-			public FusableParticleRenderCollection(BaseFusableParticleSet set, RenderTarget2D renderTarget)
+			public List<RenderTarget2D> BackgroundTargets;
+			public FusableParticleRenderCollection(BaseFusableParticleSet set, List<RenderTarget2D> backgroundTargets)
 			{
 				ParticleSet = set;
-				RenderTarget = renderTarget;
+				BackgroundTargets = backgroundTargets;
 			}
 		}
 
@@ -40,15 +40,14 @@ namespace CalamityMod.Particles
 
 		public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
-		public RenderTarget2D GetRenderTarget => RenderCollection.RenderTarget;
+		public List<RenderTarget2D> GetBackgroundTargets => RenderCollection.BackgroundTargets;
 
 		public virtual float BorderSize => 0f;
 		public virtual bool BorderShouldBeSolid => false;
 		public virtual Color BorderColor => Color.Transparent;
-		public virtual void PrepareOptionalShaderData(Effect effect) { }
-		public abstract Effect BackgroundShader { get; }
-		public abstract Effect EdgeShader { get; }
-		public abstract Texture2D BackgroundTexture { get; }
+		public virtual void PrepareOptionalShaderData(Effect effect, int index) { }
+		public abstract List<Effect> BackgroundShaders { get; }
+		public abstract List<Texture2D> BackgroundTextures { get; }
 		public abstract FusableParticle SpawnParticle(Vector2 center, float sizeStrength);
 		public abstract void UpdateBehavior(FusableParticle particle);
 		public abstract void DrawParticles();
@@ -62,22 +61,25 @@ namespace CalamityMod.Particles
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			// Go to the specialized render target for this particle set and clear the entire thing to use a base of transparent pixels.
-			Main.instance.GraphicsDevice.SetRenderTarget(GetRenderTarget);
-			Main.instance.GraphicsDevice.Clear(Color.Transparent);
+			// Go to a specialized render target for this particle set and clear the entire thing to use a base of transparent pixels.
+			foreach (RenderTarget2D backgroundTarget in GetBackgroundTargets)
+			{
+				Main.instance.GraphicsDevice.SetRenderTarget(backgroundTarget);
+				Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
-			// Prepare the sprite batch for specialized drawing now that the graphics device has moved to a new render target.
-			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				// Prepare the sprite batch for specialized drawing now that the graphics device has moved to a new render target.
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-			// Clear away any particles that shouldn't exist anymore.
-			Particles.RemoveAll(p => p.Size <= 1f);
+				// Clear away any particles that shouldn't exist anymore.
+				Particles.RemoveAll(p => p.Size <= 1f);
 
-			// Draw the surviving particles.
-			DrawParticles();
+				// Draw the surviving particles.
+				DrawParticles();
 
-			Main.spriteBatch.End();
+				Main.spriteBatch.End();
+			}
 
-			// Return to using the backbuffers after done drawing everything to this target.
+			// Return to using the backbuffer after done drawing everything to the background targets.
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 		}
 	}

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -11,10 +12,31 @@ namespace CalamityMod.Particles
 	{
 		public override float BorderSize => 5f;
 		public override bool BorderShouldBeSolid => false;
-		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.35f) * 1.4f;
-		public override Effect BackgroundShader { get; }
-		public override Effect EdgeShader => GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
-		public override Texture2D BackgroundTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG");
+		public override Color BorderColor => Color.Lerp(Color.LightBlue, Color.Red, 0.5f) * 1.4f;
+		public override List<Effect> BackgroundShaders
+		{
+			get
+			{
+				List<Effect> shaders = new List<Effect>()
+				{
+					GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
+					GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
+				};
+				return shaders;
+			}
+		}
+		public override List<Texture2D> BackgroundTextures
+		{
+			get
+			{
+				List<Texture2D> textures = new List<Texture2D>()
+				{
+					ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG"),
+					ModContent.GetTexture("CalamityMod/ExtraTextures/PolterFusableParticleBG2"),
+				};
+				return textures;
+			}
+		}
 		public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
 		{
 			Particles.Add(new FusableParticle(center, sizeStrength));
@@ -26,10 +48,23 @@ namespace CalamityMod.Particles
 			particle.Size = MathHelper.Clamp(particle.Size - 1.5f, 0f, 400f) * 0.975f;
 		}
 
-		public override void PrepareOptionalShaderData(Effect effect)
+		public override void PrepareOptionalShaderData(Effect effect, int index)
 		{
-			Vector2 offset = Vector2.UnitX * Main.GlobalTime * 0.03f;
-			effect.Parameters["generalBackgroundOffset"].SetValue(offset);
+			switch (index)
+			{
+				// Background.
+				case 0:
+					Vector2 offset = Vector2.UnitX * 0.73f;
+					effect.Parameters["generalBackgroundOffset"].SetValue(offset);
+					break;
+
+				// Spooky faces.
+				case 1:
+					offset = Vector2.UnitX * Main.GlobalTime * -0.04f + (Main.GlobalTime * 1.89f).ToRotationVector2() * 0.03f;
+					offset.Y += CalamityUtils.PerlinNoise2D(Main.GlobalTime * 0.187f, Main.GlobalTime * 0.193f, 2, 466920161) * 0.025f;
+					effect.Parameters["generalBackgroundOffset"].SetValue(offset);
+					break;
+			}
 		}
 
 		public override void DrawParticles()

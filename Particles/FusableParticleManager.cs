@@ -29,7 +29,7 @@ namespace CalamityMod.Particles
 			ParticleSets = new List<FusableParticleRenderCollection>();
 
 			// Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
-			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for it to use.
+			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
 			foreach (Type type in typeof(CalamityMod).Assembly.GetTypes())
 			{
 				// Don't load abstract classes; they cannot have instances.
@@ -39,13 +39,16 @@ namespace CalamityMod.Particles
 				if (type.IsSubclassOf(typeof(BaseFusableParticleSet)))
 				{
 					BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
-					RenderTarget2D renderTarget = null;
-					
+					List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
+
 					// Only generate a render target to use if this isn't called serverside.
 					if (Main.netMode != NetmodeID.Server)
-						renderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents);
+					{
+						for (int i = 0; i < instance.BackgroundShaders.Count; i++)
+							backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents));
+					}
 
-					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, renderTarget);
+					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, backgroundTargets);
 					ParticleSets.Add(particleRenderCollection);
 				}
 			}
@@ -60,7 +63,8 @@ namespace CalamityMod.Particles
 			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
 			{
 				particleRenderSet.ParticleSet = null;
-				particleRenderSet.RenderTarget?.Dispose();
+				foreach (RenderTarget2D target in particleRenderSet.BackgroundTargets)
+					target?.Dispose();
 			}
 			ParticleSets = null;
 		}
@@ -90,36 +94,43 @@ namespace CalamityMod.Particles
 
 			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
 			{
-				// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
-				Effect edgeShader = particleSet.EdgeShader;
+				List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
 
-				// Draw the current target with the specified shader.
-				edgeShader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
-				edgeShader.Parameters["borderShouldBeSolid"].SetValue(particleSet.BorderShouldBeSolid);
-				edgeShader.Parameters["edgeBorderColor"].SetValue(particleSet.BorderColor.ToVector3());
-				edgeShader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
-				edgeShader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
-				edgeShader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
-				edgeShader.Parameters["renderTargetArea"].SetValue(new Vector2(particleSet.GetRenderTarget.Width, particleSet.GetRenderTarget.Height));
-				edgeShader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
+				for (int i = 0; i < particleSet.BackgroundShaders.Count; i++)
+				{
+					// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
+					Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-				// Prepare the background texture for loading.
-				Main.graphics.GraphicsDevice.Textures[1] = particleSet.BackgroundTexture;
-				edgeShader.Parameters["uImageSize1"].SetValue(particleSet.BackgroundTexture.Size());
+					Effect shader = particleSet.BackgroundShaders[i];
 
-				// Do any optional shader operations prior to applying the shader.
-				particleSet.PrepareOptionalShaderData(edgeShader);
+					// Draw the current target with the specified shader.
+					shader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
+					shader.Parameters["borderShouldBeSolid"].SetValue(particleSet.BorderShouldBeSolid);
+					shader.Parameters["edgeBorderColor"].SetValue(particleSet.BorderColor.ToVector3());
+					shader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
+					shader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
+					shader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
+					shader.Parameters["renderTargetArea"].SetValue(new Vector2(backgroundTargets[i].Width, backgroundTargets[i].Height));
+					shader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
+					shader.Parameters["generalBackgroundOffset"].SetValue(Vector2.Zero);
 
-				// Apply the shader. This is what is used to connect separated blobs together.
-				edgeShader.CurrentTechnique.Passes[0].Apply();
+					// Prepare the background texture for loading.
+					Texture2D backgroundTexture = particleSet.BackgroundTextures[i];
+					Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
+					shader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
 
-				// And draw the particle set's render target with said shader.
-				Main.spriteBatch.Draw(particleSet.GetRenderTarget, Vector2.Zero, Color.White);
+					// Do any optional shader operations prior to applying the shader.
+					particleSet.PrepareOptionalShaderData(shader, i);
 
-				Main.spriteBatch.End();
+					// Apply the shader. This is what is used to connect separated blobs together.
+					shader.CurrentTechnique.Passes[0].Apply();
+
+					// And draw the particle set's render target with said shader.
+					Main.spriteBatch.Draw(backgroundTargets[i], Vector2.Zero, Color.White);
+
+					Main.spriteBatch.End();
+				}
 			}
 		}
 
