@@ -434,11 +434,14 @@ namespace CalamityMod.UI
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
 
-                    var netMessage = CalamityMod.Instance.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.CodebreakerSummonStuff);
-                    netMessage.Write(CalamityWorld.DraedonSummonCountdown);
-                    netMessage.WriteVector2(CalamityWorld.DraedonSummonPosition);
-                    netMessage.Send();
+                    if (Main.netMode != NetmodeID.SinglePlayer)
+                    {
+                        var netMessage = CalamityMod.Instance.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.CodebreakerSummonStuff);
+                        netMessage.Write(CalamityWorld.DraedonSummonCountdown);
+                        netMessage.WriteVector2(CalamityWorld.DraedonSummonPosition);
+                        netMessage.Send();
+                    }
                 }
             }
 

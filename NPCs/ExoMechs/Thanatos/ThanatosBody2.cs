@@ -5,6 +5,7 @@ using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -33,7 +34,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
+
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		private const float segmentCloseTimerDecrement = 0.5f;
 
 		public override void SetStaticDefaults()
         {
@@ -259,7 +263,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon").WithVolume(0.1f), npc.Center);
+										SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+										if (sound != null)
+											sound.Volume = 0.1f;
+
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
@@ -272,7 +279,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -354,7 +361,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -380,7 +387,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.localAI[2] -= numSegments;
 				}
 
-				npc.Calamity().newAI[0] -= 1f;
+				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 				if (npc.Calamity().newAI[0] <= 0f)
 				{
 					npc.Calamity().newAI[0] = 0f;
@@ -416,7 +423,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// Noise
 				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
 				if (npc.localAI[0] == 0f)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
+				{
+					SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
+					if (sound != null)
+						sound.Volume = volume;
+				}
 
 				// Steam
 				npc.localAI[0] += 1f;
