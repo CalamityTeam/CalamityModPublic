@@ -101,7 +101,7 @@ namespace CalamityMod.Particles
 				if (renderLayer != particleSet.RenderLayer)
 					continue;
 
-				bool needsRestartAtEnd = renderLayer == FusableParticleRenderLayer.OverWater;
+				bool needsRestartAtEnd = Main.spriteBatch.HasBeginBeenCalled();
 				List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
 
 				if (needsRestartAtEnd)

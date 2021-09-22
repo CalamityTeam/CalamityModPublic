@@ -191,6 +191,18 @@ namespace CalamityMod
 			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
 		}
 
+		// Cached for efficiency purposes.
+		internal static readonly FieldInfo BeginEndPairField = typeof(SpriteBatch).GetField("inBeginEndPair", BindingFlags.NonPublic | BindingFlags.Instance);
+
+		/// <summary>
+		/// Determines if a <see cref="SpriteBatch"/> is in a lock due to a <see cref="SpriteBatch.Begin"/> call.
+		/// </summary>
+		/// <param name="spriteBatch">The sprite batch to check.</param>
+		public static bool HasBeginBeenCalled(this SpriteBatch spriteBatch)
+		{
+			return (bool)BeginEndPairField.GetValue(spriteBatch);
+		}
+
 		/// <summary>
 		/// Draws text with an eight-way one-pixel offset border.
 		/// </summary>

@@ -70,8 +70,8 @@ namespace CalamityMod.Particles
 		/// </summary>
 		internal void PrepareRenderTargetForDrawing()
 		{
-			// Don't bother doing anything if this method is called serverside.
-			if (Main.netMode == NetmodeID.Server)
+			// Don't bother doing anything if this method is called serverside or the sprite batch is in the middle of specialized drawing.
+			if (Main.netMode == NetmodeID.Server || !Main.spriteBatch.HasBeginBeenCalled())
 				return;
 
 			// Go to a specialized render target for this particle set and clear the entire thing to use a base of transparent pixels.
