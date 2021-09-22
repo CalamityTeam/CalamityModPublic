@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
 						if (witch != -1)
 						{
-								dialogue.Add("I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.")
+                dialogue.Add("I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.")
 						}
 
             if (Main.bloodMoon)
@@ -121,13 +121,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Since ancient times people have said that deities cause celestial events. Which one then, is the cause for these?");
                 dialogue.Add("I've never been keen on these nights. Such violence.");
             }
-
-            /*
-            int yharim = NPC.FindFirstNPC(NPCID.Yharim);
-            if (yharim != -1)
-            {
-                dialogue.Add("Oh, Yharim... did he ever realize what he was doing? He seems so...calm, as if his rage had been satiated.");
-            }*/
 
             if (Main.hardMode)
             {
