@@ -46,7 +46,7 @@ namespace CalamityMod.Items.DraedonMisc
                     return false;
 
                 codebreakerTileEntity.ContainsAdvancedDisplay = true;
-                codebreakerTileEntity.SyncConstituents();
+                codebreakerTileEntity.SyncConstituents((short)Main.myPlayer);
                 return true;
             }
 

@@ -505,6 +505,10 @@ namespace CalamityMod.Events
             StartTimer = 0;
             EndTimer = 0;
             CalamityUtils.KillAllHostileProjectiles();
+
+            // Send the EndBossRush packet again if this is called serverside to ensure that the changes are recieved by clients.
+            if (Main.netMode == NetmodeID.Server)
+                End();
         }
 
         #endregion
