@@ -88,23 +88,23 @@ namespace CalamityMod.NPCs.TownNPCs
             }
 
             dialogue.Add("The tundra’s unnatural state is not all my doing. Decades ago, I came across it and amplified the climate with my magic.");
-						dialogue.Add("If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.");
-						dialogue.Add("You have the makings of a gifted mage. Tell me, what do you think of ice magic?");
-						dialogue.Add("Flowers and the like don’t hold a candle to the beauty of intricately formed ice.");
+            dialogue.Add("If you have a request, make it quick. I am in the process of weaving a spell, which requires great focus.");
+            dialogue.Add("You have the makings of a gifted mage. Tell me, what do you think of ice magic?");
+            dialogue.Add("Flowers and the like don’t hold a candle to the beauty of intricately formed ice.");
 
             if (BirthdayParty.PartyIsUp)
                 dialogue.Add("Sometimes...I feel like all I'm good for during these events is making ice cubes and slushies.");
 
-						if (Main.bloodMoon)
-								{
-										dialogue.Add("If your blood were to thoroughly freeze, it would be quite fatal.");
-										dialogue.Add("The undead which roam tonight are still monsters of blood and guts, but they seem...fresher.");
-								}
+            if (Main.bloodMoon)
+            {
+                dialogue.Add("If your blood were to thoroughly freeze, it would be quite fatal.");
+                dialogue.Add("The undead which roam tonight are still monsters of blood and guts, but they seem...fresher.");
+            }
 
             if (NPC.downedMoonlord)
             {
                 dialogue.Add("It is shocking, to see you have come so far. I wish you the best of luck on your future endeavours.");
-                dialogue.Add("You, having bested so many beings, even deities, why do you continue to host me? I have nothing more to offer in return which would be of value to you.");
+                dialogue.Add("You, having bested so many beings, even deities, I wonder if I have anything left to offer you.");
             }
 
             return dialogue[Main.rand.Next(dialogue.Count)];
