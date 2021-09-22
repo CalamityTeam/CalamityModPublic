@@ -109,11 +109,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Rumor has it " + Main.npc[cirrus].GivenName + " drinks to forget her troubled past.");
 						}
 
-
 						int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
 						if (witch != -1)
 						{
-                dialogue.Add("I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.")
+								dialogue.Add("I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.");
 						}
 
             if (Main.bloodMoon)
