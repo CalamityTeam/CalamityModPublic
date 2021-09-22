@@ -216,6 +216,9 @@ namespace CalamityMod
                         int type = reader.ReadInt32();
                         CalamityWorld.bossType = type;
                         break;
+                    case CalamityModMessageType.EndBossRush:
+                        BossRushEvent.EndEffects();
+                        break;
                     case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
                         CalamityWorld.bossRushHostileProjKillCounter = countdown3;
@@ -238,6 +241,17 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.EncounteredOldDukeSync:
                         CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
+                        break;
+
+                    // 
+                    // Draedon Summoner stuff
+                    // 
+                    case CalamityModMessageType.CodebreakerSummonStuff:
+                        CalamityWorld.DraedonSummonCountdown = reader.ReadInt32();
+                        CalamityWorld.DraedonSummonPosition = reader.ReadVector2();
+                        break;
+                    case CalamityModMessageType.ExoMechSelection:
+                        CalamityWorld.DraedonMechToSummon = (ExoMech)reader.ReadInt32();
                         break;
 
                     //
@@ -359,12 +373,17 @@ namespace CalamityMod
         UpdateCodebreakerContainedStuff,
         UpdateCodebreakerDecryptCountdown,
 
+        // Draedon Summoner
+        CodebreakerSummonStuff,
+        ExoMechSelection,
+
         // Boss Rush
         BossRushStage,
         BossRushStartTimer,
         BossRushEndTimer,
         BossSpawnCountdownSync,
         BossTypeSync,
+        EndBossRush,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".
         TeleportPlayer, // also used by Astral Arcanum.
 
