@@ -48,7 +48,7 @@ namespace CalamityMod.Items.DraedonMisc
                     return false;
 
                 codebreakerTileEntity.ContainsDecryptionComputer = true;
-                codebreakerTileEntity.SyncConstituents();
+                codebreakerTileEntity.SyncConstituents((short)Main.myPlayer);
                 return true;
             }
 
