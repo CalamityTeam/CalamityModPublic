@@ -205,14 +205,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
-			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-				{
-					otherExoMechsAlive++;
-					exoWormAlive = true;
-				}
-			}
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
@@ -222,10 +214,24 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
 				}
 			}
+			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+				{
+					// Set target to Thanatos' target if Thanatos is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
+
+					otherExoMechsAlive++;
+					exoWormAlive = true;
+				}
+			}
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				{
+					// Set target to Ares' target if Ares is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
+
 					otherExoMechsAlive++;
 					exoPrimeAlive = true;
 				}

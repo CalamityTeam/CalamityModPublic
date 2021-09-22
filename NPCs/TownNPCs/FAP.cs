@@ -75,95 +75,114 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
-            if (BossRushEvent.BossRushActive)
-                return "Why are you talking to me right now? Either way, I expect you to turn in a perfect performance!";
+            if (CalamityUtils.AnyBossNPCS())
+                return "Why are you talking to me right now? Shouldn't you be bumbling around and dying for my amusement?";
 
             if (npc.homeless)
             {
                 if (Main.rand.NextBool(2))
                     return "I could smell my vodka from MILES away!";
                 else
-                    return "Have any spare rooms available? Preferably candle-lit with a hefty supply of booze.";
+                    return "Have any spare rooms available? Preferably candle-lit with a hefty supply of booze?";
             }
 
-            if (Main.bloodMoon)
+			int wife = NPC.FindFirstNPC(NPCID.Stylist);
+			bool wifeIsAround = wife != -1;
+			bool beLessDrunk = wifeIsAround && NPC.downedMoonlord;
+
+			if (Main.bloodMoon)
             {
                 int random = Main.rand.Next(4);
                 if (random == 0)
                 {
-                    return "Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?";
+                    return "I'm gonna make some Bloody Marys to relax, celery included. Want one?";
                 }
                 else if (random == 1)
                 {
-                    return "More blood for the blood gods!";
+                    return "If you're too lazy to craft potions normally, try Blood Orbs. Blood is fuel, dumbass.";
                 }
                 else if (random == 2)
                 {
-                    return "Everyone else is so rude tonight. If they don't get over it soon, I'll break down their doors and make them!";
+                    return "I'm trying to not be bitchy tonight, but it's hard when everyone else won't shut up.";
                 }
                 else
                 {
                     Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
-                    return "Being drunk, I have no moral compass atm.";
+                    return "Sorry, I have no moral compass at the moment.";
                 }
             }
 
-            if (CalamityUtils.AnyBossNPCS())
-                return "Nothard/10, if I fight bosses I wanna feel like screaming 'OH YES DADDY!' while I die repeatedly.";
-
             IList<string> dialogue = new List<string>();
 
-            if (Main.dayTime)
+			if (wifeIsAround)
+			{
+				dialogue.Add("You can't stop me from trying to move in with " + Main.npc[wife].GivenName + ".");
+				dialogue.Add("I love it when " + Main.npc[wife].GivenName + "'s hands get sticky from all that...wax.");
+				dialogue.Add(Main.npc[wife].GivenName + " works wonders for my hair...among other things.");
+				dialogue.Add("Ever since " + Main.npc[wife].GivenName + " moved in I haven't been drinking as much...a strange but not unwelcome feeling.");
+			}
+
+			if (Main.dayTime)
             {
-                dialogue.Add("Like I always say, when you're drunk you can tolerate annoying people a lot easier...");
-                dialogue.Add("I'm literally balls drunk off my sass right now.");
-                dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind. Probably both.");
+				if (beLessDrunk)
+					dialogue.Add(Main.npc[wife].GivenName + " helped me learn to accept my past. It's been rough, but I think I'm on the right track now.");
+				else
+					dialogue.Add("I drink to forget certain...things. What things you might ask? Well, the point is to forget them, isn't it?");
+
+                dialogue.Add("I'm literally balls drunk off my sass right now, what do you want?");
+                dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind, probably both.");
                 dialogue.Add("When I'm drunk I'm way happier...at least until the talking worms start to appear.");
-                dialogue.Add("I should reprogram the whole game, while drunk, and send it back to the testers.");
-                dialogue.Add("What a great day, might just drink so much that I get poisoned again.");
-            }
+                dialogue.Add("I should reprogram the whole mod, while drunk, then send it back to the testers.");
+
+				if (beLessDrunk)
+					dialogue.Add("What a great day! Might just drink so much that I get poisoned again.");
+				else
+					dialogue.Add("Might go out for a jog later with " + Main.npc[wife].GivenName + ". Nice day for it.");
+			}
             else
             {
-                dialogue.Add("A perfect night...for alcohol! First drinks are on me!");
-                dialogue.Add("Here's a challenge...take a drink whenever you get hit. Oh wait, you'd die.");
-                dialogue.Add("Well I was planning to light some candles in order to relax...ah well, time to code while drunk.");
-                dialogue.Add("Yes, everyone knows the mechworm is buggy. Well, not so much anymore, but still.");
-                dialogue.Add("That's west, " + Main.player[Main.myPlayer].name + ". You're fired again.");
-                dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you this.");
-            }
+                dialogue.Add("A perfect night to light some candles, drink some wine and relax.");
+                dialogue.Add("Here's a challenge...take a shot for every time you've had to look at the wiki. Oh wait, you'd die.");
+                dialogue.Add("Yes, everyone knows the mechworm is buggy. Well, not anymore, but still.");
+                dialogue.Add("You lost or something? I don't mind company, but I'd rather be left alone at night.");
+                dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you these.");
 
-			dialogue.Add("I HATE WALMART!");
-			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be super gay.");
+				if (wifeIsAround)
+					dialogue.Add("I should watch some movies with " + Main.npc[wife].GivenName + " tonight. You could come too, but only if you bring snacks for us.");
+			}
+
+			dialogue.Add("I HATE WALMART! ...anyway, what do you want this time?");
+			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be like me.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
+			dialogue.Add("Deals so good I'll [$$!$] myself! ...sorry, just had a minor stroke!");
 
-            if (BirthdayParty.PartyIsUp)
-                dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find booze where I'm involved.");
+			if (BirthdayParty.PartyIsUp)
+                dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find BOOZE where I'M involved!");
 
             if (Main.invasionType == InvasionID.MartianMadness)
-                dialogue.Add("Shoot down the space invaders! Sexy time will be postponed if we are invaded by UFOs!");
+                dialogue.Add("You should probably deal with those ayy lmaos before anything else, but whatever.");
 
             if (CalamityWorld.downedCryogen)
-                dialogue.Add("God I can't wait to beat on some ice again!");
+                dialogue.Add("God I can't wait to smash some ice again! ...for drinks, of course.");
 
             if (CalamityWorld.downedLeviathan)
-                dialogue.Add("The only things I'm attracted to are fish women, women, men who look like women and that's it.");
+                dialogue.Add("How could you murder such a beautiful creature!? ...the blue sexy one, not the obese cucumber.");
 
             if (NPC.downedMoonlord)
-            {
-                dialogue.Add("I'll always be watching.");
-                dialogue.Add("Why did that weird monster need that many tentacles? ...actually, don't answer that.");
-            }
+                dialogue.Add("Ever wondered why the Moon Lord needed so many tentacles? Uh...on second thought, I won't answer that.");
 
 			if (CalamityWorld.rainingAcid)
-                dialogue.Add("There's chemicals in the water...and they're turning the frogs gay!");
+                dialogue.Add("I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!");
 
             if (CalamityWorld.downedPolterghast)
-                dialogue.Add("I saw a ghost down by the old train tracks once, flailing wildly at the lily pads, those were the days.");
+                dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads...frightening times those were.");
 
+			// This one is good and will never be changed :)
             if (CalamityWorld.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous purple-stuffed worm out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
-            int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
+			// Dialogue below is subject to rewrite, not done with this yet
+			int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
                 dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
@@ -173,15 +192,6 @@ namespace CalamityMod.NPCs.TownNPCs
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permadong != -1)
                 dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I had ever seen.");
-
-            int waifu = NPC.FindFirstNPC(NPCID.Stylist);
-            if (waifu != -1)
-            {
-                dialogue.Add("You still can't stop me from trying to move in with " + Main.npc[waifu].GivenName + ".");
-                dialogue.Add("I love it when " + Main.npc[waifu].GivenName + "'s hands get sticky from all that...wax.");
-                dialogue.Add(Main.npc[waifu].GivenName + " works wonders for my hair...among other things.");
-				dialogue.Add("Ever since " + Main.npc[waifu].GivenName + " moved in I haven't been drinking as much...it's a weird feeling.");
-			}
 
             if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
