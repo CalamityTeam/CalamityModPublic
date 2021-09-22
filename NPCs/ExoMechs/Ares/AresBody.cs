@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -730,7 +731,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			DropHelper.DropBags(npc);
 
-			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
