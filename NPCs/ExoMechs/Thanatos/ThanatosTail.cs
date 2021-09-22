@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 										SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 										if (sound != null)
-											sound.Volume = 0.1f;
+											sound.Volume *= 0.1f;
 
 										for (int i = 0; i < numProjectiles; i++)
 										{
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				{
 					SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
 					if (sound != null)
-						sound.Volume = volume;
+						sound.Volume *= volume;
 				}
 
 				// Steam

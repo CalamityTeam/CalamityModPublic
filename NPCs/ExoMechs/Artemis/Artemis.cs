@@ -298,6 +298,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Apollo.Apollo>()))
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Apollo.Apollo>());
 			}
+			else
+			{
+				if (!NPC.AnyNPCs(ModContent.NPCType<Apollo.Apollo>()))
+				{
+					npc.active = false;
+					npc.netUpdate = true;
+				}
+			}
 
 			// General AI pattern
 			// 0 - Fly to the left of the target and fire lasers when ready

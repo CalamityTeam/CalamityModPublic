@@ -287,6 +287,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
 			}
+			else
+			{
+				if (!NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
+				{
+					npc.active = false;
+					npc.netUpdate = true;
+				}
+			}
 
 			// General AI pattern
 			// 0 - Fly to the right of the target and fire plasma when ready
