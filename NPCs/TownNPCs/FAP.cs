@@ -1,8 +1,7 @@
-using CalamityMod.Events;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
@@ -11,6 +10,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -181,32 +181,32 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous purple-stuffed worm out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
-			// Dialogue below is subject to rewrite, not done with this yet
 			int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
-                dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
+				dialogue.Add("I've had to tell baldie where my eyes are so many times that I've lost count.");
+				dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
                 dialogue.Add("My booze will always be better than " + Main.npc[tavernKeep].GivenName + "'s, and nobody can convince me otherwise.");
             }
 
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permadong != -1)
-                dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I had ever seen.");
+                dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I'd ever seen.");
 
             if (Main.player[Main.myPlayer].Calamity().chibii)
-                dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
+                dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
             if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
-                dialogue.Add("Nice scales...did it get hot in here?");
+                dialogue.Add("Nice scales...is it hot in here or is it just me?");
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
-                dialogue.Add("Oh yeah, now you're drinking the good stuff! Do you like it? I created the recipe by mixing fairy dust, crystals and other magical crap.");
+                dialogue.Add("Do you like my vodka? I created it by mixing fairy dust, crystallized cave sweat and other magical crap.");
 
-            if (Main.player[Main.myPlayer].Calamity().fab)
+            if (Main.player[Main.myPlayer].HasItem(ModContent.ItemType<Fabsol>()))
             {
-                dialogue.Add("So...you're riding me, huh? That's not weird at all.");
-                dialogue.Add("Are you coming on to me?");
-                dialogue.Add("If I was a magical horse, I'd be out in space, swirling cocktails, as I watch space worms battle for my enjoyment.");
+                dialogue.Add("So...you found my special bottle. Hope you enjoy it, I know I will.");
+                dialogue.Add("Be sure to dismount me once in a while, I get tired. And besides, I can't rip you off-I mean give you excellent deals you won't find anywhere else if you're riding me 24/7.");
+                dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while human. Don't question my transformation preferences!");
             }
 
 			IList<string> donorList = new List<string>(CalamityLists.donatorList);
@@ -225,11 +225,30 @@ namespace CalamityMod.NPCs.TownNPCs
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
-        public string Death()
-        {
-            return "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
-                (Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
-        }
+		public string Death()
+		{
+			int deaths = Main.player[Main.myPlayer].Calamity().deathCount;
+
+			string text = "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
+				(Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
+
+			if (deaths > 10000)
+				text += " Congratulations! You are now, officially, the biggest loser in Terraria's history! Who was number two? Hell if I know.";
+			else if (deaths > 5000)
+				text += " I'm not sure what to say this time. That you're bad and should feel bad? That much was known already.";
+			else if (deaths > 2500)
+				text += " Bless your heart. I could dodge better than you even if I were drunk high.";
+			else if (deaths > 1000)
+				text += " It is said the average Terrarian has a lifespan of 2 minutes or less. ...well, not really, but I feel like you'd be part of that statistic.";
+			else if (deaths > 500)
+				text += " Your inability to avoid dying to even the most basic of attacks is astonishing to me.";
+			else if (deaths > 250)
+				text += " I admire your tenacity. Keep it up, your enemies are racking up quite the kill count!";
+			else if (deaths > 100)
+				text += " Consider lowering the difficulty. If you found that statement irritating, I like you.";
+
+			return text;
+		}
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
