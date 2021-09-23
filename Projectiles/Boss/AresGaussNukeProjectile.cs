@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Animation
 			projectile.frameCounter++;
-            if (projectile.frameCounter >= 10)
+            if (projectile.frameCounter >= 6)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;

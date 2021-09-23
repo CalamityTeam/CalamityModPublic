@@ -363,8 +363,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
+			// Plasma and rocket projectile velocities
+			float projectileVelocity = 10f;
+			if (lastMechAlive)
+				projectileVelocity *= 1.2f;
+			else if (berserk)
+				projectileVelocity *= 1.1f;
+
 			// Rocket phase variables
 			float rocketPhaseDuration = lastMechAlive ? 60f : 90f;
+			int numRockets = lastMechAlive ? 4 : 3;
 
 			// Default vector to fly to
 			float chargeComboXOffset = -500f;
@@ -448,8 +456,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			if (pickNewLocation)
 			{
 				pickNewLocation = false;
+
 				npc.localAI[0] = Main.rand.Next(-50, 51);
 				npc.localAI[1] = Main.rand.Next(-250, 251);
+				if (AIState == (float)Phase.RocketBarrage)
+				{
+					npc.localAI[0] *= 0.5f;
+					npc.localAI[1] *= 0.5f;
+				}
+
 				npc.netUpdate = true;
 			}
 
@@ -646,21 +661,21 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				case (int)Phase.Normal:
 
 					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
 					// Min velocity
-					float minVelocity2 = distanceFromDestination.Length();
-					float minVelocityCap2 = baseVelocity;
-					if (minVelocity2 > minVelocityCap2)
-						minVelocity2 = minVelocityCap2;
+					float minVelocity = distanceFromDestination.Length();
+					float minVelocityCap = baseVelocity;
+					if (minVelocity > minVelocityCap)
+						minVelocity = minVelocityCap;
 					
 					// Max velocity
-					Vector2 maxVelocity2 = distanceFromDestination / 24f;
-					float maxVelocityCap2 = minVelocityCap2 * 3f;
-					if (maxVelocity2.Length() > maxVelocityCap2)
-						maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
+					Vector2 maxVelocity = distanceFromDestination / 24f;
+					float maxVelocityCap = minVelocityCap * 3f;
+					if (maxVelocity.Length() > maxVelocityCap)
+						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 					
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 					// Default animation for 60 frames and then go to telegraph animation
 					// newAI[3] tells Apollo what animation state it's currently in
@@ -687,8 +702,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 									int type = ModContent.ProjectileType<AresPlasmaFireball>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), npc.Center);
-									Vector2 plasmaVelocity = Vector2.Normalize(aimedVector);
-									Vector2 offset = plasmaVelocity * 70f;
+									Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+									Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
 									Projectile.NewProjectile(npc.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, -1f);
 								}
 							}
@@ -731,12 +746,42 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge
 				case (int)Phase.RocketBarrage:
 
-					// Reset phase and variables
+					// Inverse lerp returns the percentage of progress between A and B
+					float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+					// Min velocity
+					float minVelocity2 = distanceFromDestination.Length();
+					float minVelocityCap2 = baseVelocity;
+					if (minVelocity2 > minVelocityCap2)
+						minVelocity2 = minVelocityCap2;
+
+					// Max velocity
+					Vector2 maxVelocity2 = distanceFromDestination / 24f;
+					float maxVelocityCap2 = minVelocityCap2 * 3f;
+					if (maxVelocity2.Length() > maxVelocityCap2)
+						maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
+
+					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+
 					calamityGlobalNPC.newAI[2] += 1f;
+					if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f)
+					{
+						pickNewLocation = true;
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							int type = ModContent.ProjectileType<ApolloRocket>();
+							int damage = npc.GetProjectileDamage(type);
+							Main.PlaySound(SoundID.Item61, npc.Center);
+							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
+							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+						}
+					}
+
+					// Reset phase and variables
 					if (calamityGlobalNPC.newAI[2] >= rocketPhaseDuration)
 					{
 						// Go back to normal phase
-						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = berserk ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
@@ -753,21 +798,21 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					if (!stopRotatingAndSlowDown)
 					{
 						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+						float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
 						// Min velocity
-						float minVelocity = distanceFromDestination.Length();
-						float minVelocityCap = baseVelocity;
-						if (minVelocity > minVelocityCap)
-							minVelocity = minVelocityCap;
+						float minVelocity3 = distanceFromDestination.Length();
+						float minVelocityCap3 = baseVelocity;
+						if (minVelocity3 > minVelocityCap3)
+							minVelocity3 = minVelocityCap3;
 
 						// Max velocity
-						Vector2 maxVelocity = distanceFromDestination / 24f;
-						float maxVelocityCap = minVelocityCap * 3f;
-						if (maxVelocity.Length() > maxVelocityCap)
-							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+						Vector2 maxVelocity3 = distanceFromDestination / 24f;
+						float maxVelocityCap3 = minVelocityCap3 * 3f;
+						if (maxVelocity3.Length() > maxVelocityCap3)
+							maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
 
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
 					}
 					else
 					{

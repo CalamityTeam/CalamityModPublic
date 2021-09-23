@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 dialogue.Add("So...you found my special bottle. Hope you enjoy it, I know I will.");
                 dialogue.Add("Be sure to dismount me once in a while, I get tired. And besides, I can't rip you off-I mean give you excellent deals you won't find anywhere else if you're riding me 24/7.");
-                dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while human. Don't question my transformation preferences!");
+                dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while in human form. Don't question my transformation preferences!");
             }
 
 			IList<string> donorList = new List<string>(CalamityLists.donatorList);
