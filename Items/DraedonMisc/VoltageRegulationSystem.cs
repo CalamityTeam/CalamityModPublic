@@ -47,7 +47,7 @@ namespace CalamityMod.Items.DraedonMisc
                     return false;
 
                 codebreakerTileEntity.ContainsVoltageRegulationSystem = true;
-                codebreakerTileEntity.SyncConstituents();
+                codebreakerTileEntity.SyncConstituents((short)Main.myPlayer);
                 return true;
             }
 

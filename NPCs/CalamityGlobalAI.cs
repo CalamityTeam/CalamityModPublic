@@ -10368,7 +10368,32 @@ namespace CalamityMod.NPCs
 				num732 = (npc.type != NPCID.GolemFistLeft) ? (num732 + 78f) : (num732 - 84f);
 				float num734 = (float)Math.Sqrt(num732 * num732 + num733 * num733);
 
-				if ((num734 > 600f || npc.collideX || npc.collideY) | npc.justHit)
+				if (npc.life < npc.lifeMax / 4)
+				{
+					npc.knockBackResist = 0f;
+
+					if (num734 > 700f || npc.collideX || npc.collideY)
+					{
+						npc.noTileCollide = true;
+						npc.ai[0] = 0f;
+					}
+
+					return false;
+				}
+
+				bool flag41 = npc.justHit;
+				if (flag41)
+				{
+					if (npc.life < npc.lifeMax / 2)
+					{
+						if (npc.knockBackResist == 0f)
+							flag41 = false;
+
+						npc.knockBackResist = 0f;
+					}
+				}
+
+				if ((num734 > 600f || npc.collideX || npc.collideY) | flag41)
 				{
 					npc.noTileCollide = true;
 					npc.ai[0] = 0f;
