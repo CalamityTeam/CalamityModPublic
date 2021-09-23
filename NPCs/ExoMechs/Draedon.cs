@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public Player PlayerToFollow => Main.player[npc.target];
         public ref float TalkTimer => ref npc.ai[0];
         public ref float GeneralTimer => ref npc.ai[3];
-        public bool ExoMechIsPresent
+        public static bool ExoMechIsPresent
         {
             get
             {
@@ -94,9 +94,12 @@ namespace CalamityMod.NPCs.ExoMechs
             // Prevent stupid natural despawns.
             npc.timeLeft = 3600;
 
-            // Decide an initial target on the first frame.
+            // Decide an initial target and play a teleport sound on the first frame.
             if (TalkTimer == 0f)
+            {
                 npc.TargetClosest(false);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DraedonTeleport"), PlayerToFollow.Center);
+            }
 
             // Pick someone else to pay attention to if the old target is gone.
             if (PlayerToFollow.dead || !PlayerToFollow.active)
@@ -161,6 +164,10 @@ namespace CalamityMod.NPCs.ExoMechs
                 TalkTimer = ExoMechChooseDelay;
             }
 
+            // Disable music before talking.
+            if (TalkTimer <= 50f)
+                Main.LocalPlayer.Calamity().MusicMuffleFactor = 1f;
+
             // Fly around once the exo mechs have been spawned.
             if (ExoMechIsPresent || DefeatTimer > 0f)
             {
@@ -195,6 +202,11 @@ namespace CalamityMod.NPCs.ExoMechs
                 HandleDefeatStuff();
                 DefeatTimer++;
             }
+
+            if (!ExoMechIsPresent && DefeatTimer <= 0f)
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DraedonAmbience");
+            if (ExoMechIsPresent)
+                music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 
             TalkTimer++;
         }
