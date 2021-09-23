@@ -33,7 +33,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 color = tex2D(uImage0, coords);
     
     // Determine how much downscaling is required to reasonably zoom in on things.
-    float downscaleFactor = float2(10, 10) / max(renderTargetArea.x, renderTargetArea.y) / 2;
+    float downscaleFactor = float2(5, 5) / max(renderTargetArea.x, renderTargetArea.y) / 2;
     float2 backgroundCoords = frac((renderTargetArea * (originalCoords + generalBackgroundOffset) + uWorldPosition) * downscaleFactor);
     float4 backgroundColor = tex2D(uImage1, backgroundCoords);
     

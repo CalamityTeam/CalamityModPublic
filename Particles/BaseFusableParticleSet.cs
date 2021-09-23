@@ -71,20 +71,20 @@ namespace CalamityMod.Particles
 		internal void PrepareRenderTargetForDrawing()
 		{
 			// Don't bother doing anything if this method is called serverside or the sprite batch is in the middle of specialized drawing.
-			if (Main.netMode == NetmodeID.Server || !Main.spriteBatch.HasBeginBeenCalled())
+			if (Main.netMode == NetmodeID.Server || Main.spriteBatch.HasBeginBeenCalled())
 				return;
 
-			// Go to a specialized render target for this particle set and clear the entire thing to use a base of transparent pixels.
+			// Go through each background render target in the set and clear the entire thing to use a base of transparent pixels.
 			foreach (RenderTarget2D backgroundTarget in GetBackgroundTargets)
 			{
 				Main.instance.GraphicsDevice.SetRenderTarget(backgroundTarget);
 				Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
-				// Prepare the sprite batch for specialized drawing now that the graphics device has moved to a new render target.
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
 				// Clear away any particles that shouldn't exist anymore.
-				Particles.RemoveAll(p => p.Size <= 1f);
+				Particles.RemoveAll(p => p.Size <= 5f);
+
+				// Prepare the sprite batch for specialized drawing in prepration that the graphics device will to new render targets.
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 				// Draw the surviving particles.
 				DrawParticles();

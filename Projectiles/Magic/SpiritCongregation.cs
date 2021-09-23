@@ -185,21 +185,21 @@ namespace CalamityMod.Projectiles.Magic
 			// Make particles shrink when dying.
 			particleSize *= MathHelper.Lerp(1f, 0.5f, Utils.InverseLerp(0f, 35f, DeathCounter, true));
 
-			int particleSpawnCount = Main.rand.NextBool(3) ? 3 : 1;
+			int particleSpawnCount = Main.rand.NextBool(8) ? 3 : 1;
 			for (int i = 0; i < particleSpawnCount; i++)
 			{
 				// Summon a base particle.
 				Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * particleSize / 26f;
-				FusableParticleManager.GetParticleSetByType<GhostlyFusableParticleSet>().SpawnParticle(spawnPosition, particleSize);
+				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, particleSize);
 
 				// And an "ahead" particle that spawns based on current movement.
 				// This causes the "head" of the overall thing to have bumps when moving.
 				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 65f;
-				FusableParticleManager.GetParticleSetByType<GhostlyFusableParticleSet>().SpawnParticle(spawnPosition, particleSize * 0.4f);
+				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, particleSize * 0.4f);
 			}
 
 			// Release gas projectiles randomly. This does not happen when dying.
-			if (Main.myPlayer == projectile.owner && Main.rand.NextBool(11) && DeathCounter <= 0f)
+			if (Main.myPlayer == projectile.owner && Main.rand.NextBool(16) && DeathCounter <= 0f)
 			{
 				Vector2 dustVelocity = -projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(1.04f) * 1.5f;
 				Projectile.NewProjectile(projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, projectile.owner);
