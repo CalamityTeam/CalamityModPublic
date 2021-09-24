@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 		public Vector2 OldVelocity;
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
-        public const float TelegraphWidth = 1000f;
+        public const float TelegraphWidth = 943f; // a squared plus b squared equals c squared, dumbass
 
         public override void SetStaticDefaults()
         {
