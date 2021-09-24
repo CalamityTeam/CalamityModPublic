@@ -213,8 +213,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Despawn if target is dead
 			if (player.dead)
 			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
+				player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
 				if (player.dead)
 				{
 					AIState = (float)Phase.Nothing;
@@ -342,7 +341,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						AIState = (float)Phase.Nothing;
 						calamityGlobalNPC.newAI[2] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;

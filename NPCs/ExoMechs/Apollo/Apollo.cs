@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Gate values
 			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
-			float timeToLineUpAttack = lastMechAlive ? 20f : 30f;
+			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
 			float movementDistanceGateValue = 100f;
@@ -358,10 +358,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 18f * baseVelocityMult;
 
-			// Charge variables
-			float chargeVelocity = malice ? 90f : death ? 80f : revenge ? 75f : expertMode ? 70f : 60f;
+			// Attack gate values
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
+
+			// Charge velocity
+			float chargeVelocity = malice ? 90f : death ? 80f : revenge ? 75f : expertMode ? 70f : 60f;
+			if (lastMechAlive)
+				chargeVelocity *= 1.2f;
+			else if (berserk)
+				chargeVelocity *= 1.1f;
 
 			// Plasma and rocket projectile velocities
 			float projectileVelocity = 10f;
@@ -816,7 +822,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					}
 					else
 					{
-						// Save the charge locations
+						// Save the charge locations and create telegraph beams
+						int type = ModContent.ProjectileType<ApolloChargeTelegraph>();
 						for (int i = 0; i < maxCharges; i++)
 						{
 							if (chargeLocations[i] == default)
@@ -838,6 +845,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 									default:
 										break;
 								}
+
+								// Draw telegraph beams
+								if (i > 0)
+								{
+									if (Main.netMode != NetmodeID.MultiplayerClient)
+									{
+										if (i == 1)
+											Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+
+										Vector2 laserVelocity = Vector2.Normalize(chargeLocations[i] - chargeLocations[i - 1]);
+										Projectile.NewProjectile(chargeLocations[i - 1], laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									}
+								}
 							}
 						}
 						
@@ -849,6 +869,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (calamityGlobalNPC.newAI[2] >= timeToLineUpAttack)
 						{
 							AIState = (float)Phase.ChargeCombo;
+							npc.localAI[2] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 						}
 					}
@@ -858,12 +879,28 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge to several locations almost instantly (Apollo doesn't teleport here, he's just moving very fast :D)
 				case (int)Phase.ChargeCombo:
 
-					// Charge combo attack here
-					// Increase newAI[2] whenever a charge occurs
+					// Set charge velocity
+					if (npc.localAI[2] == 0f)
+					{
+						npc.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
+						npc.localAI[2] = 1f;
+						npc.netUpdate = true;
+						npc.netSpam -= 5;
+					}
+
+					// Initiate next charge if close enough to next charge location
+					if (Vector2.Distance(npc.Center, chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1]) < chargeVelocity * 0.5f + 2f)
+					{
+						// Set Apollo's location to the next charge location
+						npc.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
+
+						// Increase newAI[2] whenever a charge ends
+						calamityGlobalNPC.newAI[2] += 1f;
+						npc.localAI[2] = 0f;
+					}
 
 					// Reset phase and variables
-					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] >= maxCharges)
+					if (calamityGlobalNPC.newAI[2] >= maxCharges - 1)
 					{
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
