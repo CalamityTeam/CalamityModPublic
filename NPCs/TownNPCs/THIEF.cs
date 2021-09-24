@@ -103,9 +103,8 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (!Main.dayTime && !Main.bloodMoon)
             {
-                PossibleDialogs.Add("You know what's really cool? Watching the glint of throwing stars as they reflect the moon.");
+                PossibleDialogs.Add("Hm, the stars are too bright tonight. Makes sneaking around a little more difficult.");
                 PossibleDialogs.Add("You think those stars that fall occasionally would make good throwing weapons?");
-                PossibleDialogs.Add("Statis' clan's got nothing on me. Mostly cause they're all dead.");
             }
 
             if (BirthdayParty.PartyIsUp)
@@ -132,37 +131,31 @@ namespace CalamityMod.NPCs.TownNPCs
             PossibleDialogs.Add("Anything is a weapon if you throw it hard enough.");
             PossibleDialogs.Add("That's your chucking arm? You need to work out more.");
             PossibleDialogs.Add("Listen here. It's all in the wrist, the wrist! Oh, forget it.");
-            PossibleDialogs.Add("I don't think Mom and Dad are proud of the job I have right now.");
-            PossibleDialogs.Add("Eh you know how it goes; steal from the rich, give to the poor. Of course, for a price.");
-            PossibleDialogs.Add("Want to hear about this one time I was stuck in a room with a rabid dog and a dead guy?");
-            PossibleDialogs.Add("Argh snakes. For some reason it's always snakes.");
-            PossibleDialogs.Add("Maybe I'm bitter. It's been a long time, so whatever. Just do a good job out there.");
+            PossibleDialogs.Add("Eh you know how it goes; steal from the rich, give to the poor, but I do take a cut of the profit.");
+            PossibleDialogs.Add("Snakes! Why does it always have to be snakes!");
+            PossibleDialogs.Add("It's super nice you know, to just have everything you want. Some people never got that luxury.");
             PossibleDialogs.Add("It's not stealing! I'm just borrowing it until I die!");
 
             if (Main.LocalPlayer.InventoryHas(ItemID.BoneGlove))
             {
-                PossibleDialogs.Add("Wouldn't be the first time I used my friends' remains as weapons.");
+                PossibleDialogs.Add("Wouldn't be the first time I used remains as weapons.");
             }
             if (Main.hardMode)
             {
-                PossibleDialogs.Add("With all of this new stuff cropping up, looks like we got some easy loot and new items to craft up, eh? Well, YOU craft them, I'll steal em.");
-                PossibleDialogs.Add("Draedon thinks he can build awesome machines, but he doesn't know how much crap I've stolen from him and sold by dismantling his drones.");
-                PossibleDialogs.Add("Gramma always said never to invade ancient temples or you'll be cursed and die. Let's say both of us attest that is untrue. We're still alive. Somewhat.");
+                PossibleDialogs.Add("All sorts of new weapons to be found and looted. Get to that, and I'll share some of my collection too!");
+                PossibleDialogs.Add("There's so much scrap around this land with valuable parts to them. Makes you wonder who could afford to leave em all around.");
+                PossibleDialogs.Add("Crypts, tombs, dungeons, those're all just treasure troves to me. The dead are dead, they've got nothing to do with it.");
             }
             if (NPC.downedMoonlord)
             {
-                PossibleDialogs.Add("I heard that there's some really neat and awesome rogue items you can get. Show em to me if you ever get the time.");
-                PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
-                PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
+                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I’ll keep my hands off it.");
+                PossibleDialogs.Add("So many new things to steal, I can’t think of where to start!");
+                PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
             }
             if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()) ||
                 Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
-            }
-            if (CalamityWorld.downedDoG)
-            {
-                PossibleDialogs.Add("I tried looting Storm Weaver's armor once. Before I could get a chunk of the stuff... well let's just say the bigger, fatter cosmic worm arrived and it didn't end well.");
             }
             if (Main.LocalPlayer.ZoneJungle)
             {
