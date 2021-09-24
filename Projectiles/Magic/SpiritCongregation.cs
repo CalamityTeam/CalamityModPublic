@@ -1,8 +1,10 @@
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
 		public ref float DeathCounter => ref projectile.localAI[0];
 		public Player Owner => Main.player[projectile.owner];
 		public float CurrentPower => (float)Math.Pow(Utils.InverseLerp(15f, 840f, Time, true), 4D);
-		public float CongregationDiameter => MathHelper.SmoothStep(54f, 215f, CurrentPower);
+		public float CongregationDiameter => MathHelper.SmoothStep(54f, 145f, CurrentPower);
 		public float MovementSpeed
 		{
 			get
@@ -32,7 +34,6 @@ namespace CalamityMod.Projectiles.Magic
 				return movementSpeed;
 			}
 		}
-		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
 		public override void SetStaticDefaults()
 		{
@@ -74,6 +75,7 @@ namespace CalamityMod.Projectiles.Magic
 				DeathCounter++;
 				if (DeathCounter >= 35f)
 					projectile.Kill();
+				projectile.scale = 1f - DeathCounter / 35f;
 				projectile.velocity *= 0.98f;
 				EmitGhostGas();
 				return;
@@ -157,6 +159,7 @@ namespace CalamityMod.Projectiles.Magic
 			// Approach the ideal velocity.
 			projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, MovementSpeed * 0.04f);
 			projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
+			projectile.rotation = projectile.velocity.ToRotation();
 		}
 
 		public void ReleaseSmallSpirits()
@@ -206,8 +209,51 @@ namespace CalamityMod.Projectiles.Magic
 			}
 		}
 
-		// Prevent obsence damage when hitting players.
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * 0.03f;
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D backTexture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
+			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1");
+			Effect shader = GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
+
+			Vector2 origin = backTexture.Size() * 0.5f;
+			float offsetFactor = projectile.scale * ((CongregationDiameter - 54f) / 90f + 1f);
+			Vector2 drawPosition = projectile.Center - Main.screenPosition + projectile.rotation.ToRotationVector2() * offsetFactor * 15f;
+			drawPosition += (projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * offsetFactor * 12f;
+
+			// Draw the back with the specified shader.
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+			shader.Parameters["edgeBorderSize"].SetValue(projectile.scale * 2f);
+			shader.Parameters["borderShouldBeSolid"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderShouldBeSolid);
+			shader.Parameters["edgeBorderColor"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderColor.ToVector3());
+			shader.Parameters["screenArea"].SetValue(backTexture.Size() / Main.GameViewMatrix.Zoom);
+			shader.Parameters["screenMoveOffset"].SetValue(Vector2.Zero);
+			shader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
+			shader.Parameters["renderTargetArea"].SetValue(backTexture.Size());
+			shader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
+			shader.Parameters["generalBackgroundOffset"].SetValue(backgroundOffset);
+			shader.Parameters["uWorldPosition"].SetValue(projectile.position);
+			shader.Parameters["uRotation"].SetValue(projectile.rotation);
+			shader.Parameters["upscaleFactor"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / backTexture.Size());
+
+			// Prepare the background texture for loading.
+			Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
+			shader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
+
+			shader.CurrentTechnique.Passes[0].Apply();
+
+			spriteBatch.Draw(backTexture, drawPosition, null, Color.White, projectile.rotation, origin, projectile.scale * 1.05f, SpriteEffects.None, 0f);
+			spriteBatch.ExitShaderRegion();
+
+			spriteBatch.Draw(texture, drawPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+        }
+
+        // Prevent obsence damage when hitting players.
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
 		{
 			damage = 92;
 		}

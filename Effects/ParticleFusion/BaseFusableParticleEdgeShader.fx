@@ -20,6 +20,7 @@ float2 renderTargetArea;
 float2 screenMoveOffset;
 float2 generalBackgroundOffset;
 bool invertedScreen;
+float2 upscaleFactor;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
@@ -33,8 +34,8 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 color = tex2D(uImage0, coords);
     
     // Determine how much downscaling is required to reasonably zoom in on things.
-    float downscaleFactor = float2(5, 5) / max(renderTargetArea.x, renderTargetArea.y) / 2;
-    float2 backgroundCoords = frac((renderTargetArea * (originalCoords + generalBackgroundOffset) + uWorldPosition) * downscaleFactor);
+    float downscaleFactor = float2(5, 5) / upscaleFactor / max(renderTargetArea.x, renderTargetArea.y) / 2;
+    float2 backgroundCoords = frac((renderTargetArea * (originalCoords + generalBackgroundOffset * upscaleFactor) + uWorldPosition) * downscaleFactor);
     float4 backgroundColor = tex2D(uImage1, backgroundCoords);
     
     // Equivalent to edgeBorderSize pixels in both the X and Y direction.

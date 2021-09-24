@@ -84,7 +84,7 @@ namespace CalamityMod.Particles
 				Particles.RemoveAll(p => p.Size <= 5f);
 
 				// Prepare the sprite batch for specialized drawing in prepration that the graphics device will to new render targets.
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
 				// Draw the surviving particles.
 				DrawParticles();

@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 // Die if close to the owner projectile, effectively being absorbed.
                 projectile.Center = projectile.Center.MoveTowards(target.Center, 8.5f);
-                if (projectile.WithinRange(target.Center, 110f))
+                if (projectile.WithinRange(target.Center, 80f))
                     projectile.Kill();
 
                 // Become translucent when returning to the projectile owner.

@@ -14,7 +14,7 @@ namespace CalamityMod.Particles
 		public override float BorderSize => 3f;
 		public override bool BorderShouldBeSolid => false;
 		public override Color BorderColor => Color.Lerp(Color.Fuchsia, Color.Black, 0.55f) * 0.85f;
-		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverWater;
+		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
 
 		// Cached for efficiency when loading textures and shaders.
 		private static readonly List<Effect> _backgroundShaders = new List<Effect>()
