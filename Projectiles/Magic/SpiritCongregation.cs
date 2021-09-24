@@ -248,7 +248,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 backgroundOffset = (-projectile.rotation).ToRotationVector2() * Main.GlobalTime * 0.03f;
+			Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * 0.03f;
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Texture2D backTexture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
 			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1");
@@ -261,8 +261,8 @@ namespace CalamityMod.Projectiles.Magic
 			Effect shader = GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
 
 			Vector2 origin = backTexture.Size() * 0.5f;
-			float offsetFactor = projectile.scale * ((CongregationDiameter - 54f) / 90f + 1f);
-			offsetFactor *= texture.Width / 120f;
+			float offsetFactor = projectile.scale * ((CongregationDiameter - 54f) / 90f + 1.5f);
+			offsetFactor *= texture.Width / 90f;
 			Vector2 drawPosition = projectile.Center - Main.screenPosition + projectile.rotation.ToRotationVector2() * offsetFactor * 15f;
 
 			if (CurrentPower <= 0.62f)
