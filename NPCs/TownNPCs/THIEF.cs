@@ -169,6 +169,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add($"Don't tell {nerd.GivenName}, but I took some of his stuff and replaced it with Angel Statues.");
             }
 
+            int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+            if(witch != -1)
+            {
+                PossibleDialogs.Add("Hey, hey, has Calamitas seriously moved in here with us? Why???");
+            }
+
             int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrusIndex != -1)
             {
