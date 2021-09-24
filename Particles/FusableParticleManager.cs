@@ -113,6 +113,7 @@ namespace CalamityMod.Particles
 				for (int i = 0; i < particleSet.LayerCount; i++)
 				{
 					Effect shader = particleSet.BackgroundShaders[i];
+					Texture2D backgroundTexture = particleSet.BackgroundTextures[i];
 
 					// Draw the current target with the specified shader.
 					shader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
@@ -123,10 +124,10 @@ namespace CalamityMod.Particles
 					shader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
 					shader.Parameters["renderTargetArea"].SetValue(new Vector2(backgroundTargets[i].Width, backgroundTargets[i].Height));
 					shader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
+					shader.Parameters["upscaleFactor"].SetValue(Vector2.One);
 					shader.Parameters["generalBackgroundOffset"].SetValue(Vector2.Zero);
 
 					// Prepare the background texture for loading.
-					Texture2D backgroundTexture = particleSet.BackgroundTextures[i];
 					Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
 					shader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
 

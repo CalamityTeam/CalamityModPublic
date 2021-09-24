@@ -16,9 +16,14 @@ namespace CalamityMod.Projectiles.Magic
 		public ref float Time => ref projectile.ai[0];
 		public ref float BaseDamage => ref projectile.ai[1];
 		public ref float DeathCounter => ref projectile.localAI[0];
+		public bool WasStrongBefore
+        {
+			get => projectile.localAI[1] == 1f;
+			set => projectile.localAI[1] = value.ToInt();
+        }
 		public Player Owner => Main.player[projectile.owner];
 		public float CurrentPower => (float)Math.Pow(Utils.InverseLerp(15f, 840f, Time, true), 4D);
-		public float CongregationDiameter => MathHelper.SmoothStep(54f, 145f, CurrentPower);
+		public float CongregationDiameter => MathHelper.SmoothStep(54f, 185f, CurrentPower);
 		public float MovementSpeed
 		{
 			get
@@ -131,6 +136,38 @@ namespace CalamityMod.Projectiles.Magic
 					HoverOffset = Vector2.Zero;
 			}
 
+			// Explode into a burst of spirit dust and gas clouds when a bigger face appears.
+			if (!WasStrongBefore && CurrentPower > 0.62f)
+            {
+				float burstDirectionVariance = 3;
+				float burstSpeed = 14f;
+				for (int j = 0; j < 16; j++)
+				{
+					burstDirectionVariance += j * 2;
+					for (int k = 0; k < 40; k++)
+					{
+						Dust burstDust = Dust.NewDustPerfect(projectile.Center, 267);
+						burstDust.scale = Main.rand.NextFloat(1.74f, 2.5f);
+						burstDust.position += Main.rand.NextVector2Circular(10f, 10f);
+						burstDust.velocity = Main.rand.NextVector2Square(-burstDirectionVariance, burstDirectionVariance).SafeNormalize(Vector2.UnitY) * burstSpeed;
+						burstDust.color = Color.Lerp(Color.DarkViolet, Color.Black, Main.rand.NextFloat(0.6f));
+						burstDust.noGravity = true;
+					}
+					burstSpeed += 1.8f;
+				}
+				if (Main.myPlayer == projectile.owner)
+				{
+					for (int i = 0; i < 25; i++)
+					{
+						Vector2 dustVelocity = Main.rand.NextVector2Circular(4f, 4f);
+						Projectile.NewProjectile(projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, projectile.owner);
+					}
+				}
+
+				Main.PlaySound(SoundID.DD2_BetsyFlyingCircleAttack, projectile.Center);
+				WasStrongBefore = true;
+			}
+
 			// Otherwise, if not tame, periodically define a new offset.
 			// This determines where to fly to and adds unpredictability at first.
 			else if (Main.myPlayer == projectile.owner && Time % 55f == 54f)
@@ -211,16 +248,25 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * 0.03f;
+			Vector2 backgroundOffset = (-projectile.rotation).ToRotationVector2() * Main.GlobalTime * 0.03f;
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Texture2D backTexture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
 			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1");
+			if (CurrentPower > 0.62f)
+			{
+				texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/SpiritCongregationBig");
+				backTexture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/SpiritCongregationBackBig");
+			}
+
 			Effect shader = GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
 
 			Vector2 origin = backTexture.Size() * 0.5f;
 			float offsetFactor = projectile.scale * ((CongregationDiameter - 54f) / 90f + 1f);
+			offsetFactor *= texture.Width / 120f;
 			Vector2 drawPosition = projectile.Center - Main.screenPosition + projectile.rotation.ToRotationVector2() * offsetFactor * 15f;
-			drawPosition += (projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * offsetFactor * 12f;
+
+			if (CurrentPower <= 0.62f)
+				drawPosition += (projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * offsetFactor * 12f;
 
 			// Draw the back with the specified shader.
 			spriteBatch.End();
@@ -237,6 +283,7 @@ namespace CalamityMod.Projectiles.Magic
 			shader.Parameters["generalBackgroundOffset"].SetValue(backgroundOffset);
 			shader.Parameters["uWorldPosition"].SetValue(projectile.position);
 			shader.Parameters["uRotation"].SetValue(projectile.rotation);
+			shader.Parameters["uTime"].SetValue(Main.GlobalTime);
 			shader.Parameters["upscaleFactor"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / backTexture.Size());
 
 			// Prepare the background texture for loading.

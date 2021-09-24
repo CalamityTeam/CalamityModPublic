@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Summons spirits near the cursor\n" +
                 "At first, the spirits will fly wildly. This can hurt enemies and players\n" +
                 "However, over time they will begin to accumulate to create a single, controllable monstrosity\n" +
-               CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
+                CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
         }
 
         public override void SetDefaults()
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.mana = 8;
-            item.width = 32;
-            item.height = 36;
+            item.width = 42;
+            item.height = 74;
             item.useTime = 27;
             item.useAnimation = 27;
             item.useStyle = ItemUseStyleID.HoldingOut;
