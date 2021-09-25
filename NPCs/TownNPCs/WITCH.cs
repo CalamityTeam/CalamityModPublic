@@ -76,10 +76,10 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
 				textSelector.Add("I can't pay rent, but if you've got any dead relative you want me to try and... what? You don't?");
 				textSelector.Add("One of these days, I was thinking of starting a garden with the flowers from the old capitol of hell." +
-					"I love the smell of brimstone in the morning.");
+					" I love the smell of brimstone in the morning.");
 				textSelector.Add("I think I've settled comfortably, thank you very much.");
 				textSelector.Add("Many seasons have gone by since I first met with the Tyrant, and only now did I break free." +
-					"I wish I'd been stronger...");
+					" I wish I'd been stronger...");
 				textSelector.Add("If you've got any curses you want dispelled... well I'm not your person.");
 
 				if (!Main.dayTime)
@@ -92,9 +92,9 @@ namespace CalamityMod.NPCs.TownNPCs
 					else
 					{
 						textSelector.Add("These undead are horrific, I can't stand to look at them. How could anyone be satisfied" +
-							"with such amateur work?", 2.8);
+							" with such amateur work?", 2.8);
 						textSelector.Add("I don't think it's a stretch to say that astrology is utter nonsense... but it was a hobby" +
-							"of mine once.", 2.8);
+							" of mine once.", 2.8);
 					}
 				}
 
@@ -104,12 +104,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				if (NPC.AnyNPCs(NPCType<SEAHOE>()))
 				{
 					textSelector.Add("I cannot understand the Sea King. He does not seem to want me dead. That amount of compassion" +
-						"I just can't understand.", 1.45);
+						" I just can't understand.", 1.45);
 				}
 				if (NPC.AnyNPCs(NPCType<DILF>()))
 				{
 					textSelector.Add("That frosty old man... even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
-						"get along with him.", 1.45);
+						" get along with him.", 1.45);
 				}
 			}
 
