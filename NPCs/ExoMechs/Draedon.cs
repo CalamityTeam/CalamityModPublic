@@ -72,6 +72,7 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.dontTakeDamage = true;
             npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
+            npc.Calamity().DoesNotGenerateRage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
