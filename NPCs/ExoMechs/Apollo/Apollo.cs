@@ -385,6 +385,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeComboYOffset = npc.ai[2] == 0f ? 400f : -400f;
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + 750f, player.Center.Y + chargeComboYOffset) : new Vector2(player.Center.X + 750f, player.Center.Y);
 
+			// If Apollo can fire projectiles, cannot fire if too close to the target
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
+
 			// Rotation
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 aimedVector = player.Center + predictionVector - npc.Center;
@@ -700,7 +703,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int numPlasmaOrbs = lastMechAlive ? 15 : 12;
 							float divisor = attackPhaseGateValue / numPlasmaOrbs;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
-							if (plasmaTimer % divisor == 0f)
+							if (plasmaTimer % divisor == 0f && canFire)
 							{
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -770,7 +773,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
 
 					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f)
+					if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
 					{
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
