@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				chargeVelocity *= 1.1f;
 
 			// Plasma and rocket projectile velocities
-			float projectileVelocity = 10f;
+			float projectileVelocity = 14f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresPlasmaFireball : ModProjectile
     {
-		private const int timeLeft = 180;
+		private const int timeLeft = 120;
 
         public override void SetStaticDefaults()
         {
@@ -53,6 +53,11 @@ namespace CalamityMod.Projectiles.Boss
 				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
 				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
 					projectile.tileCollide = true;
+			}
+			else
+			{
+				if (projectile.timeLeft < timeLeft / 2)
+					projectile.Kill();
 			}
 
 			int fadeInTime = 3;

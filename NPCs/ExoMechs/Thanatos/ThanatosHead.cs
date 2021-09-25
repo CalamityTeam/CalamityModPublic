@@ -371,6 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				if (player.dead)
 				{
 					targetDead = true;
+					AIState = (float)Phase.Charge;
 					npc.localAI[0] = 0f;
 					npc.localAI[2] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;

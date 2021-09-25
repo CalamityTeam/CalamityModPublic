@@ -89,11 +89,11 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
-            float yScale = 5f;
+            float yScale = 25f;
             if (TelegraphDelay < TelegraphFadeTime)
-                yScale = MathHelper.Lerp(0f, 5f, TelegraphDelay / 15f);
+                yScale = MathHelper.Lerp(0f, 25f, TelegraphDelay / 15f);
             if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-                yScale = MathHelper.Lerp(5f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
+                yScale = MathHelper.Lerp(25f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
 
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
