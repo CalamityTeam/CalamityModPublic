@@ -158,10 +158,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
 			// Variables
 			Vector2 vector = npc.Center;
             bool flies = npc.ai[3] == 0f;
@@ -170,7 +166,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-            bool phase2 = lifeRatio < 0.8f;
+
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
+
+			bool phase2 = lifeRatio < 0.8f;
 			bool phase3 = lifeRatio < 0.6f;
             bool phase4 = lifeRatio < 0.3f;
             bool phase5 = lifeRatio < 0.15f;
