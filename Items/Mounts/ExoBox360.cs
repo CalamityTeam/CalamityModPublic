@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("ExoBox 360");
             Tooltip.SetDefault("Creates a rideable flying chair\n" +
-                "Replaced\n");
+                "Replaced");
         }
 
         public override void SetDefaults()
