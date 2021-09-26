@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             npc.height = 226;
             npc.defense = 80;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
