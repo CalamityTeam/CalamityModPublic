@@ -430,9 +430,9 @@ namespace CalamityMod.UI
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    Main.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CodebreakerBeam"), CalamityWorld.DraedonSummonPosition);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
                     {

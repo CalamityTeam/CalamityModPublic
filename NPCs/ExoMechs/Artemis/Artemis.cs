@@ -359,7 +359,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Gate values
 			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
-			float timeToLineUpAttack = lastMechAlive ? 20f : 30f;
+			float timeToLineUpAttack = 30f;
 
 			// Spin variables
 			float spinRadius = 500f;
@@ -382,6 +382,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Laser shotgun variables
 			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
+
+			// If Artemis can fire projectiles, cannot fire if too close to the target
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
@@ -426,12 +429,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				if (player.dead)
 				{
 					AIState = (float)Phase.Normal;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
 					npc.localAI[0] = 0f;
 					npc.localAI[1] = 0f;
 					npc.localAI[2] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
 					rotationDirection = 0;
+					chargeVelocityNormalized = default;
+					spinningPoint = default;
 					npc.dontTakeDamage = true;
 
 					npc.velocity.Y -= 1f;
@@ -512,6 +519,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
 							npc.ai[3] = 1f;
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
@@ -520,6 +529,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
+							chargeVelocityNormalized = default;
+							spinningPoint = default;
 						}
 					}
 					else
@@ -531,12 +542,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							// Tells Artemis to return to the battle in passive state and reset everything
 							SecondaryAIState = (float)SecondaryPhase.Passive;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
 							npc.localAI[2] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
+							chargeVelocityNormalized = default;
+							spinningPoint = default;
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
@@ -545,12 +560,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							// Reset everything
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
 							npc.localAI[2] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
 							rotationDirection = 0;
+							chargeVelocityNormalized = default;
+							spinningPoint = default;
 						}
 					}
 
@@ -567,24 +586,32 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						// Reset everything
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
+						chargeVelocityNormalized = default;
+						spinningPoint = default;
 					}
 
 					// If Artemis and Apollo are the first mechs to go berserk
 					if (berserk)
 					{
 						// Reset everything
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
+						chargeVelocityNormalized = default;
+						spinningPoint = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -604,23 +631,31 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						// Tells Artemis and Apollo to return to the battle in passive state and reset everything
 						// Return to normal phases if one or more mechs have been downed
 						SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
+						chargeVelocityNormalized = default;
+						spinningPoint = default;
 					}
 
 					if (berserk)
 					{
 						// Reset everything
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						rotationDirection = 0;
+						chargeVelocityNormalized = default;
+						spinningPoint = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -681,7 +716,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							int numLasers = lastMechAlive ? 15 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
-							if (laserTimer % divisor == 0f)
+							if (laserTimer % divisor == 0f && canFire)
 							{
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -794,7 +829,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					int numSpreads = lastMechAlive ? 3 : 2;
 					int numLasersPerSpread = lastMechAlive ? 8 : 6;
 					float divisor2 = laserShotgunDuration / numSpreads;
-					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f)
+					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
 					{
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -845,6 +880,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							npc.velocity = Vector2.Zero;
 							spinningPoint = npc.Center + Vector2.UnitY * spinRadius;
+							npc.ai[1] = spinningPoint.X;
+							npc.ai[2] = spinningPoint.Y;
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								int type = ModContent.ProjectileType<ArtemisDeathrayTelegraph>();
@@ -916,6 +953,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						spinningPoint = default;
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 					}
@@ -961,6 +1000,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						npc.localAI[1] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
+						chargeVelocityNormalized = default;
 					}
 
 					break;

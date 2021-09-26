@@ -37,7 +37,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
-		private const float segmentCloseTimerDecrement = 0.5f;
+		private const float timeToOpenAndFireLasers = 36f;
+
+		private const float segmentCloseTimerDecrement = 0.2f;
 
 		public override void SetStaticDefaults()
         {
@@ -233,7 +235,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -299,7 +301,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -525,29 +527,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			npc.frameCounter += 1D;
-			if (shootLasers && !invisiblePhase)
+			if (npc.Calamity().newAI[0] > 0f)
 			{
-				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
+				if (npc.frameCounter >= 6D)
 				{
-					if (npc.frameCounter >= 6D)
-					{
-						npc.frame.Y += frameHeight;
-						npc.frameCounter = 0D;
-					}
-					int finalFrame = Main.npcFrameCount[npc.type] - 1;
-					if (npc.frame.Y > frameHeight * finalFrame)
-						npc.frame.Y = frameHeight * finalFrame;
+					npc.frame.Y += frameHeight;
+					npc.frameCounter = 0D;
 				}
-				else
-				{
-					if (npc.frameCounter >= 6D)
-					{
-						npc.frame.Y -= frameHeight;
-						npc.frameCounter = 0D;
-					}
-					if (npc.frame.Y < 0)
-						npc.frame.Y = 0;
-				}
+				int finalFrame = Main.npcFrameCount[npc.type] - 1;
+				if (npc.frame.Y > frameHeight * finalFrame)
+					npc.frame.Y = frameHeight * finalFrame;
 			}
 			else
 			{
