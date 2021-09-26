@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.TownNPCs
 				}
 				if (NPC.AnyNPCs(NPCType<DILF>()))
 				{
-					textSelector.Add("That frosty old man... even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
+					textSelector.Add("That frosty old man...even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
 						" get along with him.", 1.45);
 				}
 			}
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return true;
         }
 
-        //public override void TownNPCAttackMagic(ref float auraLightMultiplier)	
+        //public override void TownNPCAttackMagic(ref float auraLightMultiplier)
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
