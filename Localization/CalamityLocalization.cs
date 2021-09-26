@@ -68,7 +68,7 @@ namespace CalamityMod.Localization
                 // easier to define them.
                 new [] { "SCalSummonTextRematch", "If you’re looking for some fourth-degree burns, you’ve got the right person." },
                 new [] { "SCalStartTextRematch", "When the time comes, would you like to join my creation?" },
-                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory" },
+                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory." },
                 new [] { "SCalBH3TextRematch", "I haven’t had such an interesting target dummy to test my magic on in a long time." },
                 new [] { "SCalBrothersTextRematch", "Empty shells of their former selves. I doubt even a scrap of their spirits remain." },
                 new [] { "SCalPhase2TextRematch", "Here we go again." },
