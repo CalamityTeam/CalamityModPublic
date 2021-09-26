@@ -205,14 +205,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			int otherExoMechsAlive = 0;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
-			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-				{
-					otherExoMechsAlive++;
-					exoWormAlive = true;
-				}
-			}
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
@@ -222,10 +214,24 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
 				}
 			}
+			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
+				{
+					// Set target to Thanatos' target if Thanatos is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
+
+					otherExoMechsAlive++;
+					exoWormAlive = true;
+				}
+			}
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				{
+					// Set target to Ares' target if Ares is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
+
 					otherExoMechsAlive++;
 					exoPrimeAlive = true;
 				}
@@ -281,6 +287,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
 			}
+			else
+			{
+				if (!NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
+				{
+					npc.active = false;
+					npc.netUpdate = true;
+				}
+			}
 
 			// General AI pattern
 			// 0 - Fly to the right of the target and fire plasma when ready
@@ -334,28 +348,45 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Gate values
 			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
-			float timeToLineUpAttack = lastMechAlive ? 20f : 30f;
+			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
 			float movementDistanceGateValue = 100f;
 			float chargeLocationDistanceGateValue = 20f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 18f * baseVelocityMult;
 
-			// Charge variables
-			float chargeVelocity = malice ? 90f : death ? 80f : revenge ? 75f : expertMode ? 70f : 60f;
+			// Attack gate values
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
+			// Charge velocity
+			float chargeVelocity = malice ? 90f : death ? 80f : revenge ? 75f : expertMode ? 70f : 60f;
+			if (lastMechAlive)
+				chargeVelocity *= 1.2f;
+			else if (berserk)
+				chargeVelocity *= 1.1f;
+
+			// Plasma and rocket projectile velocities
+			float projectileVelocity = 14f;
+			if (lastMechAlive)
+				projectileVelocity *= 1.2f;
+			else if (berserk)
+				projectileVelocity *= 1.1f;
+
 			// Rocket phase variables
 			float rocketPhaseDuration = lastMechAlive ? 60f : 90f;
+			int numRockets = lastMechAlive ? 4 : 3;
 
 			// Default vector to fly to
 			float chargeComboXOffset = -500f;
 			float chargeComboYOffset = npc.ai[2] == 0f ? 400f : -400f;
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + 750f, player.Center.Y + chargeComboYOffset) : new Vector2(player.Center.X + 750f, player.Center.Y);
+
+			// If Apollo can fire projectiles, cannot fire if too close to the target
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
 
 			// Rotation
 			Vector2 predictionVector = player.velocity * predictionAmt;
@@ -434,8 +465,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			if (pickNewLocation)
 			{
 				pickNewLocation = false;
+
 				npc.localAI[0] = Main.rand.Next(-50, 51);
 				npc.localAI[1] = Main.rand.Next(-250, 251);
+				if (AIState == (float)Phase.RocketBarrage)
+				{
+					npc.localAI[0] *= 0.5f;
+					npc.localAI[1] *= 0.5f;
+				}
+
 				npc.netUpdate = true;
 			}
 
@@ -632,21 +670,21 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				case (int)Phase.Normal:
 
 					// Inverse lerp returns the percentage of progress between A and B
-					float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+					float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
 					// Min velocity
-					float minVelocity2 = distanceFromDestination.Length();
-					float minVelocityCap2 = baseVelocity;
-					if (minVelocity2 > minVelocityCap2)
-						minVelocity2 = minVelocityCap2;
+					float minVelocity = distanceFromDestination.Length();
+					float minVelocityCap = baseVelocity;
+					if (minVelocity > minVelocityCap)
+						minVelocity = minVelocityCap;
 					
 					// Max velocity
-					Vector2 maxVelocity2 = distanceFromDestination / 24f;
-					float maxVelocityCap2 = minVelocityCap2 * 3f;
-					if (maxVelocity2.Length() > maxVelocityCap2)
-						maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
+					Vector2 maxVelocity = distanceFromDestination / 24f;
+					float maxVelocityCap = minVelocityCap * 3f;
+					if (maxVelocity.Length() > maxVelocityCap)
+						maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 					
-					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 
 					// Default animation for 60 frames and then go to telegraph animation
 					// newAI[3] tells Apollo what animation state it's currently in
@@ -665,7 +703,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int numPlasmaOrbs = lastMechAlive ? 15 : 12;
 							float divisor = attackPhaseGateValue / numPlasmaOrbs;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
-							if (plasmaTimer % divisor == 0f)
+							if (plasmaTimer % divisor == 0f && canFire)
 							{
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -673,8 +711,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 									int type = ModContent.ProjectileType<AresPlasmaFireball>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), npc.Center);
-									Vector2 plasmaVelocity = Vector2.Normalize(aimedVector);
-									Vector2 offset = plasmaVelocity * 70f;
+									Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+									Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
 									Projectile.NewProjectile(npc.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, -1f);
 								}
 							}
@@ -717,12 +755,42 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge
 				case (int)Phase.RocketBarrage:
 
-					// Reset phase and variables
+					// Inverse lerp returns the percentage of progress between A and B
+					float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+					// Min velocity
+					float minVelocity2 = distanceFromDestination.Length();
+					float minVelocityCap2 = baseVelocity;
+					if (minVelocity2 > minVelocityCap2)
+						minVelocity2 = minVelocityCap2;
+
+					// Max velocity
+					Vector2 maxVelocity2 = distanceFromDestination / 24f;
+					float maxVelocityCap2 = minVelocityCap2 * 3f;
+					if (maxVelocity2.Length() > maxVelocityCap2)
+						maxVelocity2 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap2;
+
+					npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity2, maxVelocity2, lerpValue2);
+
 					calamityGlobalNPC.newAI[2] += 1f;
+					if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
+					{
+						pickNewLocation = true;
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							int type = ModContent.ProjectileType<ApolloRocket>();
+							int damage = npc.GetProjectileDamage(type);
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull"), npc.Center);
+							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
+							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+						}
+					}
+
+					// Reset phase and variables
 					if (calamityGlobalNPC.newAI[2] >= rocketPhaseDuration)
 					{
 						// Go back to normal phase
-						pickNewLocation = true;
 						AIState = (float)Phase.Normal;
 						npc.localAI[2] = berserk ? 1f : 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
@@ -739,25 +807,26 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					if (!stopRotatingAndSlowDown)
 					{
 						// Inverse lerp returns the percentage of progress between A and B
-						float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+						float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
 						// Min velocity
-						float minVelocity = distanceFromDestination.Length();
-						float minVelocityCap = baseVelocity;
-						if (minVelocity > minVelocityCap)
-							minVelocity = minVelocityCap;
+						float minVelocity3 = distanceFromDestination.Length();
+						float minVelocityCap3 = baseVelocity;
+						if (minVelocity3 > minVelocityCap3)
+							minVelocity3 = minVelocityCap3;
 
 						// Max velocity
-						Vector2 maxVelocity = distanceFromDestination / 24f;
-						float maxVelocityCap = minVelocityCap * 3f;
-						if (maxVelocity.Length() > maxVelocityCap)
-							maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+						Vector2 maxVelocity3 = distanceFromDestination / 24f;
+						float maxVelocityCap3 = minVelocityCap3 * 3f;
+						if (maxVelocity3.Length() > maxVelocityCap3)
+							maxVelocity3 = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap3;
 
-						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+						npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
 					}
 					else
 					{
-						// Save the charge locations
+						// Save the charge locations and create telegraph beams
+						int type = ModContent.ProjectileType<ApolloChargeTelegraph>();
 						for (int i = 0; i < maxCharges; i++)
 						{
 							if (chargeLocations[i] == default)
@@ -779,6 +848,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 									default:
 										break;
 								}
+
+								// Draw telegraph beams
+								if (i > 0)
+								{
+									if (Main.netMode != NetmodeID.MultiplayerClient)
+									{
+										if (i == 1)
+											Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+
+										Vector2 laserVelocity = Vector2.Normalize(chargeLocations[i] - chargeLocations[i - 1]);
+										Projectile.NewProjectile(chargeLocations[i - 1], laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									}
+								}
 							}
 						}
 						
@@ -790,6 +872,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (calamityGlobalNPC.newAI[2] >= timeToLineUpAttack)
 						{
 							AIState = (float)Phase.ChargeCombo;
+							npc.localAI[2] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 						}
 					}
@@ -799,12 +882,29 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge to several locations almost instantly (Apollo doesn't teleport here, he's just moving very fast :D)
 				case (int)Phase.ChargeCombo:
 
-					// Charge combo attack here
-					// Increase newAI[2] whenever a charge occurs
+					// Set charge velocity
+					if (npc.localAI[2] == 0f)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
+						npc.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
+						npc.localAI[2] = 1f;
+						npc.netUpdate = true;
+						npc.netSpam -= 5;
+					}
+
+					// Initiate next charge if close enough to next charge location
+					if (Vector2.Distance(npc.Center, chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1]) < chargeVelocity * 0.5f + 2f)
+					{
+						// Set Apollo's location to the next charge location
+						npc.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
+
+						// Increase newAI[2] whenever a charge ends
+						calamityGlobalNPC.newAI[2] += 1f;
+						npc.localAI[2] = 0f;
+					}
 
 					// Reset phase and variables
-					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] >= maxCharges)
+					if (calamityGlobalNPC.newAI[2] >= maxCharges - 1)
 					{
 						pickNewLocation = true;
 						AIState = (float)Phase.Normal;

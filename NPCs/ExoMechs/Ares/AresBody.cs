@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -357,9 +358,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 18f * baseVelocityMult;
-			float baseAcceleration = berserk ? 1.5f : 1f;
+			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
@@ -730,7 +731,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			DropHelper.DropBags(npc);
 
-			// DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

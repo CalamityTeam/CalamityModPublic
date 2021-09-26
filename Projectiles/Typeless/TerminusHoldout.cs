@@ -51,7 +51,10 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Time >= 45f)
                 {
                     Main.PlaySound(SoundID.DD2_EtherianPortalOpen, Main.LocalPlayer.Center);
-                    BossRushEvent.End();
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                       BossRushEvent.End();
+
                     projectile.Kill();
                 }
 

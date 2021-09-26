@@ -195,6 +195,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			// Target variable
+			Player player = Main.player[npc.target];
+
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
 			bool exoPrimeAlive = false;
@@ -203,6 +214,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				{
+					// Set target to Ares' target if Ares is alive
+					player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
+
 					otherExoMechsAlive++;
 					exoPrimeAlive = true;
 				}
@@ -259,17 +273,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// If Thanatos doesn't go berserk
 			bool otherMechIsBerserk = exoPrimeLifeRatio < 0.4f || exoTwinsLifeRatio < 0.4f;
-
-			// Get a target
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest();
-
-			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-				npc.TargetClosest();
-
-			// Target variable
-			Player player = Main.player[npc.target];
 
 			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
@@ -368,6 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				if (player.dead)
 				{
 					targetDead = true;
+					AIState = (float)Phase.Charge;
 					npc.localAI[0] = 0f;
 					npc.localAI[2] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
@@ -414,9 +418,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 9f * baseVelocityMult;
-			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.5f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocity = 10f * baseVelocityMult;
+			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
 
 			// Increase top velocity if target is dead
 			if (targetDead)

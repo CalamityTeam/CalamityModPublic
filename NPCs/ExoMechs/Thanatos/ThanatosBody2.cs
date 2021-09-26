@@ -5,6 +5,7 @@ using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -33,7 +34,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
+
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		private const float timeToOpenAndFireLasers = 36f;
+
+		private const float segmentCloseTimerDecrement = 0.2f;
 
 		public override void SetStaticDefaults()
         {
@@ -203,7 +209,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 
-			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -213,10 +219,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.ai[3] += 1f;
 
 					double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
-					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
+					if (berserk)
+						numSegmentsAbleToFire *= 1.5;
+
+					float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
+					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
 						float divisor = 120f;
-						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -225,7 +235,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -255,7 +265,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon").WithVolume(0.1f), npc.Center);
+										SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+										if (sound != null)
+											sound.Volume *= 0.1f;
+
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
@@ -268,7 +281,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -279,8 +292,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						// This is only used in deathray phase to prevent laser spam
-						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? numSegmentsAbleToFire * 2f : numSegmentsAbleToFire));
 						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -290,7 +301,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -352,7 +363,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -378,7 +389,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.localAI[2] -= numSegments;
 				}
 
-				npc.Calamity().newAI[0] -= 1f;
+				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 				if (npc.Calamity().newAI[0] <= 0f)
 				{
 					npc.Calamity().newAI[0] = 0f;
@@ -414,7 +425,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// Noise
 				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
 				if (npc.localAI[0] == 0f)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
+				{
+					SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
+					if (sound != null)
+						sound.Volume *= volume;
+				}
 
 				// Steam
 				npc.localAI[0] += 1f;
@@ -512,29 +527,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			npc.frameCounter += 1D;
-			if (shootLasers && !invisiblePhase)
+			if (npc.Calamity().newAI[0] > 0f)
 			{
-				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
+				if (npc.frameCounter >= 6D)
 				{
-					if (npc.frameCounter >= 6D)
-					{
-						npc.frame.Y += frameHeight;
-						npc.frameCounter = 0D;
-					}
-					int finalFrame = Main.npcFrameCount[npc.type] - 1;
-					if (npc.frame.Y > frameHeight * finalFrame)
-						npc.frame.Y = frameHeight * finalFrame;
+					npc.frame.Y += frameHeight;
+					npc.frameCounter = 0D;
 				}
-				else
-				{
-					if (npc.frameCounter >= 6D)
-					{
-						npc.frame.Y -= frameHeight;
-						npc.frameCounter = 0D;
-					}
-					if (npc.frame.Y < 0)
-						npc.frame.Y = 0;
-				}
+				int finalFrame = Main.npcFrameCount[npc.type] - 1;
+				if (npc.frame.Y > frameHeight * finalFrame)
+					npc.frame.Y = frameHeight * finalFrame;
 			}
 			else
 			{

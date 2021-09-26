@@ -167,7 +167,7 @@ namespace CalamityMod.TileEntities
 			}
 		}
 
-		public void SyncConstituents()
+		public void SyncConstituents(short sender)
 		{
 			// Don't bother sending packets in singleplayer.
 			if (Main.netMode == NetmodeID.SinglePlayer)
@@ -183,12 +183,15 @@ namespace CalamityMod.TileEntities
 
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerConstituents);
 			packet.Write(ID);
+			packet.Write(sender);
 			packet.Write(containmentFlagWrapper);
+			packet.Send(-1, sender);
 		}
 
 		public static void ReadConstituentsUpdateSync(Mod mod, BinaryReader reader)
 		{
 			int id = reader.ReadInt32();
+			short sender = reader.ReadInt16();
 			bool exists = ByID.TryGetValue(id, out TileEntity tileEntity);
 
 			// Continue reading to the end even if a tile entity with the given ID does not exist.
@@ -214,6 +217,12 @@ namespace CalamityMod.TileEntities
 			codebreakerTileEntity.ContainsAdvancedDisplay = containsAdvancedDisplay;
 			codebreakerTileEntity.ContainsVoltageRegulationSystem = containsVoltageRegulationSystem;
 			codebreakerTileEntity.ContainsCoolingCell = containsCoolingCell;
+
+			// Send the packet again to the other clients if this packet was received on the server.
+			// Since ModPackets go solely to the server when sent by a client this is necesssary
+			// to ensure that all clients are informed of what happened.
+			if (Main.netMode == NetmodeID.Server)
+				codebreakerTileEntity.SyncConstituents(sender);
 		}
 
 		public void SyncContainedStuff()
@@ -228,6 +237,7 @@ namespace CalamityMod.TileEntities
 			packet.Write(InputtedCellCount);
 			packet.Write(InitialCellCountBeforeDecrypting);
 			packet.Write(HeldSchematicID);
+			packet.Send();
 		}
 
 		public static void ReadContainmentSync(Mod mod, BinaryReader reader)
@@ -265,6 +275,7 @@ namespace CalamityMod.TileEntities
 			packet.Write((byte)CalamityModMessageType.UpdateCodebreakerDecryptCountdown);
 			packet.Write(ID);
 			packet.Write(DecryptionCountdown);
+			packet.Send();
 		}
 
 		public static void ReadDecryptCountdownSync(Mod mod, BinaryReader reader)

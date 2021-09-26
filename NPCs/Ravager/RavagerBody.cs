@@ -475,6 +475,8 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (phase2 && npc.ai[1] == 0f)
 					{
+						npc.noTileCollide = true;
+
 						calamityGlobalNPC.newAI[3] += 1f;
 
 						if (inRange)
@@ -590,13 +592,13 @@ namespace CalamityMod.NPCs.Ravager
 			{
 				float gravity = phase2 ? 0f : 0.45f;
 				float maxFallSpeed = reduceFallSpeed ? 12f : phase2 ? 24f : 15f;
-				if (malice)
+				if (malice && !reduceFallSpeed)
 				{
 					gravity *= 1.25f;
 					maxFallSpeed *= 1.25f;
 				}
 
-				if (calamityGlobalNPC.newAI[1] > 1f)
+				if (calamityGlobalNPC.newAI[1] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[1];
 
 				npc.velocity.Y += gravity;

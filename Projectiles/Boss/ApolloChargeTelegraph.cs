@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ArtemisChargeTelegraph : ModProjectile
+    public class ApolloChargeTelegraph : ModProjectile
     {
 		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 		public Vector2 OldVelocity;
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
-        public const float TelegraphWidth = 2000f;
+        public const float TelegraphWidth = 943f; // a squared plus b squared equals c squared, dumbass
 
         public override void SetStaticDefaults()
         {
@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-            // Determine the relative opacities for each player based on their distance.
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
-            }
+			// Determine the relative opacities for each player based on their distance.
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+				projectile.netUpdate = true;
+			}
 
 			// Die if the thing to attach to disappears.
 			if (ThingToAttachTo is null || !ThingToAttachTo.active)
@@ -65,9 +65,6 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.Kill();
 				return;
 			}
-
-			// Set start of telegraph to the npc center.
-			projectile.Center = ThingToAttachTo.Center + Vector2.Normalize(OldVelocity) * 50f;
 
 			// Be sure to save the velocity the projectile started with.
 			if (OldVelocity == Vector2.Zero)
@@ -99,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
 
-			Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+			Color colorOuter = Color.Lerp(Color.Green, Color.Lime, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through green and lime once and then flash.
 			Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
             colorOuter *= 0.7f;

@@ -39,13 +39,10 @@ namespace CalamityMod.World
         public static void PerformWorldUpdates()
         {
             // Reset the exo mech to summon if Draedon is absent.
-            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
-			{
+            if (DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
                 DraedonMechToSummon = ExoMech.None;
-                CalamityNetcode.SyncWorld();
-            }
 
-            if (DraedonSummonCountdown > 0)
+            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonSummonCountdown > 0)
             {
                 DraedonSummonCountdown--;
                 HandleDraedonSummoning();
@@ -130,12 +127,15 @@ namespace CalamityMod.World
 
         public static void HandleDraedonSummoning()
         {
+            Main.LocalPlayer.Calamity().MusicMuffleFactor = Utils.InverseLerp(DraedonSummonCountdownMax, 32f, DraedonSummonCountdown, true);
+            Main.LocalPlayer.Calamity().MusicMuffleFactor = (float)Math.Pow(Main.LocalPlayer.Calamity().MusicMuffleFactor, 0.1);
+
             // Fire a giant laser into the sky.
-            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
-                Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 70, 0f);
+            if (DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
+                Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);
 
             if (DraedonSummonCountdown == 0)
-                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>(), 0, 0f, (int)DraedonMechToSummon);
+                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
         }
         #endregion Handle Draedon Summoning
 

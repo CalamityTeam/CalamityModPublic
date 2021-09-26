@@ -9,14 +9,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AresPlasmaFireball : ModProjectile
+    public class ApolloRocket : ModProjectile
     {
-		private const int timeLeft = 120;
+		private const int timeLeft = 180;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plasma Fireball");
-            Main.projFrames[projectile.type] = 6;
+            DisplayName.SetDefault("Plasma Rocket");
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -24,13 +24,12 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 36;
-            projectile.height = 36;
+			projectile.width = 28;
+            projectile.height = 28;
             projectile.hostile = true;
             projectile.ignoreWater = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.penetrate = -1;
-			projectile.Opacity = 0f;
 			cooldownSlot = 1;
 			projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
@@ -48,34 +47,23 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-			if (projectile.ai[0] != -1f)
-			{
-				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-					projectile.tileCollide = true;
-			}
-			else
-			{
-				if (projectile.timeLeft < timeLeft / 2)
-					projectile.Kill();
-			}
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
 
-			int fadeInTime = 3;
-			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
-
-			Lighting.AddLight(projectile.Center, 0f, 0.6f * projectile.Opacity, 0f);
-
+			// Animation
 			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
+            if (projectile.frame > 4)
                 projectile.frame = 0;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+			// Rotation
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
+			// Spawn effects
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
@@ -84,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
 				float speed2 = 2.8f;
 				float angleRandom = 0.35f;
 
-				for (int num53 = 0; num53 < 40; num53++)
+				for (int num53 = 0; num53 < 20; num53++)
 				{
 					float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 					Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
@@ -112,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
 
 					dust = Main.dust[num54];
 				}
-				for (int num55 = 0; num55 < 20; num55++)
+				for (int num55 = 0; num55 < 10; num55++)
 				{
 					float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 					Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
@@ -129,109 +117,93 @@ namespace CalamityMod.Projectiles.Boss
 					dust = Main.dust[num56];
 				}
 			}
-        }
 
-		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+			// Light
+			Lighting.AddLight(projectile.Center, 0f, 0.6f, 0f);
+
+			// Get a target and calculate distance from it
+			int target = Player.FindClosest(projectile.Center, 1, 1);
+            Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
+
+			// Set AI to stop homing, start accelerating
+			float stopHomingDistance = 200f;
+            if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
+            {
+				projectile.ai[0] = 1f;
+
+				if (projectile.velocity.Length() < 24f)
+					projectile.velocity *= 1.05f;
+
+				return;
+            }
+
+			// Home in on target
+			float scaleFactor = projectile.velocity.Length();
+			float inertia = 10f;
+			distanceFromTarget.Normalize();
+			distanceFromTarget *= scaleFactor;
+			projectile.velocity = (projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
+			projectile.velocity.Normalize();
+			projectile.velocity *= scaleFactor;
+		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (projectile.Opacity != 1f)
-				return;
-
 			target.AddBuff(BuffID.OnFire, 360);
 			target.AddBuff(BuffID.CursedInferno, 180);
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			lightColor.R = (byte)(255 * projectile.Opacity);
-			lightColor.G = (byte)(255 * projectile.Opacity);
-			lightColor.B = (byte)(255 * projectile.Opacity);
-			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-            return false;
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+			return false;
         }
 
-		public override void Kill(int timeLeft)
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int drawStart = height * projectile.frame;
+			Vector2 origin = projectile.Size / 2;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/ApolloRocketGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+		}
+
+		public override void Kill(int timeLeft)
+        {
+			// Rocket explosion
 			int height = 90;
 			projectile.position = projectile.Center;
 			projectile.width = projectile.height = height;
 			projectile.Center = projectile.position;
 			projectile.Damage();
 
-			Main.PlaySound(SoundID.Item93, projectile.Center);
+			Main.PlaySound(SoundID.Item14, projectile.Center);
 
-			if (Main.myPlayer == projectile.owner)
+			for (int num621 = 0; num621 < 12; num621++)
 			{
-				// Plasma bolts
-				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
-
-				// Reduce the total amount of projectiles by half if Apollo is shooting them
-				if (projectile.ai[0] == -1f)
-					totalProjectiles /= 2;
-
-				float radians = MathHelper.TwoPi / totalProjectiles;
-				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = projectile.velocity.Length();
-				double angleA = radians * 0.5;
-				double angleB = MathHelper.ToRadians(90f) - angleA;
-				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-				Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
-				for (int k = 0; k < totalProjectiles; k++)
+				int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 100, default, 2f);
+				Main.dust[dust].velocity *= 3f;
+				if (Main.rand.NextBool(2))
 				{
-					Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-					Projectile.NewProjectile(projectile.Center, velocity2, type, (int)(projectile.damage * 0.8), 0f, Main.myPlayer);
+					Main.dust[dust].scale = 0.5f;
+					Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 				}
 			}
-
-			for (int num640 = 0; num640 < 200; num640++)
+			for (int num623 = 0; num623 < 15; num623++)
 			{
-				float num641 = 16f;
-				if (num640 < 150)
-					num641 = 12f;
-				if (num640 < 100)
-					num641 = 8f;
-				if (num640 < 50)
-					num641 = 4f;
-
-				int num643 = Dust.NewDust(projectile.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
-				float num644 = Main.dust[num643].velocity.X;
-				float num645 = Main.dust[num643].velocity.Y;
-
-				if (num644 == 0f && num645 == 0f)
-					num644 = 1f;
-
-				float num646 = (float)Math.Sqrt(num644 * num644 + num645 * num645);
-				num646 = num641 / num646;
-				num644 *= num646;
-				num645 *= num646;
-
-				float scale = 1f;
-				switch ((int)num641)
-				{
-					case 4:
-						scale = 1.2f;
-						break;
-					case 8:
-						scale = 1.1f;
-						break;
-					case 12:
-						scale = 1f;
-						break;
-					case 16:
-						scale = 0.9f;
-						break;
-					default:
-						break;
-				}
-
-				Dust dust = Main.dust[num643];
-				dust.velocity *= 0.5f;
-				dust.velocity.X = dust.velocity.X + num644;
-				dust.velocity.Y = dust.velocity.Y + num645;
-				dust.scale = scale;
-				dust.noGravity = true;
+				int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 100, default, 3f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].velocity *= 5f;
+				dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, randomDustType, 0f, 0f, 100, default, 2f);
+				Main.dust[dust].velocity *= 2f;
 			}
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

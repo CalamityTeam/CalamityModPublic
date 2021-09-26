@@ -215,8 +215,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Despawn if target is dead
 			if (player.dead)
 			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
+				player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
 				if (player.dead)
 				{
 					AIState = (float)Phase.Nothing;
@@ -249,7 +248,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.5f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 22f * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -352,7 +351,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						AIState = (float)Phase.Nothing;
 						calamityGlobalNPC.newAI[2] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void PostAI() => Lighting.AddLight(projectile.Center, 0.2f, 0.1f, 0f);
 
-		public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(projectile.Center, CurrentRadius * projectile.scale * 0.5f, target.Hitbox);
+		public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(projectile.Center, CurrentRadius * projectile.scale * 0.4f, target.Hitbox) && projectile.timeLeft > 6;
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => target.Calamity().lastProjectileHit = projectile;
 

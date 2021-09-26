@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public ref float Time => ref projectile.ai[0];
-        public const int PulseTime = 45;
         public const int TotalRitualTime = 270;
         public override void SetStaticDefaults() => DisplayName.SetDefault("Calamitous Ritual Drama");
 
@@ -21,18 +20,32 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = projectile.height = 2;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = TotalRitualTime;
+            projectile.timeLeft = TotalRitualTime + 420;
         }
 
-		public override void AI()
-		{
-			SCalSky.OverridingIntensity = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
-            Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
-            Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(projectile.Center), true) * 4f;
+        public override void AI()
+        {
+            // If needed, these effects may continue after the ritual timer, to ensure that there are no awkward
+            // background changes between the time it takes for SCal to appear after this projectile is gone.
+            // If SCal is already present, this does not happen.
+            if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
+            {
+                SCalSky.OverridingIntensity = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(projectile.Center), true) * 4f;
+            }
+
+            // Summon SCal right before the ritual effect ends.
+            // The projectile lingers a little longer, however, to ensure that desync delays in MP do not interfere with the background transition.
+            if (Time == TotalRitualTime - 1f)
+                SummonSCal();
+
+            if (Time >= TotalRitualTime)
+                return;
 
             int fireReleaseRate = Time > 150f ? 2 : 1;
             for (int i = 0; i < fireReleaseRate; i++)
-			{
+            {
                 if (Main.rand.NextBool(4))
                 {
                     Dust brimstone = Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-20f, 24f), Main.rand.NextFloat(10f, 18f)), 267);
@@ -45,19 +58,22 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             Time++;
-		}
+        }
 
-		public override void Kill(int timeLeft)
-		{
+        public void SummonSCal()
+        {
+            // Summon SCal serverside.
+            // All the other acoustic and visual effects can happen client-side.
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 CalamityUtils.SpawnBossBetter(projectile.Center - new Vector2(60f), ModContent.NPCType<SupremeCalamitas>());
 
             // Make a laugh sound and create a burst of brimstone dust.
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), projectile.Center);
 
+            // Make a sudden screen shake.
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(projectile.Center), true) * 16f;
 
-            // Generate a dust explosion
+            // Generate a dust explosion at the ritual's position.
             float burstDirectionVariance = 3;
             float burstSpeed = 14f;
             for (int j = 0; j < 16; j++)
@@ -74,5 +90,5 @@ namespace CalamityMod.Projectiles.Boss
                 burstSpeed += 1.8f;
             }
         }
-	}
+    }
 }

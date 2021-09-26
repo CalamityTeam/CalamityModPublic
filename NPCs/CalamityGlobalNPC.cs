@@ -1915,8 +1915,7 @@ namespace CalamityMod.NPCs
 				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
 					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
 					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
-					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)) ||
-					ThanatosIDs.Contains(npc.type))
+					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)))
 					DRScalar = 5f;
 
 				// Boost Desert Scourge and Perforator Worm timed DR during Malice Mode to prevent speed killing
@@ -1925,6 +1924,9 @@ namespace CalamityMod.NPCs
 					if (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type))
 						DRScalar = 5f;
 				}
+
+				if (ThanatosIDs.Contains(npc.type))
+					DRScalar = 2.5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -2181,6 +2183,9 @@ namespace CalamityMod.NPCs
 
                     case NPCID.Golem:
                         return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod);
+					case NPCID.GolemFistLeft:
+					case NPCID.GolemFistRight:
+						return CalamityGlobalAI.BuffedGolemFistAI(npc, enraged > 0, mod);
                     case NPCID.GolemHead:
                         return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
                     case NPCID.GolemHeadFree:

@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Enums;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -73,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			// The direction of the host NPC.
-			Vector2 hostNPCDirection = Vector2.Normalize(ThingToAttachTo.velocity);
+			Vector2 hostNPCDirection = Vector2.Normalize(new Vector2(ThingToAttachTo.ai[1], ThingToAttachTo.ai[2]) - ThingToAttachTo.Center);
 
 			// Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
 			float beamStartForwardsOffset = -70f;
