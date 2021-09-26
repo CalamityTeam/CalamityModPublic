@@ -369,6 +369,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			else if (berserk)
 				chargeVelocity *= 1.1f;
 
+			// Charge phase variables
+			double chargeDistance = Math.Sqrt(500D * 500D + 800D * 800D);
+			float chargeTime = (float)chargeDistance / chargeVelocity;
+
 			// Plasma and rocket projectile velocities
 			float projectileVelocity = 14f;
 			if (lastMechAlive)
@@ -386,38 +390,35 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + 750f, player.Center.Y + chargeComboYOffset) : new Vector2(player.Center.X + 750f, player.Center.Y);
 
 			// If Apollo can fire projectiles, cannot fire if too close to the target
-			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
 
 			// Rotation
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 aimedVector = player.Center + predictionVector - npc.Center;
 			float rateOfRotation = 0.1f;
 			Vector2 rotateTowards = player.Center - npc.Center;
-			bool stopRotatingAndSlowDown = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(npc.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
-			if (!stopRotatingAndSlowDown)
+			bool readyToCharge = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(npc.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
+			if (AIState == (int)Phase.ChargeCombo)
 			{
-				if (AIState == (int)Phase.ChargeCombo)
-				{
-					rateOfRotation = 0f;
-					npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
-				}
-				else if (AIState == (float)Phase.LineUpChargeCombo && chargeLocations[1] != default)
-				{
-					float x = chargeLocations[1].X - npc.Center.X;
-					float y = chargeLocations[1].Y - npc.Center.Y;
-					rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
-				}
-				else
-				{
-					float x = player.Center.X + predictionVector.X - npc.Center.X;
-					float y = player.Center.Y + predictionVector.Y - npc.Center.Y;
-					rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
-				}
-
-				// Do not set this during charge or deathray phases
-				if (rateOfRotation != 0f)
-					npc.rotation = npc.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
+				rateOfRotation = 0f;
+				npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
 			}
+			else if (AIState == (float)Phase.LineUpChargeCombo && chargeLocations[1] != default)
+			{
+				float x = chargeLocations[1].X - npc.Center.X;
+				float y = chargeLocations[1].Y - npc.Center.Y;
+				rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
+			}
+			else
+			{
+				float x = player.Center.X + predictionVector.X - npc.Center.X;
+				float y = player.Center.Y + predictionVector.Y - npc.Center.Y;
+				rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
+			}
+
+			// Do not set this during charge or deathray phases
+			if (rateOfRotation != 0f)
+				npc.rotation = npc.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
 
 			// Light
 			Lighting.AddLight(npc.Center, 0.05f * npc.Opacity, 0.25f * npc.Opacity, 0.15f * npc.Opacity);
@@ -804,7 +805,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Create telegraph beams between the charge location array positions
 				case (int)Phase.LineUpChargeCombo:
 
-					if (!stopRotatingAndSlowDown)
+					if (!readyToCharge)
 					{
 						// Inverse lerp returns the percentage of progress between A and B
 						float lerpValue3 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
@@ -893,13 +894,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					}
 
 					// Initiate next charge if close enough to next charge location
-					if (Vector2.Distance(npc.Center, chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1]) < chargeVelocity * 0.5f + 2f)
+					calamityGlobalNPC.newAI[3] += 1f;
+					if (calamityGlobalNPC.newAI[3] >= chargeTime)
 					{
 						// Set Apollo's location to the next charge location
 						npc.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
 
 						// Increase newAI[2] whenever a charge ends
 						calamityGlobalNPC.newAI[2] += 1f;
+						calamityGlobalNPC.newAI[3] = 0f;
 						npc.localAI[2] = 0f;
 					}
 

@@ -384,7 +384,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
-			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
