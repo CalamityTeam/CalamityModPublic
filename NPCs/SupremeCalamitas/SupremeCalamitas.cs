@@ -844,8 +844,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (CalamityWorld.downedSCal)
                         key += "Rematch";
                     CalamityUtils.DisplayLocalizedText(key, textColor);
-                    if (CalamityWorld.downedSCal)
-                        CalamityUtils.DisplayLocalizedText(key + "2", textColor);
                 }
                 startThirdAttack = true;
                 return;
@@ -2648,10 +2646,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     string key = "Mods.CalamityMod.SCalBrothersText";
                     if (CalamityWorld.downedSCal)
                         key += "Rematch";
-
                     CalamityUtils.DisplayLocalizedText(key, textColor);
-                    if (CalamityWorld.downedSCal)
-                        CalamityUtils.DisplayLocalizedText(key + "2", textColor);
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
