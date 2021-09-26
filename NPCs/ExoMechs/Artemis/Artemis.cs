@@ -383,6 +383,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// Laser shotgun variables
 			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
 
+			// If Artemis can fire projectiles, cannot fire if too close to the target
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
+
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
 			Vector2 aimedVector = player.Center + predictionVector - npc.Center;
@@ -713,7 +716,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							int numLasers = lastMechAlive ? 15 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
-							if (laserTimer % divisor == 0f)
+							if (laserTimer % divisor == 0f && canFire)
 							{
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -826,7 +829,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					int numSpreads = lastMechAlive ? 3 : 2;
 					int numLasersPerSpread = lastMechAlive ? 8 : 6;
 					float divisor2 = laserShotgunDuration / numSpreads;
-					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f)
+					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
 					{
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
