@@ -773,6 +773,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									else
 									{
 										// Charge until a certain distance is reached and then return to normal phase
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
 										AIState = (float)Phase.Charge;
 										npc.velocity = chargeVelocityNormalized * chargeVelocity;
 										chargeVelocityNormalized = default;
