@@ -63,10 +63,11 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DraedonsHeart>());
 
             // Vanity
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
-        }
+            DropHelper.DropItemChance(player, ModContent.ItemType<ThanosMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
+			DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), 7);
+		}
     }
 }
