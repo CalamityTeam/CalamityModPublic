@@ -945,9 +945,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					if (calamityGlobalNPC.newAI[2] == lensPopTime)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
-						Vector2 goreVelocity = Vector2.Normalize(aimedVector);
-						Vector2 offset = goreVelocity * 70f;
-						Gore.NewGore(npc.Center + offset, goreVelocity * 24f, mod.GetGoreSlot("Gores/Apollo/ApolloTransitionGore"), 1f);
+						Vector2 lensDirection = Vector2.Normalize(aimedVector);
+						Vector2 offset = lensDirection * 70f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenApolloLens>(), 0, 0f);
 					}
 
 					// Reset phase and variables
