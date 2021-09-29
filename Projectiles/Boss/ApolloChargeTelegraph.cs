@@ -2,23 +2,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class ApolloChargeTelegraph : ModProjectile
     {
+        public Vector2[] ChargePositions = new Vector2[1];
 		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-
-		public float TelegraphDelay
-        {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
-        }
 
 		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
-		public Vector2 OldVelocity;
+        public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 943.39811f; // a squared plus b squared equals c squared, dumbass
@@ -42,13 +38,17 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.WriteVector2(OldVelocity);
+            writer.Write(ChargePositions.Length);
+            for (int i = 0; i < ChargePositions.Length; i++)
+                writer.WriteVector2(ChargePositions[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			OldVelocity = reader.ReadVector2();
-		}
+            ChargePositions = new Vector2[reader.ReadInt32()];
+            for (int i = 0; i < ChargePositions.Length; i++)
+                ChargePositions[i] = reader.ReadVector2();
+        }
 
 		public override void AI()
         {
@@ -66,16 +66,8 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 			}
 
-			// Be sure to save the velocity the projectile started with.
-			if (OldVelocity == Vector2.Zero)
-            {
-                OldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Zero;
-                projectile.netUpdate = true;
-                projectile.rotation = OldVelocity.ToRotation() + MathHelper.PiOver2;
-            }
-
-            TelegraphDelay++;
+            // Determine opacity
+            projectile.Opacity = Utils.InverseLerp(0f, 6f, projectile.timeLeft, true) * Utils.InverseLerp(30f, 24f, projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -83,28 +75,43 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(255, 255, 255, projectile.alpha);
         }
 
+        public Color TelegraphPrimitiveColor(float completionRatio)
+        {
+            float opacity = MathHelper.Lerp(0.18f, 0.43f, projectile.Opacity);
+            opacity *= CalamityUtils.Convert01To010(completionRatio);
+            opacity *= (float)System.Math.Pow(MathHelper.Lerp(0.9f, 0.125f, projectile.ai[0] / (ChargePositions.Length - 1f)), 2D);
+            if (completionRatio > 0.95f)
+                opacity = 0.0000001f;
+            return Color.Green * opacity;
+        }
+
+        public float TelegraphPrimitiveWidth(float completionRatio)
+        {
+            return projectile.Opacity * 15f;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D laserTelegraph = ModContent.GetTexture("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
-            float yScale = 25f;
-            if (TelegraphDelay < TelegraphFadeTime)
-                yScale = MathHelper.Lerp(0f, 25f, TelegraphDelay / 15f);
-            if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-                yScale = MathHelper.Lerp(25f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
+            if (TelegraphDrawer is null)
+                TelegraphDrawer = new PrimitiveTrail(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:Flame"]);
 
-            Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
-            Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
-            Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
+            GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.41f);
 
-			Color colorOuter = Color.Lerp(Color.Green, Color.Lime, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through green and lime once and then flash.
-			Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
+            for (int i = ChargePositions.Length - 2; i >= 0; i--)
+            {
+                Vector2[] positions = new Vector2[2]
+                {
+                    ChargePositions[i],
+                    ChargePositions[i + 1]
+                };
 
-            colorOuter *= 0.7f;
-            colorInner *= 0.7f;
+                // Stand-in variable used to differentiate between the beams.
+                // It is not used anywhere else.
+                projectile.ai[0] = i;
 
-            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorInner, OldVelocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0f);
-            spriteBatch.Draw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorOuter, OldVelocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0f);
-
+                TelegraphDrawer.Draw(positions, projectile.Size * 0.5f - Main.screenPosition, 55);
+            }
             return false;
         }
     }
