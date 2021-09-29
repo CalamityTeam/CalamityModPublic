@@ -2733,7 +2733,32 @@ namespace CalamityMod
 				ProjectileType<DevilsSunriseCyclone>(),
 				ProjectileType<PhaseslayerProjectile>(),
 				ProjectileType<TaserHook>(),
-				ProjectileType<Snowflake>()
+				ProjectileType<Snowflake>(),
+				ProjectileType<InsidiousHarpoon>(),
+				ProjectileType<PhotonRipperProjectile>(),
+				ProjectileType<AcidicSaxBubble>(),
+				ProjectileType<WaterLeechProj>(),
+				ProjectileType<BonebreakerProjectile>(),
+				ProjectileType<UrchinBallSpike>(),
+				ProjectileType<EmesisGore>(),
+				ProjectileType<ExoLightBurst>(),
+				ProjectileType<SulphuricAcidBubble2>(),
+				ProjectileType<EclipsesStealth>(),
+				ProjectileType<EradicatorProjectile>(),
+				ProjectileType<FantasyTalismanProj>(),
+				ProjectileType<FantasyTalismanStealth>(),
+				ProjectileType<GodsParanoiaProj>(),
+				ProjectileType<JawsProjectile>(),
+				ProjectileType<LeviathanTooth>(),
+				ProjectileType<LionfishProj>(),
+				ProjectileType<MetalShard>(),
+				ProjectileType<NastyChollaBol>(),
+				ProjectileType<SacrificeProjectile>(),
+				ProjectileType<SnapClamProj>(),
+				ProjectileType<SnapClamStealth>(),
+				ProjectileType<StickyBol>(),
+				ProjectileType<UrchinStingerProj>(),
+				ProjectileType<EyeOfNightCell>()
 			};
 
 			bossMinionList = new List<int>()

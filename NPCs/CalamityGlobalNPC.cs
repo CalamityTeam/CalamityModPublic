@@ -2089,9 +2089,14 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
-                npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
-            }
+
+				if (draedon != -1)
+				{
+					if (Main.npc[draedon].active)
+						npc.dontTakeDamage = true;
+				}
+			}
 
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			if (ZeroContactDamageNPCList.Contains(npc.type))

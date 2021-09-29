@@ -318,6 +318,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
 				buffedSlime = 0;
 			}
+			else if (npc.ai[1] < ai1)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 0.8f)
+					npc.Opacity = 0.8f;
+			}
 
 			// Spin and shoot orbs
             if (phase2)

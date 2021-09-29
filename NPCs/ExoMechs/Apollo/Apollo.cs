@@ -919,6 +919,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// Set Apollo's location to the next charge location
 						npc.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
 
+						// Reset velocity to 0
+						npc.velocity = Vector2.Zero;
+
 						// Increase newAI[2] whenever a charge ends
 						calamityGlobalNPC.newAI[2] += 1f;
 						calamityGlobalNPC.newAI[3] = 0f;
@@ -1291,13 +1294,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					Main.dust[num195].noGravity = true;
 				}
 
-				/*Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody7"), 1f);*/
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo5"), 1f);
 			}
 		}
 
