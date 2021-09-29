@@ -845,13 +845,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// Save the charge locations and create telegraph beams
 						int type = ModContent.ProjectileType<ApolloChargeTelegraph>();
 
-						// Play a charge sound
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-
 						for (int i = 0; i < maxCharges; i++)
 						{
 							if (chargeLocations[i] == default)
 							{
+								// Play a charge sound
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+
 								switch (i)
 								{
 									case 0:
@@ -869,17 +869,18 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 									default:
 										break;
 								}
-							}
-						}
 
-						// Draw telegraph beams
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
-							if (Main.projectile.IndexInRange(telegraph))
-							{
-								Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
-								Main.projectile[telegraph].netUpdate = true;
+
+								// Draw telegraph beams
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									if (Main.projectile.IndexInRange(telegraph))
+									{
+										Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
+										Main.projectile[telegraph].netUpdate = true;
+									}
+								}
 							}
 						}
 
