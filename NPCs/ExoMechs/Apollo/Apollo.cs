@@ -14,6 +14,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
@@ -1254,8 +1255,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 		public override void NPCLoot()
         {
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisTrophy>(), 10);
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloTrophy>(), 10);
 
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;

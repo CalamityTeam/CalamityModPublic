@@ -2,6 +2,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -708,7 +709,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void NPCLoot()
         {
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
 
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
