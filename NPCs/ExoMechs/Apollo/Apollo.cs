@@ -849,9 +849,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						{
 							if (chargeLocations[i] == default)
 							{
-								// Play a charge sound
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
-
 								switch (i)
 								{
 									case 0:
@@ -870,16 +867,21 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 										break;
 								}
 
-
-								// Draw telegraph beams
-								if (Main.netMode != NetmodeID.MultiplayerClient)
+								if (i == 0)
 								{
-									int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
-									if (Main.projectile.IndexInRange(telegraph))
+									// Draw telegraph beams
+									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
-										Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
-										Main.projectile[telegraph].netUpdate = true;
+										int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										if (Main.projectile.IndexInRange(telegraph))
+										{
+											Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
+											Main.projectile[telegraph].netUpdate = true;
+										}
 									}
+
+									// Play a charge sound
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 								}
 							}
 						}
@@ -1144,7 +1146,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			Color afterimageBaseColor = Color.White;
 
 			// Draws a single instance of a regular, non-glowmask based Artemis.
-			// This is created to allow easy duplicate of them when drawing the charge.
+			// This is created to allow easy duplication of them when drawing the charge.
 			void drawInstance(Vector2 drawOffset, Color baseColor)
 			{
 				if (CalamityConfig.Instance.Afterimages)

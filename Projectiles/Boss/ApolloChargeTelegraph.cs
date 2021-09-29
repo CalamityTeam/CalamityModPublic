@@ -77,9 +77,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public Color TelegraphPrimitiveColor(float completionRatio)
         {
-            float opacity = MathHelper.Lerp(0.18f, 0.48f, projectile.Opacity);
+            float opacity = MathHelper.Lerp(0.38f, 1.2f, projectile.Opacity);
             opacity *= CalamityUtils.Convert01To010(completionRatio);
-            opacity *= (float)System.Math.Pow(MathHelper.Lerp(0.9f, 0.2f, projectile.ai[0] / (ChargePositions.Length - 1f)), 2D);
+            opacity *= MathHelper.Lerp(0.9f, 0.2f, projectile.ai[0] / (ChargePositions.Length - 1f));
             if (completionRatio > 0.95f)
                 opacity = 0.0000001f;
             return Color.Green * opacity;

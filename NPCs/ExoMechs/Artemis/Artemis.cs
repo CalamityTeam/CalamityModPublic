@@ -1185,7 +1185,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Color afterimageBaseColor = Color.White;
 
 			// Draws a single instance of a regular, non-glowmask based Artemis.
-			// This is created to allow easy duplicate of them when drawing the charge.
+			// This is created to allow easy duplication of them when drawing the charge.
 			void drawInstance(Vector2 drawOffset, Color baseColor)
 			{
 				if (CalamityConfig.Instance.Afterimages)
