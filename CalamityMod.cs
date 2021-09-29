@@ -269,6 +269,9 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
 
+            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.625f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
@@ -856,6 +859,11 @@ namespace CalamityMod
             {
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
                 tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+            }
+            else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
+            {
+                backgroundColor = Color.Lerp(backgroundColor, Color.DarkSlateGray, 0.2f);
+                tileColor = Color.Lerp(tileColor, Color.DarkSlateGray, 0.8f);
             }
         }
 		#endregion

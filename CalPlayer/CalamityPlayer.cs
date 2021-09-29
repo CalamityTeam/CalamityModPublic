@@ -29,6 +29,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -2595,6 +2596,13 @@ namespace CalamityMod.CalPlayer
                 else
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
             }
+
+            bool useExoMechs = NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && Draedon.ExoMechIsPresent;
+            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
+            if (useExoMechs)
+                SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);
+            else
+                SkyManager.Instance.Deactivate("CalamityMod:ExoMechs");
 
             Point point = player.Center.ToTileCoordinates();
             bool aboveGround = point.Y > Main.maxTilesY - 320;

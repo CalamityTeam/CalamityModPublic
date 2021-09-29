@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Boss
         public override string Texture => "CalamityMod/Projectiles/Boss/AresLaserBeamStart";
 
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[0]) ? Main.npc[(int)projectile.ai[0]] : null;
+        public ref float RotationDirection => ref projectile.ai[1];
         public ref float Time => ref projectile.localAI[0];
         public ref float LengthOfLaser => ref projectile.localAI[1];
         public const int Lifetime = 180;
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             projectile.rotation = ThingToAttachTo.velocity.ToRotation();
-            projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
+            projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * RotationDirection;
 
             // Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
             float beamStartForwardsOffset = 80f;

@@ -937,7 +937,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
+									{
 										Main.projectile[laser].ai[0] = npc.whoAmI;
+										Main.projectile[laser].ai[1] = rotationDirection;
+									}
 								}
 							}
 							else
