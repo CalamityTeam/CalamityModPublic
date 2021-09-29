@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Duration of deathray spin to do a full circle
-			float spinTime = 120f - baseVelocity * 2.5f;
+			float spinTime = 180f - baseVelocity * baseVelocityMult;
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)

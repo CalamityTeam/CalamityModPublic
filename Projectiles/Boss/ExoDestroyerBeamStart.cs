@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-			float scale = 1f;
+			float scale = 2f;
 			projectile.scale = (float)Math.Sin(Time * MathHelper.Pi / Lifetime) * 10f * scale;
             if (projectile.scale > scale)
                 projectile.scale = scale;
