@@ -62,13 +62,13 @@ namespace CalamityMod.Skies
             if (!CanSkyBeActive)
 			{
                 LightningIntensity = 0f;
-                BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity - 0.05f, 0f, 1f);
+                BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity - 0.08f, 0f, 1f);
                 LightningBolts.Clear();
                 return;
             }
 
             LightningIntensity = MathHelper.Clamp(LightningIntensity * 0.95f - 0.025f, 0f, 1f);
-            BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity + 0.1f, 0f, 1f);
+            BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity + 0.01f, 0f, 1f);
 
             for (int i = 0; i < LightningBolts.Count; i++)
 			{
@@ -89,11 +89,26 @@ namespace CalamityMod.Skies
                 }
             }
 
+            // Occasionally make the whole screen flash with lightning and create 7 bolts.
             if (Main.rand.NextBool((int)MathHelper.Lerp(780f, 300f, CurrentIntensity)))
-                LightningIntensity = 0.33f;
+            {
+                LightningIntensity = 0.42f;
+                for (int i = 0; i < 7; i++)
+				{
+                    Lightning lightning = new Lightning()
+                    {
+                        Lifetime = 30,
+                        Depth = Main.rand.NextFloat(1.5f, 10f),
+                        Position = new Vector2(Main.rand.NextFloat(2000f, Main.maxTilesX * 16f - 2000f), Main.rand.NextFloat(4850f))
+                    };
+                    LightningBolts.Add(lightning);
+                }
+            }
+
+            Opacity = BackgroundIntensity;
         }
 
-        public override Color OnTileColor(Color inColor) => new Color(Vector4.Lerp(DrawColor.ToVector4() * 0.7f, inColor.ToVector4(), 1f - BackgroundIntensity));
+        public override Color OnTileColor(Color inColor) => new Color(Vector4.Lerp(DrawColor.ToVector4(), inColor.ToVector4(), 1f - BackgroundIntensity));
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
@@ -143,7 +158,9 @@ namespace CalamityMod.Skies
             }
         }
 
-        public override void Reset() { }
+        public override float GetCloudAlpha() => 0f;
+
+		public override void Reset() { }
 
         public override void Activate(Vector2 position, params object[] args) { }
 

@@ -269,7 +269,7 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
 
-            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.625f), EffectPriority.VeryHigh);
+            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
@@ -862,8 +862,11 @@ namespace CalamityMod
             }
             else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
             {
-                backgroundColor = Color.Lerp(backgroundColor, Color.DarkSlateGray, 0.2f);
-                tileColor = Color.Lerp(tileColor, Color.DarkSlateGray, 0.8f);
+                float intensity = SkyManager.Instance["CalamityMod:ExoMechs"].Opacity;
+                backgroundColor = Color.Lerp(backgroundColor, Color.DarkGray, intensity * 0.9f);
+                backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
+                tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
+                tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
             }
         }
 		#endregion
