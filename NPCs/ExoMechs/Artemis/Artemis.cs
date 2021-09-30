@@ -1217,7 +1217,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		{
 			Color startingColor = new Color(34, 40, 48);
 			Color endColor = new Color(219, 82, 28);
-			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D));
+			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * npc.Opacity;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

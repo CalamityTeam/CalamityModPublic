@@ -1147,7 +1147,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 		{
 			Color startingColor = new Color(34, 40, 48);
 			Color endColor = new Color(40, 160, 32);
-			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D));
+			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * npc.Opacity;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
