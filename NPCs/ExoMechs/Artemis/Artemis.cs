@@ -113,6 +113,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		// The point to spin around
 		private Vector2 spinningPoint = default;
 
+		// Velocity for the spin
+		private Vector2 spinVelocity = default;
+
 		// Intensity of flash effects during the charge combo
 		public float ChargeFlash;
 
@@ -167,6 +170,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.WriteVector2(spinVelocity);
 			writer.WriteVector2(chargeVelocityNormalized);
 			writer.Write(frameX);
 			writer.Write(frameY);
@@ -184,6 +188,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			spinVelocity = reader.ReadVector2();
 			chargeVelocityNormalized = reader.ReadVector2();
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
@@ -454,6 +459,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					rotationDirection = 0;
 					chargeVelocityNormalized = default;
 					spinningPoint = default;
+					spinVelocity = default;
 					npc.dontTakeDamage = true;
 
 					npc.velocity.Y -= 1f;
@@ -549,6 +555,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 					}
 					else
@@ -570,6 +577,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
@@ -588,6 +596,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 					}
 
@@ -614,6 +623,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 					}
 
 					// If Artemis and Apollo are the first mechs to go berserk
@@ -630,6 +640,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -659,6 +670,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 					}
 
 					if (berserk)
@@ -674,6 +686,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -933,8 +946,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									rotationDirection = player.direction;
 
 								// Set spin velocity
-								npc.velocity.X = MathHelper.Pi * spinRadius / spinTime;
-								npc.velocity *= -rotationDirection;
+								spinVelocity.X = MathHelper.Pi * spinRadius / spinTime;
+								spinVelocity *= -rotationDirection;
 								npc.netUpdate = true;
 
 								// Create a bunch of lightning bolts in the sky
@@ -954,7 +967,24 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								}
 							}
 							else
-								npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinTime * -rotationDirection);
+							{
+								// This is used to adjust both the radians and the velocity of the spin moved per frame
+								float rotationMult = (calamityGlobalNPC.newAI[2] - deathrayTelegraphDuration) / deathrayDuration * 4f;
+								if (rotationMult > 1f)
+								{
+									// The radians moved per frame during the spin
+									double radiansOfRotation = MathHelper.Pi / spinTime * -rotationDirection;
+									npc.velocity = npc.velocity.RotatedBy(radiansOfRotation);
+								}
+								else
+								{
+									// The radians moved per frame during the spin
+									// The radians moved are reduced early on to avoid spinning too fucking fast
+									float decelerationMult = rotationMult * rotationMult;
+									double radiansOfRotation = MathHelper.Pi / spinTime * -rotationDirection * decelerationMult;
+									npc.velocity = (spinVelocity * decelerationMult).RotatedBy(radiansOfRotation);
+								}
+							}
 						}
 					}
 					else
@@ -980,6 +1010,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// Reset phase and variables
 					if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
 					{
+						spinVelocity = default;
 						rotationDirection = 0;
 						spinningPoint = default;
 						pickNewLocation = true;

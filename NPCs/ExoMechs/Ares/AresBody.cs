@@ -2,6 +2,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -755,6 +756,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					DropHelper.WeightStack<RefractionRotor>(w),
 					DropHelper.WeightStack<TheAtomSplitter>(w)
 				);
+
+				// Equipment
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoBox360>(), 5);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanosMask>(), 7);
