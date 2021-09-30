@@ -80,6 +80,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XF-09 Ares");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = npc.oldPos.Length;
 		}
 
         public override void SetDefaults()
