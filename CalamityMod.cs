@@ -84,6 +84,7 @@ namespace CalamityMod
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
 		public static ModHotKey GodSlayerDashHotKey;
+        public static ModHotKey ExoChairSpeedupHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -182,8 +183,9 @@ namespace CalamityMod
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
+            ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
 
-			if (!Main.dedServ)
+            if (!Main.dedServ)
                 LoadClient();
 
             ILChanges.Load();

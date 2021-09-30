@@ -326,6 +326,7 @@ namespace CalamityMod.CalPlayer
         public bool angryDog = false;
         public bool fab = false;
         public bool crysthamyr = false;
+        public bool ExoChair = false;
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
@@ -1529,6 +1530,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             miniOldDuke = false;
 
             abyssalDivingSuitPlates = false;
@@ -2296,6 +2298,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             abyssalDivingSuitPlates = false;
             sirenWaterBuff = false;
             sirenIce = false;
@@ -3925,6 +3928,47 @@ namespace CalamityMod.CalPlayer
             if (player.ZoneDesert && (ZoneAstral || areThereAnyDamnBosses) && player.HasBuff(BuffID.WindPushed))
             {
                 player.ClearBuff(BuffID.WindPushed);
+            }
+        }
+        #endregion
+
+        #region PreUpdateMovement
+        public override void PreUpdateMovement()
+        {
+            // Remove acceleration when using the exo chair.
+            if (ExoChair)
+            {
+                float speed = DraedonGamerChairMount.MovementSpeed;
+                if (CalamityMod.ExoChairSpeedupHotkey.Current)
+                    speed *= 2f;
+
+                if (player.controlLeft)
+                {
+                    player.velocity.X = -speed;
+                    player.direction = -1;
+                }
+                else if (player.controlRight)
+                {
+                    player.velocity.X = speed;
+                    player.direction = 1;
+                }
+                else
+                    player.velocity.X = 0f;
+
+                if (player.controlUp)
+                    player.velocity.Y = -speed;
+
+                else if (player.controlDown)
+                {
+                    player.velocity.Y = speed;
+                    if (Collision.TileCollision(player.position, player.velocity, player.width, player.height, true, false, (int)player.gravDir).Y == 0f)
+                        player.velocity.Y = 0.5f;
+                }
+                else
+                    player.velocity.Y = 0f;
+
+                if (player.controlJump)
+                    player.velocity *= 0.5f;
             }
         }
         #endregion
