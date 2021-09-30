@@ -105,18 +105,23 @@ namespace CalamityMod
 			List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
 			List<Vector2> endPoints = new List<Vector2>();
 
-			if (basePoints.Count < 3)
-				return endPoints;
+			if (basePoints.Count < 2)
+			{
+				for (int i = 0; i < basePoints.Count; i++)
+					basePoints[i] += generalOffset;
+				return basePoints;
+			}
 
 			// Remap the original positions across a certain length.
 			for (int i = 0; i < totalTrailPoints; i++)
 			{
-				float completionRatio = i / (float)totalTrailPoints;
-				int currentColorIndex = (int)(completionRatio * (basePoints.Count - 1));
-				Vector2 currentColor = basePoints[currentColorIndex];
-				Vector2 nextColor = basePoints[(currentColorIndex + 1) % basePoints.Count];
-				endPoints.Add(Vector2.Lerp(currentColor, nextColor, completionRatio * (basePoints.Count - 1) % 0.999f) + generalOffset);
+				float completionRatio = i / (float)(totalTrailPoints - 1f);
+				int currentIndex = (int)(completionRatio * (basePoints.Count - 1));
+				Vector2 currentPoint = basePoints[currentIndex];
+				Vector2 nextPoint = basePoints[(currentIndex + 1) % basePoints.Count];
+				endPoints.Add(Vector2.Lerp(currentPoint, nextPoint, completionRatio * (basePoints.Count - 1) % 0.99999f) + generalOffset);
 			}
+			endPoints.Add(basePoints.Last() + generalOffset);
 			return endPoints;
 		}
 
@@ -247,7 +252,7 @@ namespace CalamityMod
 			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (trailPoints.Count <= 2)
+			if (trailPoints.Count < 2)
 				return;
 
 			// If the trail points have any NaN positions, don't draw anything.

@@ -4,12 +4,15 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -113,9 +116,21 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		// Velocity for the spin
 		private Vector2 spinVelocity = default;
 
+		// Intensity of flash effects during the charge combo
+		public float ChargeFlash;
+
+		// Primitive trail drawers for thrusters when charging
+		public PrimitiveTrail ChargeFlameTrail = null;
+		public PrimitiveTrail ChargeFlameTrailBig = null;
+
+		// Primitive trail drawer for the ribbon things
+		public PrimitiveTrail RibbonTrail = null;
+
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XS-01 Artemis");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = 15;
 		}
 
         public override void SetDefaults()
@@ -190,7 +205,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		}
 
         public override void AI()
-        {
+		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			CalamityGlobalNPC.draedonExoMechTwinRed = npc.whoAmI;
@@ -513,6 +528,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				frameY = 3;
 			}
 
+			// Variable for charge flash. Changed in parts of the AI below
+			bool shouldDoChargeFlash = false;
+
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
 			{
@@ -764,8 +782,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							else
 							{
 								// Draw a large laser telegraph for the charge
-								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f)
+								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 5f)
 								{
+									// And allow the charge flash effect
+									shouldDoChargeFlash = true;
+
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
 										int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
@@ -800,6 +821,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 				// Charge
 				case (int)Phase.Charge:
+
+					// Allow the charge flash to happen
+					shouldDoChargeFlash = true;
 
 					// Reset phase and variables
 					calamityGlobalNPC.newAI[2] += 1f;
@@ -926,6 +950,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								spinVelocity *= -rotationDirection;
 								npc.netUpdate = true;
 
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
+
 								// Fire deathray
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -933,7 +960,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
+									{
 										Main.projectile[laser].ai[0] = npc.whoAmI;
+										Main.projectile[laser].ai[1] = rotationDirection;
+									}
 								}
 							}
 							else
@@ -1017,9 +1047,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					if (calamityGlobalNPC.newAI[2] == lensPopTime)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
-						Vector2 goreVelocity = Vector2.Normalize(aimedVector);
-						Vector2 offset = goreVelocity * 70f;
-						Gore.NewGore(npc.Center + offset, goreVelocity * 24f, mod.GetGoreSlot("Gores/Artemis/ArtemisTransitionGore"), 1f);
+						Vector2 lensDirection = Vector2.Normalize(aimedVector);
+						Vector2 offset = lensDirection * 70f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenArtemisLens>(), 0, 0f);
 					}
 
 					// Reset phase and variables
@@ -1037,6 +1069,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					break;
 			}
+
+			// Update the charge flash variable
+			ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1147,34 +1182,137 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 		}
 
+		public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio) * ChargeFlash;
+
+		public float FlameTrailWidthFunctionBig(float completionRatio) => MathHelper.SmoothStep(34f, 12f, completionRatio) * ChargeFlash;
+
+		public float RibbonTrailWidthFunction(float completionRatio)
+		{
+			float baseWidth = Utils.InverseLerp(1f, 0.54f, completionRatio, true) * 5f;
+			float endTipWidth = CalamityUtils.Convert01To010(Utils.InverseLerp(0.96f, 0.89f, completionRatio, true)) * 2.4f;
+			return baseWidth + endTipWidth;
+		}
+
+		public Color FlameTrailColorFunction(float completionRatio)
+		{
+			float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true);
+			Color startingColor = Color.Lerp(Color.White, Color.Cyan, 0.27f);
+			Color middleColor = Color.Lerp(Color.Orange, Color.Yellow, 0.31f);
+			Color endColor = Color.OrangeRed;
+			return CalamityUtils.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * ChargeFlash * trailOpacity;
+		}
+
+		public Color FlameTrailColorFunctionBig(float completionRatio)
+		{
+			float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true) * 0.56f;
+			Color startingColor = Color.Lerp(Color.White, Color.Cyan, 0.25f);
+			Color middleColor = Color.Lerp(Color.Blue, Color.White, 0.35f);
+			Color endColor = Color.Lerp(Color.DarkBlue, Color.White, 0.47f);
+			Color color = CalamityUtils.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * ChargeFlash * trailOpacity;
+			color.A = 0;
+			return color;
+		}
+
+		public Color RibbonTrailColorFunction(float completionRatio)
+		{
+			Color startingColor = new Color(34, 40, 48);
+			Color endColor = new Color(219, 82, 28);
+			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * npc.Opacity;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Declare the trail drawers if they have yet to be defined.
+			if (ChargeFlameTrail is null)
+				ChargeFlameTrail = new PrimitiveTrail(FlameTrailWidthFunction, FlameTrailColorFunction, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
+
+			if (ChargeFlameTrailBig is null)
+				ChargeFlameTrailBig = new PrimitiveTrail(FlameTrailWidthFunctionBig, FlameTrailColorFunctionBig, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
+
+			if (RibbonTrail is null)
+				RibbonTrail = new PrimitiveTrail(RibbonTrailWidthFunction, RibbonTrailColorFunction);
+
+			// Prepare the flame trail shader with its map texture.
+			GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+
+			int numAfterimages = ChargeFlash > 0f ? 0 : 5;
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
-			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Vector2 origin = npc.Size * 0.5f;
+			Vector2 center = npc.Center - Main.screenPosition;
 			Color afterimageBaseColor = Color.White;
-			int numAfterimages = 5;
 
-			if (CalamityConfig.Instance.Afterimages)
+			// Draws a single instance of a regular, non-glowmask based Artemis.
+			// This is created to allow easy duplication of them when drawing the charge.
+			void drawInstance(Vector2 drawOffset, Color baseColor)
 			{
-				for (int i = 1; i < numAfterimages; i += 2)
+				if (CalamityConfig.Instance.Afterimages)
 				{
-					Color afterimageColor = drawColor;
-					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
-					afterimageColor = npc.GetAlpha(afterimageColor);
-					afterimageColor *= (numAfterimages - i) / 15f;
-					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					for (int i = 1; i < numAfterimages; i += 2)
+					{
+						Color afterimageColor = baseColor;
+						afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+						afterimageColor = npc.GetAlpha(afterimageColor);
+						afterimageColor *= (numAfterimages - i) / 15f;
+						Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
+						afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+						afterimageCenter += drawOffset;
+						spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0f);
+					}
 				}
+
+				spriteBatch.Draw(texture, center + drawOffset, frame, npc.GetAlpha(baseColor), npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 			}
 
-			Vector2 center = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			// Draw ribbons near the main thruster
+			for (int direction = -1; direction <= 1; direction += 2)
+			{
+				Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(npc.rotation) * 14f;
+				ribbonOffset += Vector2.UnitX.RotatedBy(npc.rotation) * direction * 26f;
+
+				float currentSegmentRotation = npc.rotation;
+				List<Vector2> ribbonDrawPositions = new List<Vector2>();
+				for (int i = 0; i < 12; i++)
+				{
+					float ribbonCompletionRatio = i / 12f;
+					float wrappedAngularOffset = MathHelper.WrapAngle(npc.oldRot[i + 1] - currentSegmentRotation) * 0.3f;
+					float segmentRotationOffset = MathHelper.Clamp(wrappedAngularOffset, -0.12f, 0.12f);
+
+					// Add a sinusoidal offset that goes based on time and completion ratio to create a waving-flag-like effect.
+					// This is dampened for the first few points to prevent weird offsets. It is also dampened by high velocity.
+					float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 2.22f + Main.GlobalTime * 3.4f) * 1.36f;
+					float sinusoidalRotationOffsetFactor = Utils.InverseLerp(0f, 0.37f, ribbonCompletionRatio, true) * direction * 24f;
+					sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, npc.velocity.Length(), true);
+
+					Vector2 sinusoidalOffset = Vector2.UnitY.RotatedBy(npc.rotation + sinusoidalRotationOffset) * sinusoidalRotationOffsetFactor;
+					Vector2 ribbonSegmentOffset = Vector2.UnitY.RotatedBy(currentSegmentRotation) * ribbonCompletionRatio * 540f + sinusoidalOffset;
+					ribbonDrawPositions.Add(npc.Center + ribbonSegmentOffset + ribbonOffset);
+
+					currentSegmentRotation += segmentRotationOffset;
+				}
+				RibbonTrail.Draw(ribbonDrawPositions, -Main.screenPosition, 66);
+			}
+
+			int instanceCount = (int)MathHelper.Lerp(1f, 15f, ChargeFlash);
+			Color baseInstanceColor = Color.Lerp(drawColor, Color.White, ChargeFlash);
+			baseInstanceColor.A = (byte)(int)(255f - ChargeFlash * 255f);
+
+			spriteBatch.EnterShaderRegion();
+
+			drawInstance(Vector2.Zero, baseInstanceColor);
+			if (instanceCount > 1)
+			{
+				baseInstanceColor *= 0.04f;
+				float backAfterimageOffset = MathHelper.SmoothStep(0f, 2f, ChargeFlash);
+				for (int i = 0; i < instanceCount; i++)
+				{
+					Vector2 drawOffset = (MathHelper.TwoPi * i / instanceCount + Main.GlobalTime * 0.8f).ToRotationVector2() * backAfterimageOffset;
+					drawInstance(drawOffset, baseInstanceColor);
+				}
+			}
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Artemis/ArtemisGlow");
-
 			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int i = 1; i < numAfterimages; i += 2)
@@ -1184,13 +1322,45 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
+					afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+
+			spriteBatch.ExitShaderRegion();
+
+			// Draw a flame trail on the thrusters if needed. This happens during charges.
+			if (ChargeFlash > 0f)
+			{
+				for (int direction = -1; direction <= 1; direction++)
+				{
+					Vector2 baseDrawOffset = new Vector2(0f, direction == 0f ? 18f : 60f).RotatedBy(npc.rotation);
+					baseDrawOffset += new Vector2(direction * 64f, 0f).RotatedBy(npc.rotation);
+
+					float backFlameLength = direction == 0f ? 700f : 190f;
+					Vector2 drawStart = npc.Center + baseDrawOffset;
+					Vector2 drawEnd = drawStart - (npc.rotation - MathHelper.PiOver2).ToRotationVector2() * ChargeFlash * backFlameLength;
+					Vector2[] drawPositions = new Vector2[]
+					{
+						drawStart,
+						drawEnd
+					};
+
+					if (direction == 0)
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 8f;
+							ChargeFlameTrailBig.Draw(drawPositions, drawOffset - Main.screenPosition, 70);
+						}
+					}
+					else
+						ChargeFlameTrail.Draw(drawPositions, -Main.screenPosition, 70);
+				}
+			}
 
 			return false;
 		}
