@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Skies
 {
@@ -57,6 +58,34 @@ namespace CalamityMod.Skies
 
         public static readonly Color DrawColor = new Color(0.16f, 0.16f, 0.16f);
 
+        public static void CreateLightningBolt(int count = 1, bool playSound = false)
+		{
+            for (int i = 0; i < count; i++)
+            {
+                Lightning lightning = new Lightning()
+                {
+                    Lifetime = 30,
+                    Depth = Main.rand.NextFloat(1.5f, 10f),
+                    Position = new Vector2(Main.LocalPlayer.Center.X + Main.rand.NextFloatDirection() * 5000f, Main.rand.NextFloat(4850f))
+                };
+                (SkyManager.Instance["CalamityMod:ExoMechs"] as ExoMechsSky).LightningBolts.Add(lightning);
+            }
+
+            // Make the sky flash if enough lightning bolts are created.
+            if (count >= 10)
+			{
+                (SkyManager.Instance["CalamityMod:ExoMechs"] as ExoMechsSky).LightningIntensity = 1f;
+                playSound = true;
+            }
+
+            if (playSound && !Main.gamePaused)
+            {
+                var lightningSound = Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                if (lightningSound != null)
+                    lightningSound.Volume *= 0.5f;
+            }
+		}
+
         public override void Update(GameTime gameTime)
 		{
             if (!CanSkyBeActive)
@@ -75,33 +104,20 @@ namespace CalamityMod.Skies
                 LightningBolts[i].Lifetime--;
 			}
 
-            for (int i = 0; i < 8; i++)
-            {
-                if (Main.rand.NextBool((int)MathHelper.Lerp(20f, 125f, CurrentIntensity)))
-                {
-                    Lightning lightning = new Lightning()
-                    {
-                        Lifetime = 30,
-                        Depth = Main.rand.NextFloat(1.5f, 10f),
-                        Position = new Vector2(Main.rand.NextFloat(2000f, Main.maxTilesX * 16f - 2000f), Main.rand.NextFloat(4850f))
-                    };
-                    LightningBolts.Add(lightning);
-                }
-            }
+            if (Main.rand.NextBool((int)MathHelper.Lerp(50f, 195f, CurrentIntensity)))
+                CreateLightningBolt();
 
             // Occasionally make the whole screen flash with lightning and create 7 bolts.
             if (Main.rand.NextBool((int)MathHelper.Lerp(780f, 300f, CurrentIntensity)))
             {
-                LightningIntensity = 0.42f;
-                for (int i = 0; i < 7; i++)
+                LightningIntensity = 1f;
+                CreateLightningBolt(4);
+
+                if (!Main.gamePaused)
 				{
-                    Lightning lightning = new Lightning()
-                    {
-                        Lifetime = 30,
-                        Depth = Main.rand.NextFloat(1.5f, 10f),
-                        Position = new Vector2(Main.rand.NextFloat(2000f, Main.maxTilesX * 16f - 2000f), Main.rand.NextFloat(4850f))
-                    };
-                    LightningBolts.Add(lightning);
+                    var lightningSound = Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                    if (lightningSound != null)
+                        lightningSound.Volume *= 0.5f;
                 }
             }
 
@@ -119,7 +135,7 @@ namespace CalamityMod.Skies
                 // This lightning effect is achieved by expanding this to fit the entire background and then drawing it as a distinct element.
                 Vector2 scale = new Vector2(Main.screenWidth * 1.1f / Main.magicPixel.Width, Main.screenHeight * 1.1f / Main.magicPixel.Height);
                 Vector2 screenArea = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
-                Color drawColor = Color.White * MathHelper.Lerp(0f, 0.38f, LightningIntensity) * BackgroundIntensity;
+                Color drawColor = Color.White * MathHelper.Lerp(0f, 0.24f, LightningIntensity) * BackgroundIntensity;
 
                 // Draw a grey background as base.
                 spriteBatch.Draw(Main.magicPixel, screenArea, null, OnTileColor(Color.Transparent), 0f, Main.magicPixel.Size() * 0.5f, scale, SpriteEffects.None, 0f);

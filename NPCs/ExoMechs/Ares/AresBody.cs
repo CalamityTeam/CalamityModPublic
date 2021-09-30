@@ -12,6 +12,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -546,6 +547,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 								// Y = 4 sets to frame 12
 								frameY = 4;
+
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{

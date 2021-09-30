@@ -15,6 +15,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Skies;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -737,6 +738,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/THanosLaser"),
 										(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 								}
+
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{

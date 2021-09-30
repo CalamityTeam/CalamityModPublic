@@ -16,6 +16,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using System.Collections.Generic;
+using CalamityMod.Skies;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
@@ -896,10 +897,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						// Don't move
 						npc.velocity = Vector2.Zero;
 
-						// Go to charge phase and reset
+						// Go to charge phase, create lightning bolts in the sky, and reset
 						calamityGlobalNPC.newAI[2] += 1f;
 						if (calamityGlobalNPC.newAI[2] >= timeToLineUpAttack)
 						{
+							ExoMechsSky.CreateLightningBolt(10);
+
 							AIState = (float)Phase.ChargeCombo;
 							npc.localAI[2] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
