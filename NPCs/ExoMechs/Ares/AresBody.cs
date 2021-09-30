@@ -763,7 +763,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoBox360>(), 5);
 
 				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanosMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);

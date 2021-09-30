@@ -4,7 +4,7 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ThanosMask : ModItem
+    public class ThanatosMask : ModItem
     {
         public override void SetStaticDefaults()
         {
