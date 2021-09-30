@@ -1252,7 +1252,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 				}
