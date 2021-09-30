@@ -148,7 +148,7 @@ namespace CalamityMod.Skies
             Texture2D boltTexture = TextureManager.Load("Images/Misc/VortexSky/Bolt");
 
             // Draw lightning bolts.
-            float spaceFade = Math.Min(1f, (Main.screenPosition.Y - 600f) / 600f);
+            float spaceFade = Math.Min(1f, (Main.screenPosition.Y - 300f) / 300f);
             Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
             Rectangle rectangle = new Rectangle(-1000, -1000, 4000, 4000);
 
