@@ -496,13 +496,12 @@ namespace CalamityMod.ILEditing
         private static void ManipulateSoundMuffleFactor(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            cursor.GotoNext(MoveType.After, i => i.MatchStloc(30));
-            cursor.Index--;
+            cursor.GotoNext(MoveType.Before, i => i.MatchStloc(30));
 
             cursor.Emit(OpCodes.Ldloc, 20);
             cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>
             {
-                if (Main.gameMenu)
+                if (Main.gameMenu || !Main.LocalPlayer.active)
                     return originalMuffleFactor;
 
                 float playerMuffleFactor = 1f - Main.LocalPlayer.Calamity().MusicMuffleFactor;
@@ -511,8 +510,8 @@ namespace CalamityMod.ILEditing
                 {
                     for (int i = 0; i < Main.music.Length; i++)
                     {
-                        if (Main.music[i]?.IsPlaying ?? false)
-                            Main.music[i]?.Stop(AudioStopOptions.Immediate);
+                        if (Main.music[i] != null && Main.music[i].IsPlaying)
+                            Main.music[i].Stop(AudioStopOptions.Immediate);
                     }
                     Main.curMusic = 0;
                 }
