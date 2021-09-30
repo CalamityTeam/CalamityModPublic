@@ -2597,7 +2597,7 @@ namespace CalamityMod.CalPlayer
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
             }
 
-            bool useExoMechs = NPC.AnyNPCs(ModContent.NPCType<Draedon>()) && Draedon.ExoMechIsPresent;
+            bool useExoMechs = ExoMechsSky.CanSkyBeActive;
             player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
             if (useExoMechs)
                 SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);

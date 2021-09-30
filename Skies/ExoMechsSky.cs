@@ -23,13 +23,13 @@ namespace CalamityMod.Skies
         public float BackgroundIntensity;
         public float LightningIntensity;
         public List<Lightning> LightningBolts = new List<Lightning>();
-        public bool CanSkyBeActive
+        public static bool CanSkyBeActive
         {
 			get
 			{
                 int draedon = CalamityGlobalNPC.draedon;
                 if (draedon == -1 || !Main.npc[draedon].active)
-                    return false;
+                    return Draedon.ExoMechIsPresent;
 
                 if (Main.npc[draedon].ModNPC<Draedon>().DefeatTimer <= 0 && !Draedon.ExoMechIsPresent)
                     return false;
