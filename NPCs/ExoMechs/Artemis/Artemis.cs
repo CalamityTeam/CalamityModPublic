@@ -8,6 +8,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -118,9 +119,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		public PrimitiveTrail ChargeFlameTrail = null;
 		public PrimitiveTrail ChargeFlameTrailBig = null;
 
+		// Primitive trail drawer for the ribbon things
+		public PrimitiveTrail RibbonTrail = null;
+
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XS-01 Artemis");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = 15;
 		}
 
         public override void SetDefaults()
@@ -193,7 +199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		}
 
         public override void AI()
-        {
+		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			CalamityGlobalNPC.draedonExoMechTwinRed = npc.whoAmI;
@@ -1145,6 +1151,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 		public float FlameTrailWidthFunctionBig(float completionRatio) => MathHelper.SmoothStep(34f, 12f, completionRatio) * ChargeFlash;
 
+		public float RibbonTrailWidthFunction(float completionRatio)
+		{
+			float baseWidth = Utils.InverseLerp(1f, 0.54f, completionRatio, true) * 5f;
+			float endTipWidth = CalamityUtils.Convert01To010(Utils.InverseLerp(0.96f, 0.89f, completionRatio, true)) * 2.4f;
+			return baseWidth + endTipWidth;
+		}
+
 		public Color FlameTrailColorFunction(float completionRatio)
 		{
 			float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true);
@@ -1165,6 +1178,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			return color;
 		}
 
+		public Color RibbonTrailColorFunction(float completionRatio)
+		{
+			Color startingColor = new Color(34, 40, 48);
+			Color endColor = new Color(219, 82, 28);
+			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D));
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			// Declare the trail drawers if they have yet to be defined.
@@ -1174,13 +1194,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			if (ChargeFlameTrailBig is null)
 				ChargeFlameTrailBig = new PrimitiveTrail(FlameTrailWidthFunctionBig, FlameTrailColorFunctionBig, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
 
+			if (RibbonTrail is null)
+				RibbonTrail = new PrimitiveTrail(RibbonTrailWidthFunction, RibbonTrailColorFunction);
+
 			// Prepare the flame trail shader with its map texture.
 			GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
 			int numAfterimages = 5;
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
-			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Vector2 origin = npc.Size * 0.5f;
 			Vector2 center = npc.Center - Main.screenPosition;
 			Color afterimageBaseColor = Color.White;
 
@@ -1198,13 +1221,42 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						afterimageColor *= (numAfterimages - i) / 15f;
 						Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 						afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-						afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
+						afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
 						afterimageCenter += drawOffset;
-						spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+						spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 					}
 				}
 
-				spriteBatch.Draw(texture, center + drawOffset, frame, npc.GetAlpha(baseColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(texture, center + drawOffset, frame, npc.GetAlpha(baseColor), npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+			}
+
+			// Draw ribbons near the main thruster
+			for (int direction = -1; direction <= 1; direction += 2)
+			{
+				Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(npc.rotation) * 14f;
+				ribbonOffset += Vector2.UnitX.RotatedBy(npc.rotation) * direction * 26f;
+
+				float currentSegmentRotation = npc.rotation;
+				List<Vector2> ribbonDrawPositions = new List<Vector2>();
+				for (int i = 0; i < 12; i++)
+				{
+					float ribbonCompletionRatio = i / 12f;
+					float wrappedAngularOffset = MathHelper.WrapAngle(npc.oldRot[i + 1] - currentSegmentRotation) * 0.3f;
+					float segmentRotationOffset = MathHelper.Clamp(wrappedAngularOffset, -0.12f, 0.12f);
+
+					// Add a sinusoidal offset that goes based on time and completion ratio to create a waving-flag-like effect.
+					// This is dampened for the first few points to prevent weird offsets. It is also dampened by high velocity.
+					float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 1.87f + Main.GlobalTime * 2.6f) * 1.36f;
+					float sinusoidalRotationOffsetFactor = Utils.InverseLerp(0f, 0.37f, ribbonCompletionRatio, true) * direction * 15f;
+					sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, npc.velocity.Length(), true);
+
+					Vector2 sinusoidalOffset = Vector2.UnitY.RotatedBy(npc.rotation + sinusoidalRotationOffset) * sinusoidalRotationOffsetFactor;
+					Vector2 ribbonSegmentOffset = Vector2.UnitY.RotatedBy(currentSegmentRotation) * ribbonCompletionRatio * 540f + sinusoidalOffset;
+					ribbonDrawPositions.Add(npc.Center + ribbonSegmentOffset + ribbonOffset);
+
+					currentSegmentRotation += segmentRotationOffset;
+				}
+				RibbonTrail.Draw(ribbonDrawPositions, -Main.screenPosition, 66);
 			}
 
 			int instanceCount = (int)MathHelper.Lerp(1f, 15f, ChargeFlash);
@@ -1236,12 +1288,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 
 			spriteBatch.ExitShaderRegion();
 
