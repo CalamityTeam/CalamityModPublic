@@ -595,15 +595,20 @@ namespace CalamityMod
                 ProjectileType<FinalDawnHorizontalSlash>(),
                 ProjectileType<FinalDawnFireSlash>(),
 
-                //Some hostile boss projectiles
+                // Some hostile boss projectiles
                 ProjectileType<BrimstoneMonster>(),
                 ProjectileType<InfernadoRevenge>(),
                 ProjectileType<OverlyDramaticDukeSummoner>(),
                 ProjectileType<ProvidenceHolyRay>(),
                 ProjectileType<OldDukeVortex>(),
                 ProjectileType<BrimstoneRay>(),
-                ProjectileType<BrimstoneTargetRay>()
-            };
+				ProjectileType<AresDeathBeamStart>(),
+				ProjectileType<AresGaussNukeProjectileBoom>(),
+				ProjectileType<AresLaserBeamStart>(),
+				ProjectileType<ArtemisLaserBeamStart>(),
+				ProjectileType<BirbAura>(),
+				ProjectileType<ThanatosBeamStart>()
+			};
 
             projectileMinionList = new List<int>()
             {
