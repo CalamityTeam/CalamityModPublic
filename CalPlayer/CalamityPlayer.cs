@@ -6004,11 +6004,9 @@ namespace CalamityMod.CalPlayer
 						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
 						Main.dust[dustIndex].velocity *= 0.3f;
 					}
-					int damage2 = (int)(GaelsGreatsword.BaseDamage * player.MeleeDamage());
 					proj.hostile = false;
 					proj.friendly = true;
 					proj.velocity *= -1f;
-					proj.damage = damage2;
 					proj.penetrate = 1;
 					bool isImmune = false;
 					for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -6060,11 +6058,9 @@ namespace CalamityMod.CalPlayer
 					// The Evolution
                     if (projRefRare)
 					{
-						int damage2 = (int)(proj.damage * 10 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -2f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6095,11 +6091,9 @@ namespace CalamityMod.CalPlayer
                     // Arcanum of the Void
 					else if (projRef)
 					{
-						int damage2 = (int)(proj.damage * 5 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6128,11 +6122,9 @@ namespace CalamityMod.CalPlayer
                     // Daedalus Melee set bonus
 					else if (daedalusReflect)
 					{
-						int damage2 = (int)(proj.damage * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.penetrate = 1;
 						bool isImmune = false;
 						for (int j = 0; j < player.hurtCooldowns.Length; j++)
