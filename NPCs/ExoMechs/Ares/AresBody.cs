@@ -3,6 +3,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -12,6 +13,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -549,6 +551,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								// Y = 4 sets to frame 12
 								frameY = 4;
 
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
+
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -711,7 +716,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void NPCLoot()
         {
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
 
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
@@ -758,7 +763,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoBox360>(), 5);
 
 				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanosMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
 				DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
