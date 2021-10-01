@@ -306,7 +306,7 @@ namespace CalamityMod.TileEntities
 				DecryptionCountdown--;
 
 				// Gradually consume cells.
-				if (DecryptionCountdown % 5 == 4)
+				if (DecryptionCountdown % 5 == 0)
 				{
 					InputtedCellCount = InitialCellCountBeforeDecrypting - (int)(DecryptionCellCost * DecryptionCompletion);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
