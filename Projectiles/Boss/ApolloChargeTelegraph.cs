@@ -10,9 +10,9 @@ namespace CalamityMod.Projectiles.Boss
     public class ApolloChargeTelegraph : ModProjectile
     {
         public Vector2[] ChargePositions = new Vector2[1];
-		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
         public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphTotalTime = 30f;
@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Charge Telegraph");
+            DisplayName.SetDefault("Apollo Charge Telegraph");
         }
 
         public override void SetDefaults()
         {
-			projectile.width = 10;
+            projectile.width = 10;
             projectile.height = 10;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -34,37 +34,37 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 30;
-		}
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
+        public override void SendExtraAI(BinaryWriter writer)
+        {
             writer.Write(ChargePositions.Length);
             for (int i = 0; i < ChargePositions.Length; i++)
                 writer.WriteVector2(ChargePositions[i]);
-		}
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
             ChargePositions = new Vector2[reader.ReadInt32()];
             for (int i = 0; i < ChargePositions.Length; i++)
                 ChargePositions[i] = reader.ReadVector2();
         }
 
-		public override void AI()
+        public override void AI()
         {
-			// Determine the relative opacities for each player based on their distance.
-			if (projectile.localAI[0] == 0f)
-			{
-				projectile.localAI[0] = 1f;
-				projectile.netUpdate = true;
-			}
+            // Determine the relative opacities for each player based on their distance.
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.localAI[0] = 1f;
+                projectile.netUpdate = true;
+            }
 
-			// Die if the thing to attach to disappears.
-			if (ThingToAttachTo is null || !ThingToAttachTo.active)
-			{
-				projectile.Kill();
-				return;
-			}
+            // Die if the thing to attach to disappears.
+            if (ThingToAttachTo is null || !ThingToAttachTo.active)
+            {
+                projectile.Kill();
+                return;
+            }
 
             // Determine opacity
             projectile.Opacity = Utils.InverseLerp(0f, 6f, projectile.timeLeft, true) * Utils.InverseLerp(30f, 24f, projectile.timeLeft, true);

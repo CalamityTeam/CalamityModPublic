@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Charge Telegraph");
+            DisplayName.SetDefault("Artemis Charge Telegraph");
         }
 
         public override void SetDefaults()

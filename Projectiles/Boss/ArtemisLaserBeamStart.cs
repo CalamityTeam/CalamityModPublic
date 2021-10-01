@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Artemis Deathray");
+            DisplayName.SetDefault("Exothermal Artemis Beam");
         }
 
         public override void SetDefaults()
