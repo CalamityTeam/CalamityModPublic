@@ -4,13 +4,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class ExoBox360 : ModItem
+    public class ExoThrone : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("ExoBox 360");
-            Tooltip.SetDefault("Creates a rideable flying chair\n" +
-                "Replaced");
+            DisplayName.SetDefault("Exo Box");
+            Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
+                "Replaced\n" +
+                "A comfortable gamer is a dangerous gamer");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Mounts
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-                    line2.text = $"Press {hotkey} when on the chair to move much faster";
+                    line2.text = $"Hold {hotkey} while sitting in the throne to move much faster\n";
             }
         }
     }

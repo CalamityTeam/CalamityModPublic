@@ -760,7 +760,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				);
 
 				// Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoBox360>(), 5);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoThrone>(), 5);
 
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
