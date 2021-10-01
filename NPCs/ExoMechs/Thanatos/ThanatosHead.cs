@@ -744,7 +744,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
+									int type = ModContent.ProjectileType<ThanatosBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{
 										int beam = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
+									int type = ModContent.ProjectileType<ThanatosBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))

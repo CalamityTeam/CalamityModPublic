@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ExoDestroyerBeamTelegraph : ModProjectile
+    public class ThanatosBeamTelegraph : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
         public const int Lifetime = 180;
         public const float TelegraphWidth = 3600f;
 		public const float BeamPosOffset = 16f;
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Telegraph");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
 
         public override void SetDefaults()
         {

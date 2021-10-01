@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tesla Orb");
+			DisplayName.SetDefault("Tesla Sphere");
 			Main.projFrames[projectile.type] = 4;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -231,8 +231,8 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
 			if (projHitbox.Intersects(targetHitbox))
 				return true;
 
@@ -242,9 +242,9 @@ namespace CalamityMod.Projectiles.Boss
 				return true;
 
 			return false;
-        }
+		}
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
 		{
 			target.Calamity().lastProjectileHit = projectile;
 		}

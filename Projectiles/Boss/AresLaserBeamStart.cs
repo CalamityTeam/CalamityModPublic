@@ -12,70 +12,70 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
 	public class AresLaserBeamStart : ModProjectile
-    {
+	{
 		private const int maxFrames = 5;
 		private int frameDrawn = 0;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Laser Beam");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Exothermal Laser");
 		}
 
-        public override void SetDefaults()
-        {
+		public override void SetDefaults()
+		{
 			projectile.Calamity().canBreakPlayerDefense = true;
 			projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
+			projectile.height = 30;
+			projectile.hostile = true;
+			projectile.alpha = 255;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 600;
 			cooldownSlot = 1;
-        }
+		}
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+		public override void SendExtraAI(BinaryWriter writer)
+		{
 			writer.Write(frameDrawn);
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
-        }
+			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
+		}
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
 			frameDrawn = reader.ReadInt32();
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
-        }
+			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			Vector2? vector78 = null;
 
 			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-                projectile.velocity = -Vector2.UnitY;
+				projectile.velocity = -Vector2.UnitY;
 
-            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<AresLaserCannon>())
-            {
+			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<AresLaserCannon>())
+			{
 				float offset = 84f;
 				float offset2 = 16f;
 				Vector2 fireFrom = Main.npc[(int)projectile.ai[1]].Calamity().newAI[3] == 0f ? new Vector2(Main.npc[(int)projectile.ai[1]].Center.X - offset2 * Main.npc[(int)projectile.ai[1]].direction, Main.npc[(int)projectile.ai[1]].Center.Y + offset) : new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + offset * Main.npc[(int)projectile.ai[1]].direction, Main.npc[(int)projectile.ai[1]].Center.Y + offset2);
-                projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
-            }
+				projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
+			}
 			else
 				projectile.Kill();
 
 			float num801 = 1f;
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 60f)
-            {
-                projectile.Kill();
-                return;
-            }
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] >= 60f)
+			{
+				projectile.Kill();
+				return;
+			}
 
 			projectile.scale = (float)Math.Sin(projectile.localAI[0] * (float)Math.PI / 60f) * 10f * num801;
-            if (projectile.scale > num801)
-                projectile.scale = num801;
+			if (projectile.scale > num801)
+				projectile.scale = num801;
 
 			float num804 = projectile.velocity.ToRotation();
 			projectile.rotation = num804 - MathHelper.PiOver2;
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			float amount = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
+			projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
 
 			// Spawn dust at the end of the beam
 			int dustType = (int)CalamityDusts.Brimstone;
@@ -128,8 +128,8 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
-        }
+			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -194,34 +194,34 @@ namespace CalamityMod.Projectiles.Boss
 		}
 
 		public override void CutTiles()
-        {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
-        }
+		{
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			Vector2 unit = projectile.velocity;
+			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+		}
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            if (projHitbox.Intersects(targetHitbox))
-            {
-                return true;
-            }
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref num6))
-            {
-                return true;
-            }
-            return false;
-        }
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			if (projHitbox.Intersects(targetHitbox))
+			{
+				return true;
+			}
+			float num6 = 0f;
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref num6))
+			{
+				return true;
+			}
+			return false;
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-        }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+		}
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		{
 			target.Calamity().lastProjectileHit = projectile;
 		}
-    }
+	}
 }
