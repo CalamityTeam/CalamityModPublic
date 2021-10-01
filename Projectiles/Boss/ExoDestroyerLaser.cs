@@ -259,11 +259,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			// If Artemis is the owner.
+			bool artemisIsOwner = ThingToAttachTo.type == ModContent.NPCType<Artemis>();
+
 			if (TelegraphDelay >= TelegraphTotalTime)
 			{
 				lightColor.R = (byte)(255 * projectile.Opacity);
-				lightColor.G = (byte)(255 * projectile.Opacity);
-				lightColor.B = (byte)(255 * projectile.Opacity);
+				lightColor.G = (byte)((artemisIsOwner ? 180 : 255) * projectile.Opacity);
+				lightColor.B = (byte)((artemisIsOwner ? 100 : 255) * projectile.Opacity);
 				CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 				return false;
 			}
@@ -280,7 +283,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 2.2f);
 
-            Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+            Color colorOuter = Color.Lerp(artemisIsOwner ? Color.Orange : Color.Red, artemisIsOwner ? Color.OrangeRed : Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
             Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
             colorOuter *= 0.6f;
