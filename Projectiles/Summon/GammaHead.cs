@@ -150,6 +150,9 @@ namespace CalamityMod.Projectiles.Summon
             // Direction affecting.
             if (target.Center.X - spawnPosition.X < 0)
                 fireAngle += MathHelper.Pi;
+            if (projectile.direction == (target.Center.X < spawnPosition.X).ToDirectionInt())
+                fireAngle += MathHelper.Pi;
+
             idealRotation = fireAngle;
 
             // Shoot the actual canister.
