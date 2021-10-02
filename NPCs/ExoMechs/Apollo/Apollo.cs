@@ -1,7 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
@@ -274,6 +273,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
 			bool anyOtherExoMechPassive = exoWormPassive || exoPrimePassive;
 
+			// Used to nerf Artemis and Apollo if fighting alongside Ares, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoPrimeAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
+
 			// Check if any of the other mechs were spawned first
 			bool exoWormWasFirst = false;
 			bool exoPrimeWasFirst = false;
@@ -359,6 +363,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Predictiveness
 			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 10f : expertMode ? 8f : 4f;
+			if (nerfedAttacks)
+				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (int)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
@@ -379,11 +385,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Charge velocity
-			float chargeVelocity = malice ? 90f : death ? 80f : revenge ? 75f : expertMode ? 70f : 60f;
-			if (lastMechAlive)
-				chargeVelocity *= 1.2f;
-			else if (berserk)
-				chargeVelocity *= 1.1f;
+			float chargeVelocity = malice ? 115f : death ? 100f : revenge ? 95f : expertMode ? 90f : 75f;
 
 			// Charge phase variables
 			double chargeDistance = Math.Sqrt(500D * 500D + 800D * 800D);
@@ -398,7 +400,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Rocket phase variables
 			float rocketPhaseDuration = lastMechAlive ? 60f : 90f;
-			int numRockets = lastMechAlive ? 4 : 3;
+			int numRockets = lastMechAlive ? 4 : nerfedAttacks ? 2 : 3;
 
 			// Default vector to fly to
 			float chargeComboXOffset = -500f;
@@ -725,7 +727,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = lastMechAlive ? 15 : 12;
+							int numPlasmaOrbs = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numPlasmaOrbs;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)

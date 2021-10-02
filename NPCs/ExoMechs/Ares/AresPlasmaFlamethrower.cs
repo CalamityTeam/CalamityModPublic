@@ -125,6 +125,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
@@ -133,8 +134,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+				{
 					otherExoMechsAlive++;
+					exoTwinsAlive = true;
+				}
 			}
+
+			// Used to nerf Ares if fighting alongside Artemis and Apollo, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoTwinsAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] != (float)Apollo.Apollo.SecondaryPhase.PassiveAndImmune;
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -172,6 +181,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (nerfedAttacks)
+				predictionAmt *= 0.5f;
 			if (passivePhase)
 				predictionAmt *= 0.5f;
 
