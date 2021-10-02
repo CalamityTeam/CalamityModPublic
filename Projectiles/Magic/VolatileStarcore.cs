@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -99,8 +100,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            target.AddBuff(BuffID.Daybreak, 900);
             target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
-		}
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -109,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Spawn a Helium Flash on impact
             int type = ModContent.ProjectileType<HeliumFlashBlast>();
-            int damage = projectile.damage / 2;
+            int damage = (int)(HeliumFlash.ExplosionDamageMultiplier * projectile.damage);
             float kb = 9.5f;
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, damage, kb, projectile.owner, 0f, 0f);
         }
