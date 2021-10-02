@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            projectile.rotation = ThingToAttachTo.velocity.ToRotation();
+            projectile.rotation = ThingToAttachTo.rotation;
             projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * RotationDirection;
 
             // Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
