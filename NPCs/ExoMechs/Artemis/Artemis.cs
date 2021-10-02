@@ -882,8 +882,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 
 							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-							int baseSpread = 12;
-							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * baseSpread;
+							/* Spread:
+							 * lastMechAlive = 20, 25, 30
+							 * normal = 16, 20, 24
+							 * nerfedAttacks = 12, 15, 18
+							 */
+							int baseSpread = lastMechAlive ? 20 : nerfedAttacks ? 12 : 16;
+							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
 
@@ -963,6 +968,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
+									Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, 104);
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))

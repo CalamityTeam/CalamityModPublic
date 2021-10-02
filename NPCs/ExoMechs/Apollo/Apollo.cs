@@ -807,7 +807,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						{
 							int type = ModContent.ProjectileType<ApolloRocket>();
 							int damage = npc.GetProjectileDamage(type);
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull"), npc.Center);
+							Main.PlaySound(SoundID.Item36, npc.Center);
 							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
 							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
 							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
