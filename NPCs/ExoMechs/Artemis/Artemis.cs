@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
+			float laserShotgunDuration = 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
@@ -882,7 +882,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 
 							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-							int spread = 15 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 15;
+							int baseSpread = 12;
+							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * baseSpread;
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
 
