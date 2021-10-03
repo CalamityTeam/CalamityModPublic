@@ -596,6 +596,9 @@ namespace CalamityMod
                 ProjectileType<FinalDawnFireSlash>(),
 
                 // Some hostile boss projectiles
+				ProjectileID.SaucerDeathray,
+				ProjectileID.PhantasmalDeathray,
+
                 ProjectileType<BrimstoneMonster>(),
                 ProjectileType<InfernadoRevenge>(),
                 ProjectileType<OverlyDramaticDukeSummoner>(),

@@ -1,6 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
@@ -289,6 +287,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
 			bool anyOtherExoMechPassive = exoWormPassive || exoPrimePassive;
 
+			// Used to nerf Artemis and Apollo if fighting alongside Ares, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoPrimeAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
+
 			// Check if any of the other mechs were spawned first
 			bool exoWormWasFirst = false;
 			bool exoPrimeWasFirst = false;
@@ -374,6 +377,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (nerfedAttacks)
+				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (float)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
@@ -394,14 +399,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float decelerationVelocityMult = 0.85f;
 
 			// Charge variables
-			float chargeVelocity = malice ? 60f : death ? 50f : revenge ? 45f : expertMode ? 40f : 30f;
+			float chargeVelocity = nerfedAttacks ? 60f : malice ? 100f : death ? 85f : revenge ? 80f : expertMode ? 75f : 60f;
 			float chargeDistance = 2000f;
 			float chargeDuration = chargeDistance / chargeVelocity;
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
+			float laserShotgunDuration = 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
@@ -744,7 +749,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = lastMechAlive ? 15 : 12;
+							int numLasers = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
@@ -865,7 +870,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					// Fire lasers
 					int numSpreads = lastMechAlive ? 3 : 2;
-					int numLasersPerSpread = lastMechAlive ? 8 : 6;
+					int numLasersPerSpread = lastMechAlive ? 8 : nerfedAttacks ? 4 : 6;
 					float divisor2 = laserShotgunDuration / numSpreads;
 					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
 					{
@@ -877,7 +882,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 
 							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-							int spread = 15 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 15;
+							/* Spread:
+							 * lastMechAlive = 20, 25, 30
+							 * normal = 16, 20, 24
+							 * nerfedAttacks = 12, 15, 18
+							 */
+							int baseSpread = lastMechAlive ? 20 : nerfedAttacks ? 12 : 16;
+							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
 
@@ -957,6 +968,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
+									Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, 104);
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))

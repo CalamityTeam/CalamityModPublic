@@ -12,7 +12,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
-	//[AutoloadBossHead]
 	public class AresLaserCannon : ModNPC
     {
 		public enum Phase
@@ -125,6 +124,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
@@ -133,8 +133,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+				{
 					otherExoMechsAlive++;
+					exoTwinsAlive = true;
+				}
 			}
+
+			// Used to nerf Ares if fighting alongside Artemis and Apollo, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoTwinsAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] != (float)Apollo.Apollo.SecondaryPhase.PassiveAndImmune;
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -259,7 +267,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else if (berserk)
 				deathrayPhaseGateValue *= 0.85f;
 
-			float deathrayPhaseVelocity = (passivePhase ? 9f : 12f) * baseVelocityMult;
+			float deathrayPhaseVelocity = (nerfedAttacks ? 6f : passivePhase ? 9f : 12f) * baseVelocityMult;
 			if (lastMechAlive)
 				deathrayPhaseVelocity *= 1.2f;
 			else if (berserk)

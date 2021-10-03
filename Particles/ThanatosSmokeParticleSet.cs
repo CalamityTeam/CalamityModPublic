@@ -12,7 +12,7 @@ namespace CalamityMod.Particles
 		public float RelativePower;
 		public float BaseMoveRotation;
 		public float MoveRotationOffset;
-		public override int ParticleLifetime => 50;
+		public override int ParticleLifetime => 30;
 		public override int ParticleFrameVariants => 3;
 		public override Texture2D ParticleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/ThanatosVentParticle");
 		public ThanatosSmokeParticleSet(int setLifetime, int particleSpawnRate, float baseMoveRotation, float spawnAreaCompactness, float relativePower) : 

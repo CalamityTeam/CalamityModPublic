@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class Climax2 : ModProjectile
+    public class VoidVortexProj : ModProjectile
     {
         private double timeElapsed = 0.0;
         private double circleSize = 1.0;
@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Climax");
+            DisplayName.SetDefault("Void Vortex");
             Main.projFrames[projectile.type] = 5;
         }
 
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 38;
             projectile.height = 38;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.light = 0.5f;
+            projectile.ignoreWater = true;
+            projectile.light = 0.5f;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 420;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 8f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 8f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
