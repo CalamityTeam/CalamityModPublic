@@ -12091,7 +12091,7 @@ namespace CalamityMod.NPCs
 			int iceMistAmt = phase3 ? 2 : 1;
             int fireballFireRate = phase5 ? 10 : 12;
             float fireballSpeed = (phase6 ? 7.5f : 6f) + (death ? 2f * (1f - lifeRatio) : 0f) - (isCultist ? 0f : 3f);
-            int lightningOrbPhaseTime = phase2 ? 150 : 180;
+            int lightningOrbPhaseTime = phase2 ? 90 : 120;
             int ancientLightSpawnRate = phase4 ? 25 : 30;
 			int ancientLightAmt = phase4 ? 3 : 2;
 			int ancientDoomLimit = 10;
@@ -12919,8 +12919,8 @@ namespace CalamityMod.NPCs
                     }
 
                     int num52 = list8.Count + 1;
-                    if (num52 > 3)
-                        num52 = 3;
+                    if (num52 > 2)
+                        num52 = 2;
 
                     int num53 = Math.Sign(player.Center.X - center.X);
                     if (num53 != 0)
@@ -13217,12 +13217,15 @@ namespace CalamityMod.NPCs
 				kill = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    for (int num1501 = 0; num1501 < 4; num1501++)
-                    {
-                        Vector2 vector255 = new Vector2(0f, -splitProjVelocity).RotatedBy(MathHelper.PiOver2 * num1501);
-                        Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
-                    }
-                }
+					int totalProjectiles = (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss && !phase3) ? 8 : 4;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					Vector2 spinningPoint = new Vector2(0f, -splitProjVelocity);
+					for (int k = 0; k < totalProjectiles; k++)
+					{
+						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+					}
+				}
             }
 
             if (kill)

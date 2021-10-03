@@ -12,7 +12,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
-	//[AutoloadBossHead]
 	public class AresLaserCannon : ModNPC
     {
 		public enum Phase
