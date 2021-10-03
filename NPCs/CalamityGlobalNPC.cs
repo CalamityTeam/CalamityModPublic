@@ -1926,7 +1926,7 @@ namespace CalamityMod.NPCs
 				}
 
 				if (ThanatosIDs.Contains(npc.type))
-					DRScalar = 2.5f;
+					DRScalar = 2f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
