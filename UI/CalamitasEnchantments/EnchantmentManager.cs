@@ -288,7 +288,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 							CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
 						}
 					},
-					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None),
+					item => item.damage > 0 && item.maxStack == 1 && item.shoot > ProjectileID.None && !item.summon),
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
