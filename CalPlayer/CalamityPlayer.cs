@@ -29,6 +29,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -326,6 +327,7 @@ namespace CalamityMod.CalPlayer
         public bool angryDog = false;
         public bool fab = false;
         public bool crysthamyr = false;
+        public bool ExoChair = false;
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
@@ -1529,6 +1531,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             miniOldDuke = false;
 
             abyssalDivingSuitPlates = false;
@@ -2296,6 +2299,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             abyssalDivingSuitPlates = false;
             sirenWaterBuff = false;
             sirenIce = false;
@@ -2595,6 +2599,13 @@ namespace CalamityMod.CalPlayer
                 else
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
             }
+
+            bool useExoMechs = ExoMechsSky.CanSkyBeActive;
+            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
+            if (useExoMechs)
+                SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);
+            else
+                SkyManager.Instance.Deactivate("CalamityMod:ExoMechs");
 
             Point point = player.Center.ToTileCoordinates();
             bool aboveGround = point.Y > Main.maxTilesY - 320;
@@ -3188,7 +3199,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight))
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -3925,6 +3936,47 @@ namespace CalamityMod.CalPlayer
             if (player.ZoneDesert && (ZoneAstral || areThereAnyDamnBosses) && player.HasBuff(BuffID.WindPushed))
             {
                 player.ClearBuff(BuffID.WindPushed);
+            }
+        }
+        #endregion
+
+        #region PreUpdateMovement
+        public override void PreUpdateMovement()
+        {
+            // Remove acceleration when using the exo chair.
+            if (ExoChair)
+            {
+                float speed = DraedonGamerChairMount.MovementSpeed;
+                if (CalamityMod.ExoChairSpeedupHotkey.Current)
+                    speed *= 2f;
+
+                if (player.controlLeft)
+                {
+                    player.velocity.X = -speed;
+                    player.direction = -1;
+                }
+                else if (player.controlRight)
+                {
+                    player.velocity.X = speed;
+                    player.direction = 1;
+                }
+                else
+                    player.velocity.X = 0f;
+
+                if (player.controlUp)
+                    player.velocity.Y = -speed;
+
+                else if (player.controlDown)
+                {
+                    player.velocity.Y = speed;
+                    if (Collision.TileCollision(player.position, player.velocity, player.width, player.height, true, false, (int)player.gravDir).Y == 0f)
+                        player.velocity.Y = 0.5f;
+                }
+                else
+                    player.velocity.Y = 0f;
+
+                if (player.controlJump)
+                    player.velocity *= 0.5f;
             }
         }
         #endregion
@@ -5943,7 +5995,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile)
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
 				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && player.altFunctionUse == 2 && Main.rand.NextBool(2))
 				{
@@ -5952,11 +6004,9 @@ namespace CalamityMod.CalPlayer
 						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
 						Main.dust[dustIndex].velocity *= 0.3f;
 					}
-					int damage2 = (int)(GaelsGreatsword.BaseDamage * player.MeleeDamage());
 					proj.hostile = false;
 					proj.friendly = true;
 					proj.velocity *= -1f;
-					proj.damage = damage2;
 					proj.penetrate = 1;
 					bool isImmune = false;
 					for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -6008,11 +6058,9 @@ namespace CalamityMod.CalPlayer
 					// The Evolution
                     if (projRefRare)
 					{
-						int damage2 = (int)(proj.damage * 10 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -2f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6043,11 +6091,9 @@ namespace CalamityMod.CalPlayer
                     // Arcanum of the Void
 					else if (projRef)
 					{
-						int damage2 = (int)(proj.damage * 5 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6076,11 +6122,9 @@ namespace CalamityMod.CalPlayer
                     // Daedalus Melee set bonus
 					else if (daedalusReflect)
 					{
-						int damage2 = (int)(proj.damage * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.penetrate = 1;
 						bool isImmune = false;
 						for (int j = 0; j < player.hurtCooldowns.Length; j++)

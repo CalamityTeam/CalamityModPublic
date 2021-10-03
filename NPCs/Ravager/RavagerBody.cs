@@ -106,9 +106,12 @@ namespace CalamityMod.NPCs.Ravager
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Large fire light
 			Lighting.AddLight((int)(npc.Center.X - 110f) / 16, (int)(npc.Center.Y - 30f) / 16, 0f, 0.5f, 2f);

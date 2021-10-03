@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
-											int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+											int type = ModContent.ProjectileType<ThanatosLaser>();
 											int damage = npc.GetProjectileDamage(type);
 											Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 										}
@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										}
 
 										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
-										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 										for (int i = 0; i < numProjectiles; i++)

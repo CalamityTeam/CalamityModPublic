@@ -1,6 +1,9 @@
 using CalamityMod.Events;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -10,6 +13,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,6 +82,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XF-09 Ares");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = npc.oldPos.Length;
 		}
 
         public override void SetDefaults()
@@ -88,7 +94,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.height = 252;
             npc.defense = 100;
 			npc.DR_NERD(0.35f);
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -545,6 +551,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								// Y = 4 sets to frame 12
 								frameY = 4;
 
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
+
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -669,9 +678,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, SpriteEffects.None, 0f);
 				}
 			}
 
@@ -689,9 +698,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, SpriteEffects.None, 0f);
 				}
 			}
 
@@ -707,7 +716,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void NPCLoot()
         {
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
 
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
@@ -750,11 +759,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					DropHelper.WeightStack<TheAtomSplitter>(w)
 				);
 
+				// Equipment
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoThrone>(), 5);
+
 				// Vanity
-				// DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
-				// DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
-				// DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
-				// DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), 7);
 			}
 
 			CalamityWorld.downedExoMechs = true;

@@ -1,3 +1,4 @@
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -179,6 +180,9 @@ namespace CalamityMod.Projectiles.Boss
 			// Nuke gores
 			Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
 			Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
+
+			// Create a bunch of lightning bolts in the sky
+			ExoMechsSky.CreateLightningBolt(12);
 
 			if (Main.myPlayer == projectile.owner)
 			{

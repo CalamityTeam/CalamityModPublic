@@ -1926,7 +1926,7 @@ namespace CalamityMod.NPCs
 				}
 
 				if (ThanatosIDs.Contains(npc.type))
-					DRScalar = 2.5f;
+					DRScalar = 2f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -2089,9 +2089,14 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
-                npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
-            }
+
+				if (draedon != -1)
+				{
+					if (Main.npc[draedon].active)
+						npc.dontTakeDamage = true;
+				}
+			}
 
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			if (ZeroContactDamageNPCList.Contains(npc.type))
@@ -3473,15 +3478,15 @@ namespace CalamityMod.NPCs
 			}
 			else if (AstrumDeusIDs.Contains(npc.type))
 			{
-				// 75% resist to Stardust Dragon Staff and Plaguenades.
-				if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
+				// 75% resist to Plaguenades.
+				if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					damage = (int)(damage * 0.25);
 
 				// 50% resist to true melee.
 				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
 
-				// 25% resist to Lazhar, Inferno Fork, Cosmic Rainbow, Plague Staff, Resurrection Butterfly, Eidolon Staff and Charged Blaster Cannon.
+				// 25% resist to Resurrection Butterfly.
 				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 					damage = (int)(damage * 0.75);
 			}
@@ -3492,7 +3497,7 @@ namespace CalamityMod.NPCs
 					damage = (int)(damage * 0.7);
 
 				// 20% resist to Executioner's Blade stealth strikes.
-				if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
+				else if (projectile.type == ProjectileType<ExecutionersBladeStealthProj>())
 					damage = (int)(damage * 0.8);
 			}
 			else if (DevourerOfGodsIDs.Contains(npc.type))
@@ -3512,30 +3517,18 @@ namespace CalamityMod.NPCs
 			}
 			else if (StormWeaverIDs.Contains(npc.type))
 			{
-				// 10% resist to Shattered Sun.
-				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
-					damage = (int)(damage * 0.9);
-
 				// 25% resist to Molten Amputator blobs.
-				else if (projectile.type == ProjectileType<MoltenBlobThrown>())
+				if (projectile.type == ProjectileType<MoltenBlobThrown>())
 					damage = (int)(damage * 0.75);
 
 				// 50% resist to true melee, Elemental Axe, Dazzling Stabber Staff and Pristine Fury.
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>() || projectile.type == ProjectileType<PristineFire>())
 					damage = (int)(damage * 0.5);
-
-				// 90% resist to Stardust Dragon Staff.
-				else if (ProjectileID.Sets.StardustDragon[projectile.type])
-					damage = (int)(damage * 0.1);
 			}
 			else if (DestroyerIDs.Contains(npc.type))
 			{
-				// 25% resist to Spear of Paleolith, Desecrated Water, Kelvin Catalyst and Pearlwood Bow.
-				if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>())
-					damage = (int)(damage * 0.75);
-
 				// 50% resist to true melee and Dormant Brimseekers.
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
+				if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<DormantBrimseekerBab>())
 					damage = (int)(damage * 0.5);
 			}
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3570,37 +3563,13 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-				// 20.5% resist to Time Bolt.
+				// 20% resist to Time Bolt.
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
-                    damage = (int)(damage * 0.795);
+                    damage = (int)(damage * 0.8);
 
-				// 61% resist to Last Mourning.
+				// 60% resist to Last Mourning.
 				else if (projectile.type == ProjectileType<MourningSkull>() || projectile.type == ProjectileID.FlamingJack)
-					damage = (int)(damage * 0.39);
-			}
-			else if (npc.type == NPCType<Polterghast.Polterghast>())
-			{
-				// 5% resist to Celestial Reaper.
-                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
-                    damage = (int)(damage * 0.95);
-			}
-			else if (npc.type == NPCType<Signus.Signus>())
-			{
-				// 5% resist to Celestial Reaper.
-                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
-                    damage = (int)(damage * 0.95);
-			}
-			else if (npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>())
-			{
-				// 10% resist to Onyxia.
-				if (projectile.type == ProjectileID.BlackBolt)
-					damage = (int)(damage * 0.9);
-			}
-			else if (npc.type == NPCType<SupremeCataclysm>() || npc.type == NPCType<SupremeCatastrophe>())
-			{
-				// 10% resist to Phoenix Flame Barrage.
-				if (projectile.type == ProjectileType<HolyFlame>())
-					damage = (int)(damage * 0.9);
+					damage = (int)(damage * 0.4);
 			}
 			else if (npc.type == NPCType<SoulSeekerSupreme>())
 			{
@@ -3654,6 +3623,10 @@ namespace CalamityMod.NPCs
 				else if (!Main.expertMode)
 					damage = (int)(damage * 0.2);
 			}
+
+			// Thanatos segments do not trigger pierce resistance if they are closed
+			if (ThanatosIDs.Contains(npc.type) && unbreakableDR)
+				return;
 
 			float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
 			if (damageReduction > projectile.Calamity().PierceResistCap)
@@ -4099,8 +4072,10 @@ namespace CalamityMod.NPCs
 					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
 			}
 
-			if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
-				pool.Remove(NPCID.VoodooDemon);
+            if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
+            {
+                pool.Remove(NPCID.VoodooDemon);
+            }
 		}
         #endregion
 

@@ -1,6 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -61,12 +62,14 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DraedonsHeart>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<ExoThrone>(), 5);
 
             // Vanity
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
-            // DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), 7);
         }
     }
 }

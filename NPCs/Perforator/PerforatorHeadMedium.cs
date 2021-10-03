@@ -75,9 +75,12 @@ namespace CalamityMod.NPCs.Perforator
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			float speed = 8f;
 			float turnSpeed = 0.06f;

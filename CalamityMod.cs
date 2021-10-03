@@ -85,6 +85,7 @@ namespace CalamityMod
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
 		public static ModHotKey GodSlayerDashHotKey;
+        public static ModHotKey ExoChairSpeedupHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -183,8 +184,9 @@ namespace CalamityMod
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
+            ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
 
-			if (!Main.dedServ)
+            if (!Main.dedServ)
                 LoadClient();
 
             ILChanges.Load();
@@ -269,6 +271,9 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
+
+            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
@@ -573,10 +578,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMindP2>(), 5400 },
                 { ModContent.NPCType<PerforatorHive>(), 7200 },
                 { ModContent.NPCType<SlimeGodCore>(), 10800 },
-                { ModContent.NPCType<SlimeGod>(), 3600 },
-                { ModContent.NPCType<SlimeGodRun>(), 3600 },
-                { ModContent.NPCType<SlimeGodSplit>(), 3600 },
-                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
+                { ModContent.NPCType<SlimeGod>(), 5400 },
+                { ModContent.NPCType<SlimeGodRun>(), 5400 },
+                { ModContent.NPCType<SlimeGodSplit>(), 5400 },
+                { ModContent.NPCType<SlimeGodRunSplit>(), 5400 },
                 { ModContent.NPCType<Cryogen>(), 10800 },
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -875,6 +880,14 @@ namespace CalamityMod
             {
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
                 tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+            }
+            else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
+            {
+                float intensity = SkyManager.Instance["CalamityMod:ExoMechs"].Opacity;
+                backgroundColor = Color.Lerp(backgroundColor, Color.DarkGray, intensity * 0.9f);
+                backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
+                tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
+                tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
             }
         }
 		#endregion

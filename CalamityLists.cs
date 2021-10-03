@@ -596,15 +596,23 @@ namespace CalamityMod
                 ProjectileType<FinalDawnHorizontalSlash>(),
                 ProjectileType<FinalDawnFireSlash>(),
 
-                //Some hostile boss projectiles
+                // Some hostile boss projectiles
+				ProjectileID.SaucerDeathray,
+				ProjectileID.PhantasmalDeathray,
+
                 ProjectileType<BrimstoneMonster>(),
                 ProjectileType<InfernadoRevenge>(),
                 ProjectileType<OverlyDramaticDukeSummoner>(),
                 ProjectileType<ProvidenceHolyRay>(),
                 ProjectileType<OldDukeVortex>(),
                 ProjectileType<BrimstoneRay>(),
-                ProjectileType<BrimstoneTargetRay>()
-            };
+				ProjectileType<AresDeathBeamStart>(),
+				ProjectileType<AresGaussNukeProjectileBoom>(),
+				ProjectileType<AresLaserBeamStart>(),
+				ProjectileType<ArtemisLaserBeamStart>(),
+				ProjectileType<BirbAura>(),
+				ProjectileType<ThanatosBeamStart>()
+			};
 
             projectileMinionList = new List<int>()
             {
@@ -2734,7 +2742,32 @@ namespace CalamityMod
 				ProjectileType<DevilsSunriseCyclone>(),
 				ProjectileType<PhaseslayerProjectile>(),
 				ProjectileType<TaserHook>(),
-				ProjectileType<Snowflake>()
+				ProjectileType<Snowflake>(),
+				ProjectileType<InsidiousHarpoon>(),
+				ProjectileType<PhotonRipperProjectile>(),
+				ProjectileType<AcidicSaxBubble>(),
+				ProjectileType<WaterLeechProj>(),
+				ProjectileType<BonebreakerProjectile>(),
+				ProjectileType<UrchinBallSpike>(),
+				ProjectileType<EmesisGore>(),
+				ProjectileType<ExoLightBurst>(),
+				ProjectileType<SulphuricAcidBubble2>(),
+				ProjectileType<EclipsesStealth>(),
+				ProjectileType<EradicatorProjectile>(),
+				ProjectileType<FantasyTalismanProj>(),
+				ProjectileType<FantasyTalismanStealth>(),
+				ProjectileType<GodsParanoiaProj>(),
+				ProjectileType<JawsProjectile>(),
+				ProjectileType<LeviathanTooth>(),
+				ProjectileType<LionfishProj>(),
+				ProjectileType<MetalShard>(),
+				ProjectileType<NastyChollaBol>(),
+				ProjectileType<SacrificeProjectile>(),
+				ProjectileType<SnapClamProj>(),
+				ProjectileType<SnapClamStealth>(),
+				ProjectileType<StickyBol>(),
+				ProjectileType<UrchinStingerProj>(),
+				ProjectileType<EyeOfNightCell>()
 			};
 
 			bossMinionList = new List<int>()

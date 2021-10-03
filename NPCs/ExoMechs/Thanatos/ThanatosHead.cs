@@ -14,6 +14,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Skies;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -737,9 +739,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 								}
 
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
+
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ExoDestroyerBeamTelegraph>();
+									int type = ModContent.ProjectileType<ThanatosBeamTelegraph>();
 									for (int b = 0; b < 6; b++)
 									{
 										int beam = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, 0, 0f, 255, npc.whoAmI);
@@ -766,7 +771,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ExoDestroyerBeamStart>();
+									int type = ModContent.ProjectileType<ThanatosBeamStart>();
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
@@ -955,7 +960,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void NPCLoot()
         {
-			// DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosTrophy>(), 10);
 
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;

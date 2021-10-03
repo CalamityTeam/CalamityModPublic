@@ -99,9 +99,12 @@ namespace CalamityMod.NPCs.SlimeGod
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -314,6 +317,12 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Opacity = 0.8f;
 
 				buffedSlime = 0;
+			}
+			else if (npc.ai[1] < ai1)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 0.8f)
+					npc.Opacity = 0.8f;
 			}
 
 			// Spin and shoot orbs

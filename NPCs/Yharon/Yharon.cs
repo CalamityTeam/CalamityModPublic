@@ -145,10 +145,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
 			// Stop rain
 			CalamityMod.StopRain();
 
@@ -157,6 +153,14 @@ namespace CalamityMod.NPCs.Yharon
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
+
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
+
 			float pie = (float)Math.PI;
 
 			Vector2 vectorCenter = npc.Center;
@@ -2998,9 +3002,12 @@ namespace CalamityMod.NPCs.Yharon
 				// Percent life remaining
 				float lifeRatio = npc.life / (float)npc.lifeMax;
 
-				// Increase aggression if player is taking a long time to kill the boss
-				if (lifeRatio > npc.Calamity().killTimeRatio_IncreasedAggression)
-					lifeRatio = npc.Calamity().killTimeRatio_IncreasedAggression;
+				if (CalamityWorld.revenge || CalamityWorld.malice || BossRushEvent.BossRushActive)
+				{
+					// Increase aggression if player is taking a long time to kill the boss
+					if (lifeRatio > npc.Calamity().killTimeRatio_IncreasedAggression)
+						lifeRatio = npc.Calamity().killTimeRatio_IncreasedAggression;
+				}
 
 				bool doTelegraphFlightAnimation = npc.localAI[1] < fastChargeTelegraphTime * 0.5f || npc.localAI[1] > fastChargeTelegraphTime - (fastChargeTelegraphTime / 6f);
 				bool doTelegraphRoarAnimation = npc.localAI[1] > fastChargeTelegraphTime - fastChargeTelegraphTime * 0.4f && npc.localAI[1] < fastChargeTelegraphTime - fastChargeTelegraphTime * 0.2f;

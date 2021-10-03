@@ -1,15 +1,16 @@
 using CalamityMod.Events;
-using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -110,9 +111,24 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		// The point to spin around
 		private Vector2 spinningPoint = default;
 
+		// Velocity for the spin
+		private Vector2 spinVelocity = default;
+
+		// Intensity of flash effects during the charge combo
+		public float ChargeFlash;
+
+		// Primitive trail drawers for thrusters when charging
+		public PrimitiveTrail ChargeFlameTrail = null;
+		public PrimitiveTrail ChargeFlameTrailBig = null;
+
+		// Primitive trail drawer for the ribbon things
+		public PrimitiveTrail RibbonTrail = null;
+
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XS-01 Artemis");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = 15;
 		}
 
         public override void SetDefaults()
@@ -124,7 +140,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             npc.height = 226;
             npc.defense = 80;
 			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
@@ -152,6 +168,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.WriteVector2(spinVelocity);
 			writer.WriteVector2(chargeVelocityNormalized);
 			writer.Write(frameX);
 			writer.Write(frameY);
@@ -169,6 +186,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			spinVelocity = reader.ReadVector2();
 			chargeVelocityNormalized = reader.ReadVector2();
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
@@ -185,7 +203,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 		}
 
         public override void AI()
-        {
+		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			CalamityGlobalNPC.draedonExoMechTwinRed = npc.whoAmI;
@@ -268,6 +286,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			if (exoPrimeAlive)
 				exoPrimePassive = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] == (float)AresBody.SecondaryPhase.Passive;
 			bool anyOtherExoMechPassive = exoWormPassive || exoPrimePassive;
+
+			// Used to nerf Artemis and Apollo if fighting alongside Ares, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoPrimeAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
 
 			// Check if any of the other mechs were spawned first
 			bool exoWormWasFirst = false;
@@ -354,6 +377,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (nerfedAttacks)
+				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (float)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
@@ -374,17 +399,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float decelerationVelocityMult = 0.85f;
 
 			// Charge variables
-			float chargeVelocity = malice ? 60f : death ? 50f : revenge ? 45f : expertMode ? 40f : 30f;
+			float chargeVelocity = nerfedAttacks ? 60f : malice ? 100f : death ? 85f : revenge ? 80f : expertMode ? 75f : 60f;
 			float chargeDistance = 2000f;
 			float chargeDuration = chargeDistance / chargeVelocity;
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = lastMechAlive ? 60f : 90f;
+			float laserShotgunDuration = 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
-			bool canFire = Vector2.Distance(npc.Center, player.Center) > 400f;
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
@@ -439,6 +464,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					rotationDirection = 0;
 					chargeVelocityNormalized = default;
 					spinningPoint = default;
+					spinVelocity = default;
 					npc.dontTakeDamage = true;
 
 					npc.velocity.Y -= 1f;
@@ -486,7 +512,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Duration of deathray spin to do a full circle
-			float spinTime = 120f - baseVelocity * 2.5f;
+			float spinTime = 180f - baseVelocity * baseVelocityMult;
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
@@ -506,6 +532,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				// Y = 3 sets to frame 30
 				frameY = 3;
 			}
+
+			// Variable for charge flash. Changed in parts of the AI below
+			bool shouldDoChargeFlash = false;
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -531,6 +560,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 					}
 					else
@@ -552,6 +582,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 
 						// Go passive and immune if one of the other mechs is berserk
@@ -570,6 +601,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							rotationDirection = 0;
 							chargeVelocityNormalized = default;
 							spinningPoint = default;
+							spinVelocity = default;
 						}
 					}
 
@@ -596,6 +628,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 					}
 
 					// If Artemis and Apollo are the first mechs to go berserk
@@ -612,6 +645,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -641,6 +675,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 					}
 
 					if (berserk)
@@ -656,6 +691,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						rotationDirection = 0;
 						chargeVelocityNormalized = default;
 						spinningPoint = default;
+						spinVelocity = default;
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -713,7 +749,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = lastMechAlive ? 15 : 12;
+							int numLasers = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
@@ -721,7 +757,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+									int type = ModContent.ProjectileType<ThanatosLaser>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
@@ -751,8 +787,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							else
 							{
 								// Draw a large laser telegraph for the charge
-								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f)
+								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 5f)
 								{
+									// And allow the charge flash effect
+									shouldDoChargeFlash = true;
+
 									if (Main.netMode != NetmodeID.MultiplayerClient)
 									{
 										int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
@@ -773,6 +812,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									else
 									{
 										// Charge until a certain distance is reached and then return to normal phase
+										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
 										AIState = (float)Phase.Charge;
 										npc.velocity = chargeVelocityNormalized * chargeVelocity;
 										chargeVelocityNormalized = default;
@@ -786,6 +826,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 				// Charge
 				case (int)Phase.Charge:
+
+					// Allow the charge flash to happen
+					shouldDoChargeFlash = true;
 
 					// Reset phase and variables
 					calamityGlobalNPC.newAI[2] += 1f;
@@ -827,19 +870,25 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					// Fire lasers
 					int numSpreads = lastMechAlive ? 3 : 2;
-					int numLasersPerSpread = lastMechAlive ? 8 : 6;
+					int numLasersPerSpread = lastMechAlive ? 8 : nerfedAttacks ? 4 : 6;
 					float divisor2 = laserShotgunDuration / numSpreads;
 					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
 					{
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+							int type = ModContent.ProjectileType<ThanatosLaser>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 
 							Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
-							int spread = 15 + (int)(calamityGlobalNPC.newAI[2] / divisor2) * 15;
+							/* Spread:
+							 * lastMechAlive = 20, 25, 30
+							 * normal = 16, 20, 24
+							 * nerfedAttacks = 12, 15, 18
+							 */
+							int baseSpread = lastMechAlive ? 20 : nerfedAttacks ? 12 : 16;
+							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
 
@@ -908,22 +957,46 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									rotationDirection = player.direction;
 
 								// Set spin velocity
-								npc.velocity.X = MathHelper.Pi * spinRadius / spinTime;
-								npc.velocity *= -rotationDirection;
+								spinVelocity.X = MathHelper.Pi * spinRadius / spinTime;
+								spinVelocity *= -rotationDirection;
 								npc.netUpdate = true;
+
+								// Create a bunch of lightning bolts in the sky
+								ExoMechsSky.CreateLightningBolt(12);
 
 								// Fire deathray
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
+									Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, 104);
 									int damage = npc.GetProjectileDamage(type);
 									int laser = Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.whoAmI);
 									if (Main.projectile.IndexInRange(laser))
+									{
 										Main.projectile[laser].ai[0] = npc.whoAmI;
+										Main.projectile[laser].ai[1] = rotationDirection;
+									}
 								}
 							}
 							else
-								npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinTime * -rotationDirection);
+							{
+								// This is used to adjust both the radians and the velocity of the spin moved per frame
+								float rotationMult = (calamityGlobalNPC.newAI[2] - deathrayTelegraphDuration) / deathrayDuration * 4f;
+								if (rotationMult > 1f)
+								{
+									// The radians moved per frame during the spin
+									double radiansOfRotation = MathHelper.Pi / spinTime * -rotationDirection;
+									npc.velocity = npc.velocity.RotatedBy(radiansOfRotation);
+								}
+								else
+								{
+									// The radians moved per frame during the spin
+									// The radians moved are reduced early on to avoid spinning too fucking fast
+									float decelerationMult = rotationMult * rotationMult;
+									double radiansOfRotation = MathHelper.Pi / spinTime * -rotationDirection * decelerationMult;
+									npc.velocity = (spinVelocity * decelerationMult).RotatedBy(radiansOfRotation);
+								}
+							}
 						}
 					}
 					else
@@ -949,6 +1022,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// Reset phase and variables
 					if (calamityGlobalNPC.newAI[2] >= deathrayTelegraphDuration + deathrayDuration)
 					{
+						spinVelocity = default;
 						rotationDirection = 0;
 						spinningPoint = default;
 						pickNewLocation = true;
@@ -985,9 +1059,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					if (calamityGlobalNPC.newAI[2] == lensPopTime)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
-						Vector2 goreVelocity = Vector2.Normalize(aimedVector);
-						Vector2 offset = goreVelocity * 70f;
-						Gore.NewGore(npc.Center + offset, goreVelocity * 24f, mod.GetGoreSlot("Gores/Artemis/ArtemisTransitionGore"), 1f);
+						Vector2 lensDirection = Vector2.Normalize(aimedVector);
+						Vector2 offset = lensDirection * 70f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenArtemisLens>(), 0, 0f);
 					}
 
 					// Reset phase and variables
@@ -1005,6 +1081,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					break;
 			}
+
+			// Update the charge flash variable
+			ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1115,34 +1194,137 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 		}
 
+		public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio) * ChargeFlash;
+
+		public float FlameTrailWidthFunctionBig(float completionRatio) => MathHelper.SmoothStep(34f, 12f, completionRatio) * ChargeFlash;
+
+		public float RibbonTrailWidthFunction(float completionRatio)
+		{
+			float baseWidth = Utils.InverseLerp(1f, 0.54f, completionRatio, true) * 5f;
+			float endTipWidth = CalamityUtils.Convert01To010(Utils.InverseLerp(0.96f, 0.89f, completionRatio, true)) * 2.4f;
+			return baseWidth + endTipWidth;
+		}
+
+		public Color FlameTrailColorFunction(float completionRatio)
+		{
+			float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true);
+			Color startingColor = Color.Lerp(Color.White, Color.Cyan, 0.27f);
+			Color middleColor = Color.Lerp(Color.Orange, Color.Yellow, 0.31f);
+			Color endColor = Color.OrangeRed;
+			return CalamityUtils.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * ChargeFlash * trailOpacity;
+		}
+
+		public Color FlameTrailColorFunctionBig(float completionRatio)
+		{
+			float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true) * 0.56f;
+			Color startingColor = Color.Lerp(Color.White, Color.Cyan, 0.25f);
+			Color middleColor = Color.Lerp(Color.Blue, Color.White, 0.35f);
+			Color endColor = Color.Lerp(Color.DarkBlue, Color.White, 0.47f);
+			Color color = CalamityUtils.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * ChargeFlash * trailOpacity;
+			color.A = 0;
+			return color;
+		}
+
+		public Color RibbonTrailColorFunction(float completionRatio)
+		{
+			Color startingColor = new Color(34, 40, 48);
+			Color endColor = new Color(219, 82, 28);
+			return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * npc.Opacity;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Declare the trail drawers if they have yet to be defined.
+			if (ChargeFlameTrail is null)
+				ChargeFlameTrail = new PrimitiveTrail(FlameTrailWidthFunction, FlameTrailColorFunction, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
+
+			if (ChargeFlameTrailBig is null)
+				ChargeFlameTrailBig = new PrimitiveTrail(FlameTrailWidthFunctionBig, FlameTrailColorFunctionBig, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
+
+			if (RibbonTrail is null)
+				RibbonTrail = new PrimitiveTrail(RibbonTrailWidthFunction, RibbonTrailColorFunction);
+
+			// Prepare the flame trail shader with its map texture.
+			GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+
+			int numAfterimages = ChargeFlash > 0f ? 0 : 5;
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
-			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
+			Vector2 origin = npc.Size * 0.5f;
+			Vector2 center = npc.Center - Main.screenPosition;
 			Color afterimageBaseColor = Color.White;
-			int numAfterimages = 5;
 
-			if (CalamityConfig.Instance.Afterimages)
+			// Draws a single instance of a regular, non-glowmask based Artemis.
+			// This is created to allow easy duplication of them when drawing the charge.
+			void drawInstance(Vector2 drawOffset, Color baseColor)
 			{
-				for (int i = 1; i < numAfterimages; i += 2)
+				if (CalamityConfig.Instance.Afterimages)
 				{
-					Color afterimageColor = drawColor;
-					afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
-					afterimageColor = npc.GetAlpha(afterimageColor);
-					afterimageColor *= (numAfterimages - i) / 15f;
-					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					for (int i = 1; i < numAfterimages; i += 2)
+					{
+						Color afterimageColor = baseColor;
+						afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
+						afterimageColor = npc.GetAlpha(afterimageColor);
+						afterimageColor *= (numAfterimages - i) / 15f;
+						Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
+						afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+						afterimageCenter += drawOffset;
+						spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0f);
+					}
 				}
+
+				spriteBatch.Draw(texture, center + drawOffset, frame, npc.GetAlpha(baseColor), npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 			}
 
-			Vector2 center = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, center, frame, npc.GetAlpha(drawColor), npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			// Draw ribbons near the main thruster
+			for (int direction = -1; direction <= 1; direction += 2)
+			{
+				Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(npc.rotation) * 14f;
+				ribbonOffset += Vector2.UnitX.RotatedBy(npc.rotation) * direction * 26f;
+
+				float currentSegmentRotation = npc.rotation;
+				List<Vector2> ribbonDrawPositions = new List<Vector2>();
+				for (int i = 0; i < 12; i++)
+				{
+					float ribbonCompletionRatio = i / 12f;
+					float wrappedAngularOffset = MathHelper.WrapAngle(npc.oldRot[i + 1] - currentSegmentRotation) * 0.3f;
+					float segmentRotationOffset = MathHelper.Clamp(wrappedAngularOffset, -0.12f, 0.12f);
+
+					// Add a sinusoidal offset that goes based on time and completion ratio to create a waving-flag-like effect.
+					// This is dampened for the first few points to prevent weird offsets. It is also dampened by high velocity.
+					float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 2.22f + Main.GlobalTime * 3.4f) * 1.36f;
+					float sinusoidalRotationOffsetFactor = Utils.InverseLerp(0f, 0.37f, ribbonCompletionRatio, true) * direction * 24f;
+					sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, npc.velocity.Length(), true);
+
+					Vector2 sinusoidalOffset = Vector2.UnitY.RotatedBy(npc.rotation + sinusoidalRotationOffset) * sinusoidalRotationOffsetFactor;
+					Vector2 ribbonSegmentOffset = Vector2.UnitY.RotatedBy(currentSegmentRotation) * ribbonCompletionRatio * 540f + sinusoidalOffset;
+					ribbonDrawPositions.Add(npc.Center + ribbonSegmentOffset + ribbonOffset);
+
+					currentSegmentRotation += segmentRotationOffset;
+				}
+				RibbonTrail.Draw(ribbonDrawPositions, -Main.screenPosition, 66);
+			}
+
+			int instanceCount = (int)MathHelper.Lerp(1f, 15f, ChargeFlash);
+			Color baseInstanceColor = Color.Lerp(drawColor, Color.White, ChargeFlash);
+			baseInstanceColor.A = (byte)(int)(255f - ChargeFlash * 255f);
+
+			spriteBatch.EnterShaderRegion();
+
+			drawInstance(Vector2.Zero, baseInstanceColor);
+			if (instanceCount > 1)
+			{
+				baseInstanceColor *= 0.04f;
+				float backAfterimageOffset = MathHelper.SmoothStep(0f, 2f, ChargeFlash);
+				for (int i = 0; i < instanceCount; i++)
+				{
+					Vector2 drawOffset = (MathHelper.TwoPi * i / instanceCount + Main.GlobalTime * 0.8f).ToRotationVector2() * backAfterimageOffset;
+					drawInstance(drawOffset, baseInstanceColor);
+				}
+			}
 
 			texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Artemis/ArtemisGlow");
-
 			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int i = 1; i < numAfterimages; i += 2)
@@ -1152,13 +1334,45 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
+					afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+
+			spriteBatch.ExitShaderRegion();
+
+			// Draw a flame trail on the thrusters if needed. This happens during charges.
+			if (ChargeFlash > 0f)
+			{
+				for (int direction = -1; direction <= 1; direction++)
+				{
+					Vector2 baseDrawOffset = new Vector2(0f, direction == 0f ? 18f : 60f).RotatedBy(npc.rotation);
+					baseDrawOffset += new Vector2(direction * 64f, 0f).RotatedBy(npc.rotation);
+
+					float backFlameLength = direction == 0f ? 700f : 190f;
+					Vector2 drawStart = npc.Center + baseDrawOffset;
+					Vector2 drawEnd = drawStart - (npc.rotation - MathHelper.PiOver2).ToRotationVector2() * ChargeFlash * backFlameLength;
+					Vector2[] drawPositions = new Vector2[]
+					{
+						drawStart,
+						drawEnd
+					};
+
+					if (direction == 0)
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 8f;
+							ChargeFlameTrailBig.Draw(drawPositions, drawOffset - Main.screenPosition, 70);
+						}
+					}
+					else
+						ChargeFlameTrail.Draw(drawPositions, -Main.screenPosition, 70);
+				}
+			}
 
 			return false;
 		}
@@ -1187,13 +1401,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					Main.dust[num195].noGravity = true;
 				}
 
-				/*Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ares/AresBody7"), 1f);*/
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Artemis/Artemis1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Artemis/Artemis2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Artemis/Artemis3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Artemis/Artemis4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Artemis/Artemis5"), 1f);
 			}
 		}
 

@@ -87,12 +87,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
 
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			Vector2 vectorCenter = npc.Center;
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
@@ -141,16 +150,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
+			// Become immune over time if target isn't in hell or hallow
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool expertMode = Main.expertMode || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool death = CalamityWorld.death || malice;
-
-            // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
+			if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;

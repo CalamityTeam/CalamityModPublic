@@ -19,11 +19,12 @@ namespace CalamityMod.Items.DifficultyItems
                 "You gain Rage when in proximity of enemies or by using special items.\n" +
                 "ADRENALINE TOOLTIP LINE HERE\n" +
                 "You gain Adrenaline whenever a boss is alive. Getting hit drops Adrenaline back to 0.\n" +
-                "All enemies drop 50% more coins and spawn 15% more frequently\n" +
+                "All enemies drop 50% more coins and spawn 15% more frequently.\n" +
                 "Certain enemies and projectiles deal between 5% and 25% more damage.\n" +
                 "Makes certain enemies block life steal and nerfs the effectiveness of life steal.\n" +
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
-                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.");
+                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
+				"Most bosses will enter later phases sooner if the fight has gone on for a long time.");
         }
 
         public override void SetDefaults()
