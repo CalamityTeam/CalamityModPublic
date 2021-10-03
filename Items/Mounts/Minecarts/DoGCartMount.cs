@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -139,8 +140,12 @@ namespace CalamityMod.Items.Mounts.Minecarts
 				Color segmentColor = Lighting.GetColor((int)segmentDrawPosition.X / 16, (int)segmentDrawPosition.Y / 16);
 				Vector2 origin = segmentTexture.Size() * 0.5f;
 				float segmentRotation = segment.Rotation - DelegateMethods.Minecart.rotation;
+				DrawData segmentDrawData = new DrawData(segmentTexture, segmentDrawPosition - Main.screenPosition, null, segmentColor, segmentRotation, origin, Vector2.One, SpriteEffects.None, 0)
+				{
+					shader = Mount.currentShader
+				};
 
-				playerDrawData.Add(new DrawData(segmentTexture, segmentDrawPosition - Main.screenPosition, null, segmentColor, segmentRotation, origin, Vector2.One, SpriteEffects.None, 0));
+				playerDrawData.Add(segmentDrawData);
 			}
 			return true;
         }
