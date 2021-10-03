@@ -16,11 +16,11 @@ float2 uImageSize1;
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float2 swirlOffset = float2(sin(uTime * 0.96 + 1.754) * 0.31, sin(uTime * 0.96) * 0.16) * uSaturation;
+    float2 swirlOffset = float2(sin(uTime * 0.26 + 1.754) * 0.31, sin(uTime * 0.26) * 0.16) * uSaturation;
     float4 color = tex2D(uImage0, coords);
-    float4 noiseColor = tex2D(uImage1, frac(float2(coords.x, frameY + uTime * 0.36) + swirlOffset - uWorldPosition * 0.0006) * 0.26);
+    float4 noiseColor = tex2D(uImage1, frac(float2(coords.x, frameY + uTime * 0.16) + swirlOffset - uWorldPosition * 0.0006) * 0.26);
     float4 flameColor = tex2D(uImage1, frac(float2(coords.x, frameY + uTime * 0.44)) * 0.1);
-    float brightnessFactor = noiseColor.r * 2;
+    float brightnessFactor = lerp(noiseColor.r, noiseColor.g, sin(uTime * 2.46) * 0.5 + 0.5) * 2.35;
     
     float normalizedDistanceFromCenter = distance(float2(coords.x, frameY), float2(0.5, 0.5)) * 2;
     
