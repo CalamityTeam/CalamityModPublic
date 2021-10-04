@@ -184,6 +184,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				predictionAmt *= 0.5f;
 			if (passivePhase)
 				predictionAmt *= 0.5f;
+			if (lastMechAlive)
+				predictionAmt *= 1.5f;
 
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;

@@ -150,6 +150,9 @@ namespace CalamityMod.Projectiles.Boss
 				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active || Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays)
 					continue;
 
+				if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) > 1600f)
+					continue;
+
 				return Main.projectile[i];
 			}
 			return null;

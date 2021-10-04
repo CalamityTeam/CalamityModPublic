@@ -320,6 +320,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					calamityGlobalNPC.newAI[2] += 1f;
 					if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 					{
+						// Play a charge up sound so that the player knows when it's about to fire the deathray
+						if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f)
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), npc.Center);
+
 						// Inverse lerp returns the percentage of progress between A and B
 						float lerpValue2 = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
