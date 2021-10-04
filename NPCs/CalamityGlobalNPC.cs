@@ -251,8 +251,11 @@ namespace CalamityMod.NPCs
 		// 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
 		public bool CurrentlyEnraged;
 
-        // Collections
-        public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
+		// Other Boss Rush stuff
+		public bool DoesNotDisappearInBossRush;
+
+		// Collections
+		public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
             { NPCID.QueenBee, 315000 }, // 30 seconds
@@ -2109,7 +2112,7 @@ namespace CalamityMod.NPCs
 			if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;
 
-            if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
+            if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC && !npc.Calamity().DoesNotDisappearInBossRush)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
 			if (NPC.LunarApocalypseIsUp)

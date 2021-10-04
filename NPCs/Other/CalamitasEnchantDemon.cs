@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.Other
 			npc.knockBackResist = 0f;
 			npc.netAlways = true;
 			npc.aiStyle = 0;
+			npc.Calamity().DoesNotDisappearInBossRush = true;
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 101010;

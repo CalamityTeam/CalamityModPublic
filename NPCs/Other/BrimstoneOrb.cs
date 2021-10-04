@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.Other
             npc.netAlways = true;
             npc.aiStyle = -1;
             npc.Calamity().DoesNotGenerateRage = true;
+            npc.Calamity().DoesNotDisappearInBossRush = true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 181445;
