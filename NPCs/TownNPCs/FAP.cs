@@ -177,7 +177,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.downedPolterghast)
                 dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads...frightening times those were.");
 
-			// This one is good and will never be changed :)
             if (CalamityWorld.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
@@ -193,12 +192,9 @@ namespace CalamityMod.NPCs.TownNPCs
             if (permadong != -1)
                 dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I'd ever seen.");
 
-			/*int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
 			if (witch != -1)
-			{
-				dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through .");
-				dialogue.Add("My booze will always be better than " + Main.npc[witch].GivenName + "'s, and nobody can convince me otherwise.");
-			}*/
+				dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.");
 
 			if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");

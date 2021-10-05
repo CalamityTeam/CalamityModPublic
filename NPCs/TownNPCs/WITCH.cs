@@ -111,6 +111,13 @@ namespace CalamityMod.NPCs.TownNPCs
 					textSelector.Add("That frosty old man...even if you ignore our brands of magic and our old alliances, I doubt I'd ever" +
 						" get along with him.", 1.45);
 				}
+
+				int fab = NPC.FindFirstNPC(NPCType<FAP>());
+				if (fab != -1)
+				{
+					textSelector.Add("I wonder if " + Main.npc[fab].GivenName + " ever feels cold given how revealing her dress is." +
+						" Perhaps she should cover up a bit more.", 1.45);
+				}
 			}
 
 			// Select a possibility from the RNG and choose it as the thing that should be said.
