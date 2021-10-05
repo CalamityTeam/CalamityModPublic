@@ -405,6 +405,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
 				npc.Calamity().newAI[2] += 1f;
 
+			// Deal no contact damage for the first 5 seconds
+			npc.damage = npc.defDamage;
+			if (npc.Calamity().newAI[2] < 300f)
+				npc.damage = 0;
+
 			// Homing only works if vulnerable is true
 			npc.chaseable = vulnerable;
 
