@@ -276,6 +276,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else if (berserk)
 				teslaOrbPhaseGateValue *= 0.85f;
 
+			// If Tesla Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
+
 			// Variable to cancel tesla orb firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
 			if (doNotFire)
@@ -336,7 +339,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						int numTeslaOrbs = lastMechAlive ? 6 : berserk ? 5 : nerfedAttacks ? 3 : 4;
 						float divisor = teslaOrbDuration / numTeslaOrbs;
 
-						if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{

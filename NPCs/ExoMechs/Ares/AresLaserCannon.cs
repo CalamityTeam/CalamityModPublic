@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Default vector to fly to
-			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
+			Vector2 destination = fireNormalLasers ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
@@ -272,6 +272,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				deathrayPhaseVelocity *= 1.2f;
 			else if (berserk)
 				deathrayPhaseVelocity *= 1.1f;
+
+			// If Laser Cannon can fire normal lasers, cannot fire if too close to the target and in deathray spiral phase
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || !fireNormalLasers;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers);
@@ -321,7 +324,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 					{
 						// Play a charge up sound so that the player knows when it's about to fire the deathray
-						if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f)
+						if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), npc.Center);
 
 						// Inverse lerp returns the percentage of progress between A and B
@@ -380,7 +383,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							int numLasers = lastMechAlive ? 3 : 2;
 							float divisor = deathrayDuration / numLasers;
 
-							if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+							if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
 							{
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
