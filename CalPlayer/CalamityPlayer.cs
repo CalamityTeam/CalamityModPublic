@@ -4017,75 +4017,78 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdateRunSpeeds()
         {
-            #region SpeedBoosts
-            float runAccMult = 1f +
-                (shadowSpeed ? 0.5f : 0f) +
-                (stressPills ? 0.05f : 0f) +
-                ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
-                (sirenWaterBuff ? 0.15f : 0f) +
-                ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-                (auricSet ? 0.1f : 0f) +
-                (dragonScales ? 0.1f : 0f) +
-                (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
-                (cTracers ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
-                (eTracers ? 0.05f : 0f) +
-                (blueCandle ? 0.05f : 0f) +
-                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
-                (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+			#region SpeedBoosts
+			if (!player.mount.Active)
+			{
+				float runAccMult = 1f +
+					(shadowSpeed ? 0.5f : 0f) +
+					(stressPills ? 0.05f : 0f) +
+					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
+					(sirenWaterBuff ? 0.15f : 0f) +
+					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+					(auricSet ? 0.1f : 0f) +
+					(dragonScales ? 0.1f : 0f) +
+					(kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
+					(cTracers ? 0.1f : 0f) +
+					(silvaSet ? 0.05f : 0f) +
+					(eTracers ? 0.05f : 0f) +
+					(blueCandle ? 0.05f : 0f) +
+					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
+					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
+					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
-            float runSpeedMult = 1f +
-                (shadowSpeed ? 0.5f : 0f) +
-                (stressPills ? 0.05f : 0f) +
-                ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
-                (sirenWaterBuff ? 0.15f : 0f) +
-                ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-                (auricSet ? 0.1f : 0f) +
-                (dragonScales ? 0.1f : 0f) +
-                (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-                (cTracers ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
-                (eTracers ? 0.05f : 0f) +
-                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
-                (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+				float runSpeedMult = 1f +
+					(shadowSpeed ? 0.5f : 0f) +
+					(stressPills ? 0.05f : 0f) +
+					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
+					(sirenWaterBuff ? 0.15f : 0f) +
+					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+					(auricSet ? 0.1f : 0f) +
+					(dragonScales ? 0.1f : 0f) +
+					(kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
+					(cTracers ? 0.1f : 0f) +
+					(silvaSet ? 0.05f : 0f) +
+					(eTracers ? 0.05f : 0f) +
+					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
+					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
+					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
-            if (abyssalDivingSuit && !player.IsUnderwater())
-            {
-                float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
-                runAccMult *= multiplier;
-                runSpeedMult *= multiplier;
-            }
-            if (fabledTortoise)
-            {
-                float multiplier = shellBoost ? 0.8f : 0.5f;
-                runAccMult *= multiplier;
-                runSpeedMult *= multiplier;
-            }
-            if (ursaSergeant)
-            {
-                runAccMult *= 0.65f;
-                runSpeedMult *= 0.65f;
-            }
-            if (elysianGuard)
-            {
-                runAccMult *= 0.5f;
-                runSpeedMult *= 0.5f;
-            }
-            if ((player.slippy || player.slippy2) && player.iceSkate)
-            {
-                runAccMult *= 0.6f;
-            }
-            if (CalamityWorld.death && deathModeBlizzardTime > 0)
-            {
-                float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
-                runAccMult *= speedMult;
-                runSpeedMult *= speedMult;
-            }
+				if (abyssalDivingSuit && !player.IsUnderwater())
+				{
+					float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
+					runAccMult *= multiplier;
+					runSpeedMult *= multiplier;
+				}
+				if (fabledTortoise)
+				{
+					float multiplier = shellBoost ? 0.8f : 0.5f;
+					runAccMult *= multiplier;
+					runSpeedMult *= multiplier;
+				}
+				if (ursaSergeant)
+				{
+					runAccMult *= 0.65f;
+					runSpeedMult *= 0.65f;
+				}
+				if (elysianGuard)
+				{
+					runAccMult *= 0.5f;
+					runSpeedMult *= 0.5f;
+				}
+				if ((player.slippy || player.slippy2) && player.iceSkate)
+				{
+					runAccMult *= 0.6f;
+				}
+				if (CalamityWorld.death && deathModeBlizzardTime > 0)
+				{
+					float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
+					runAccMult *= speedMult;
+					runSpeedMult *= speedMult;
+				}
 
-            player.runAcceleration *= runAccMult;
-            player.maxRunSpeed *= runSpeedMult;
+				player.runAcceleration *= runAccMult;
+				player.maxRunSpeed *= runSpeedMult;
+			}
             #endregion
 
             #region DashEffects
