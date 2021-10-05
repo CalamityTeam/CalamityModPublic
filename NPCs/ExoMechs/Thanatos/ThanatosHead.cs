@@ -1,8 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -63,6 +61,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		}
 
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		// Timer to prevent Thanatos from dealing contact damage for a bit
+		private int noContactDamageTimer = 0;
 
 		// Invincibility time for the first 10 seconds
 		public const float immunityTime = 600f;
@@ -158,6 +159,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
 			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
+			writer.Write(noContactDamageTimer);
 			writer.Write(chargeVelocityScalar);
 			writer.Write(vulnerable);
 			writer.Write(npc.localAI[0]);
@@ -172,6 +174,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
+			noContactDamageTimer = reader.ReadInt32();
 			chargeVelocityScalar = reader.ReadSingle();
 			vulnerable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
@@ -353,12 +356,18 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.dontTakeDamage = invisiblePhase;
 			if (!invisiblePhase)
 			{
+				if (noContactDamageTimer > 0)
+					noContactDamageTimer--;
+
 				npc.Opacity += 0.2f;
 				if (npc.Opacity > 1f)
 					npc.Opacity = 1f;
 			}
 			else
 			{
+				// Deal no contact damage for 3 seconds after becoming visible
+				noContactDamageTimer = 185;
+
 				npc.Opacity -= 0.05f;
 				if (npc.Opacity < 0f)
 					npc.Opacity = 0f;
@@ -804,13 +813,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					break;
 			}
 
+			// Do not deal contact damage for 5 seconds after spawning
+			if (npc.localAI[3] == 0f)
+				noContactDamageTimer = 300;
+
 			if (npc.localAI[3] < immunityTime)
 				npc.localAI[3] += 1f;
-
-			// Deal no contact damage for the first 5 seconds
-			npc.damage = npc.defDamage;
-			if (npc.localAI[3] < 300f)
-				npc.damage = 0;
 
 			// Homing only works if vulnerable is true
 			npc.chaseable = vulnerable;
@@ -890,7 +898,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 50f && npc.Opacity == 1f;
+			return minDist <= 50f && npc.Opacity == 1f && noContactDamageTimer <= 0;
 		}
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
