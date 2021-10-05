@@ -410,6 +410,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Default vector to fly to
 			Vector2 destination = player.Center;
 
+			// Move destination to somewhere far below the target for the first 3 seconds so that Thanatos can fully uncoil quickly
+			bool speedUp = false;
+			if (npc.localAI[3] < 180f)
+			{
+				speedUp = true;
+				destination += new Vector2(0f, 2400f);
+			}
+
 			// Charge variables
 			float turnDistance = baseTurnDistance;
 			float chargeLocationDistance = turnDistance * 0.2f;
@@ -422,11 +430,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Velocity and turn speed values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
 			float baseVelocity = 10f * baseVelocityMult;
-			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
 
-			// Increase top velocity if target is dead
-			if (targetDead)
+			// Increase top velocity if target is dead or if Thanatos is uncoiling
+			if (targetDead || speedUp)
 				baseVelocity *= 4f;
+
+			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
 
 			float turnSpeed = MathHelper.ToRadians(turnDegrees);
 			float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -448,7 +457,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
+			float distanceFromTarget = Vector2.Distance(npc.Center, destination);
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
