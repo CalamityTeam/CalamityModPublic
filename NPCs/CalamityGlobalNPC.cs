@@ -2863,6 +2863,9 @@ namespace CalamityMod.NPCs
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
+			if (BossRushEvent.BossRushStage >= BossRushEvent.Bosses.Count)
+				return;
+
 			if (!BossRushEvent.Bosses[BossRushEvent.BossRushStage].HostileNPCsToNotDelete.Contains(npc.type))
 			{
 				npc.active = false;
