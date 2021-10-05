@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Other
             npc.knockBackResist = 0f;
             npc.netAlways = true;
             npc.aiStyle = -1;
+            npc.canGhostHeal = false;
             npc.Calamity().DoesNotGenerateRage = true;
             npc.Calamity().DoesNotDisappearInBossRush = true;
         }
