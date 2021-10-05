@@ -1,5 +1,7 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -145,16 +147,24 @@ namespace CalamityMod.Projectiles.Boss
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				return null;
 
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			float detachDistance = malice ? 1120f : death ? 960f : revenge ? 880f : expertMode ? 800f : 640f;
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
 				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active || Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays)
 					continue;
 
-				if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) > 1600f)
+				if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) > detachDistance)
 					continue;
 
 				return Main.projectile[i];
 			}
+
 			return null;
 		}
 
