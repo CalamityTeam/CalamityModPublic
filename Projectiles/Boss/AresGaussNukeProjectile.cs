@@ -187,13 +187,13 @@ namespace CalamityMod.Projectiles.Boss
 			if (Main.myPlayer == projectile.owner)
 			{
 				// Explosion waves
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, 0f, Main.myPlayer);
 					if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
 						// Make the max explosion radius decrease over time, creating a ring effect.
-						explosion.ai[1] = 800f + i * 45f;
+						explosion.ai[1] = 800f + i * 90f;
 						explosion.localAI[1] = 0.25f;
 						explosion.Opacity = MathHelper.Lerp(0.18f, 0.6f, i / 7f) + Main.rand.NextFloat(-0.08f, 0.08f);
 						explosion.netUpdate = true;
