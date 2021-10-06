@@ -73,6 +73,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
+			npc.canGhostHeal = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;

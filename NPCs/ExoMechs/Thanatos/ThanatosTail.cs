@@ -65,7 +65,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             aiType = -1;
             npc.knockBackResist = 0f;
 			npc.Opacity = 0f;
-            npc.behindTiles = true;
+			npc.canGhostHeal = false;
+			npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.DeathSound = SoundID.NPCDeath14;
