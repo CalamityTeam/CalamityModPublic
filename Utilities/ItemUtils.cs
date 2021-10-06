@@ -198,6 +198,29 @@ namespace CalamityMod
 			return moved;
 		}
 
+		public static bool IsEnchantable(this Item item)
+		{
+			// If the item is air just immediately return false.
+			// It will not have a CalamityGlobalItem instance to use and attempting to do anything with it
+			// would just result in errors.
+			if (item.IsAir)
+				return false;
+
+			// Items with a max stack greater than one cannot be enchanted, due to problems with data duplication.
+			if (item.maxStack > 1)
+				return false;
+
+			// Ammo cannot be enchanted because it is practically useless when held directly.
+			if (item.ammo != AmmoID.None)
+				return false;
+
+			// Ignore items that explicitly say to not be enchanted.
+			if (item.Calamity().CannotBeEnchanted)
+				return false;
+
+			return true;
+		}
+
 		/// <summary>
 		/// Determines if a given item is enchanted based on Calamitas' special system.
 		/// </summary>

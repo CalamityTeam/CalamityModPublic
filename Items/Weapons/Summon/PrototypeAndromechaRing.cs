@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
             item.shootSpeed = 10f;
             item.summon = true;
+            item.Calamity().CannotBeEnchanted = true;
         }
 
         public override void AddRecipes()

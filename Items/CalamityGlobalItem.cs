@@ -57,6 +57,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Enchantment Variables
+		public bool CannotBeEnchanted = false;
 		public Enchantment? AppliedEnchantment = null;
 		public float DischargeEnchantExhaustion = 0;
 		public float DischargeExhaustionRatio
@@ -570,6 +571,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StarCannon:
 					item.UseSound = null;
+					break;
+
+				case ItemID.EoCShield:
+					CannotBeEnchanted = true;
 					break;
 			}
 
