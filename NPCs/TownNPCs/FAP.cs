@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			}
 
 			dialogue.Add("I HATE WALMART! ...anyway, what do you want this time?");
-			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be like me.");
+			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be just like me.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
 			dialogue.Add("Deals so good I'll [$$!$] myself! ...sorry, just had a minor stroke!");
 
@@ -177,9 +177,8 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.downedPolterghast)
                 dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads...frightening times those were.");
 
-			// This one is good and will never be changed :)
             if (CalamityWorld.downedDoG)
-                dialogue.Add("I hear it's amazing when the famous purple-stuffed worm out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
+                dialogue.Add("I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
 			int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
@@ -193,7 +192,11 @@ namespace CalamityMod.NPCs.TownNPCs
             if (permadong != -1)
                 dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I'd ever seen.");
 
-            if (Main.player[Main.myPlayer].Calamity().chibii)
+			int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+			if (witch != -1)
+				dialogue.Add("The abuse " + Main.npc[witch].GivenName + " went through is something I can hardly comprehend. I'd offer her a drink, but I don't think she'd enjoy it.");
+
+			if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
             if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
@@ -245,7 +248,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			else if (deaths > 250)
 				text += " I admire your tenacity. Keep it up, your enemies are racking up quite the kill count!";
 			else if (deaths > 100)
-				text += " Consider lowering the difficulty. If you found that statement irritating, I like you.";
+				text += " Consider lowering the difficulty. If you found that statement irritating, good.";
 
 			return text;
 		}

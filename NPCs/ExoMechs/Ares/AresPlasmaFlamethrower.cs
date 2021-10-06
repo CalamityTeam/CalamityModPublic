@@ -267,12 +267,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float movementDistanceGateValue = 50f;
 
 			// Gate values
+			// Make plasma bolts split less if in deathray spiral phase and not the last mech alive, but fire more if in deathray spiral phase
 			bool fireMoreBolts = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
+			bool boltsSplitLess = fireMoreBolts && !lastMechAlive;
 			float plasmaBoltPhaseGateValue = fireMoreBolts ? 120f : 270f;
 			if (lastMechAlive)
 				plasmaBoltPhaseGateValue *= 0.7f;
 			else if (berserk)
 				plasmaBoltPhaseGateValue *= 0.85f;
+
+			// If Plasma Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
 			// Variable to cancel plasma bolt firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
@@ -323,7 +328,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						int numPlasmaBolts = lastMechAlive ? 3 : 2;
 						float divisor = plasmaBoltDuration / numPlasmaBolts;
 
-						if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
@@ -332,7 +337,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								int type = ModContent.ProjectileType<AresPlasmaFireball>();
 								int damage = npc.GetProjectileDamage(type);
 								Vector2 offset = Vector2.Normalize(plasmaBoltVelocity) * 40f + Vector2.UnitY * 16f;
-								Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+
+								if (boltsSplitLess)
+									Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, -2f);
+								else
+									Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 							}
 						}
 					}
