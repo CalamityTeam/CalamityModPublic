@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
             DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());
 
             // Vanity

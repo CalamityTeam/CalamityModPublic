@@ -2584,6 +2584,9 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
+			npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -2694,8 +2697,9 @@ namespace CalamityMod.NPCs
 							float velocity = death ? 8f : 7f;
 							int type = ModContent.ProjectileType<AstralFlame>();
 							int damage = npc.GetProjectileDamage(type);
-							if (NPC.downedMoonlord && revenge && !BossRushEvent.BossRushActive)
+							if (postMoonLordBuff)
 								damage *= 2;
+
 							float spreadLimit = (phase3 ? 100f : 50f) + enrageScale * 50f;
 							float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
 							Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
@@ -2737,7 +2741,7 @@ namespace CalamityMod.NPCs
 
 							int type = ModContent.ProjectileType<AstralLaser>();
 							int damage = npc.GetProjectileDamage(type);
-							if (NPC.downedMoonlord && revenge && !BossRushEvent.BossRushActive)
+							if (postMoonLordBuff)
 								damage *= 2;
 
                             for (int i = 0; i < maxProjectiles; i++)
@@ -3023,8 +3027,9 @@ namespace CalamityMod.NPCs
 						num182 *= num183;
 						int type = ModContent.ProjectileType<AstralLaser>();
 						int damage = npc.GetProjectileDamage(type);
-						if (NPC.downedMoonlord && revenge && !BossRushEvent.BossRushActive)
+						if (postMoonLordBuff)
 							damage *= 2;
+
 						value9.X += num180;
 						value9.Y += num182;
 						for (int i = 0; i < maxProjectiles; i++)
