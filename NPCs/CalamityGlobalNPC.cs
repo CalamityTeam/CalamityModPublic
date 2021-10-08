@@ -1905,7 +1905,7 @@ namespace CalamityMod.NPCs
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive)
 			{
-                float DRScalar = CalamityWorld.malice ? 2f : (!GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR) ? 1.5f : 1f;
+                float DRScalar = CalamityWorld.malice ? 2f : !GetDownedBossVariable(npc.type) ? 1.5f : 1f;
 
 				// Boost Providence timed DR during the night or in Malice Mode
 				if (npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice))

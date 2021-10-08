@@ -193,7 +193,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Adrenaline and Rage
-					if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+					if (CalamityWorld.revenge)
 						UpdateRippers(mod, player, modPlayer);
 				}
 			}

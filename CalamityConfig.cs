@@ -154,12 +154,6 @@ namespace CalamityMod
 		[Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
 		public bool BossZen { get; set; }
 
-		[Label("Never Weaken Reactive Boss DR")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Sets Reactive Boss DR to always be full strength, even if the boss has already been defeated.\nIf disabled, the effect is only 66% as powerful after the boss has been defeated.\n\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nIn most cases, the system has no noticeable effect.")]
-		public bool FullPowerReactiveBossDR { get; set; }
-
 		[Label("Let Town NPCs spawn at night.")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
@@ -212,12 +206,6 @@ namespace CalamityMod
 		public bool DisableExpertTownSpawns { get; set; }
 
 		[Header("Revengeance Mode Changes")]
-
-		[Label("Rage and Adrenaline")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(true)]
-		[Tooltip("Enables Rage and Adrenaline, the two Revengeance Mode mechanics.")]
-		public bool Rippers { get; set; }
 
 		private const float MinMeterShake = 0f;
 		private const float MaxMeterShake = 4f;
