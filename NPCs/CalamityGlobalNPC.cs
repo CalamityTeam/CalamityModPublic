@@ -2876,14 +2876,13 @@ namespace CalamityMod.NPCs
 			switch (solarTowerShieldStrength)
 			{
 				case 4:
-					// Possible spawns: Drakanian, Drakomire, Drakomire Rider
+					// Possible spawns: Drakanian, Drakomire, Drakomire Rider, Sroller
 					switch (npc.type)
 					{
 						case NPCID.SolarCrawltipedeHead:
 						case NPCID.SolarCrawltipedeBody:
 						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSolenian:
-						case NPCID.SolarSroller:
 						case NPCID.SolarCorite:
 							npc.active = false;
 							npc.netUpdate = true;
@@ -2893,13 +2892,13 @@ namespace CalamityMod.NPCs
 					}
 					break;
 				case 3:
-					// Possible spawns: Drakomire, Drakomire Rider, Sroller
+					// Possible spawns: Drakanian, Drakomire Rider, Sroller
 					switch (npc.type)
 					{
 						case NPCID.SolarCrawltipedeHead:
 						case NPCID.SolarCrawltipedeBody:
 						case NPCID.SolarCrawltipedeTail:
-						case NPCID.SolarSpearman:
+						case NPCID.SolarDrakomire:
 						case NPCID.SolarSolenian:
 						case NPCID.SolarCorite:
 							npc.active = false;
@@ -2910,15 +2909,15 @@ namespace CalamityMod.NPCs
 					}
 					break;
 				case 2:
-					// Possible spawns: Drakomire Rider, Selenian, Sroller
+					// Possible spawns: Drakanian, Selenian, Sroller
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
 						case NPCID.SolarCrawltipedeHead:
 						case NPCID.SolarCrawltipedeBody:
 						case NPCID.SolarCrawltipedeTail:
-						case NPCID.SolarSpearman:
 						case NPCID.SolarCorite:
+						case NPCID.SolarDrakomireRider:
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
@@ -2927,13 +2926,10 @@ namespace CalamityMod.NPCs
 					}
 					break;
 				case 1:
-					// Possible spawns: Corite, Selenian, Sroller
+					// Possible spawns: Corite, Selenian, Sroller, Crawltipede
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
-						case NPCID.SolarCrawltipedeHead:
-						case NPCID.SolarCrawltipedeBody:
-						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSpearman:
 						case NPCID.SolarDrakomireRider:
 							npc.active = false;
