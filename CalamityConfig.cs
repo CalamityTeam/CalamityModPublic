@@ -205,12 +205,6 @@ namespace CalamityMod
 		[Tooltip("When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.")]
 		public bool ReworkChilledWater { get; set; }
 
-		[Label("Reduce Celestial Pillar Kill Count")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(true)]
-		[Tooltip("Reduces the kills required to destroy a Celestial Pillar shield in Expert Mode from 150 to 100.\nThis makes the value equivalent to Normal Mode.")]
-		public bool NerfExpertPillars { get; set; }
-
 		[Label("Disable Expert Enemy Spawns in Towns")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
