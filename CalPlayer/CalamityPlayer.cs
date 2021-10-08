@@ -8764,7 +8764,8 @@ namespace CalamityMod.CalPlayer
 							Main.dust[num14].fadeIn = 0.5f;
 						}
 					}
-					num7 = 40f;
+					num7 = 40f; // 46 frames before hitting this gate value
+					num10 = 0.8f;
 				}
 				if (dashMod > 0)
                 {
