@@ -39,14 +39,12 @@ namespace CalamityMod.Projectiles.Boss
         {
             writer.Write(frameDrawn);
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             frameDrawn = reader.ReadInt32();
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -70,22 +68,22 @@ namespace CalamityMod.Projectiles.Boss
             else
                 projectile.Kill();
 
-            float num801 = 1f;
-            float duration = 600f;
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= duration)
+            float scaleLimit = 1f;
+            float duration = AresBody.deathrayDuration;
+			float rotationSpeed = Main.npc[(int)projectile.ai[1]].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration;
+            if (Main.npc[(int)projectile.ai[1]].Calamity().newAI[0] != (float)AresBody.Phase.Deathrays)
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * (float)Math.PI / duration) * 10f * num801;
-            if (projectile.scale > num801)
-                projectile.scale = num801;
+            projectile.scale = (float)Math.Sin(rotationSpeed * (float)Math.PI / duration) * 10f * scaleLimit;
+            if (projectile.scale > scaleLimit)
+                projectile.scale = scaleLimit;
 
             float num804 = projectile.velocity.ToRotation();
             float divisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
-            float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, projectile.localAI[0] / duration);
+            float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, rotationSpeed / duration);
             num804 += rotationAmt;
             projectile.rotation = num804 - MathHelper.PiOver2;
             projectile.velocity = num804.ToRotationVector2();
@@ -98,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                 samplingPoint = vector78.Value;
 
             float[] array3 = new float[(int)num805];
-            Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 4800f, array3);
+            Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 3600f, array3);
             float num807 = 0f;
             for (int num808 = 0; num808 < array3.Length; num808++)
             {
@@ -109,15 +107,15 @@ namespace CalamityMod.Projectiles.Boss
             // Fire laser through walls at max length if target cannot be seen
             if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
             {
-                num807 = 4800f;
+                num807 = 3600f;
             }
 
             float amount = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); // Length of laser, linear interpolation
+            projectile.localAI[0] = MathHelper.Lerp(projectile.localAI[0], num807, amount); // Length of laser, linear interpolation
 
             // Spawn dust at the end of the beam
             int dustType = 107;
-            Vector2 dustPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
+            Vector2 dustPos = projectile.Center + projectile.velocity * (projectile.localAI[0] - 14f);
             for (int i = 0; i < 2; i++)
             {
                 float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
@@ -137,22 +135,22 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[0], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.velocity == Vector2.Zero)
+            if (projectile.velocity == Vector2.Zero || !Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != ModContent.NPCType<AresBody>())
                 return false;
 
             Texture2D beamStart = Main.projectileTexture[projectile.type];
             Texture2D beamMiddle = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamMiddle");
             Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamEnd");
 
-            float drawLength = projectile.localAI[1];
+            float drawLength = projectile.localAI[0];
             Color color = new Color(250, 250, 250, 100);
 
-            if (projectile.localAI[0] % 5f == 0f)
+            if ((Main.npc[(int)projectile.ai[1]].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration) % 5f == 0f)
             {
                 frameDrawn++;
                 if (frameDrawn >= maxFrames)
@@ -206,7 +204,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[0], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -216,7 +214,7 @@ namespace CalamityMod.Projectiles.Boss
                 return true;
             }
             float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref num6))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[0], 30f * projectile.scale, ref num6))
             {
                 return true;
             }

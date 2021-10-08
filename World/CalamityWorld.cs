@@ -240,8 +240,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (CalamityConfig.Instance.NerfExpertPillars)
-                NPC.LunarShieldPowerExpert = 100;
+            NPC.LunarShieldPowerExpert = 100;
 
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;

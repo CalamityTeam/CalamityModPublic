@@ -10,7 +10,7 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Eye of Cthulhu");
-            Tooltip.SetDefault("That eye...how peculiar.\n" +
+            Tooltip.SetDefault("That eye... how peculiar.\n" +
                 "I sensed it watching you more intensely as you grew stronger.");
         }
 

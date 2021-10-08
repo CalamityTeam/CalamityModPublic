@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Tools
             item.melee = true;
             item.width = 50;
             item.height = 52;
-            item.useTime = 5;
+            item.useTime = 4;
             item.useAnimation = 10;
             item.useTurn = true;
             item.pick = 275;

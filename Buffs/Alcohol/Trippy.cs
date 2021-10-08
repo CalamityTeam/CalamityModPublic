@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Trippy");
-            Description.SetDefault("You see the world for what it truly is...and you also have a 50% increase to all damage");
+            Description.SetDefault("You see the world for what it truly is... and you also have a 50% increase to all damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

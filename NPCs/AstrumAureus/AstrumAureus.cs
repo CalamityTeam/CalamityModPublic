@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -46,7 +47,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.height = 280;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
-            npc.LifeMaxNERB(84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
+            npc.LifeMaxNERB(NPC.downedMoonlord ? 230000 : 84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -55,7 +56,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Astrageldon") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
-            if (NPC.downedMoonlord && CalamityWorld.revenge)
+            if (NPC.downedMoonlord)
             {
                 npc.value = Item.buyPrice(0, 25, 0, 0);
             }
@@ -345,8 +346,11 @@ namespace CalamityMod.NPCs.AstrumAureus
                     DropHelper.WeightStack<AuroradicalThrow>(w)
                 );
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
+				// Equipment
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
+
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
 
                 // Other
                 DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);

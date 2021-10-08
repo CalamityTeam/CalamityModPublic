@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 dialogue.Add("My home may have been destroyed and my people lost... But I will assist you to honor their memory.");
                 dialogue.Add("How odd it is, that your people leave the care of those yet to be born to the females. Our males carry the eggs until they hatch.");
-                dialogue.Add("How can I survive on land? Ah, that is a secret. No, actually...I can breathe air like you!");
+                dialogue.Add("How can I survive on land? Ah, that is a secret. No, actually... I can breathe air like you!");
                 dialogue.Add("Ah, if only you could have seen the beauty of a kingdom submerged in water. The way the light refracted and shone over our coral homes...");
             }
             else
@@ -124,13 +124,13 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.hardMode)
             {
                 dialogue.Add("Your presence is now known to a great many things. It is unlikely that they will be as friendly towards you as I have been.");
-                dialogue.Add("Hm...The veil has fallen, and the world begins to show its true colors. I hope you will trek a righteous path, though even I am not sure what that may be.");
+                dialogue.Add("Hm... The veil has fallen, and the world begins to show its true colors. I hope you will trek a righteous path, though even I am not sure what that may be.");
             }
 
             if (NPC.downedMoonlord)
             {
                 dialogue.Add("These days, the night sky feels... just a little less oppressive now.");
-                dialogue.Add("Some of these beings I had thought previously to be only legends. To see them in all their glory...what a macabre privilege.");
+                dialogue.Add("Some of these beings I had thought previously to be only legends. To see them in all their glory... what a macabre privilege.");
             }
 
             if (CalamityWorld.downedDoG)
@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "Lord Yharim possesses god-like strength. He may not even fight you at full power which is fortunate for you. His attacks may just kill you in one hit, so be careful.";
 						break;
 					case 2f:
-						displayThisText = "Draedon's style of confrontation is very...alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.";
+						displayThisText = "Draedon's style of confrontation is very... alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.";
 						break;
 				}
             }
@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.";
 						break;
 					case 1f:
-						displayThisText = "Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.";
+						displayThisText = "Ah... I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.";
 						break;
 				}
             }
@@ -197,13 +197,13 @@ namespace CalamityMod.NPCs.TownNPCs
 				switch (npc.Calamity().newAI[0] % 3f)
 				{
 					case 0f:
-						displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.";
+						displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.";
 						break;
 					case 1f:
 						displayThisText = "Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.";
 						break;
 					case 2f:
-						displayThisText = "The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.";
+						displayThisText = "The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void... I would recommend searching there before taking on the Sentinels.";
 						break;
 				}
             }
@@ -263,7 +263,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.";
 						break;
 					case 4f:
-						displayThisText = "The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.";
+						displayThisText = "The Brimstone Crags... Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.";
 						break;
 					case 5f:
 						displayThisText = "If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!";

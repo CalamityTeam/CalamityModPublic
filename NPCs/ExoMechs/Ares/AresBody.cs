@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Skies;
 using CalamityMod.World;
@@ -51,6 +52,23 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			set => npc.Calamity().newAI[1] = value;
 		}
 
+		public enum Enraged
+		{
+			No = 0,
+			Yes = 1
+		}
+
+		public float EnragedState
+		{
+			get => npc.localAI[1];
+			set => npc.localAI[1] = value;
+		}
+
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		// Spawn rate for enrage steam
+		public const int ventCloudSpawnRate = 3;
+
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
 		private const int maxFramesY = 8;
@@ -76,6 +94,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		// Total duration of the deathrays
 		public const float deathrayDuration = 600f;
+
+		// Max distance from the target before they are unable to hear sound telegraphs
+		private const float soundDistance = 4800f;
 
 		public override void SetStaticDefaults()
         {
@@ -123,6 +144,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			writer.Write(armsSpawned);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -134,6 +156,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			armsSpawned = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -322,8 +345,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Light
-			float lightScale = 765f;
-			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale * npc.Opacity, Main.DiscoG / lightScale * npc.Opacity, Main.DiscoB / lightScale * npc.Opacity);
+			if (EnragedState == (float)Enraged.Yes)
+			{
+				Lighting.AddLight(npc.Center, 0.5f * npc.Opacity, 0f, 0f);
+			}
+			else
+			{
+				float lightScale = 510f;
+				Lighting.AddLight(npc.Center, Main.DiscoR / lightScale * npc.Opacity, Main.DiscoG / lightScale * npc.Opacity, Main.DiscoB / lightScale * npc.Opacity);
+			}
 
 			// Despawn if target is dead
 			if (player.dead)
@@ -363,7 +393,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 24f : 18f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -378,6 +408,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
 			float deathrayDistanceGateValue = 480f;
+
+			// Emit steam while enraged
+			SmokeDrawer.ParticleSpawnRate = 9999999;
+			if (EnragedState == (float)Enraged.Yes)
+			{
+				SmokeDrawer.ParticleSpawnRate = ventCloudSpawnRate;
+				SmokeDrawer.BaseMoveRotation = npc.rotation + MathHelper.PiOver2;
+				SmokeDrawer.SpawnAreaCompactness = 80f;
+
+				// Increase DR during enrage
+				npc.Calamity().DR = 0.5f;
+			}
+			else
+				npc.Calamity().DR = 0.35f;
+
+			SmokeDrawer.Update();
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -504,6 +550,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						{
 							calamityGlobalNPC.newAI[2] = 0f;
 							AIState = (float)Phase.Deathrays;
+
+							// Cancel enrage state if Ares is enraged
+							if (EnragedState == (float)Enraged.Yes)
+								EnragedState = (float)Enraged.No;
 						}
 					}
 
@@ -519,6 +569,24 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 					else
 					{
+						// Enrage if the target is more than the deathray length away
+						if (distanceFromTarget > 3600f && EnragedState == (float)Enraged.No)
+						{
+							// Play enrage sound
+							if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
+							{
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AresEnraged"),
+									(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+							}
+
+							// Draedon comments on how foolish it is to run
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+								CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonAresEnrageText", new Color(155, 255, 255));
+
+							// Enrage
+							EnragedState = (float)Enraged.Yes;
+						}
+
 						calamityGlobalNPC.newAI[3] = 1f;
 						npc.velocity *= decelerationVelocityMult;
 
@@ -533,7 +601,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 						spinningPoint.Normalize();
 
-						calamityGlobalNPC.newAI[2] += 1f;
+						calamityGlobalNPC.newAI[2] += (EnragedState == (float)Enraged.Yes && calamityGlobalNPC.newAI[2] % 2f == 0f) ? 2f : 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
@@ -661,10 +729,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Draw the enrage smoke behind Ares
+			SmokeDrawer.DrawSet(npc.Center);
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = Color.White;
+			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -702,7 +773,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;
 		}

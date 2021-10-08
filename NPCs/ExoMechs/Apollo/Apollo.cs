@@ -916,7 +916,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				// Charge to several locations almost instantly (Apollo doesn't teleport here, he's just moving very fast :D)
 				case (int)Phase.ChargeCombo:
 
-					// Set charge velocity
+					// Set charge velocity and fire halos of plasma bolts
 					if (npc.localAI[2] == 0f)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
@@ -924,6 +924,76 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						npc.localAI[2] = 1f;
 						npc.netUpdate = true;
 						npc.netSpam -= 5;
+
+						// Plasma bolts on charge
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							int totalProjectiles = CalamityWorld.malice ? 12 : 8;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int type = ModContent.ProjectileType<AresPlasmaBolt>();
+							int damage = (int)(npc.GetProjectileDamage(ModContent.ProjectileType<AresPlasmaFireball>()) * 0.8);
+							float velocity = 12f;
+							double angleA = radians * 0.5;
+							double angleB = MathHelper.ToRadians(90f) - angleA;
+							float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+							Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+								int proj = Projectile.NewProjectile(npc.Center, velocity2, type, damage, 0f, Main.myPlayer);
+								Main.projectile[proj].extraUpdates += 1;
+							}
+						}
+
+						// Dust rings
+						for (int i = 0; i < 200; i++)
+						{
+							float dustVelocity = 16f;
+							if (i < 150)
+								dustVelocity = 12f;
+							if (i < 100)
+								dustVelocity = 8f;
+							if (i < 50)
+								dustVelocity = 4f;
+
+							int dust1 = Dust.NewDust(npc.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
+							float dustVelX = Main.dust[dust1].velocity.X;
+							float dustVelY = Main.dust[dust1].velocity.Y;
+
+							if (dustVelX == 0f && dustVelY == 0f)
+								dustVelX = 1f;
+
+							float dustVelocity2 = (float)Math.Sqrt(dustVelX * dustVelX + dustVelY * dustVelY);
+							dustVelocity2 = dustVelocity / dustVelocity2;
+							dustVelX *= dustVelocity2;
+							dustVelY *= dustVelocity2;
+
+							float scale = 1f;
+							switch ((int)dustVelocity)
+							{
+								case 4:
+									scale = 1.2f;
+									break;
+								case 8:
+									scale = 1.1f;
+									break;
+								case 12:
+									scale = 1f;
+									break;
+								case 16:
+									scale = 0.9f;
+									break;
+								default:
+									break;
+							}
+
+							Dust dust2 = Main.dust[dust1];
+							dust2.velocity *= 0.5f;
+							dust2.velocity.X = dust2.velocity.X + dustVelX;
+							dust2.velocity.Y = dust2.velocity.Y + dustVelY;
+							dust2.scale = scale;
+							dust2.noGravity = true;
+						}
 					}
 
 					// Initiate next charge if close enough to next charge location

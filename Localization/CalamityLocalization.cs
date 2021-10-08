@@ -84,7 +84,7 @@ namespace CalamityMod.Localization
                 new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
+                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },
@@ -94,7 +94,7 @@ namespace CalamityMod.Localization
                 new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
                 new [] { "EdgyBossText10", "It's not over yet, kid!" },
                 new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -121,6 +121,7 @@ namespace CalamityMod.Localization
                                                     "interested in your remarkable progression." },
                 new [] { "DraedonIntroductionText4", "Humor me, in a battle with the results of my tinkering." },
                 new [] { "DraedonIntroductionText5", "You may choose your first opponent." },
+				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },

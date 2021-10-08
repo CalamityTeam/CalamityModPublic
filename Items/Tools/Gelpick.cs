@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Tools
             item.melee = true;
             item.width = 46;
             item.height = 46;
-            item.useTime = 16;
+            item.useTime = 10;
             item.useAnimation = 20;
             item.pick = 100;
             item.useStyle = ItemUseStyleID.SwingThrow;

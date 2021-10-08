@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Accessories
 			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
 
 			// Only append rippers stats in Rev+, if rippers are enabled.
-			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+			if (CalamityWorld.revenge)
 			{
 				sb.Append("Rage Damage Boost: ").Append(modPlayer.rageDamageStat).Append("%\n");
 				sb.Append("Adrenaline Damage Boost: ").Append(modPlayer.adrenalineDamageStat)

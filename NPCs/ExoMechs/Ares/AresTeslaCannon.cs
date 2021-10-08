@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -25,6 +26,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			get => npc.Calamity().newAI[0];
 			set => npc.Calamity().newAI[0] = value;
 		}
+
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -71,7 +74,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
-            npc.noGravity = true;
+			npc.canGhostHeal = false;
+			npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -162,6 +166,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Passive phase check
 			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
 
+			// Enrage check
+			bool enraged = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes;
+
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
 			npc.dontTakeDamage = invisiblePhase;
@@ -222,7 +229,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Light
-			Lighting.AddLight(npc.Center, 0.1f * npc.Opacity, 0.25f * npc.Opacity, 0.25f * npc.Opacity);
+			if (enraged)
+				Lighting.AddLight(npc.Center, 0.5f * npc.Opacity, 0f, 0f);
+			else
+				Lighting.AddLight(npc.Center, 0.1f * npc.Opacity, 0.25f * npc.Opacity, 0.25f * npc.Opacity);
 
 			// Despawn if target is dead
 			if (player.dead)
@@ -261,7 +271,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 22f * baseVelocityMult;
+			float baseVelocity = (enraged ? 28f : 22f) * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 
@@ -271,10 +281,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 			float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
-			if (lastMechAlive)
+			if (enraged)
+				teslaOrbPhaseGateValue *= 0.5f;
+			else if (lastMechAlive)
 				teslaOrbPhaseGateValue *= 0.7f;
 			else if (berserk)
 				teslaOrbPhaseGateValue *= 0.85f;
+
+			// If Tesla Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
 			// Variable to cancel tesla orb firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
@@ -284,6 +299,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				calamityGlobalNPC.newAI[1] = 0f;
 				calamityGlobalNPC.newAI[2] = 0f;
 			}
+
+			// Emit steam while enraged
+			SmokeDrawer.ParticleSpawnRate = 9999999;
+			if (enraged)
+			{
+				SmokeDrawer.ParticleSpawnRate = AresBody.ventCloudSpawnRate;
+				SmokeDrawer.BaseMoveRotation = npc.rotation + MathHelper.Pi;
+				SmokeDrawer.SpawnAreaCompactness = 40f;
+
+				// Increase DR during enrage
+				npc.Calamity().DR = 0.4f;
+			}
+			else
+				npc.Calamity().DR = 0.25f;
+
+			SmokeDrawer.Update();
 
 			// Attacking phases
 			switch ((int)AIState)
@@ -336,7 +367,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						int numTeslaOrbs = lastMechAlive ? 6 : berserk ? 5 : nerfedAttacks ? 3 : 4;
 						float divisor = teslaOrbDuration / numTeslaOrbs;
 
-						if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
@@ -435,6 +466,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Draw the enrage smoke behind Ares
+			SmokeDrawer.DrawSet(npc.Center);
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -442,7 +476,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = Color.White;
+			Color afterimageBaseColor = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -480,7 +514,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -174,9 +175,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+				// Vanity
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
 
 			//if brimmy hasn't been killed, you can mine charred ore

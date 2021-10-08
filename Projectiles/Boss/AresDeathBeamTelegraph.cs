@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
         public Vector2 OldVelocity;
         public const float TelegraphTotalTime = 240f;
         public const float TelegraphFadeTime = 15f;
-        public const float TelegraphWidth = 4800f;
+        public const float TelegraphWidth = 3600f;
 
         public override void SetStaticDefaults()
         {
