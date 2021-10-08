@@ -3697,9 +3697,6 @@ namespace CalamityMod.CalPlayer
 
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
-			// Increase mining speed with pickaxes to speed up mining a bit, especially early game
-            player.pickSpeed -= 0.25f;
-
 			// Increase tile placement speed to speed up early game a bit and make building more fun
 			player.tileSpeed += 0.5f;
 
