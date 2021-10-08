@@ -84,7 +84,7 @@ namespace CalamityMod.Localization
                 new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
+                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },
@@ -94,7 +94,7 @@ namespace CalamityMod.Localization
                 new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
                 new [] { "EdgyBossText10", "It's not over yet, kid!" },
                 new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 

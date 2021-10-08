@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Queen Bee");
-            Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations...given the ability to control them.");
+            Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations... given the ability to control them.");
         }
 
         public override void SetDefaults()

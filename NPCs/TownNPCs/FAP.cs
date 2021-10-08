@@ -117,9 +117,9 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (wifeIsAround)
 			{
 				dialogue.Add("You can't stop me from trying to move in with " + Main.npc[wife].GivenName + ".");
-				dialogue.Add("I love it when " + Main.npc[wife].GivenName + "'s hands get sticky from all that...wax.");
-				dialogue.Add(Main.npc[wife].GivenName + " works wonders for my hair...among other things.");
-				dialogue.Add("Ever since " + Main.npc[wife].GivenName + " moved in I haven't been drinking as much...a strange but not unwelcome feeling.");
+				dialogue.Add("I love it when " + Main.npc[wife].GivenName + "'s hands get sticky from all that... wax.");
+				dialogue.Add(Main.npc[wife].GivenName + " works wonders for my hair... among other things.");
+				dialogue.Add("Ever since " + Main.npc[wife].GivenName + " moved in I haven't been drinking as much... a strange but not unwelcome feeling.");
 			}
 
 			if (Main.dayTime)
@@ -127,55 +127,55 @@ namespace CalamityMod.NPCs.TownNPCs
 				if (beLessDrunk)
 					dialogue.Add(Main.npc[wife].GivenName + " helped me learn to accept my past. It's been rough, but I think I'm on the right track now.");
 				else
-					dialogue.Add("I drink to forget certain...things. What things you might ask? Well, the point is to forget them, isn't it?");
+					dialogue.Add("I drink to forget certain... things. What things, you might ask? Well, the point is to forget them, isn't it?");
 
                 dialogue.Add("I'm literally balls drunk off my sass right now, what do you want?");
                 dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind, probably both.");
-                dialogue.Add("When I'm drunk I'm way happier...at least until the talking worms start to appear.");
+                dialogue.Add("When I'm drunk I'm way happier... at least until the talking worms start to appear.");
                 dialogue.Add("I should reprogram the whole mod, while drunk, then send it back to the testers.");
 
 				if (beLessDrunk)
-					dialogue.Add("What a great day! Might just drink so much that I get poisoned again.");
-				else
 					dialogue.Add("Might go out for a jog later with " + Main.npc[wife].GivenName + ". Nice day for it.");
+				else
+					dialogue.Add("What a great day! Might just drink so much that I get poisoned again.");
 			}
             else
             {
                 dialogue.Add("A perfect night to light some candles, drink some wine and relax.");
-                dialogue.Add("Here's a challenge...take a shot for every time you've had to look at the wiki. Oh wait, you'd die.");
+                dialogue.Add("Here's a challenge... take a shot for every time you've had to look at the wiki. Oh wait, you'd die.");
                 dialogue.Add("Yes, everyone knows the mechworm is buggy. Well, not anymore, but still.");
                 dialogue.Add("You lost or something? I don't mind company, but I'd rather be left alone at night.");
-                dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you these.");
+                dialogue.Add("Are you sure you're 21? ...Alright, fine, but don't tell anyone I sold you these.");
 
 				if (wifeIsAround)
 					dialogue.Add("I should watch some movies with " + Main.npc[wife].GivenName + " tonight. You could come too, but only if you bring snacks for us.");
 			}
 
-			dialogue.Add("I HATE WALMART! ...anyway, what do you want this time?");
+			dialogue.Add("I HATE WALMART! ...Anyway, what do you want this time?");
 			dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be just like me.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
-			dialogue.Add("Deals so good I'll [$$!$] myself! ...sorry, just had a minor stroke!");
+			dialogue.Add("Deals so good I'll [$$!$] myself! ...Sorry, just had a minor stroke!");
 
 			if (BirthdayParty.PartyIsUp)
-                dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find BOOZE where I'M involved!");
+                dialogue.Add("You'll always find me at parties where booze is involved... well, you'll always find BOOZE where I'M involved!");
 
             if (Main.invasionType == InvasionID.MartianMadness)
                 dialogue.Add("You should probably deal with those ayy lmaos before anything else, but whatever.");
 
             if (CalamityWorld.downedCryogen)
-                dialogue.Add("God I can't wait to smash some ice again! ...for drinks, of course.");
+                dialogue.Add("God I can't wait to smash some ice again! ...For drinks, of course.");
 
             if (CalamityWorld.downedLeviathan)
-                dialogue.Add("How could you murder such a beautiful creature!? ...the blue sexy one, not the obese cucumber.");
+                dialogue.Add("How could you murder such a beautiful creature!? ...The blue sexy one, not the obese cucumber.");
 
             if (NPC.downedMoonlord)
-                dialogue.Add("Ever wondered why the Moon Lord needed so many tentacles? Uh...on second thought, I won't answer that.");
+                dialogue.Add("Ever wondered why the Moon Lord needed so many tentacles? Uh... on second thought, I won't answer that.");
 
 			if (CalamityWorld.rainingAcid)
                 dialogue.Add("I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!");
 
             if (CalamityWorld.downedPolterghast)
-                dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads...frightening times those were.");
+                dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads... frightening times those were.");
 
             if (CalamityWorld.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
@@ -200,14 +200,14 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
             if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
-                dialogue.Add("Nice scales...is it hot in here or is it just me?");
+                dialogue.Add("Nice scales... is it hot in here or is it just me?");
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
                 dialogue.Add("Do you like my vodka? I created it by mixing fairy dust, crystallized cave sweat and other magical crap.");
 
             if (Main.player[Main.myPlayer].HasItem(ModContent.ItemType<Fabsol>()))
             {
-                dialogue.Add("So...you found my special bottle. Hope you enjoy it, I know I will.");
+                dialogue.Add("So... you found my special bottle. Hope you enjoy it, I know I will.");
                 dialogue.Add("Be sure to dismount me once in a while, I get tired. And besides, I can't rip you off-I mean offer you excellent deals you won't find anywhere else if you're riding me 24/7.");
                 dialogue.Add("Before you ask, no, I do NOT have a heart on my butt while in human form. Don't question my transformation preferences!");
             }
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			else if (deaths > 2500)
 				text += " Bless your heart. I could dodge better than you even if I were drunk high.";
 			else if (deaths > 1000)
-				text += " It is said the average Terrarian has a lifespan of 2 minutes or less. ...well, not really, but I feel like you'd be part of that statistic.";
+				text += " It is said the average Terrarian has a lifespan of 2 minutes or less. ...Well, not really, but I feel like you'd be part of that statistic.";
 			else if (deaths > 500)
 				text += " Your inability to avoid dying to even the most basic of attacks is astonishing to me.";
 			else if (deaths > 250)

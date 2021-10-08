@@ -587,7 +587,7 @@ namespace CalamityMod
 				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
 				List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
 				string instructions = "By using a high-tech computer";
-				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
+				string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
 				string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Exo Mechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
 			}
