@@ -579,6 +579,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 							}
 
+							// Draedon comments on how foolish it is to run
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+								CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonAresEnrageText", new Color(155, 255, 255));
+
 							// Enrage
 							EnragedState = (float)Enraged.Yes;
 						}
@@ -597,7 +601,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 						spinningPoint.Normalize();
 
-						calamityGlobalNPC.newAI[2] += 1f;
+						calamityGlobalNPC.newAI[2] += (EnragedState == (float)Enraged.Yes && calamityGlobalNPC.newAI[2] % 2f == 0f) ? 2f : 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
