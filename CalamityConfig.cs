@@ -148,12 +148,6 @@ namespace CalamityMod
 		[Tooltip("Adds vanilla boss summons to NPC shops after the corresponding boss is defeated.\nThis does not affect Calamity's boss summons, which are always sold.\nTo apply changes, close and reopen the shop.")]
 		public bool SellVanillaSummons { get; set; }
 
-		[Label("Boost Mining Speed")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Increases the player's mining speed by 75%.\nThis does not affect drills.")]
-		public bool MiningSpeedBoost { get; set; }
-
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]

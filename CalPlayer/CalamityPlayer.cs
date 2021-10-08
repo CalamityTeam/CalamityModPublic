@@ -3697,14 +3697,18 @@ namespace CalamityMod.CalPlayer
 
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
-            if (CalamityConfig.Instance.MiningSpeedBoost)
-            {
-                player.pickSpeed *= 0.75f;
-            }
+			// Increase mining speed with pickaxes to speed up mining a bit, especially early game
+            player.pickSpeed -= 0.25f;
 
-            // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
-            float accRunSpeedMin = player.accRunSpeed * 0.5f;
+			// Increase tile placement speed to speed up early game a bit and make building more fun
+			player.tileSpeed += 0.5f;
+
+			// Increase wall placement speed to speed up early game a bit and make building more fun
+			player.wallSpeed += 0.5f;
+
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
+			float accRunSpeedMin = player.accRunSpeed * 0.5f;
             player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.002f;
 
             if (player.accRunSpeed < accRunSpeedMin)
