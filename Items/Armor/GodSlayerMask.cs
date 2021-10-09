@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 
-            if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+            if (modPlayer.godSlayerDashHotKeyPressed)
                 modPlayer.dashMod = 9;
         }
 

@@ -3199,7 +3199,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued)
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !godSlayerCooldown && player.dashDelay == 0)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -7270,6 +7270,18 @@ namespace CalamityMod.CalPlayer
                 DisableDashes();
             if (weakPetrification)
                 WeakPetrification();
+
+			// Disable vanilla dashes during god slayer dash
+			if (godSlayerDashHotKeyPressed)
+			{
+				// Set the player to have no registered vanilla dashes.
+				player.dash = 0;
+
+				// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+				player.eocHit = -1;
+				if (player.eocDash != 0)
+					player.eocDash = 0;
+			}
 
             if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && player.dashDelay < 0))
             {
