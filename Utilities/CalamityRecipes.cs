@@ -10,6 +10,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -1148,7 +1149,8 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe
+                ItemID.StardustPickaxe,
+                ModContent.ItemType<GallantPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
