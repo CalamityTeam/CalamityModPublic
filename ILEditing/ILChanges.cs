@@ -501,7 +501,7 @@ namespace CalamityMod.ILEditing
         private static void ManipulateSoundMuffleFactor(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            cursor.GotoNext(MoveType.Before, i => i.MatchStloc(30));
+            cursor.GotoNext(MoveType.After, i => i.MatchStloc(20));
 
             cursor.Emit(OpCodes.Ldloc, 20);
             cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>

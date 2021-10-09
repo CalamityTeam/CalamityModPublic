@@ -31,7 +31,7 @@ namespace CalamityMod.Skies
                 if (draedon == -1 || !Main.npc[draedon].active)
                     return Draedon.ExoMechIsPresent;
 
-                if (Main.npc[draedon].ModNPC<Draedon>().DefeatTimer <= 0 && !Draedon.ExoMechIsPresent)
+                if ((Main.npc[draedon]?.ModNPC<Draedon>()?.DefeatTimer ?? 0) <= 0 && !Draedon.ExoMechIsPresent)
                     return false;
 
                 return true;

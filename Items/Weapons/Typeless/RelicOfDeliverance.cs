@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
 			item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
+            item.Calamity().CannotBeEnchanted = true;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults

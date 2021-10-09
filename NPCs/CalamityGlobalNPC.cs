@@ -251,8 +251,11 @@ namespace CalamityMod.NPCs
 		// 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
 		public bool CurrentlyEnraged;
 
-        // Collections
-        public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
+		// Other Boss Rush stuff
+		public bool DoesNotDisappearInBossRush;
+
+		// Collections
+		public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
             { NPCID.QueenBee, 315000 }, // 30 seconds
@@ -2109,7 +2112,7 @@ namespace CalamityMod.NPCs
 			if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;
 
-            if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
+            if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC && !npc.Calamity().DoesNotDisappearInBossRush)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
 			if (NPC.LunarApocalypseIsUp)
@@ -2860,6 +2863,9 @@ namespace CalamityMod.NPCs
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
+			if (BossRushEvent.BossRushStage >= BossRushEvent.Bosses.Count)
+				return;
+
 			if (!BossRushEvent.Bosses[BossRushEvent.BossRushStage].HostileNPCsToNotDelete.Contains(npc.type))
 			{
 				npc.active = false;
@@ -3392,17 +3398,31 @@ namespace CalamityMod.NPCs
 					// Bullseyes are visually larger on bosses, so account for that.
 					float baseBullseyeRadius = npc.IsABoss() ? 116f : 54f;
 					bool hasCollidedWithBullseye;
+
+					// Custom math to determine if a direction would hit a target if the hitbox would not delete the projectile before it can.
+					// This can be visualized as using the NPC center as an anchor point, determining the direction to the bullseye from that anchor point,
+					// calculating the maximum amount of angular error there can be before a hit would not happen, and checking if the projectile's direction
+					// to the bullseye is within that margin of error.
 					if (projectile.penetrate <= 1 && projectile.penetrate != -1)
-						hasCollidedWithBullseye = projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
-					else
 					{
+						// Directions to the bullseye relative to the NPC's center and the projectile that hit the NPC.
 						Vector2 directionToBullseye = projectile.SafeDirectionTo(bullseye.Center, Vector2.UnitY);
-						Vector2 orthogonalEdgeOffset = Vector2.UnitX.RotatedBy(directionToBullseye.ToRotation() + MathHelper.PiOver2) * baseBullseyeRadius;
-						Vector2 edgeVector = projectile.Center - bullseye.Center + orthogonalEdgeOffset;
-						float inaccuracyLimit = directionToBullseye.AngleBetween(edgeVector);
-						float orthogonalityToIdealDirection = directionToBullseye.AngleBetween(projectile.velocity);
-						hasCollidedWithBullseye = orthogonalityToIdealDirection < inaccuracyLimit && projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
+						Vector2 bullseyeCenterOffsetDirection = npc.SafeDirectionTo(bullseye.Center);
+
+						// Use SOH-CAH-TOA to compute the angle which is needed to reach the edge of the bullseye from the center of the NPC.
+						// The length of the hypotenuse is the distance from the center of the NPC to the bullseye while the opposite side length is
+						// the circular hitbox radius of the bullseye. These are sufficient to calculate the angular margin of error.
+						// If an NPC has a tiny hitbox the arcsine will fail and return NaN, meaning any hit at all will cause a bullseye to be hit.
+						// In these cases, simply set the "limit" to an extremely large value.
+						float angularOffsetToEdgeOfBullseye = (float)Math.Asin(baseBullseyeRadius / npc.Distance(bullseye.Center));
+						if (float.IsNaN(angularOffsetToEdgeOfBullseye))
+							angularOffsetToEdgeOfBullseye = 1000f;
+						float orthogonalityToBullseye = directionToBullseye.AngleBetween(bullseyeCenterOffsetDirection);
+
+						hasCollidedWithBullseye = orthogonalityToBullseye < angularOffsetToEdgeOfBullseye;
 					}
+					else
+						hasCollidedWithBullseye = projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
 
 					// Do a very high amount of damage if hitting a bullseye.
 					if (hasCollidedWithBullseye && bullseye.ai[1] == 0f)
