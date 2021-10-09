@@ -15,13 +15,15 @@ float2 uImageSize1;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float4 pixelBelow = tex2D(uImage0, coords);
+    // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
+    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
+    float4 color = tex2D(uImage0, coords);
     float4 noiseColor = tex2D(uImage1, float2(coords.x, frac(frameY - uTime * 0.27)) * 0.5) * 1.5;
     float verticalFlowMovement = (sin(coords.x * 14.71 + frameY * 13.5 - uTime * 1.6) * 0.5 + 0.5) * noiseColor.r;
-    if (pixelBelow.a == 0 && frameY < 0.82)
+    
+    // Adjust coords to have an offset to the sprite.
+    if (color.a == 0 && frameY < 0.82)
         coords.y = saturate(coords.y + verticalFlowMovement / uSourceRect.w / 17);
-    float4 color = tex2D(uImage0, coords);
 
     // Prepare the dark outlines.
     float outlineFade = pow(1 - (color.r + color.g + color.b) / 3, 2);
