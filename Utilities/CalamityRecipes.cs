@@ -176,7 +176,7 @@ namespace CalamityMod
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
             {
-                s.requiredItem[1].stack = 5;
+                s.requiredItem[0].stack = 5;
             });
         }
         private static void EditMechBossSummonRecipes()
