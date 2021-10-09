@@ -41,7 +41,7 @@ float3 PaletteLerp(float interpolant)
 // (Co)sines use a lot of instructions. As such, a more linear wave constructed by moduli is used instead.
 // Is this kind of ridiculous? Probably. But there's basically nothing I can do until 1.4 rolls around
 // and the pathetically low instruction count cap is increased significantly. -Dominic
-float FastPeriodicFunction(float x)
+float TriangleWave(float x)
 {
     if (x % 2 < 1)
         return x % 2;
@@ -54,7 +54,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 noiseColor = tex2D(uImage1, float2(coords.x, frameY - uTime * 0.45) * 0.1);
     float4 color = tex2D(uImage0, coords);
     float3 blendColor = PaletteLerp(frac(frameY + uTime * 1.3));
-    float blendFactor = (FastPeriodicFunction(uTime * 9 + coords.x * 2 - frameY * 2.1) * 0.5 + 0.5) * 0.5;
+    float blendFactor = (TriangleWave(uTime * 9 + coords.x * 2 - frameY * 2.1) * 0.5 + 0.5) * 0.5;
     float brightness = (blendFactor * 0.4 + noiseColor.r * 0.9) * 1.2;
     
     float4 colorBlendMultiplier = lerp(float4(blendColor, 1), float4(1, 1, 1, 1), saturate(blendFactor * 1.5));
