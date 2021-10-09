@@ -30,6 +30,7 @@ namespace CalamityMod
             EditLeatherRecipe();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
+            EditGoblinArmySummonRecipe();
             EditMechBossSummonRecipes();
             EditWingRecipes();
             EditEvilBulletRecipes();
@@ -169,6 +170,14 @@ namespace CalamityMod
             });
         }
 
+        private static void EditGoblinArmySummonRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
+            {
+                s.requiredItem[1].stack = 5;
+            });
+        }
         private static void EditMechBossSummonRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
