@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
 			set => projectile.ai[0] = value;
 		}
 
-		public NPC ThingToAttachTo => projectile.ai[1] == -1f ? null : Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
 		public Vector2 Destination;
 		public Vector2 Velocity;
@@ -260,7 +260,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			// If Artemis is the owner.
-			bool artemisIsOwner = ThingToAttachTo.type == ModContent.NPCType<Artemis>();
+			bool artemisIsOwner = projectile.ai[1] == -1f ? false : ThingToAttachTo.type == ModContent.NPCType<Artemis>();
 
 			if (TelegraphDelay >= TelegraphTotalTime)
 			{
