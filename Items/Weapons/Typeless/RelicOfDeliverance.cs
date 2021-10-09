@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             DisplayName.SetDefault("Relic of Deliverance");
             Tooltip.SetDefault("Summons a spear that causes you to lunge towards the mouse position\n" +
-                               "The spear requires a charge-up. The longer the charge, the more strong the lunge\n" +
+                               "The spear requires a charge-up. The longer the charge, the stronger the lunge\n" +
                                "The spear disappears immediately if you are not holding this item while charging\n" +
                                "If enough time has passed or the spear collides into a wall, the spear dies and the lunge ends");
         }
