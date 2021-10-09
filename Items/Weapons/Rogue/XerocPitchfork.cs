@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MeldiateBar>());
 			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this, 20);
+			recipe.SetResult(this, 100);
 			recipe.AddRecipe();
 		}
 	}

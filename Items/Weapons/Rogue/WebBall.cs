@@ -51,8 +51,8 @@ Stealth strikes slow enemies down longer");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cobweb, 3);
-            recipe.SetResult(this);
+            recipe.AddIngredient(ItemID.Cobweb, 5);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

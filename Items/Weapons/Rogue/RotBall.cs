@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.RottenChunk);
             recipe.AddIngredient(ItemID.DemoniteBar);
             recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
     }

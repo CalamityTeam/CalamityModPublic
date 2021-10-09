@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.HellstoneBar);
             recipe.AddIngredient(ItemID.Obsidian, 2);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
     }

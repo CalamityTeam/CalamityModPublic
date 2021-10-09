@@ -44,7 +44,7 @@ Stealth strike throws a volley of knives");
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>());
             recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this, 30);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
 

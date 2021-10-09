@@ -54,12 +54,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Beenade, 15);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 3);
+            recipe.AddIngredient(ItemID.Beenade, 20);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
             recipe.AddIngredient(ItemID.Obsidian, 2);
             recipe.AddIngredient(ItemID.Stinger);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 30);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

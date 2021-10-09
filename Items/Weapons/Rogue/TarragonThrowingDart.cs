@@ -56,7 +56,7 @@ Stealth strikes erupt into thorns on enemy hits");
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 333);
             recipe.AddRecipe();
         }
     }
