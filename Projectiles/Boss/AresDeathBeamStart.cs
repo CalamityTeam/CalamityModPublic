@@ -39,13 +39,15 @@ namespace CalamityMod.Projectiles.Boss
         {
             writer.Write(frameDrawn);
             writer.Write(projectile.localAI[0]);
-        }
+			writer.Write(projectile.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             frameDrawn = reader.ReadInt32();
             projectile.localAI[0] = reader.ReadSingle();
-        }
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -70,20 +72,20 @@ namespace CalamityMod.Projectiles.Boss
 
             float scaleLimit = 1f;
             float duration = AresBody.deathrayDuration;
-			float rotationSpeed = Main.npc[(int)projectile.ai[1]].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration;
+			projectile.localAI[1] = Main.npc[(int)projectile.ai[1]].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration;
             if (Main.npc[(int)projectile.ai[1]].Calamity().newAI[0] != (float)AresBody.Phase.Deathrays)
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(rotationSpeed * (float)Math.PI / duration) * 10f * scaleLimit;
+            projectile.scale = (float)Math.Sin(projectile.localAI[1] * (float)Math.PI / duration) * 10f * scaleLimit;
             if (projectile.scale > scaleLimit)
                 projectile.scale = scaleLimit;
 
             float num804 = projectile.velocity.ToRotation();
             float divisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
-            float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, rotationSpeed / duration);
+            float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, projectile.localAI[1] / duration);
             num804 += rotationAmt;
             projectile.rotation = num804 - MathHelper.PiOver2;
             projectile.velocity = num804.ToRotationVector2();
@@ -140,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.velocity == Vector2.Zero || !Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != ModContent.NPCType<AresBody>())
+            if (projectile.velocity == Vector2.Zero)
                 return false;
 
             Texture2D beamStart = Main.projectileTexture[projectile.type];
@@ -150,7 +152,7 @@ namespace CalamityMod.Projectiles.Boss
             float drawLength = projectile.localAI[0];
             Color color = new Color(250, 250, 250, 100);
 
-            if ((Main.npc[(int)projectile.ai[1]].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration) % 5f == 0f)
+            if (projectile.localAI[1] % 5f == 0f)
             {
                 frameDrawn++;
                 if (frameDrawn >= maxFrames)
