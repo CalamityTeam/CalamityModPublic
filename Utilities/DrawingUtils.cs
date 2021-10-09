@@ -469,14 +469,30 @@ namespace CalamityMod
 		}
 
 		// Cached for efficiency purposes.
-		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldArmor = typeof(ArmorShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		/// <summary>
 		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
 		/// </summary>
 		/// <param name="shader">The shader to bind the texture to.</param>
 		/// <param name="texture">The texture to bind.</param>
-		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
+		public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Texture2D texture)
+		{
+			UImageFieldMisc.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="ArmorShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
+		public static ArmorShaderData SetShaderTexture(this ArmorShaderData shader, Texture2D texture)
+		{
+			UImageFieldArmor.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{
