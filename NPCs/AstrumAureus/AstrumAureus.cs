@@ -333,8 +333,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30);
-                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30, 2);
+                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 18, 24, 2);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

@@ -61,10 +61,10 @@ Stealth strikes throw seven at once and last a lot longer");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 3);
+            recipe.AddIngredient(ItemID.SpikyBall, 20);
             recipe.AddIngredient(ItemID.Gel);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 3);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

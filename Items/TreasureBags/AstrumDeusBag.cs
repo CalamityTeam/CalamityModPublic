@@ -44,7 +44,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 60, 90);
-            DropHelper.DropItem(player, ItemID.FallenStar, 100, 180);
+            DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

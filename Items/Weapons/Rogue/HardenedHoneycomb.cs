@@ -60,7 +60,7 @@ Stealth strikes can bounce off walls and enemies");
             recipe.AddIngredient(ItemID.CrispyHoneyBlock);
             recipe.AddIngredient(ItemID.BeeWax);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 10);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

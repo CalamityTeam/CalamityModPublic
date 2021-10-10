@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RedBrick, 5);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 15);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

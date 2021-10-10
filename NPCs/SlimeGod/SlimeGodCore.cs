@@ -673,13 +673,13 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Gel always drops directly, even on Expert
-            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250);
+            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250, 10);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45, 3);
 
 				// Weapons
 				float w = DropHelper.NormalWeaponDropRateFloat;
