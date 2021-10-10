@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>());
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 10);
             recipe.AddIngredient(ModContent.ItemType<MurkySludge>());
             recipe.AddRecipeGroup("Boss2Material");
-            recipe.SetResult(this, 20);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }
