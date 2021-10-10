@@ -426,7 +426,7 @@ namespace CalamityMod.CalPlayer
 
 			void harmNPC(NPC npc)
 			{
-				int damage = (int)(player.AverageDamage() * Main.rand.Next(1950, 2050));
+				int damage = (int)(player.AverageDamage() * Main.rand.Next(550, 600));
 				npc.StrikeNPC(damage, 0f, 0);
 
 				player.addDPS(damage);
