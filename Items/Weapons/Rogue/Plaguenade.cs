@@ -56,8 +56,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Beenade, 20);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
-            recipe.AddIngredient(ItemID.Obsidian, 2);
-            recipe.AddIngredient(ItemID.Stinger);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();
