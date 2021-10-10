@@ -2066,7 +2066,7 @@ namespace CalamityMod.NPCs
 					maxVelocity = npc.velocity.Length();
 			}
 
-			if (KillTime > 0)
+			if (KillTime > 0 || npc.type == NPCType<Draedon>())
 			{
 				// If any boss NPC is active, apply Zen to nearby players to reduce spawn rate
 				if (CalamityConfig.Instance.BossZen)
@@ -2078,16 +2078,19 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (AITimer < KillTime)
-					AITimer++;
+				if (npc.type != NPCType<Draedon>())
+				{
+					if (AITimer < KillTime)
+						AITimer++;
 
-				// Separate timer for aggression to avoid entering later phases too quickly
-				int aggressionTimerCap = (int)(KillTime * 1.35);
-				if (AIIncreasedAggressionTimer < aggressionTimerCap)
-					AIIncreasedAggressionTimer++;
+					// Separate timer for aggression to avoid entering later phases too quickly
+					int aggressionTimerCap = (int)(KillTime * 1.35);
+					if (AIIncreasedAggressionTimer < aggressionTimerCap)
+						AIIncreasedAggressionTimer++;
 
-				// Increases aggression over time if the fight is taking too long
-				killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)aggressionTimerCap);
+					// Increases aggression over time if the fight is taking too long
+					killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)aggressionTimerCap);
+				}
 			}
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
