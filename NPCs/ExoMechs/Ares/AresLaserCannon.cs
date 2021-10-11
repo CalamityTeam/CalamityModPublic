@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = (enraged ? 28f : 22f) * baseVelocityMult;
+			float baseVelocity = (enraged ? 30f : 22f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float deathrayPhaseGateValue = 450f;
 			if (enraged)
-				deathrayPhaseGateValue *= 0.5f;
+				deathrayPhaseGateValue *= 0.25f;
 			else if (lastMechAlive)
 				deathrayPhaseGateValue *= 0.7f;
 			else if (berserk)
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				SmokeDrawer.SpawnAreaCompactness = 40f;
 
 				// Increase DR during enrage
-				npc.Calamity().DR = 0.4f;
+				npc.Calamity().DR = 0.75f;
 			}
 			else
 				npc.Calamity().DR = 0.25f;
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity3, maxVelocity3, lerpValue3);
 
 							// Fire Thanatos lasers
-							int numLasers = enraged ? 6 : lastMechAlive ? 3 : 2;
+							int numLasers = enraged ? 9 : lastMechAlive ? 3 : 2;
 							float divisor = deathrayDuration / numLasers;
 
 							if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)

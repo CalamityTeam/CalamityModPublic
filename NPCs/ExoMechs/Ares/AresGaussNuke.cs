@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = (enraged ? 28f : 22f) * baseVelocityMult;
+			float baseVelocity = (enraged ? 30f : 22f) * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float gaussNukePhaseGateValue = 750f;
 			if (enraged)
-				gaussNukePhaseGateValue *= 0.5f;
+				gaussNukePhaseGateValue *= 0.25f;
 			else if (lastMechAlive)
 				gaussNukePhaseGateValue *= 0.7f;
 			else if (berserk)
@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				SmokeDrawer.SpawnAreaCompactness = 40f;
 
 				// Increase DR during enrage
-				npc.Calamity().DR = 0.4f;
+				npc.Calamity().DR = 0.75f;
 			}
 			else
 				npc.Calamity().DR = 0.25f;

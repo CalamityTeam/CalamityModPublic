@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 24f : 18f) * baseVelocityMult;
+			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 26f : 18f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -418,7 +418,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				SmokeDrawer.SpawnAreaCompactness = 80f;
 
 				// Increase DR during enrage
-				npc.Calamity().DR = 0.5f;
+				npc.Calamity().DR = 0.85f;
 			}
 			else
 				npc.Calamity().DR = 0.35f;
