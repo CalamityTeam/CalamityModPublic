@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Boss
 			Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ThanatosBeamEnd");
 
 			float drawLength = LengthOfLaser;
-			Color color = new Color(250, 100, 100, 0);
+			Color color = new Color(250, 250, 250, 100);
 
 			if (Time % 5 == 0)
 			{

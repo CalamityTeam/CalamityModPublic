@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								Vector2 offset = Vector2.Normalize(plasmaBoltVelocity) * 40f + Vector2.UnitY * 16f;
 
 								if (boltsSplitLess)
-									Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, -2f);
+									Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, -1f);
 								else
 									Projectile.NewProjectile(npc.Center + offset, plasmaBoltVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 							}

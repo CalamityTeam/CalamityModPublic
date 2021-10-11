@@ -735,12 +735,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<AresPlasmaFireball>();
+									int type = ModContent.ProjectileType<ApolloFireball>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), npc.Center);
 									Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
 									Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
-									Projectile.NewProjectile(npc.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, -1f);
+									Projectile.NewProjectile(npc.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								}
 							}
 						}
@@ -931,7 +931,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int totalProjectiles = CalamityWorld.malice ? 12 : 8;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<AresPlasmaBolt>();
-							int damage = (int)(npc.GetProjectileDamage(ModContent.ProjectileType<AresPlasmaFireball>()) * 0.8);
+							int damage = (int)(npc.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
 							float velocity = 12f;
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ThanatosLaser : ModProjectile
+	public class ArtemisLaser : ModProjectile
 	{
 		public float TelegraphDelay
 		{
@@ -82,71 +83,12 @@ namespace CalamityMod.Projectiles.Boss
 
 			Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 
-			// If there is no NPC to attach to, run this instead.
-			if (projectile.ai[1] == -1f)
-			{
-				// Fade in after telegraphs have faded.
-				if (TelegraphDelay > TelegraphTotalTime)
-				{
-					if (projectile.alpha > 0)
-						projectile.alpha -= 25;
-					if (projectile.alpha < 0)
-						projectile.alpha = 0;
-
-					// If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
-					if (Velocity != Vector2.Zero)
-					{
-						projectile.extraUpdates = 3;
-						projectile.velocity = Velocity * (CalamityWorld.malice ? 1.25f : 1f);
-						Velocity = Vector2.Zero;
-						projectile.netUpdate = true;
-					}
-
-					// Direction and rotation.
-					if (projectile.velocity.X < 0f)
-					{
-						projectile.spriteDirection = -1;
-						projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
-					}
-					else
-					{
-						projectile.spriteDirection = 1;
-						projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-					}
-				}
-				else if (Velocity == Vector2.Zero)
-				{
-					Velocity = projectile.velocity;
-					projectile.velocity = Vector2.Zero;
-					projectile.netUpdate = true;
-
-					// Direction and rotation.
-					if (projectile.velocity.X < 0f)
-					{
-						projectile.spriteDirection = -1;
-						projectile.rotation = (float)Math.Atan2((double)-(double)Velocity.Y, (double)-(double)Velocity.X);
-					}
-					else
-					{
-						projectile.spriteDirection = 1;
-						projectile.rotation = (float)Math.Atan2((double)Velocity.Y, (double)Velocity.X);
-					}
-				}
-
-				TelegraphDelay++;
-
-				return;
-			}
-
 			// Die if the thing to attach to disappears.
 			if (ThingToAttachTo is null || !ThingToAttachTo.active)
 			{
 				projectile.Kill();
 				return;
 			}
-
-			// If the Ares Laser Cannon is the owner.
-			bool aresLaserIsOwner = ThingToAttachTo.type == ModContent.NPCType<AresLaserCannon>();
 
 			// Fade in after telegraphs have faded.
 			if (TelegraphDelay > TelegraphTotalTime)
@@ -185,8 +127,7 @@ namespace CalamityMod.Projectiles.Boss
 				// Set destination of the laser, the target's center.
 				Destination = projectile.velocity;
 
-				if (aresLaserIsOwner)
-					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
+				projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f;
 
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
@@ -213,8 +154,7 @@ namespace CalamityMod.Projectiles.Boss
 				// Set start of telegraph to the npc center.
 				projectile.Center = ThingToAttachTo.Center;
 
-				if (aresLaserIsOwner)
-					projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f + Vector2.UnitY * 16f;
+				projectile.Center += Vector2.Normalize(Destination - ThingToAttachTo.Center) * 70f;
 
 				// Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
 				Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
@@ -272,7 +212,7 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
 			Vector2 scaleOuter = scaleInner * new Vector2(1f, 2.2f);
 
-			Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+			Color colorOuter = Color.Lerp(Color.Orange, Color.OrangeRed, TelegraphDelay / TelegraphTotalTime * 2f % 1f); // Iterate through orange and dark orange once and then flash.
 			Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
 			colorOuter *= 0.6f;

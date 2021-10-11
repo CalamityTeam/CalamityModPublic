@@ -9,9 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class AresPlasmaFireball : ModProjectile
+	public class ApolloFireball : ModProjectile
 	{
-		private const int timeLeft = 120;
+		private const int timeLeft = 60;
 
 		public override void SetStaticDefaults()
 		{
@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetDefaults()
 		{
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 36;
-			projectile.height = 36;
+			projectile.width = 48;
+			projectile.height = 48;
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -48,12 +48,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if (projectile.ai[0] != -1f)
-			{
-				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-					projectile.tileCollide = true;
-			}
+			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+				projectile.tileCollide = true;
 
 			int fadeInTime = 3;
 			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
@@ -159,12 +156,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (Main.myPlayer == projectile.owner)
 			{
 				// Plasma bolts
-				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
-
-				// Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
-				if (projectile.ai[0] == -1f)
-					totalProjectiles /= 2;
-
+				int totalProjectiles = CalamityWorld.malice ? 6 : 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
 				float velocity = projectile.velocity.Length();
