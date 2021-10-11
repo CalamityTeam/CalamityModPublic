@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float deathrayPhaseGateValue = 450f;
 			if (enraged)
-				deathrayPhaseGateValue *= 0.25f;
+				deathrayPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
 				deathrayPhaseGateValue *= 0.7f;
 			else if (berserk)

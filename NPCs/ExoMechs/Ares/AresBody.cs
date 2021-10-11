@@ -27,6 +27,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 	[AutoloadBossHead]
 	public class AresBody : ModNPC
     {
+		// Used for loot
+		public enum MechType
+		{
+			Ares = 0,
+			Thanatos = 1,
+			ArtemisAndApollo = 2
+		}
+
 		public enum Phase
 		{
 			Normal = 0,
@@ -785,8 +793,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
-
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -802,14 +808,49 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Mark Exo Mechs as dead
 			if (!otherExoMechsAlive)
-				DropExoMechLoot(npc);
+				DropExoMechLoot(npc, (int)MechType.Ares);
 		}
 
-		public static void DropExoMechLoot(NPC npc)
+		public static void DropExoMechLoot(NPC npc, int mechType)
 		{
-			DropHelper.DropBags(npc);
-
+			// Dropped before the downed variable is set to true
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+
+			switch (mechType)
+			{
+				case (int)MechType.Ares:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<AresTrophy>());
+
+					CalamityWorld.downedAres = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+
+				case (int)MechType.Thanatos:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<ThanatosTrophy>());
+
+					CalamityWorld.downedThanatos = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+
+				case (int)MechType.ArtemisAndApollo:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<ArtemisTrophy>());
+					DropHelper.DropItem(npc, ModContent.ItemType<ApolloTrophy>());
+
+					CalamityWorld.downedArtemisAndApollo = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+			}
+
+			DropHelper.DropBags(npc);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -818,29 +859,50 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				DropHelper.DropItem(npc, ModContent.ItemType<ExoPrism>(), true, 24, 32);
 
 				// Weapons
-				float w = DropHelper.NormalWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack<PhotonRipper>(w),
-					DropHelper.WeightStack<SpineOfThanatos>(w),
-					DropHelper.WeightStack<SurgeDriver>(w),
-					DropHelper.WeightStack<TheJailor>(w),
-					DropHelper.WeightStack<RefractionRotor>(w),
-					DropHelper.WeightStack<TheAtomSplitter>(w)
-				);
+				// Higher chance due to how the drops work
+				float w = DropHelper.NormalWeaponDropRateFloat * 2f;
+				if (CalamityWorld.downedAres)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<PhotonRipper>(w),
+						DropHelper.WeightStack<TheJailor>(w)
+					);
+				}
+				if (CalamityWorld.downedThanatos)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<SpineOfThanatos>(w),
+						DropHelper.WeightStack<RefractionRotor>(w)
+					);
+				}
+				if (CalamityWorld.downedArtemisAndApollo)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<SurgeDriver>(w),
+						DropHelper.WeightStack<TheAtomSplitter>(w)
+					);
+				}
 
 				// Equipment
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoThrone>(), 5);
 
 				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), 7);
-			}
+				// Higher chance due to how the drops work
+				float maskDropRate = 1f / 3.5f;
+				if (CalamityWorld.downedThanatos)
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), maskDropRate);
 
-			CalamityWorld.downedExoMechs = true;
-			CalamityNetcode.SyncWorld();
+				if (CalamityWorld.downedArtemisAndApollo)
+				{
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), maskDropRate);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), maskDropRate);
+				}
+
+				if (CalamityWorld.downedAres)
+					DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), maskDropRate);
+
+				DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), maskDropRate);
+			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

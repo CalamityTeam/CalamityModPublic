@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 			float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
 			if (enraged)
-				teslaOrbPhaseGateValue *= 0.25f;
+				teslaOrbPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
 				teslaOrbPhaseGateValue *= 0.7f;
 			else if (berserk)

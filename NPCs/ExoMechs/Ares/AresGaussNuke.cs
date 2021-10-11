@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float gaussNukePhaseGateValue = 750f;
 			if (enraged)
-				gaussNukePhaseGateValue *= 0.25f;
+				gaussNukePhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
 				gaussNukePhaseGateValue *= 0.7f;
 			else if (berserk)

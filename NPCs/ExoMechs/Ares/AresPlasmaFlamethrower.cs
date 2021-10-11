@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			bool boltsSplitLess = fireMoreBolts && !lastMechAlive;
 			float plasmaBoltPhaseGateValue = fireMoreBolts ? 120f : 270f;
 			if (enraged)
-				plasmaBoltPhaseGateValue *= 0.25f;
+				plasmaBoltPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
 				plasmaBoltPhaseGateValue *= 0.7f;
 			else if (berserk)

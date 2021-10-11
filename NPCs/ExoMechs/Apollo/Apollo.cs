@@ -1383,9 +1383,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 		public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisTrophy>(), 10);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloTrophy>(), 10);
-
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -1400,7 +1397,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			}
 
 			if (!otherExoMechsAlive)
-				AresBody.DropExoMechLoot(npc);
+				AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.ArtemisAndApollo);
 		}
 
 		// Needs edits

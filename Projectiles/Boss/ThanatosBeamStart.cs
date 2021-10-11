@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetDefaults()
 		{
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
-			projectile.height = 30;
+			projectile.width = 40;
+			projectile.height = 40;
 			projectile.hostile = true;
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 			}
 
-			float scale = 2f;
+			float scale = 1f;
 			projectile.scale = (float)Math.Sin(Time * MathHelper.Pi / Lifetime) * 10f * scale;
 			if (projectile.scale > scale)
 				projectile.scale = scale;
@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Boss
 				return true;
 
 			float collisionPoint = 0f;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LengthOfLaser, 30f * projectile.scale, ref collisionPoint))
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LengthOfLaser, 40f * projectile.scale, ref collisionPoint))
 				return true;
 
 			return false;

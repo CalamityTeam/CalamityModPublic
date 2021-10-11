@@ -982,8 +982,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosTrophy>(), 10);
-
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
@@ -998,7 +996,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			}
 
 			if (!otherExoMechsAlive)
-				AresBody.DropExoMechLoot(npc);
+				AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.Thanatos);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
