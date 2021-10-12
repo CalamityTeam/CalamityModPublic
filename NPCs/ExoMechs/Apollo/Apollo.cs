@@ -13,7 +13,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
 using System.Collections.Generic;
 using CalamityMod.Skies;
 
@@ -369,7 +368,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
+			float attackPhaseGateValue = lastMechAlive ? 320f : 480f;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving

@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
+			float attackPhaseGateValue = lastMechAlive ? 320f : 480f;
 			float timeToLineUpAttack = 30f;
 
 			// Spin variables
