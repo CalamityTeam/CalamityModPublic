@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			// Angles are wrapped to be 0 to 2pi instead of -pi to pi for convenience with absolute values.
 			float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
 			float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
-			float deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
+			float deltaAngle = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - oldRotationAdjusted));
 
 			// Frame 1 effect: Prevent the sword from instantly firing a sword beam.
 			if (projectile.localAI[1] == 0f)
@@ -285,7 +285,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
 			float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
-			deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
+			deltaAngle = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - oldRotationAdjusted));
 
 			if (deltaAngle < 0.04f)
 				opacity = 0f;
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			return Color.Lerp(Color.Red, Color.PaleVioletRed * completionRatio, MathHelper.Clamp(completionRatio * 0.8f, 0f, 1f)) * opacity;
 		}
 
-		internal float WidthFunction(float completionRatio) => (IsSmall ? 101f : 127f) * (1f - completionRatio);
+		internal float WidthFunction(float completionRatio) => (IsSmall ? 101f : 127f) * (1f - completionRatio) * 0.8f;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -301,7 +301,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			Texture2D hiltTexture = ModContent.GetTexture(Texture);
 			if (IsSmall)
 				bladeTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBladeSmall");
-			Vector2 bladeOffset = projectile.rotation.ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale;
+
+			float bladeLength = (IsSmall ? 90f : 132f) * projectile.scale;
+			Vector2 bladeOffset = projectile.rotation.ToRotationVector2() * bladeLength;
 			Vector2 origin = bladeTexture.Size() * 0.5f;
 			origin /= IsSmall ? new Vector2(1f, 3f) : new Vector2(3f, 7f);
 
@@ -313,26 +315,22 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SwordSlashTexture"));
 
 			Player player = Main.player[projectile.owner];
-			List<Vector2> positions = new List<Vector2>();
+			float swingAngularDirection = Math.Sign(MathHelper.WrapAngle(projectile.rotation - projectile.oldRot[1]));
 
-			float swingAngularDirection = Math.Sign(projectile.rotation - projectile.oldRot[1]);
-			projectile.oldRot[0] += swingAngularDirection * 0.1f;
-			for (int i = 0; i < projectile.oldPos.Length; i++)
+			Vector2[] drawPoints = new Vector2[projectile.oldPos.Length];
+			Vector2 perpendicularDirection = bladeOffset.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.PiOver2);
+			for (int i = 0; i < drawPoints.Length; i++)
 			{
 				if (projectile.oldPos[i] == Vector2.Zero)
 					continue;
 
-				// Skip over any very points going in the wrong direction, to prevent "nets" from the primitive.
-				if (i > 1 && Math.Sign(projectile.oldRot[i - 1] - projectile.oldRot[i]) != swingAngularDirection)
-					continue;
-
-				Vector2 position = projectile.position + projectile.oldRot[i].ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale;
-
-				positions.Add(position);
+				float swingFactor = MathHelper.Min(1f, AngularDamageFactor);
+				float offsetFactor = i * -swingAngularDirection * MathHelper.Min(0.8f, swingFactor) * 100f;
+				float angularTurn = i * swingAngularDirection * -0.09f;
+				drawPoints[i] = projectile.position + perpendicularDirection.RotatedBy(angularTurn) * offsetFactor;
 			}
-			projectile.oldRot[0] -= swingAngularDirection * 0.1f;
 
-			TrailDrawer.Draw(positions, projectile.Size * 0.5f - Main.screenPosition, 50);
+			TrailDrawer.Draw(drawPoints, projectile.Size * 0.5f + bladeOffset - Main.screenPosition, 50);
 			spriteBatch.Draw(bladeTexture, projectile.Center + bladeOffset - Main.screenPosition, frame, Color.White, projectile.rotation + MathHelper.PiOver2, origin, projectile.scale, SpriteEffects.None, 0f);
 			spriteBatch.Draw(hiltTexture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation + MathHelper.PiOver2, hiltTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
 
