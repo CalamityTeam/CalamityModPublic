@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 	{
 		private const int timeLeft = 360;
 
+		private const float maxVelocity = 12f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exoplasma Bolt");
@@ -30,12 +32,25 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
 			projectile.penetrate = -1;
+			projectile.extraUpdates = 1;
 			projectile.timeLeft = timeLeft;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
 		public override void AI()
 		{
+			// 23 frames starting at 0.5
+			// 18 frames starting at 1
+			if (projectile.velocity.Length() < maxVelocity)
+			{
+				projectile.velocity *= 1.15f;
+				if (projectile.velocity.Length() > maxVelocity)
+				{
+					projectile.velocity.Normalize();
+					projectile.velocity *= maxVelocity;
+				}
+			}
+
 			int fadeOutTime = 15;
 			int fadeInTime = 3;
 			if (projectile.timeLeft < fadeOutTime)
@@ -46,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 			Lighting.AddLight(projectile.Center, 0f, 0.4f * projectile.Opacity, 0f);
 
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 4)
+			if (projectile.frameCounter > 8)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;

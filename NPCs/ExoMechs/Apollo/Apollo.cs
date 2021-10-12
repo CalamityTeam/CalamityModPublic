@@ -932,7 +932,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<AresPlasmaBolt>();
 							int damage = (int)(npc.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
-							float velocity = 12f;
+							float velocity = 1f;
 							double angleA = radians * 0.5;
 							double angleB = MathHelper.ToRadians(90f) - angleA;
 							float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -940,8 +940,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-								int proj = Projectile.NewProjectile(npc.Center, velocity2, type, damage, 0f, Main.myPlayer);
-								Main.projectile[proj].extraUpdates += 1;
+								Projectile.NewProjectile(npc.Center, velocity2, type, damage, 0f, Main.myPlayer);
 							}
 						}
 

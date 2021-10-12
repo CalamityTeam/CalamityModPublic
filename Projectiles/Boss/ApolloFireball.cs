@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Boss
 				int totalProjectiles = CalamityWorld.malice ? 6 : 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = projectile.velocity.Length();
+				float velocity = 0.5f;
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
