@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.width = 170;
             npc.height = 120;
             npc.defense = 80;
-			npc.DR_NERD(0.25f);
+			npc.DR_NERD(0.35f);
 			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -281,11 +281,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float gaussNukePhaseGateValue = 750f;
 			if (enraged)
-				gaussNukePhaseGateValue *= 0.1f;
+				gaussNukePhaseGateValue *= 0.05f;
 			else if (lastMechAlive)
-				gaussNukePhaseGateValue *= 0.7f;
+				gaussNukePhaseGateValue *= 0.1f;
 			else if (berserk)
-				gaussNukePhaseGateValue *= 0.85f;
+				gaussNukePhaseGateValue *= 0.45f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -305,10 +305,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				SmokeDrawer.SpawnAreaCompactness = 40f;
 
 				// Increase DR during enrage
-				npc.Calamity().DR = 0.75f;
+				npc.Calamity().DR = 0.85f;
 			}
 			else
-				npc.Calamity().DR = 0.25f;
+				npc.Calamity().DR = 0.35f;
 
 			SmokeDrawer.Update();
 
@@ -331,7 +331,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)Phase.GaussNuke:
 
 					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] < gaussNukeTelegraphDuration)
+					float telegraphDuration = enraged ? (gaussNukeTelegraphDuration * 0.5f) : gaussNukeTelegraphDuration;
+					if (calamityGlobalNPC.newAI[2] < telegraphDuration)
 					{
 						// Set frames to gauss nuke charge up frames, which begin on frame 12
 						if (calamityGlobalNPC.newAI[2] == 1f)
@@ -387,7 +388,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)Phase.Reload:
 
 					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] >= gaussNukeReloadDuration)
+					float reloadDuration = enraged ? (gaussNukeReloadDuration * 0.5f) : gaussNukeReloadDuration;
+					if (calamityGlobalNPC.newAI[2] >= reloadDuration)
 					{
 						AIState = (float)Phase.Nothing;
 						calamityGlobalNPC.newAI[2] = 0f;
@@ -423,9 +425,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			// Use telegraph frames when using gauss nuke
 			npc.frameCounter += 1D;
+			double frameTime = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes ? 3D : 6D;
 			if (AIState == (float)Phase.Nothing)
 			{
-				if (npc.frameCounter >= 6D)
+				if (npc.frameCounter >= frameTime)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
@@ -447,7 +450,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			else
 			{
-				if (npc.frameCounter >= 6D)
+				if (npc.frameCounter >= frameTime)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;

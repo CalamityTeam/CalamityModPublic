@@ -432,6 +432,15 @@ namespace CalamityMod.NPCs
 			NPCType<ThanatosTail>()
 		};
 
+		public static List<int> AresIDs = new List<int>
+		{
+			NPCType<AresBody>(),
+			NPCType<AresGaussNuke>(),
+			NPCType<AresLaserCannon>(),
+			NPCType<AresPlasmaFlamethrower>(),
+			NPCType<AresTeslaCannon>()
+		};
+
 		public static List<int> SkeletronPrimeIDs = new List<int>
 		{
 			NPCID.SkeletronPrime,
@@ -3355,10 +3364,11 @@ namespace CalamityMod.NPCs
 			if (DesertScourgeIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
 				PerforatorIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || DestroyerIDs.Contains(npc.type) ||
 				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
-				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>())
+				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || AresIDs.Contains(npc.type))
 			{
+				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
-					damage = (int)(damage * 0.5);
+					damage = (int)(damage * damageMult);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
@@ -3483,7 +3493,13 @@ namespace CalamityMod.NPCs
 			if (CalamityLists.pierceResistList.Contains(npc.type))
 				PierceResistGlobal(projectile, npc, ref damage);
 
-			if (ThanatosIDs.Contains(npc.type))
+			if (AresIDs.Contains(npc.type))
+			{
+				// 25% resist to true melee.
+				if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.75);
+			}
+			else if (ThanatosIDs.Contains(npc.type))
 			{
 				// 50% resist to true melee.
 				if (projectile.Calamity().trueMelee)
