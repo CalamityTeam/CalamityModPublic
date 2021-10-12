@@ -57,11 +57,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Grenade, 10);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 2);
-            recipe.AddIngredient(ItemID.Nanites, 1);
+            recipe.AddIngredient(ItemID.Grenade, 20);
+            recipe.AddIngredient(ItemID.MartianConduitPlating, 5);
+            recipe.AddIngredient(ItemID.Nanites, 5);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 10);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

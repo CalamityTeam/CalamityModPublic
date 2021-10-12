@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Boss
 			Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd");
 
 			float drawLength = projectile.localAI[1];
-			Color color = new Color(250, 100, 100, 0);
+			Color color = new Color(250, 250, 250, 100);
 
 			if (projectile.localAI[0] % 5f == 0f)
 			{

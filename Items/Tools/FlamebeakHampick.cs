@@ -24,7 +24,7 @@ Right click to use as a hammer");
             item.melee = true;
             item.width = 52;
             item.height = 50;
-            item.useTime = 6;
+            item.useTime = 5;
             item.useAnimation = 15;
             item.useTurn = true;
             item.pick = PickPower;

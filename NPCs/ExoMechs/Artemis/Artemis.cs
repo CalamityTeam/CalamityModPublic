@@ -735,7 +735,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							// Fire a spread of projectiles in the direction of the charge
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								int type = ModContent.ProjectileType<ThanatosLaser>();
+								int type = ModContent.ProjectileType<ArtemisLaser>();
 								int damage = npc.GetProjectileDamage(type);
 								Vector2 laserVelocity = chargeVelocityNormalized * 10f;
 								int numLasersPerSpread = 6;
@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ThanatosLaser>();
+									int type = ModContent.ProjectileType<ArtemisLaser>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
@@ -903,7 +903,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int type = ModContent.ProjectileType<ThanatosLaser>();
+							int type = ModContent.ProjectileType<ArtemisLaser>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 

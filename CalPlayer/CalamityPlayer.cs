@@ -3199,7 +3199,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued)
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !godSlayerCooldown && player.dashDelay == 0)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -3246,7 +3246,7 @@ namespace CalamityMod.CalPlayer
                 }
                 
                 // Activating Rage Mode
-                if (rage >= rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
+                if (rage >= rageMax && !rageModeActive)
                 {
                     // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
@@ -3276,7 +3276,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the Adrenaline hotkey.
-            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -3697,14 +3697,15 @@ namespace CalamityMod.CalPlayer
 
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
-            if (CalamityConfig.Instance.MiningSpeedBoost)
-            {
-                player.pickSpeed *= 0.75f;
-            }
+			// Increase tile placement speed to speed up early game a bit and make building more fun
+			player.tileSpeed += 0.5f;
 
-            // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
-            float accRunSpeedMin = player.accRunSpeed * 0.5f;
+			// Increase wall placement speed to speed up early game a bit and make building more fun
+			player.wallSpeed += 0.5f;
+
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
+			float accRunSpeedMin = player.accRunSpeed * 0.5f;
             player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.002f;
 
             if (player.accRunSpeed < accRunSpeedMin)
@@ -5379,7 +5380,7 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+            if (CalamityWorld.revenge)
             {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
             }
@@ -5515,7 +5516,7 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+            if (CalamityWorld.revenge)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
 
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
@@ -5902,17 +5903,14 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityConfig.Instance.Rippers)
-                {
-                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                    {
-                        double adrenalineDRBoost = 0D +
-                            (adrenalineBoostOne ? 0.05 : 0D) +
-                            (adrenalineBoostTwo ? 0.05 : 0D) +
-                            (adrenalineBoostThree ? 0.05 : 0D);
-                        contactDamageReduction += 0.5 + adrenalineDRBoost;
-                    }
-                }
+				if (adrenaline == adrenalineMax && !adrenalineModeActive)
+				{
+					double adrenalineDRBoost = 0D +
+						(adrenalineBoostOne ? 0.05 : 0D) +
+						(adrenalineBoostTwo ? 0.05 : 0D) +
+						(adrenalineBoostThree ? 0.05 : 0D);
+					contactDamageReduction += 0.5 + adrenalineDRBoost;
+				}
             }
 
             if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
@@ -6346,17 +6344,14 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityConfig.Instance.Rippers)
-                {
-                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                    {
-                        double adrenalineDRBoost = 0D +
-                            (adrenalineBoostOne ? 0.05 : 0D) +
-                            (adrenalineBoostTwo ? 0.05 : 0D) +
-                            (adrenalineBoostThree ? 0.05 : 0D);
-                        projectileDamageReduction += 0.5 + adrenalineDRBoost;
-                    }
-                }
+				if (adrenaline == adrenalineMax && !adrenalineModeActive)
+				{
+					double adrenalineDRBoost = 0D +
+						(adrenalineBoostOne ? 0.05 : 0D) +
+						(adrenalineBoostTwo ? 0.05 : 0D) +
+						(adrenalineBoostThree ? 0.05 : 0D);
+					projectileDamageReduction += 0.5 + adrenalineDRBoost;
+				}
             }
 
             if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
@@ -7276,6 +7271,18 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
+			// Disable vanilla dashes during god slayer dash
+			if (godSlayerDashHotKeyPressed)
+			{
+				// Set the player to have no registered vanilla dashes.
+				player.dash = 0;
+
+				// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+				player.eocHit = -1;
+				if (player.eocDash != 0)
+					player.eocDash = 0;
+			}
+
             if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
@@ -7446,7 +7453,7 @@ namespace CalamityMod.CalPlayer
 
             // Shattered Community makes the player gain rage based on the amount of damage taken.
             // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && shatteredCommunity && rageGainCooldown == 0)
+            if (CalamityWorld.revenge && shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / player.statLifeMax2;
                 float rageConversionRatio = 0.8f;
@@ -7505,7 +7512,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
 
             // Give Rage combat frames because being hurt counts as combat.
-            if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+            if (CalamityWorld.revenge)
                 rageCombatFrames = RageCombatDelayTime;
 
             if (player.whoAmI == Main.myPlayer)
@@ -7550,7 +7557,7 @@ namespace CalamityMod.CalPlayer
                     witheringDamageDone = 0;
                 }
 
-                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+                if (CalamityWorld.revenge)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
@@ -8760,7 +8767,8 @@ namespace CalamityMod.CalPlayer
 							Main.dust[num14].fadeIn = 0.5f;
 						}
 					}
-					num7 = 40f;
+					num7 = 40f; // 46 frames before hitting this gate value
+					num10 = 0.8f;
 				}
 				if (dashMod > 0)
                 {

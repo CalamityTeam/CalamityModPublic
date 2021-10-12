@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 22;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Accessories.Wings
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
+            recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

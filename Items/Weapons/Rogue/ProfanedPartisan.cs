@@ -59,7 +59,7 @@ Stealth strikes spawn smaller spears to fly along side it");
         {
 
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrystalPiercer>(), 200);
+            recipe.AddIngredient(ModContent.ItemType<CrystalPiercer>(), 500);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 4);
             recipe.AddIngredient(ModContent.ItemType <UnholyEssence>(), 25);

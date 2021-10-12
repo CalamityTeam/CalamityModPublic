@@ -162,7 +162,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
 				//Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
+                if (CalamityWorld.downedProvidence)
+				    DropHelper.DropItemSpray(npc, ModContent.ItemType<Bloodstone>(), 20, 30, 2);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

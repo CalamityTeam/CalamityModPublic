@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evil Smasher");
-            Tooltip.SetDefault("EViL! sMaSH eVIl! SmAsh...ER!\n" +
+            Tooltip.SetDefault("EViL! sMaSH eVIl! SmAsh... ER!\n" +
 				"For every enemy you kill this hammer gains stat bonuses\n" +
 				"These bonuses stack until a cap is reached\n" +
 				"The bonus stacks will reset if you select a different item\n" +

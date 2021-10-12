@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
                 "The dash has a 15 second cooldown\n" +
                 "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
 
-            if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+            if (modPlayer.godSlayerDashHotKeyPressed)
                 modPlayer.dashMod = 9;
         }
 

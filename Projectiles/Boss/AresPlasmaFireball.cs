@@ -48,19 +48,11 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if (projectile.ai[0] != -2f)
+			if (projectile.ai[0] != -1f)
 			{
-				if (projectile.ai[0] != -1f)
-				{
-					Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-					if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-						projectile.tileCollide = true;
-				}
-				else
-				{
-					if (projectile.timeLeft < timeLeft / 2)
-						projectile.Kill();
-				}
+				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+					projectile.tileCollide = true;
 			}
 
 			int fadeInTime = 3;
@@ -169,13 +161,13 @@ namespace CalamityMod.Projectiles.Boss
 				// Plasma bolts
 				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
 
-				// Reduce the total amount of projectiles by half if Apollo is shooting them or Ares Plasma Arm is shooting them and in deathray phase and not the last mech
-				if (projectile.ai[0] == -1f || projectile.ai[0] == -2f)
+				// Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
+				if (projectile.ai[0] == -1f)
 					totalProjectiles /= 2;
 
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = projectile.velocity.Length();
+				float velocity = 0.5f;
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

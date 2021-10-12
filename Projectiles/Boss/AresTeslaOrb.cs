@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Boss
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
 
-			float detachDistance = malice ? 1120f : death ? 960f : revenge ? 880f : expertMode ? 800f : 640f;
+			float detachDistance = malice ? 1600f : death ? 1360f : revenge ? 1280f : expertMode ? 1200f : 960f;
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
 				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active || Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays)

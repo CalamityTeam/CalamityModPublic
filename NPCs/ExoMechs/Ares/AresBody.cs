@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Skies;
 using CalamityMod.World;
@@ -26,6 +27,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 	[AutoloadBossHead]
 	public class AresBody : ModNPC
     {
+		// Used for loot
+		public enum MechType
+		{
+			Ares = 0,
+			Thanatos = 1,
+			ArtemisAndApollo = 2
+		}
+
 		public enum Phase
 		{
 			Normal = 0,
@@ -50,6 +59,23 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			get => npc.Calamity().newAI[1];
 			set => npc.Calamity().newAI[1] = value;
 		}
+
+		public enum Enraged
+		{
+			No = 0,
+			Yes = 1
+		}
+
+		public float EnragedState
+		{
+			get => npc.localAI[1];
+			set => npc.localAI[1] = value;
+		}
+
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		// Spawn rate for enrage steam
+		public const int ventCloudSpawnRate = 3;
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 6;
@@ -76,6 +102,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		// Total duration of the deathrays
 		public const float deathrayDuration = 600f;
+
+		// Max distance from the target before they are unable to hear sound telegraphs
+		private const float soundDistance = 4800f;
 
 		public override void SetStaticDefaults()
         {
@@ -123,6 +152,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			writer.Write(armsSpawned);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -134,6 +164,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			armsSpawned = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -322,8 +353,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.rotation = npc.velocity.X * 0.003f;
 
 			// Light
-			float lightScale = 765f;
-			Lighting.AddLight(npc.Center, Main.DiscoR / lightScale * npc.Opacity, Main.DiscoG / lightScale * npc.Opacity, Main.DiscoB / lightScale * npc.Opacity);
+			if (EnragedState == (float)Enraged.Yes)
+			{
+				Lighting.AddLight(npc.Center, 0.5f * npc.Opacity, 0f, 0f);
+			}
+			else
+			{
+				float lightScale = 510f;
+				Lighting.AddLight(npc.Center, Main.DiscoR / lightScale * npc.Opacity, Main.DiscoG / lightScale * npc.Opacity, Main.DiscoB / lightScale * npc.Opacity);
+			}
 
 			// Despawn if target is dead
 			if (player.dead)
@@ -363,7 +401,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 26f : 18f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -378,6 +416,26 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Gate values
 			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
 			float deathrayDistanceGateValue = 480f;
+
+			// Enter deathray phase again more quickly if enraged
+			if (EnragedState == (float)Enraged.Yes)
+				deathrayPhaseGateValue *= 0.5f;
+
+			// Emit steam while enraged
+			SmokeDrawer.ParticleSpawnRate = 9999999;
+			if (EnragedState == (float)Enraged.Yes)
+			{
+				SmokeDrawer.ParticleSpawnRate = ventCloudSpawnRate;
+				SmokeDrawer.BaseMoveRotation = npc.rotation + MathHelper.PiOver2;
+				SmokeDrawer.SpawnAreaCompactness = 80f;
+
+				// Increase DR during enrage
+				npc.Calamity().DR = 0.85f;
+			}
+			else
+				npc.Calamity().DR = 0.35f;
+
+			SmokeDrawer.Update();
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
@@ -504,6 +562,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						{
 							calamityGlobalNPC.newAI[2] = 0f;
 							AIState = (float)Phase.Deathrays;
+
+							// Cancel enrage state if Ares is enraged
+							if (EnragedState == (float)Enraged.Yes)
+								EnragedState = (float)Enraged.No;
 						}
 					}
 
@@ -519,6 +581,24 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 					else
 					{
+						// Enrage if the target is more than the deathray length away
+						if (distanceFromTarget > 3600f && EnragedState == (float)Enraged.No)
+						{
+							// Play enrage sound
+							if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
+							{
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AresEnraged"),
+									(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+							}
+
+							// Draedon comments on how foolish it is to run
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+								CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonAresEnrageText", new Color(155, 255, 255));
+
+							// Enrage
+							EnragedState = (float)Enraged.Yes;
+						}
+
 						calamityGlobalNPC.newAI[3] = 1f;
 						npc.velocity *= decelerationVelocityMult;
 
@@ -533,7 +613,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 						spinningPoint.Normalize();
 
-						calamityGlobalNPC.newAI[2] += 1f;
+						calamityGlobalNPC.newAI[2] += (EnragedState == (float)Enraged.Yes && calamityGlobalNPC.newAI[2] % 2f == 0f) ? 2f : 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
 						{
 							// Fire deathray telegraph beams
@@ -661,10 +741,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Draw the enrage smoke behind Ares
+			SmokeDrawer.DrawSet(npc.Center);
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = Color.White;
+			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -702,7 +785,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, SpriteEffects.None, 0f);
 
 			return false;
 		}
@@ -714,8 +797,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<AresTrophy>(), 10);
-
 			// Check if the other exo mechs are alive
 			bool otherExoMechsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -731,14 +812,49 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Mark Exo Mechs as dead
 			if (!otherExoMechsAlive)
-				DropExoMechLoot(npc);
+				DropExoMechLoot(npc, (int)MechType.Ares);
 		}
 
-		public static void DropExoMechLoot(NPC npc)
+		public static void DropExoMechLoot(NPC npc, int mechType)
 		{
-			DropHelper.DropBags(npc);
-
+			// Dropped before the downed variable is set to true
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+
+			switch (mechType)
+			{
+				case (int)MechType.Ares:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<AresTrophy>());
+
+					CalamityWorld.downedAres = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+
+				case (int)MechType.Thanatos:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<ThanatosTrophy>());
+
+					CalamityWorld.downedThanatos = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+
+				case (int)MechType.ArtemisAndApollo:
+
+					DropHelper.DropItem(npc, ModContent.ItemType<ArtemisTrophy>());
+					DropHelper.DropItem(npc, ModContent.ItemType<ApolloTrophy>());
+
+					CalamityWorld.downedArtemisAndApollo = true;
+					CalamityWorld.downedExoMechs = true;
+					CalamityNetcode.SyncWorld();
+
+					break;
+			}
+
+			DropHelper.DropBags(npc);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -747,29 +863,50 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				DropHelper.DropItem(npc, ModContent.ItemType<ExoPrism>(), true, 24, 32);
 
 				// Weapons
-				float w = DropHelper.NormalWeaponDropRateFloat;
-				DropHelper.DropEntireWeightedSet(npc,
-					DropHelper.WeightStack<PhotonRipper>(w),
-					DropHelper.WeightStack<SpineOfThanatos>(w),
-					DropHelper.WeightStack<SurgeDriver>(w),
-					DropHelper.WeightStack<TheJailor>(w),
-					DropHelper.WeightStack<RefractionRotor>(w),
-					DropHelper.WeightStack<TheAtomSplitter>(w)
-				);
+				// Higher chance due to how the drops work
+				float w = DropHelper.NormalWeaponDropRateFloat * 2f;
+				if (CalamityWorld.downedAres)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<PhotonRipper>(w),
+						DropHelper.WeightStack<TheJailor>(w)
+					);
+				}
+				if (CalamityWorld.downedThanatos)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<SpineOfThanatos>(w),
+						DropHelper.WeightStack<RefractionRotor>(w)
+					);
+				}
+				if (CalamityWorld.downedArtemisAndApollo)
+				{
+					DropHelper.DropEntireWeightedSet(npc,
+						DropHelper.WeightStack<SurgeDriver>(w),
+						DropHelper.WeightStack<TheAtomSplitter>(w)
+					);
+				}
 
 				// Equipment
 				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoThrone>(), 5);
 
 				// Vanity
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), 7);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), 7);
-			}
+				// Higher chance due to how the drops work
+				float maskDropRate = 1f / 3.5f;
+				if (CalamityWorld.downedThanatos)
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), maskDropRate);
 
-			CalamityWorld.downedExoMechs = true;
-			CalamityNetcode.SyncWorld();
+				if (CalamityWorld.downedArtemisAndApollo)
+				{
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), maskDropRate);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), maskDropRate);
+				}
+
+				if (CalamityWorld.downedAres)
+					DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), maskDropRate);
+
+				DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), maskDropRate);
+			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

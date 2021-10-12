@@ -93,12 +93,12 @@ namespace CalamityMod.NPCs.TownNPCs
             dialogue.Add("Flowers and the like don’t hold a candle to the beauty of intricately formed ice.");
 
             if (BirthdayParty.PartyIsUp)
-                dialogue.Add("Sometimes...I feel like all I'm good for during these events is making ice cubes and slushies.");
+                dialogue.Add("Sometimes... I feel like all I'm good for during these events is making ice cubes and slushies.");
 
             if (Main.bloodMoon)
             {
                 dialogue.Add("If your blood were to thoroughly freeze, it would be quite fatal.");
-                dialogue.Add("The undead which roam tonight are still monsters of blood and guts, but they seem...fresher.");
+                dialogue.Add("The undead which roam tonight are still monsters of blood and guts, but they seem... fresher.");
             }
 
             if (NPC.downedMoonlord)

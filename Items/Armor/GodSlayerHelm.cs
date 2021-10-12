@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor
             player.thorns += 2.5f;
             player.aggro += 1000;
 
-            if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+            if (modPlayer.godSlayerDashHotKeyPressed)
                 modPlayer.dashMod = 9;
         }
 

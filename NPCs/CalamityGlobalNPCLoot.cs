@@ -87,10 +87,11 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.KingSlime)
 			{
-				// Drop a huge spray of Gel items
-				int minGel = Main.expertMode ? 90 : 60;
-				int maxGel = Main.expertMode ? 120 : 80;
-				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 2);
+                // Drop a huge spray of Gel items
+                // More gel is not dropped on Expert because he has more minions, which increases the amount of gel provided.
+                int minGel = 72;
+                int maxGel = 100;
+				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
 
 				// Legendary drop for King Slime
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), true, CalamityWorld.malice);

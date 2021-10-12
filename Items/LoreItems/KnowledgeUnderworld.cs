@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Underworld");
-            Tooltip.SetDefault("These obsidian and hellstone towers were once home to thousands of...'people'.\n" +
+            Tooltip.SetDefault("These obsidian and hellstone towers were once home to thousands of... 'people'.\n" +
                 "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.");
         }
 

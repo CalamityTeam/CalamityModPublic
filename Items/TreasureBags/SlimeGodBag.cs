@@ -41,8 +41,8 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // Materials
-            DropHelper.DropItem(player, ItemID.Gel, 30, 60);
-            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 35, 55);
+            // No Gel is dropped here because the boss drops Gel directly
+            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 40, 52);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
