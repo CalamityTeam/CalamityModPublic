@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.localAI[0] >= 100)
 			{
 				Vector2 center = projectile.Center;
-				float homingRange = 250f;
+				float homingRange = 325f;
 				bool homeIn = false;
 				float inertia = 25f;
 				float homingSpeed = 23f;
