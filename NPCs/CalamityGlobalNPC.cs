@@ -1914,31 +1914,24 @@ namespace CalamityMod.NPCs
 			if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
 				damage += yellowCandleDamage;
 
+			// Boss that get higher timed DR than normal in specific circumstances
+			bool malice = CalamityWorld.malice;
+			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || malice);
+			bool prePlant_Destroyer = DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
+			bool prePlant_AS = AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
+			bool preML_Deus = AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || malice);
+			bool preDoG_SW = StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2);
+			bool malice_DS_Perfs = malice && (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type));
+			bool thanatos = ThanatosIDs.Contains(npc.type);
+
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (!GetDownedBossVariable(npc.type) || CalamityWorld.malice))
+			bool increasedTimedDR = !GetDownedBossVariable(npc.type) || malice || nightProvi || prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs || thanatos;
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && increasedTimedDR)
 			{
-                float DRScalar = CalamityWorld.malice ? 2f : 1.5f;
-
-				// Boost Providence timed DR during the night or in Malice Mode
-				if (npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice))
-                    DRScalar = 10f;
-
-				// Boost most worm boss timed DR to prevent speed killing
-				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
-					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
-					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
-					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)))
-					DRScalar = 5f;
-
-				// Boost Desert Scourge and Perforator Worm timed DR during Malice Mode to prevent speed killing
-				if (CalamityWorld.malice)
-				{
-					if (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type))
-						DRScalar = 5f;
-				}
-
-				if (ThanatosIDs.Contains(npc.type))
-					DRScalar = 2f;
+				bool tenTimes_TimedDR = nightProvi;
+				bool fiveTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
+				bool twoTimes_TimedDR = malice || thanatos;
+				float DRScalar = tenTimes_TimedDR ? 10f : fiveTimes_TimedDR ? 5f : twoTimes_TimedDR ? 2f : 1.5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
