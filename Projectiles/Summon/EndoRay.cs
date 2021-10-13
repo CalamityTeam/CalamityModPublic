@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.extraUpdates = 100;
             projectile.timeLeft = 265;
 			projectile.coldDamage = true;
+            projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 100;
         }
