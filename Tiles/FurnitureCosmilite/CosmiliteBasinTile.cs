@@ -83,7 +83,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18)
+            if (tile.frameY == 18 && tile.frameX < 54)
             {
                 CalamityUtils.DrawFlameSparks((int)CalamityDusts.PurpleCosmilite, 5, i, j);
             }
