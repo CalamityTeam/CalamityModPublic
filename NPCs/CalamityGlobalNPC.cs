@@ -3491,12 +3491,34 @@ namespace CalamityMod.NPCs
 				// 25% resist to true melee.
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.75);
+
+				// 20% resist to Eclipse's Fall stealth strike.
+				else if (projectile.type == ProjectileType<EclipsesSmol>())
+					damage = (int)(damage * 0.8);
+			}
+			else if (npc.type == NPCType<Artemis>() || npc.type == NPCType<Apollo>())
+			{
+				// 10% resist to Eclipse's Fall stealth strike.
+				if (projectile.type == ProjectileType<EclipsesSmol>())
+					damage = (int)(damage * 0.9);
 			}
 			else if (ThanatosIDs.Contains(npc.type))
 			{
+				// 75% resist to Celestus.
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
+					damage = (int)(damage * 0.25);
+
 				// 50% resist to true melee.
-				if (projectile.Calamity().trueMelee)
+				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
+
+				// 40% resist to Wrathwing stealth strike.
+				else if (projectile.type == ProjectileType<WrathwingCinder>())
+					damage = (int)(damage * 0.6);
+
+				// 25% resist to Eradicator beams.
+				else if (projectile.type == ProjectileType<NebulaShot>())
+					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCType<RavagerBody>())
 			{

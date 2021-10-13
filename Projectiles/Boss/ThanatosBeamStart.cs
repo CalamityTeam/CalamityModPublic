@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Boss
 				Vector2 fireFrom = ThingToAttachTo.Center + velocity * distanceBetweenProjectiles;
 				int projectileAmt = (int)(LengthOfLaser / distanceBetweenProjectiles);
 				int type = ModContent.ProjectileType<ThanatosLaser>();
-				int damage = projectile.GetProjectileDamage(ThingToAttachTo.type);
+				int damage = (int)(projectile.GetProjectileDamage(ThingToAttachTo.type) * 0.7);
 				for (int i = 0; i < projectileAmt; i++)
 				{
 					int totalProjectiles = 2;
