@@ -384,7 +384,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Gate values
 			float attackPhaseGateValue = lastMechAlive ? 320f : 480f;
-			float timeToLineUpAttack = 30f;
+			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
 			float spinRadius = 500f;
@@ -512,7 +512,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Duration of deathray spin to do a full circle
-			float spinTime = 180f - baseVelocity * baseVelocityMult;
+			// Normal = 120, Expert = 104, Rev = 96, Death = 88, Malice = 72
+			float spinTime = 120f - 160f * (baseVelocityMult - 1.25f);
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
@@ -729,32 +730,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					{
 						// Save the normalized charge velocity for use in the charge phase
 						if (chargeVelocityNormalized == default)
-						{
 							chargeVelocityNormalized = Vector2.Normalize(aimedVector);
-
-							// Fire a spread of projectiles in the direction of the charge
-							if (Main.netMode != NetmodeID.MultiplayerClient)
-							{
-								int type = ModContent.ProjectileType<ArtemisLaser>();
-								int damage = npc.GetProjectileDamage(type);
-								Vector2 laserVelocity = chargeVelocityNormalized * 10f;
-								int numLasersPerSpread = 6;
-								int spread = 21;
-								float rotation = MathHelper.ToRadians(spread);
-								float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
-
-								for (int i = 0; i < numLasersPerSpread + 1; i++)
-								{
-									Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
-									Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
-
-									Vector2 offset = normalizedPerturbedSpeed * 70f;
-									Vector2 newCenter = npc.Center + offset;
-
-									Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
-								}
-							}
-						}
 
 						// Decelerate
 						npc.velocity *= decelerationVelocityMult;
@@ -824,6 +800,32 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										Vector2 laserVelocity = Vector2.Normalize(aimedVector);
 										Vector2 offset = laserVelocity * 50f;
 										Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									}
+								}
+
+								// Fire a spread of projectiles in the direction of the charge
+								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f + (timeToLineUpAttack - 30f))
+								{
+									if (Main.netMode != NetmodeID.MultiplayerClient)
+									{
+										int type = ModContent.ProjectileType<ArtemisLaser>();
+										int damage = npc.GetProjectileDamage(type);
+										Vector2 laserVelocity = chargeVelocityNormalized * 10f;
+										int numLasersPerSpread = 6;
+										int spread = 21;
+										float rotation = MathHelper.ToRadians(spread);
+										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
+
+										for (int i = 0; i < numLasersPerSpread + 1; i++)
+										{
+											Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
+											Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+
+											Vector2 offset = normalizedPerturbedSpeed * 70f;
+											Vector2 newCenter = npc.Center + offset;
+
+											Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										}
 									}
 								}
 
