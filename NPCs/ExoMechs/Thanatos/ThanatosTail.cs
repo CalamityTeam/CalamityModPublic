@@ -432,7 +432,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().unbreakableDR = !vulnerable;
 
 			// Increase overall damage taken while vulnerable
-			npc.takenDamageMultiplier = vulnerable ? 1.1f : 1f;
+			float damageMult = malice ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
+			if (berserk)
+				damageMult -= malice ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
+
+			npc.takenDamageMultiplier = vulnerable ? damageMult : 1f;
 
 			// Vent noise and steam
 			SmokeDrawer.ParticleSpawnRate = 9999999;
