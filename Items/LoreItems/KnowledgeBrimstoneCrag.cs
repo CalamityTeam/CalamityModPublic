@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Crag");
-            Tooltip.SetDefault("Ah...this place.\n" +
+            Tooltip.SetDefault("Ah... this place.\n" +
                 "The scent of broken promises, pain, and eventual death is heavy in the air...");
         }
 

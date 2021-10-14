@@ -7,10 +7,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
-using CalamityMod.NPCs.ExoMechs.Artemis;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -49,27 +46,51 @@ namespace CalamityMod.Items.TreasureBags
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<ExoPrism>(), 30, 40);
 
-            // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
-                DropHelper.WeightStack<PhotonRipper>(w),
-                DropHelper.WeightStack<SpineOfThanatos>(w),
-                DropHelper.WeightStack<SurgeDriver>(w),
-                DropHelper.WeightStack<TheJailor>(w),
-                DropHelper.WeightStack<RefractionRotor>(w),
-                DropHelper.WeightStack<TheAtomSplitter>(w)
-            );
+			// Weapons
+			// Higher chance due to how the drops work
+			float w = DropHelper.BagWeaponDropRateFloat * 2f;
+			if (CalamityWorld.downedAres)
+			{
+				DropHelper.DropEntireWeightedSet(player,
+					DropHelper.WeightStack<PhotonRipper>(w),
+					DropHelper.WeightStack<TheJailor>(w)
+				);
+			}
+			if (CalamityWorld.downedThanatos)
+			{
+				DropHelper.DropEntireWeightedSet(player,
+					DropHelper.WeightStack<SpineOfThanatos>(w),
+					DropHelper.WeightStack<RefractionRotor>(w)
+				);
+			}
+			if (CalamityWorld.downedArtemisAndApollo)
+			{
+				DropHelper.DropEntireWeightedSet(player,
+					DropHelper.WeightStack<SurgeDriver>(w),
+					DropHelper.WeightStack<TheAtomSplitter>(w)
+				);
+			}
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DraedonsHeart>());
             DropHelper.DropItemChance(player, ModContent.ItemType<ExoThrone>(), 5);
 
-            // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), 7);
+			// Vanity
+			// Higher chance due to how the drops work
+			float maskDropRate = 1f / 3.5f;
+			if (CalamityWorld.downedThanatos)
+				DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), maskDropRate);
+
+			if (CalamityWorld.downedArtemisAndApollo)
+			{
+				DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), maskDropRate);
+				DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), maskDropRate);
+			}
+
+			if (CalamityWorld.downedAres)
+				DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), maskDropRate);
+
+            DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), maskDropRate);
         }
     }
 }

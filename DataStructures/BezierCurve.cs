@@ -25,16 +25,16 @@ namespace CalamityMod.DataStructures
 
         private Vector2 PrivateEvaluate(Vector2[] points, float T)
         {
-            if (points.Length > 2)
+            while (points.Length > 2)
             {
                 Vector2[] nextPoints = new Vector2[points.Length - 1];
                 for (int k = 0; k < points.Length - 1; k++)
                     nextPoints[k] = Vector2.Lerp(points[k], points[k + 1], T);
 
-                return PrivateEvaluate(nextPoints, T);
+                points = nextPoints;
             }
-            else
-                return Vector2.Lerp(points[0], points[1], T);
+            
+            return Vector2.Lerp(points[0], points[1], T);
         }
     }
 }

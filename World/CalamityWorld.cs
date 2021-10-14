@@ -158,6 +158,7 @@ namespace CalamityMod.World
         public static bool stylistName = false;
         public static bool tavernkeepName = false;
         public static bool taxCollectorName = false;
+        public static bool travelingMerchantName = false;
         public static bool truffleName = false;
         public static bool witchDoctorName = false;
         public static bool wizardName = false;
@@ -229,7 +230,12 @@ namespace CalamityMod.World
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedCLAMHardMode = false;
-        public static bool downedBetsy = false; //Betsy
+        public static bool downedBetsy = false; // Betsy
+
+		// These are purely used for loot drops, nothing else
+		public static bool downedAres = false;
+		public static bool downedThanatos = false;
+		public static bool downedArtemisAndApollo = false;
 
         public static bool downedEoCAcidRain = false;
         public static bool downedAquaticScourgeAcidRain = false;
@@ -240,8 +246,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (CalamityConfig.Instance.NerfExpertPillars)
-                NPC.LunarShieldPowerExpert = 100;
+            NPC.LunarShieldPowerExpert = 100;
 
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
@@ -303,6 +308,7 @@ namespace CalamityMod.World
             stylistName = false;
             tavernkeepName = false;
             taxCollectorName = false;
+            travelingMerchantName = false;
             truffleName = false;
             witchDoctorName = false;
             wizardName = false;
@@ -326,6 +332,9 @@ namespace CalamityMod.World
             downedSentinel3 = false;
             downedYharon = false;
 			downedExoMechs = false;
+			downedAres = false;
+			downedThanatos = false;
+			downedArtemisAndApollo = false;
             downedSCal = false;
 			downedAdultEidolonWyrm = false;
             downedCLAM = false;
@@ -395,6 +404,12 @@ namespace CalamityMod.World
                 downed.Add("yharon");
 			if (downedExoMechs)
 				downed.Add("exoMechs");
+			if (downedAres)
+				downed.Add("ares");
+			if (downedThanatos)
+				downed.Add("thanatos");
+			if (downedArtemisAndApollo)
+				downed.Add("artemisAndApollo");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
 			if (downedAdultEidolonWyrm)
@@ -489,6 +504,8 @@ namespace CalamityMod.World
                 downed.Add("tavernkeepName");
             if (taxCollectorName)
                 downed.Add("taxCollectorName");
+            if (travelingMerchantName)
+                downed.Add("travelingMerchantName");
             if (truffleName)
                 downed.Add("truffleName");
             if (witchDoctorName)
@@ -557,6 +574,9 @@ namespace CalamityMod.World
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
 			downedExoMechs = downed.Contains("exoMechs");
+			downedAres = downed.Contains("ares");
+			downedThanatos = downed.Contains("thanatos");
+			downedArtemisAndApollo = downed.Contains("artemisAndApollo");
             downedSCal = downed.Contains("supremeCalamitas");
 			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
@@ -606,6 +626,7 @@ namespace CalamityMod.World
             stylistName = downed.Contains("stylistName");
             tavernkeepName = downed.Contains("tavernkeepName");
             taxCollectorName = downed.Contains("taxCollectorName");
+            travelingMerchantName = downed.Contains("travelingMerchantName");
             truffleName = downed.Contains("truffleName");
             witchDoctorName = downed.Contains("witchDoctorName");
             wizardName = downed.Contains("wizardName");
@@ -753,6 +774,9 @@ namespace CalamityMod.World
 				HasGeneratedLuminitePlanetoids = flags11[1];
 				downedAdultEidolonWyrm = flags11[2];
 				downedExoMechs = flags11[3];
+				downedAres = flags11[4];
+				downedThanatos = flags11[5];
+				downedArtemisAndApollo = flags11[6];
             }
             else
             {
@@ -859,7 +883,7 @@ namespace CalamityMod.World
             flags10[0] = anglerName;
             flags10[1] = clothierName;
             flags10[2] = encounteredOldDuke;
-            flags10[3] = false;
+            flags10[3] = travelingMerchantName;
             flags10[4] = false;
             flags10[5] = false;
             flags10[6] = false;
@@ -870,6 +894,9 @@ namespace CalamityMod.World
 			flags11[1] = HasGeneratedLuminitePlanetoids;
 			flags11[2] = downedAdultEidolonWyrm;
 			flags11[3] = downedExoMechs;
+			flags11[4] = downedAres;
+			flags11[5] = downedThanatos;
+			flags11[6] = downedArtemisAndApollo;
 
 			writer.Write(flags);
             writer.Write(flags2);
@@ -998,7 +1025,7 @@ namespace CalamityMod.World
             anglerName = flags10[0];
             clothierName = flags10[1];
             encounteredOldDuke = flags10[2];
-            _ = flags10[3];
+            travelingMerchantName = flags10[3];
             _ = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
@@ -1011,6 +1038,9 @@ namespace CalamityMod.World
 			HasGeneratedLuminitePlanetoids = flags11[1];
 			downedAdultEidolonWyrm = flags11[2];
 			downedExoMechs = flags11[3];
+			downedAres = flags11[4];
+			downedThanatos = flags11[5];
+			downedArtemisAndApollo = flags11[6];
 
 			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();

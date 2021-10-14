@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.anyWood = true;
             recipe.AddIngredient(ItemID.LeadBar);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 50);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

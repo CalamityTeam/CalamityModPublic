@@ -114,12 +114,16 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             return laserLengthSamplePoints.Average();
         }
 
-        protected internal void DrawBeamWithColor(SpriteBatch spriteBatch, Color beamColor, float scale)
+        protected internal void DrawBeamWithColor(SpriteBatch spriteBatch, Color beamColor, float scale, int startFrame = 0, int middleFrame = 0, int endFrame = 0)
         {
+            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, startFrame);
+            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[projectile.type], 0, middleFrame);
+            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[projectile.type], 0, endFrame);
+
             // Start texture drawing.
             spriteBatch.Draw(LaserBeginTexture,
                              projectile.Center - Main.screenPosition,
-                             null,
+                             startFrameArea,
                              beamColor,
                              projectile.rotation,
                              LaserBeginTexture.Size() / 2f,
@@ -129,20 +133,20 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength;
-            laserBodyLength -= (LaserBeginTexture.Height / 2 + LaserEndTexture.Height) * scale;
+            laserBodyLength -= (startFrameArea.Height / 2 + endFrameArea.Height) * scale;
             Vector2 centerOnLaser = projectile.Center;
-            centerOnLaser += projectile.velocity * scale * LaserBeginTexture.Height / 2f;
+            centerOnLaser += projectile.velocity * scale * startFrameArea.Height / 2f;
 
             // Body drawing.
             if (laserBodyLength > 0f)
             {
-                float laserOffset = LaserMiddleTexture.Height * scale;
+                float laserOffset = middleFrameArea.Height * scale;
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
                     spriteBatch.Draw(LaserMiddleTexture,
                                      centerOnLaser - Main.screenPosition,
-                                     null,
+                                     middleFrameArea,
                                      beamColor,
                                      projectile.rotation,
                                      LaserMiddleTexture.Width * 0.5f * Vector2.UnitX,
@@ -160,7 +164,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
                 spriteBatch.Draw(LaserEndTexture,
                                  laserEndCenter,
-                                 null,
+                                 endFrameArea,
                                  beamColor,
                                  projectile.rotation,
                                  LaserEndTexture.Frame(1, 1, 0, 0).Top(),

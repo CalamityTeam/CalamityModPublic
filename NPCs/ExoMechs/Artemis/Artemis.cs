@@ -229,6 +229,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinGreenAlive = false;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
@@ -241,6 +242,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life;
+
+					exoTwinGreenAlive = true;
 				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -291,6 +294,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool nerfedAttacks = false;
 			if (exoPrimeAlive)
 				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
+
+			// Used to nerf Artemis laser shotgun if Apollo is in charging phase
+			bool nerfedLaserShotgun = false;
+			if (exoTwinGreenAlive)
+			{
+				nerfedLaserShotgun = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.LineUpChargeCombo ||
+					Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.ChargeCombo;
+			}
 
 			// Check if any of the other mechs were spawned first
 			bool exoWormWasFirst = false;
@@ -377,14 +388,16 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (AIState == (float)Phase.LaserShotgun)
+				predictionAmt *= 1.5f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (float)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
-			float timeToLineUpAttack = 30f;
+			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
 			float spinRadius = 500f;
@@ -512,7 +525,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Duration of deathray spin to do a full circle
-			float spinTime = 180f - baseVelocity * baseVelocityMult;
+			// Normal = 120, Expert = 104, Rev = 96, Death = 88, Malice = 72
+			float spinTime = 120f - 160f * (baseVelocityMult - 1.25f);
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
@@ -749,7 +763,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
+							int numLasers = nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
@@ -757,7 +771,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								pickNewLocation = true;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									int type = ModContent.ProjectileType<ThanatosLaser>();
+									int type = ModContent.ProjectileType<ArtemisLaser>();
 									int damage = npc.GetProjectileDamage(type);
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
@@ -802,6 +816,32 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									}
 								}
 
+								// Fire a spread of projectiles in the direction of the charge
+								if (!phase2 && calamityGlobalNPC.newAI[3] == attackPhaseGateValue + 2f + (timeToLineUpAttack - 30f))
+								{
+									if (Main.netMode != NetmodeID.MultiplayerClient)
+									{
+										int type = ModContent.ProjectileType<ArtemisLaser>();
+										int damage = npc.GetProjectileDamage(type);
+										Vector2 laserVelocity = chargeVelocityNormalized * 10f;
+										int numLasersPerSpread = 6;
+										int spread = 21;
+										float rotation = MathHelper.ToRadians(spread);
+										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
+
+										for (int i = 0; i < numLasersPerSpread + 1; i++)
+										{
+											Vector2 perturbedSpeed = laserVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numLasersPerSpread - 1)));
+											Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
+
+											Vector2 offset = normalizedPerturbedSpeed * 70f;
+											Vector2 newCenter = npc.Center + offset;
+
+											Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										}
+									}
+								}
+
 								if (doBigAttack)
 								{
 									calamityGlobalNPC.newAI[3] = 0f;
@@ -814,6 +854,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										// Charge until a certain distance is reached and then return to normal phase
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
 										AIState = (float)Phase.Charge;
+
+										// Set charge velocity
 										npc.velocity = chargeVelocityNormalized * chargeVelocity;
 										chargeVelocityNormalized = default;
 									}
@@ -870,14 +912,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 					// Fire lasers
 					int numSpreads = lastMechAlive ? 3 : 2;
-					int numLasersPerSpread = lastMechAlive ? 8 : nerfedAttacks ? 4 : 6;
 					float divisor2 = laserShotgunDuration / numSpreads;
 					if (calamityGlobalNPC.newAI[2] % divisor2 == 0f && canFire)
 					{
 						pickNewLocation = true;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int type = ModContent.ProjectileType<ThanatosLaser>();
+							int type = ModContent.ProjectileType<ArtemisLaser>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 
@@ -887,7 +928,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 * normal = 16, 20, 24
 							 * nerfedAttacks = 12, 15, 18
 							 */
-							int baseSpread = lastMechAlive ? 20 : nerfedAttacks ? 12 : 16;
+							int numLasersPerSpread = (nerfedAttacks || nerfedLaserShotgun) ? 4 : lastMechAlive ? 8 : 6;
+							int baseSpread = (nerfedAttacks || nerfedLaserShotgun) ? 12 : lastMechAlive ? 20 : 16;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);

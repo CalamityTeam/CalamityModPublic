@@ -82,8 +82,8 @@ namespace CalamityMod.UI
                 {
                     if (canSummonDraedon)
                     {
-                        costVerificationLocation.X -= 15f;
-                        summonButtonCenter.X += 15f;
+                        costVerificationLocation.X -= GeneralScale * 15f;
+                        summonButtonCenter.X += GeneralScale * 15f;
                     }
                     DrawCostVerificationButton(codebreakerTileEntity, costVerificationLocation);
                 }
@@ -91,16 +91,16 @@ namespace CalamityMod.UI
             else if (codebreakerTileEntity.DecryptionCountdown > 0)
             {
                 if (!AwaitingCloseConfirmation)
-                    DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * 30f);
+                    DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * GeneralScale * 30f);
                 else
-                    DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * 110f);
+                    DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * GeneralScale * 110f);
             }
 
             if (canSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
 
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
-                HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * 80f);
+                HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * GeneralScale * 80f);
             if (codebreakerTileEntity.DecryptionCountdown > 0 && AwaitingCloseConfirmation)
                 DrawDecryptCancelConfirmationText(textPanelCenter);
 
@@ -124,7 +124,7 @@ namespace CalamityMod.UI
             spriteBatch.Draw(schematicIconBG, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconBG.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
             if (codebreakerTileEntity.HeldSchematicID != 0)
                 spriteBatch.Draw(schematicIconTexture, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
-            HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size());
+            HandleSchematicSlotInteractions(codebreakerTileEntity, schematicSlotDrawCenter, cellTexture.Size() * GeneralScale);
 
             // Create a temporary item for drawing purposes.
             // If cells are present, make the item reflect that.
@@ -262,11 +262,11 @@ namespace CalamityMod.UI
 
             // And draw the cells to the right of the text.
             Texture2D cellTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/PowerCell");
-            Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One, -1f).X + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
+            Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
             // Display the cell quantity numerically below the drawn cells.
-            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontItemStack, totalCellsCost.ToString(), offsetDrawPosition.X - 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), GeneralScale * 0.75f);
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontItemStack, totalCellsCost.ToString(), offsetDrawPosition.X - GeneralScale * 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), GeneralScale * 0.75f);
         }
 
         public static void DrawCostVerificationButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
@@ -360,7 +360,7 @@ namespace CalamityMod.UI
         public static void HandleDecryptionStuff(TECodebreaker codebreakerTileEntity, Texture2D backgroundTexture, Vector2 backgroundTopLeft, Vector2 barCenter)
 		{
             Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
-            Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f);
+            Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width * GeneralScale + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
             // Generate gibberish and use slowly insert the real text.
@@ -382,7 +382,7 @@ namespace CalamityMod.UI
                 text[i] = trueMessage[i];
 
             // Define the initial text draw position.
-            Vector2 currentTextDrawPosition = backgroundTopLeft + new Vector2(backgroundTexture.Width - textPanelTexture.Width + textPadding, 6f);
+            Vector2 currentTextDrawPosition = backgroundTopLeft + new Vector2(backgroundTexture.Width - textPanelTexture.Width + textPadding, 6f) * GeneralScale;
 
             // Draw the lines of text. A maximum of 10 may be drawn and the vertical offset per line is 16 pixels.
             foreach (string line in Utils.WordwrapString(text.ToString(), Main.fontMouseText, (int)(textPanelTexture.Width * 1.5 - textPadding * 2), 10, out _))
@@ -392,7 +392,7 @@ namespace CalamityMod.UI
                     continue;
 
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, line, currentTextDrawPosition, Color.Cyan, 0f, Vector2.Zero, new Vector2(0.6f) * GeneralScale);
-                currentTextDrawPosition.Y += 16;
+                currentTextDrawPosition.Y += GeneralScale * 16f;
             }
 
             // Handle special drawing when decryption is ongoing.

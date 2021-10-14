@@ -13,6 +13,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -43,6 +44,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
@@ -193,7 +195,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Adrenaline and Rage
-					if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+					if (CalamityWorld.revenge)
 						UpdateRippers(mod, player, modPlayer);
 				}
 			}
@@ -424,7 +426,7 @@ namespace CalamityMod.CalPlayer
 
 			void harmNPC(NPC npc)
 			{
-				int damage = (int)(player.AverageDamage() * Main.rand.Next(1950, 2050));
+				int damage = (int)(player.AverageDamage() * Main.rand.Next(550, 600));
 				npc.StrikeNPC(damage, 0f, 0);
 
 				player.addDPS(damage);
@@ -1301,6 +1303,20 @@ namespace CalamityMod.CalPlayer
 			{
 				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
+			}
+
+			// Auric dye cinders.
+			int auricDyeCount = player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<AuricDye>());
+			if (auricDyeCount > 0)
+			{
+				int sparkCreationChance = (int)MathHelper.Lerp(15f, 50f, Utils.InverseLerp(4f, 1f, auricDyeCount, true));
+				if (Main.rand.NextBool(sparkCreationChance))
+				{
+					Dust spark = Dust.NewDustDirect(player.position, player.width, player.height, 267);
+					spark.color = Color.Lerp(Color.Cyan, Color.SeaGreen, Main.rand.NextFloat(0.5f));
+					spark.velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 1.33f) * Main.rand.NextFloat(2f, 5.4f);
+					spark.noGravity = true;
+				}
 			}
 
 			// Silva invincibility effects

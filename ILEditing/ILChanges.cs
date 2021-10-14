@@ -143,7 +143,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-            // Movement speed balance
+			// Movement speed balance
+			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
@@ -192,14 +193,18 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
             IL.Terraria.Main.UpdateAudio -= ManipulateSoundMuffleFactor;
 
-            // Damage and health balance
-            IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
+			// Ravager platform fall fix
+			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+
+			// Damage and health balance
+			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-            // Movement speed balance
-            IL.Terraria.Player.Update -= RunSpeedAdjustments;
+			// Movement speed balance
+			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+			IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
             // World generation
@@ -500,7 +505,7 @@ namespace CalamityMod.ILEditing
         private static void ManipulateSoundMuffleFactor(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            cursor.GotoNext(MoveType.Before, i => i.MatchStloc(30));
+            cursor.GotoNext(MoveType.After, i => i.MatchStloc(20));
 
             cursor.Emit(OpCodes.Ldloc, 20);
             cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>
@@ -728,11 +733,24 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion
+		#endregion
 
-        #region Movement speed balance
-        private static void RunSpeedAdjustments(ILContext il)
-        {
+		#region Movement speed balance
+		private static void MaxRunSpeedAdjustment(ILContext il)
+		{
+			// Increase the base max run speed of the player to make early game less of a slog.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
+			{
+				LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
+		}
+
+		private static void RunSpeedAdjustments(ILContext il)
+		{
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%

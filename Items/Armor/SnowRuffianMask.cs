@@ -47,9 +47,9 @@ namespace CalamityMod.Items.Armor
             {
                 player.noFallDmg = true;
                 player.UpdateJumpHeight();
-                if (shouldBoost)
+                if (shouldBoost && !player.mount.Active)
                 {
-                    player.velocity.X *= 1.3f;
+                    player.velocity.X *= 1.1f;
                     shouldBoost = false;
                 }
                     

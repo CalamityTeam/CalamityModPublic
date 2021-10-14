@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.OrichalcumBar);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 50);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

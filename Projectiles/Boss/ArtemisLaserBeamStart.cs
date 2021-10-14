@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             projectile.rotation = ThingToAttachTo.rotation;
-            projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * RotationDirection;
+            projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
 
             // Offset to move the beam forward so that it starts in Artemis' focus jewel thing.
             float beamStartForwardsOffset = 80f;
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd");
 
             float drawLength = LengthOfLaser;
-            Color color = new Color(250, 180, 100, 0);
+            Color color = new Color(250, 180, 100, 100);
 
             if (Time % 5 == 0)
             {

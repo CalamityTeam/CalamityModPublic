@@ -34,7 +34,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (!Main.npc.IndexInRange(NPCIndex) || !Main.npc[NPCIndex].active)
 				return false;
 
-			Rectangle validTalkArea = Utils.CenteredRectangle(Main.LocalPlayer.Center, new Vector2(Player.tileRangeX * 2f, Player.tileRangeY) * 16f);
+			Rectangle validTalkArea = Utils.CenteredRectangle(Main.LocalPlayer.Center, new Vector2(Player.tileRangeX * 3f, Player.tileRangeY * 2f) * 16f);
 			return validTalkArea.Intersects(Main.npc[NPCIndex].Hitbox);
 		}
 

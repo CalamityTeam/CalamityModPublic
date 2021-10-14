@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Karasawa");
-            Tooltip.SetDefault("...This is heavy...too heavy.");
+            Tooltip.SetDefault("...This is heavy... too heavy.");
         }
 
         public override void SetDefaults()

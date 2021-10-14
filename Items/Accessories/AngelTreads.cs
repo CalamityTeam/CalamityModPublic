@@ -66,7 +66,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.LavaWaders);
             recipe.AddIngredient(ModContent.ItemType<HarpyRing>());
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 20);
             recipe.AddIngredient(ItemID.SoulofMight);
             recipe.AddIngredient(ItemID.SoulofSight);
             recipe.AddIngredient(ItemID.SoulofFright);

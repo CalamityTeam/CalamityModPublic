@@ -54,11 +54,6 @@ namespace CalamityMod.Projectiles.Boss
 				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
 					projectile.tileCollide = true;
 			}
-			else
-			{
-				if (projectile.timeLeft < timeLeft / 2)
-					projectile.Kill();
-			}
 
 			int fadeInTime = 3;
 			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
@@ -166,13 +161,13 @@ namespace CalamityMod.Projectiles.Boss
 				// Plasma bolts
 				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
 
-				// Reduce the total amount of projectiles by half if Apollo is shooting them
+				// Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
 				if (projectile.ai[0] == -1f)
 					totalProjectiles /= 2;
 
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = projectile.velocity.Length();
+				float velocity = 0.5f;
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

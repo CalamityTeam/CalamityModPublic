@@ -57,6 +57,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Enchantment Variables
+		public bool CannotBeEnchanted = false;
 		public Enchantment? AppliedEnchantment = null;
 		public float DischargeEnchantExhaustion = 0;
 		public float DischargeExhaustionRatio
@@ -135,6 +136,62 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
+				// Pickaxe speed boosts
+				case ItemID.CactusPickaxe:
+				case ItemID.CopperPickaxe:
+				case ItemID.TinPickaxe:
+					item.useTime = 13;
+					break;
+
+				case ItemID.IronPickaxe:
+				case ItemID.LeadPickaxe:
+					item.useTime = 12;
+					break;
+
+				case ItemID.SilverPickaxe:
+				case ItemID.TungstenPickaxe:
+					item.useTime = 11;
+					break;
+
+				case ItemID.GoldPickaxe:
+				case ItemID.PlatinumPickaxe:
+				case ItemID.CnadyCanePickaxe:
+				case ItemID.NightmarePickaxe:
+				case ItemID.DeathbringerPickaxe:
+				case ItemID.MoltenPickaxe:
+					item.useTime = 10;
+					break;
+
+				case ItemID.CobaltPickaxe:
+				case ItemID.PalladiumPickaxe:
+					item.useTime = 9;
+					break;
+
+				case ItemID.MythrilPickaxe:
+				case ItemID.OrichalcumPickaxe:
+				case ItemID.BonePickaxe: // Rare drop so it mines faster
+					item.useTime = 8;
+					break;
+
+				case ItemID.AdamantitePickaxe:
+				case ItemID.TitaniumPickaxe:
+				case ItemID.SpectrePickaxe: // Slightly less because it has more tile range
+					item.useTime = 7;
+					break;
+
+				case ItemID.PickaxeAxe:
+				case ItemID.ChlorophytePickaxe:
+					item.useTime = 6;
+					break;
+
+				case ItemID.Picksaw:
+				case ItemID.StardustPickaxe:
+				case ItemID.VortexPickaxe:
+				case ItemID.SolarFlarePickaxe:
+				case ItemID.NebulaPickaxe:
+					item.useTime = 5;
+					break;
+
 				// Point-blank shot weapons
 				case ItemID.WoodenBow:
 				case ItemID.BorealWoodBow:
@@ -572,6 +629,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StarCannon:
 					item.UseSound = null;
+					break;
+
+				case ItemID.EoCShield:
+					CannotBeEnchanted = true;
 					break;
 			}
 

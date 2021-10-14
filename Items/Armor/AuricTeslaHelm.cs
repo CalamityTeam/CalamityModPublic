@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 player.lifeRegen += 10;
             }
 
-			if (!modPlayer.godSlayerCooldown && modPlayer.godSlayerDashHotKeyPressed)
+			if (modPlayer.godSlayerDashHotKeyPressed)
 				modPlayer.dashMod = 9;
 		}
 
