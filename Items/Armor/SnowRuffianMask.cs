@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
                 player.UpdateJumpHeight();
                 if (shouldBoost)
                 {
-                    player.velocity.X *= 1.3f;
+                    player.velocity.X *= 1.1f;
                     shouldBoost = false;
                 }
                     
