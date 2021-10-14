@@ -44,19 +44,19 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
-			// If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-			ElementTooltip(item, tooltips);
+            // Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+            if (canFirePointBlankShots)
+            {
+                TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+                tooltips.Add(line);
+            }
+
+            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
+            ElementTooltip(item, tooltips);
 
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
-
-			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
-			if (canFirePointBlankShots)
-			{
-				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
-				tooltips.Add(line);
-			}
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
