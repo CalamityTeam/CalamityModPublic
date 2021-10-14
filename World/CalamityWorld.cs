@@ -158,6 +158,7 @@ namespace CalamityMod.World
         public static bool stylistName = false;
         public static bool tavernkeepName = false;
         public static bool taxCollectorName = false;
+        public static bool travelingMerchantName = false;
         public static bool truffleName = false;
         public static bool witchDoctorName = false;
         public static bool wizardName = false;
@@ -307,6 +308,7 @@ namespace CalamityMod.World
             stylistName = false;
             tavernkeepName = false;
             taxCollectorName = false;
+            travelingMerchantName = false;
             truffleName = false;
             witchDoctorName = false;
             wizardName = false;
@@ -502,6 +504,8 @@ namespace CalamityMod.World
                 downed.Add("tavernkeepName");
             if (taxCollectorName)
                 downed.Add("taxCollectorName");
+            if (travelingMerchantName)
+                downed.Add("travelingMerchantName");
             if (truffleName)
                 downed.Add("truffleName");
             if (witchDoctorName)
@@ -622,6 +626,7 @@ namespace CalamityMod.World
             stylistName = downed.Contains("stylistName");
             tavernkeepName = downed.Contains("tavernkeepName");
             taxCollectorName = downed.Contains("taxCollectorName");
+            travelingMerchantName = downed.Contains("travelingMerchantName");
             truffleName = downed.Contains("truffleName");
             witchDoctorName = downed.Contains("witchDoctorName");
             wizardName = downed.Contains("wizardName");
@@ -878,7 +883,7 @@ namespace CalamityMod.World
             flags10[0] = anglerName;
             flags10[1] = clothierName;
             flags10[2] = encounteredOldDuke;
-            flags10[3] = false;
+            flags10[3] = travelingMerchantName;
             flags10[4] = false;
             flags10[5] = false;
             flags10[6] = false;
@@ -1020,7 +1025,7 @@ namespace CalamityMod.World
             anglerName = flags10[0];
             clothierName = flags10[1];
             encounteredOldDuke = flags10[2];
-            _ = flags10[3];
+            travelingMerchantName = flags10[3];
             _ = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
