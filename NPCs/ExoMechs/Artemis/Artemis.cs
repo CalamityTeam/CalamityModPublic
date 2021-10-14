@@ -229,6 +229,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinGreenAlive = false;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
@@ -241,6 +242,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].life;
+
+					exoTwinGreenAlive = true;
 				}
 			}
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -291,6 +294,14 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool nerfedAttacks = false;
 			if (exoPrimeAlive)
 				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
+
+			// Used to nerf Artemis laser shotgun if Apollo is in charging phase
+			bool nerfedLaserShotgun = false;
+			if (exoTwinGreenAlive)
+			{
+				nerfedLaserShotgun = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.LineUpChargeCombo ||
+					Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.ChargeCombo;
+			}
 
 			// Check if any of the other mechs were spawned first
 			bool exoWormWasFirst = false;
@@ -917,8 +928,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 * normal = 16, 20, 24
 							 * nerfedAttacks = 12, 15, 18
 							 */
-							int numLasersPerSpread = lastMechAlive ? 8 : nerfedAttacks ? 4 : 6;
-							int baseSpread = lastMechAlive ? 20 : nerfedAttacks ? 12 : 16;
+							int numLasersPerSpread = (nerfedAttacks || nerfedLaserShotgun) ? 4 : lastMechAlive ? 8 : 6;
+							int baseSpread = (nerfedAttacks || nerfedLaserShotgun) ? 12 : lastMechAlive ? 20 : 16;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
