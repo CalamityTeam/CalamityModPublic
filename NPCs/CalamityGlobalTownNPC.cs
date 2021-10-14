@@ -138,6 +138,11 @@ namespace CalamityMod.NPCs
 		{
 			"Emmett",
 		};
+		private const int TravelingMerchantVanillaNames = 13;
+		private static readonly string[] TravelingMerchantNames =
+		{
+			"Stan Pines",
+		};
 		private const int TruffleVanillaNames = 12;
 		private static readonly string[] TruffleNames = null;
 		private const int WitchDoctorVanillaNames = 10;
@@ -190,6 +195,7 @@ namespace CalamityMod.NPCs
 			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
 			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
 			ResetName(NPCID.TaxCollector, ref CalamityWorld.taxCollectorName);
+			ResetName(NPCID.TravellingMerchant, ref CalamityWorld.travelingMerchantName);
 			ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
 			ResetName(NPCID.WitchDoctor, ref CalamityWorld.witchDoctorName);
 			ResetName(NPCID.Wizard, ref CalamityWorld.wizardName);
@@ -281,6 +287,9 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.TaxCollector:
 						npc.GivenName = ChooseName(ref CalamityWorld.taxCollectorName, npc.GivenName, TaxCollectorVanillaNames, TaxCollectorNames);
+						break;
+					case NPCID.TravellingMerchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.travelingMerchantName, npc.GivenName, TravelingMerchantVanillaNames, TravelingMerchantNames);
 						break;
 					case NPCID.Truffle:
 						npc.GivenName = ChooseName(ref CalamityWorld.truffleName, npc.GivenName, TruffleVanillaNames, TruffleNames);
