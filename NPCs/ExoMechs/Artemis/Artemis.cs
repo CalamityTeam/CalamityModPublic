@@ -377,13 +377,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (AIState == (float)Phase.LaserShotgun)
+				predictionAmt *= 1.5f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (float)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 320f : 480f;
+			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
@@ -750,7 +752,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
+							int numLasers = nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numLasers;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
