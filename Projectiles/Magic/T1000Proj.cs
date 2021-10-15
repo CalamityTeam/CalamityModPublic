@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
 
                         projectile.velocity = velocity;
                         int projType = ModContent.ProjectileType<T1000Laser>();
-                        float velocityMult = 14f;
+                        float velocityMult = 21f;
                         float randNum = 4f;
                         for (int j = 0; j < 4; j++)
                         {

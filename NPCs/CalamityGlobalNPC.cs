@@ -1925,8 +1925,8 @@ namespace CalamityMod.NPCs
 			bool thanatos = ThanatosIDs.Contains(npc.type);
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			bool increasedTimedDR = !GetDownedBossVariable(npc.type) || malice || nightProvi || prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs || thanatos;
-			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && increasedTimedDR)
+			bool useTimedDR = !GetDownedBossVariable(npc.type) || malice || nightProvi || prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs || thanatos;
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && useTimedDR)
 			{
 				bool tenTimes_TimedDR = nightProvi;
 				bool fiveTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
