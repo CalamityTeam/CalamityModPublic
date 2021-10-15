@@ -894,7 +894,7 @@ namespace CalamityMod.NPCs.Abyss
 					{
 						calamityGlobalNPC.newAI[2] += 1f;
 
-						float spinVelocityDivisor = targetDownDeep ? 180f : 120f;
+						float spinVelocityDivisor = targetDownDeep ? 120f : 90f;
 						if (rotationDirection == 0)
 						{
 							// Set spin direction
@@ -1172,7 +1172,7 @@ namespace CalamityMod.NPCs.Abyss
 					if ((destination - npc.Center).Length() < spinLocationDistance || calamityGlobalNPC.newAI[1] > 0f)
 					{
 						calamityGlobalNPC.newAI[1] += 1f;
-						float spinVelocityDivisor = targetDownDeep ? 180f : 120f;
+						float spinVelocityDivisor = targetDownDeep ? 90f : 60f;
 						if (rotationDirection == 0)
 						{
 							// Set spin direction
