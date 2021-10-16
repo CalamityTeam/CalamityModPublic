@@ -1,0 +1,136 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Projectiles.Magic
+{
+    public class RancorLaserbeam : ModProjectile
+    {
+        public PrimitiveTrail RayDrawer = null;
+        public Player Owner => Main.player[projectile.owner];
+        public Projectile MagicCircle
+        {
+            get
+            {
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].identity != projectile.ai[0] || !Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
+                        continue;
+
+                    return Main.projectile[i];
+                }
+                return null;
+            }
+        }
+        public ref float LaserLength => ref projectile.ai[1];
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public const float MaxLaserLength = 3330f;
+
+        public override void SetStaticDefaults() => DisplayName.SetDefault("The Angy Beam");
+
+        public override void SetDefaults()
+        {
+            projectile.width = projectile.height = 24;
+            projectile.friendly = true;
+            projectile.magic = true;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+        }
+
+        public override void AI()
+        {
+            // If the owner is no longer able to cast the beam, kill it.
+            if (!Owner.channel || Owner.noItems || Owner.CCed || MagicCircle is null)
+            {
+                projectile.Kill();
+                return;
+            }
+
+            projectile.scale = MathHelper.Clamp(projectile.scale + 0.15f, 0.05f, 2f);
+
+            // Decide where to position the laserbeam.
+            Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
+            projectile.Center = MagicCircle.Center + projectile.velocity * projectile.scale * -12f;
+
+            // Update the laser length.
+            float[] laserLengthSamplePoints = new float[24];
+            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale, MaxLaserLength, laserLengthSamplePoints);
+            LaserLength = laserLengthSamplePoints.Average();
+
+            if (LaserLength > 28f)
+                LaserLength += 32f;
+
+            // Update aim.
+            UpdateAim();
+
+            // Make the beam cast light along its length. The brightness of the light is reliant on the scale of the beam.
+            DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * projectile.scale * 0.5f;
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, DelegateMethods.CastLight);
+        }
+
+        public void UpdateAim()
+        {
+            // Only execute the aiming code for the owner.
+            if (Main.myPlayer != projectile.owner)
+                return;
+
+            Vector2 newAimDirection = MagicCircle.velocity;
+
+            // Sync if the direction is different from the old one.
+            // Spam caps are ignored due to the frequency of this happening.
+            if (newAimDirection != projectile.velocity)
+            {
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
+            }
+
+            projectile.velocity = newAimDirection;
+        }
+
+        private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;
+
+        private Color PrimitiveColorFunction(float completionRatio)
+        {
+            Color vibrantColor = Color.Lerp(Color.Blue, Color.Red, (float)Math.Cos(Main.GlobalTime * 0.67f - completionRatio * 9f) * 0.5f + 0.5f);
+            float opacity = projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true);
+            return Color.Lerp(vibrantColor, Color.White, 0.5f) * opacity * 2f;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (RayDrawer is null)
+                RayDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:Flame"]);
+
+            GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
+
+            Vector2[] basePoints = new Vector2[8];
+            for (int i = 0; i < basePoints.Length; i++)
+                basePoints[i] = projectile.Center + projectile.velocity * i / basePoints.Length * LaserLength;
+
+            Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
+            RayDrawer.Draw(basePoints, overallOffset, 92);
+            return false;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center - Vector2.UnitY * LaserLength);
+        }
+
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindNPCsAndTiles.Add(index);
+        }
+
+        public override bool ShouldUpdatePosition() => false;
+    }
+}

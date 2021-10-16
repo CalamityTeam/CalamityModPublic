@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
@@ -48,8 +49,12 @@ namespace CalamityMod.Projectiles.Magic
             // Adjust the owner's direction.
             Owner.ChangeDir(projectile.direction);
 
-            // Do animation voodoo.
-            DoPrettyChargeupEffects();
+            // Do animation stuff.
+            DoPrettyDustEffects();
+
+            // Handle charge stuff.
+            if (Time < ChargeupTime)
+                HandleChargeEffects();
 
             Time++;
         }
@@ -82,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.direction = (projectile.velocity.X > 0f).ToDirectionInt();
         }
 
-        public void DoPrettyChargeupEffects()
+        public void DoPrettyDustEffects()
         {
             int dustSpawnChance = (int)MathHelper.SmoothStep(16f, 4f, ChargeupCompletion);
             for (int i = 0; i < 2; i++)
@@ -103,6 +108,30 @@ namespace CalamityMod.Projectiles.Magic
                 magic.noLight = true;
                 magic.noGravity = true;
             }
+        }
+
+        public void HandleChargeEffects()
+        {
+            // Create dust that fires parallel to the direction of the circle.
+            if (Main.rand.NextBool(3))
+            {
+                float dustSpeed = MathHelper.Lerp(3.5f, 8f, ChargeupCompletion) * Main.rand.NextFloat(0.65f, 1f);
+                float dustSpawnOffsetFactor = Main.rand.NextFloat(projectile.width * 0.375f, projectile.width * 0.485f);
+                Vector2 dustVelocity = projectile.velocity * dustSpeed;
+                Vector2 dustSpawnOffsetDirection = Main.rand.NextVector2CircularEdge(0.5f, 1f).RotatedBy(projectile.velocity.ToRotation());
+                Vector2 dustSpawnOffset = dustSpawnOffsetDirection * dustSpawnOffsetFactor;
+
+                Dust magic = Dust.NewDustPerfect(projectile.Center + dustSpawnOffset, 264);
+                magic.color = Color.Lerp(Color.Red, Color.Blue, Main.rand.NextFloat());
+                magic.velocity = dustVelocity;
+                magic.scale *= Main.rand.NextFloat(1f, 1.05f + ChargeupCompletion * 0.55f);
+                magic.noLight = true;
+                magic.noGravity = true;
+            }
+
+            // Create the laser once the charge animation is complete.
+            if (Main.netMode != NetmodeID.MultiplayerClient && Time == ChargeupTime - 1f)
+                Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.identity);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Cast the magic circle on the first frame.
             if (Main.myPlayer == projectile.owner && Time == 1f)
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RancorMagicCircle>(), 0, 0f, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RancorMagicCircle>(), projectile.damage, projectile.knockBack, projectile.owner);
 
             // Handle frames.
             projectile.frameCounter++;
