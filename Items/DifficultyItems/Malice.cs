@@ -31,7 +31,7 @@ namespace CalamityMod.Items.DifficultyItems
 				"Bosses and their projectiles deal 35% more damage.\n" +
 				"Most bosses will enter later phases sooner if the fight has gone on for a long time.\n" +
 				"Increases the velocity of most boss projectiles by 25%, this is increased to 35% during Boss Rush.\n" +
-				"Boss reactive DR is always active outside of Boss Rush and is increased by 33%.");
+				"Boss reactive DR is always active outside of Boss Rush and is increased by 50%.");
         }
 
         public override void SetDefaults()
