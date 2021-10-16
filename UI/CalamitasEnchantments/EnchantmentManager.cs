@@ -310,6 +310,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<CindersOfLament>(),
 				[ModContent.ItemType<StaffoftheMechworm>()] = ModContent.ItemType<Metastasis>(),
 				[ModContent.ItemType<GhastlyVisage>()] = ModContent.ItemType<GruesomeEminence>(),
+				[ModContent.ItemType<BurningSea>()] = ModContent.ItemType<Rancor>()
 			};
 		}
 
