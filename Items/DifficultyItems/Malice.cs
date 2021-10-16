@@ -4,7 +4,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,9 +16,22 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malice");
-            Tooltip.SetDefault("Enrages every boss and allows them to drop special items.\n" +
-                "Nurse no longer heals while a boss is alive.\n" +
-                "Effect can be toggled on and off.");
+            Tooltip.SetDefault("Enables/disables Malice Mode.\n" +
+
+				// Misc lines
+				"Greatly nerfs the effectiveness of life steal.\n" +
+				"Nerfs the effectiveness of the Titanium Armor set bonus, doesn't stack with Revengeance Mode.\n" +
+				"The Nurse no longer heals you while a boss is alive.\n" +
+				"Defense damage is 5% higher than Death Mode.\n" +
+				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
+
+				// Boss lines
+				"All boss minions no longer drop hearts.\n" +
+				"Gives every boss a new enraged AI and allows them to drop special items.\n" +
+				"Bosses and their projectiles deal 35% more damage.\n" +
+				"Most bosses will enter later phases sooner if the fight has gone on for a long time.\n" +
+				"Increases the velocity of most boss projectiles by 25%, this is increased to 35% during Boss Rush.\n" +
+				"Boss reactive DR is always active outside of Boss Rush and is increased by 33%.");
         }
 
         public override void SetDefaults()
