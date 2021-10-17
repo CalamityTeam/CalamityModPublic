@@ -63,7 +63,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (!CalamityWorld.downedSCal)
+            bool scal = CalamityWorld.downedSCal;
+            bool draedon = CalamityWorld.downedExoMechs;
+            if (!scal || !draedon)
             {
                 int index = 0;
                 foreach (TooltipLine line in tooltips)
@@ -85,8 +87,8 @@ namespace CalamityMod.Items.Accessories
                     }
                         
                 }
-                
-                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
+                string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure
+                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", rejectionReason + "\nMerchants will reject a defiled soul such as this."));
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
@@ -99,7 +101,7 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            if (CalamityWorld.downedSCal)
+            if (scal && draedon)
             {
                 if (!CalamityWorld.death)
                 {
