@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +14,8 @@ namespace CalamityMod.Projectiles.Magic
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];
+        public ref float PulseLoopSoundSlot => ref projectile.localAI[0];
+        public ActiveSound PulseLoopSound => Main.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot));
         public float ChargeupCompletion => MathHelper.Clamp(Time / ChargeupTime, 0f, 1f);
         public const int ChargeupTime = 240;
 
@@ -44,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Decide where to position the magic circle.
             Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 30f + circlePointDirection * projectile.scale * 80f;
+            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 30f + circlePointDirection * projectile.scale * 56f;
 
             // Adjust the owner's direction.
             Owner.ChangeDir(projectile.direction);
@@ -55,6 +59,14 @@ namespace CalamityMod.Projectiles.Magic
             // Handle charge stuff.
             if (Time < ChargeupTime)
                 HandleChargeEffects();
+
+            // Create an idle ominous sound once the laser has appeared.
+            else if (Main.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot)) is null)
+                PulseLoopSoundSlot = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, projectile.Center).ToFloat();
+
+            // Make a cast sound effect soon after the circle appears.
+            if (Time == 15f)
+                Main.PlaySound(SoundID.Item117, projectile.Center);
 
             Time++;
         }
@@ -73,7 +85,7 @@ namespace CalamityMod.Projectiles.Magic
                 return;
 
             Vector2 idealDirection = Owner.SafeDirectionTo(Main.MouseWorld, Vector2.UnitX * Owner.direction);
-            Vector2 newAimDirection = projectile.velocity.MoveTowards(idealDirection, 0.1f);
+            Vector2 newAimDirection = projectile.velocity.MoveTowards(idealDirection, 0.05f);
 
             // Sync if the direction is different from the old one.
             // Spam caps are ignored due to the frequency of this happening.
@@ -130,8 +142,14 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Create the laser once the charge animation is complete.
-            if (Main.netMode != NetmodeID.MultiplayerClient && Time == ChargeupTime - 1f)
-                Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.identity);
+            if (Time == ChargeupTime - 1f)
+            {
+                // Play a laserbeam deathray sound. Should probably be replaced some day
+                Main.PlaySound(SoundID.Zombie, projectile.Center, 104);
+
+                if (Main.myPlayer == projectile.owner)
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.identity);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -165,21 +183,23 @@ namespace CalamityMod.Projectiles.Magic
                 GameShaders.Misc["CalamityMod:RancorMagicCircle"].Apply();
             }
 
-            restartShader(outerCircleGlowmask, projectile.Opacity * 0.5f, projectile.rotation, BlendState.Additive);
+            restartShader(outerCircleGlowmask, projectile.Opacity, projectile.rotation, BlendState.Additive);
             spriteBatch.Draw(outerCircleGlowmask, drawPosition, null, Color.White, 0f, outerCircleGlowmask.Size() * 0.5f, projectile.scale * 1.075f, SpriteEffects.None, 0f);
 
             restartShader(outerCircleTexture, projectile.Opacity * 0.7f, projectile.rotation, BlendState.AlphaBlend);
             spriteBatch.Draw(outerCircleTexture, drawPosition, null, Color.White, 0f, outerCircleTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
 
-            restartShader(innerCircleGlowmask, projectile.Opacity * 0.5f, -projectile.rotation, BlendState.Additive);
+            restartShader(innerCircleGlowmask, projectile.Opacity * 0.5f, 0f, BlendState.Additive);
             spriteBatch.Draw(innerCircleGlowmask, drawPosition, null, Color.White, 0f, innerCircleGlowmask.Size() * 0.5f, projectile.scale * 1.075f, SpriteEffects.None, 0f);
 
-            restartShader(innerCircleTexture, projectile.Opacity * 0.7f, -projectile.rotation, BlendState.AlphaBlend);
+            restartShader(innerCircleTexture, projectile.Opacity * 0.7f, 0f, BlendState.AlphaBlend);
             spriteBatch.Draw(innerCircleTexture, drawPosition, null, Color.White, 0f, innerCircleTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             spriteBatch.ExitShaderRegion();
 
             return false;
         }
+
+        public override void Kill(int timeLeft) => PulseLoopSound?.Stop();
 
         public override bool ShouldUpdatePosition() => false;
 

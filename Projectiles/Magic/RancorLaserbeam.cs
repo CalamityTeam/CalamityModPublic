@@ -1,3 +1,5 @@
+using CalamityMod.Particles;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,6 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -41,9 +44,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 7;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
+            projectile.hide = true;
         }
 
         public override void AI()
@@ -55,26 +59,35 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
+            // Grow bigger up to a point.
             projectile.scale = MathHelper.Clamp(projectile.scale + 0.15f, 0.05f, 2f);
 
             // Decide where to position the laserbeam.
             Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-            projectile.Center = MagicCircle.Center + projectile.velocity * projectile.scale * -12f;
+            projectile.Center = MagicCircle.Center + projectile.velocity * projectile.scale * -12f + Owner.velocity;
 
             // Update the laser length.
             float[] laserLengthSamplePoints = new float[24];
             Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale, MaxLaserLength, laserLengthSamplePoints);
             LaserLength = laserLengthSamplePoints.Average();
 
-            if (LaserLength > 28f)
-                LaserLength += 32f;
-
             // Update aim.
             UpdateAim();
 
+            // Create arms on surfaces.
+            if (Main.myPlayer == projectile.owner && Main.rand.NextBool(12))
+                CreateArmsOnSurfaces();
+
+            // Create hit effects at the end of the beam.
+            if (Main.myPlayer == projectile.owner)
+                CreateTileHitEffects();
+
+            if (LaserLength > 28f)
+                LaserLength += Utils.InverseLerp(100f, 360f, LaserLength) * 54f;
+
             // Make the beam cast light along its length. The brightness of the light is reliant on the scale of the beam.
-            DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * projectile.scale * 0.5f;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, DelegateMethods.CastLight);
+            DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * projectile.scale * 0.4f;
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (LaserLength - 60f), projectile.width * projectile.scale, DelegateMethods.CastLight);
         }
 
         public void UpdateAim()
@@ -96,12 +109,44 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity = newAimDirection;
         }
 
+        public void CreateArmsOnSurfaces()
+        {
+            Vector2 endOfLaser = projectile.Center + projectile.velocity * (LaserLength - 40f) + Main.rand.NextVector2Circular(80f, 8f);
+            Vector2 idealCenter = endOfLaser;
+            if (WorldUtils.Find(idealCenter.ToTileCoordinates(), Searches.Chain(new Searches.Down(5), new CustomConditions.SolidOrPlatform()), out Point result))
+            {
+                idealCenter = result.ToWorldCoordinates();
+            }
+            Point endOfLaserTileCoords = idealCenter.ToTileCoordinates();
+            Tile endTile = CalamityUtils.ParanoidTileRetrieval(endOfLaserTileCoords.X, endOfLaserTileCoords.Y);
+
+            if (endTile.nactive() && (Main.tileSolid[endTile.type] || Main.tileSolidTop[endTile.type]) && !endTile.halfBrick() && endTile.slope() == 0)
+            {
+                Vector2 armSpawnPosition = endOfLaserTileCoords.ToWorldCoordinates();
+                Projectile.NewProjectile(armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), projectile.damage * 2 / 3, 0f, projectile.owner);
+            }
+        }
+
+        public void CreateTileHitEffects()
+        {
+            Vector2 endOfLaser = projectile.Center + projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
+            Projectile.NewProjectile(endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, projectile.owner);
+
+            if (Main.rand.NextBool(4))
+            {
+                Vector2 cinderVelocity = Vector2.Lerp(-projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * Main.rand.NextFloat(2f, 6f);
+                Projectile.NewProjectile(endOfLaser, cinderVelocity, ModContent.ProjectileType<RancorSmallCinder>(), 0, 0f, projectile.owner);
+            }
+        }
+
         private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;
 
         private Color PrimitiveColorFunction(float completionRatio)
         {
-            Color vibrantColor = Color.Lerp(Color.Blue, Color.Red, (float)Math.Cos(Main.GlobalTime * 0.67f - completionRatio * 9f) * 0.5f + 0.5f);
-            float opacity = projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true);
+            Color vibrantColor = Color.Lerp(Color.Blue, Color.Red, (float)Math.Cos(Main.GlobalTime * 0.67f - completionRatio / LaserLength * 29f) * 0.5f + 0.5f);
+            float opacity = projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true) * 
+                Utils.InverseLerp(0f, MathHelper.Clamp(15f / LaserLength, 0f, 0.5f), completionRatio, true) *
+                (float)Math.Pow(Utils.InverseLerp(60f, 270f, LaserLength, true), 3D);
             return Color.Lerp(vibrantColor, Color.White, 0.5f) * opacity * 2f;
         }
 
@@ -123,12 +168,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center - Vector2.UnitY * LaserLength);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength);
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            drawCacheProjsOverWiresUI.Add(index);
         }
 
         public override bool ShouldUpdatePosition() => false;
