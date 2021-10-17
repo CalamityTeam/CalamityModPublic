@@ -39,12 +39,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
+            projectile.width = projectile.height = 32;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7;
+            projectile.localNPCHitCooldown = 5;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.hide = true;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Update the laser length.
             float[] laserLengthSamplePoints = new float[24];
-            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale, MaxLaserLength, laserLengthSamplePoints);
+            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale * 8f, MaxLaserLength, laserLengthSamplePoints);
             LaserLength = laserLengthSamplePoints.Average();
 
             // Update aim.
@@ -82,12 +82,9 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer == projectile.owner)
                 CreateTileHitEffects();
 
-            if (LaserLength > 28f)
-                LaserLength += Utils.InverseLerp(100f, 360f, LaserLength) * 54f;
-
             // Make the beam cast light along its length. The brightness of the light is reliant on the scale of the beam.
             DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * projectile.scale * 0.4f;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (LaserLength - 60f), projectile.width * projectile.scale, DelegateMethods.CastLight);
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, DelegateMethods.CastLight);
         }
 
         public void UpdateAim()
@@ -96,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer != projectile.owner)
                 return;
 
-            Vector2 newAimDirection = MagicCircle.velocity;
+            Vector2 newAimDirection = MagicCircle.velocity.SafeNormalize(Vector2.UnitY);
 
             // Sync if the direction is different from the old one.
             // Spam caps are ignored due to the frequency of this happening.
@@ -111,7 +108,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void CreateArmsOnSurfaces()
         {
-            Vector2 endOfLaser = projectile.Center + projectile.velocity * (LaserLength - 40f) + Main.rand.NextVector2Circular(80f, 8f);
+            Vector2 endOfLaser = projectile.Center + projectile.velocity * LaserLength + Main.rand.NextVector2Circular(80f, 8f);
             Vector2 idealCenter = endOfLaser;
             if (WorldUtils.Find(idealCenter.ToTileCoordinates(), Searches.Chain(new Searches.Down(5), new CustomConditions.SolidOrPlatform()), out Point result))
             {
@@ -157,9 +154,9 @@ namespace CalamityMod.Projectiles.Magic
 
             GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
 
-            Vector2[] basePoints = new Vector2[8];
+            Vector2[] basePoints = new Vector2[12];
             for (int i = 0; i < basePoints.Length; i++)
-                basePoints[i] = projectile.Center + projectile.velocity * i / basePoints.Length * LaserLength;
+                basePoints[i] = projectile.Center + projectile.velocity * i / (basePoints.Length - 1f) * LaserLength;
 
             Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
             RayDrawer.Draw(basePoints, overallOffset, 92);
