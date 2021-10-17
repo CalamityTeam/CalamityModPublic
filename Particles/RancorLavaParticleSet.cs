@@ -13,7 +13,7 @@ namespace CalamityMod.Particles
 		public override float BorderSize => 18f;
 		public override bool BorderShouldBeSolid => false;
 		public override Color BorderColor => Color.Lerp(Color.Yellow, Color.Red, 0.85f) * 0.85f;
-		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
+		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverWater;
 
 		private static readonly List<Texture2D> _backgroundTextures = new List<Texture2D>()
 		{
@@ -32,8 +32,8 @@ namespace CalamityMod.Particles
 
 		public override void UpdateBehavior(FusableParticle particle)
 		{
-			particle.Size = MathHelper.Clamp(particle.Size - 0.3f, 0f, 200f) * 0.99f;
-			if (particle.Size < 25f)
+			particle.Size = MathHelper.Clamp(particle.Size - 0.15f, 0f, 200f) * 0.997f;
+			if (particle.Size < 20f)
 				particle.Size = particle.Size * 0.95f - 0.9f;
 		}
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Particles
 			{
 				Vector2 drawPosition = particle.Center - Main.screenPosition;
 				Vector2 origin = fusableParticleBase.Size() * 0.5f;
-				Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size();
+				Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size() * new Vector2(1f, 0.5f);
 				Main.spriteBatch.Draw(fusableParticleBase, drawPosition, null, BorderColor * 1.4f, 0f, origin, scale, SpriteEffects.None, 0f);
 			}
 		}

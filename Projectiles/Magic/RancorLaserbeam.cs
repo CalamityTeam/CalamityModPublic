@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
             UpdateAim();
 
             // Create arms on surfaces.
-            if (Main.myPlayer == projectile.owner && Main.rand.NextBool(12))
+            if (Main.myPlayer == projectile.owner && Main.rand.NextBool(8))
                 CreateArmsOnSurfaces();
 
             // Create hit effects at the end of the beam.
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.NewProjectile(endOfLaser, cinderVelocity, ModContent.ProjectileType<RancorSmallCinder>(), 0, 0f, projectile.owner);
             }
 
-            FusableParticleManager.GetParticleSetByType<RancorLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 100f);
+            FusableParticleManager.GetParticleSetByType<RancorLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 135f);
         }
 
         private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;
