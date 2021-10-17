@@ -146,7 +146,19 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Color light = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
             Color drawColor = light * projectile.Opacity;
-            spriteBatch.Draw(texture, drawPosition, frame, drawColor, RotationDirection, origin, new Vector2(projectile.scale, 1f), SpriteEffects.None, 0f);
+            Color fadedColor = Color.Red * projectile.Opacity * projectile.scale * 0.4f;
+            fadedColor.A = 0;
+
+            Vector2 scale = new Vector2(projectile.scale, 1f);
+            float afterimageOffset = projectile.Opacity * projectile.scale * 5f;
+
+            for (int i = 0; i < 6; i++)
+            {
+                Vector2 afterimageOffsetVector = (MathHelper.TwoPi * i / 6f).ToRotationVector2() * afterimageOffset;
+                spriteBatch.Draw(texture, drawPosition + afterimageOffsetVector, frame, fadedColor, RotationDirection, origin, scale, SpriteEffects.None, 0f);
+            }
+
+            spriteBatch.Draw(texture, drawPosition, frame, drawColor, RotationDirection, origin, scale, SpriteEffects.None, 0f);
             return false;
         }
     }

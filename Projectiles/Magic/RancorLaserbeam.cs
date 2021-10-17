@@ -134,6 +134,8 @@ namespace CalamityMod.Projectiles.Magic
                 Vector2 cinderVelocity = Vector2.Lerp(-projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * Main.rand.NextFloat(2f, 6f);
                 Projectile.NewProjectile(endOfLaser, cinderVelocity, ModContent.ProjectileType<RancorSmallCinder>(), 0, 0f, projectile.owner);
             }
+
+            FusableParticleManager.GetParticleSetByType<RancorLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 100f);
         }
 
         private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;
