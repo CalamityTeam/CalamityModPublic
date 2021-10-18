@@ -75,10 +75,10 @@ namespace CalamityMod.World
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
         public static bool ironHeart = false; // Iron Heart Mode
-		public static bool malice = false; // Malice Mode, enrages all bosses and makes them drop good shit
+		public static bool malice = false; // Malice Mode
 
-        // New Temple Altar
-        public static int newAltarX = 0;
+		// New Temple Altar
+		public static int newAltarX = 0;
         public static int newAltarY = 0;
 
         // Evil Islands
@@ -542,12 +542,12 @@ namespace CalamityMod.World
                 ["Reforges"] = Reforges,
                 ["MoneyStolenByBandit"] = MoneyStolenByBandit,
 
-                ["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
+				["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
                 ["PlanetoidLabCenter"] = PlanetoidLabCenter,
                 ["JungleLabCenter"] = JungleLabCenter,
                 ["HellLabCenter"] = HellLabCenter,
-                ["IceLabCenter"] = IceLabCenter,
-            };
+                ["IceLabCenter"] = IceLabCenter
+			};
         }
         #endregion
 
@@ -649,7 +649,7 @@ namespace CalamityMod.World
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
 
-            SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
+			SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
             PlanetoidLabCenter = tag.Get<Vector2>("PlanetoidLabCenter");
             JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
             HellLabCenter = tag.Get<Vector2>("HellLabCenter");
