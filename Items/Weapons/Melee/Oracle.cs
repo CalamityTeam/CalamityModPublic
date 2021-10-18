@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 42;
+            item.width = 58;
+            item.height = 50;
             item.melee = true;
             item.damage = YoyoBaseDamage;
             item.knockBack = 4f;
