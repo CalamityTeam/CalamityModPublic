@@ -31,15 +31,15 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     // Account for screen movements. Not doing this causes the scene to move based on that.
     coords += screenMoveOffset / renderTargetArea;
     
-    float2 offset = 4 / screenArea;
+    float2 offset = 3 / screenArea;
     float4 color = tex2D(uImage0, coords);
     float4 leftColor = tex2D(uImage0, coords + float2(-offset.x, 0));
     float4 rightColor = tex2D(uImage0, coords + float2(-offset.x, 0));
     float4 topColor = tex2D(uImage0, coords + float2(0, -offset.y));
     float4 bottomColor = tex2D(uImage0, coords + float2(0, offset.y));
     float4 avergeColor = (color + leftColor + rightColor + topColor + bottomColor) / 4.7;
-    avergeColor.rgb *= lerp(1, 1.5, avergeColor.a);
-    return avergeColor + (1 - avergeColor) * avergeColor.a * (avergeColor.g + avergeColor.b) * 0.6;
+    avergeColor = lerp(avergeColor, float4(1, 1, 1, 1), pow(avergeColor.b, 0.5)) * avergeColor.a;
+    return avergeColor;
 }
 technique Technique1
 {

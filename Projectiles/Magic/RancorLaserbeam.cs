@@ -129,13 +129,22 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 endOfLaser = projectile.Center + projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
             Projectile.NewProjectile(endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, projectile.owner);
 
-            if (Main.rand.NextBool(4))
+            if (Main.rand.NextBool(2))
             {
-                Vector2 cinderVelocity = Vector2.Lerp(-projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * Main.rand.NextFloat(2f, 6f);
-                Projectile.NewProjectile(endOfLaser, cinderVelocity, ModContent.ProjectileType<RancorSmallCinder>(), 0, 0f, projectile.owner);
+                int type = ModContent.ProjectileType<RancorSmallCinder>();
+                int damage = 0;
+                float cinderSpeed = Main.rand.NextFloat(2f, 6f);
+                if (Main.rand.NextBool(11))
+                {
+                    type = ModContent.ProjectileType<RancorLargeCinder>();
+                    damage = projectile.damage / 3;
+                    cinderSpeed *= 1.2f;
+                }
+                Vector2 cinderVelocity = Vector2.Lerp(-projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * cinderSpeed;
+                Projectile.NewProjectile(endOfLaser, cinderVelocity, type, damage, 0f, projectile.owner);
             }
 
-            FusableParticleManager.GetParticleSetByType<RancorLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 135f);
+            FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 135f);
         }
 
         private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;

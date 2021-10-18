@@ -8,12 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
-	public class RancorLavaParticleSet : BaseFusableParticleSet
+	public class RancorGroundLavaParticleSet : BaseFusableParticleSet
 	{
 		public override float BorderSize => 18f;
 		public override bool BorderShouldBeSolid => false;
 		public override Color BorderColor => Color.Lerp(Color.Yellow, Color.Red, 0.85f) * 0.85f;
-		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
+		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverWater;
 
 		private static readonly List<Texture2D> _backgroundTextures = new List<Texture2D>()
 		{
@@ -32,8 +32,8 @@ namespace CalamityMod.Particles
 
 		public override void UpdateBehavior(FusableParticle particle)
 		{
-			particle.Size = MathHelper.Clamp(particle.Size - 0.24f, 0f, 200f) * 0.9956f;
-			if (particle.Size < 15f)
+			particle.Size = MathHelper.Clamp(particle.Size - 0.15f, 0f, 200f) * 0.997f;
+			if (particle.Size < 20f)
 				particle.Size = particle.Size * 0.95f - 0.9f;
 		}
 
@@ -44,8 +44,9 @@ namespace CalamityMod.Particles
 			{
 				Vector2 drawPosition = particle.Center - Main.screenPosition;
 				Vector2 origin = fusableParticleBase.Size() * 0.5f;
-				Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size();
-				Main.spriteBatch.Draw(fusableParticleBase, drawPosition, null, BorderColor * 1.2f, 0f, origin, scale, SpriteEffects.None, 0f);
+				Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size() * new Vector2(1f, 0.5f);
+				Color drawColor = Color.Lerp(BorderColor, new Color(0f, 0f, 1f), Utils.InverseLerp(120f, 135f, particle.Size, true) * 0.1f) * 1.4f;
+				Main.spriteBatch.Draw(fusableParticleBase, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
 			}
 		}
 	}
