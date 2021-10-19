@@ -31,10 +31,10 @@ namespace CalamityMod.Projectiles.Magic
 				float movementSpeed = 9f;
 
 				// Make speed gradually build up over time, with growths at certain points.
-				movementSpeed += MathHelper.SmoothStep(0f, 2.2f, Utils.InverseLerp(0.18f, 0.3f, Time, true));
-				movementSpeed += MathHelper.SmoothStep(0f, 2f, Utils.InverseLerp(0.4f, 0.52f, Time, true));
-				movementSpeed += MathHelper.SmoothStep(0f, 2f, Utils.InverseLerp(0.6f, 0.72f, Time, true));
-				movementSpeed += MathHelper.SmoothStep(0f, 2f, Utils.InverseLerp(0.8f, 0.92f, Time, true));
+				movementSpeed += MathHelper.SmoothStep(0f, 2.2f, Utils.InverseLerp(0.18f, 0.3f, CurrentPower, true));
+				movementSpeed += MathHelper.SmoothStep(0f, 4f, Utils.InverseLerp(0.4f, 0.52f, CurrentPower, true));
+				movementSpeed += MathHelper.SmoothStep(0f, 5f, Utils.InverseLerp(0.6f, 0.72f, CurrentPower, true));
+				movementSpeed += MathHelper.SmoothStep(0f, 6f, Utils.InverseLerp(0.8f, 0.92f, CurrentPower, true));
 
 				return movementSpeed;
 			}
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 60;
+			projectile.width = projectile.height = 108;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.magic = true;
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Magic
 
 				// And an "ahead" particle that spawns based on current movement.
 				// This causes the "head" of the overall thing to have bumps when moving.
-				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 65f;
+				spawnPosition += projectile.velocity.RotatedByRandom(1.38f) * particleSize / 105f;
 				FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().SpawnParticle(spawnPosition, particleSize * 0.4f);
 			}
 
