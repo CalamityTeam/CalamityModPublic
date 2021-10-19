@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Heart");
-            Tooltip.SetDefault("Summons a damaging plague aura around the player to destroy nearby enemies\n" +
+            Tooltip.SetDefault("Summons a plague aura around you that damages nearby enemies\n" +
         "Reduces the damage caused by the Plague debuff and removes its blindness effect");
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             int num = ModContent.BuffType<Plague>();
             float num2 = 300f;
             bool flag = plagueCounter % 60 == 0;
-            int num3 = (int)(30 * player.AverageDamage());
+            int num3 = (int)(50 * player.AverageDamage());
             int random = Main.rand.Next(10);
             if (player.whoAmI == Main.myPlayer)
             {
