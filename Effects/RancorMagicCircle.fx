@@ -42,8 +42,9 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
     float2x2 circularRotationMatrix = float2x2(rotationOriginCosine, -rotationOriginSine, rotationOriginSine, rotationOriginCosine);
     float2x2 scalingMatrix = float2x2(2, 0, 0, 1);
     
-    // Rotate based on direction, squash the result, and then rotate the squashed result by the circular rotation.
     output.Color = input.Color;
+    
+    // Rotate based on direction, squash the result, and then rotate the squashed result by the circular rotation.
     output.Coordinates = mul(input.Coordinates - 0.5, rotationMatrix) + 0.5;
     output.Coordinates = mul(output.Coordinates - 0.5, scalingMatrix) + 0.5;
     output.Coordinates = mul(output.Coordinates - 0.5, circularRotationMatrix) + 0.5;

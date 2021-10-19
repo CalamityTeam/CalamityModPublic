@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rancor");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[projectile.type] = 16;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 68;
+            projectile.width = projectile.height = 34;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.Center = Owner.Center + Vector2.UnitX * (Owner.direction == 1f ? 40f : -32f);
-            projectile.position.Y -= 12f;
+            projectile.Center = Owner.Center + Vector2.UnitX * (Owner.direction == 1f ? 20f : -12f);
+            projectile.position.Y -= 6f;
 
             // If the owner is no longer able to hold the book, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed)
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Handle frames.
             projectile.frameCounter++;
-            if (projectile.frameCounter >= 5)
+            if (projectile.frameCounter >= 4)
             {
                 projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 projectile.frameCounter = 0;

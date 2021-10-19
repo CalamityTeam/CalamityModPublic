@@ -25,7 +25,8 @@ namespace CalamityMod.Particles
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
 			GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
 		};
-		private static readonly List<Texture2D> _backgroundTextures = new List<Texture2D>()
+		public override List<Effect> BackgroundShaders => _backgroundShaders;
+		public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
 		{
 			ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1"),
 			ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer2"),
@@ -33,8 +34,6 @@ namespace CalamityMod.Particles
 			ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer4"),
 			ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer5"),
 		};
-		public override List<Effect> BackgroundShaders => _backgroundShaders;
-		public override List<Texture2D> BackgroundTextures => _backgroundTextures;
 		public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
 		{
 			Particles.Add(new FusableParticle(center, sizeStrength));
