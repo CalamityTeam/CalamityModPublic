@@ -96,6 +96,10 @@ namespace CalamityMod.Particles
 			{
 				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
 
+				// Don't bother rendering if the set has no particles to render at the moment, for the sake of optimization.
+				if (particleSet.Particles.Count <= 0)
+					continue;
+
 				// Ignore particle sets of incompatible render layers.
 				// They will be drawn later when appropriate.
 				if (renderLayer != particleSet.RenderLayer)

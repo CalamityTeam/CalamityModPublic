@@ -74,6 +74,10 @@ namespace CalamityMod.Particles
 			if (Main.netMode == NetmodeID.Server || Main.spriteBatch.HasBeginBeenCalled())
 				return;
 
+			// Don't bother doing anything if the set has no particles to render at the moment, for the sake of optimization.
+			if (Particles.Count <= 0)
+				return;
+
 			// Go through each background render target in the set and clear the entire thing to use a base of transparent pixels.
 			foreach (RenderTarget2D backgroundTarget in GetBackgroundTargets)
 			{
