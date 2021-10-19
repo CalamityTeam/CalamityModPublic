@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.Center = Owner.Center;
+            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 8f;
 
             // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
             bool allowContinuedUse = Time % ManaConsumeRate != ManaConsumeRate - 1f || Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
@@ -59,15 +60,13 @@ namespace CalamityMod.Projectiles.Magic
             AdjustPlayerHoldValues();
         }
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-            drawCacheProjsOverWiresUI.Add(index);
-        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 
-		public void AdjustPlayerHoldValues()
+        public void AdjustPlayerHoldValues()
         {
             projectile.spriteDirection = projectile.direction = Owner.direction;
             projectile.timeLeft = 2;
+            Owner.heldProj = projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = 0f;
