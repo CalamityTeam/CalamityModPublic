@@ -3004,7 +3004,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.pFlames)
 			{
-				player.blind = !modPlayer.alchFlask;
+				player.blind = !modPlayer.reducedPlagueDmg;
 				player.statDefense -= Plague.DefenseReduction;
 				player.moveSpeed -= 0.15f;
 			}
