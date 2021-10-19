@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -349,6 +350,25 @@ namespace CalamityMod.CalPlayer
 				Main.playerDrawData.Add(tailDrawData);
 			}
 		});
+
+        public static readonly PlayerLayer DrawRancorBookManually = new PlayerLayer("CalamityMod", "RancorBook", PlayerLayer.Arms, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead)
+                return;
+
+            int bookType = ModContent.ProjectileType<RancorHoldout>();
+            Texture2D bookTexture = Main.projectileTexture[bookType];
+            Projectile book = Main.projectile[drawPlayer.heldProj];
+            Rectangle frame = bookTexture.Frame(1, Main.projFrames[bookType], 0, book.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = drawPlayer.Center + Vector2.UnitX * drawPlayer.direction * 8f - Main.screenPosition;
+            Color drawColor = book.GetAlpha(Color.White);
+            SpriteEffects direction = book.spriteDirection == 1f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            DrawData bookDrawData = new DrawData(bookTexture, drawPosition, frame, drawColor, book.rotation, origin, book.scale, direction, 0);
+            Main.playerDrawData.Add(bookDrawData);
+        });
 
         public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
         {
@@ -697,7 +717,10 @@ namespace CalamityMod.CalPlayer
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
             }
 
-			if (player.Calamity().fathomSwarmerTail)
+            if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
+                list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);
+
+            if (player.Calamity().fathomSwarmerTail)
 			{
 				int skinIndex = list.IndexOf(PlayerLayer.Skin);
 				list.Insert(skinIndex - 1, Tail);

@@ -1,13 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Other
 {
-    public class BrimstoneOrb : ModNPC
+    public class LecherousOrb : ModNPC
     {
         public ref float Time => ref npc.ai[0];
+        public ref float Frame => ref npc.localAI[0];
         public Player Owner
         {
             get
@@ -17,7 +20,7 @@ namespace CalamityMod.NPCs.Other
                 return Main.player[npc.target];
             }
         }
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Brimstone Orb");
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Lecherous Orb");
 
         public override void SetDefaults()
         {
@@ -28,7 +31,7 @@ namespace CalamityMod.NPCs.Other
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.value = 0f;
-            npc.HitSound = SoundID.NPCHit5;
+            npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath7;
             npc.knockBackResist = 0f;
             npc.netAlways = true;
@@ -51,6 +54,9 @@ namespace CalamityMod.NPCs.Other
                 if (!Owner.Calamity().lecherousOrbEnchant)
                 {
                     npc.active = false;
+                    npc.life = 0;
+                    npc.HitEffect();
+                    npc.checkDead();
                     npc.netUpdate = true;
                 }
 
@@ -69,6 +75,15 @@ namespace CalamityMod.NPCs.Other
                 if (Vector2.Distance(npc.position, npc.oldPosition) > 30f || wasNotAtDestinationBefore)
                     npc.SyncMotionToServer();
             }
+
+            // Randomly start animations.
+            if (Frame == 0f && Main.rand.NextBool(150))
+                Frame = 1f;
+            if (Frame == 0f && Main.rand.NextBool(300))
+                Frame = 8f;
+
+            // Face the owner.
+            npc.spriteDirection = (Owner.Center.X > npc.Center.X).ToDirectionInt();
 
             Time++;
         }
@@ -96,7 +111,57 @@ namespace CalamityMod.NPCs.Other
                     magic.scale = Main.rand.NextFloat(1.2f, 1.56f);
                     magic.noGravity = true;
                 }
+
+                for (int i = 1; i <= 4; i++)
+                    Gore.NewGoreDirect(npc.Center, Main.rand.NextVector2Circular(3f, 3f), mod.GetGoreSlot($"Gores/LecherousOrb/LecherousGore{i}"));
             }
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            if (Frame != 0f)
+                npc.frameCounter++;
+            else
+                npc.frameCounter = 0f;
+
+            // Perform the blink animation.
+            if (Frame >= 1f && Frame < 8f && npc.frameCounter % 6f == 5f)
+            {
+                Frame++;
+                if (Frame >= 8f)
+                    Frame = 0f;
+            }
+
+            // Perform the turning inside-out animation.
+            if (Frame >= 8f && Frame < 25f && npc.frameCounter % 5f == 4f)
+            {
+                Frame++;
+                if (Frame >= 25f)
+                    Frame = 0f;
+            }
+
+            int verticalFrame = (int)Frame % 22;
+            int horizontalFrame = (int)Frame / 22;
+            npc.frame.X = horizontalFrame * 64;
+            npc.frame.Y = verticalFrame * 90;
+            npc.frame.Width = 64;
+            npc.frame.Height = 90;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 drawPosition = npc.Center - Main.screenPosition;
+            SpriteEffects direction = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            // Draw a faded version of the heart behind the main one that pulses.
+            float pulse = Main.GlobalTime * 1.9f % 1f;
+            float pulseScale = npc.scale * (1f + pulse * 0.33f);
+            Color pulseColor = npc.GetAlpha(Color.Red) * (1f - pulse) * 0.44f;
+            spriteBatch.Draw(texture, drawPosition, npc.frame, pulseColor, npc.rotation, npc.frame.Size() * 0.5f, pulseScale, direction, 0f);
+
+            spriteBatch.Draw(texture, drawPosition, npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() * 0.5f, npc.scale, direction, 0f);
+            return false;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

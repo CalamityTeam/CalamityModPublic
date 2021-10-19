@@ -578,6 +578,8 @@ namespace CalamityMod
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<GhastlyVisageProj>(),
                 ProjectileType<ApotheosisWorm>(),
+                ProjectileType<SpiritCongregation>(),
+                ProjectileType<RancorLaserbeam>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),
@@ -2893,7 +2895,8 @@ namespace CalamityMod
                 ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
-                ProjectileType<EndoHydraHead>()
+                ProjectileType<EndoHydraHead>(),
+                ProjectileType<SepulcherMinion>()
             };
 
             ZeroMinionSlotExceptionList = new List<int>()

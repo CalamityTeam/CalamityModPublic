@@ -83,6 +83,8 @@ namespace CalamityMod.Items
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 
+		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
+
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
         public CalamityGlobalItem()
