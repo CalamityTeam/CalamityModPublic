@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -22,12 +23,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.ignoreWater = true;
+            projectile.hide = true;
         }
 
         public override void AI()
         {
-            projectile.Center = Owner.Center + Vector2.UnitX * (Owner.direction == 1f ? 20f : -12f);
-            projectile.position.Y -= 6f;
+            projectile.Center = Owner.Center;
 
             // If the owner is no longer able to hold the book, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed)
@@ -53,7 +54,12 @@ namespace CalamityMod.Projectiles.Magic
             AdjustPlayerHoldValues();
         }
 
-        public void AdjustPlayerHoldValues()
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+		{
+            drawCacheProjsOverWiresUI.Add(index);
+        }
+
+		public void AdjustPlayerHoldValues()
         {
             projectile.spriteDirection = projectile.direction = Owner.direction;
             projectile.timeLeft = 2;
