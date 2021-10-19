@@ -15,15 +15,14 @@ namespace CalamityMod.Particles
 		public override Color BorderColor => Color.Lerp(Color.Yellow, Color.Red, 0.85f) * 0.85f;
 		public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
 
-		private static readonly List<Texture2D> _backgroundTextures = new List<Texture2D>()
-		{
-			ModContent.GetTexture("CalamityMod/Projectiles/InvisibleProj"),
-		};
 		public override List<Effect> BackgroundShaders => new List<Effect>()
 		{
 			GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"].Shader,
 		};
-		public override List<Texture2D> BackgroundTextures => _backgroundTextures;
+		public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
+		{
+			ModContent.GetTexture("CalamityMod/Projectiles/InvisibleProj"),
+		};
 		public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
 		{
 			Particles.Add(new FusableParticle(center, sizeStrength));
