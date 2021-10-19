@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Rancor");
             Tooltip.SetDefault("Casts a magic circle that charges energy and eventually releases a powerful laser burst of controlled maleficent magic\n" +
-                "The laser causes arms to appear on surfaces it touches which reach outward to harm enemies\n" +
+                "The laser causes arms and searing lava to appear on surfaces it touches which harm both you and enemies\n" +
                 CalamityUtils.ColorMessage(PoeticTooltipLine, CalamityGlobalItem.ExhumedTooltipColor));
         }
 
