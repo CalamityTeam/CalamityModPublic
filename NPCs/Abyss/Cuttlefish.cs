@@ -388,7 +388,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2);
-            int inkBombDropRate = Main.expertMode ? 20 : 10;
+            int inkBombDropRate = Main.expertMode ? 50 : 100;
             DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
         }
 
