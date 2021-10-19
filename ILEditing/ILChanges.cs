@@ -132,7 +132,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 			IL.Terraria.Main.DoDraw += DrawFusableParticles;
-            IL.Terraria.Main.UpdateAudio += ManipulateSoundMuffleFactor;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
@@ -191,7 +190,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
-            IL.Terraria.Main.UpdateAudio -= ManipulateSoundMuffleFactor;
 
 			// Ravager platform fall fix
 			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
@@ -500,33 +498,6 @@ namespace CalamityMod.ILEditing
                 return false;
             });
             cursor.Emit(OpCodes.Brtrue, finalReturn);
-        }
-
-        private static void ManipulateSoundMuffleFactor(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-            cursor.GotoNext(MoveType.After, i => i.MatchStloc(20));
-
-            cursor.Emit(OpCodes.Ldloc, 20);
-            cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>
-            {
-                if (Main.gameMenu || !Main.LocalPlayer.active)
-                    return originalMuffleFactor;
-
-                float playerMuffleFactor = 1f - Main.LocalPlayer.Calamity().MusicMuffleFactor;
-                float result = MathHelper.Clamp(originalMuffleFactor * playerMuffleFactor, -1f, 1f);
-                if (result <= 0)
-                {
-                    for (int i = 0; i < Main.music.Length; i++)
-                    {
-                        if (Main.music[i] != null && Main.music[i].IsPlaying)
-                            Main.music[i].Stop(AudioStopOptions.Immediate);
-                    }
-                    Main.curMusic = 0;
-                }
-                return result;
-            });
-            cursor.Emit(OpCodes.Stloc, 20);
         }
 
         #region Fire Cursor

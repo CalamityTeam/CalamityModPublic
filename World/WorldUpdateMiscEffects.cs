@@ -127,9 +127,6 @@ namespace CalamityMod.World
 
         public static void HandleDraedonSummoning()
         {
-            Main.LocalPlayer.Calamity().MusicMuffleFactor = Utils.InverseLerp(DraedonSummonCountdownMax, 32f, DraedonSummonCountdown, true);
-            Main.LocalPlayer.Calamity().MusicMuffleFactor = (float)Math.Pow(Main.LocalPlayer.Calamity().MusicMuffleFactor, 0.1);
-
             // Fire a giant laser into the sky.
             if (DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
                 Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);

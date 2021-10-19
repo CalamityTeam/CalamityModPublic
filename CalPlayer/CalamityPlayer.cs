@@ -140,7 +140,6 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-        public float MusicMuffleFactor;
         #endregion
 
         #region Tile Entity Trackers
@@ -1480,8 +1479,6 @@ namespace CalamityMod.CalPlayer
             }
 
             ResetRogueStealth();
-
-            MusicMuffleFactor = 0f;
 
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
