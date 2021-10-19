@@ -62,7 +62,6 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;

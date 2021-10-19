@@ -5782,7 +5782,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
+                    double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
@@ -6229,8 +6229,8 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
-                    if (draedonsHeart)
+					double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
+					if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
@@ -7468,23 +7468,6 @@ namespace CalamityMod.CalPlayer
                 rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
-            }
-
-            if (CalamityWorld.revenge)
-            {
-                // Apply custom damage in Revengeance Mode. All this actually does is provide a minimum damage
-                customDamage = true;
-
-                // Revengeance uses the same defense effectiveness as Expert, 75%.
-                double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
-                double newDamage = damage - (player.statDefense * defenseMultiplier);
-
-                double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-
-                if (newDamage < newDamageLimit)
-                    newDamage = newDamageLimit;
-
-                damage = (int)newDamage;
             }
 
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.

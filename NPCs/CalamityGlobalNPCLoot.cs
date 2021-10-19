@@ -43,8 +43,6 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            // TODO -- why do we have random enemies dying in the abyss regardless of whether they're underwater
-            // this just causes multiplayer desyncs if anything
             if (AbyssLootCancel(npc, mod))
                 return false;
 
