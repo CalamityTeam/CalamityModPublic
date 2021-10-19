@@ -11,9 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alchemical Flask");
-            Tooltip.SetDefault("All attacks inflict the plague\n" +
-                "Reduces the damage caused to you by the plague\n" +
-				"Removes the blindness effect caused by the plague\n" +
+            Tooltip.SetDefault("All attacks inflict the Plague debuff\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 
@@ -30,14 +28,13 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
-            modPlayer.reducedPlagueDmg = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.Bezoar);
+            recipe.AddIngredient(ItemID.BeeWax, 5);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
