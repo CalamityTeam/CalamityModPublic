@@ -40,6 +40,12 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
+            if (Time >= 1f && Owner.ownedProjectileCounts[ModContent.ProjectileType<RancorHoldout>()] <= 0)
+            {
+                projectile.Kill();
+                return;
+            }
+
             // Adjust visual values such as scale and opacity when charging.
             AdjustVisualValues();
 

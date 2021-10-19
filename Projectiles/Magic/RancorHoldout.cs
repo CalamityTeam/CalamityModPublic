@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];
+        public const int ManaConsumeRate = 12;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rancor");
@@ -30,8 +31,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             projectile.Center = Owner.Center;
 
+            // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
+            bool allowContinuedUse = Time % ManaConsumeRate != ManaConsumeRate - 1f || Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
+            bool bookStillInUse = Owner.channel && allowContinuedUse && !Owner.noItems && !Owner.CCed;
+
             // If the owner is no longer able to hold the book, kill it.
-            if (!Owner.channel || Owner.noItems || Owner.CCed)
+            if (!bookStillInUse)
             {
                 projectile.Kill();
                 return;

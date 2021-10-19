@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles.Magic
             // Update aim.
             UpdateAim();
 
+            // Adjust damage every frame. This is necessary to ensure that mana sickness and such are applied.
+            projectile.damage = (int)(MagicCircle.damage * Owner.MagicDamage());
+
             // Create arms on surfaces.
             if (Main.myPlayer == projectile.owner && Main.rand.NextBool(8))
                 CreateArmsOnSurfaces();
