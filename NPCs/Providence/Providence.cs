@@ -1339,7 +1339,9 @@ namespace CalamityMod.NPCs.Providence
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Providence
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);

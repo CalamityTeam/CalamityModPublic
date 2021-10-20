@@ -5,7 +5,33 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,8 +43,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
 {
@@ -723,8 +747,269 @@ namespace CalamityMod.CalPlayer
         {
             CalamityPlayer calamityPlayer = player.Calamity();
 
-            // Dust modifications while high.
-            if (calamityPlayer.trippy)
+			if (Main.myPlayer == player.whoAmI && !Main.gameMenu)
+			{
+				if (CalamityConfig.Instance.SpeedrunTimer)
+				{
+					double fractionsOfSeconds = calamityPlayer.speedrunTimer / 60D;
+					fractionsOfSeconds -= Math.Truncate(fractionsOfSeconds);
+					fractionsOfSeconds *= 1000D;
+					int milliseconds = (int)Math.Truncate(fractionsOfSeconds);
+					int seconds = calamityPlayer.speedrunTimer / 60;
+					int minutes = calamityPlayer.speedrunTimer / 3600;
+					int hours = calamityPlayer.speedrunTimer / 216000;
+
+					seconds -= minutes * 60;
+					minutes -= hours * 60;
+
+					if (hours > 99)
+					{
+						seconds = minutes = 59;
+						hours = 99;
+					}
+
+					string fractionsOfSecondsText = milliseconds > 99 ? milliseconds.ToString() : "0" + milliseconds.ToString();
+					string secondsText = seconds > 9 ? seconds.ToString() : "0" + seconds.ToString();
+					string minutesText = minutes > 9 ? minutes.ToString() : "0" + minutes.ToString();
+					string hoursText = hours > 9 ? hours.ToString() : "0" + hours.ToString();
+
+					string text = hoursText + ":" + minutesText + ":" + secondsText + "." + fractionsOfSecondsText;
+					float scale = 2f;
+					float xOffset = CalamityConfig.Instance.SpeedrunTimerPosX;
+					float yOffset = CalamityConfig.Instance.SpeedrunTimerPosY;
+
+					Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+
+					if (calamityPlayer.bossTypeJustDowned > -1)
+					{
+						fractionsOfSeconds = calamityPlayer.bossTypeJustDownedTime / 60D;
+						fractionsOfSeconds -= Math.Truncate(fractionsOfSeconds);
+						fractionsOfSeconds *= 1000D;
+						milliseconds = (int)Math.Truncate(fractionsOfSeconds);
+						seconds = calamityPlayer.bossTypeJustDownedTime / 60;
+						minutes = calamityPlayer.bossTypeJustDownedTime / 3600;
+						hours = calamityPlayer.bossTypeJustDownedTime / 216000;
+
+						seconds -= minutes * 60;
+						minutes -= hours * 60;
+
+						if (hours > 99)
+						{
+							seconds = minutes = 59;
+							hours = 99;
+						}
+
+						fractionsOfSecondsText = milliseconds > 99 ? milliseconds.ToString() : "0" + milliseconds.ToString();
+						secondsText = seconds > 9 ? seconds.ToString() : "0" + seconds.ToString();
+						minutesText = minutes > 9 ? minutes.ToString() : "0" + minutes.ToString();
+						hoursText = hours > 9 ? hours.ToString() : "0" + hours.ToString();
+
+						text = hoursText + ":" + minutesText + ":" + secondsText + "." + fractionsOfSecondsText;
+						scale = 1f;
+						yOffset += 44f;
+
+						Texture2D texture = null;
+						switch (calamityPlayer.bossTypeJustDowned)
+						{
+							// King Slime
+							case 1:
+								texture = Main.npcHeadBossTexture[7];
+								break;
+
+							case 2:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DesertScourgeHead>()]];
+								break;
+
+							// Eye of Cthulhu
+							case 3:
+								texture = Main.npcHeadBossTexture[1];
+								break;
+
+							case 4:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CrabulonIdle>()]];
+								break;
+
+							// Eater of Worlds
+							case 5:
+								texture = Main.npcHeadBossTexture[2];
+								break;
+
+							// Brain of Cthulhu
+							case 6:
+								texture = Main.npcHeadBossTexture[23];
+								break;
+
+							case 7:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<HiveMindP2>()]];
+								break;
+
+							case 8:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PerforatorHive>()]];
+								break;
+
+							// Queen Bee
+							case 9:
+								texture = Main.npcHeadBossTexture[14];
+								break;
+
+							// Skeletron
+							case 10:
+								texture = Main.npcHeadBossTexture[19];
+								break;
+
+							case 11:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<SlimeGodCore>()]];
+								break;
+
+							// Wall of Flesh
+							case 12:
+								texture = Main.npcHeadBossTexture[22];
+								break;
+
+							case 13:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Cryogen>()]];
+								break;
+
+							// The Twins
+							case 14:
+								texture = Main.npcHeadBossTexture[21];
+								break;
+
+							case 15:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AquaticScourgeHead>()]];
+								break;
+
+							// The Destroyer
+							case 16:
+								texture = Main.npcHeadBossTexture[25];
+								break;
+
+							case 17:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<BrimstoneElemental>()]];
+								break;
+
+							// Skeletron Prime
+							case 18:
+								texture = Main.npcHeadBossTexture[18];
+								break;
+
+							case 19:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasRun3>()]];
+								break;
+
+							// Plantera
+							case 20:
+								texture = Main.npcHeadBossTexture[12];
+								break;
+
+							case 21:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Leviathan>()]];
+								break;
+
+							case 22:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumAureus>()]];
+								break;
+
+							// Golem
+							case 23:
+								texture = Main.npcHeadBossTexture[5];
+								break;
+
+							case 24:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PlaguebringerGoliath>()]];
+								break;
+
+							// Duke Fishron
+							case 25:
+								texture = Main.npcHeadBossTexture[4];
+								break;
+
+							case 26:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<RavagerBody>()]];
+								break;
+
+							// Lunatic Cultist
+							case 27:
+								texture = Main.npcHeadBossTexture[31];
+								break;
+
+							case 28:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHeadSpectral>()]];
+								break;
+
+							// Moon Lord
+							case 29:
+								texture = Main.npcHeadBossTexture[8];
+								break;
+
+							case 30:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]];
+								break;
+
+							case 31:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]];
+								break;
+
+							case 32:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Providence>()]];
+								break;
+
+							case 33:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CeaselessVoid>()]];
+								break;
+
+							case 34:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<StormWeaverHeadNaked>()]];
+								break;
+
+							case 35:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Signus>()]];
+								break;
+
+							case 36:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Polterghast>()]];
+								break;
+
+							case 37:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<OldDuke>()]];
+								break;
+
+							case 38:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DevourerofGodsHeadS>()]];
+								break;
+
+							case 39:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Yharon>()]];
+								break;
+
+							case 40:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<SupremeCalamitas>()]];
+								break;
+
+							case 41:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AresBody>()]];
+								break;
+
+							case 42:
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<EidolonWyrmHeadHuge>()]];
+								break;
+
+							default:
+								break;
+						}
+
+						xOffset -= 58f;
+
+						if (texture != null)
+							Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2f - xOffset - texture.Width - 4f, yOffset), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+
+						Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+					}
+				}
+			}
+
+			// Dust modifications while high.
+			if (calamityPlayer.trippy)
 			{
 				if (Main.myPlayer == player.whoAmI)
 				{

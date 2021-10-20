@@ -1214,7 +1214,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drops for DoG
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, CalamityWorld.malice);

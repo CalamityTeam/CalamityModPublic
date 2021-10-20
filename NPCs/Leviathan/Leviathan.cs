@@ -726,7 +726,9 @@ namespace CalamityMod.NPCs.Leviathan
         // This loot code is shared with Anahita.
         public static void DropSirenLeviLoot(NPC npc)
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Leviathan and Anahita
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, CalamityWorld.malice);

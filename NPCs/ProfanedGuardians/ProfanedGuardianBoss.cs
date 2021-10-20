@@ -435,8 +435,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void NPCLoot()
         {
-            // Profaned Guardians have no actual drops and no treasure bag
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			// Profaned Guardians have no actual drops and no treasure bag
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfDeliverance>(), 4);
             DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());

@@ -2876,6 +2876,8 @@ namespace CalamityMod.NPCs.Yharon
 		{
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
 
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
 			// Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
 			DropHelper.DropBags(npc);
 

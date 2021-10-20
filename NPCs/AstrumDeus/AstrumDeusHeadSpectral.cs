@@ -229,7 +229,9 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.checkDead();
                     otherWormHead.netUpdate = true;
                 }
-			} 
+			}
+
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
 			DropHelper.DropBags(npc);
 

@@ -60,6 +60,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			set => npc.Calamity().newAI[1] = value;
 		}
 
+		// Used for Draedon's text
+		public static readonly Color TextColor = new Color(155, 255, 255);
+
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Timer to prevent Thanatos from dealing contact damage for a bit
@@ -501,6 +504,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
+								// Draedon text for the start of phase 2
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
+
 								// Spawn the fuckers
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AresBody>());
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
@@ -537,6 +543,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							calamityGlobalNPC.newAI[3] = 0f;
 							chargeVelocityScalar = 0f;
 							npc.TargetClosest();
+
+							// Phase 6, when 1 mech goes berserk and the other one leaves
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 6
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text1", TextColor);
+							}
 						}
 					}
 
@@ -575,6 +588,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
+
+						// Phase 4, when 1 mech goes berserk and the other 2 leave
+						if (exoTwinsAlive && exoPrimeAlive)
+						{
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 4
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text1", TextColor);
+							}
+						}
 					}
 
 					break;
@@ -597,6 +620,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						calamityGlobalNPC.newAI[3] = 0f;
 						chargeVelocityScalar = 0f;
 						npc.TargetClosest();
+
+						// Phase 3, when all 3 mechs attack at the same time
+						if (exoPrimeAlive && exoTwinsAlive)
+						{
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 3
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text1", TextColor);
+							}
+						}
 					}
 
 					if (berserk)
@@ -1067,19 +1100,30 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		public override void NPCLoot()
 		{
 			// Check if the other exo mechs are alive
-			bool otherExoMechsAlive = false;
+			bool exoTwinsAlive = false;
+			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
-					otherExoMechsAlive = true;
+					exoTwinsAlive = true;
 			}
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
-					otherExoMechsAlive = true;
+					exoPrimeAlive = true;
 			}
 
-			if (!otherExoMechsAlive)
+			// Phase 5, when 1 mech dies and the other 2 return to fight
+			if (exoTwinsAlive && exoPrimeAlive)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					// Draedon text for the start of phase 5
+					//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text1", TextColor);
+				}
+			}
+
+			if (!exoTwinsAlive && !exoPrimeAlive)
 				AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.Thanatos);
 		}
 

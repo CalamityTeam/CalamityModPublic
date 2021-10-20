@@ -400,5 +400,5 @@ namespace CalamityMod
         // Reforge syncs
         ItemTypeLastReforgedSync, // TODO -- there has to be a better way to do this, but I don't know what it is
         ReforgeTierSafetySync
-    }
+	}
 }

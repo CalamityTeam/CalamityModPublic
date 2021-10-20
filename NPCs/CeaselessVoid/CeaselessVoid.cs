@@ -159,6 +159,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			bool fullStrength = !CalamityWorld.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
+				CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
 				DropHelper.DropBags(npc);
 
 				// Legendary drop for Ceaseless Void

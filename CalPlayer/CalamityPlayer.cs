@@ -141,10 +141,16 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public float MusicMuffleFactor;
-        #endregion
+		#endregion
 
-        #region Tile Entity Trackers
-        public int CurrentlyViewedFactoryID = -1;
+		#region Speedrun Timer
+		public int speedrunTimer = 0;
+		public int bossTypeJustDowned = -1;
+		public int bossTypeJustDownedTime = 0;
+		#endregion
+
+		#region Tile Entity Trackers
+		public int CurrentlyViewedFactoryID = -1;
         public int CurrentlyViewedChargerID = -1;
         public int CurrentlyViewedHologramID = -1;
         public string CurrentlyViewedHologramText;
@@ -1098,7 +1104,7 @@ namespace CalamityMod.CalPlayer
 
         #endregion
 
-        #region SavingAndLoading
+        #region Saving And Loading
         public override void Initialize()
         {
             extraAccessoryML = false;
@@ -1220,8 +1226,11 @@ namespace CalamityMod.CalPlayer
                 { "itemTypeLastReforged", itemTypeLastReforged },
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
-                { "defenseDamage", defenseDamage }
-            };
+                { "defenseDamage", defenseDamage },
+				{ "speedrunTimer", speedrunTimer },
+				{ "bossTypeJustDowned", bossTypeJustDowned },
+				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
+			};
         }
 
         public override void Load(TagCompound tag)
@@ -1312,7 +1321,11 @@ namespace CalamityMod.CalPlayer
             moveSpeedStat = tag.GetInt("moveSpeedStat");
 
             defenseDamage = tag.GetInt("defenseDamage");
-        }
+
+			speedrunTimer = tag.GetInt("speedrunTimer");
+			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
+			bossTypeJustDownedTime = tag.GetInt("bossTypeJustDownedTime");
+		}
 
         public override void LoadLegacy(BinaryReader reader)
         {
@@ -1351,7 +1364,11 @@ namespace CalamityMod.CalPlayer
 
             defenseDamage = reader.ReadInt32();
 
-            if (loadVersion == 0)
+			speedrunTimer = reader.ReadInt32();
+			bossTypeJustDowned = reader.ReadInt32();
+			bossTypeJustDownedTime = reader.ReadInt32();
+
+			if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
                 extraAccessoryML = flags[0];
@@ -3888,10 +3905,17 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
         }
-        #endregion
+		#endregion
 
-        #region PreUpdate
-        public override void PreUpdate()
+		#region Update Autopause
+		public override void UpdateAutopause()
+		{
+			speedrunTimer++;
+		}
+		#endregion
+
+		#region PreUpdate
+		public override void PreUpdate()
         {
             tailFrameUp++;
             if (tailFrameUp == 8)
@@ -3927,7 +3951,9 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-        }
+
+			speedrunTimer++;
+		}
         #endregion
 
         #region PreUpdateBuffs

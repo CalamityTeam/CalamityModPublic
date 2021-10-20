@@ -666,7 +666,7 @@ namespace CalamityMod.World
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
 
-            if (loadVersion == 0)
+			if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
                 downedDesertScourge = flags[0];
@@ -1046,7 +1046,7 @@ namespace CalamityMod.World
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
-            DraedonSummonCountdown = reader.ReadInt32();
+			DraedonSummonCountdown = reader.ReadInt32();
             DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
             SunkenSeaLabCenter = reader.ReadVector2();

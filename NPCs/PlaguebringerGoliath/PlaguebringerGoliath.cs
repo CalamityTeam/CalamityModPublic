@@ -1215,7 +1215,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for PBG
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), true, CalamityWorld.malice);
