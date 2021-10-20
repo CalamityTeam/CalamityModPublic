@@ -62,6 +62,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod.Particles;
 
 namespace CalamityMod
 {
@@ -279,6 +280,8 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
+            FusableParticleManager.LoadParticleRenderSets();
+            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
@@ -355,6 +358,9 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            FusableParticleManager.UnloadParticleRenderSets();
+            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
+
             RipperUI.Unload();
             AstralArcanumUI.Unload();
 
@@ -401,6 +407,19 @@ namespace CalamityMod
                 saveMethodInfo.Invoke(null, new object[] { cfg });
             else
                 Instance.Logger.Warn("In-game SaveConfig failed, code update required");
+        }
+        #endregion
+
+        #region Fusable Particle Updating
+        public override void MidUpdateProjectileItem()
+        {
+            // Update all fusable particles.
+            // These are really only visual and as such don't really need any complex netcode.
+            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in FusableParticleManager.ParticleSets)
+            {
+                foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
+                    particleSet.ParticleSet.UpdateBehavior(particle);
+            }
         }
         #endregion
 

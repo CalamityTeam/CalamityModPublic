@@ -165,10 +165,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 TalkTimer = ExoMechChooseDelay;
             }
 
-            // Disable music before talking.
-            if (TalkTimer <= 50f)
-                Main.LocalPlayer.Calamity().MusicMuffleFactor = 1f;
-
             // Fly around once the exo mechs have been spawned.
             if (ExoMechIsPresent || DefeatTimer > 0f)
             {
@@ -303,7 +299,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Stand up in awe after a small amount of time has passed.
             if (DefeatTimer > DelayBeforeDefeatStandup)
                 ShouldStartStandingUp = true;
-            
+
             // TODO - This needs to be changed.
             if (DefeatTimer == DelayBeforeDefeatStandup + 10f)
                 Main.NewText("Wait, what? How?", TextColor);

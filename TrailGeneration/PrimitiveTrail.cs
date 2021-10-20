@@ -73,29 +73,8 @@ namespace CalamityMod
 
 		public void UpdateBaseEffect(out Matrix effectProjection, out Matrix effectView)
 		{
-			// Screen bounds.
-			int height = Main.instance.GraphicsDevice.Viewport.Height;
+			CalamityUtils.CalculatePerspectiveMatricies(out effectView, out effectProjection);
 
-			Vector2 zoom = Main.GameViewMatrix.Zoom;
-			Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-
-			// Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
-			effectView = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up);
-
-			// Offset the matrix to the appropriate position.
-			effectView *= Matrix.CreateTranslation(0f, -height, 0f);
-
-			// Flip the matrix around 180 degrees.
-			effectView *= Matrix.CreateRotationZ(MathHelper.Pi);
-
-			// Account for the inverted gravity effect.
-			if (Main.LocalPlayer.gravDir == -1f)
-				effectView *= Matrix.CreateScale(1f, -1f, 1f) * Matrix.CreateTranslation(0f, height, 0f);
-
-			// And account for the current zoom.
-			effectView *= zoomScaleMatrix;
-
-			effectProjection = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
 			BaseEffect.View = effectView;
 			BaseEffect.Projection = effectProjection;
 		}

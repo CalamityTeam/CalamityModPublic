@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("Extends the duration of potion buffs by 100% and potion buffs remain active even after you die\n" +
 							"15% increased damage\n" +
 							"Shade rains down when you are hit\n" +
-							"Nearby enemies receive a variety of debuffs when you are hit\n" +
-							"You will confuse nearby enemies when you are struck");
+							"Nearby enemies receive a variety of debuffs when you are hit");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
 		}
 

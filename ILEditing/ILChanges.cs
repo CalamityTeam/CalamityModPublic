@@ -5,6 +5,7 @@ using CalamityMod.NPCs;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
@@ -17,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -129,7 +131,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
-            IL.Terraria.Main.UpdateAudio += ManipulateSoundMuffleFactor;
+			IL.Terraria.Main.DoDraw += DrawFusableParticles;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
@@ -163,10 +165,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
-        /// <summary>
-        /// Unloads all IL Editing changes in the mod.
-        /// </summary>
-        internal static void Unload()
+		/// <summary>
+		/// Unloads all IL Editing changes in the mod.
+		/// </summary>
+		internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
@@ -187,7 +189,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
-            IL.Terraria.Main.UpdateAudio -= ManipulateSoundMuffleFactor;
+            IL.Terraria.Main.DoDraw -= DrawFusableParticles;
 
 			// Ravager platform fall fix
 			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
@@ -498,33 +500,6 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Brtrue, finalReturn);
         }
 
-        private static void ManipulateSoundMuffleFactor(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-            cursor.GotoNext(MoveType.After, i => i.MatchStloc(20));
-
-            cursor.Emit(OpCodes.Ldloc, 20);
-            cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>
-            {
-                if (Main.gameMenu || !Main.LocalPlayer.active)
-                    return originalMuffleFactor;
-
-                float playerMuffleFactor = 1f - Main.LocalPlayer.Calamity().MusicMuffleFactor;
-                float result = MathHelper.Clamp(originalMuffleFactor * playerMuffleFactor, -1f, 1f);
-                if (result <= 0)
-                {
-                    for (int i = 0; i < Main.music.Length; i++)
-                    {
-                        if (Main.music[i] != null && Main.music[i].IsPlaying)
-                            Main.music[i].Stop(AudioStopOptions.Immediate);
-                    }
-                    Main.curMusic = 0;
-                }
-                return result;
-            });
-            cursor.Emit(OpCodes.Stloc, 20);
-        }
-
         #region Fire Cursor
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
@@ -620,6 +595,36 @@ namespace CalamityMod.ILEditing
             Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
         }
         #endregion
+
+        private static void DrawFusableParticles(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Over NPCs but before Projectiles.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("SortDrawCacheWorms")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the SortDrawCacheWorms reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverNPCsBeforeProjectiles));
+
+            // Over Players.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Main>("DrawPlayers")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawPlayers reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverPlayers));
+
+            // Over Water.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<MoonlordDeathDrama>("DrawWhite")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawWhite reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
+        }
+
         #endregion
 
         #region Damage and health balance
