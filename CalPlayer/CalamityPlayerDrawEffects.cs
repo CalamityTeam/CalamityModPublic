@@ -32,6 +32,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -374,7 +375,26 @@ namespace CalamityMod.CalPlayer
 			}
 		});
 
-        public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
+		public static readonly PlayerLayer DrawRancorBookManually = new PlayerLayer("CalamityMod", "RancorBook", PlayerLayer.Arms, drawInfo =>
+		{
+			Player drawPlayer = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
+			if (drawInfo.shadow != 0f || drawPlayer.dead)
+				return;
+
+			int bookType = ModContent.ProjectileType<RancorHoldout>();
+			Texture2D bookTexture = Main.projectileTexture[bookType];
+			Projectile book = Main.projectile[drawPlayer.heldProj];
+			Rectangle frame = bookTexture.Frame(1, Main.projFrames[bookType], 0, book.frame);
+			Vector2 origin = frame.Size() * 0.5f;
+			Vector2 drawPosition = drawPlayer.Center + Vector2.UnitX * drawPlayer.direction * 8f - Main.screenPosition;
+			Color drawColor = book.GetAlpha(Color.White);
+			SpriteEffects direction = book.spriteDirection == 1f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			DrawData bookDrawData = new DrawData(bookTexture, drawPosition, frame, drawColor, book.rotation, origin, book.scale, direction, 0);
+			Main.playerDrawData.Add(bookDrawData);
+		});
+
+		public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
@@ -717,20 +737,23 @@ namespace CalamityMod.CalPlayer
                 list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
 
             if (player.Calamity().fab || player.Calamity().crysthamyr || player.Calamity().onyxExcavator)
-            {
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
-            }
+
+			if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
+				list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);
 
 			if (player.Calamity().fathomSwarmerTail)
 			{
 				int skinIndex = list.IndexOf(PlayerLayer.Skin);
 				list.Insert(skinIndex - 1, Tail);
 			}
+
 			if (player.Calamity().forbiddenCirclet)
 			{
 				int drawTheStupidSign = list.IndexOf(PlayerLayer.Skin);
 				list.Insert(drawTheStupidSign, ForbiddenCircletSign);
 			}
+
             list.Add(ArtemisAndApolloMaskPieces);
             list.Add(ColdDivinityOverlay);
             list.Add(ConcentratedVoidAura);

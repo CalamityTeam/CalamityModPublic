@@ -140,7 +140,6 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-        public float MusicMuffleFactor;
 		#endregion
 
 		#region Speedrun Timer
@@ -1497,8 +1496,6 @@ namespace CalamityMod.CalPlayer
             }
 
             ResetRogueStealth();
-
-            MusicMuffleFactor = 0f;
 
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
@@ -5584,10 +5581,6 @@ namespace CalamityMod.CalPlayer
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
-            }
-            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
-            {
-                damage += Main.rand.Next(20, 31);
             }
             if (plaguebringerPatronSummon)
             {
