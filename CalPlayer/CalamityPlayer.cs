@@ -5556,10 +5556,6 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
-            {
-                damage += Main.rand.Next(20, 31);
-            }
             if (plaguebringerPatronSummon)
             {
                 if (isSummon && proj.active && proj.friendly && !proj.npcProj && !proj.trap && proj.damage > 0)
