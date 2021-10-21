@@ -235,12 +235,30 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 1;
 					break;
 
-				case ProjectileID.JungleYoyo:
-				case ProjectileID.Code1:
-				case ProjectileID.Valor:
-					projectile.extraUpdates = 1;
+				case ProjectileID.CorruptYoyo:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 190f;
 					projectile.usesLocalNPCImmunity = true;
 					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.Valor:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 384f;
+					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.JungleYoyo:
+					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.Code1:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 240f;
+					projectile.extraUpdates = 1;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 20;
 					break;
 
 				case ProjectileID.BlueMoon:
@@ -299,7 +317,6 @@ namespace CalamityMod.Projectiles
                     break;
 
 				case ProjectileID.WoodYoyo:
-				case ProjectileID.CorruptYoyo:
 				case ProjectileID.CrimsonYoyo:
 				case ProjectileID.RedsYoyo:
 				case ProjectileID.ValkyrieYoyo:
