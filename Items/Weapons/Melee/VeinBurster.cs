@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 52;
-            item.damage = 22;
+            item.damage = 57;
             item.melee = true;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
+            item.useTime = 37;
             item.useTurn = true;
             item.knockBack = 4.25f;
             item.UseSound = SoundID.Item1;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<BloodBall>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()

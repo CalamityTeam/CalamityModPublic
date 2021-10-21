@@ -410,10 +410,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
 				EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
 
-			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt)
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 

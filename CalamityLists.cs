@@ -1361,6 +1361,7 @@ namespace CalamityMod
 
             fiftySizeBuffList = new List<int>()
             {
+				ItemID.EnchantedSword,
                 ItemID.BreakerBlade,
                 ItemID.StylistKilLaKillScissorsIWish,
                 ItemID.NightsEdge,

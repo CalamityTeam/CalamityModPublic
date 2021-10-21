@@ -235,6 +235,14 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 1;
 					break;
 
+				case ProjectileID.JungleYoyo:
+				case ProjectileID.Code1:
+				case ProjectileID.Valor:
+					projectile.extraUpdates = 1;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
 				case ProjectileID.BlueMoon:
 				case ProjectileID.Flamarang:
 					projectile.extraUpdates = 2;
@@ -293,14 +301,11 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.WoodYoyo:
 				case ProjectileID.CorruptYoyo:
 				case ProjectileID.CrimsonYoyo:
-				case ProjectileID.JungleYoyo:
 				case ProjectileID.RedsYoyo:
 				case ProjectileID.ValkyrieYoyo:
 				case ProjectileID.Kraken:
 				case ProjectileID.Rally:
-				case ProjectileID.Code1:
 				case ProjectileID.Code2:
-				case ProjectileID.Valor:
 				case ProjectileID.Cascade:
 				case ProjectileID.Chik:
 				case ProjectileID.FormatC:

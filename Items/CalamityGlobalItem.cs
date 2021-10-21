@@ -268,7 +268,6 @@ namespace CalamityMod.Items
 				case ItemID.Spear:
 				case ItemID.Trident:
 				case ItemID.PalladiumPike:
-				case ItemID.ObsidianSwordfish:
 				case ItemID.CobaltDrill:
 				case ItemID.MythrilDrill:
 				case ItemID.AdamantiteDrill:
@@ -329,6 +328,86 @@ namespace CalamityMod.Items
 					break;
 
 				// True melee weapon adjustments
+				case ItemID.BladedGlove:
+					item.damage = 15;
+					item.useTime = 7;
+					item.useAnimation = 7;
+					break;
+
+				case ItemID.IceBlade:
+					item.damage = 26;
+					item.useTime = 33;
+					break;
+
+				case ItemID.EnchantedSword:
+					item.damage = 42;
+					item.useAnimation = 20;
+					item.shootSpeed = 15f;
+					break;
+
+				case ItemID.Starfury:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.WoodYoyo:
+				case ItemID.Chik:
+				case ItemID.FormatC:
+				case ItemID.HelFire:
+				case ItemID.Amarok:
+				case ItemID.Gradient:
+				case ItemID.Code2:
+				case ItemID.Yelets:
+				case ItemID.RedsYoyo:
+				case ItemID.ValkyrieYoyo:
+				case ItemID.Kraken:
+				case ItemID.TheEyeOfCthulhu:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Rally:
+					item.damage = 20;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.JungleYoyo:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CrimsonYoyo:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CorruptYoyo:
+					item.damage = 27;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Code1:
+					item.damage = 25;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Valor:
+					item.damage = 32;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.ObsidianSwordfish:
+					item.damage = 45;
+					trueMelee = true;
+					break;
+
+				case ItemID.BloodyMachete:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Cascade:
+					item.damage = 39;
+					item.autoReuse = true;
+					break;
+
 				case ItemID.SlapHand:
 					item.damage = 120;
 					break;
@@ -519,6 +598,7 @@ namespace CalamityMod.Items
 
 				case ItemID.Terrarian:
 					item.damage = 352;
+					item.autoReuse = true;
 					break;
 
 				case ItemID.RainbowRod:

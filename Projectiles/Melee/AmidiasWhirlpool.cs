@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                 int num3;
                 projectile.rotation -= 0.104719758f;
                 Vector2 vector145 = projectile.Center;
-                float num1015 = 100f;
+                float num1015 = 150f;
                 bool flag59 = false;
                 int num1016 = 0;
                 if (projectile.ai[1] == 0f)

@@ -5102,10 +5102,12 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.TheRottedFork:
 				case ProjectileID.TheMeatball:
+				case ProjectileID.CrimsonYoyo:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
 
 				case ProjectileID.BallOHurt:
+				case ProjectileID.CorruptYoyo:
 					target.AddBuff(BuffID.ShadowFlame, 60);
 					break;
 
