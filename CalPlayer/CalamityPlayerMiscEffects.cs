@@ -482,7 +482,7 @@ namespace CalamityMod.CalPlayer
                     }
 				}
 
-				Vector2 startingStickPosition = player.Center + stickOffset + new Vector2(direction * -34f, 12f);
+				Vector2 startingStickPosition = player.Center + stickOffset + new Vector2(direction * (float)Math.Cos(modPlayer.SmoothenedMinecartRotation * 2f) * -34f, 12f);
 				modPlayer.DoGCartSegments[0].Update(player, startingStickPosition, idealRotation);
 				modPlayer.DoGCartSegments[0].Center = startingStickPosition;
 
