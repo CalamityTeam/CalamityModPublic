@@ -504,7 +504,7 @@ namespace CalamityMod
 			// Storm Weaver
 			{
 				BossDifficulty.TryGetValue("StormWeaver", out float order);
-				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>(), NPCType<StormWeaverHeadNaked>(), NPCType<StormWeaverBodyNaked>(), NPCType<StormWeaverTailNaked>() };
+				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>() };
 				int summon = ItemType<RuneofCos>();
 				List<int> loot = new List<int>() { ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<KnowledgeSentinels>() };

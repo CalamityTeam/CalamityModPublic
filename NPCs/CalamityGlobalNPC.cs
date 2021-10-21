@@ -452,9 +452,9 @@ namespace CalamityMod.NPCs
 
 		public static List<int> StormWeaverIDs = new List<int>
 		{
-			NPCType<StormWeaverHeadNaked>(),
-			NPCType<StormWeaverBodyNaked>(),
-			NPCType<StormWeaverTailNaked>()
+			NPCType<StormWeaverHead>(),
+			NPCType<StormWeaverBody>(),
+			NPCType<StormWeaverTail>()
 		};
 
 		public static List<int> GrenadeResistIDs = new List<int>
@@ -5054,7 +5054,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedSentinel1;
 			}
-			else if (type == NPCType<StormWeaverHeadNaked>() || type == NPCType<StormWeaverBodyNaked>() || type == NPCType<StormWeaverTailNaked>())
+			else if (type == NPCType<StormWeaverHead>() || type == NPCType<StormWeaverBody>() || type == NPCType<StormWeaverTail>())
 			{
 				return CalamityWorld.downedSentinel2;
 			}

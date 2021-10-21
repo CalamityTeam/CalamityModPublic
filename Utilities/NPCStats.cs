@@ -265,8 +265,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<StormWeaverBody>(), 0.8 },
 				{ ModContent.NPCType<StormWeaverTail>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8 },
 
 				{ ModContent.NPCType<Signus>(), 0.9 },
 
@@ -504,12 +502,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
 				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
 
-				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
-				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
-				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 80, 128, 160, 176, 240 } },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), new int[] { 180, 360, 396, 418, 540 } },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), new int[] { 120, 192, 224, 250, 330 } },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), new int[] { 100, 160, 192, 210, 270 } },
+				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 180, 360, 396, 418, 540 } },
+				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 120, 192, 224, 250, 330 } },
+				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 100, 160, 192, 210, 270 } },
 
 				{ ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
 				{ ModContent.NPCType<CosmicLantern>(), new int[] { 110, 220, 242, 256, 336 } },
@@ -758,8 +753,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 120, 192, 212, 224, 318 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },

@@ -100,7 +100,6 @@ namespace CalamityMod.Events
             BossIDsAfterDeath = new Dictionary<int, int[]>()
             {
                 [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
-                [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
             };
 
             Bosses = new List<Boss>()

@@ -289,7 +289,8 @@ namespace CalamityMod
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
-            SupremeCalamitas.LoadHeadIcons();
+			StormWeaverHead.LoadHeadIcons();
+			SupremeCalamitas.LoadHeadIcons();
             ThanatosHead.LoadHeadIcons();
             ThanatosBody1.LoadHeadIcons();
             ThanatosBody2.LoadHeadIcons();
@@ -602,9 +603,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Providence>(), 14400 },
 				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
 				{ ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverHead>(), 8100 },
+                { ModContent.NPCType<StormWeaverBody>(), 8100 },
+                { ModContent.NPCType<StormWeaverTail>(), 8100 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -729,9 +730,6 @@ namespace CalamityMod
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
                 { ModContent.NPCType<Signus>(), velocityScaleMin },
                 { ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
                 { ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },

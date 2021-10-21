@@ -982,7 +982,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 34:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<StormWeaverHeadNaked>()]];
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<StormWeaverHead>()]];
 								break;
 
 							case 35:
