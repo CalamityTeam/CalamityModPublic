@@ -1007,7 +1007,7 @@ namespace CalamityMod.Items
         }
 		#endregion
 
-		#region SavingAndLoading
+		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
             return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
@@ -1665,6 +1665,15 @@ namespace CalamityMod.Items
         {
 			switch (item.type)
 			{
+				case ItemID.MagicHat:
+					player.magicDamage -= 0.02f;
+					player.magicCrit -= 2;
+					break;
+
+				case ItemID.WizardHat:
+					player.magicDamage -= 0.1f;
+					break;
+
 				case ItemID.GladiatorHelmet:
 				case ItemID.ObsidianHelm:
 					player.Calamity().throwingDamage += 0.03f;

@@ -493,6 +493,19 @@ namespace CalamityMod.Items
 			// Rebalances to vanilla item stats
 			#region Vanilla Item Rebalance Tooltips
 
+			// Magic Power Potion nerf
+			if (item.type == ItemID.MagicPowerPotion)
+				EditTooltipByNum(0, (line) => line.text = "10% increased magic damage");
+
+			// Magic and Wizard Hat nerfs
+			// Magic Hat
+			if (item.type == ItemID.MagicHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage and critical strike chance");
+
+			// Wizard Hat
+			if (item.type == ItemID.WizardHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage");
+
 			// Reduce DD2 armor piece bonuses because they're overpowered
 			// Squire armor
 			if (item.type == ItemID.SquirePlating)

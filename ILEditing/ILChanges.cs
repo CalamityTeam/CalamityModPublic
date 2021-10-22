@@ -147,6 +147,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
+			// Mana regen balance
+			IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
+			IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
+
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon += PreventDungeonHorizontalCollisions;
@@ -205,8 +209,12 @@ namespace CalamityMod.ILEditing
 			IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
-            // World generation
-            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
+			// Mana regen balance
+			IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
+			IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
+
+			// World generation
+			IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -882,12 +890,57 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-        #endregion
+		#endregion
 
-        #region World generation
+		#region Mana regen balance
+		private static void ManaRegenDelayAdjustment(ILContext il)
+		{
+			// Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
+			// Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
+			{
+				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
 
-        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-        private static void ReplacePharaohSetInPyramids(ILContext il)
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
+			{
+				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
+		}
+
+		private static void ManaRegenAdjustment(ILContext il)
+		{
+			// Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
+			{
+				LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
+
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
+			{
+				LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
+		}
+		#endregion
+
+		#region World generation
+
+		// Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+		private static void ReplacePharaohSetInPyramids(ILContext il)
         {
             var cursor = new ILCursor(il);
 
