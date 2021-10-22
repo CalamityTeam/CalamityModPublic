@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Summon
                 // They move faster the farther away from the target the minion is.
                 if (AttackTimer % FireballShootRate == FireballShootRate - 1f)
                 {
-                    float shootSpeed = (distanceFromTarget - 300f) * 0.015f + 31f;
+                    float shootSpeed = (distanceFromTarget - 220f) * 0.015f + 45f;
                     Main.PlaySound(SoundID.Item73, projectile.Center);
                     if (Main.myPlayer == projectile.owner)
                     {

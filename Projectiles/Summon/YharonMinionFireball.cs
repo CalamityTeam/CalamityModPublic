@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
 
             NPC potentialTarget = projectile.Center.MinionHoming(600f, Main.player[projectile.owner]);
             if (potentialTarget != null)
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * InitialSpeed, 0.1f);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * InitialSpeed, 0.15f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
