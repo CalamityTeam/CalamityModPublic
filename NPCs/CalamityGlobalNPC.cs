@@ -3975,6 +3975,11 @@ namespace CalamityMod.NPCs
 			int spawnRate = 400;
 			int maxSpawnCount = (int)MaxSpawnsField.GetValue(null);
 			NPCLoader.EditSpawnRate(player, ref spawnRate, ref maxSpawnCount);
+
+			// Enforce a limit on the amount of enemies that can appear.
+			if (player.activeNPCs >= maxSpawnCount)
+				return;
+
 			for (int i = 0; i < 18; i++)
 			{
 				int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
