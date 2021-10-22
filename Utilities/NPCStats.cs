@@ -185,7 +185,6 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, 0.9 },
 
 				{ ModContent.NPCType<HiveMind>(), 0.9 },
-				{ ModContent.NPCType<HiveMindP2>(), 0.9 },
 
 				{ ModContent.NPCType<PerforatorHive>(), 0.9 },
 
@@ -328,8 +327,7 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
 				{ NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },
 
-				{ ModContent.NPCType<HiveMind>(), new int[] { 20, 36, 45, 54, 81 } },
-				{ ModContent.NPCType<HiveMindP2>(), new int[] { 35, 63, 81, 90, 135 } },
+				{ ModContent.NPCType<HiveMind>(), new int[] { 35, 63, 81, 90, 135 } },
 				{ ModContent.NPCType<DankCreeper>(), new int[] { 25, 50, 62, 68, 90 } },
 
 				{ ModContent.NPCType<PerforatorHive>(), new int[] { 30, 54, 63, 72, 108 } },
@@ -566,7 +564,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 32, 48, 60, 68, 90 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<HiveMindP2>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<HiveMind>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DankCreeper>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DarkHeart>(), ModContent.ProjectileType<ShaderainHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<HiveBlob>(), ModContent.ProjectileType<VileClot>()), new int[] { 30, 48, 60, 68, 90 } },

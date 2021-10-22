@@ -863,7 +863,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 7:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<HiveMindP2>()]];
+								texture = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss");
 								break;
 
 							case 8:
@@ -982,7 +982,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 34:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<StormWeaverHead>()]];
+								texture = ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss");
 								break;
 
 							case 35:
@@ -990,7 +990,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 36:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Polterghast>()]];
+								texture = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss");
 								break;
 
 							case 37:
@@ -1006,7 +1006,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 40:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<SupremeCalamitas>()]];
+								texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon");
 								break;
 
 							case 41:

@@ -2785,7 +2785,7 @@ namespace CalamityMod
 				{ NPCID.EaterofWorldsBody, 5 },
 				{ NPCID.EaterofWorldsTail, 5 },
 				{ NPCID.BrainofCthulhu, 6 },
-				{ NPCType<HiveMindP2>(), 7 },
+				{ NPCType<HiveMind>(), 7 },
 				{ NPCType<PerforatorHive>(), 8 },
 				{ NPCID.QueenBee, 9 },
 				{ NPCID.SkeletronHead, 10 },

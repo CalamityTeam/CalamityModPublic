@@ -184,17 +184,19 @@ namespace CalamityMod.NPCs.StormWeaver
 			// Update armored settings to naked settings
 			if (shedArmor)
 			{
-				CalamityGlobalNPC global = npc.Calamity();
-				global.DR = 0f;
-				global.unbreakableDR = false;
-
-				// Spawn armor gore
+				// Spawn armor gore, roar and set other crucial variables
 				if (!npc.chaseable)
+				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorHead1"), 1f);
+					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
 
-				npc.chaseable = true;
-				npc.HitSound = SoundID.NPCHit13;
-				npc.DeathSound = SoundID.NPCDeath13;
+					CalamityGlobalNPC global = npc.Calamity();
+					global.DR = 0f;
+					global.unbreakableDR = false;
+					npc.chaseable = true;
+					npc.HitSound = SoundID.NPCHit13;
+					npc.DeathSound = SoundID.NPCDeath13;
+				}
 			}
 
 			int boltProjectiles = (phase3 || death) ? 4 : phase2 ? 3 : 2;

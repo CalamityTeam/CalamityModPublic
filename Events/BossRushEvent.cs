@@ -97,11 +97,6 @@ namespace CalamityMod.Events
         #region Loading and Unloading
         public static void Load()
         {
-            BossIDsAfterDeath = new Dictionary<int, int[]>()
-            {
-                [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
-            };
-
             Bosses = new List<Boss>()
             {
                 new Boss(NPCID.QueenBee),

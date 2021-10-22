@@ -4990,7 +4990,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedCrabulon;
 			}
-			else if (type == NPCType<HiveMind.HiveMind>() || type == NPCType<HiveMind.HiveMindP2>())
+			else if (type == NPCType<HiveMind.HiveMind>())
 			{
 				return CalamityWorld.downedHiveMind;
 			}

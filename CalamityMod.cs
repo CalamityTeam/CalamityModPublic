@@ -288,6 +288,7 @@ namespace CalamityMod
 
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+			HiveMind.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
 			StormWeaverHead.LoadHeadIcons();
 			SupremeCalamitas.LoadHeadIcons();
@@ -575,8 +576,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
                 { ModContent.NPCType<CrabulonIdle>(), 5400 },
-                { ModContent.NPCType<HiveMind>(), 1800 },
-                { ModContent.NPCType<HiveMindP2>(), 5400 },
+                { ModContent.NPCType<HiveMind>(), 7200 },
                 { ModContent.NPCType<PerforatorHive>(), 7200 },
                 { ModContent.NPCType<SlimeGodCore>(), 10800 },
                 { ModContent.NPCType<SlimeGod>(), 5400 },
@@ -677,7 +677,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
                 { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
+                { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },

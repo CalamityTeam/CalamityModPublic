@@ -103,16 +103,16 @@ namespace CalamityMod.NPCs.StormWeaver
 			// Update armored settings to naked settings
 			if (shedArmor)
 			{
-				// Spawn armor gore
+				// Spawn armor gore and set other crucial variables
 				if (npc.takenDamageMultiplier == 3f)
 				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail2"), 1f);
-				}
 
-				npc.takenDamageMultiplier = 1f;
-				npc.HitSound = SoundID.NPCHit13;
-				npc.DeathSound = SoundID.NPCDeath13;
+					npc.takenDamageMultiplier = 1f;
+					npc.HitSound = SoundID.NPCHit13;
+					npc.DeathSound = SoundID.NPCDeath13;
+				}
 			}
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);

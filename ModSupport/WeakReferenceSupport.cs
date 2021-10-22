@@ -289,13 +289,13 @@ namespace CalamityMod
 			// Hive Mind
 			{
 				BossDifficulty.TryGetValue("HiveMind", out float order);
-				List<int> phases = new List<int>() { NPCType<HiveMind>(), NPCType<HiveMindP2>() };
+				int type = NPCType<HiveMind>();
 				int summon = ItemType<Teratoma>();
 				List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>(), ItemType<RottingEyeball>() };
 				string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
 				string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
-				AddBoss(bossChecklist, calamity, "Hive Mind", order, phases, DownedHiveMind, summon, loot, collection, instructions, despawn);
+				AddBoss(bossChecklist, calamity, "Hive Mind", order, type, DownedHiveMind, summon, loot, collection, instructions, despawn);
 			}
 
 			// Perforators
