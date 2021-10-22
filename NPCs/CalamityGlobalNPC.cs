@@ -3980,7 +3980,7 @@ namespace CalamityMod.NPCs
 			if (player.activeNPCs >= maxSpawnCount)
 				return;
 
-			for (int i = 0; i < 18; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
 				int checkPositionY = (int)(player.Center.Y / 16 + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
