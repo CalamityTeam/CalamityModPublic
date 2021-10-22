@@ -163,6 +163,7 @@ namespace CalamityMod.ILEditing
             // Removal of vanilla stupidity
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+            IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
@@ -225,6 +226,7 @@ namespace CalamityMod.ILEditing
             // Removal of vanilla stupidity
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
+            IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
@@ -1151,6 +1153,27 @@ namespace CalamityMod.ILEditing
         {
             if (!Main.player[plr].Calamity().bossZen)
                 orig(plr);
+        }
+
+        private static void MakeVoodooDemonDollWork(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(NPCID.VoodooDemon)))
+            {
+                LogFailure("Voodoo Demon Doll Mechanic", "Could not locate the Voodoo Demon ID.");
+                return;
+            }
+
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.EmitDelegate<Func<int, int>>(spawnPlayerIndex =>
+            {
+                if (Main.player[spawnPlayerIndex].active && Main.player[spawnPlayerIndex].Calamity().disableVoodooSpawns)
+                    return NPCID.None;
+
+                return NPCID.VoodooDemon;
+            });
         }
         #endregion
 

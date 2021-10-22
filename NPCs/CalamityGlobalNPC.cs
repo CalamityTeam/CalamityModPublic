@@ -4123,9 +4123,7 @@ namespace CalamityMod.NPCs
 			}
 
             if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
-            {
                 pool.Remove(NPCID.VoodooDemon);
-            }
 		}
         #endregion
 
