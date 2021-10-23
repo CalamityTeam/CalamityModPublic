@@ -30,17 +30,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            projectile.rotation = projectile.rotation.AngleLerp(-MathHelper.PiOver4, 0.03f);
+            projectile.rotation = projectile.rotation.AngleLerp(-MathHelper.PiOver4, 0.08f);
             if (Math.Abs(projectile.rotation + MathHelper.PiOver4) < 0.02f && projectile.ai[0] == 0f)
             {
-                for (int i = 1; i <= 4; i++)
-                {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MidnightSunSkyBeam>(), projectile.damage / 4, 0f, projectile.owner, 
-                        projectile.whoAmI, i - 2);
-                }
-                projectile.ai[1] = MidnightSunSkyBeam.TrueTimeLeft + 60f;
+                projectile.ai[1] = 85f;
                 projectile.ai[0] = 1f;
             }
+
             if (projectile.ai[1] == 1f)
             {
                 Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 30f, ModContent.ProjectileType<MidnightSunUFO>(), projectile.damage, projectile.knockBack,
