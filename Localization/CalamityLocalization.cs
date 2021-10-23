@@ -121,6 +121,7 @@ namespace CalamityMod.Localization
                                                     "interested in your remarkable progression." },
                 new [] { "DraedonIntroductionText4", "Humor me, in a battle with the results of my tinkering." },
                 new [] { "DraedonIntroductionText5", "You may choose your first opponent." },
+                new [] { "DraedonResummonText", "Make your choice." },
 				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
