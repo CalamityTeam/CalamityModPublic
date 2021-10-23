@@ -97,6 +97,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public ref float JawRotation => ref projectile.localAI[0];
         public ref float JawSnapTimer => ref projectile.localAI[1];
+        public const int HeartCreationRate = 420;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -222,7 +223,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Check if ready to enrage every so often.
             IdleTimer++;
-            if (IdleTimer % 600 == 599)
+            if (IdleTimer % HeartCreationRate == HeartCreationRate - 1f)
             {
                 int heartsAttachedToOwner = 0;
                 int heartType = ModContent.NPCType<ExhumedHeart>();
