@@ -184,12 +184,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
 
-			//if brimmy hasn't been killed, you can mine charred ore
-            string key2 = "Mods.CalamityMod.BrimmyBossText";
-            Color messageColor2 = Color.Crimson;
-            if (!CalamityWorld.downedBrimstoneElemental)
-                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
-
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;
             CalamityNetcode.SyncWorld();

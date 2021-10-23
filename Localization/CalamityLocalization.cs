@@ -21,8 +21,6 @@ namespace CalamityMod.Localization
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
 
-                new [] { "BrimmyBossText", "A protective spell has been lifted from the crags! You can now mine Charred Ore." },
-
                 new [] { "WetWormBossText", "The sulphuric sky darkens..." },
 
                 new [] { "PlantBossText", "The ocean depths are trembling." },
