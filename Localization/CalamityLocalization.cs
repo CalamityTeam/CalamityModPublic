@@ -125,7 +125,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase2Text1", "Your performance falls neatly within the margins of error." },
                 new [] { "DraedonExoPhase2Text2", "That is quite satisfactory. We will proceed to the next phase of testing." },
                 new [] { "DraedonExoPhase3Text1", "Ever since I was alerted to your presence, I have processed your battles in order to make my machines stronger." },
-                new [] { "DraedonExoPhase3Text2", "Even now, I monitor your actions—nothing should escape the bounds of my calculations." },
+                new [] { "DraedonExoPhase3Text2", "Even now, I monitor your actions. Nothing should escape the bounds of my calculations." },
                 new [] { "DraedonExoPhase4Text1", "Curious. Very curious." },
                 new [] { "DraedonExoPhase4Text2", "You progress steadily against more difficult challenges." },
                 new [] { "DraedonExoPhase5Text1", "Your nature remains unknown to me. This will not do." },
