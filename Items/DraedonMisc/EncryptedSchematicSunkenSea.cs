@@ -11,8 +11,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Schematic");
-            Tooltip.SetDefault("You can barely make out its text...\n" +
-                "Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen\n" +
+            Tooltip.SetDefault("The device must be placed in a codebreaker to display its contents." +
                 "Picking up this item or holding it in your inventory permanently unlocks new recipes");
         }
 
