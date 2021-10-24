@@ -291,13 +291,13 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() }),
 
-                new Boss(ModContent.NPCType<DevourerofGodsHeadS>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<DevourerofGodsHead>(), TimeChangeContext.Day, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
-                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBodyS>(), ModContent.NPCType<DevourerofGodsTailS>() })
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBody>(), ModContent.NPCType<DevourerofGodsTail>() })
             };
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
@@ -318,7 +318,7 @@ namespace CalamityMod.Events
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
                 },
-                [ModContent.NPCType<DevourerofGodsHeadS>()] = npc =>
+                [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
                     CalamityUtils.KillAllHostileProjectiles();
                     CalamityWorld.bossRushHostileProjKillCounter = 3;

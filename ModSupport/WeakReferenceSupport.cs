@@ -553,7 +553,7 @@ namespace CalamityMod
 			// Devourer of Gods
 			{
 				BossDifficulty.TryGetValue("DevourerOfGods", out float order);
-				int type = NPCType<DevourerofGodsHeadS>();
+				int type = NPCType<DevourerofGodsHead>();
 				int summon = ItemType<CosmicWorm>();
 				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Skullmasher>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<KnowledgeDevourerofGods>() };

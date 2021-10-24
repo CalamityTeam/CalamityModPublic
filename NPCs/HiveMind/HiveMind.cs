@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -20,7 +19,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 /* states:
  * 0 = slow drift
@@ -89,7 +87,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.npcSlots = 5f;
 			npc.GetNPCDamage();
 			npc.width = 178;
-            npc.height = 142;
+            npc.height = 122;
             npc.defense = 8;
             npc.LifeMaxNERB(7000, 9360, 350000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -260,7 +258,7 @@ namespace CalamityMod.NPCs.HiveMind
 				color24 = npc.GetAlpha(color24);
 				Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
 				Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2");
-				int num156 = Main.npcTexture[npc.type].Height / 8;
+				int num156 = texture2D3.Height / 8;
 				Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, npc.frame.X, num156);
 				Vector2 origin2 = rectangle.Size() / 2f;
 				int num157 = 8;
@@ -293,7 +291,7 @@ namespace CalamityMod.NPCs.HiveMind
 				}
 
 				var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+				spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
 				return false;
 			}
 
@@ -426,8 +424,9 @@ namespace CalamityMod.NPCs.HiveMind
 					for (int i = 1; i <= goreAmount; i++)
 						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore" + i), 1f);
 
-					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
+					Main.PlaySound(SoundID.NPCDeath1, (int)npc.Center.X, (int)npc.Center.Y);
 
+					npc.frame.Y = 0;
 					npc.noGravity = true;
 					npc.noTileCollide = true;
 					npc.Calamity().DR = 0f;

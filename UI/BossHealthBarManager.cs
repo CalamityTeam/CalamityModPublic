@@ -195,8 +195,6 @@ namespace CalamityMod.UI
                 NPCType<StormWeaverTail>(),
                 NPCType<DevourerofGodsBody>(),
                 NPCType<DevourerofGodsTail>(),
-                NPCType<DevourerofGodsBodyS>(),
-                NPCType<DevourerofGodsTailS>(),
                 NPCType<ThanatosBody1>(),
                 NPCType<ThanatosBody2>(),
                 NPCType<ThanatosTail>(),

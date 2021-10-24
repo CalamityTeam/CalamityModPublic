@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				if (!npc.chaseable)
 				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorHead1"), 1f);
-					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
+					Main.PlaySound(SoundID.NPCDeath14, (int)npc.Center.X, (int)npc.Center.Y);
 
 					CalamityGlobalNPC global = npc.Calamity();
 					global.DR = 0f;
@@ -274,15 +274,18 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
             }
 
-            if (Main.player[npc.target].dead && npc.life > 0)
+			if (npc.life > Main.npc[(int)npc.ai[0]].life)
+				npc.life = Main.npc[(int)npc.ai[0]].life;
+
+			if (Main.player[npc.target].dead && npc.life > 0)
             {
 				npc.localAI[1] = 0f;
 				calamityGlobalNPC.newAI[0] = 0f;
 				npc.TargetClosest(false);
 
-                npc.velocity.Y = npc.velocity.Y - 10f;
+                npc.velocity.Y -= 1f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
-                    npc.velocity.Y = npc.velocity.Y - 10f;
+                    npc.velocity.Y -= 1f;
 
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {

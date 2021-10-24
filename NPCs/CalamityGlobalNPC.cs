@@ -356,10 +356,7 @@ namespace CalamityMod.NPCs
         {
             NPCType<DevourerofGodsHead>(),
             NPCType<DevourerofGodsBody>(),
-            NPCType<DevourerofGodsTail>(),
-            NPCType<DevourerofGodsHeadS>(),
-            NPCType<DevourerofGodsBodyS>(),
-            NPCType<DevourerofGodsTailS>()
+            NPCType<DevourerofGodsTail>()
         };
 
 		public static List<int> CosmicGuardianIDs = new List<int>
@@ -744,7 +741,7 @@ namespace CalamityMod.NPCs
 			ResetSavedIndex(ref signus, NPCType<Signus.Signus>());
             ResetSavedIndex(ref ghostBossClone, NPCType<PolterPhantom>());
             ResetSavedIndex(ref ghostBoss, NPCType<Polterghast.Polterghast>());
-            ResetSavedIndex(ref DoGHead, NPCType<DevourerofGodsHead>(), NPCType<DevourerofGodsHeadS>());
+            ResetSavedIndex(ref DoGHead, NPCType<DevourerofGodsHead>());
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
@@ -5070,7 +5067,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedBoomerDuke;
 			}
-			else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>() || type == NPCType<DevourerofGodsHeadS>() || type == NPCType<DevourerofGodsBodyS>() || type == NPCType<DevourerofGodsTailS>())
+			else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>())
 			{
 				return CalamityWorld.downedDoG;
 			}

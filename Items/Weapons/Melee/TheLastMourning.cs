@@ -44,9 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			if (crit)
 				damage /= 2;
 
-            bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || 
-                target.type == ModContent.NPCType<DevourerofGodsBody2>() || 
-                target.type == ModContent.NPCType<DevourerofGodsBodyS>();
+            bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || target.type == ModContent.NPCType<DevourerofGodsBody2>();
             if (!isDoGSegment || Main.rand.NextBool(3))
             {
                 CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, damage, knockback, 0, ModContent.ProjectileType<MourningSkull>());

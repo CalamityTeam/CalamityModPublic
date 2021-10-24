@@ -242,9 +242,6 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
 
-            Filters.Scene["CalamityMod:DevourerofGodsHeadS"] = new Filter(new DoGScreenShaderDataS("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
-            SkyManager.Instance["CalamityMod:DevourerofGodsHeadS"] = new DoGSkyS();
-
             Filters.Scene["CalamityMod:CalamitasRun3"] = new Filter(new CalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.6f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:CalamitasRun3"] = new CalSky();
 
@@ -288,6 +285,9 @@ namespace CalamityMod
 
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+			DevourerofGodsHead.LoadHeadIcons();
+			DevourerofGodsBody.LoadHeadIcons();
+			DevourerofGodsTail.LoadHeadIcons();
 			HiveMind.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
 			StormWeaverHead.LoadHeadIcons();
@@ -609,12 +609,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
-                { ModContent.NPCType<DevourerofGodsHead>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsBody>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsTail>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
-                { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
-                { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
+                { ModContent.NPCType<DevourerofGodsHead>(), 14400 },
+                { ModContent.NPCType<DevourerofGodsBody>(), 14400 },
+                { ModContent.NPCType<DevourerofGodsTail>(), 14400 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
 				{ ModContent.NPCType<Apollo>(), 21600 },
@@ -741,9 +738,6 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
                 { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsHeadS>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<DevourerofGodsBodyS>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsTailS>(), velocityScaleMin },
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
@@ -843,14 +837,6 @@ namespace CalamityMod
                             // Regular Sulphur Sea theme, when Acid Rain is not occurring
                             else
                                 music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
-                        }
-                    }
-                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG spawns
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
-                            priority = MusicPriority.BossMedium;
                         }
                     }
 

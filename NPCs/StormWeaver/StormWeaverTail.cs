@@ -97,6 +97,12 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.dontTakeDamage = false;
             }
 
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
+
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
+
 			// Shed armor
 			bool shedArmor = npc.life / (float)npc.lifeMax < 0.9f;
 
@@ -116,9 +122,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-
-            if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
 
 			// Check if other segments are still alive, if not, die
 			bool shouldDespawn = true;

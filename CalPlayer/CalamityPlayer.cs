@@ -2587,9 +2587,6 @@ namespace CalamityMod.CalPlayer
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
 
-            bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
-            player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
-
             bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>());
             if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
             {

@@ -998,7 +998,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case 38:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DevourerofGodsHeadS>()]];
+								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DevourerofGodsHead>()]];
 								break;
 
 							case 39:
