@@ -70,8 +70,8 @@ namespace CalamityMod.Particles
 		/// </summary>
 		internal void PrepareRenderTargetForDrawing()
 		{
-			// Don't bother doing anything if this method is called serverside or the sprite batch is in the middle of specialized drawing.
-			if (Main.netMode == NetmodeID.Server || Main.spriteBatch.HasBeginBeenCalled())
+			// Don't bother doing anything if this method is called serverside.
+			if (Main.netMode == NetmodeID.Server)
 				return;
 
 			// Don't bother doing anything if the set has no particles to render at the moment, for the sake of optimization.

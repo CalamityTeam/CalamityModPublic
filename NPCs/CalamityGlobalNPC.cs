@@ -3972,7 +3972,12 @@ namespace CalamityMod.NPCs
 			int spawnRate = 400;
 			int maxSpawnCount = (int)MaxSpawnsField.GetValue(null);
 			NPCLoader.EditSpawnRate(player, ref spawnRate, ref maxSpawnCount);
-			for (int i = 0; i < 18; i++)
+
+			// Enforce a limit on the amount of enemies that can appear.
+			if (player.activeNPCs >= maxSpawnCount)
+				return;
+
+			for (int i = 0; i < 8; i++)
 			{
 				int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
 				int checkPositionY = (int)(player.Center.Y / 16 + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
@@ -4120,9 +4125,7 @@ namespace CalamityMod.NPCs
 			}
 
             if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
-            {
                 pool.Remove(NPCID.VoodooDemon);
-            }
 		}
         #endregion
 

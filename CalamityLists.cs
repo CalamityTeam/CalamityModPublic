@@ -2951,6 +2951,8 @@ namespace CalamityMod
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
                 ProjectileType<EndoHydraHead>(),
+                ProjectileType<EndoHydraBody>(),
+                ProjectileType<SeekerSummonProj>(),
                 ProjectileType<SepulcherMinion>()
             };
 

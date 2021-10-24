@@ -167,6 +167,7 @@ namespace CalamityMod.World
         public static int DraedonSummonCountdown = 0;
         public static ExoMech DraedonMechToSummon;
         public static Vector2 DraedonSummonPosition = Vector2.Zero;
+        public static bool TalkedToDraedon = false;
         public static bool AbleToSummonDraedon
         {
             get
@@ -335,6 +336,7 @@ namespace CalamityMod.World
 			downedAres = false;
 			downedThanatos = false;
 			downedArtemisAndApollo = false;
+            TalkedToDraedon = false;
             downedSCal = false;
 			downedAdultEidolonWyrm = false;
             downedCLAM = false;
@@ -410,6 +412,8 @@ namespace CalamityMod.World
 				downed.Add("thanatos");
 			if (downedArtemisAndApollo)
 				downed.Add("artemisAndApollo");
+            if (TalkedToDraedon)
+                downed.Add("TalkedToDraedon");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
 			if (downedAdultEidolonWyrm)
@@ -577,6 +581,7 @@ namespace CalamityMod.World
 			downedAres = downed.Contains("ares");
 			downedThanatos = downed.Contains("thanatos");
 			downedArtemisAndApollo = downed.Contains("artemisAndApollo");
+            TalkedToDraedon = downed.Contains("TalkedToDraedon");
             downedSCal = downed.Contains("supremeCalamitas");
 			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
@@ -897,8 +902,9 @@ namespace CalamityMod.World
 			flags11[4] = downedAres;
 			flags11[5] = downedThanatos;
 			flags11[6] = downedArtemisAndApollo;
+            flags11[7] = TalkedToDraedon;
 
-			writer.Write(flags);
+            writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
             writer.Write(flags4);
@@ -1041,8 +1047,9 @@ namespace CalamityMod.World
 			downedAres = flags11[4];
 			downedThanatos = flags11[5];
 			downedArtemisAndApollo = flags11[6];
+            TalkedToDraedon = flags11[7];
 
-			abyssChasmBottom = reader.ReadInt32();
+            abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();

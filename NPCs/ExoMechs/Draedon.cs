@@ -127,6 +127,13 @@ namespace CalamityMod.NPCs.ExoMechs
             if (TalkTimer == TeleportFadeinTime + 5f)
                 ShouldStartStandingUp = true;
 
+            // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
+            if (CalamityWorld.TalkedToDraedon && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f)
+            {
+                TalkTimer = TalkDelay * 4f - 25f;
+                npc.netUpdate = true;
+            }
+
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
@@ -154,7 +161,18 @@ namespace CalamityMod.NPCs.ExoMechs
             // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+                if (CalamityWorld.TalkedToDraedon)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
+                else
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+
+                // Mark Draedon as talked to.
+                if (!CalamityWorld.TalkedToDraedon)
+                {
+                    CalamityWorld.TalkedToDraedon = true;
+                    CalamityNetcode.SyncWorld();
+                }
+
                 npc.netUpdate = true;
             }
 

@@ -70,6 +70,7 @@ namespace CalamityMod.NPCs
 			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
 			"TingFlarg", // <@!185605031716847616> (Smug#7160)
 			"Driser", // <@!121996994406252544> (Driser#8630)
+			"Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
