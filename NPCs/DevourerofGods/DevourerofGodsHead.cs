@@ -296,6 +296,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 				{
 					phase2Started = true;
 
+					// Reset important shit
+					npc.ai[3] = 0f;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+
 					// Skip the sentinel phase entirely if DoG has already been killed
 					CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels) ? 600 : 21600;
 
