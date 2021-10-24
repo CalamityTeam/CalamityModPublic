@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class HiveMindBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<HiveMindP2>();
+        public override int BossBagNPC => ModContent.NPCType<HiveMind>();
 
         public override void SetStaticDefaults()
         {
@@ -42,9 +42,9 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // Materials
-            DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
-            DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
             DropHelper.DropItem(player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
+            DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
+            DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
             DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
 
             // Weapons

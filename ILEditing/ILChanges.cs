@@ -5,10 +5,12 @@ using CalamityMod.NPCs;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -16,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -128,9 +131,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
+			IL.Terraria.Main.DoDraw += DrawFusableParticles;
 
-			// Ravager platform fall fix
-			On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
+            // Ravager platform fall fix
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -138,9 +142,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-            // Movement speed balance
+			// Movement speed balance
+			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
+
+			// Mana regen balance
+			IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
+			IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
@@ -154,16 +163,17 @@ namespace CalamityMod.ILEditing
             // Removal of vanilla stupidity
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+            IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
-        /// <summary>
-        /// Unloads all IL Editing changes in the mod.
-        /// </summary>
-        internal static void Unload()
+		/// <summary>
+		/// Unloads all IL Editing changes in the mod.
+		/// </summary>
+		internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
@@ -184,19 +194,28 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
+            IL.Terraria.Main.DoDraw -= DrawFusableParticles;
 
-            // Damage and health balance
-            IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
+			// Ravager platform fall fix
+			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+
+			// Damage and health balance
+			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-            // Movement speed balance
-            IL.Terraria.Player.Update -= RunSpeedAdjustments;
+			// Movement speed balance
+			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+			IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
-            // World generation
-            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
+			// Mana regen balance
+			IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
+			IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
+
+			// World generation
+			IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -207,6 +226,7 @@ namespace CalamityMod.ILEditing
             // Removal of vanilla stupidity
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
+            IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
@@ -585,6 +605,36 @@ namespace CalamityMod.ILEditing
             Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
         }
         #endregion
+
+        private static void DrawFusableParticles(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Over NPCs but before Projectiles.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<Main>("SortDrawCacheWorms")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the SortDrawCacheWorms reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverNPCsBeforeProjectiles));
+
+            // Over Players.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Main>("DrawPlayers")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawPlayers reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverPlayers));
+
+            // Over Water.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt<MoonlordDeathDrama>("DrawWhite")))
+            {
+                LogFailure("Fusable Particle Rendering", "Could not locate the DrawWhite reference method to attach to.");
+                return;
+            }
+            cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
+        }
+
         #endregion
 
         #region Damage and health balance
@@ -664,11 +714,24 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion
+		#endregion
 
-        #region Movement speed balance
-        private static void RunSpeedAdjustments(ILContext il)
-        {
+		#region Movement speed balance
+		private static void MaxRunSpeedAdjustment(ILContext il)
+		{
+			// Increase the base max run speed of the player to make early game less of a slog.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
+			{
+				LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
+		}
+
+		private static void RunSpeedAdjustments(ILContext il)
+		{
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
@@ -829,12 +892,57 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-        #endregion
+		#endregion
 
-        #region World generation
+		#region Mana regen balance
+		private static void ManaRegenDelayAdjustment(ILContext il)
+		{
+			// Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
+			// Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
+			{
+				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
 
-        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-        private static void ReplacePharaohSetInPyramids(ILContext il)
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
+			{
+				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
+		}
+
+		private static void ManaRegenAdjustment(ILContext il)
+		{
+			// Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
+			{
+				LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
+
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
+			{
+				LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
+		}
+		#endregion
+
+		#region World generation
+
+		// Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+		private static void ReplacePharaohSetInPyramids(ILContext il)
         {
             var cursor = new ILCursor(il);
 
@@ -1045,6 +1153,31 @@ namespace CalamityMod.ILEditing
         {
             if (!Main.player[plr].Calamity().bossZen)
                 orig(plr);
+        }
+
+        // This may seem absolutely obscene, but vanilla spawn behavior does not occur within the spawn pool that TML provides, only modded
+        // spawns do. Pretty much everything else is simply a fuckton of manual conditional NPC.NewNPC calls. As such, the only way to bypass
+        // vanilla spawn behaviors is the IL edit them out of existence. Here, simply replacing the voodoo demon ID with an empty one is performed.
+        // Something cleaner could probably be done, such as getting rid of the entire NPC.NewNPC call, but this is the easiest solution I can come up with.
+        private static void MakeVoodooDemonDollWork(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(NPCID.VoodooDemon)))
+            {
+                LogFailure("Voodoo Demon Doll Mechanic", "Could not locate the Voodoo Demon ID.");
+                return;
+            }
+
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.EmitDelegate<Func<int, int>>(spawnPlayerIndex =>
+            {
+                if (Main.player[spawnPlayerIndex].active && Main.player[spawnPlayerIndex].Calamity().disableVoodooSpawns)
+                    return NPCID.None;
+
+                return NPCID.VoodooDemon;
+            });
         }
         #endregion
 

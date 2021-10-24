@@ -22,8 +22,10 @@ namespace CalamityMod.DataStructures
                 OldDirection = direction;
             }
 
-            Rotation = (aheadPosition - Center).ToRotation();
-            Center = aheadPosition - (aheadPosition - Center).SafeNormalize(Vector2.Zero) * 24f;
+            Vector2 offsetDirection = (aheadPosition - Center).SafeNormalize(Vector2.Zero);
+            offsetDirection = offsetDirection.ToRotation().AngleTowards(idealRotation, 0.2f).ToRotationVector2();
+            Rotation = offsetDirection.ToRotation();
+            Center = aheadPosition - offsetDirection * 20f;
         }
     }
 }

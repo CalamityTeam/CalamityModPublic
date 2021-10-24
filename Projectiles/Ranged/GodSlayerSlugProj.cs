@@ -55,8 +55,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            // On frame 1, store the original velocity. This is needed for the warp.
-            if (projectile.timeLeft == Lifetime)
+            // Store the original velocity if it has yet to be initialized. This is needed for the warp.
+            if (projectile.localAI[0] == 0f)
                 projectile.localAI[0] = projectile.velocity.Length();
             
             // Rapidly fade into visibility.
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
 
             // Reduce damage, but remove piercing. Reset local iframes so the bullet, turned blue, may always strike again.
-            projectile.damage = (int)(0.3f * projectile.damage);
+            projectile.damage = (int)(0.28f * projectile.damage);
             projectile.penetrate = 1;
             for (int i = 0; i < Main.maxNPCs; i++)
                 projectile.localNPCImmunity[i] = 0;

@@ -152,7 +152,9 @@ namespace CalamityMod.Projectiles.Summon
 
             Vector2 spawnPosition = Target.Center + Vector2.UnitY.RotatedByRandom(0.27f) * 1150f;
             Vector2 shootVelocity = (Target.Center - spawnPosition).SafeNormalize(-Vector2.UnitY).RotatedByRandom(0.09f) * Main.rand.NextFloat(19f, 31f);
-            Projectile.NewProjectile(spawnPosition, shootVelocity, rng.Get(), projectile.damage, projectile.knockBack, projectile.owner);
+            int soul = Projectile.NewProjectile(spawnPosition, shootVelocity, rng.Get(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (Main.projectile.IndexInRange(soul))
+                Main.projectile[soul].Calamity().forceMinion = true;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

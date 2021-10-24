@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Taking damage drops astral stars from the sky\n" +
                 "Provides immunity to the astral infection debuff\n" +
                 "You reflect projectiles when they hit you\n" +
-                "Reflected projectiles deal 5 times damage to enemies and no damage to you\n" +
+                "Reflected projectiles deal no damage to you\n" +
                 "This reflect has a 90 second cooldown which is shared with all other dodges and reflects\n" +
                 "Boosts life regen even while under the effects of a damaging debuff\n" +
                 "While under the effects of a damaging debuff you will gain 20 defense\n" +
@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
+            item.expert = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

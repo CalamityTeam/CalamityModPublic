@@ -77,7 +77,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18)
+            if (tile.frameY == 18 && tile.frameX < 54)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

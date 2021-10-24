@@ -57,6 +57,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Enchantment Variables
+		public bool CannotBeEnchanted = false;
 		public Enchantment? AppliedEnchantment = null;
 		public float DischargeEnchantExhaustion = 0;
 		public float DischargeExhaustionRatio
@@ -81,6 +82,8 @@ namespace CalamityMod.Items
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
+
+		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
@@ -133,6 +136,62 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
+				// Pickaxe speed boosts
+				case ItemID.CactusPickaxe:
+				case ItemID.CopperPickaxe:
+				case ItemID.TinPickaxe:
+					item.useTime = 13;
+					break;
+
+				case ItemID.IronPickaxe:
+				case ItemID.LeadPickaxe:
+					item.useTime = 12;
+					break;
+
+				case ItemID.SilverPickaxe:
+				case ItemID.TungstenPickaxe:
+					item.useTime = 11;
+					break;
+
+				case ItemID.GoldPickaxe:
+				case ItemID.PlatinumPickaxe:
+				case ItemID.CnadyCanePickaxe:
+				case ItemID.NightmarePickaxe:
+				case ItemID.DeathbringerPickaxe:
+				case ItemID.MoltenPickaxe:
+					item.useTime = 10;
+					break;
+
+				case ItemID.CobaltPickaxe:
+				case ItemID.PalladiumPickaxe:
+					item.useTime = 9;
+					break;
+
+				case ItemID.MythrilPickaxe:
+				case ItemID.OrichalcumPickaxe:
+				case ItemID.BonePickaxe: // Rare drop so it mines faster
+					item.useTime = 8;
+					break;
+
+				case ItemID.AdamantitePickaxe:
+				case ItemID.TitaniumPickaxe:
+				case ItemID.SpectrePickaxe: // Slightly less because it has more tile range
+					item.useTime = 7;
+					break;
+
+				case ItemID.PickaxeAxe:
+				case ItemID.ChlorophytePickaxe:
+					item.useTime = 6;
+					break;
+
+				case ItemID.Picksaw:
+				case ItemID.StardustPickaxe:
+				case ItemID.VortexPickaxe:
+				case ItemID.SolarFlarePickaxe:
+				case ItemID.NebulaPickaxe:
+					item.useTime = 5;
+					break;
+
 				// Point-blank shot weapons
 				case ItemID.WoodenBow:
 				case ItemID.BorealWoodBow:
@@ -209,7 +268,6 @@ namespace CalamityMod.Items
 				case ItemID.Spear:
 				case ItemID.Trident:
 				case ItemID.PalladiumPike:
-				case ItemID.ObsidianSwordfish:
 				case ItemID.CobaltDrill:
 				case ItemID.MythrilDrill:
 				case ItemID.AdamantiteDrill:
@@ -270,6 +328,86 @@ namespace CalamityMod.Items
 					break;
 
 				// True melee weapon adjustments
+				case ItemID.BladedGlove:
+					item.damage = 15;
+					item.useTime = 7;
+					item.useAnimation = 7;
+					break;
+
+				case ItemID.IceBlade:
+					item.damage = 26;
+					item.useTime = 33;
+					break;
+
+				case ItemID.EnchantedSword:
+					item.damage = 42;
+					item.useAnimation = 20;
+					item.shootSpeed = 15f;
+					break;
+
+				case ItemID.Starfury:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.WoodYoyo:
+				case ItemID.Chik:
+				case ItemID.FormatC:
+				case ItemID.HelFire:
+				case ItemID.Amarok:
+				case ItemID.Gradient:
+				case ItemID.Code2:
+				case ItemID.Yelets:
+				case ItemID.RedsYoyo:
+				case ItemID.ValkyrieYoyo:
+				case ItemID.Kraken:
+				case ItemID.TheEyeOfCthulhu:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Rally:
+					item.damage = 20;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.JungleYoyo:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CrimsonYoyo:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CorruptYoyo:
+					item.damage = 27;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Code1:
+					item.damage = 25;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Valor:
+					item.damage = 32;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.ObsidianSwordfish:
+					item.damage = 45;
+					trueMelee = true;
+					break;
+
+				case ItemID.BloodyMachete:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Cascade:
+					item.damage = 39;
+					item.autoReuse = true;
+					break;
+
 				case ItemID.SlapHand:
 					item.damage = 120;
 					break;
@@ -460,6 +598,7 @@ namespace CalamityMod.Items
 
 				case ItemID.Terrarian:
 					item.damage = 352;
+					item.autoReuse = true;
 					break;
 
 				case ItemID.RainbowRod:
@@ -570,6 +709,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StarCannon:
 					item.UseSound = null;
+					break;
+
+				case ItemID.EoCShield:
+					CannotBeEnchanted = true;
 					break;
 			}
 
@@ -864,7 +1007,7 @@ namespace CalamityMod.Items
         }
 		#endregion
 
-		#region SavingAndLoading
+		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
             return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
@@ -1522,6 +1665,15 @@ namespace CalamityMod.Items
         {
 			switch (item.type)
 			{
+				case ItemID.MagicHat:
+					player.magicDamage -= 0.02f;
+					player.magicCrit -= 2;
+					break;
+
+				case ItemID.WizardHat:
+					player.magicDamage -= 0.1f;
+					break;
+
 				case ItemID.GladiatorHelmet:
 				case ItemID.ObsidianHelm:
 					player.Calamity().throwingDamage += 0.03f;

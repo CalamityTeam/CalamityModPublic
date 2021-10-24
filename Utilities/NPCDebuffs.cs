@@ -151,12 +151,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<CeaselessVoid>(), new Tuple<bool, int[]>(true, new int[] { }) },
 				{ ModContent.NPCType<DarkEnergy>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
-				{ ModContent.NPCType<StormWeaverHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<StormWeaverBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<StormWeaverTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
+				{ ModContent.NPCType<StormWeaverHead>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
+				{ ModContent.NPCType<StormWeaverBody>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
+				{ ModContent.NPCType<StormWeaverTail>(), new Tuple<bool, int[]>(false, new int[] { BuffID.Electrified }) },
 
 				{ ModContent.NPCType<Signus>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<WhisperingDeath>() }) },
 				{ ModContent.NPCType<CosmicLantern>(), new Tuple<bool, int[]>(true, new int[] { }) },

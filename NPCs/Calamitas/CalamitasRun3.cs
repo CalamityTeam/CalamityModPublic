@@ -151,7 +151,9 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Cal Clone
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, CalamityWorld.malice);

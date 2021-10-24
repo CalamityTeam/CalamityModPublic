@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameX == 18 && tile.frameY == 36)
+            if (tile.frameX < 54 && tile.frameY == 36)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

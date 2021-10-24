@@ -10,6 +10,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -30,6 +31,7 @@ namespace CalamityMod
             EditLeatherRecipe();
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
+            EditGoblinArmySummonRecipe();
             EditMechBossSummonRecipes();
             EditWingRecipes();
             EditEvilBulletRecipes();
@@ -169,6 +171,14 @@ namespace CalamityMod
             });
         }
 
+        private static void EditGoblinArmySummonRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 5;
+            });
+        }
         private static void EditMechBossSummonRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
@@ -1139,7 +1149,8 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe
+                ItemID.StardustPickaxe,
+                ModContent.ItemType<GallantPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 

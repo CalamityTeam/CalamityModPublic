@@ -24,6 +24,8 @@ namespace CalamityMod.NPCs.Other
             npc.knockBackResist = 0f;
             npc.netAlways = true;
             npc.aiStyle = -1;
+            npc.Calamity().DoesNotGenerateRage = true;
+            npc.Calamity().DoesNotDisappearInBossRush = true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 24660;
@@ -59,10 +61,20 @@ namespace CalamityMod.NPCs.Other
                 int demon = Projectile.NewProjectile(npc.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, npc.target);
                 if (Main.projectile.IndexInRange(demon))
                 {
+                    Main.projectile[demon].ai[1] = Main.rand.Next(-40, 0);
                     Main.projectile[demon].friendly = friendly;
                     Main.projectile[demon].hostile = !friendly;
+                    Main.projectile[demon].netUpdate = true;
                 }
             }
+        }
+
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (projectile.type == ModContent.ProjectileType<SuicideBomberDemon>())
+                return false;
+
+            return null;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

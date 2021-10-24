@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Exodus Wings");
             Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
-                "Horizontal speed: 8.5\n" +
-                "Acceleration multiplier: 2\n" +
+                "Horizontal speed: 9.0\n" +
+                "Acceleration multiplier: 2.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 180\n" +
                 "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor");
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 22;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
@@ -70,8 +70,8 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 8.5f;
-            acceleration *= 2f;
+            speed = 9f;
+            acceleration *= 2.5f;
         }
 
         public override void AddRecipes()
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Accessories.Wings
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
+            recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

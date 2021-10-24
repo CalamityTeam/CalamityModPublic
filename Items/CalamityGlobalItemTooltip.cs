@@ -44,19 +44,19 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
-			// If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-			ElementTooltip(item, tooltips);
+            // Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+            if (canFirePointBlankShots)
+            {
+                TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+                tooltips.Add(line);
+            }
+
+            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
+            ElementTooltip(item, tooltips);
 
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
-
-			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
-			if (canFirePointBlankShots)
-			{
-				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
-				tooltips.Add(line);
-			}
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
@@ -410,10 +410,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
 				EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
 
-			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt)
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 
@@ -492,6 +492,19 @@ namespace CalamityMod.Items
 
 			// Rebalances to vanilla item stats
 			#region Vanilla Item Rebalance Tooltips
+
+			// Magic Power Potion nerf
+			if (item.type == ItemID.MagicPowerPotion)
+				EditTooltipByNum(0, (line) => line.text = "10% increased magic damage");
+
+			// Magic and Wizard Hat nerfs
+			// Magic Hat
+			if (item.type == ItemID.MagicHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage and critical strike chance");
+
+			// Wizard Hat
+			if (item.type == ItemID.WizardHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage");
 
 			// Reduce DD2 armor piece bonuses because they're overpowered
 			// Squire armor

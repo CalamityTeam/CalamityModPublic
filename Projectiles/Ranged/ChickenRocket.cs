@@ -127,7 +127,5 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[d].velocity *= 2f;
             }
         }
-
-
     }
 }

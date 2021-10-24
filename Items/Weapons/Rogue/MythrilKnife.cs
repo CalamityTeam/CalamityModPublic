@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.MythrilBar);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 40);
+			recipe.SetResult(this, 100);
 			recipe.AddRecipe();
 		}
 	}

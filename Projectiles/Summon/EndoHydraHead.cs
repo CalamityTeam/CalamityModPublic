@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
             if (body.ai[0] >= 0 && body.ai[0] < Main.npc.Length)
             {
                 NPC target = Main.npc[(int)body.ai[0]];
-                bool targetAliveAndInLineOfSight = target.active && projectile.Distance(target.Center) < EndoHydraBody.DistanceToCheck && Collision.CanHit(projectile.Center, 1, 1, target.Center, 1, 1);
+                bool targetAliveAndInLineOfSight = target.active && projectile.Distance(target.Center) < EndoHydraBody.DistanceToCheck;
                 if (targetAliveAndInLineOfSight && target.CanBeChasedBy() && Main.myPlayer == projectile.owner)
                 {
                     if (Time % 40f == 24f)

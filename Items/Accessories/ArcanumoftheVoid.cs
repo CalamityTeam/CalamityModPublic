@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Arcanum of the Void");
             Tooltip.SetDefault("You reflect projectiles when they hit you\n" +
-                            "Reflected projectiles deal 5 times damage to enemies and no damage to you\n" +
+                            "Reflected projectiles deal no damage to you\n" +
                             "This reflect has a 90 second cooldown which is shared with all other dodges and reflects\n");
         }
 

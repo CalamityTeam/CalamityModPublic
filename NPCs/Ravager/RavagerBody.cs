@@ -106,9 +106,12 @@ namespace CalamityMod.NPCs.Ravager
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Large fire light
 			Lighting.AddLight((int)(npc.Center.X - 110f) / 16, (int)(npc.Center.Y - 30f) / 16, 0f, 0.5f, 2f);
@@ -475,6 +478,8 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (phase2 && npc.ai[1] == 0f)
 					{
+						npc.noTileCollide = true;
+
 						calamityGlobalNPC.newAI[3] += 1f;
 
 						if (inRange)
@@ -590,13 +595,13 @@ namespace CalamityMod.NPCs.Ravager
 			{
 				float gravity = phase2 ? 0f : 0.45f;
 				float maxFallSpeed = reduceFallSpeed ? 12f : phase2 ? 24f : 15f;
-				if (malice)
+				if (malice && !reduceFallSpeed)
 				{
 					gravity *= 1.25f;
 					maxFallSpeed *= 1.25f;
 				}
 
-				if (calamityGlobalNPC.newAI[1] > 1f)
+				if (calamityGlobalNPC.newAI[1] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[1];
 
 				npc.velocity.Y += gravity;
@@ -696,7 +701,9 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Ravager
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);

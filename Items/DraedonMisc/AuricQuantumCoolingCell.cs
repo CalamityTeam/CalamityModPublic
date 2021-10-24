@@ -62,7 +62,7 @@ namespace CalamityMod.Items.DraedonMisc
                     return false;
 
                 codebreakerTileEntity.ContainsCoolingCell = true;
-                codebreakerTileEntity.SyncConstituents();
+                codebreakerTileEntity.SyncConstituents((short)Main.myPlayer);
                 return true;
             }
 

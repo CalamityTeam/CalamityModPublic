@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 42;
-            item.damage = 20;
+            item.damage = 35;
             item.melee = true;
             item.useAnimation = 19;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<RedtideWhirlpool>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 9f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -62,6 +62,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod.Particles;
 
 namespace CalamityMod
 {
@@ -84,6 +85,7 @@ namespace CalamityMod
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
 		public static ModHotKey GodSlayerDashHotKey;
+        public static ModHotKey ExoChairSpeedupHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -182,8 +184,9 @@ namespace CalamityMod
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
+            ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
 
-			if (!Main.dedServ)
+            if (!Main.dedServ)
                 LoadClient();
 
             ILChanges.Load();
@@ -269,19 +272,26 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
 
+            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
+            FusableParticleManager.LoadParticleRenderSets();
+            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
 
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+			HiveMind.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
-            SupremeCalamitas.LoadHeadIcons();
+			StormWeaverHead.LoadHeadIcons();
+			SupremeCalamitas.LoadHeadIcons();
             ThanatosHead.LoadHeadIcons();
             ThanatosBody1.LoadHeadIcons();
             ThanatosBody2.LoadHeadIcons();
@@ -350,6 +360,9 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            FusableParticleManager.UnloadParticleRenderSets();
+            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
+
             RipperUI.Unload();
             AstralArcanumUI.Unload();
 
@@ -396,6 +409,19 @@ namespace CalamityMod
                 saveMethodInfo.Invoke(null, new object[] { cfg });
             else
                 Instance.Logger.Warn("In-game SaveConfig failed, code update required");
+        }
+        #endregion
+
+        #region Fusable Particle Updating
+        public override void MidUpdateProjectileItem()
+        {
+            // Update all fusable particles.
+            // These are really only visual and as such don't really need any complex netcode.
+            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in FusableParticleManager.ParticleSets)
+            {
+                foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
+                    particleSet.ParticleSet.UpdateBehavior(particle);
+            }
         }
         #endregion
 
@@ -550,14 +576,13 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
                 { ModContent.NPCType<CrabulonIdle>(), 5400 },
-                { ModContent.NPCType<HiveMind>(), 1800 },
-                { ModContent.NPCType<HiveMindP2>(), 5400 },
+                { ModContent.NPCType<HiveMind>(), 7200 },
                 { ModContent.NPCType<PerforatorHive>(), 7200 },
                 { ModContent.NPCType<SlimeGodCore>(), 10800 },
-                { ModContent.NPCType<SlimeGod>(), 3600 },
-                { ModContent.NPCType<SlimeGodRun>(), 3600 },
-                { ModContent.NPCType<SlimeGodSplit>(), 3600 },
-                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
+                { ModContent.NPCType<SlimeGod>(), 5400 },
+                { ModContent.NPCType<SlimeGodRun>(), 5400 },
+                { ModContent.NPCType<SlimeGodSplit>(), 5400 },
+                { ModContent.NPCType<SlimeGodRunSplit>(), 5400 },
                 { ModContent.NPCType<Cryogen>(), 10800 },
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -578,9 +603,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Providence>(), 14400 },
 				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
 				{ ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverHead>(), 8100 },
+                { ModContent.NPCType<StormWeaverBody>(), 8100 },
+                { ModContent.NPCType<StormWeaverTail>(), 8100 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
@@ -652,7 +677,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
                 { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
+                { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },
@@ -705,9 +730,6 @@ namespace CalamityMod
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
                 { ModContent.NPCType<Signus>(), velocityScaleMin },
                 { ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
                 { ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },
@@ -856,6 +878,14 @@ namespace CalamityMod
             {
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
                 tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+            }
+            else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
+            {
+                float intensity = SkyManager.Instance["CalamityMod:ExoMechs"].Opacity;
+                backgroundColor = Color.Lerp(backgroundColor, Color.DarkGray, intensity * 0.9f);
+                backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
+                tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
+                tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
             }
         }
 		#endregion

@@ -46,7 +46,7 @@ namespace CalamityMod.Items.TreasureBags
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<AstralJelly>(), 12, 16);
             DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 30, 40);
-            DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
+            DropHelper.DropItem(player, ItemID.FallenStar, 20, 30);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
             DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());
 
             // Vanity

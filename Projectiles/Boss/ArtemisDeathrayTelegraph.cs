@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deathray Telegraph");
+            DisplayName.SetDefault("Exothermal Artemis Beam Telegraph");
         }
 
         public override void SetDefaults()

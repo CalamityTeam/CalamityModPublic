@@ -99,9 +99,12 @@ namespace CalamityMod.NPCs.SlimeGod
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -314,6 +317,12 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Opacity = 0.8f;
 
 				buffedSlime = 0;
+			}
+			else if (npc.ai[1] < ai1)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 0.8f)
+					npc.Opacity = 0.8f;
 			}
 
 			// Spin and shoot orbs
@@ -648,7 +657,9 @@ namespace CalamityMod.NPCs.SlimeGod
         // This loot code is shared with every other Slime God component.
         public static void DropSlimeGodLoot(NPC npc)
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
@@ -664,13 +675,13 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Gel always drops directly, even on Expert
-            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250);
+            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250, 10);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45, 3);
 
 				// Weapons
 				float w = DropHelper.NormalWeaponDropRateFloat;

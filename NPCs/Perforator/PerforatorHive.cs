@@ -108,9 +108,12 @@ namespace CalamityMod.NPCs.Perforator
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Phases based on life percentage
 			bool phase2 = lifeRatio < 0.7f;
@@ -447,7 +450,9 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Evil boss tier 2
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
@@ -461,11 +466,11 @@ namespace CalamityMod.NPCs.Perforator
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 7, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 25, 30);
                 DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
                 DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
                 if (Main.hardMode)
-                    DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
+                    DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20, 2);
 
 				// Weapons
 				float w = DropHelper.NormalWeaponDropRateFloat;

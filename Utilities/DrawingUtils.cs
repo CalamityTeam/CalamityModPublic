@@ -181,6 +181,38 @@ namespace CalamityMod
 		#endregion
 
 		/// <summary>
+		/// Calculates perspective matrices for usage by vertex shaders.
+		/// </summary>
+		/// <param name="viewMatrix">The view matrix.</param>
+		/// <param name="projectionMatrix">The projection matrix.</param>
+		public static void CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix)
+		{
+			Vector2 zoom = Main.GameViewMatrix.Zoom;
+			Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+
+			// Screen bounds.
+			int height = Main.instance.GraphicsDevice.Viewport.Height;
+
+			// Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
+			viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up);
+
+			// Offset the matrix to the appropriate position.
+			viewMatrix *= Matrix.CreateTranslation(0f, -height, 0f);
+
+			// Flip the matrix around 180 degrees.
+			viewMatrix *= Matrix.CreateRotationZ(MathHelper.Pi);
+
+			// Account for the inverted gravity effect.
+			if (Main.LocalPlayer.gravDir == -1f)
+				viewMatrix *= Matrix.CreateScale(1f, -1f, 1f) * Matrix.CreateTranslation(0f, height, 0f);
+
+			// And account for the current zoom.
+			viewMatrix *= zoomScaleMatrix;
+
+			projectionMatrix = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
+		}
+
+		/// <summary>
 		/// Sets a <see cref="SpriteBatch"/>'s <see cref="BlendState"/> arbitrarily.
 		/// </summary>
 		/// <param name="spriteBatch">The sprite batch.</param>
@@ -189,6 +221,18 @@ namespace CalamityMod
 		{
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+		}
+
+		// Cached for efficiency purposes.
+		internal static readonly FieldInfo BeginEndPairField = typeof(SpriteBatch).GetField("inBeginEndPair", BindingFlags.NonPublic | BindingFlags.Instance);
+
+		/// <summary>
+		/// Determines if a <see cref="SpriteBatch"/> is in a lock due to a <see cref="SpriteBatch.Begin"/> call.
+		/// </summary>
+		/// <param name="spriteBatch">The sprite batch to check.</param>
+		public static bool HasBeginBeenCalled(this SpriteBatch spriteBatch)
+		{
+			return (bool)BeginEndPairField.GetValue(spriteBatch);
 		}
 
 		/// <summary>
@@ -436,8 +480,18 @@ namespace CalamityMod
 
 		public static string ColorMessage(string msg, Color color)
 		{
-			StringBuilder sb = new StringBuilder(msg.Length + 12);
-			sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+			StringBuilder sb;
+			if (!msg.Contains("\n"))
+			{
+				sb = new StringBuilder(msg.Length + 12);
+				sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+			}
+			else
+			{
+				sb = new StringBuilder();
+				foreach (string newlineSlice in msg.Split('\n'))
+					sb.Append("[c/").Append(color.Hex3()).Append(':').Append(newlineSlice).Append(']').Append('\n');
+			}
 			return sb.ToString();
 		}
 
@@ -469,14 +523,30 @@ namespace CalamityMod
 		}
 
 		// Cached for efficiency purposes.
-		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldArmor = typeof(ArmorShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		/// <summary>
 		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
 		/// </summary>
 		/// <param name="shader">The shader to bind the texture to.</param>
 		/// <param name="texture">The texture to bind.</param>
-		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
+		public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Texture2D texture)
+		{
+			UImageFieldMisc.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="ArmorShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
+		public static ArmorShaderData SetShaderTexture(this ArmorShaderData shader, Texture2D texture)
+		{
+			UImageFieldArmor.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{

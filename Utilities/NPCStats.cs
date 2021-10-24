@@ -185,7 +185,6 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, 0.9 },
 
 				{ ModContent.NPCType<HiveMind>(), 0.9 },
-				{ ModContent.NPCType<HiveMindP2>(), 0.9 },
 
 				{ ModContent.NPCType<PerforatorHive>(), 0.9 },
 
@@ -265,8 +264,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<StormWeaverBody>(), 0.8 },
 				{ ModContent.NPCType<StormWeaverTail>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8 },
 
 				{ ModContent.NPCType<Signus>(), 0.9 },
 
@@ -330,8 +327,7 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
 				{ NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },
 
-				{ ModContent.NPCType<HiveMind>(), new int[] { 20, 36, 45, 54, 81 } },
-				{ ModContent.NPCType<HiveMindP2>(), new int[] { 35, 63, 81, 90, 135 } },
+				{ ModContent.NPCType<HiveMind>(), new int[] { 35, 63, 81, 90, 135 } },
 				{ ModContent.NPCType<DankCreeper>(), new int[] { 25, 50, 62, 68, 90 } },
 
 				{ ModContent.NPCType<PerforatorHive>(), new int[] { 30, 54, 63, 72, 108 } },
@@ -504,12 +500,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
 				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
 
-				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
-				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
-				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 80, 128, 160, 176, 240 } },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), new int[] { 180, 360, 396, 418, 540 } },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), new int[] { 120, 192, 224, 250, 330 } },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), new int[] { 100, 160, 192, 210, 270 } },
+				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 180, 360, 396, 418, 540 } },
+				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 120, 192, 224, 250, 330 } },
+				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 100, 160, 192, 210, 270 } },
 
 				{ ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
 				{ ModContent.NPCType<CosmicLantern>(), new int[] { 110, 220, 242, 256, 336 } },
@@ -571,7 +564,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 32, 48, 60, 68, 90 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<HiveMindP2>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<HiveMind>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DankCreeper>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DarkHeart>(), ModContent.ProjectileType<ShaderainHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<HiveBlob>(), ModContent.ProjectileType<VileClot>()), new int[] { 30, 48, 60, 68, 90 } },
@@ -758,8 +751,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 120, 192, 212, 224, 318 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },
@@ -807,19 +798,19 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
-				{ new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
-				{ new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
-				// { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 450, 676, 712, 732, 1068 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloFireball>()), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 450, 676, 712, 732, 1068 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
-				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
-				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
-				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
-				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 500, 752, 788, 808, 1182 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
-				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ExoDestroyerLaser>()), new int[] { 350, 528, 556, 572, 834 } },
+				{ new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 500, 752, 788, 808, 1182 } },

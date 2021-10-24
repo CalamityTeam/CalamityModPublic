@@ -97,12 +97,6 @@ namespace CalamityMod.Events
         #region Loading and Unloading
         public static void Load()
         {
-            BossIDsAfterDeath = new Dictionary<int, int[]>()
-            {
-                [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
-                [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
-            };
-
             Bosses = new List<Boss>()
             {
                 new Boss(NPCID.QueenBee),
@@ -469,8 +463,21 @@ namespace CalamityMod.Events
         }
 
         public static void End()
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                EndEffects();
+                return;
+            }
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.EndBossRush);
+            netMessage.Send();
+        }
+
+        internal static void EndEffects()
 		{
-            for (int doom = 0; doom < 200; doom++)
+            for (int doom = 0; doom < Main.maxNPCs; doom++)
             {
                 NPC n = Main.npc[doom];
                 if (!n.active)
@@ -480,29 +487,22 @@ namespace CalamityMod.Events
                 bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
                 if (shouldDespawn)
                 {
+                    n.life = 0;
+                    n.HitEffect();
+                    n.checkDead();
                     n.active = false;
-                    n.netUpdate = true;
                 }
             }
 
             BossRushActive = false;
             BossRushStage = 0;
+            StartTimer = 0;
+            EndTimer = 0;
             CalamityUtils.KillAllHostileProjectiles();
 
-            CalamityNetcode.SyncWorld();
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                SyncStartTimer(0);
-                SyncEndTimer(0);
-            }
-
+            // Send the EndBossRush packet again if this is called serverside to ensure that the changes are recieved by clients.
             if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = CalamityMod.Instance.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(BossRushStage);
-                netMessage.Send();
-            }
+                End();
         }
 
         #endregion

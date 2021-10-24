@@ -229,7 +229,9 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.checkDead();
                     otherWormHead.netUpdate = true;
                 }
-			} 
+			}
+
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
 			DropHelper.DropBags(npc);
 
@@ -244,18 +246,18 @@ namespace CalamityMod.NPCs.AstrumDeus
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
 
             // Drop a large spray of all 4 lunar fragments
-            int minFragments = Main.expertMode ? 20 : 12;
-            int maxFragments = Main.expertMode ? 32 : 20;
-            DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments);
-            DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments);
-            DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments);
-            DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
+            int minFragments = Main.expertMode ? 20 : 16;
+            int maxFragments = Main.expertMode ? 32 : 24;
+            DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments, 4);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments, 4);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments, 4);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments, 4);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
-                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
+                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40, 5);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

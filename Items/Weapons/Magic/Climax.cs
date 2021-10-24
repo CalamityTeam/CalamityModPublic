@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 30;
             item.width = 78;
             item.height = 78;
-            item.useTime = 55;
-            item.useAnimation = 55;
+            item.useTime = 33;
+            item.useAnimation = 33;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;

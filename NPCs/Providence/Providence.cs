@@ -166,8 +166,18 @@ namespace CalamityMod.NPCs.Providence
 			// Target variable and boss center
 			Player player = Main.player[npc.target];
 
-            // Target's current biome
-            bool isHoly = player.ZoneHoly;
+			// Night bool
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
+
+			// Difficulty bools
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
+			bool enraged = npc.Calamity().enraged > 0;
+
+			// Target's current biome
+			bool isHoly = player.ZoneHoly;
             bool isHell = player.ZoneUnderworldHeight;
 
             // Fire projectiles at normal rate or not
@@ -180,13 +190,12 @@ namespace CalamityMod.NPCs.Providence
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
-
-			// Night bool
-			bool malice = CalamityWorld.malice;
-			bool nightTime = !Main.dayTime || malice;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Play enrage animation if night starts
 			if (nightTime && calamityGlobalNPC.newAI[3] == spawnAnimationTime)
@@ -200,12 +209,6 @@ namespace CalamityMod.NPCs.Providence
 				calamityGlobalNPC.newAI[3] = 0f;
 				npc.netUpdate = true;
 			}
-
-			// Difficulty bools
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
-			bool enraged = npc.Calamity().enraged > 0;
 
 			// Increase all projectile damage at night
 			int projectileDamageMult = 1;
@@ -1336,7 +1339,9 @@ namespace CalamityMod.NPCs.Providence
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Providence
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);

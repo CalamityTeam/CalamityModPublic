@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.alpha = 0;
             }
-            if (projectile.ai[1] % 4f == 0f && projectile.owner == Main.myPlayer)
+            if (projectile.ai[1] % 6f == 0f && projectile.owner == Main.myPlayer)
             {
                 Vector2 vector63 = projVector * -1f;
                 vector63.Normalize();

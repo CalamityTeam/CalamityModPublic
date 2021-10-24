@@ -9896,8 +9896,10 @@ namespace CalamityMod.NPCs
 
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (enrage || turboEnrage)) || enraged;
 
-            // Alpha
-            if (npc.alpha > 0)
+			bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y;
+
+			// Alpha
+			if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
                 if (npc.alpha < 0)
@@ -9959,11 +9961,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Jump
-            if (npc.ai[0] == 0f)
-            {
-                npc.noTileCollide = false;
+			if (npc.noTileCollide && !Main.player[npc.target].dead)
+			{
+				if (npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y)
+					npc.noTileCollide = false;
+				else if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+					npc.noTileCollide = false;
+			}
 
+			// Jump
+			if (npc.ai[0] == 0f)
+            {
                 if (npc.velocity.Y == 0f)
                 {
                     // Laser fire when head is dead
@@ -10145,15 +10153,6 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-					// Fall through
-					if (!Main.player[npc.target].dead)
-					{
-						if ((Main.player[npc.target].position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
-							npc.noTileCollide = true;
-						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
-							npc.noTileCollide = false;
-					}
-
                     // Velocity when falling
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width)
                     {
@@ -10195,9 +10194,9 @@ namespace CalamityMod.NPCs
 			void CustomGravity()
 			{
 				float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
-				float maxFallSpeed = turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
+				float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
-				if (calamityGlobalNPC.newAI[0] > 1f)
+				if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
 					maxFallSpeed *= calamityGlobalNPC.newAI[0];
 
 				npc.velocity.Y += gravity;
@@ -10221,7 +10220,237 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
+		public static bool BuffedGolemFistAI(NPC npc, bool enraged, Mod mod)
+		{
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+
+			// Enrage if the target isn't inside the temple
+			// Turbo enrage if target isn't inside the temple and it's malice mode
+			bool enrage = true;
+			bool turboEnrage = false;
+			if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+			{
+				int num = (int)Main.player[npc.target].Center.X / 16;
+				int num2 = (int)Main.player[npc.target].Center.Y / 16;
+
+				Tile tile = Framing.GetTileSafely(num, num2);
+				if (tile.wall == WallID.LihzahrdBrickUnsafe)
+					enrage = false;
+				else
+					turboEnrage = malice;
+			}
+			else
+				turboEnrage = malice;
+
+			if (malice)
+				enrage = true;
+
+			if (enraged)
+				turboEnrage = true;
+
+			float aggression = turboEnrage ? 3f : enrage ? 2f : death ? 1.5f : 1f;
+
+			if (NPC.golemBoss < 0)
+			{
+				npc.StrikeNPCNoInteraction(9999, 0f, 0);
+				return false;
+			}
+
+			if (npc.alpha > 0)
+			{
+				npc.alpha -= 10;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+
+				npc.ai[1] = 0f;
+			}
+
+			if (npc.ai[0] == 0f)
+			{
+				npc.noTileCollide = true;
+
+				float num723 = 25f;
+				num723 *= (aggression + 3f) / 4f;
+				
+				Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num724 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
+				float num725 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
+				num725 -= 9f;
+				num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 + 78f) : (num724 - 84f);
+				float num726 = (float)Math.Sqrt(num724 * num724 + num725 * num725);
+				if (num726 < 12f + num723)
+				{
+					npc.rotation = 0f;
+					npc.velocity.X = num724;
+					npc.velocity.Y = num725;
+
+					float num727 = aggression;
+					npc.ai[1] += num727;
+					if (npc.life < npc.lifeMax / 2)
+						npc.ai[1] += num727;
+					if (npc.life < npc.lifeMax / 4)
+						npc.ai[1] += num727;
+
+					if (npc.ai[1] >= 40f)
+					{
+						npc.TargetClosest();
+
+						if ((npc.type == NPCID.GolemFistLeft && npc.Center.X + 100f > Main.player[npc.target].Center.X) || (npc.type == NPCID.GolemFistRight && npc.Center.X - 100f < Main.player[npc.target].Center.X))
+						{
+							npc.ai[1] = 0f;
+							npc.ai[0] = 1f;
+						}
+						else
+							npc.ai[1] = 0f;
+					}
+				}
+				else
+				{
+					num726 = num723 / num726;
+					npc.velocity.X = num724 * num726;
+					npc.velocity.Y = num725 * num726;
+
+					npc.rotation = (float)Math.Atan2(0f - npc.velocity.Y, 0f - npc.velocity.X);
+					if (npc.type == NPCID.GolemFistLeft)
+						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+				}
+			}
+			else if (npc.ai[0] == 1f)
+			{
+				npc.noTileCollide = true;
+				npc.collideX = false;
+				npc.collideY = false;
+
+				float num728 = 20f;
+				num728 *= (aggression + 3f) / 4f;
+				if (num728 > 48f)
+					num728 = 48f;
+
+				Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num729 = Main.player[npc.target].Center.X - vector81.X;
+				float num730 = Main.player[npc.target].Center.Y - vector81.Y;
+				float num731 = (float)Math.Sqrt(num729 * num729 + num730 * num730);
+				num731 = num728 / num731;
+				npc.velocity.X = num729 * num731;
+				npc.velocity.Y = num730 * num731;
+				npc.ai[0] = 2f;
+
+				npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+				if (npc.type == NPCID.GolemFistLeft)
+					npc.rotation = (float)Math.Atan2(0f - npc.velocity.Y, 0f - npc.velocity.X);
+			}
+			else if (npc.ai[0] == 2f)
+			{
+				if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
+				{
+					if (npc.velocity.X > 0f && npc.Center.X > Main.player[npc.target].Center.X)
+						npc.noTileCollide = false;
+
+					if (npc.velocity.X < 0f && npc.Center.X < Main.player[npc.target].Center.X)
+						npc.noTileCollide = false;
+				}
+				else
+				{
+					if (npc.velocity.Y > 0f && npc.Center.Y > Main.player[npc.target].Center.Y)
+						npc.noTileCollide = false;
+
+					if (npc.velocity.Y < 0f && npc.Center.Y < Main.player[npc.target].Center.Y)
+						npc.noTileCollide = false;
+				}
+
+				Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num732 = Main.npc[NPC.golemBoss].Center.X - vector82.X;
+				float num733 = Main.npc[NPC.golemBoss].Center.Y - vector82.Y;
+				num732 += Main.npc[NPC.golemBoss].velocity.X;
+				num733 += Main.npc[NPC.golemBoss].velocity.Y;
+				num733 -= 9f;
+				num732 = (npc.type != NPCID.GolemFistLeft) ? (num732 + 78f) : (num732 - 84f);
+				float num734 = (float)Math.Sqrt(num732 * num732 + num733 * num733);
+
+				if (npc.life < npc.lifeMax / 4)
+				{
+					npc.knockBackResist = 0f;
+
+					if (num734 > 700f || npc.collideX || npc.collideY)
+					{
+						npc.noTileCollide = true;
+						npc.ai[0] = 0f;
+					}
+
+					return false;
+				}
+
+				bool flag41 = npc.justHit;
+				if (flag41)
+				{
+					if (npc.life < npc.lifeMax / 2)
+					{
+						if (npc.knockBackResist == 0f)
+							flag41 = false;
+
+						npc.knockBackResist = 0f;
+					}
+				}
+
+				if ((num734 > 600f || npc.collideX || npc.collideY) | flag41)
+				{
+					npc.noTileCollide = true;
+					npc.ai[0] = 0f;
+				}
+			}
+			else
+			{
+				if (npc.ai[0] != 3f)
+					return false;
+
+				npc.noTileCollide = true;
+				float num736 = 12f;
+				float num737 = 0.4f;
+				Vector2 vector83 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num738 = Main.player[npc.target].Center.X - vector83.X;
+				float num739 = Main.player[npc.target].Center.Y - vector83.Y;
+				float num740 = (float)Math.Sqrt(num738 * num738 + num739 * num739);
+				num740 = num736 / num740;
+				num738 *= num740;
+				num739 *= num740;
+
+				if (npc.velocity.X < num738)
+				{
+					npc.velocity.X += num737;
+					if (npc.velocity.X < 0f && num738 > 0f)
+						npc.velocity.X += num737 * 2f;
+				}
+				else if (npc.velocity.X > num738)
+				{
+					npc.velocity.X -= num737;
+					if (npc.velocity.X > 0f && num738 < 0f)
+						npc.velocity.X -= num737 * 2f;
+				}
+
+				if (npc.velocity.Y < num739)
+				{
+					npc.velocity.Y += num737;
+					if (npc.velocity.Y < 0f && num739 > 0f)
+						npc.velocity.Y += num737 * 2f;
+				}
+				else if (npc.velocity.Y > num739)
+				{
+					npc.velocity.Y -= num737;
+					if (npc.velocity.Y > 0f && num739 < 0f)
+						npc.velocity.Y -= num737 * 2f;
+				}
+
+				npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+				if (npc.type == NPCID.GolemFistLeft)
+					npc.rotation = (float)Math.Atan2(0f - npc.velocity.Y, 0f - npc.velocity.X);
+			}
+
+			return false;
+		}
+
+
+		public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -10524,7 +10753,7 @@ namespace CalamityMod.NPCs
 			if (enraged)
 				turboEnrage = true;
 
-			if (turboEnrage)
+			if (turboEnrage && NPC.golemBoss >= 0)
 			{
 				npc.Calamity().DR = 0.9999f;
 				npc.Calamity().unbreakableDR = true;
@@ -11862,7 +12091,7 @@ namespace CalamityMod.NPCs
 			int iceMistAmt = phase3 ? 2 : 1;
             int fireballFireRate = phase5 ? 10 : 12;
             float fireballSpeed = (phase6 ? 7.5f : 6f) + (death ? 2f * (1f - lifeRatio) : 0f) - (isCultist ? 0f : 3f);
-            int lightningOrbPhaseTime = phase2 ? 150 : 180;
+            int lightningOrbPhaseTime = phase2 ? 90 : 120;
             int ancientLightSpawnRate = phase4 ? 25 : 30;
 			int ancientLightAmt = phase4 ? 3 : 2;
 			int ancientDoomLimit = 10;
@@ -12690,8 +12919,8 @@ namespace CalamityMod.NPCs
                     }
 
                     int num52 = list8.Count + 1;
-                    if (num52 > 3)
-                        num52 = 3;
+                    if (num52 > 2)
+                        num52 = 2;
 
                     int num53 = Math.Sign(player.Center.X - center.X);
                     if (num53 != 0)
@@ -12988,12 +13217,15 @@ namespace CalamityMod.NPCs
 				kill = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    for (int num1501 = 0; num1501 < 4; num1501++)
-                    {
-                        Vector2 vector255 = new Vector2(0f, -splitProjVelocity).RotatedBy(MathHelper.PiOver2 * num1501);
-                        Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
-                    }
-                }
+					int totalProjectiles = (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss && !phase3) ? 8 : 4;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					Vector2 spinningPoint = new Vector2(0f, -splitProjVelocity);
+					for (int k = 0; k < totalProjectiles; k++)
+					{
+						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+					}
+				}
             }
 
             if (kill)

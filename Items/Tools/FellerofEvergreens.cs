@@ -13,10 +13,11 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 40;
             item.melee = true;
             item.width = 36;
             item.height = 36;
+			item.scale = 1.5f;
             item.useTime = 18;
             item.useAnimation = 25;
             item.useTurn = true;

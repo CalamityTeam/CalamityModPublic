@@ -29,6 +29,7 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -139,10 +140,16 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-        #endregion
+		#endregion
 
-        #region Tile Entity Trackers
-        public int CurrentlyViewedFactoryID = -1;
+		#region Speedrun Timer
+		public int speedrunTimer = 0;
+		public int bossTypeJustDowned = -1;
+		public int bossTypeJustDownedTime = 0;
+		#endregion
+
+		#region Tile Entity Trackers
+		public int CurrentlyViewedFactoryID = -1;
         public int CurrentlyViewedChargerID = -1;
         public int CurrentlyViewedHologramID = -1;
         public string CurrentlyViewedHologramText;
@@ -325,6 +332,7 @@ namespace CalamityMod.CalPlayer
         public bool angryDog = false;
         public bool fab = false;
         public bool crysthamyr = false;
+        public bool ExoChair = false;
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
@@ -1095,7 +1103,7 @@ namespace CalamityMod.CalPlayer
 
         #endregion
 
-        #region SavingAndLoading
+        #region Saving And Loading
         public override void Initialize()
         {
             extraAccessoryML = false;
@@ -1217,8 +1225,11 @@ namespace CalamityMod.CalPlayer
                 { "itemTypeLastReforged", itemTypeLastReforged },
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
-                { "defenseDamage", defenseDamage }
-            };
+                { "defenseDamage", defenseDamage },
+				{ "speedrunTimer", speedrunTimer },
+				{ "bossTypeJustDowned", bossTypeJustDowned },
+				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
+			};
         }
 
         public override void Load(TagCompound tag)
@@ -1309,7 +1320,11 @@ namespace CalamityMod.CalPlayer
             moveSpeedStat = tag.GetInt("moveSpeedStat");
 
             defenseDamage = tag.GetInt("defenseDamage");
-        }
+
+			speedrunTimer = tag.GetInt("speedrunTimer");
+			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
+			bossTypeJustDownedTime = tag.GetInt("bossTypeJustDownedTime");
+		}
 
         public override void LoadLegacy(BinaryReader reader)
         {
@@ -1348,7 +1363,11 @@ namespace CalamityMod.CalPlayer
 
             defenseDamage = reader.ReadInt32();
 
-            if (loadVersion == 0)
+			speedrunTimer = reader.ReadInt32();
+			bossTypeJustDowned = reader.ReadInt32();
+			bossTypeJustDownedTime = reader.ReadInt32();
+
+			if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
                 extraAccessoryML = flags[0];
@@ -1526,6 +1545,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             miniOldDuke = false;
 
             abyssalDivingSuitPlates = false;
@@ -2293,6 +2313,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            ExoChair = false;
             abyssalDivingSuitPlates = false;
             sirenWaterBuff = false;
             sirenIce = false;
@@ -2569,7 +2590,7 @@ namespace CalamityMod.CalPlayer
             bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
 
-            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>());
             if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
             {
                 if (useFlash)
@@ -2592,6 +2613,13 @@ namespace CalamityMod.CalPlayer
                 else
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
             }
+
+            bool useExoMechs = ExoMechsSky.CanSkyBeActive;
+            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
+            if (useExoMechs)
+                SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);
+            else
+                SkyManager.Instance.Deactivate("CalamityMod:ExoMechs");
 
             Point point = player.Center.ToTileCoordinates();
             bool aboveGround = point.Y > Main.maxTilesY - 320;
@@ -3185,7 +3213,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Trigger for pressing the God Slayer dash key
-			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight))
+			if (CalamityMod.GodSlayerDashHotKey.JustPressed && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight) && !player.pulley && player.grappling[0] == -1 && !player.tongued && !player.mount.Active && !godSlayerCooldown && player.dashDelay == 0)
 				godSlayerDashHotKeyPressed = true;
 
             // Trigger for pressing the Rage hotkey.
@@ -3232,7 +3260,7 @@ namespace CalamityMod.CalPlayer
                 }
                 
                 // Activating Rage Mode
-                if (rage >= rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
+                if (rage >= rageMax && !rageModeActive)
                 {
                     // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
@@ -3262,7 +3290,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the Adrenaline hotkey.
-            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -3683,14 +3711,15 @@ namespace CalamityMod.CalPlayer
 
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
-            if (CalamityConfig.Instance.MiningSpeedBoost)
-            {
-                player.pickSpeed *= 0.75f;
-            }
+			// Increase tile placement speed to speed up early game a bit and make building more fun
+			player.tileSpeed += 0.5f;
 
-            // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
-            float accRunSpeedMin = player.accRunSpeed * 0.5f;
+			// Increase wall placement speed to speed up early game a bit and make building more fun
+			player.wallSpeed += 0.5f;
+
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
+			float accRunSpeedMin = player.accRunSpeed * 0.5f;
             player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.002f;
 
             if (player.accRunSpeed < accRunSpeedMin)
@@ -3873,10 +3902,17 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
         }
-        #endregion
+		#endregion
 
-        #region PreUpdate
-        public override void PreUpdate()
+		#region Update Autopause
+		public override void UpdateAutopause()
+		{
+			speedrunTimer++;
+		}
+		#endregion
+
+		#region PreUpdate
+		public override void PreUpdate()
         {
             tailFrameUp++;
             if (tailFrameUp == 8)
@@ -3912,7 +3948,9 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-        }
+
+			speedrunTimer++;
+		}
         #endregion
 
         #region PreUpdateBuffs
@@ -3922,6 +3960,47 @@ namespace CalamityMod.CalPlayer
             if (player.ZoneDesert && (ZoneAstral || areThereAnyDamnBosses) && player.HasBuff(BuffID.WindPushed))
             {
                 player.ClearBuff(BuffID.WindPushed);
+            }
+        }
+        #endregion
+
+        #region PreUpdateMovement
+        public override void PreUpdateMovement()
+        {
+            // Remove acceleration when using the exo chair.
+            if (ExoChair)
+            {
+                float speed = DraedonGamerChairMount.MovementSpeed;
+                if (CalamityMod.ExoChairSpeedupHotkey.Current)
+                    speed *= 2f;
+
+                if (player.controlLeft)
+                {
+                    player.velocity.X = -speed;
+                    player.direction = -1;
+                }
+                else if (player.controlRight)
+                {
+                    player.velocity.X = speed;
+                    player.direction = 1;
+                }
+                else
+                    player.velocity.X = 0f;
+
+                if (player.controlUp)
+                    player.velocity.Y = -speed;
+
+                else if (player.controlDown)
+                {
+                    player.velocity.Y = speed;
+                    if (Collision.TileCollision(player.position, player.velocity, player.width, player.height, true, false, (int)player.gravDir).Y == 0f)
+                        player.velocity.Y = 0.5f;
+                }
+                else
+                    player.velocity.Y = 0f;
+
+                if (player.controlJump)
+                    player.velocity *= 0.5f;
             }
         }
         #endregion
@@ -3962,75 +4041,78 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdateRunSpeeds()
         {
-            #region SpeedBoosts
-            float runAccMult = 1f +
-                (shadowSpeed ? 0.5f : 0f) +
-                (stressPills ? 0.05f : 0f) +
-                ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
-                (sirenWaterBuff ? 0.15f : 0f) +
-                ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-                (auricSet ? 0.1f : 0f) +
-                (dragonScales ? 0.1f : 0f) +
-                (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
-                (cTracers ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
-                (eTracers ? 0.05f : 0f) +
-                (blueCandle ? 0.05f : 0f) +
-                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
-                (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+			#region SpeedBoosts
+			if (!player.mount.Active)
+			{
+				float runAccMult = 1f +
+					(shadowSpeed ? 0.5f : 0f) +
+					(stressPills ? 0.05f : 0f) +
+					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
+					(sirenWaterBuff ? 0.15f : 0f) +
+					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+					(auricSet ? 0.1f : 0f) +
+					(dragonScales ? 0.1f : 0f) +
+					(kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
+					(cTracers ? 0.1f : 0f) +
+					(silvaSet ? 0.05f : 0f) +
+					(eTracers ? 0.05f : 0f) +
+					(blueCandle ? 0.05f : 0f) +
+					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
+					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
+					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
-            float runSpeedMult = 1f +
-                (shadowSpeed ? 0.5f : 0f) +
-                (stressPills ? 0.05f : 0f) +
-                ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
-                (sirenWaterBuff ? 0.15f : 0f) +
-                ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-                (auricSet ? 0.1f : 0f) +
-                (dragonScales ? 0.1f : 0f) +
-                (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-                (cTracers ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
-                (eTracers ? 0.05f : 0f) +
-                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
-                (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+				float runSpeedMult = 1f +
+					(shadowSpeed ? 0.5f : 0f) +
+					(stressPills ? 0.05f : 0f) +
+					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
+					(sirenWaterBuff ? 0.15f : 0f) +
+					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+					(auricSet ? 0.1f : 0f) +
+					(dragonScales ? 0.1f : 0f) +
+					(kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
+					(cTracers ? 0.1f : 0f) +
+					(silvaSet ? 0.05f : 0f) +
+					(eTracers ? 0.05f : 0f) +
+					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
+					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
+					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
-            if (abyssalDivingSuit && !player.IsUnderwater())
-            {
-                float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
-                runAccMult *= multiplier;
-                runSpeedMult *= multiplier;
-            }
-            if (fabledTortoise)
-            {
-                float multiplier = shellBoost ? 0.8f : 0.5f;
-                runAccMult *= multiplier;
-                runSpeedMult *= multiplier;
-            }
-            if (ursaSergeant)
-            {
-                runAccMult *= 0.65f;
-                runSpeedMult *= 0.65f;
-            }
-            if (elysianGuard)
-            {
-                runAccMult *= 0.5f;
-                runSpeedMult *= 0.5f;
-            }
-            if ((player.slippy || player.slippy2) && player.iceSkate)
-            {
-                runAccMult *= 0.6f;
-            }
-            if (CalamityWorld.death && deathModeBlizzardTime > 0)
-            {
-                float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
-                runAccMult *= speedMult;
-                runSpeedMult *= speedMult;
-            }
+				if (abyssalDivingSuit && !player.IsUnderwater())
+				{
+					float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
+					runAccMult *= multiplier;
+					runSpeedMult *= multiplier;
+				}
+				if (fabledTortoise)
+				{
+					float multiplier = shellBoost ? 0.8f : 0.5f;
+					runAccMult *= multiplier;
+					runSpeedMult *= multiplier;
+				}
+				if (ursaSergeant)
+				{
+					runAccMult *= 0.65f;
+					runSpeedMult *= 0.65f;
+				}
+				if (elysianGuard)
+				{
+					runAccMult *= 0.5f;
+					runSpeedMult *= 0.5f;
+				}
+				if ((player.slippy || player.slippy2) && player.iceSkate)
+				{
+					runAccMult *= 0.6f;
+				}
+				if (CalamityWorld.death && deathModeBlizzardTime > 0)
+				{
+					float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
+					runAccMult *= speedMult;
+					runSpeedMult *= speedMult;
+				}
 
-            player.runAcceleration *= runAccMult;
-            player.maxRunSpeed *= runSpeedMult;
+				player.runAcceleration *= runAccMult;
+				player.maxRunSpeed *= runSpeedMult;
+			}
             #endregion
 
             #region DashEffects
@@ -5020,10 +5102,12 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.TheRottedFork:
 				case ProjectileID.TheMeatball:
+				case ProjectileID.CrimsonYoyo:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
 
 				case ProjectileID.BallOHurt:
+				case ProjectileID.CorruptYoyo:
 					target.AddBuff(BuffID.ShadowFlame, 60);
 					break;
 
@@ -5321,7 +5405,7 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+            if (CalamityWorld.revenge)
             {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
             }
@@ -5457,7 +5541,7 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
+            if (CalamityWorld.revenge)
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
 
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
@@ -5499,10 +5583,6 @@ namespace CalamityMod.CalPlayer
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
-            }
-            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
-            {
-                damage += Main.rand.Next(20, 31);
             }
             if (plaguebringerPatronSummon)
             {
@@ -5723,7 +5803,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
+                    double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
@@ -5844,17 +5924,14 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityConfig.Instance.Rippers)
-                {
-                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                    {
-                        double adrenalineDRBoost = 0D +
-                            (adrenalineBoostOne ? 0.05 : 0D) +
-                            (adrenalineBoostTwo ? 0.05 : 0D) +
-                            (adrenalineBoostThree ? 0.05 : 0D);
-                        contactDamageReduction += 0.5 + adrenalineDRBoost;
-                    }
-                }
+				if (adrenaline == adrenalineMax && !adrenalineModeActive)
+				{
+					double adrenalineDRBoost = 0D +
+						(adrenalineBoostOne ? 0.05 : 0D) +
+						(adrenalineBoostTwo ? 0.05 : 0D) +
+						(adrenalineBoostThree ? 0.05 : 0D);
+					contactDamageReduction += 0.5 + adrenalineDRBoost;
+				}
             }
 
             if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
@@ -5940,7 +6017,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile)
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
 				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && player.altFunctionUse == 2 && Main.rand.NextBool(2))
 				{
@@ -5949,11 +6026,9 @@ namespace CalamityMod.CalPlayer
 						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
 						Main.dust[dustIndex].velocity *= 0.3f;
 					}
-					int damage2 = (int)(GaelsGreatsword.BaseDamage * player.MeleeDamage());
 					proj.hostile = false;
 					proj.friendly = true;
 					proj.velocity *= -1f;
-					proj.damage = damage2;
 					proj.penetrate = 1;
 					bool isImmune = false;
 					for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -6005,11 +6080,9 @@ namespace CalamityMod.CalPlayer
 					// The Evolution
                     if (projRefRare)
 					{
-						int damage2 = (int)(proj.damage * 10 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -2f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6040,11 +6113,9 @@ namespace CalamityMod.CalPlayer
                     // Arcanum of the Void
 					else if (projRef)
 					{
-						int damage2 = (int)(proj.damage * 5 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
 						bool isImmune = false;
@@ -6073,11 +6144,9 @@ namespace CalamityMod.CalPlayer
                     // Daedalus Melee set bonus
 					else if (daedalusReflect)
 					{
-						int damage2 = (int)(proj.damage * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
 						proj.penetrate = 1;
 						bool isImmune = false;
 						for (int j = 0; j < player.hurtCooldowns.Length; j++)
@@ -6181,8 +6250,8 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
-                    if (draedonsHeart)
+					double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
+					if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
@@ -6296,17 +6365,14 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityConfig.Instance.Rippers)
-                {
-                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                    {
-                        double adrenalineDRBoost = 0D +
-                            (adrenalineBoostOne ? 0.05 : 0D) +
-                            (adrenalineBoostTwo ? 0.05 : 0D) +
-                            (adrenalineBoostThree ? 0.05 : 0D);
-                        projectileDamageReduction += 0.5 + adrenalineDRBoost;
-                    }
-                }
+				if (adrenaline == adrenalineMax && !adrenalineModeActive)
+				{
+					double adrenalineDRBoost = 0D +
+						(adrenalineBoostOne ? 0.05 : 0D) +
+						(adrenalineBoostTwo ? 0.05 : 0D) +
+						(adrenalineBoostThree ? 0.05 : 0D);
+					projectileDamageReduction += 0.5 + adrenalineDRBoost;
+				}
             }
 
             if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
@@ -6503,7 +6569,7 @@ namespace CalamityMod.CalPlayer
                     else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
                     {
                         if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
-                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
+                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
                     }
                     else if (proj.type == ProjectileID.SaucerScrap)
                     {
@@ -7226,6 +7292,18 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
+			// Disable vanilla dashes during god slayer dash
+			if (godSlayerDashHotKeyPressed)
+			{
+				// Set the player to have no registered vanilla dashes.
+				player.dash = 0;
+
+				// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+				player.eocHit = -1;
+				if (player.eocDash != 0)
+					player.eocDash = 0;
+			}
+
             if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && player.dashDelay < 0))
             {
                 if (player.lifeRegen < 0)
@@ -7396,7 +7474,7 @@ namespace CalamityMod.CalPlayer
 
             // Shattered Community makes the player gain rage based on the amount of damage taken.
             // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && shatteredCommunity && rageGainCooldown == 0)
+            if (CalamityWorld.revenge && shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / player.statLifeMax2;
                 float rageConversionRatio = 0.8f;
@@ -7411,23 +7489,6 @@ namespace CalamityMod.CalPlayer
                 rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
-            }
-
-            if (CalamityWorld.revenge)
-            {
-                // Apply custom damage in Revengeance Mode. All this actually does is provide a minimum damage
-                customDamage = true;
-
-                // Revengeance uses the same defense effectiveness as Expert, 75%.
-                double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
-                double newDamage = damage - (player.statDefense * defenseMultiplier);
-
-                double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-
-                if (newDamage < newDamageLimit)
-                    newDamage = newDamageLimit;
-
-                damage = (int)newDamage;
             }
 
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
@@ -7455,7 +7516,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
 
             // Give Rage combat frames because being hurt counts as combat.
-            if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+            if (CalamityWorld.revenge)
                 rageCombatFrames = RageCombatDelayTime;
 
             if (player.whoAmI == Main.myPlayer)
@@ -7500,7 +7561,7 @@ namespace CalamityMod.CalPlayer
                     witheringDamageDone = 0;
                 }
 
-                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+                if (CalamityWorld.revenge)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
@@ -8710,7 +8771,8 @@ namespace CalamityMod.CalPlayer
 							Main.dust[num14].fadeIn = 0.5f;
 						}
 					}
-					num7 = 40f;
+					num7 = 40f; // 46 frames before hitting this gate value
+					num10 = 0.8f;
 				}
 				if (dashMod > 0)
                 {

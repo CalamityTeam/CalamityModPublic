@@ -13,7 +13,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class StormWeaverBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<StormWeaverHeadNaked>();
+        public override int BossBagNPC => ModContent.NPCType<StormWeaverHead>();
 
         public override void SetStaticDefaults()
         {

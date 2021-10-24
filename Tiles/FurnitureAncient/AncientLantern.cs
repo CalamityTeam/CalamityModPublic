@@ -36,21 +36,36 @@ namespace CalamityMod.Tiles.FurnitureAncient
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientLantern>());
         }
 
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            if (Main.tile[i, j].frameX < 18)
+            {
+                r = 1f;
+                g = 0.5f;
+                b = 0.5f;
+            }
+            else
+            {
+                r = 0f;
+                g = 0f;
+                b = 0f;
+            }
+        }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLanternFlame"), i, j);
         }
 
-
         public override void HitWire(int i, int j)
         {
-            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
+            CalamityUtils.LightHitWire(Type, i, j, 1, 2);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18)
+            if (tile.frameY == 18 && tile.frameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

@@ -1,5 +1,7 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tesla Orb");
+			DisplayName.SetDefault("Tesla Sphere");
 			Main.projFrames[projectile.type] = 4;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -145,13 +147,24 @@ namespace CalamityMod.Projectiles.Boss
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 				return null;
 
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			float detachDistance = malice ? 1600f : death ? 1360f : revenge ? 1280f : expertMode ? 1200f : 960f;
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
 				if (Main.projectile[i].type != projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active || Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays)
 					continue;
 
+				if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) > detachDistance)
+					continue;
+
 				return Main.projectile[i];
 			}
+
 			return null;
 		}
 
@@ -231,8 +244,8 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
 			if (projHitbox.Intersects(targetHitbox))
 				return true;
 
@@ -242,9 +255,9 @@ namespace CalamityMod.Projectiles.Boss
 				return true;
 
 			return false;
-        }
+		}
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
 		{
 			target.Calamity().lastProjectileHit = projectile;
 		}

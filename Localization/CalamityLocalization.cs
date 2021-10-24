@@ -68,7 +68,7 @@ namespace CalamityMod.Localization
                 // easier to define them.
                 new [] { "SCalSummonTextRematch", "If you’re looking for some fourth-degree burns, you’ve got the right person." },
                 new [] { "SCalStartTextRematch", "When the time comes, would you like to join my creation?" },
-                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory" },
+                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory." },
                 new [] { "SCalBH3TextRematch", "I haven’t had such an interesting target dummy to test my magic on in a long time." },
                 new [] { "SCalBrothersTextRematch", "Empty shells of their former selves. I doubt even a scrap of their spirits remain." },
                 new [] { "SCalPhase2TextRematch", "Here we go again." },
@@ -84,7 +84,7 @@ namespace CalamityMod.Localization
                 new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
+                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },
@@ -94,7 +94,7 @@ namespace CalamityMod.Localization
                 new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
                 new [] { "EdgyBossText10", "It's not over yet, kid!" },
                 new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -115,6 +115,7 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
+
                 new [] { "DraedonIntroductionText1", "I have waited long for this moment." },
                 new [] { "DraedonIntroductionText2", "Your nature fascinates me, for I do not understand it." },
                 new [] { "DraedonIntroductionText3", "You will face my creations which have surpassed gods." },
@@ -134,6 +135,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase6Text2", "I will no longer let my calculations impede my observation of this battle." },
                 new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
 				        new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+                new [] { "DraedonResummonText", "Make your choice." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				        new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },

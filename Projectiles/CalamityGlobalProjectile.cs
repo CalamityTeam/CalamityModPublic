@@ -235,6 +235,32 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 1;
 					break;
 
+				case ProjectileID.CorruptYoyo:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 190f;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.Valor:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 384f;
+					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.JungleYoyo:
+					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10;
+					break;
+
+				case ProjectileID.Code1:
+					ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 240f;
+					projectile.extraUpdates = 1;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 20;
+					break;
+
 				case ProjectileID.BlueMoon:
 				case ProjectileID.Flamarang:
 					projectile.extraUpdates = 2;
@@ -291,16 +317,12 @@ namespace CalamityMod.Projectiles
                     break;
 
 				case ProjectileID.WoodYoyo:
-				case ProjectileID.CorruptYoyo:
 				case ProjectileID.CrimsonYoyo:
-				case ProjectileID.JungleYoyo:
 				case ProjectileID.RedsYoyo:
 				case ProjectileID.ValkyrieYoyo:
 				case ProjectileID.Kraken:
 				case ProjectileID.Rally:
-				case ProjectileID.Code1:
 				case ProjectileID.Code2:
-				case ProjectileID.Valor:
 				case ProjectileID.Cascade:
 				case ProjectileID.Chik:
 				case ProjectileID.FormatC:
@@ -852,8 +874,11 @@ namespace CalamityMod.Projectiles
 
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
-				if (projectile.type == ProjectileID.DemonSickle && CalamityPlayer.areThereAnyDamnBosses)
+				if (projectile.type == ProjectileID.DemonSickle)
 				{
+					if (Main.wof < 0 || !Main.npc[Main.wof].active || Main.npc[Main.wof].life <= 0)
+						return true;
+
 					if (projectile.ai[0] == 0f)
 						Main.PlaySound(SoundID.Item8, projectile.position);
 
@@ -1166,7 +1191,13 @@ namespace CalamityMod.Projectiles
 					return false;
 				}
 
-				else if (projectile.type == ProjectileID.CultistBossLightningOrb)
+				else if (projectile.type == ProjectileID.AncientDoomProjectile)
+				{
+					if (projectile.velocity.Length() < 12f)
+						projectile.velocity *= 1.02f;
+				}
+
+				else if (projectile.type == ProjectileID.CultistBossLightningOrb && (CalamityWorld.malice || BossRushEvent.BossRushActive))
 				{
 					if (NPC.AnyNPCs(NPCID.CultistBoss))
 					{
@@ -1313,7 +1344,7 @@ namespace CalamityMod.Projectiles
 						float scaleFactor2 = projectile.velocity.Length();
 						vector11.Normalize();
 						vector11 *= scaleFactor2;
-						projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
+						projectile.velocity = (projectile.velocity * 20f + vector11) / 21f;
 						projectile.velocity.Normalize();
 						projectile.velocity *= scaleFactor2;
 
@@ -2246,7 +2277,7 @@ namespace CalamityMod.Projectiles
                 }
             }
             
-            if (modPlayer.flamingItemEnchant && !projectile.minion)
+            if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
                 target.AddBuff(BuffType<VulnerabilityHex>(), 420);
 
             if (modPlayer.farProximityRewardEnchant)

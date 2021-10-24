@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public Player PlayerToFollow => Main.player[npc.target];
         public ref float TalkTimer => ref npc.ai[0];
         public ref float GeneralTimer => ref npc.ai[3];
-        public bool ExoMechIsPresent
+        public static bool ExoMechIsPresent
         {
             get
             {
@@ -72,6 +72,7 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.dontTakeDamage = true;
             npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
+            npc.Calamity().DoesNotGenerateRage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -94,9 +95,12 @@ namespace CalamityMod.NPCs.ExoMechs
             // Prevent stupid natural despawns.
             npc.timeLeft = 3600;
 
-            // Decide an initial target on the first frame.
+            // Decide an initial target and play a teleport sound on the first frame.
             if (TalkTimer == 0f)
+            {
                 npc.TargetClosest(false);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DraedonTeleport"), PlayerToFollow.Center);
+            }
 
             // Pick someone else to pay attention to if the old target is gone.
             if (PlayerToFollow.dead || !PlayerToFollow.active)
@@ -122,6 +126,13 @@ namespace CalamityMod.NPCs.ExoMechs
             // Play the stand up animation after teleportation.
             if (TalkTimer == TeleportFadeinTime + 5f)
                 ShouldStartStandingUp = true;
+
+            // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
+            if (CalamityWorld.TalkedToDraedon && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f)
+            {
+                TalkTimer = TalkDelay * 4f - 25f;
+                npc.netUpdate = true;
+            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
             {
@@ -150,7 +161,18 @@ namespace CalamityMod.NPCs.ExoMechs
             // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+                if (CalamityWorld.TalkedToDraedon)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
+                else
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+
+                // Mark Draedon as talked to.
+                if (!CalamityWorld.TalkedToDraedon)
+                {
+                    CalamityWorld.TalkedToDraedon = true;
+                    CalamityNetcode.SyncWorld();
+                }
+
                 npc.netUpdate = true;
             }
 
@@ -195,6 +217,11 @@ namespace CalamityMod.NPCs.ExoMechs
                 HandleDefeatStuff();
                 DefeatTimer++;
             }
+
+            if (!ExoMechIsPresent && DefeatTimer <= 0f)
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DraedonAmbience");
+            if (ExoMechIsPresent)
+                music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 
             TalkTimer++;
         }
@@ -290,7 +317,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Stand up in awe after a small amount of time has passed.
             if (DefeatTimer > DelayBeforeDefeatStandup)
                 ShouldStartStandingUp = true;
-            
+
             // TODO - This needs to be changed.
             if (DefeatTimer == DelayBeforeDefeatStandup + 10f)
                 Main.NewText("Wait, what? How?", TextColor);
@@ -314,8 +341,9 @@ namespace CalamityMod.NPCs.ExoMechs
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Width = 102;
+
             int xFrame = npc.frame.X / npc.frame.Width;
-            int yFrame = npc.frame.Y / npc.frame.Height;
+            int yFrame = npc.frame.Y / frameHeight;
             int frame = xFrame * Main.npcFrameCount[npc.type] + yFrame;
 
             // Prepare to stand up if called for and not already doing so.
@@ -347,7 +375,7 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             npc.frame.X = frame / Main.npcFrameCount[npc.type] * npc.frame.Width;
-            npc.frame.Y = frame % Main.npcFrameCount[npc.type] * npc.frame.Height;
+            npc.frame.Y = frame % Main.npcFrameCount[npc.type] * frameHeight;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

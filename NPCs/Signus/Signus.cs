@@ -104,9 +104,12 @@ namespace CalamityMod.NPCs.Signus
 
 			double lifeRatio = npc.life / (double)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
@@ -762,6 +765,8 @@ namespace CalamityMod.NPCs.Signus
 			bool fullStrength = !CalamityWorld.downedSentinel3 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
+				CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
 				DropHelper.DropBags(npc);
 
 				// Legendary drop for Signus

@@ -73,29 +73,8 @@ namespace CalamityMod
 
 		public void UpdateBaseEffect(out Matrix effectProjection, out Matrix effectView)
 		{
-			// Screen bounds.
-			int height = Main.instance.GraphicsDevice.Viewport.Height;
+			CalamityUtils.CalculatePerspectiveMatricies(out effectView, out effectProjection);
 
-			Vector2 zoom = Main.GameViewMatrix.Zoom;
-			Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-
-			// Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
-			effectView = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up);
-
-			// Offset the matrix to the appropriate position.
-			effectView *= Matrix.CreateTranslation(0f, -height, 0f);
-
-			// Flip the matrix around 180 degrees.
-			effectView *= Matrix.CreateRotationZ(MathHelper.Pi);
-
-			// Account for the inverted gravity effect.
-			if (Main.LocalPlayer.gravDir == -1f)
-				effectView *= Matrix.CreateScale(1f, -1f, 1f) * Matrix.CreateTranslation(0f, height, 0f);
-
-			// And account for the current zoom.
-			effectView *= zoomScaleMatrix;
-
-			effectProjection = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
 			BaseEffect.View = effectView;
 			BaseEffect.Projection = effectProjection;
 		}
@@ -105,18 +84,23 @@ namespace CalamityMod
 			List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
 			List<Vector2> endPoints = new List<Vector2>();
 
-			if (basePoints.Count < 3)
-				return endPoints;
+			if (basePoints.Count < 2)
+			{
+				for (int i = 0; i < basePoints.Count; i++)
+					basePoints[i] += generalOffset;
+				return basePoints;
+			}
 
 			// Remap the original positions across a certain length.
 			for (int i = 0; i < totalTrailPoints; i++)
 			{
-				float completionRatio = i / (float)totalTrailPoints;
-				int currentColorIndex = (int)(completionRatio * (basePoints.Count - 1));
-				Vector2 currentColor = basePoints[currentColorIndex];
-				Vector2 nextColor = basePoints[(currentColorIndex + 1) % basePoints.Count];
-				endPoints.Add(Vector2.Lerp(currentColor, nextColor, completionRatio * (basePoints.Count - 1) % 0.999f) + generalOffset);
+				float completionRatio = i / (float)(totalTrailPoints - 1f);
+				int currentIndex = (int)(completionRatio * (basePoints.Count - 1));
+				Vector2 currentPoint = basePoints[currentIndex];
+				Vector2 nextPoint = basePoints[(currentIndex + 1) % basePoints.Count];
+				endPoints.Add(Vector2.Lerp(currentPoint, nextPoint, completionRatio * (basePoints.Count - 1) % 0.99999f) + generalOffset);
 			}
+			endPoints.Add(basePoints.Last() + generalOffset);
 			return endPoints;
 		}
 
@@ -247,7 +231,7 @@ namespace CalamityMod
 			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (trailPoints.Count <= 2)
+			if (trailPoints.Count < 2)
 				return;
 
 			// If the trail points have any NaN positions, don't draw anything.

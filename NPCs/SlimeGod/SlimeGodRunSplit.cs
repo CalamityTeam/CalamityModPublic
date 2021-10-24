@@ -76,9 +76,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			npc.defense = npc.defDefense;
 			npc.damage = npc.defDamage;
@@ -383,9 +386,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 else if (npc.ai[2] == 0f)
                 {
                     npc.noTileCollide = true;
-                    npc.noGravity = true;
                 }
-                npc.velocity.Y += 0.3f;
+				npc.noGravity = true;
+				npc.velocity.Y += 0.5f;
 				float velocityLimit = malice ? 22f : death ? 16f : revenge ? 15f : expertMode ? 14f : 13f;
 				if (npc.velocity.Y > velocityLimit)
                 {

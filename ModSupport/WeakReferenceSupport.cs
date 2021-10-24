@@ -289,13 +289,13 @@ namespace CalamityMod
 			// Hive Mind
 			{
 				BossDifficulty.TryGetValue("HiveMind", out float order);
-				List<int> phases = new List<int>() { NPCType<HiveMind>(), NPCType<HiveMindP2>() };
+				int type = NPCType<HiveMind>();
 				int summon = ItemType<Teratoma>();
 				List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>(), ItemType<RottingEyeball>() };
 				string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
 				string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
-				AddBoss(bossChecklist, calamity, "Hive Mind", order, phases, DownedHiveMind, summon, loot, collection, instructions, despawn);
+				AddBoss(bossChecklist, calamity, "Hive Mind", order, type, DownedHiveMind, summon, loot, collection, instructions, despawn);
 			}
 
 			// Perforators
@@ -366,7 +366,7 @@ namespace CalamityMod
 				int type = NPCType<CalamitasRun3>();
 				int summon = ItemType<BlightedEyeball>();
 				List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<CalamityDust>(), ItemType<BlightedLens>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<CalamityRing>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<KnowledgeCalamitasClone>() };
+				List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<KnowledgeCalamitasClone>() };
 				string instructions = $"Use an [i:{summon}] at Night";
 				string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
 				AddBoss(bossChecklist, calamity, "Calamitas", order, type, DownedCalamitas, summon, loot, collection, instructions, despawn);
@@ -389,7 +389,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Leviathan", out float order);
 				List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Siren>() };
 				List<int> loot = new List<int>() { ItemType<LeviathanBag>(), ItemType<Greentide>(), ItemType<Leviatitan>(), ItemType<SirensSong>(), ItemType<Atlantis>(), ItemType<GastricBelcherStaff>(), ItemType<BrackishFlask>(), ItemType<LeviathanTeeth>(), ItemType<LureofEnthrallment>(), ItemType<LeviathanAmbergris>(), ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<LeviathanMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanandSiren>() };
+				List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanandSiren>() };
 				string instructions = "By killing an unknown entity in the Ocean Biome";
 				string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
 				string bossLogTex = "CalamityMod/NPCs/Leviathan/SirenandLevi_BossChecklist";
@@ -504,7 +504,7 @@ namespace CalamityMod
 			// Storm Weaver
 			{
 				BossDifficulty.TryGetValue("StormWeaver", out float order);
-				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>(), NPCType<StormWeaverHeadNaked>(), NPCType<StormWeaverBodyNaked>(), NPCType<StormWeaverTailNaked>() };
+				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>() };
 				int summon = ItemType<RuneofCos>();
 				List<int> loot = new List<int>() { ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<KnowledgeSentinels>() };
@@ -585,11 +585,11 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("ExoMechs", out float order);
 				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
 				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
-				//List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
+				List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
 				string instructions = "By using a high-tech computer";
-				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
-				//string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
-				//AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
+				string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
+				string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
+				AddBoss(bossChecklist, calamity, "Exo Mechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Supreme Calamitas

@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            DisplayName.SetDefault("Voltaic Bolt");
         }
 
         public override void SetDefaults()
@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 90;
             projectile.magic = true;
 			projectile.ignoreWater = true;
+            projectile.tileCollide = false;
 		}
 
 		public override void AI()

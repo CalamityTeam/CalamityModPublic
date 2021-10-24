@@ -14,16 +14,28 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Revengeance");
-            Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in expert mode.\n" +
+            Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in Expert Mode.\n" +
+
+				// Rage and Adrenaline lines
                 "RAGE TOOLTIP LINE HERE\n" +
                 "You gain Rage when in proximity of enemies or by using special items.\n" +
                 "ADRENALINE TOOLTIP LINE HERE\n" +
                 "You gain Adrenaline whenever a boss is alive. Getting hit drops Adrenaline back to 0.\n" +
-                "All enemies drop 50% more coins and spawn 15% more frequently\n" +
-                "Certain enemies and projectiles deal between 5% and 25% more damage.\n" +
+
+				// General enemy lines
+                "All enemies drop 50% more coins and spawn 15% more frequently.\n" +
+                "Certain non-boss enemies and projectiles deal between 10% and 25% more damage.\n" +
                 "Makes certain enemies block life steal and nerfs the effectiveness of life steal.\n" +
-                "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
-                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.");
+
+				// Misc lines
+				"Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
+				"Defense damage is increased by 2.5%.\n" +
+
+				// Boss lines
+				"All boss minions no longer drop hearts.\n" +
+                "Changes all boss AIs and some enemy AIs.\n" +
+				"Increases the health and damage of all bosses.\n" +
+				"Most bosses will enter later phases sooner if the fight has gone on for a long time.");
         }
 
         public override void SetDefaults()

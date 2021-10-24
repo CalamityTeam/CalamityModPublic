@@ -1,5 +1,6 @@
 
 using Terraria;
+using Terraria.ID;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
@@ -28,6 +29,11 @@ namespace CalamityMod.World
                 Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                 return tile.liquid >= 200 && !tile.honey() && !tile.lava();
             }
+        }
+
+        public class SolidOrPlatform : GenCondition
+        {
+            protected override bool CheckValidity(int x, int y) => TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(x, y).type] || WorldGen.SolidTile(x, y);
         }
 
         public class IsNotTouchingAir : GenCondition
