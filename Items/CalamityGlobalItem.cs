@@ -2351,7 +2351,7 @@ namespace CalamityMod.Items
 			{
 				Texture2D itemTexture = Main.itemTexture[item.type];
 				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
-				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				Vector2 itemOrigin = frame.Size() * 0.5f;
 				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
 			}
 
@@ -2364,7 +2364,10 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			position += frame.Size() * 0.25f;
+			// Adjust the offset of the position. This vector does not have any specific static member that can be referenced and it is not
+			// as simply computable as a texture.Size() * 0.5f.
+			position += new Vector2(14f, 16f) * Main.inventoryScale;
+
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
 			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
 
