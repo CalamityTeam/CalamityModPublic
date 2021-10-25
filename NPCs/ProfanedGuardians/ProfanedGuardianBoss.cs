@@ -444,8 +444,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
 
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
-
 			// Mark the Profaned Guardians as dead
 			CalamityWorld.downedGuardians = true;
             CalamityNetcode.SyncWorld();
