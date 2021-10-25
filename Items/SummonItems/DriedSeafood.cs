@@ -14,7 +14,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Desert Medallion");
             Tooltip.SetDefault("The desert sand stirs...\n" +
-                "Summons the Desert Scourge");
+                "Summons the Desert Scourge\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -61,10 +62,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SandBlock, 15);
-            recipe.AddIngredient(ItemID.AntlionMandible, 3);
-            recipe.AddIngredient(ItemID.Cactus, 10);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
+            recipe.AddIngredient(ItemID.SandBlock, 25);
+            recipe.AddIngredient(ItemID.Cactus, 15);
+			recipe.AddIngredient(ItemID.AntlionMandible, 4);
+			recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

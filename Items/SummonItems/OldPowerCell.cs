@@ -11,7 +11,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Power Cell");
-            Tooltip.SetDefault("Summons the ancient golem when used in the Temple");
+            Tooltip.SetDefault("Summons the Golem when used in the Temple\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -23,21 +24,19 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             bool canSummon = false;
-            if ((double)player.Center.Y > Main.worldSurface * 16.0)
+            if (player.Center.Y > Main.worldSurface * 16.0)
             {
                 int num = (int)player.Center.X / 16;
                 int num2 = (int)player.Center.Y / 16;
                 Tile tile = Framing.GetTileSafely(num, num2);
                 if (tile.wall == 87)
-                {
                     canSummon = true;
-                }
             }
             return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
@@ -56,8 +55,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
+            recipe.AddIngredient(ItemID.LunarTabletFragment, 20);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

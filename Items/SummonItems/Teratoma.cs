@@ -12,7 +12,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Teratoma");
-            Tooltip.SetDefault("Summons the Hive Mind");
+            Tooltip.SetDefault("Summons the Hive Mind\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -46,9 +47,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 9);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 5);
-            recipe.AddIngredient(ItemID.DemoniteBar, 2);
+            recipe.AddIngredient(ItemID.RottenChunk, 13);
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7);
+            recipe.AddIngredient(ItemID.DemoniteBar, 3);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

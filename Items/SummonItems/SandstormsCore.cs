@@ -9,7 +9,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandstorm's Core");
-            Tooltip.SetDefault("Summons the Great Sand Shark");
+            Tooltip.SetDefault("Summons the Great Sand Shark\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -43,10 +44,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
+            recipe.AddIngredient(ItemID.Ectoplasm, 10);
             recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

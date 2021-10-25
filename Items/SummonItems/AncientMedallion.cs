@@ -11,7 +11,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Death Whistle");
             Tooltip.SetDefault("A very old temple whistle\n" +
-                "Summons the Ravager");
+                "Summons the Ravager\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -49,8 +50,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 5);
-            recipe.AddIngredient(ItemID.LihzahrdBrick, 10);
+            recipe.AddIngredient(ItemID.LunarTabletFragment, 15);
+            recipe.AddIngredient(ItemID.LihzahrdBrick, 25);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

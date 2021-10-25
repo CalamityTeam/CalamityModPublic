@@ -15,7 +15,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use in the Brimstone Crag at your own risk\n" +
                "Summons the Brimstone Elemental\n" +
-			   "The boss enrages outside of her home in the crags");
+			   "Not consumable");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -50,9 +50,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<UnholyCore>());
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
+			recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 2);
 			recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();

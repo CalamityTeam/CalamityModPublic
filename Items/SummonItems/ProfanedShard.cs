@@ -14,7 +14,8 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Profaned Shard");
             Tooltip.SetDefault("A shard of the unholy flame\n" +
                 "Summons the Profaned Guardians\n" +
-                "Can only be used during daytime");
+                "Can only be used during daytime\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
 			item.rare = ItemRarityID.Purple;
 		}
 
@@ -48,8 +49,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 15);
-            recipe.AddIngredient(ItemID.LunarBar, 3);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 25);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

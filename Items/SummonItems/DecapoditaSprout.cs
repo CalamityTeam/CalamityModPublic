@@ -10,7 +10,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Decapodita Sprout");
-            Tooltip.SetDefault("Summons Crabulon");
+            Tooltip.SetDefault("Summons Crabulon\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 25);
+            recipe.AddIngredient(ItemID.GlowingMushroom, 50);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

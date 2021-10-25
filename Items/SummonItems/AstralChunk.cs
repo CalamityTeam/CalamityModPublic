@@ -12,7 +12,8 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Chunk");
-            Tooltip.SetDefault("Summons Astrum Aureus");
+            Tooltip.SetDefault("Summons Astrum Aureus\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -50,8 +51,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ItemID.FallenStar, 10);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 30);
+            recipe.AddIngredient(ItemID.FallenStar, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
