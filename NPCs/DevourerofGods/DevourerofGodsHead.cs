@@ -66,6 +66,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private int laserWallType = 0;
 		private const float laserWallSpacingOffset = 16f;
 
+		// Continuously reset variables
+		public bool AttemptingToEnterPortal = false;
+		public int PortalIndex = -1;
+
 		// Spawn variables
 		private bool tail = false;
         private const int minLength = 100;
@@ -75,6 +79,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private bool spawnedGuardians = false;
         private bool spawnedGuardians2 = false;
         private int spawnDoGCountdown = 0;
+		private bool hasCreatedPhase1Portal = false;
 		private bool phase2Started = false;
 
 		// Phase 2 variables
@@ -170,9 +175,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(spawnedGuardians2);
 			writer.Write(spawnedGuardians3);
 			writer.Write(phase2Started);
+			writer.Write(hasCreatedPhase1Portal);
 			writer.Write(spawnDoGCountdown);
 			writer.Write(shotSpacing);
 			writer.Write(laserWallType);
+			writer.Write(PortalIndex);
             for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
 
@@ -198,10 +205,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 			spawnedGuardians2 = reader.ReadBoolean();
 			spawnedGuardians3 = reader.ReadBoolean();
 			phase2Started = reader.ReadBoolean();
+			hasCreatedPhase1Portal = reader.ReadBoolean();
 			spawnDoGCountdown = reader.ReadInt32();
 			shotSpacing = reader.ReadInt32();
 			laserWallType = reader.ReadInt32();
-            for (int i = 0; i < 4; i++)
+			PortalIndex = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
 
 			// Phase 2 syncs
@@ -259,8 +268,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 			bool phase6 = lifeRatio < 0.18f;
 			bool phase7 = lifeRatio < 0.09f;
 
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+			// Continuously reset certain things.
+			AttemptingToEnterPortal = false;
+
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Worm variable
             if (npc.ai[2] > 0f)
@@ -319,11 +331,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 					}
 				}
 
-				// 8.833 seconds before DoG spawns, start playing the phase 2 music and set new size
+				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-				{
 					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
 
+				// Once before DoG spawns, set new size
+				if (CalamityWorld.DoGSecondStageCountdown == 60)
+				{
 					npc.position = npc.Center;
 					npc.width = 186;
 					npc.height = 186;
@@ -348,52 +362,35 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Don't take damage
 					npc.dontTakeDamage = true;
 
-					// Go invisible
-					npc.alpha += 5;
-					if (npc.alpha > 255)
-						npc.alpha = 255;
+					// Adjust movement, attempting to move up.
+					// A portal will be created ahead of where DoG is moving that he will enter before Phase 2 begins.
+					float idealFlySpeed = 19.5f;
 
-					// Fly below the target
-					if (!player.dead)
+					float oldVelocity = npc.velocity.Length();
+					npc.velocity = Vector2.Lerp(npc.velocity, -Vector2.UnitY * MathHelper.Lerp(oldVelocity, idealFlySpeed, 0.1f), 0.4f);
+					npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+
+					if (PortalIndex != -1)
 					{
-						// Increase velocity if velocity is ever zero
-						if (npc.velocity == Vector2.Zero)
-							npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * 20f;
-
-						// Acceleration
-						Vector2 destination = new Vector2(player.Center.X, player.Center.Y + 800f);
-						if (!((destination - npc.Center).Length() < 400f))
+						Projectile portal = Main.projectile[PortalIndex];
+						float newOpacity = 1f - Utils.InverseLerp(170f, 75f, npc.Distance(portal.Center), true);
+						if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.alpha < newOpacity)
 						{
-							float targetAngle = npc.AngleTo(destination);
-							float f = npc.velocity.ToRotation().AngleTowards(targetAngle, 2.5f);
-							npc.velocity = f.ToRotationVector2() * 20f;
-						}
-					}
-					else
-					{
-						// Despawn
-						npc.velocity.Y -= 1f;
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-							npc.velocity.Y -= 1f;
-
-						int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-						int tailType = ModContent.NPCType<DevourerofGodsTail>();
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							for (int a = 0; a < Main.maxNPCs; a++)
-							{
-								if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-									continue;
-
-								Main.npc[a].active = false;
-								Main.npc[a].netUpdate = true;
-							}
+							npc.Opacity = newOpacity;
+							npc.netUpdate = true;
 						}
 					}
 
-					// Velocity upper limit
-					if (npc.velocity.Length() > 20f)
-						npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * 20f;
+					if (Main.netMode != NetmodeID.MultiplayerClient && !hasCreatedPhase1Portal)
+					{
+						Vector2 portalSpawnPosition = npc.Center - Vector2.UnitY * 1600f;
+						PortalIndex = Projectile.NewProjectile(portalSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DoGP1EndPortal>(), 0, 0f);
+
+						hasCreatedPhase1Portal = true;
+						npc.netUpdate = true;
+					}
+
+					AttemptingToEnterPortal = true;
 				}
 
 				// Phase 2
@@ -499,7 +496,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Enter final phase
 						if (!spawnedGuardians3 && phase6)
 						{
-							SpawnTeleportLocation(player);
+							SpawnTeleportLocation(player, true);
 
 							preventBullshitHitsAtStartofFinalPhaseTimer = 180;
 
@@ -1951,21 +1948,24 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.life = Main.npc[(int)npc.ai[0]].life;
 		}
 
-		private void SpawnTeleportLocation(Player player)
+		private void SpawnTeleportLocation(Player player, bool phase2EnterPortal = false)
 		{
 			if (teleportTimer > -1 || player.dead || !player.active)
 				return;
 
+			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int randomRange = 48;
 				float distance = 640f;
 				Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 				Main.PlaySound(SoundID.Item109, player.Center);
-				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
-			}
 
-			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+				int portalType = phase2EnterPortal ? ModContent.ProjectileType<DoGP1EndPortal>() : ModContent.ProjectileType<DoGTeleportRift>();
+				int fuck = Projectile.NewProjectile(targetVector, Vector2.Zero, portalType, 0, 0f, Main.myPlayer, npc.whoAmI);
+				if (Main.projectile.IndexInRange(fuck) && phase2EnterPortal)
+					Main.projectile[fuck].ai[0] = teleportTimer;
+			}
 		}
 
 		private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase5)

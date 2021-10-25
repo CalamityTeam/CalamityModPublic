@@ -113,11 +113,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 			{
 				phase2Started = true;
 
-				// 8.833 seconds before DoG spawns, start playing the phase 2 music and set new size
+				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-				{
 					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
 
+				// Once before DoG spawns, set new size
+				if (CalamityWorld.DoGSecondStageCountdown == 60)
+				{
 					npc.position = npc.Center;
 					npc.width = 70;
 					npc.height = 70;
@@ -179,7 +181,20 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 			else
-				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
+			{
+				if ((Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.PortalIndex ?? -1) != -1)
+				{
+					Projectile portal = Main.projectile[Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
+					float newOpacity = 1f - Utils.InverseLerp(170f, 75f, npc.Distance(portal.Center));
+					if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.alpha < newOpacity)
+					{
+						npc.Opacity = newOpacity;
+						npc.netUpdate = true;
+					}
+				}
+				else
+					npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
+			}
 
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = player.position.X + (player.width / 2);
