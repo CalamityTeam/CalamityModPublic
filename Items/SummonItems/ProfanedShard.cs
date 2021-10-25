@@ -22,7 +22,6 @@ namespace CalamityMod.Items.SummonItems
         {
             item.width = 20;
             item.height = 20;
-            item.maxStack = 20;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;

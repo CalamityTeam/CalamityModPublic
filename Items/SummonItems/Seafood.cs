@@ -22,7 +22,6 @@ namespace CalamityMod.Items.SummonItems
         {
             item.width = 26;
             item.height = 24;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Pink;
             item.useAnimation = 45;
             item.useTime = 45;
