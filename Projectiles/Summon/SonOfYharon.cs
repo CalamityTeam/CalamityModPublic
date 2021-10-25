@@ -54,10 +54,8 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)
-            {
                 PerformInitialization();
-                projectile.localAI[0] = 1f;
-            }
+            projectile.localAI[0]++;
 
             // Perform minion checks.
             PerformMinionChecks();
@@ -219,6 +217,8 @@ namespace CalamityMod.Projectiles.Summon
             if (RamCountdown > 0f)
                 damage = (int)(damage * AngryChickenStaff.ReboundRamDamageFactor);
         }
+
+        public override bool CanDamage() => projectile.localAI[0] > 1f;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
