@@ -164,12 +164,6 @@ namespace CalamityMod
 		[Tooltip("Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.")]
 		public bool Proficiency { get; set; }
 
-		[Label("Sell Vanilla Boss Summons")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(true)]
-		[Tooltip("Adds vanilla boss summons to NPC shops after the corresponding boss is defeated.\nThis does not affect Calamity's boss summons, which are always sold.\nTo apply changes, close and reopen the shop.")]
-		public bool SellVanillaSummons { get; set; }
-
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
