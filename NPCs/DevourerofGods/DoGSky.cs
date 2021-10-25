@@ -31,12 +31,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 float x = 0f;
                 if (DoGIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[DoGIndex].Center);
-                }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.5f;
+
+				bool sentinelsPhase = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
+				float intensityScalar = sentinelsPhase ? 0f : 0.5f;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0.5f;
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)
