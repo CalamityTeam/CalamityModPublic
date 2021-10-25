@@ -2079,7 +2079,8 @@ namespace CalamityMod.NPCs
 
 				if (npc.type != NPCType<Draedon>())
 				{
-					if (AITimer < KillTime)
+					bool DoGSentinelPhase = DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
+					if (AITimer < KillTime && !DoGSentinelPhase)
 						AITimer++;
 
 					// Separate timer for aggression to avoid entering later phases too quickly

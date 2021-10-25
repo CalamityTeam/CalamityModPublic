@@ -5805,6 +5805,14 @@ namespace CalamityMod.CalPlayer
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
+
+					if (areThereAnyDamnBosses)
+					{
+						int defenseDamageFloor = NPC.downedMoonlord ? 12 : Main.hardMode ? 8 : 4;
+						if (damageToDefense < defenseDamageFloor)
+							damageToDefense = defenseDamageFloor;
+					}
+
                     defenseDamage += damageToDefense;
 
 					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
@@ -6252,7 +6260,15 @@ namespace CalamityMod.CalPlayer
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
-                    defenseDamage += damageToDefense;
+
+					if (areThereAnyDamnBosses)
+					{
+						int defenseDamageFloor = NPC.downedMoonlord ? 12 : Main.hardMode ? 8 : 4;
+						if (damageToDefense < defenseDamageFloor)
+							damageToDefense = defenseDamageFloor;
+					}
+
+					defenseDamage += damageToDefense;
 
 					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
 						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
