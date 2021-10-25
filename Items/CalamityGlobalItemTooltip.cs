@@ -581,6 +581,14 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
 			#endregion
 
+			// Non-consumable boss summon items
+			#region Vanilla Boss Summon Non-consumable Tooltips
+			if (item.type == ItemID.SlimeCrown || item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.WormFood ||
+				item.type == ItemID.BloodySpine || item.type == ItemID.Abeemination || item.type == ItemID.MechanicalEye ||
+				item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull || item.type == ItemID.CelestialSigil)
+				EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
+			#endregion
+
 			// Items which provide immunity to either heat or cold in Death Mode, or interact with Lethal Lava
 			#region Lava and Death Mode Environmental Immunity Tooltips
 			string heatProtectionLine = "\nProvides heat protection in Death Mode";

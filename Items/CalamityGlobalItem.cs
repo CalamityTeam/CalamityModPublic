@@ -322,6 +322,14 @@ namespace CalamityMod.Items
 					break;
 
 				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.SlimeCrown:
+				case ItemID.SuspiciousLookingEye:
+				case ItemID.WormFood:
+				case ItemID.BloodySpine:
+				case ItemID.Abeemination:
+				case ItemID.MechanicalEye:
+				case ItemID.MechanicalWorm:
+				case ItemID.MechanicalSkull:
 				case ItemID.CelestialSigil:
 					item.maxStack = 1;
 					item.consumable = false;
