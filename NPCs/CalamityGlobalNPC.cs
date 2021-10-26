@@ -81,6 +81,9 @@ namespace CalamityMod.NPCs
 
 		public int KillTime { get; set; } = 0;
 
+		public const int DoGPhase1KillTime = 5400;
+		public const int DoGPhase2KillTime = 9000;
+
 		public bool ShouldFallThroughPlatforms;
 
 		/// <summary>
@@ -1059,7 +1062,11 @@ namespace CalamityMod.NPCs
 				DR = newDR;
 			}
 
-			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			if (DevourerOfGodsIDs.Contains(npc.type))
+			{
+				KillTime = DoGPhase1KillTime;
+			}
+			else if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
 			{
 				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
 				KillTime = revKillTime;
@@ -2077,10 +2084,10 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (npc.type != NPCType<Draedon>())
+				bool DoGSentinelPhase = DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
+				if (npc.type != NPCType<Draedon>() && !DoGSentinelPhase)
 				{
-					bool DoGSentinelPhase = DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
-					if (AITimer < KillTime && !DoGSentinelPhase)
+					if (AITimer < KillTime)
 						AITimer++;
 
 					// Separate timer for aggression to avoid entering later phases too quickly
