@@ -123,6 +123,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					npc.position = npc.Center;
 					npc.width = 70;
 					npc.height = 70;
+					npc.frame = new Rectangle(0, 0, 114, 88);
 					npc.position -= npc.Size * 0.5f;
 				}
 			}

@@ -342,6 +342,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					npc.width = 186;
 					npc.height = 186;
 					npc.position -= npc.Size * 0.5f;
+					npc.frame = new Rectangle(0, 0, 134, 196);
 					npc.alpha = 0;
 				}
 
@@ -363,12 +364,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Don't take damage
 					npc.dontTakeDamage = true;
 
-					// Adjust movement speed. Direction is unaltered.
+					// Adjust movement speed. Direction is unaltered unless DoG is close to the top of the world, in which case he moves horizontally.
 					// A portal will be created ahead of where DoG is moving that he will enter before Phase 2 begins.
 					float idealFlySpeed = 14f;
 
 					float oldVelocity = npc.velocity.Length();
-					npc.velocity = npc.velocity.SafeNormalize(-Vector2.UnitY) * MathHelper.Lerp(oldVelocity, idealFlySpeed, 0.1f);
+					float horizontalInterpolant = Utils.InverseLerp(1200f, 600f, npc.Center.Y, true);
+					Vector2 idealDirection = npc.velocity.SafeNormalize(-Vector2.UnitY);
+					idealDirection = Vector2.Lerp(idealDirection, Vector2.UnitX * Math.Sign(idealDirection.X), horizontalInterpolant);
+					npc.velocity = idealDirection * MathHelper.Lerp(oldVelocity, idealFlySpeed, 0.1f);
 					npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
 
 					if (PortalIndex != -1)
@@ -1956,7 +1960,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.life = Main.npc[(int)npc.ai[0]].life;
 		}
 
-		private void SpawnTeleportLocation(Player player, bool phase2EnterPortal = true)
+		private void SpawnTeleportLocation(Player player)
 		{
 			if (teleportTimer > -1 || player.dead || !player.active)
 				return;
@@ -1968,11 +1972,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				float distance = 640f;
 				Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 				Main.PlaySound(SoundID.Item109, player.Center);
-
-				int portalType = phase2EnterPortal ? ModContent.ProjectileType<DoGP1EndPortal>() : ModContent.ProjectileType<DoGTeleportRift>();
-				int fuck = Projectile.NewProjectile(targetVector, Vector2.Zero, portalType, 0, 0f, Main.myPlayer, npc.whoAmI);
-				if (Main.projectile.IndexInRange(fuck) && phase2EnterPortal)
-					Main.projectile[fuck].ai[1] = teleportTimer;
+				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
 		}
 
