@@ -146,7 +146,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Brimstone Elemental
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
@@ -181,12 +183,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
-
-			//if brimmy hasn't been killed, you can mine charred ore
-            string key2 = "Mods.CalamityMod.BrimmyBossText";
-            Color messageColor2 = Color.Crimson;
-            if (!CalamityWorld.downedBrimstoneElemental)
-                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;

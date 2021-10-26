@@ -13,19 +13,18 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Cryo Key");
             Tooltip.SetDefault("Summons Cryogen\n" +
-				"The boss enrages outside of the snowy tundra");
+                "The boss enrages outside of the snowy tundra\n" +
+                "Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 18;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Pink;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -47,10 +46,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyIceBlock", 25);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 5);
+            recipe.AddRecipeGroup("AnyIceBlock", 50);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

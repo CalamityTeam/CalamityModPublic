@@ -62,6 +62,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod.Particles;
 
 namespace CalamityMod
 {
@@ -241,9 +242,6 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
 
-            Filters.Scene["CalamityMod:DevourerofGodsHeadS"] = new Filter(new DoGScreenShaderDataS("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
-            SkyManager.Instance["CalamityMod:DevourerofGodsHeadS"] = new DoGSkyS();
-
             Filters.Scene["CalamityMod:CalamitasRun3"] = new Filter(new CalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.6f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:CalamitasRun3"] = new CalSky();
 
@@ -279,14 +277,21 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
+            FusableParticleManager.LoadParticleRenderSets();
+            Main.OnPreDraw += _ => FusableParticleManager.PrepareFusableParticleTargets();
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);
 
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
+			DevourerofGodsHead.LoadHeadIcons();
+			DevourerofGodsBody.LoadHeadIcons();
+			DevourerofGodsTail.LoadHeadIcons();
+			HiveMind.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
-            SupremeCalamitas.LoadHeadIcons();
+			StormWeaverHead.LoadHeadIcons();
+			SupremeCalamitas.LoadHeadIcons();
             ThanatosHead.LoadHeadIcons();
             ThanatosBody1.LoadHeadIcons();
             ThanatosBody2.LoadHeadIcons();
@@ -355,6 +360,9 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            FusableParticleManager.UnloadParticleRenderSets();
+            Main.OnPreDraw -= _ => FusableParticleManager.PrepareFusableParticleTargets();
+
             RipperUI.Unload();
             AstralArcanumUI.Unload();
 
@@ -401,6 +409,19 @@ namespace CalamityMod
                 saveMethodInfo.Invoke(null, new object[] { cfg });
             else
                 Instance.Logger.Warn("In-game SaveConfig failed, code update required");
+        }
+        #endregion
+
+        #region Fusable Particle Updating
+        public override void MidUpdateProjectileItem()
+        {
+            // Update all fusable particles.
+            // These are really only visual and as such don't really need any complex netcode.
+            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in FusableParticleManager.ParticleSets)
+            {
+                foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
+                    particleSet.ParticleSet.UpdateBehavior(particle);
+            }
         }
         #endregion
 
@@ -555,8 +576,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
                 { ModContent.NPCType<CrabulonIdle>(), 5400 },
-                { ModContent.NPCType<HiveMind>(), 1800 },
-                { ModContent.NPCType<HiveMindP2>(), 5400 },
+                { ModContent.NPCType<HiveMind>(), 7200 },
                 { ModContent.NPCType<PerforatorHive>(), 7200 },
                 { ModContent.NPCType<SlimeGodCore>(), 10800 },
                 { ModContent.NPCType<SlimeGod>(), 5400 },
@@ -583,18 +603,15 @@ namespace CalamityMod
                 { ModContent.NPCType<Providence>(), 14400 },
 				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
 				{ ModContent.NPCType<DarkEnergy>(), 1200 },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), 7200 },
-                { ModContent.NPCType<StormWeaverTailNaked>(), 7200 },
+                { ModContent.NPCType<StormWeaverHead>(), 8100 },
+                { ModContent.NPCType<StormWeaverBody>(), 8100 },
+                { ModContent.NPCType<StormWeaverTail>(), 8100 },
                 { ModContent.NPCType<Signus>(), 7200 },
                 { ModContent.NPCType<Polterghast>(), 10800 },
                 { ModContent.NPCType<OldDuke>(), 10800 },
-                { ModContent.NPCType<DevourerofGodsHead>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsBody>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsTail>(), 5400 },
-                { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
-                { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
-                { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
+                { ModContent.NPCType<DevourerofGodsHead>(), 14400 },
+                { ModContent.NPCType<DevourerofGodsBody>(), 14400 },
+                { ModContent.NPCType<DevourerofGodsTail>(), 14400 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
 				{ ModContent.NPCType<Apollo>(), 21600 },
@@ -657,7 +674,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
                 { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
+                { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },
@@ -710,9 +727,6 @@ namespace CalamityMod
                 { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
-                { ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
                 { ModContent.NPCType<Signus>(), velocityScaleMin },
                 { ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
                 { ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },
@@ -724,9 +738,6 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
                 { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsHeadS>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<DevourerofGodsBodyS>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsTailS>(), velocityScaleMin },
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
@@ -826,14 +837,6 @@ namespace CalamityMod
                             // Regular Sulphur Sea theme, when Acid Rain is not occurring
                             else
                                 music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
-                        }
-                    }
-                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG spawns
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
-                            priority = MusicPriority.BossMedium;
                         }
                     }
 

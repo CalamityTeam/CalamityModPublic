@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -211,7 +212,13 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 360);
+			target.AddBuff(BuffID.Frostburn, 360);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
             target.Calamity().lastProjectileHit = projectile;
         }

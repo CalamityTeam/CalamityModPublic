@@ -46,8 +46,11 @@ namespace CalamityMod.Projectiles.Rogue
 				if (projectile.timeLeft % 10 == 0)
 				{
 					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<LostSoulFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    {
+                        // Use a tiny velocity to ensure that rotation works correctly.
+                        // The speed should be so low that it will make no meaningful mechanical difference.
+                        Vector2 soulVelocity = projectile.velocity.SafeNormalize(Vector2.Zero) * 0.0001f;
+                        Projectile.NewProjectile(projectile.Center, soulVelocity, ModContent.ProjectileType<LostSoulFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
 			}

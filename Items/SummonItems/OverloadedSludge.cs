@@ -13,19 +13,19 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Overloaded Sludge");
             Tooltip.SetDefault("It looks corrupted\n" +
-                "Summons the Slime God");
+                "Summons the Slime God\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.maxStack = 20;
             item.rare = ItemRarityID.LightRed;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -48,13 +48,13 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
-            recipe.AddRecipeGroup("AnyEvilBlock", 25);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 40);
+            recipe.AddRecipeGroup("AnyEvilBlock", 40);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 40);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

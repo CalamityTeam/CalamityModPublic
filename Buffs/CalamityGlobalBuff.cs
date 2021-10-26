@@ -11,7 +11,11 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-			if (type == BuffID.Panic)
+			if (type == BuffID.MagicPower)
+			{
+				player.magicDamage -= 0.1f;
+			}
+			else if (type == BuffID.Panic)
 			{
 				player.moveSpeed -= 0.5f;
 			}
@@ -85,9 +89,13 @@ namespace CalamityMod.Buffs
         {
             Player player = Main.player[Main.myPlayer];
 
-			//Vanilla buffs
+			// Vanilla buffs
             switch (type)
             {
+				case BuffID.MagicPower:
+					tip = "10% increased magic damage";
+					break;
+
 				case BuffID.Archery:
 					tip = "20% increased arrow speed and 1.05x arrow damage";
 					break;

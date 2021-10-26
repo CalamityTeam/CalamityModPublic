@@ -7,7 +7,6 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -69,6 +68,8 @@ namespace CalamityMod.NPCs
 			"Verth",
 			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
 			"TingFlarg", // <@!185605031716847616> (Smug#7160)
+			"Driser", // <@!121996994406252544> (Driser#8630)
+			"Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
@@ -137,6 +138,11 @@ namespace CalamityMod.NPCs
 		{
 			"Emmett",
 		};
+		private const int TravelingMerchantVanillaNames = 13;
+		private static readonly string[] TravelingMerchantNames =
+		{
+			"Stan Pines",
+		};
 		private const int TruffleVanillaNames = 12;
 		private static readonly string[] TruffleNames = null;
 		private const int WitchDoctorVanillaNames = 10;
@@ -189,6 +195,7 @@ namespace CalamityMod.NPCs
 			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
 			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
 			ResetName(NPCID.TaxCollector, ref CalamityWorld.taxCollectorName);
+			ResetName(NPCID.TravellingMerchant, ref CalamityWorld.travelingMerchantName);
 			ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
 			ResetName(NPCID.WitchDoctor, ref CalamityWorld.witchDoctorName);
 			ResetName(NPCID.Wizard, ref CalamityWorld.wizardName);
@@ -280,6 +287,9 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.TaxCollector:
 						npc.GivenName = ChooseName(ref CalamityWorld.taxCollectorName, npc.GivenName, TaxCollectorVanillaNames, TaxCollectorNames);
+						break;
+					case NPCID.TravellingMerchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.travelingMerchantName, npc.GivenName, TravelingMerchantVanillaNames, TravelingMerchantNames);
 						break;
 					case NPCID.Truffle:
 						npc.GivenName = ChooseName(ref CalamityWorld.truffleName, npc.GivenName, TruffleVanillaNames, TruffleNames);
@@ -1183,7 +1193,8 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Merchant)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.WormholePotion, true, Item.buyPrice(0, 0, 25, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Bottle, true, Item.buyPrice(0, 0, 0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.WormholePotion, true, Item.buyPrice(0, 0, 25, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ArcheryPotion, NPC.downedBoss1, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.HealingPotion, NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, ItemID.ManaPotion, NPC.downedBoss2);
@@ -1262,18 +1273,10 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.SwiftnessPotion, NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
 				SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 2));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 3));
-				SetShopItem(ref shop, ref nextSlot, ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
-				SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
-				SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-				SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
-				SetShopItem(ref shop, ref nextSlot, ItemType<Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
-				SetShopItem(ref shop, ref nextSlot, ItemType<OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
 				SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
 			}
 
@@ -1317,9 +1320,6 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Steampunker)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
 			}
 
@@ -1329,15 +1329,11 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, true, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
-				SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
-				SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(3));
-				SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
 			}
 
 			if (type == NPCID.WitchDoctor)
@@ -1350,13 +1346,8 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
 				SetShopItem(ref shop, ref nextSlot, ItemType<AstralFountainItem>(), Main.hardMode);
-				SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityConfig.Instance.SellVanillaSummons, price: Item.buyPrice(0, 8));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-				SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
-				SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
-				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
 			}
 
 			if (type == NPCID.PartyGirl)

@@ -482,7 +482,7 @@ namespace CalamityMod.CalPlayer
                     }
 				}
 
-				Vector2 startingStickPosition = player.Center + stickOffset + Vector2.UnitY * 12f;
+				Vector2 startingStickPosition = player.Center + stickOffset + new Vector2(direction * (float)Math.Cos(modPlayer.SmoothenedMinecartRotation * 2f) * -34f, 12f);
 				modPlayer.DoGCartSegments[0].Update(player, startingStickPosition, idealRotation);
 				modPlayer.DoGCartSegments[0].Center = startingStickPosition;
 
@@ -1079,7 +1079,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.AllCritBoost(critUp);
 			}
 
-			bool canProvideBuffs = modPlayer.profanedCrystalBuffs || (!modPlayer.profanedCrystal && modPlayer.pArtifact) || (modPlayer.profanedCrystal && CalamityWorld.downedSCal);
+			bool canProvideBuffs = modPlayer.profanedCrystalBuffs || (!modPlayer.profanedCrystal && modPlayer.pArtifact) || (modPlayer.profanedCrystal && CalamityWorld.downedSCal && CalamityWorld.downedExoMechs);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
 			if (!modPlayer.bOut && canProvideBuffs)
@@ -3004,7 +3004,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.pFlames)
 			{
-				player.blind = !modPlayer.alchFlask;
+				player.blind = !modPlayer.reducedPlagueDmg;
 				player.statDefense -= Plague.DefenseReduction;
 				player.moveSpeed -= 0.15f;
 			}
@@ -3482,7 +3482,6 @@ namespace CalamityMod.CalPlayer
 						player.lifeRegen += 5;
 					}
 					bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
-					bool notRetro = Lighting.NotRetro;
 					if (!modPlayer.ZoneAbyss) //No abyss memes.
 						Lighting.AddLight(player.Center, enrage ? 1.2f : offenseBuffs ? 1f : 0.2f, enrage ? 0.21f : offenseBuffs ? 0.2f : 0.01f, 0);
 					if (enrage)

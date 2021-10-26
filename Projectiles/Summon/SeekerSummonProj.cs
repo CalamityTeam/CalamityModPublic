@@ -6,32 +6,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SeekerSummonProj : ModProjectile
-    {
-        public Player Owner => Main.player[projectile.owner];
+	public class SeekerSummonProj : ModProjectile
+	{
+		public Player Owner => Main.player[projectile.owner];
 		public ref float CircleAngleRatio => ref projectile.ai[0];
 		public ref float Time => ref projectile.ai[1];
 		public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Soul Seeker");
-            Main.projFrames[projectile.type] = 5;
+		{
+			DisplayName.SetDefault("Soul Seeker");
+			Main.projFrames[projectile.type] = 5;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-        }
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = projectile.height = 84;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+		public override void SetDefaults()
+		{
+			projectile.width = projectile.height = 84;
+			projectile.netImportant = true;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.minionSlots = 1f;
+			projectile.timeLeft = 90000;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.minion = true;
+			projectile.extraUpdates = 1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = projectile.MaxUpdates * 8;
 			projectile.alpha = 255;
 		}
 
@@ -127,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.velocity *= 0.9f;
 				if (Time % 16f == 15f)
 				{
-					float shootSpeed = 14f;
+					float shootSpeed = 23f;
 					Vector2 eyePosition = projectile.Center + new Vector2(projectile.spriteDirection * 22f, -12f);
 					Vector2 aheadAim = (target.Center - eyePosition) / target.velocity.Length() / shootSpeed;
 					Vector2 shootVelocity = (target.Center + aheadAim - eyePosition).SafeNormalize(Vector2.UnitX * projectile.spriteDirection) * shootSpeed;

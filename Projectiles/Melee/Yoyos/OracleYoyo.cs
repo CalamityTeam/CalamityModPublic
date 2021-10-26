@@ -142,7 +142,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // Charge up the red lightning aura with every hit
+            // On hit effects do not apply if no damage was done.
+            if (damage <= 0)
+                return;
+
+            // Charge up the red lightning aura with every hit.
             AuraCharge += ChargePerHit;
 
             // Fire Auric orbs every few hits while supercharged.

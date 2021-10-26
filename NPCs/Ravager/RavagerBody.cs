@@ -701,15 +701,15 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Ravager
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
-
-			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (time >= 15f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(1800f, false);
+                NPC potentialTarget = projectile.Center.MinionHoming(1800f, Main.player[projectile.owner], false);
                 if (potentialTarget != null)
                     HomeInOnTarget(projectile, potentialTarget);
             }

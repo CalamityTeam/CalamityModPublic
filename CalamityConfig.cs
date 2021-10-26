@@ -118,6 +118,28 @@ namespace CalamityMod
 		[Tooltip("The Y position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float ChargeMeterPosY { get; set; }
 
+		[Label("Speedrun Timer")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Enables a Speedrun Timer.")]
+		public bool SpeedrunTimer { get; set; }
+
+		[Label("Speedrun Timer X Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(-800f, 800f)]
+		[DefaultValue(68f)]
+		[Tooltip("The X position of the Speedrun Timer.")]
+		public float SpeedrunTimerPosX { get; set; }
+
+		[Label("Speedrun Timer Y Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(16f, 1000f)]
+		[DefaultValue(16f)]
+		[Tooltip("The Y position of the Speedrun Timer.")]
+		public float SpeedrunTimerPosY { get; set; }
+
 		[Header("General Gameplay Changes")]
 
 		[Label("Early Hardmode Progression Rework")]
@@ -141,12 +163,6 @@ namespace CalamityMod
 		[DefaultValue(true)]
 		[Tooltip("Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.")]
 		public bool Proficiency { get; set; }
-
-		[Label("Sell Vanilla Boss Summons")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(true)]
-		[Tooltip("Adds vanilla boss summons to NPC shops after the corresponding boss is defeated.\nThis does not affect Calamity's boss summons, which are always sold.\nTo apply changes, close and reopen the shop.")]
-		public bool SellVanillaSummons { get; set; }
 
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]

@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +9,26 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.DevourerofGods
 {
 	public class DevourerofGodsBody : ModNPC
     {
-        private int invinceTime = 360;
+		public static int phase2IconIndex;
 
-        public override void SetStaticDefaults()
+		internal static void LoadHeadIcons()
+		{
+			string phase2IconPath = "CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS_Head_Boss";
+
+			CalamityMod.Instance.AddBossHeadTexture(phase2IconPath, -1);
+			phase2IconIndex = ModContent.GetModBossHeadSlot(phase2IconPath);
+		}
+
+		private int invinceTime = 360;
+		private bool setAlpha = false;
+		private bool phase2Started = false;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Devourer of Gods");
         }
@@ -32,7 +44,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.925f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERB(371250, 445500);
+			npc.LifeMaxNERB(888750, 1066500, 1500000); // Phase 1 is 371250, Phase 2 is 517500
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -52,26 +64,68 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.dontCountMe = true;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void BossHeadSlot(ref int index)
+		{
+			if (phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60)
+				index = phase2IconIndex;
+			else
+				index = -1;
+		}
+
+		public override void BossHeadRotation(ref float rotation)
+		{
+			if (phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60)
+				rotation = npc.rotation;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(invinceTime);
+			writer.Write(phase2Started);
+			writer.Write(invinceTime);
             writer.Write(npc.dontTakeDamage);
-        }
+			writer.Write(setAlpha);
+			writer.Write(npc.alpha);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            invinceTime = reader.ReadInt32();
+			phase2Started = reader.ReadBoolean();
+			invinceTime = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
-        }
+			setAlpha = reader.ReadBoolean();
+			npc.alpha = reader.ReadInt32();
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return false;
         }
 
-        public override void AI()
+		public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.25f);
+			if (npc.ai[2] > 0f)
+				npc.realLife = (int)npc.ai[2];
+
+			if (npc.life > Main.npc[(int)npc.ai[1]].life)
+				npc.life = Main.npc[(int)npc.ai[1]].life;
+
+			if (npc.life / (float)npc.lifeMax < 0.6f)
+			{
+				phase2Started = true;
+
+				// 8.833 seconds before DoG spawns, start playing the phase 2 music and set new size
+				if (CalamityWorld.DoGSecondStageCountdown == 530)
+				{
+					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+
+					npc.position = npc.Center;
+					npc.width = 70;
+					npc.height = 70;
+					npc.position -= npc.Size * 0.5f;
+				}
+			}
+
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             if (invinceTime > 0)
             {
@@ -79,14 +133,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = true;
             }
             else
-                npc.dontTakeDamage = false;
+                npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
 
-            if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
+			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
+				invinceTime = 240;
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -115,25 +169,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.active = false;
 			}
 
-			if (Main.npc[(int)npc.ai[1]].alpha < 128)
-            {
-                if (npc.alpha != 0)
-                {
-                    for (int num934 = 0; num934 < 2; num934++)
-                    {
-                        int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-                        Main.dust[num935].noGravity = true;
-                        Main.dust[num935].noLight = true;
-                    }
-                }
-
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
-                    npc.alpha = 0;
-            }
-
-            if (player.dead)
-                npc.TargetClosest(false);
+			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
+			{
+				npc.alpha -= 42;
+				if (npc.alpha <= 0 && invinceTime <= 0)
+				{
+					setAlpha = true;
+					npc.alpha = 0;
+				}
+			}
+			else
+				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
 
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = player.position.X + (player.width / 2);
@@ -179,7 +225,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			bool useOtherTextures = phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
+			Texture2D texture2D15 = useOtherTextures ? ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS") : Main.npcTexture[npc.type];
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
@@ -187,21 +234,48 @@ namespace CalamityMod.NPCs.DevourerofGods
 			vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+			if (!npc.dontTakeDamage)
+			{
+				if (useOtherTextures)
+				{
+					texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow");
+					Color color36 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture2D15, vector43, npc.frame, color36, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
+
+				texture2D15 = useOtherTextures ? ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow2") : ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyGlow");
+				Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+
+				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
 
 			return false;
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
+		{
+			cooldownSlot = 1;
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= (phase2Started ? 55f : 40f) && npc.alpha == 0 && invinceTime <= 0;
+		}
+
+		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
         }
@@ -216,42 +290,40 @@ namespace CalamityMod.NPCs.DevourerofGods
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
-        {
-            if (npc.life <= 0)
-            {
-                float randomSpread = Main.rand.Next(-100, 100) / 100;
-                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody3"), 1f);
-                npc.position.X = npc.position.X + (npc.width / 2);
-                npc.position.Y = npc.position.Y + (npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (npc.width / 2);
-                npc.position.Y = npc.position.Y - (npc.height / 2);
-                for (int num621 = 0; num621 < 10; num621++)
-                {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                    }
-                }
-                for (int num623 = 0; num623 < 20; num623++)
-                {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
-                }
-            }
-        }
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0)
+			{
+				float randomSpread = Main.rand.Next(-100, 100) / 100;
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGS6"), 1f);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
+				npc.width = 50;
+				npc.height = 50;
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
+				for (int num621 = 0; num621 < 10; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 20; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+					Main.dust[num624].velocity *= 2f;
+				}
+			}
+		}
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
             npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());

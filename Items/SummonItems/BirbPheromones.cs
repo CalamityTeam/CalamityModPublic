@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Bumblebirb;
 using Terraria;
 using Terraria.ID;
@@ -10,19 +11,19 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exotic Pheromones");
-            Tooltip.SetDefault("Attracts the failed draconic experiment");
+            Tooltip.SetDefault("Attracts the failed draconic experiment\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 18;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Red;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -44,8 +45,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarBar, 3);
-            recipe.AddIngredient(ItemID.FragmentSolar, 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+            recipe.AddIngredient(ItemID.FragmentSolar, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

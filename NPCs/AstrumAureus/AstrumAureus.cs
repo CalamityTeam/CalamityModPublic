@@ -319,7 +319,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Astrum Aureus
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);

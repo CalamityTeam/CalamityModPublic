@@ -11,19 +11,19 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Portabulb");
-            Tooltip.SetDefault("Summons Plantera");
+            Tooltip.SetDefault("Summons Plantera\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 18;
-            item.maxStack = 20;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.rare = ItemRarityID.Lime;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)

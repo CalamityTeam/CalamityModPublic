@@ -33,11 +33,6 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
         }
 
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-        {
-            return CalamityWorld.downedBrimstoneElemental;
-        }
-
         public override bool CanExplode(int i, int j)
         {
             return false;

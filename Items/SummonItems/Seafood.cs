@@ -14,19 +14,19 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Seafood");
             Tooltip.SetDefault("The sulphuric sand stirs...\n" +
-                "Summons the Aquatic Scourge");
+                "Summons the Aquatic Scourge\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 26;
             item.height = 24;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Pink;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -49,9 +49,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 10);
-            recipe.AddIngredient(ItemID.Starfish, 5);
-            recipe.AddIngredient(ItemID.SharkFin);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
+            recipe.AddIngredient(ItemID.Starfish, 10);
+            recipe.AddIngredient(ItemID.SharkFin, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -185,7 +185,6 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, 0.9 },
 
 				{ ModContent.NPCType<HiveMind>(), 0.9 },
-				{ ModContent.NPCType<HiveMindP2>(), 0.9 },
 
 				{ ModContent.NPCType<PerforatorHive>(), 0.9 },
 
@@ -265,8 +264,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<StormWeaverBody>(), 0.8 },
 				{ ModContent.NPCType<StormWeaverTail>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8 },
 
 				{ ModContent.NPCType<Signus>(), 0.9 },
 
@@ -279,8 +276,6 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<DevourerofGodsBody>(), 0.85 },
 				{ ModContent.NPCType<DevourerofGodsTail>(), 0.85 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 0.85 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 0.85 },
 
 				{ ModContent.NPCType<Yharon>(), 0.8 },
 
@@ -330,8 +325,7 @@ namespace CalamityMod
 				{ NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
 				{ NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },
 
-				{ ModContent.NPCType<HiveMind>(), new int[] { 20, 36, 45, 54, 81 } },
-				{ ModContent.NPCType<HiveMindP2>(), new int[] { 35, 63, 81, 90, 135 } },
+				{ ModContent.NPCType<HiveMind>(), new int[] { 35, 63, 81, 90, 135 } },
 				{ ModContent.NPCType<DankCreeper>(), new int[] { 25, 50, 62, 68, 90 } },
 
 				{ ModContent.NPCType<PerforatorHive>(), new int[] { 30, 54, 63, 72, 108 } },
@@ -504,12 +498,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
 				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
 
-				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
-				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
-				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 80, 128, 160, 176, 240 } },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), new int[] { 180, 360, 396, 418, 540 } },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), new int[] { 120, 192, 224, 250, 330 } },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), new int[] { 100, 160, 192, 210, 270 } },
+				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 180, 360, 396, 418, 540 } },
+				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 120, 192, 224, 250, 330 } },
+				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 100, 160, 192, 210, 270 } },
 
 				{ ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
 				{ ModContent.NPCType<CosmicLantern>(), new int[] { 110, 220, 242, 256, 336 } },
@@ -532,12 +523,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<OldDukeToothBall>(), new int[] { 180, 270, 300, 315, 405 } },
 				{ ModContent.NPCType<OldDukeSharkron>(), new int[] { 180, 270, 300, 315, 405 } },
 
-				{ ModContent.NPCType<DevourerofGodsHead>(), new int[] { 300, 600, 650, 680, 760 } },
-				{ ModContent.NPCType<DevourerofGodsBody>(), new int[] { 180, 306, 340, 357, 510 } },
-				{ ModContent.NPCType<DevourerofGodsTail>(), new int[] { 150, 255, 289, 306, 408 } },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), new int[] { 350, 700, 750, 780, 880 } },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), new int[] { 220, 374, 425, 442, 561 } },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), new int[] { 180, 306, 340, 357, 459 } },
+				{ ModContent.NPCType<DevourerofGodsHead>(), new int[] { 350, 700, 750, 780, 880 } },
+				{ ModContent.NPCType<DevourerofGodsBody>(), new int[] { 220, 374, 425, 442, 561 } },
+				{ ModContent.NPCType<DevourerofGodsTail>(), new int[] { 180, 306, 340, 357, 459 } },
 				{ ModContent.NPCType<DevourerofGodsHead2>(), new int[] { 180, 360, 396, 420, 510 } },
 				{ ModContent.NPCType<DevourerofGodsBody2>(), new int[] { 130, 260, 290, 320, 420 } },
 				{ ModContent.NPCType<DevourerofGodsTail2>(), new int[] { 100, 200, 230, 260, 330 } },
@@ -571,7 +559,7 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 32, 48, 60, 68, 90 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<HiveMindP2>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
+				{ new Tuple<int, int>(ModContent.NPCType<HiveMind>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DankCreeper>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DarkHeart>(), ModContent.ProjectileType<ShaderainHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<HiveBlob>(), ModContent.ProjectileType<VileClot>()), new int[] { 30, 48, 60, 68, 90 } },
@@ -758,8 +746,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 120, 192, 212, 224, 318 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },
@@ -779,8 +765,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
-				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGFire>()), new int[] { 180, 300, 332, 348, 498 } },
-				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
+				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGFire>()), new int[] { 180, 300, 332, 348, 498 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<SkyFlareRevenge>()), new int[] { 300, 520, 548, 564, 822 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareBomb>()), new int[] { 180, 300, 332, 348, 498 } },

@@ -64,6 +64,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = false;
+            npc.friendly = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath44;
         }
@@ -108,15 +109,21 @@ namespace CalamityMod.NPCs.DraedonLabThings
         public void WalkAroundOnGround()
         {
             // Fall onto the ground if mid-air.
-            npc.frameCounter += npc.velocity.Length() + 0.4f;
 
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(npc.Bottom.X / 16), (int)(npc.Bottom.Y / 16) + 1);
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(npc.Bottom.X / 16f), (int)(npc.Bottom.Y / 16f));
             bool onSolidGround = WorldGen.SolidTile(tileBelow) || (tileBelow.active() && Main.tileSolidTop[tileBelow.type]);
             float directionSign = Math.Sign(npc.velocity.X);
             if (directionSign == 0f)
                 directionSign = npc.spriteDirection;
             if (Math.Abs(npc.velocity.X) > 0.5f && onSolidGround)
                 npc.velocity.X = MathHelper.Lerp(npc.velocity.X, directionSign * 5f, 0.05f);
+
+            // Using walking frames if on solid ground.
+            // If not on solid ground, use the first frame.
+            if (onSolidGround)
+                npc.frameCounter += npc.velocity.Length() + 0.4f;
+            else
+                CurrentFrame = 0f;
 
             // Enforce gravity.
             npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + Gravity, -15f, 15f);
@@ -127,26 +134,34 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
             // Attempt to jump over gaps if they aren't too big.
             Vector2 checkPosition = npc.Bottom + new Vector2(Math.Sign(npc.velocity.X) * 24f, 12f);
+
             float? distanceToAheadBelowTile = CalamityUtils.DistanceToTileCollisionHit(checkPosition, Vector2.UnitX * directionSign);
-            if (onSolidGround && distanceToAheadBelowTile.HasValue && distanceToAheadBelowTile.Value >= 2 && distanceToAheadBelowTile.Value < 9)
+            if (onSolidGround && distanceToAheadBelowTile.HasValue && distanceToAheadBelowTile.Value >= 2 && distanceToAheadBelowTile.Value < 9 && npc.velocity.Y == Gravity)
             {
-                Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * (distanceToAheadBelowTile.Value * 16f + 8f);
-                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 8.5f);
+                Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * (distanceToAheadBelowTile.Value * 16f + 12f);
+                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 10f);
             }
 
             // Attempt to jump over vertical obstacles.
-            bool obstacleInWay = !Collision.CanHit(npc.Center - Vector2.UnitX * directionSign * 8f, 2, 2, npc.Center + Vector2.UnitX * directionSign * 80f, 8, 8);
+            bool obstacleInWay = !Collision.CanHit(npc.Center - Vector2.UnitX * directionSign * 8f, 2, 2, npc.Center + Vector2.UnitX * directionSign * 50f, 8, 8);
             if (onSolidGround && obstacleInWay)
             {
                 Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * 132f;
                 float? distanceToObstacle = CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * directionSign);
                 float obstacleHeight = 0f;
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     if (WorldGen.SolidTile((int)(npc.Center.X / 16 + (distanceToObstacle ?? 0) * npc.spriteDirection), (int)(npc.Center.Y / 16) - i))
                         obstacleHeight++;
                 }
-                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 9f + StuckCount * 0.7f + obstacleHeight * 0.4f);
+
+                // Just turn back if the obstacle is ridiculously tall.
+                if (obstacleHeight >= 10)
+                    npc.velocity.X = -npc.spriteDirection * 3f;
+
+                // Otherwise try to jump over it.
+                else
+                    npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 9f + StuckCount * 0.7f + obstacleHeight * 0.4f);
 
                 if (MathHelper.Distance(npc.position.X, npc.oldPosition.X) < 0.2f)
                 {
@@ -230,7 +245,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                 float distanceToCollisionRight = CalamityUtils.DistanceToTileCollisionHit(npc.Center - currentDirection.RotatedBy(-MathHelper.PiOver2) * 5f, currentDirection.RotatedBy(-MathHelper.PiOver2)) ?? 10000f;
                 float steerRotation = distanceToCollisionLeft > distanceToCollisionRight ? MathHelper.PiOver2 : -MathHelper.PiOver2;
                 Vector2 idealVelocity = npc.velocity.RotatedBy(steerRotation);
-                npc.velocity = npc.velocity.MoveTowards(idealVelocity, 0.95f);
+                npc.velocity = npc.velocity.MoveTowards(idealVelocity, 0.15f);
             }
             else
                 npc.velocity = npc.velocity.RotatedBy(offsetAngle);

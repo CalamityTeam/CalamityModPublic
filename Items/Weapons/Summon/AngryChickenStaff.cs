@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class AngryChickenStaff : ModItem
     {
-        public const int Damage = 107;
+        public const int Damage = 300;
+        public const float ReboundRamDamageFactor = 6f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharon's Kindle Staff");

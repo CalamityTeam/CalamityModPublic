@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Skies
@@ -25,8 +26,8 @@ namespace CalamityMod.Skies
         public List<Lightning> LightningBolts = new List<Lightning>();
         public static bool CanSkyBeActive
         {
-			get
-			{
+            get
+            {
                 int draedon = CalamityGlobalNPC.draedon;
                 if (draedon == -1 || !Main.npc[draedon].active)
                     return Draedon.ExoMechIsPresent;
@@ -36,12 +37,12 @@ namespace CalamityMod.Skies
 
                 return true;
             }
-		}
+        }
 
         public float CurrentIntensity
-		{
-			get
-			{
+        {
+            get
+            {
                 float combinedLifeRatio = 0f;
                 if (CalamityGlobalNPC.draedonExoMechPrime != -1 && Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
                     combinedLifeRatio += Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
@@ -54,12 +55,15 @@ namespace CalamityMod.Skies
 
                 return (float)Math.Pow(1f - combinedLifeRatio / 3f, 2D);
             }
-		}
+        }
 
         public static readonly Color DrawColor = new Color(0.16f, 0.16f, 0.16f);
 
         public static void CreateLightningBolt(int count = 1, bool playSound = false)
-		{
+        {
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
             for (int i = 0; i < count; i++)
             {
                 Lightning lightning = new Lightning()
@@ -73,7 +77,7 @@ namespace CalamityMod.Skies
 
             // Make the sky flash if enough lightning bolts are created.
             if (count >= 10)
-			{
+            {
                 (SkyManager.Instance["CalamityMod:ExoMechs"] as ExoMechsSky).LightningIntensity = 1f;
                 playSound = true;
             }
@@ -84,12 +88,12 @@ namespace CalamityMod.Skies
                 if (lightningSound != null)
                     lightningSound.Volume *= 0.5f;
             }
-		}
+        }
 
         public override void Update(GameTime gameTime)
-		{
+        {
             if (!CanSkyBeActive)
-			{
+            {
                 LightningIntensity = 0f;
                 BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity - 0.08f, 0f, 1f);
                 LightningBolts.Clear();
@@ -100,9 +104,9 @@ namespace CalamityMod.Skies
             BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity + 0.01f, 0f, 1f);
 
             for (int i = 0; i < LightningBolts.Count; i++)
-			{
+            {
                 LightningBolts[i].Lifetime--;
-			}
+            }
 
             if (Main.rand.NextBool((int)MathHelper.Lerp(50f, 195f, CurrentIntensity)))
                 CreateLightningBolt();
@@ -114,7 +118,7 @@ namespace CalamityMod.Skies
                 CreateLightningBolt(4);
 
                 if (!Main.gamePaused)
-				{
+                {
                     var lightningSound = Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
                     if (lightningSound != null)
                         lightningSound.Volume *= 0.5f;
@@ -176,7 +180,7 @@ namespace CalamityMod.Skies
 
         public override float GetCloudAlpha() => 0f;
 
-		public override void Reset() { }
+        public override void Reset() { }
 
         public override void Activate(Vector2 position, params object[] args) { }
 

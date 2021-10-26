@@ -1089,7 +1089,9 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drops for Cryogen
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, CalamityWorld.malice);

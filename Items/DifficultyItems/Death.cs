@@ -13,18 +13,30 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Death");
-            Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
-                "Allows certain bosses to spawn naturally.\n" +
-                "Certain biomes and events have additional weather effects.\n" +
-                "Lethal lava effects are always enabled.\n" +
-                "Enemies and bosses buffed by Revengeance Mode are even stronger in this mode.\n" +
-                "Greatly boosts enemy spawn rates during the blood moon.\n" +
-                "Nerfs the effectiveness of life steal.\n" +
-                "Makes the abyss more treacherous to navigate.\n" +
-                "Nurse no longer heals while a boss is alive.\n" +
-                "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
-                "Effect can be toggled on and off.\n" +
-                "Effect will only work if Revengeance Mode is active.");
+            Tooltip.SetDefault("Enables/disables Death Mode, can only be used in Revengeance Mode.\n" +
+
+				// Rev Mode line
+				"All effects from Revengeance Mode are enabled, including the following:\n" +
+
+				// Biome effect lines
+                "Allows certain bosses to spawn naturally depending on what biome you're in.\n" +
+				"Certain biomes and events have additional weather effects.\n" +
+                "Lethal Lava effects are always enabled.\n" +
+                "Greatly boosts enemy spawn rates during the Blood Moon.\n" +
+                "Makes the Abyss more treacherous to navigate.\n" +
+
+				// General enemy lines
+				"Certain non-boss enemies and projectiles deal between 6% and 15% more damage.\n" +
+
+				// Misc lines
+				"Nerfs the effectiveness of life steal a bit more.\n" +
+				"The Nurse no longer heals you while a boss is alive.\n" +
+				"Defense damage is increased by 2.5%.\n" +
+				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
+
+				// Boss lines
+				"Changes all boss AIs and some enemy AIs a bit more.\n" +
+				"Increases the damage of all bosses a bit more.");
         }
 
         public override void SetDefaults()

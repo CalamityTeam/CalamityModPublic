@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 240;
         }
 
         public override void AI()
@@ -52,11 +52,6 @@ namespace CalamityMod.Projectiles.Summon
             NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
             if (potentialTarget != null)
                 projectile.velocity = (projectile.velocity * 30f + projectile.SafeDirectionTo(potentialTarget.Center) * 10f) / 31f;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60);
         }
 
         public override void Kill(int timeLeft)

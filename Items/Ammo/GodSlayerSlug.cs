@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 28;
             item.ranged = true;
             item.width = 22;
             item.height = 22;

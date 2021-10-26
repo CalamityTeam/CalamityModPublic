@@ -63,6 +63,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			set => npc.Calamity().newAI[1] = value;
 		}
 
+		// Used for Draedon's text
+		public static readonly Color TextColor = new Color(155, 255, 255);
+
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 10;
 		private const int maxFramesY = 9;
@@ -368,7 +371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 320f : 480f;
+			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
@@ -558,6 +561,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
+								// Draedon text for the start of phase 2
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
+
 								// Spawn the fuckers
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ThanatosHead>());
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AresBody>());
@@ -599,6 +605,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 								chargeLocations[i] = default;
 
 							npc.TargetClosest();
+
+							// Phase 6, when 1 mech goes berserk and the other one leaves
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 6
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text1", TextColor);
+							}
 						}
 					}
 
@@ -642,6 +655,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
+
+						// Phase 4, when 1 mech goes berserk and the other 2 leave
+						if (exoWormAlive && exoPrimeAlive)
+						{
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 4
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text1", TextColor);
+							}
+						}
 					}
 
 					break;
@@ -667,6 +690,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							chargeLocations[i] = default;
 
 						npc.TargetClosest();
+
+						// Phase 3, when all 3 mechs attack at the same time
+						if (exoWormAlive && exoPrimeAlive)
+						{
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								// Draedon text for the start of phase 3
+								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text1", TextColor);
+							}
+						}
 					}
 
 					if (berserk)
@@ -726,7 +759,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
+							int numPlasmaOrbs = nerfedAttacks ? 8 : 12;
 							float divisor = attackPhaseGateValue / numPlasmaOrbs;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
@@ -1382,19 +1415,30 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 		public override void NPCLoot()
         {
 			// Check if the other exo mechs are alive
-			bool otherExoMechsAlive = false;
+			bool exoWormAlive = false;
+			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-					otherExoMechsAlive = true;
+					exoWormAlive = true;
 			}
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
-					otherExoMechsAlive = true;
+					exoPrimeAlive = true;
 			}
 
-			if (!otherExoMechsAlive)
+			// Phase 5, when 1 mech dies and the other 2 return to fight
+			if (exoWormAlive && exoPrimeAlive)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					// Draedon text for the start of phase 5
+					//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text1", TextColor);
+				}
+			}
+
+			if (!exoWormAlive && !exoPrimeAlive)
 				AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.ArtemisAndApollo);
 		}
 

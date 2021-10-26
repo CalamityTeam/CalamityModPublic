@@ -80,7 +80,7 @@ namespace CalamityMod.World
             // Update Boss Rush.
             BossRushEvent.Update();
 
-            // Handle Phase 2 DoG's summon-code, for both DoG directly and his sentinels.
+            // Handle Phase 2 DoG's summon-code, for his sentinels.
             HandleDoGP2Countdown(player);
 
             // Handle conditional summons.
@@ -127,9 +127,6 @@ namespace CalamityMod.World
 
         public static void HandleDraedonSummoning()
         {
-            Main.LocalPlayer.Calamity().MusicMuffleFactor = Utils.InverseLerp(DraedonSummonCountdownMax, 32f, DraedonSummonCountdown, true);
-            Main.LocalPlayer.Calamity().MusicMuffleFactor = (float)Math.Pow(Main.LocalPlayer.Calamity().MusicMuffleFactor, 0.1);
-
             // Fire a giant laser into the sky.
             if (DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
                 Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);
@@ -361,26 +358,6 @@ namespace CalamityMod.World
                     CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<StormWeaverHead>(), new OffscreenBossSpawnContext());
                 if (DoGSecondStageCountdown == 7140)
                     CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<Signus>(), new OffscreenBossSpawnContext());
-
-                if (DoGSecondStageCountdown <= 60)
-                {
-                    int freeNPCSlots = Main.maxNPCs - Main.npc.Take(Main.maxNPCs).Where(npc => npc.active).Count();
-
-                    // If there are too many slots occupied, make a note in the logs,
-                    // and don't attempt to spawn the Devourer of Gods.
-                    if (freeNPCSlots < 102)
-                    {
-                        CalamityMod.Instance.Logger.Warn("You have too many occupied NPC slots for DoG to spawn. Remove dummies or kill excessive town NPCs.");
-                        DoGSecondStageCountdown = 0;
-                    }
-                    else if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()))
-                    {
-                        NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHeadS>());
-                        string key = "Mods.CalamityMod.EdgyBossText10";
-                        Color messageColor = Color.Cyan;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
-                }
             }
             if (Main.netMode == NetmodeID.Server)
             {

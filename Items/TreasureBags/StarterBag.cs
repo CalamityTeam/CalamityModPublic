@@ -58,9 +58,6 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
             DropHelper.DropItemCondition(player, ModContent.ItemType<DefiledRune>(), Main.expertMode);
 
-            // Speedrun King Slime
-            DropHelper.DropItem(player, ItemID.SlimeCrown);
-
             // The Lad
             DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 

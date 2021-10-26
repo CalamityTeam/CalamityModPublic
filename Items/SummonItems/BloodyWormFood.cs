@@ -12,19 +12,19 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Worm Food");
-            Tooltip.SetDefault("Summons the Perforator Hive");
+            Tooltip.SetDefault("Summons the Perforator Hive\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 18;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Orange;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -46,9 +46,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vertebrae, 9);
-            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 5);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 2);
+            recipe.AddIngredient(ItemID.Vertebrae, 13);
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 7);
+            recipe.AddIngredient(ItemID.CrimtaneBar, 3);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

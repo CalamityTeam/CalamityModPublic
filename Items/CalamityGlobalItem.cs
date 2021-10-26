@@ -83,6 +83,8 @@ namespace CalamityMod.Items
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 
+		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
+
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
         public CalamityGlobalItem()
@@ -266,7 +268,6 @@ namespace CalamityMod.Items
 				case ItemID.Spear:
 				case ItemID.Trident:
 				case ItemID.PalladiumPike:
-				case ItemID.ObsidianSwordfish:
 				case ItemID.CobaltDrill:
 				case ItemID.MythrilDrill:
 				case ItemID.AdamantiteDrill:
@@ -321,12 +322,100 @@ namespace CalamityMod.Items
 					break;
 
 				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.SlimeCrown:
+				case ItemID.SuspiciousLookingEye:
+				case ItemID.WormFood:
+				case ItemID.BloodySpine:
+				case ItemID.Abeemination:
+				case ItemID.MechanicalEye:
+				case ItemID.MechanicalWorm:
+				case ItemID.MechanicalSkull:
 				case ItemID.CelestialSigil:
 					item.maxStack = 1;
 					item.consumable = false;
 					break;
 
 				// True melee weapon adjustments
+				case ItemID.BladedGlove:
+					item.damage = 15;
+					item.useTime = 7;
+					item.useAnimation = 7;
+					break;
+
+				case ItemID.IceBlade:
+					item.damage = 26;
+					item.useTime = 33;
+					break;
+
+				case ItemID.EnchantedSword:
+					item.damage = 42;
+					item.useAnimation = 20;
+					item.shootSpeed = 15f;
+					break;
+
+				case ItemID.Starfury:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.WoodYoyo:
+				case ItemID.Chik:
+				case ItemID.FormatC:
+				case ItemID.HelFire:
+				case ItemID.Amarok:
+				case ItemID.Gradient:
+				case ItemID.Code2:
+				case ItemID.Yelets:
+				case ItemID.RedsYoyo:
+				case ItemID.ValkyrieYoyo:
+				case ItemID.Kraken:
+				case ItemID.TheEyeOfCthulhu:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Rally:
+					item.damage = 20;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.JungleYoyo:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CrimsonYoyo:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CorruptYoyo:
+					item.damage = 27;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Code1:
+					item.damage = 25;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Valor:
+					item.damage = 32;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.ObsidianSwordfish:
+					item.damage = 45;
+					trueMelee = true;
+					break;
+
+				case ItemID.BloodyMachete:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Cascade:
+					item.damage = 39;
+					item.autoReuse = true;
+					break;
+
 				case ItemID.SlapHand:
 					item.damage = 120;
 					break;
@@ -517,6 +606,7 @@ namespace CalamityMod.Items
 
 				case ItemID.Terrarian:
 					item.damage = 352;
+					item.autoReuse = true;
 					break;
 
 				case ItemID.RainbowRod:
@@ -925,7 +1015,7 @@ namespace CalamityMod.Items
         }
 		#endregion
 
-		#region SavingAndLoading
+		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
             return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
@@ -1583,6 +1673,15 @@ namespace CalamityMod.Items
         {
 			switch (item.type)
 			{
+				case ItemID.MagicHat:
+					player.magicDamage -= 0.02f;
+					player.magicCrit -= 2;
+					break;
+
+				case ItemID.WizardHat:
+					player.magicDamage -= 0.1f;
+					break;
+
 				case ItemID.GladiatorHelmet:
 				case ItemID.ObsidianHelm:
 					player.Calamity().throwingDamage += 0.03f;

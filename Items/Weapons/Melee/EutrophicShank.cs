@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 14;
             item.width = 42;
             item.height = 38;
-            item.damage = 24;
+            item.damage = 35;
             item.melee = true;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<EutrophicSpark>();
-            item.shootSpeed = 3f;
+            item.shootSpeed = 10f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

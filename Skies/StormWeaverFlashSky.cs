@@ -13,7 +13,7 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
-            int weaverType = ModContent.NPCType<StormWeaverHeadNaked>();
+            int weaverType = ModContent.NPCType<StormWeaverHead>();
             if (StormWeaverHeadIndex >= 0 && Main.npc[StormWeaverHeadIndex].active && Main.npc[StormWeaverHeadIndex].type == weaverType)
                 return;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Skies
             // Draw lightning in the background based on Main.magicPixel.
             // It is a long, white vertical strip that exists for some reason.
             // This lightning effect is achieved by expanding this to fit the entire background and then drawing it as a distinct element.
-            float lightningFlashPower = (Main.npc[StormWeaverHeadIndex].modNPC as StormWeaverHeadNaked).lightning;
+            float lightningFlashPower = (Main.npc[StormWeaverHeadIndex].modNPC as StormWeaverHead).lightning;
             Vector2 scale = new Vector2(Main.screenWidth * 1.1f / Main.magicPixel.Width, Main.screenHeight * 1.1f / Main.magicPixel.Height);
             Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
             Color drawColor = Color.White * MathHelper.Lerp(0f, 0.88f, lightningFlashPower);

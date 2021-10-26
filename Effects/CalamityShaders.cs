@@ -23,6 +23,10 @@ namespace CalamityMod.Effects
         public static Effect PrismCrystalShader;
         public static Effect ImpFlameTrailShader;
         public static Effect SCalShieldShader;
+        public static Effect RancorMagicCircleShader;
+
+        public static Effect BaseFusableParticleEdgeShader;
+        public static Effect AdditiveFusableParticleEdgeShader;
 
         public static void LoadShaders()
         {
@@ -44,6 +48,10 @@ namespace CalamityMod.Effects
             FadingSolidTrailShader = CalamityMod.Instance.GetEffect("Effects/FadingSolidTrail");
             ImpFlameTrailShader = CalamityMod.Instance.GetEffect("Effects/ImpFlameTrail");
             SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
+            RancorMagicCircleShader = CalamityMod.Instance.GetEffect("Effects/RancorMagicCircle");
+
+            BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
+            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader");
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
@@ -63,6 +71,10 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:PrismaticStreak"] = new MiscShaderData(new Ref<Effect>(PrismCrystalShader), "TrailPass");
             GameShaders.Misc["CalamityMod:ImpFlameTrail"] = new MiscShaderData(new Ref<Effect>(ImpFlameTrailShader), "TrailPass");
             GameShaders.Misc["CalamityMod:SupremeShield"] = new MiscShaderData(new Ref<Effect>(SCalShieldShader), "ShieldPass");
+            GameShaders.Misc["CalamityMod:RancorMagicCircle"] = new MiscShaderData(new Ref<Effect>(RancorMagicCircleShader), "ShieldPass");
+
+            GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
+            GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");
         }
     }
 }

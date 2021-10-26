@@ -127,6 +127,13 @@ namespace CalamityMod.NPCs.ExoMechs
             if (TalkTimer == TeleportFadeinTime + 5f)
                 ShouldStartStandingUp = true;
 
+            // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
+            if (CalamityWorld.TalkedToDraedon && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f)
+            {
+                TalkTimer = TalkDelay * 4f - 25f;
+                npc.netUpdate = true;
+            }
+
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
@@ -154,7 +161,18 @@ namespace CalamityMod.NPCs.ExoMechs
             // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+                if (CalamityWorld.TalkedToDraedon)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
+                else
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+
+                // Mark Draedon as talked to.
+                if (!CalamityWorld.TalkedToDraedon)
+                {
+                    CalamityWorld.TalkedToDraedon = true;
+                    CalamityNetcode.SyncWorld();
+                }
+
                 npc.netUpdate = true;
             }
 
@@ -164,10 +182,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 PlayerToFollow.Calamity().AbleToSelectExoMech = true;
                 TalkTimer = ExoMechChooseDelay;
             }
-
-            // Disable music before talking.
-            if (TalkTimer <= 50f)
-                Main.LocalPlayer.Calamity().MusicMuffleFactor = 1f;
 
             // Fly around once the exo mechs have been spawned.
             if (ExoMechIsPresent || DefeatTimer > 0f)
@@ -303,7 +317,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Stand up in awe after a small amount of time has passed.
             if (DefeatTimer > DelayBeforeDefeatStandup)
                 ShouldStartStandingUp = true;
-            
+
             // TODO - This needs to be changed.
             if (DefeatTimer == DelayBeforeDefeatStandup + 10f)
                 Main.NewText("Wait, what? How?", TextColor);
