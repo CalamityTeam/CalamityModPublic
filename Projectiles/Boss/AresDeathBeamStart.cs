@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.Center = fireFrom;
             }
 
-            // Die of the owner is invalid in some way..
+            // Die of the owner is invalid in some way.
             else
             {
                 projectile.Kill();
@@ -126,8 +126,8 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 dustCreationPosition = projectile.Center + projectile.velocity * (LaserLength - 14f);
             for (int i = 0; i < 2; i++)
             {
-                float dustRot = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
-                Vector2 dustVelocity = dustRot.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
+                float dustDirection = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
+                Vector2 dustVelocity = dustDirection.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
                 Dust exoEnergy = Dust.NewDustDirect(dustCreationPosition, 0, 0, dustType, dustVelocity.X, dustVelocity.Y, 0, new Color(0, 255, 255), 1f);
                 exoEnergy.noGravity = true;
                 exoEnergy.scale = 1.7f;
