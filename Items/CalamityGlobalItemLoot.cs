@@ -136,7 +136,7 @@ namespace CalamityMod.Items
 
 					// The Picksaw always drops if the player doesn't have one in their inventory. Otherwise it has a 25% chance.
 					bool playerHasPicksaw = player.InventoryHas(ItemID.Picksaw);
-					DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 1.0f : 0.25f);
+					DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 0.25f : 1.0f);
 
 					DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
 					break;
