@@ -352,17 +352,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 					else
 					{
-						// Despawn any active Tesla Orbs
-						if (calamityGlobalNPC.newAI[2] == teslaOrbTelegraphDuration && !enraged)
-						{
-							for (int i = 0; i < Main.maxProjectiles; i++)
-							{
-								Projectile projectile = Main.projectile[i];
-								if (projectile.active && projectile.type == ModContent.ProjectileType<AresTeslaOrb>())
-									projectile.Kill();
-							}
-						}
-
 						// Fire tesla orbs
 						int numTeslaOrbs = lastMechAlive ? 6 : berserk ? 5 : nerfedAttacks ? 3 : 4;
 						float divisor = teslaOrbDuration / numTeslaOrbs;
@@ -376,7 +365,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								int type = ModContent.ProjectileType<AresTeslaOrb>();
 								int damage = npc.GetProjectileDamage(type);
 								Vector2 offset = Vector2.Normalize(teslaOrbVelocity) * 40f + Vector2.UnitY * 8f;
-								float identity = (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
+								float identity = fireMoreOrbs ? -2f : calamityGlobalNPC.newAI[3] + (calamityGlobalNPC.newAI[2] - teslaOrbTelegraphDuration) / divisor;
 								Projectile.NewProjectile(npc.Center + offset, teslaOrbVelocity, type, damage, 0f, Main.myPlayer, identity);
 							}
 						}
@@ -386,6 +375,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					{
 						AIState = (float)Phase.Nothing;
 						calamityGlobalNPC.newAI[2] = 0f;
+						calamityGlobalNPC.newAI[3] += 10f;
 					}
 
 					break;
