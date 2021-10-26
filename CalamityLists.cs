@@ -230,7 +230,7 @@ namespace CalamityMod
                 "Sandblast",
                 "ThomasThePencil",
                 "Aero (Aero#4599)",
-                "GlitchOut",
+                "Shirosity", // used to be GlitchOut
                 "Daawnz",
                 "CrabBar",
                 "Yatagarasu",
