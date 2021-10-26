@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
 					float intensity = GetIntensity();
 					float lifeRatio = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax;
-					double blackScreenLife_GateValue = lifeRatio < 0.6f && CalamityWorld.DoGSecondStageCountdown <= 60 ? 0.09 : 0.66;
+					double blackScreenLife_GateValue = lifeRatio < 0.6f && CalamityWorld.DoGSecondStageCountdown <= 2 ? 0.09 : 0.66;
 					if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || CalamityWorld.malice)
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),

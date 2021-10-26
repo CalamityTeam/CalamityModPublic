@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-			projectile.width = projectile.height = 74;
+			projectile.width = projectile.height = 120;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.scale = Utils.InverseLerp(60000f, 59945f, projectile.timeLeft, true) * Utils.InverseLerp(60f, 115f, CalamityWorld.DoGSecondStageCountdown, true);
             if (TimeCountdown > 0f)
             {
                 if (TimeCountdown > 120f)
@@ -38,8 +37,10 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.scale = MathHelper.Clamp(projectile.scale - 0.02f, 0f, 1f);
                 TimeCountdown--;
             }
+            else
+                projectile.scale = Utils.InverseLerp(60000f, 59945f, projectile.timeLeft, true) * Utils.InverseLerp(60f, 115f, CalamityWorld.DoGSecondStageCountdown, true);
 
-            if (CalamityWorld.DoGSecondStageCountdown < 60f || NPCs.CalamityGlobalNPC.DoGHead == -1 || TimeCountdown == 1f)
+            if ((CalamityWorld.DoGSecondStageCountdown < 60f && TimeCountdown == 0f) || NPCs.CalamityGlobalNPC.DoGHead == -1 || TimeCountdown == 1f)
                 projectile.Kill();
         }
 

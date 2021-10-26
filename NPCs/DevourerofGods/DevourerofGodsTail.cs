@@ -202,15 +202,30 @@ namespace CalamityMod.NPCs.DevourerofGods
 			}
 			else
 			{
-				if ((Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.PortalIndex ?? -1) != -1)
+				if (Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.AttemptingToEnterPortal ?? false)
 				{
 					Projectile portal = Main.projectile[Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
-					float newOpacity = 1f - Utils.InverseLerp(170f, 75f, npc.Distance(portal.Center));
-					if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.alpha < newOpacity)
+					float newOpacity = 1f - Utils.InverseLerp(200f, 130f, npc.Distance(portal.Center), true);
+					if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.Opacity > newOpacity)
 					{
 						npc.Opacity = newOpacity;
+
+						// Create dust at the portal position.
+						if (Vector2.Dot((npc.rotation - MathHelper.PiOver2).ToRotationVector2(), Main.npc[(int)npc.ai[2]].velocity) > 0f)
+						{
+							for (int i = 0; i < 2; i++)
+							{
+								Dust cosmicMagic = Dust.NewDustPerfect(portal.Center, Main.rand.NextBool() ? 180 : 173);
+								cosmicMagic.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 8f);
+								cosmicMagic.scale *= Main.rand.NextFloat(1f, 1.8f);
+								cosmicMagic.noGravity = true;
+							}
+						}
 						npc.netUpdate = true;
 					}
+
+					if (npc.Opacity < 0.2f)
+						npc.Opacity = 0f;
 				}
 				else
 					npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
