@@ -23,12 +23,12 @@ namespace CalamityMod.TileEntities
 		{
 			get
 			{
-				// Decryption takes 35 minutes typically.
-				int decryptTime = 126000;
+				// Decryption takes 2 minutes typically.
+				int decryptTime = 7200;
 
-				// However, if this codebreaker has a quantum cell, it only takes 1 minute.
+				// However, if this codebreaker has a quantum cell, it only takes 15 seconds.
 				if (ContainsCoolingCell)
-					decryptTime = 3600;
+					decryptTime = 900;
 				return decryptTime;
 			}
 		}
