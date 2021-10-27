@@ -77,7 +77,7 @@ namespace CalamityMod.Items.DraedonMisc
             recipe.AddIngredient(ItemID.Wire, 40);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 80);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 12);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
