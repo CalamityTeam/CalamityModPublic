@@ -31,6 +31,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public Player PlayerToFollow => Main.player[npc.target];
         public ref float TalkTimer => ref npc.ai[0];
         public ref float GeneralTimer => ref npc.ai[3];
+		public ref float DialogueType => ref npc.localAI[0];
         public static bool ExoMechIsPresent
         {
             get
@@ -54,7 +55,8 @@ namespace CalamityMod.NPCs.ExoMechs
         public const int DelayPerDialogLine = 130;
         public const int ExoMechChooseDelay = TalkDelay + DelayPerDialogLine * 4 + 10;
         public const int ExoMechShakeTime = 100;
-        public const int DelayBeforeDefeatStandup = 30;
+		public const int ExoMechPhaseDialogueTime = ExoMechChooseDelay + ExoMechShakeTime;
+		public const int DelayBeforeDefeatStandup = 30;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon");
@@ -77,12 +79,14 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(DialogueType);
             writer.Write(DefeatTimer);
             writer.Write(ShouldStartStandingUp);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			DialogueType = reader.ReadSingle();
             DefeatTimer = reader.ReadSingle();
             ShouldStartStandingUp = reader.ReadBoolean();
         }
@@ -191,10 +195,10 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             // Make the screen rumble and summon the exo mechs.
-            if (TalkTimer > ExoMechChooseDelay + 8f && TalkTimer < ExoMechChooseDelay + ExoMechShakeTime)
+            if (TalkTimer > ExoMechChooseDelay + 8f && TalkTimer < ExoMechPhaseDialogueTime)
             {
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(4200f, 1400f, Main.LocalPlayer.Distance(PlayerToFollow.Center), true) * 18f;
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(ExoMechChooseDelay + 5f, ExoMechChooseDelay + ExoMechShakeTime, TalkTimer, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(ExoMechChooseDelay + 5f, ExoMechPhaseDialogueTime, TalkTimer, true);
             }
 
             // Summon the selected exo mech.
@@ -211,6 +215,112 @@ namespace CalamityMod.NPCs.ExoMechs
                         sound.Volume = MathHelper.Clamp(sound.Volume * 1.55f, 0f, 1f);
                 }
             }
+
+			// Dialogue lines depending on what phase the exo mechs are at.
+			switch ((int)DialogueType)
+			{
+				case 1:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase1Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase1Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 2:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 3:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 4:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 5:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 6:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine * 2f)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text3", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+			}
 
             if (TalkTimer > ExoMechChooseDelay + 10f && !ExoMechIsPresent)
             {

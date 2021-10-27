@@ -72,9 +72,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			set => npc.localAI[1] = value;
 		}
 
-		// Used for Draedon's text
-		public static readonly Color TextColor = new Color(155, 255, 255);
-
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Spawn rate for enrage steam
@@ -284,6 +281,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				exoTwinsWereFirst = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].ai[3] == 1f;
 			bool otherExoMechWasFirst = exoWormWasFirst || exoTwinsWereFirst;
 
+			// Check for Draedon
+			bool draedonAlive = false;
+			if (CalamityGlobalNPC.draedon != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedon].active)
+					draedonAlive = true;
+			}
+
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
 				npc.ai[3] = 1f;
@@ -455,11 +460,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.TargetClosest();
 
+							// Draedon text for the start of phase 2
+							if (draedonAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 1f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+							}
+
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								// Draedon text for the start of phase 2
-								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
-
 								// Spawn the fuckers
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ThanatosHead>());
 								NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
@@ -488,10 +497,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							npc.TargetClosest();
 
 							// Phase 6, when 1 mech goes berserk and the other one leaves
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							if (draedonAlive)
 							{
-								// Draedon text for the start of phase 6
-								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text1", TextColor);
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 5f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 							}
 						}
 					}
@@ -521,10 +530,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						// Phase 4, when 1 mech goes berserk and the other 2 leave
 						if (exoWormAlive && exoTwinsAlive)
 						{
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							if (draedonAlive)
 							{
-								// Draedon text for the start of phase 4
-								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text1", TextColor);
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 3f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 							}
 						}
 					}
@@ -545,10 +554,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						// Phase 3, when all 3 mechs attack at the same time
 						if (exoWormAlive && exoTwinsAlive)
 						{
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							if (draedonAlive)
 							{
-								// Draedon text for the start of phase 3
-								//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text1", TextColor);
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 							}
 						}
 					}
@@ -844,18 +853,36 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					exoTwinsAlive = true;
 			}
 
+			// Check for Draedon
+			bool draedonAlive = false;
+			if (CalamityGlobalNPC.draedon != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedon].active)
+					draedonAlive = true;
+			}
+
 			// Phase 5, when 1 mech dies and the other 2 return to fight
 			if (exoWormAlive && exoTwinsAlive)
 			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (draedonAlive)
 				{
-					// Draedon text for the start of phase 5
-					//CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text1", TextColor);
+					Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 4f;
+					Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
 				}
 			}
 
-			// Mark Exo Mechs as dead
-			if (!exoWormAlive && !exoTwinsAlive)
+			// Phase 7, when 1 mech dies and the final one returns to the fight
+			else if (exoWormAlive || exoTwinsAlive)
+			{
+				if (draedonAlive)
+				{
+					Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 6f;
+					Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+				}
+			}
+
+			// Mark Exo Mechs as dead and drop loot
+			else
 				DropExoMechLoot(npc, (int)MechType.Ares);
 		}
 

@@ -113,7 +113,6 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-
                 new [] { "DraedonIntroductionText1", "I have waited long for this moment." },
                 new [] { "DraedonIntroductionText2", "Your nature fascinates me, for I do not understand it." },
                 new [] { "DraedonIntroductionText3", "You will face my creations which have surpassed gods." },
@@ -132,7 +131,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase6Text1", "Absurd." },
                 new [] { "DraedonExoPhase6Text2", "I will no longer let my calculations impede my observation of this battle." },
                 new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
-				        new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
                 new [] { "DraedonResummonText", "Make your choice." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
