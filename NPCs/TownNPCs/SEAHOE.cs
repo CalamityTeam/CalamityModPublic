@@ -381,13 +381,13 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
                 nextSlot++;
             }
             if (CalamityWorld.downedBoomerDuke)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(8, 0, 0, 0);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
         }
