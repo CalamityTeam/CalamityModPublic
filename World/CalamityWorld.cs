@@ -1103,10 +1103,10 @@ namespace CalamityMod.World
             // Old worlds will never receive this marker naturally.
             IsWorldAfterDraedonUpdate = true;
         }
-        #endregion
+		#endregion
 
-        #region ModifyWorldGenTasks
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+		#region ModifyWorldGenTasks
+		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
@@ -1280,10 +1280,39 @@ namespace CalamityMod.World
                 AstralBiome.PlaceAstralMeteor();
             }));
         }
-        #endregion
+		#endregion
 
-        #region PostUpdate
-        public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
+		#region PostWorldGen
+		public override void PostWorldGen()
+		{
+			// Replace Suspicious Looking Eyes in Chests with Lenses
+			for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
+			{
+				Chest chest = Main.chest[chestIndex];
+				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
+				{
+					bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
+					bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
+					bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
+					if (isGoldChest || isIvyChest || isIceChest)
+					{
+						for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+						{
+							if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
+							{
+								chest.item[inventoryIndex].SetDefaults(ItemID.Lens);
+								chest.item[inventoryIndex].stack = Main.rand.Next(3);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region PostUpdate
+		public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
         #endregion
     }
 }
