@@ -68,9 +68,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			float stealthDamageFactor = player.Calamity().StealthStrikeAvailable() ? 1.25f : 1f;
+
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 			{
-				int bomb = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				int bomb = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * stealthDamageFactor), knockBack, player.whoAmI);
 				if (bomb.WithinBounds(Main.maxProjectiles))
 					Main.projectile[bomb].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 				return false;
@@ -81,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				for (float i = -2.5f; i < 3f; ++i)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * dmgMult), knockBack, player.whoAmI);
+					Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * dmgMult * stealthDamageFactor), knockBack, player.whoAmI);
 				}
 			}
 			return false;
