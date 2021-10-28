@@ -136,8 +136,73 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
-				// Pickaxe speed boosts
-				case ItemID.CactusPickaxe:
+                // Vanilla summon weapons speed boosts and autouse
+
+                /* case ItemID.FlinxStaff:
+                case ItemID.BabyBirdStaff:
+                    item.useTime = item.useAnimation = 34;
+                    item.autoReuse = true;
+                */
+
+                case ItemID.SlimeStaff:
+                //case ItemID.VampireFrogStaff:
+                case ItemID.HornetStaff:
+                case ItemID.ImpStaff:
+                    item.useTime = item.useAnimation = 29;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.DD2LightningAuraT1Popper:
+                case ItemID.DD2ExplosiveTrapT1Popper:
+                case ItemID.DD2BallistraTowerT1Popper:
+                case ItemID.DD2FlameburstTowerT1Popper:
+                    item.useTime = item.useAnimation = 29;
+                    break;
+
+                case ItemID.SpiderStaff:
+                case ItemID.PirateStaff:
+                case ItemID.OpticStaff:
+                //case ItemID.SanguineStaff:
+                //case ItemID.Smolstar:
+                    item.useTime = item.useAnimation = 24;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.QueenSpiderStaff:
+                case ItemID.DD2LightningAuraT2Popper:
+                case ItemID.DD2ExplosiveTrapT2Popper:
+                case ItemID.DD2BallistraTowerT2Popper:
+                case ItemID.DD2FlameburstTowerT2Popper:
+                    item.useTime = item.useAnimation = 24;
+                    break;
+
+                case ItemID.PygmyStaff:
+                //case ItemID.StormTigerStaff:
+                case ItemID.DeadlySphereStaff:
+                case ItemID.RavenStaff:
+                case ItemID.XenoStaff:
+                case ItemID.TempestStaff:
+                //case ItemID.EmpressBlade
+                case ItemID.StardustCellStaff:
+                    item.useTime = item.useAnimation = 19;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.StaffoftheFrostHydra:
+                case ItemID.DD2LightningAuraT3Popper:
+                case ItemID.DD2ExplosiveTrapT3Popper:
+                case ItemID.DD2BallistraTowerT3Popper:
+                case ItemID.DD2FlameburstTowerT3Popper:
+                    item.useTime = item.useAnimation = 19;
+                    break;
+
+                case ItemID.MoonlordTurretStaff:
+                case ItemID.RainbowCrystalStaff:
+                    item.useTime = item.useAnimation = 15;
+                    break;
+
+                // Pickaxe speed boosts
+                case ItemID.CactusPickaxe:
 				case ItemID.CopperPickaxe:
 				case ItemID.TinPickaxe:
 					item.useTime = 13;
@@ -624,7 +689,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
-					break;
+                    item.useTime = 19;
+                    item.useAnimation = 19;
+                    item.autoReuse = true;
+                    break;
 
 				case ItemID.MonkStaffT3:
 					item.damage = 225;
