@@ -573,7 +573,7 @@ namespace CalamityMod.Items
 				string extraLine = "\n10% increased true melee damage";
 				if (CalamityWorld.death)
 					extraLine += "\nProvides heat and cold protection in Death Mode";
-				EditTooltipByNum(1, (line) => line.text = line.text.Replace("12%", "14%") + extraLine);
+				EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
 			}
 
 			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%

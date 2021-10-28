@@ -28,6 +28,8 @@ namespace CalamityMod.Effects
         public static Effect BaseFusableParticleEdgeShader;
         public static Effect AdditiveFusableParticleEdgeShader;
 
+        public static Effect DoGPortalShader;
+
         public static void LoadShaders()
         {
             if (Main.dedServ)
@@ -53,10 +55,14 @@ namespace CalamityMod.Effects
             BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader");
 
+            DoGPortalShader = CalamityMod.Instance.GetEffect("Effects/ScreenShaders/DoGPortalShader");
+
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
+            Filters.Scene["CalamityMod:DoGPortal"] = new Filter(new ScreenShaderData(new Ref<Effect>(DoGPortalShader), "ScreenPass"), EffectPriority.VeryHigh);
+            Filters.Scene["CalamityMod:DoGPortal"].Load();
 
             GameShaders.Misc["CalamityMod:FireMouse"] = new MiscShaderData(new Ref<Effect>(SCalMouseShader), "DyePass");
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");

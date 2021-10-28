@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Weapons.Magic;
@@ -430,6 +431,35 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        // Let's please never do something like this again.
+        public static readonly PlayerLayer DemonshadeHeadPiece = new PlayerLayer("CalamityMod", "DemonshadeHead", PlayerLayer.Head, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead)
+                return;
+
+            int dyeShader = drawPlayer.dye?[0].dye ?? 0;
+            int headItemType = drawPlayer.armor[0].type;
+            if (drawPlayer.armor[10].type > ItemID.None)
+                headItemType = drawPlayer.armor[10].type;
+
+            Vector2 origin = drawInfo.headOrigin;
+            Vector2 headDrawPosition = drawPlayer.position.Floor() + origin - Main.screenPosition;
+            headDrawPosition.X -= drawPlayer.direction == 1f ? 10f : 12f;
+            headDrawPosition.Y += drawPlayer.gfxOffY - 12f;
+            if (headItemType == ModContent.ItemType<DemonshadeHelm>())
+            {
+                Texture2D extraPieceTexture = ModContent.GetTexture("CalamityMod/Items/Armor/DemonshadeHelm_Extension");
+
+                int headVerticalFrame = drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height;
+                Rectangle headFrame = extraPieceTexture.Frame(1, 20, 0, headVerticalFrame);
+
+                DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, headFrame, drawInfo.eyeColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
+                Main.playerDrawData.Add(pieceDrawData);
+            }
+        });
+
         public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, drawInfo =>
         {
 			DrawData drawData = new DrawData();
@@ -755,6 +785,7 @@ namespace CalamityMod.CalPlayer
 			}
 
             list.Add(ArtemisAndApolloMaskPieces);
+            list.Add(DemonshadeHeadPiece);
             list.Add(ColdDivinityOverlay);
             list.Add(ConcentratedVoidAura);
             list.Add(RoverDriveShield);

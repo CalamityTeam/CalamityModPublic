@@ -48,6 +48,7 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;

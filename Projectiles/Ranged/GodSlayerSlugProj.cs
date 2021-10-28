@@ -127,6 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 mouseTargetVec = Main.MouseWorld + Main.rand.NextVector2Circular(MouseAimDeviation, MouseAimDeviation);
             Vector2 bulletToMouseVec = CalamityUtils.SafeDirectionTo(projectile, mouseTargetVec, -Vector2.UnitY);
             projectile.velocity = bulletToMouseVec * projectile.localAI[0];
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             // Set all old positions to the bullet's warp position so that there aren't weird afterimages.
             // If an old position is uninitialized (0,0 aka never used), then don't change it.

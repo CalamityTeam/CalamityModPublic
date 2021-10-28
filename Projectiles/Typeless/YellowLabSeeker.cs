@@ -44,6 +44,8 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
+        public override bool? CanCutTiles() => false;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
