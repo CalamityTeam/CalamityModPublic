@@ -140,7 +140,7 @@ namespace CalamityMod.Items
 
                 /* case ItemID.FlinxStaff:
                 case ItemID.BabyBirdStaff:
-                    item.useTime = item.useAnimation = 34;
+                    item.useTime = item.useAnimation = 35;
                     item.autoReuse = true;
                 */
 
@@ -148,7 +148,7 @@ namespace CalamityMod.Items
                 //case ItemID.VampireFrogStaff:
                 case ItemID.HornetStaff:
                 case ItemID.ImpStaff:
-                    item.useTime = item.useAnimation = 29;
+                    item.useTime = item.useAnimation = 30;
                     item.autoReuse = true;
                     break;
 
@@ -156,7 +156,7 @@ namespace CalamityMod.Items
                 case ItemID.DD2ExplosiveTrapT1Popper:
                 case ItemID.DD2BallistraTowerT1Popper:
                 case ItemID.DD2FlameburstTowerT1Popper:
-                    item.useTime = item.useAnimation = 29;
+                    item.useTime = item.useAnimation = 30;
                     break;
 
                 case ItemID.SpiderStaff:
@@ -164,7 +164,7 @@ namespace CalamityMod.Items
                 case ItemID.OpticStaff:
                 //case ItemID.SanguineStaff:
                 //case ItemID.Smolstar:
-                    item.useTime = item.useAnimation = 24;
+                    item.useTime = item.useAnimation = 25;
                     item.autoReuse = true;
                     break;
 
@@ -173,7 +173,7 @@ namespace CalamityMod.Items
                 case ItemID.DD2ExplosiveTrapT2Popper:
                 case ItemID.DD2BallistraTowerT2Popper:
                 case ItemID.DD2FlameburstTowerT2Popper:
-                    item.useTime = item.useAnimation = 24;
+                    item.useTime = item.useAnimation = 25;
                     break;
 
                 case ItemID.PygmyStaff:
@@ -184,7 +184,7 @@ namespace CalamityMod.Items
                 case ItemID.TempestStaff:
                 //case ItemID.EmpressBlade
                 case ItemID.StardustCellStaff:
-                    item.useTime = item.useAnimation = 19;
+                    item.useTime = item.useAnimation = 20;
                     item.autoReuse = true;
                     break;
 
@@ -193,7 +193,7 @@ namespace CalamityMod.Items
                 case ItemID.DD2ExplosiveTrapT3Popper:
                 case ItemID.DD2BallistraTowerT3Popper:
                 case ItemID.DD2FlameburstTowerT3Popper:
-                    item.useTime = item.useAnimation = 19;
+                    item.useTime = item.useAnimation = 20;
                     break;
 
                 case ItemID.MoonlordTurretStaff:
