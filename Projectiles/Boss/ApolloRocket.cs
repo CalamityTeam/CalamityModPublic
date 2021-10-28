@@ -125,8 +125,8 @@ namespace CalamityMod.Projectiles.Boss
             int target = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
 
-            // Set AI to stop homing, start accelerating
-            float stopHomingDistance = 200f;
+			// Set AI to stop homing, start accelerating
+			float stopHomingDistance = 200f;
             if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 1f;
@@ -145,7 +145,33 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity = (projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
             projectile.velocity.Normalize();
             projectile.velocity *= scaleFactor;
-        }
+
+			// Fly away from other rockets
+			float pushForce = 0.05f;
+			for (int k = 0; k < Main.maxProjectiles; k++)
+			{
+				Projectile otherProj = Main.projectile[k];
+				// Short circuits to make the loop as fast as possible
+				if (!otherProj.active || k == projectile.whoAmI)
+					continue;
+
+				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
+				bool sameProjType = otherProj.type == projectile.type;
+				float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
+				if (sameProjType && taxicabDist < 80f)
+				{
+					if (projectile.position.X < otherProj.position.X)
+						projectile.velocity.X -= pushForce;
+					else
+						projectile.velocity.X += pushForce;
+
+					if (projectile.position.Y < otherProj.position.Y)
+						projectile.velocity.Y -= pushForce;
+					else
+						projectile.velocity.Y += pushForce;
+				}
+			}
+		}
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
