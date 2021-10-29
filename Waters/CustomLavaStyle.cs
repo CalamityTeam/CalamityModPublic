@@ -41,7 +41,6 @@ namespace CalamityMod.Waters
 
 		public virtual void SelectLightColor(ref Color initialLightColor)
 		{
-			initialLightColor = Color.Lerp(initialLightColor, Color.White, 0.5f);
 		}
 	}
 }
