@@ -5,14 +5,19 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.CustomRecipes;
+using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
@@ -39,6 +44,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
@@ -124,6 +130,9 @@ namespace CalamityMod.CalPlayer
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
 
+			// Check if schematics are present on the mouse, for the sake of registering their recipes.
+			CheckIfMouseItemIsSchematic(player);
+
 			// Update all particle sets for items.
 			// This must be done here instead of in the item logic because these sets are not properly instanced
 			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
@@ -154,57 +163,6 @@ namespace CalamityMod.CalPlayer
 		{
 			if (CalamityWorld.revenge || CalamityWorld.malice)
 			{
-				// This effect is way too annoying during the fight so I disabled it - Fab
-				// Signus headcrab effect
-				/*if (CalamityGlobalNPC.signus != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.signus].active)
-					{
-						if (Vector2.Distance(player.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
-						{
-							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
-
-							// Reduce the power of Signus darkness based on your light level.
-							float multiplier = 1f;
-							switch (modPlayer.GetTotalLightStrength())
-							{
-								case 0:
-									break;
-								case 1:
-								case 2:
-									multiplier = 0.75f;
-									break;
-								case 3:
-								case 4:
-									multiplier = 0.5f;
-									break;
-								case 5:
-								case 6:
-									multiplier = 0.25f;
-									break;
-								default:
-									multiplier = 0f;
-									break;
-							}
-
-							// Increased darkness in Death Mode
-							if (CalamityWorld.death)
-								multiplier += (1f - multiplier) * 0.1f;
-
-							// Total darkness
-							float signusDarkness = signusLifeRatio * multiplier;
-
-							// Headcrab effect
-							if (!modPlayer.ZoneAbyss && !player.headcovered)
-							{
-								float screenObstructionAmt = MathHelper.Clamp(signusDarkness, 0f, 0.63f);
-								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.33f, 0.1f, 0.2f);
-								ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
-							}
-						}
-					}
-				}*/
-
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
 				/*if (Main.masterMode)
@@ -237,7 +195,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Adrenaline and Rage
-					if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+					if (CalamityWorld.revenge)
 						UpdateRippers(mod, player, modPlayer);
 				}
 			}
@@ -468,7 +426,7 @@ namespace CalamityMod.CalPlayer
 
 			void harmNPC(NPC npc)
 			{
-				int damage = (int)(player.AverageDamage() * Main.rand.Next(1950, 2050));
+				int damage = (int)(player.AverageDamage() * Main.rand.Next(550, 600));
 				npc.StrikeNPC(damage, 0f, 0);
 
 				player.addDPS(damage);
@@ -497,6 +455,45 @@ namespace CalamityMod.CalPlayer
 					break;
 				}
 			}
+
+			// Calculate/reset DoG cart rotations based on whether the DoG cart is in use.
+			if (player.mount.Active && player.mount.Type == ModContent.MountType<DoGCartMount>())
+			{
+				modPlayer.SmoothenedMinecartRotation = MathHelper.Lerp(modPlayer.SmoothenedMinecartRotation, DelegateMethods.Minecart.rotation, 0.05f);
+
+				// Initialize segments from null if necessary.
+				int direction = (player.velocity.SafeNormalize(Vector2.UnitX * player.direction).X > 0f).ToDirectionInt();
+				if (player.velocity.X == 0f)
+					direction = player.direction;
+
+				float idealRotation = DoGCartMount.CalculateIdealWormRotation(player);
+				float minecartRotation = DelegateMethods.Minecart.rotation;
+				if (Math.Abs(minecartRotation) < 0.5f)
+					minecartRotation = 0f;
+				Vector2 stickOffset = minecartRotation.ToRotationVector2() * player.velocity.Length() * direction * 1.25f;
+				for (int i = 0; i < modPlayer.DoGCartSegments.Length; i++)
+				{
+					if (modPlayer.DoGCartSegments[i] is null)
+					{
+                        modPlayer.DoGCartSegments[i] = new DoGCartSegment
+                        {
+                            Center = player.Center - idealRotation.ToRotationVector2() * i * 20f
+                        };
+                    }
+				}
+
+				Vector2 startingStickPosition = player.Center + stickOffset + Vector2.UnitY * 12f;
+				modPlayer.DoGCartSegments[0].Update(player, startingStickPosition, idealRotation);
+				modPlayer.DoGCartSegments[0].Center = startingStickPosition;
+
+				for (int i = 1; i < modPlayer.DoGCartSegments.Length; i++)
+				{
+					Vector2 waveOffset = DoGCartMount.CalculateSegmentWaveOffset(i, player);
+					modPlayer.DoGCartSegments[i].Update(player, modPlayer.DoGCartSegments[i - 1].Center + waveOffset, modPlayer.DoGCartSegments[i - 1].Rotation);
+				}
+			}
+			else
+				modPlayer.DoGCartSegments = new DoGCartSegment[modPlayer.DoGCartSegments.Length];
 
 			// Dust on hand when holding the phosphorescent gauntlet.
 			if (player.ActiveItem().type == ModContent.ItemType<PhosphorescentGauntlet>())
@@ -1306,6 +1303,20 @@ namespace CalamityMod.CalPlayer
 			{
 				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
+			}
+
+			// Auric dye cinders.
+			int auricDyeCount = player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<AuricDye>());
+			if (auricDyeCount > 0)
+			{
+				int sparkCreationChance = (int)MathHelper.Lerp(15f, 50f, Utils.InverseLerp(4f, 1f, auricDyeCount, true));
+				if (Main.rand.NextBool(sparkCreationChance))
+				{
+					Dust spark = Dust.NewDustDirect(player.position, player.width, player.height, 267);
+					spark.color = Color.Lerp(Color.Cyan, Color.SeaGreen, Main.rand.NextFloat(0.5f));
+					spark.velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 1.33f) * Main.rand.NextFloat(2f, 5.4f);
+					spark.noGravity = true;
+				}
 			}
 
 			// Silva invincibility effects
@@ -3596,14 +3607,33 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int i = 0; i < Main.projectile.Length; i++)
+					int auraType = ModContent.ProjectileType<TeslaAura>();
+					for (int i = 0; i < Main.maxProjectiles; i++)
 					{
-						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<TeslaAura>() && Main.projectile[i].owner == player.whoAmI)
-						{
-							Main.projectile[i].Kill();
-							break;
-						}
+						if (Main.projectile[i].type != auraType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+							continue;
+
+						Main.projectile[i].Kill();
+						break;
 					}
+				}
+			}
+
+			if (modPlayer.CryoStone)
+			{
+				if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
+					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(player.AverageDamage() * 70), 0f, player.whoAmI);
+            }
+            else if (player.whoAmI == Main.myPlayer)
+			{
+				int shieldType = ModContent.ProjectileType<CryonicShield>();
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type != shieldType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
+						continue;
+
+					Main.projectile[i].Kill();
+					break;
 				}
 			}
 
@@ -4224,6 +4254,54 @@ namespace CalamityMod.CalPlayer
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
 			}
+		}
+		#endregion
+
+		#region Mouse Item Checks
+		public static void CheckIfMouseItemIsSchematic(Player player)
+		{
+			if (Main.myPlayer != player.whoAmI)
+				return;
+
+			bool shouldSync = false;
+
+			// ActiveItem doesn't need to be checked as the other possibility involves
+			// the item in question already being in the inventory.
+			if (Main.mouseItem != null && !Main.mouseItem.IsAir)
+			{
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicSunkenSea>() && !RecipeUnlockHandler.HasFoundSunkenSeaSchematic)
+				{
+					RecipeUnlockHandler.HasFoundSunkenSeaSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicPlanetoid>() && !RecipeUnlockHandler.HasFoundPlanetoidSchematic)
+				{
+					RecipeUnlockHandler.HasFoundPlanetoidSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicJungle>() && !RecipeUnlockHandler.HasFoundJungleSchematic)
+				{
+					RecipeUnlockHandler.HasFoundJungleSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicHell>() && !RecipeUnlockHandler.HasFoundHellSchematic)
+				{
+					RecipeUnlockHandler.HasFoundHellSchematic = true;
+					shouldSync = true;
+				}
+
+				if (Main.mouseItem.type == ModContent.ItemType<EncryptedSchematicIce>() && !RecipeUnlockHandler.HasFoundIceSchematic)
+				{
+					RecipeUnlockHandler.HasFoundIceSchematic = true;
+					shouldSync = true;
+				}
+			}
+
+			if (shouldSync)
+				CalamityNetcode.SyncWorld();
 		}
 		#endregion
 

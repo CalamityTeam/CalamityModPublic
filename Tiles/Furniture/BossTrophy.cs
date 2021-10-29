@@ -114,7 +114,19 @@ namespace CalamityMod.Tiles.Furniture
                 case 27:
                     item = ModContent.ItemType<AnahitaTrophy>();
                     break;
-			}
+                case 28:
+                    item = ModContent.ItemType<ApolloTrophy>();
+                    break;
+                case 29:
+                    item = ModContent.ItemType<ArtemisTrophy>();
+                    break;
+                case 30:
+                    item = ModContent.ItemType<AresTrophy>();
+                    break;
+                case 31:
+                    item = ModContent.ItemType<ThanatosTrophy>();
+                    break;
+            }
             if (item > 0)
             {
                 Item.NewItem(i * 16, j * 16, 48, 48, item);

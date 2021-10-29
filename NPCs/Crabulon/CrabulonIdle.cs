@@ -86,9 +86,12 @@ namespace CalamityMod.NPCs.Crabulon
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Phases
 			bool phase2 = lifeRatio < 0.66f && expertMode;
@@ -280,41 +283,49 @@ namespace CalamityMod.NPCs.Crabulon
                         npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
                 }
 
-                int num854 = 80;
-                int num855 = 20;
-                Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
+				if (Collision.CanHit(npc.position, npc.width, npc.height, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height) && player.position.Y <= npc.position.Y + npc.height)
+				{
+					npc.noGravity = false;
+					npc.noTileCollide = false;
+				}
+				else
+				{
+					npc.noGravity = true;
+					npc.noTileCollide = true;
 
-                bool fallDownOnTopOfTarget = npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f;
-                if (fallDownOnTopOfTarget)
-                {
-                    npc.velocity.Y += 0.5f;
-                }
-                else if (Collision.SolidCollision(position2, num854, num855))
-                {
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = 0f;
+					int num854 = 80;
+					int num855 = 20;
+					Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
 
-                    if (npc.velocity.Y > -0.2f)
-                        npc.velocity.Y -= 0.025f;
-                    else
-                        npc.velocity.Y -= 0.2f;
+					bool fallDownOnTopOfTarget = npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width && npc.position.Y + npc.height < player.position.Y + player.height - 16f;
+					if (fallDownOnTopOfTarget)
+					{
+						npc.velocity.Y += 0.5f;
+					}
+					else if (Collision.SolidCollision(position2, num854, num855))
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y = 0f;
 
-                    if (npc.velocity.Y < -4f)
-                        npc.velocity.Y = -4f;
-                }
-                else
-                {
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = 0f;
+						if (npc.velocity.Y > -0.2f)
+							npc.velocity.Y -= 0.025f;
+						else
+							npc.velocity.Y -= 0.2f;
 
-                    if (npc.velocity.Y < 0.1f)
-                        npc.velocity.Y += 0.025f;
-                    else
-                        npc.velocity.Y += 0.5f;
-                }
+						if (npc.velocity.Y < -4f)
+							npc.velocity.Y = -4f;
+					}
+					else
+					{
+						if (npc.velocity.Y < 0f)
+							npc.velocity.Y = 0f;
 
-                if (npc.ai[1] % 25f == 24f)
-                    npc.netUpdate = true;
+						if (npc.velocity.Y < 0.1f)
+							npc.velocity.Y += 0.025f;
+						else
+							npc.velocity.Y += 0.5f;
+					}
+				}
 
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))

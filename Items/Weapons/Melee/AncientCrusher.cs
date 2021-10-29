@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.Amber, 8);
             recipe.AddIngredient(ItemID.FossilOre, 35);
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

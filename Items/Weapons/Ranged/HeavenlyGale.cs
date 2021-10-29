@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			recipe.AddIngredient(ItemType<Galeforce>());
 			recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
 			recipe.AddIngredient(ItemType<TheBallista>());
-			recipe.AddIngredient(ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ItemType<MiracleMatter>());
 			recipe.AddTile(TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

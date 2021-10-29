@@ -1,9 +1,15 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -108,6 +114,7 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
@@ -118,6 +125,14 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
+            IL.Terraria.Player.QuickHeal += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
+            IL.Terraria.Main.UpdateAudio += ManipulateSoundMuffleFactor;
+
+            // Ravager platform fall fix
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
@@ -125,7 +140,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-            // Movement speed balance
+			// Movement speed balance
+			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
@@ -156,6 +172,7 @@ namespace CalamityMod.ILEditing
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
 
             // Mechanics / features
+            On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
@@ -166,15 +183,24 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
+            IL.Terraria.Player.QuickHeal -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
+            IL.Terraria.Main.UpdateAudio -= ManipulateSoundMuffleFactor;
 
-            // Damage and health balance
-            IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
+			// Ravager platform fall fix
+			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+
+			// Damage and health balance
+			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-            // Movement speed balance
-            IL.Terraria.Player.Update -= RunSpeedAdjustments;
+			// Movement speed balance
+			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+			IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
             // World generation
@@ -199,6 +225,15 @@ namespace CalamityMod.ILEditing
         #region IL Editing Routines and Injections
 
         #region Mechanics / features
+
+        // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
+        private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
+        {
+            if (self.active && self.Calamity().ShouldFallThroughPlatforms)
+                fall = true;
+            orig(self, fall, cPosition, cWidth, cHeight);
+        }
+
         private static void PermitNighttimeTownNPCSpawning(ILContext il)
         {
             // Don't do town NPC spawning at the end (which lies after a !Main.dayTime return).
@@ -313,6 +348,15 @@ namespace CalamityMod.ILEditing
             return orig(i, j, forced);
         }
 
+		private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+		{
+			if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
+				self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
+				return true;
+
+			return orig(self);
+		}
+
         private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
@@ -370,6 +414,115 @@ namespace CalamityMod.ILEditing
                     projectile.Calamity().ExplosiveEnchantCountdown = CalamityGlobalProjectile.ExplosiveEnchantTime;
             }
             return proj;
+        }
+
+        private static void ApplyManaBurnIfNeeded(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))
+            {
+                LogFailure("Mana Burn Application", "Could not locate the mana sickness buff ID.");
+                return;
+            }
+
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Func<Player, int>>(player =>
+            {
+                if (!player.active || !player.Calamity().ChaosStone)
+                    return BuffID.ManaSickness;
+                return ModContent.BuffType<ManaBurn>();
+            });
+        }
+
+        private static void AllowBuffTimeStackingForManaBurn(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Get a label that points to the final return before doing anything else.
+            cursor.GotoFinalRet();
+
+            ILLabel finalReturn = cursor.DefineLabel();
+            cursor.MarkLabel(finalReturn);
+
+            // After the label has been created go back to the beginning of the method.
+            cursor.Goto(0);
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchStloc(4)))
+            {
+                LogFailure("Mana Burn Time Stacking", "Could not locate the buff loop incremental variable.");
+                return;
+            }
+
+            int startOfBuffTimeLogic = cursor.Index - 1;
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdsfld<Main>("vanityPet")))
+            {
+                LogFailure("Mana Burn Time Stacking", "Could not locate the Main.vanityPet load.");
+                return;
+            }
+
+            // Clear away the vanilla logic and re-add it with a delegate.
+            // The alternative is a mess of various labels and branches.
+            int endOfBuffTimeLogic = cursor.Index;
+            cursor.Goto(startOfBuffTimeLogic);
+            cursor.RemoveRange(endOfBuffTimeLogic - startOfBuffTimeLogic);
+
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.Emit(OpCodes.Ldarg_1);
+            cursor.Emit(OpCodes.Ldloc_0);
+            cursor.EmitDelegate<Func<Player, int, int, bool>>((player, type, buffTime) =>
+            {
+                for (int j = 0; j < Player.MaxBuffs; j++)
+                {
+                    if (player.buffType[j] == type)
+                    {
+                        if (!BuffLoader.ReApply(type, player, buffTime, j))
+                        {
+                            if (type == BuffID.ManaSickness || type == ModContent.BuffType<ManaBurn>())
+                            {
+                                player.buffTime[j] += buffTime;
+                                if (player.buffTime[j] > Player.manaSickTimeMax)
+                                    player.buffTime[j] = Player.manaSickTimeMax;
+
+                            }
+                            else if (player.buffTime[j] < buffTime)
+                                player.buffTime[j] = buffTime;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            });
+            cursor.Emit(OpCodes.Brtrue, finalReturn);
+        }
+
+        private static void ManipulateSoundMuffleFactor(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            cursor.GotoNext(MoveType.After, i => i.MatchStloc(20));
+
+            cursor.Emit(OpCodes.Ldloc, 20);
+            cursor.EmitDelegate<Func<float, float>>(originalMuffleFactor =>
+            {
+                if (Main.gameMenu || !Main.LocalPlayer.active)
+                    return originalMuffleFactor;
+
+                float playerMuffleFactor = 1f - Main.LocalPlayer.Calamity().MusicMuffleFactor;
+                float result = MathHelper.Clamp(originalMuffleFactor * playerMuffleFactor, -1f, 1f);
+                if (result <= 0)
+                {
+                    for (int i = 0; i < Main.music.Length; i++)
+                    {
+                        if (Main.music[i] != null && Main.music[i].IsPlaying)
+                            Main.music[i].Stop(AudioStopOptions.Immediate);
+                    }
+                    Main.curMusic = 0;
+                }
+                return result;
+            });
+            cursor.Emit(OpCodes.Stloc, 20);
         }
 
         #region Fire Cursor
@@ -546,11 +699,24 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion
+		#endregion
 
-        #region Movement speed balance
-        private static void RunSpeedAdjustments(ILContext il)
-        {
+		#region Movement speed balance
+		private static void MaxRunSpeedAdjustment(ILContext il)
+		{
+			// Increase the base max run speed of the player to make early game less of a slog.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
+			{
+				LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
+		}
+
+		private static void RunSpeedAdjustments(ILContext il)
+		{
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%

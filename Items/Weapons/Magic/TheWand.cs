@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 150;
             item.magic = true;
             item.noMelee = true;
-            item.useAnimation = 250;
-            item.useTime = 250;
+            item.useAnimation = 19;
+            item.useTime = 19;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.5f;
@@ -41,9 +41,20 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool CanUseItem(Player player)
         {
-            return new Vector2(10, 10);
+            int numWandBolts = player.ownedProjectileCounts[ModContent.ProjectileType<SparkInfernal>()];
+            int numTornadoStarters = player.ownedProjectileCounts[ModContent.ProjectileType<InfernadoMarkFriendly>()];
+            int numTornadoPieces = player.ownedProjectileCounts[ModContent.ProjectileType<InfernadoFriendly>()];
+            return numWandBolts + numTornadoStarters + numTornadoPieces < 1;
+        }
+
+        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
+
+        public override void MeleeEffects(Player player, Rectangle hitbox)
+        {
+            if (Main.rand.NextBool(3))
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
         }
 
         public override void AddRecipes()
@@ -51,17 +62,9 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WandofSparking);
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
@@ -32,8 +33,8 @@ namespace CalamityMod.Items
 			if (nameLine != null)
 				ApplyRarityColor(item, nameLine);
 
-			// If the item is melee, add a true melee damage number adjacent to the standard damage number.
-			if (item.melee && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
+			// If the item is true melee, add a true melee damage number adjacent to the standard damage number.
+			if (item.melee && (item.shoot == ProjectileID.None || trueMelee) && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
 				TrueMeleeDamageTooltip(item, tooltips);
 
 			// Modify all vanilla tooltips before appending mod mechanics (if any).
@@ -1078,6 +1079,19 @@ namespace CalamityMod.Items
 				tooltips.Add(line);
 			}
 		}
-		#endregion
-	}
+        #endregion
+
+        #region Schematic Knowledge Tooltip Utility
+		public static void InsertKnowledgeTooltip(List<TooltipLine> tooltips, int tier, bool allowOldWorlds = false)
+		{
+			TooltipLine line = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge1", "You don't have sufficient knowledge to create this yet");
+			TooltipLine line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "A specific schematic must be deciphered first");
+			line.overrideColor = line2.overrideColor = Color.Cyan;
+
+			bool allowedDueToOldWorld = allowOldWorlds && CalamityWorld.IsWorldAfterDraedonUpdate;
+			tooltips.AddWithCondition(line, !ArsenalTierGatedRecipe.HasTierBeenLearned(tier) && !allowedDueToOldWorld);
+			tooltips.AddWithCondition(line2, !ArsenalTierGatedRecipe.HasTierBeenLearned(tier) && !allowedDueToOldWorld);
+		}
+        #endregion
+    }
 }

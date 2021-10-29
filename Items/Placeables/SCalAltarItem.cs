@@ -10,12 +10,10 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Calamitous Altar");
-            Tooltip.SetDefault("Death\n" +
-                "Allows you to summon Supreme Calamitas with Ashes of Calamity\n" +
-                "She creates a large square arena of blocks upon being summoned\n" +
-                "When she is summoned the arena will spawn around her with her at the center\n" +
-                "During the battle, heart pickups will heal half as much HP");
+            DisplayName.SetDefault("Altar of the Accursed");
+            Tooltip.SetDefault("Offer Ashes of Calamity at this altar to summon the Witch\n" +
+                "Doing so will create a square arena of blocks, with the altar at its center\n" +
+                "During the battle, heart pickups only heal for half as much");
         }
 
         public override void SetDefaults()
@@ -36,8 +34,10 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

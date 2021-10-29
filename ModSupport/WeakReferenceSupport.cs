@@ -414,7 +414,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("PlaguebringerGoliath", out float order);
 				int type = NPCType<PlaguebringerGoliath>();
 				int summon = ItemType<Abomination>();
-				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<BloomStone>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<KnowledgePlaguebringerGoliath>(), ItemType<PlagueCaller>() };
 				string instructions = $"Use an [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
@@ -585,11 +585,11 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("ExoMechs", out float order);
 				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
 				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
-				//List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
-				string instructions = "By using a high-tech computer thing";
-				string despawn = CalamityUtils.ColorMessage("An imperfection after all...what a shame.", new Color(0x7F, 0xFF, 0xD4));
-				//string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
-				//AddBoss(bossChecklist, calamity, "ExoMechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
+				List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
+				string instructions = "By using a high-tech computer";
+				string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
+				string bossLogTex = "CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist";
+				AddBoss(bossChecklist, calamity, "Exo Mechs", order, bosses, DownedExoMechs, null, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Supreme Calamitas
@@ -727,7 +727,7 @@ namespace CalamityMod
 
 			// Plantera
 			AddLoot(bossChecklist, "Plantera",
-				new List<int>() { ItemType<LivingShard>(), ItemType<BlossomFlux>(), ItemID.JungleKey },
+				new List<int>() { ItemType<LivingShard>(), ItemType<BlossomFlux>(), ItemType<BloomStone>(), ItemID.JungleKey },
 				new List<int>() { ItemType<KnowledgePlantera>() }
 			);
 			AddSummons(bossChecklist, "Plantera", new List<int>() { ItemType<BulbofDoom>() });

@@ -118,6 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 90000;
             projectile.usesLocalNPCImmunity = true;
             projectile.noEnchantments = true;
+			projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(VerticalOffset);
@@ -189,7 +190,8 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Center += (destination - projectile.Center).SafeNormalize(Vector2.Zero) * MathHelper.Min(projectile.Distance(destination), 12f + Owner.velocity.Length());
 
             // Ensure that the position is never too far from the destination.
-            CalamityUtils.DistanceClamp(ref projectile.position, ref destination, 50f);
+            if (!projectile.WithinRange(destination, 300f))
+                projectile.Center = destination;
 
             Time++;
         }

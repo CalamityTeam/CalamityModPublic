@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useTime = item.useAnimation = 10;
             item.noMelee = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<AncientIceChunk>());
             recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
             recipe.AddIngredient(ModContent.ItemType<EnergyStaff>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

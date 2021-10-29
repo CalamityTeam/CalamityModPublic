@@ -53,7 +53,6 @@ Summons a barrage of petals and waterfalls on enemy hits");
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<Mourningstar>());
             r.AddIngredient(ItemID.DaoofPow);
             r.AddIngredient(ItemID.FlowerPow);
@@ -61,8 +60,9 @@ Summons a barrage of petals and waterfalls on enemy hits");
             r.AddIngredient(ModContent.ItemType<BallOFugu>());
             r.AddIngredient(ModContent.ItemType<Tumbleweed>());
             r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.AddRecipe();
         }
     }

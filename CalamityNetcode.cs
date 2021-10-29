@@ -184,6 +184,15 @@ namespace CalamityMod
                     case CalamityModMessageType.LabHologramProjector:
                         TELabHologramProjector.ReadSyncPacket(mod, reader);
                         break;
+                    case CalamityModMessageType.UpdateCodebreakerConstituents:
+                        TECodebreaker.ReadConstituentsUpdateSync(mod, reader);
+                        break;
+                    case CalamityModMessageType.UpdateCodebreakerContainedStuff:
+                        TECodebreaker.ReadContainmentSync(mod, reader);
+                        break;
+                    case CalamityModMessageType.UpdateCodebreakerDecryptCountdown:
+                        TECodebreaker.ReadDecryptCountdownSync(mod, reader);
+                        break;
 
                     //
                     // Boss Rush
@@ -193,6 +202,12 @@ namespace CalamityMod
                         int stage = reader.ReadInt32();
                         BossRushEvent.BossRushStage = stage;
                         break;
+                    case CalamityModMessageType.BossRushStartTimer:
+                        BossRushEvent.StartTimer = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.BossRushEndTimer:
+                        BossRushEvent.EndTimer = reader.ReadInt32();
+                        break;
                     case CalamityModMessageType.BossSpawnCountdownSync:
                         int countdown2 = reader.ReadInt32();
                         CalamityWorld.bossSpawnCountdown = countdown2;
@@ -200,6 +215,9 @@ namespace CalamityMod
                     case CalamityModMessageType.BossTypeSync:
                         int type = reader.ReadInt32();
                         CalamityWorld.bossType = type;
+                        break;
+                    case CalamityModMessageType.EndBossRush:
+                        BossRushEvent.EndEffects();
                         break;
                     case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
@@ -223,6 +241,17 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.EncounteredOldDukeSync:
                         CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
+                        break;
+
+                    // 
+                    // Draedon Summoner stuff
+                    // 
+                    case CalamityModMessageType.CodebreakerSummonStuff:
+                        CalamityWorld.DraedonSummonCountdown = reader.ReadInt32();
+                        CalamityWorld.DraedonSummonPosition = reader.ReadVector2();
+                        break;
+                    case CalamityModMessageType.ExoMechSelection:
+                        CalamityWorld.DraedonMechToSummon = (ExoMech)reader.ReadInt32();
                         break;
 
                     //
@@ -340,11 +369,21 @@ namespace CalamityMod
         ChargingStationItemChange,
         Turret,
         LabHologramProjector,
+        UpdateCodebreakerConstituents,
+        UpdateCodebreakerContainedStuff,
+        UpdateCodebreakerDecryptCountdown,
+
+        // Draedon Summoner
+        CodebreakerSummonStuff,
+        ExoMechSelection,
 
         // Boss Rush
         BossRushStage,
+        BossRushStartTimer,
+        BossRushEndTimer,
         BossSpawnCountdownSync,
         BossTypeSync,
+        EndBossRush,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".
         TeleportPlayer, // also used by Astral Arcanum.
 

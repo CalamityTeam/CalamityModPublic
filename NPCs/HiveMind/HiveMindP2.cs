@@ -312,9 +312,12 @@ namespace CalamityMod.NPCs.HiveMind
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (CalamityWorld.malice || CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
 			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -770,11 +773,11 @@ namespace CalamityMod.NPCs.HiveMind
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30);
-                DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 7, 10);
-                DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30, 5);
+                DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 8, 12, 2);
+                DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15, 3);
                 if (Main.hardMode)
-                    DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
+                    DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20, 2);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

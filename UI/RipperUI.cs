@@ -95,7 +95,7 @@ namespace CalamityMod.UI
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // If Revengeance isn't on, or Rage and Adrenaline are turned off, don't draw anything.
-            if (!CalamityWorld.revenge || !CalamityConfig.Instance.Rippers)
+            if (!CalamityWorld.revenge)
                 return;
 
             // If for some reason either of the bars has been thrown into the corner (likely to 0,0 by default), put them at their default positions

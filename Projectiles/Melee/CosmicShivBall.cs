@@ -10,10 +10,11 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBall : ModProjectile
     {
+        // TODO - Please for the love of god refactor this at some point. It is ancient.
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC target = null;
-        public const float maxDistanceToTarget = 300f;
+        public const float maxDistanceToTarget = 540f;
         public bool initialized = false;
         public float startingVelocityY = 0f;
         public float randomAngleDelta = 0f;
@@ -61,15 +62,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (target != null)
             {
-                const float turnSpeed = 20f;
-                const float speedMult = 48f;
-                Vector2 distNorm = (target.Center - projectile.Center).SafeNormalize(Vector2.UnitX);
-                projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + distNorm * speedMult) / turnSpeed;
+                float inertia = 35f;
+                float homingSpeed = 33.5f;
+                Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center, Vector2.UnitX) * homingSpeed;
+                projectile.velocity = (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
             }
             else
             {
                 projectile.ai[0]++;            
-                projectile.velocity.Y = startingVelocityY + (float)(16.0 * Math.Cos((double)projectile.ai[0] / 12.0 + (double)randomAngleDelta));
+                projectile.velocity.Y = startingVelocityY + (float)(Math.Cos(projectile.ai[0] / 12D + randomAngleDelta) * 7D);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

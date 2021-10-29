@@ -235,7 +235,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="goreSource">The spot to spawn the explosion clouds</param>
 		/// <param name="goreAmt">Number of times it loops to spawn gores</param>
-		public static void ExplosionGores(Vector2 goreSource, int goreAmt, bool thanatos = false, Vector2 thanatosVelocity = default)
+		public static void ExplosionGores(Vector2 goreSource, int goreAmt)
 		{
 			Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
@@ -250,43 +250,27 @@ namespace CalamityMod
 					velocityMult = 1f;
 				}
 				Mod mod = ModContent.GetInstance<CalamityMod>();
-				int type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				int type = Main.rand.Next(61, 64);
 				int smoke = Gore.NewGore(source, default, type, 1f);
 				Gore gore = Main.gore[smoke];
-				if (thanatos)
-				{
-					gore.velocity = thanatosVelocity * -0.5f;
-				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y += 1f;
-				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				type = Main.rand.Next(61, 64);
 				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
-				if (thanatos)
-				{
-					gore.velocity = thanatosVelocity * -0.5f;
-				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y += 1f;
-				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				type = Main.rand.Next(61, 64);
 				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
-				if (thanatos)
-				{
-					gore.velocity = thanatosVelocity * -0.5f;
-				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y -= 1f;
-				type = thanatos ? Main.rand.Next(mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle1"), mod.GetGoreSlot("Gores/Thanatos/ThanatosVentParticle3") + 1) : Main.rand.Next(61, 64);
+				type = Main.rand.Next(61, 64);
 				smoke = Gore.NewGore(source, default, type, 1f);
 				gore = Main.gore[smoke];
-				if (thanatos)
-				{
-					gore.velocity = thanatosVelocity * -0.5f;
-				}
 				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y -= 1f;

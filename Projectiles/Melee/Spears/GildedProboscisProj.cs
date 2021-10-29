@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-            //projectile.Calamity().trueMelee = true;
+            projectile.Calamity().trueMelee = true;
         }
 
         // These numbers sure are common, huh? yeah, they are

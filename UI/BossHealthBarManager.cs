@@ -164,10 +164,6 @@ namespace CalamityMod.UI
             int[] Slimes = new int[] { NPCType<SlimeGodCore>(), NPCType<SlimeGod>(), NPCType<SlimeGodSplit>(),
                 NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>() };
             OneToMany[NPCType<SlimeGodCore>()] = Slimes;
-            OneToMany[NPCType<SlimeGod>()] = Slimes;
-            OneToMany[NPCType<SlimeGodSplit>()] = Slimes;
-            OneToMany[NPCType<SlimeGodRun>()] = Slimes;
-            OneToMany[NPCType<SlimeGodRunSplit>()] = Slimes;
 
             SetupBossExclusionList();
             SetupMinibossHPBarList();
@@ -352,7 +348,7 @@ namespace CalamityMod.UI
                     continue;
 
                 bool isEoWSegment = Main.npc[i].type == NPCID.EaterofWorldsBody || Main.npc[i].type == NPCID.EaterofWorldsTail;
-                if ((Main.npc[i].IsABoss() && !isEoWSegment) || MinibossHPBarList.Contains(Main.npc[i].type))
+                if ((Main.npc[i].IsABoss() && !isEoWSegment) || MinibossHPBarList.Contains(Main.npc[i].type) || Main.npc[i].Calamity().CanHaveBossHealthBar)
                     AttemptToAddBar(i);
             }
 
@@ -573,7 +569,7 @@ namespace CalamityMod.UI
                 OpenAnimationTimer = Utils.Clamp(OpenAnimationTimer + 1, 0, OpenAnimationTime);
                 EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
 
-                if (CombinedNPCMaxLife != 0 && InitialMaxLife == 0)
+                if (CombinedNPCMaxLife != 0 && (InitialMaxLife == 0 || InitialMaxLife < CombinedNPCMaxLife))
                     InitialMaxLife = CombinedNPCMaxLife;
             }
 

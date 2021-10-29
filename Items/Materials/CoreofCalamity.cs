@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Materials
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
             recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

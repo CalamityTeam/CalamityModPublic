@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.Leviathan
 			writer.Write(frameUsed);
             writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.Calamity().newAI[0]);
+			writer.Write(HasBegunSummoningLeviathan);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -86,6 +87,7 @@ namespace CalamityMod.NPCs.Leviathan
 			frameUsed = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
 			npc.Calamity().newAI[0] = reader.ReadSingle();
+			HasBegunSummoningLeviathan = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -139,9 +141,12 @@ namespace CalamityMod.NPCs.Leviathan
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			float bubbleVelocity = death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
 			bubbleVelocity += 4f * enrageScale;

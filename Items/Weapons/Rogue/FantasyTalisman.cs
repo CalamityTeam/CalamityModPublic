@@ -55,10 +55,10 @@ Stealth strikes release more souls and leave behind souls as they travel");
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 2);
-            recipe.AddIngredient(ItemID.Silk, 3);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
+            recipe.AddIngredient(ItemID.Silk);
+            recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 150);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

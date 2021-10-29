@@ -53,10 +53,10 @@ Stealth strikes provide a bigger boost after richocheting");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 3);
+            recipe.AddIngredient(ItemID.SpikyBall, 20);
             recipe.AddIngredient(ItemID.PinkGel);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 3);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
     }

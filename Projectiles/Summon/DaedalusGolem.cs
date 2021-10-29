@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                         light.scale = Main.rand.NextFloat(1.2f, 1.45f);
                         light.noGravity = true;
                     }
-                    else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 60 && AttackTimer % 10 == 9)
+                    else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 60 && AttackTimer % 16 == 15)
                     {
                         Main.PlaySound(SoundID.Item122, ArmPosition);
                         if (Main.myPlayer == projectile.owner)

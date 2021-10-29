@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Fearmonger Greaves");
             Tooltip.SetDefault("6% increased damage\n" +
-			"50% increased minion knockback\n" +
-			"10% increased movement speed\n" +
-			"Taking damage makes you move very fast for a short time");
+            "50% increased minion knockback\n" +
+            "10% increased movement speed\n" +
+            "Taking damage makes you move very fast for a short time");
         }
 
         public override void SetDefaults()
@@ -39,9 +39,10 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyLeggings);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

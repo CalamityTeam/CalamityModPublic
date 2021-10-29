@@ -1,11 +1,12 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -20,14 +21,14 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 270\n" +
-				"The Silva revive heals you to half health while wearing the Silva armor");
+                "The Silva revive heals you to half health while wearing the Silva armor");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.accessory = true;
@@ -83,7 +84,7 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddRecipeGroup("AnyGoldBar", 3);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

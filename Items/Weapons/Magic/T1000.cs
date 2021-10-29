@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 4f;
-			item.value = CalamityGlobalItem.Rarity15BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.autoReuse = true;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<T1000Proj>();
             item.shootSpeed = 24f;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-		}
+            item.Calamity().customRarity = CalamityRarity.Violet;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
@@ -44,9 +44,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Purge>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

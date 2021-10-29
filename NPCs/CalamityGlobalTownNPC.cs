@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs
 					{
 						if (Main.rand.NextBool(20))
 						{
-							chat = "Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.";
+							chat = "Could you be so kind as to, ah... check hell for me...? I left someone I kind of care about down there.";
 						}
 
 						if (Main.rand.NextBool(20))
@@ -789,7 +789,7 @@ namespace CalamityMod.NPCs
 				case NPCID.Dryad:
 					if (Main.rand.NextBool(5) && CalamityWorld.downedDoG && Main.eclipse)
 					{
-						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
+						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful... hmm... what power was Yharon holding back?";
 					}
 
 					if (Main.rand.NextBool(5) && Main.hardMode)
@@ -831,7 +831,7 @@ namespace CalamityMod.NPCs
 
 						if (Main.rand.NextBool(15))
 						{
-							chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
+							chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood... even if, deep down, I know she's sad...";
 						}
 					}
 					if ((npc.GivenName == "Amber" ? Main.rand.NextBool(10) : Main.rand.NextBool(15)) && Main.LocalPlayer.Calamity().pArtifact)
@@ -854,7 +854,7 @@ namespace CalamityMod.NPCs
 					}
 					if (Main.rand.NextBool(10) && NPC.downedMoonlord)
 					{
-						chat = "You know...we haven't had an invasion in a while...";
+						chat = "You know... we haven't had an invasion in a while...";
 					}
 
 					break;
@@ -908,12 +908,12 @@ namespace CalamityMod.NPCs
 
 					if (Main.rand.NextBool(5) && Main.eclipse)
 					{
-						chat = "Um...should my nightlight be on?";
+						chat = "Um... should my nightlight be on?";
 					}
 
 					if (Main.rand.NextBool(5) && fapsol != -1)
 					{
-						chat = "Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah...I have my eyes on someone else.";
+						chat = "Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah... I have my eyes on someone else.";
 					}
 
 					if (Main.rand.NextBool(5) && CalamityWorld.rainingAcid)
@@ -976,7 +976,7 @@ namespace CalamityMod.NPCs
 				case NPCID.Cyborg:
 					if (Main.rand.NextBool(10) && Main.raining)
 					{
-						chat = "All these moments will be lost in time. Like tears...in the rain.";
+						chat = "All these moments will be lost in time. Like tears... in the rain.";
 					}
 
 					if (NPC.downedMoonlord)
@@ -988,7 +988,7 @@ namespace CalamityMod.NPCs
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Draedon? He's...a little 'high octane' if you know what I mean.";
+							chat = "Draedon? He's... a little 'high octane' if you know what I mean.";
 						}
 					}
 
@@ -1009,12 +1009,12 @@ namespace CalamityMod.NPCs
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "Those screams...I'm not sure why, but I feel like a nameless fear has awoken in my heart.";
+							chat = "Those screams... I'm not sure why, but I feel like a nameless fear has awoken in my heart.";
 						}
 
 						if (Main.rand.NextBool(10))
 						{
-							chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I'm familiar with at all. Just what is going on in there?";
+							chat = "I can faintly hear ghostly shrieks from the dungeon... and not ones I'm familiar with at all. Just what is going on in there?";
 						}
 					}
 
@@ -1237,8 +1237,8 @@ namespace CalamityMod.NPCs
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
 				SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
-				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
+				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge);
 				SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
 			}
 
@@ -1356,7 +1356,6 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
-				SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
 			}
 

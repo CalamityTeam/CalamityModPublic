@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 240;
+			item.damage = 280;
 			item.knockBack = 6f;
 			item.useAnimation = item.useTime = 22;
 			item.Calamity().rogue = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.UseSound = SoundID.Item1;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.value = Item.buyPrice(platinum: 2, gold: 50);
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
 			item.rare = ItemRarityID.Red;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.AddIngredient(ModContent.ItemType<MoltenAmputator>());
 			recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
 			recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

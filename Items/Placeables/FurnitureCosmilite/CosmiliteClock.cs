@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.AddRecipe();
         }
     }

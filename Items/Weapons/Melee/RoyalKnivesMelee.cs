@@ -103,9 +103,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddIngredient(ModContent.ItemType<EmpyreanKnives>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

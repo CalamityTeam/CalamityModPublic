@@ -87,10 +87,11 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.KingSlime)
 			{
-				// Drop a huge spray of Gel items
-				int minGel = Main.expertMode ? 90 : 60;
-				int maxGel = Main.expertMode ? 120 : 80;
-				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 2);
+                // Drop a huge spray of Gel items
+                // More gel is not dropped on Expert because he has more minions, which increases the amount of gel provided.
+                int minGel = 72;
+                int maxGel = 100;
+				DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
 
 				// Legendary drop for King Slime
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<CrownJewel>(), true, CalamityWorld.malice);
@@ -295,9 +296,12 @@ namespace CalamityMod.NPCs
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
-				}
 
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
+                    // Equipment
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
+                }
+
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
 				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
 
 				// Legendary drop for Plantera

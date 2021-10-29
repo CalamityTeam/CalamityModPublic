@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.shoot = ModContent.ProjectileType<PhosphorescentGauntletPunches>();
 			item.shootSpeed = 1f;
 			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.Calamity().trueMelee = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults.

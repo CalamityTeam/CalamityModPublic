@@ -71,22 +71,22 @@ namespace CalamityMod.NPCs.TownNPCs
             if (npc.homeless)
             {
                 if (Main.rand.NextBool(2))
-                    return "Is this...what the world is like now? It seems so much more lifeless than when I saw it before I disappeared.";
+                    return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
                 else
                     return "Thank you for your service, my child, but I am afraid I am without a home now.";
             }
             if (Main.dayTime)
             {
-                dialogue.Add("My homeland may have dried up but the memories of my people still remain. I will not let them be in vain.");
-                dialogue.Add("There is a lot that you do not know about this world, specifically regarding the past. Much of it has been lost to history due to the many wars that plagued it.");
-                dialogue.Add("How can I survive on land? Ah, that is a secret. No, actually...I can breathe air like you!");
-                dialogue.Add("Why do you ask if it's the males that carry the young? Don't your males carry their young?");
+                dialogue.Add("My home may have been destroyed and my people lost... But I will assist you to honor their memory.");
+                dialogue.Add("How odd it is, that your people leave the care of those yet to be born to the females. Our males carry the eggs until they hatch.");
+                dialogue.Add("How can I survive on land? Ah, that is a secret. No, actually... I can breathe air like you!");
+                dialogue.Add("Ah, if only you could have seen the beauty of a kingdom submerged in water. The way the light refracted and shone over our coral homes...");
             }
             else
             {
-                dialogue.Add("There be monsters lurking in the darkness. Most...unnatural monsters.");
-                dialogue.Add("Most creatures look up at the moon and admire it. I look up and fear it.");
-                dialogue.Add("Oh, me? I don't sleep, it's part of my nature.");
+                dialogue.Add("There lurk horrifying creatures beyond the light of our homes. You should take care.");
+                dialogue.Add("My eyes are not well suited to bright lights after so many years of darkness. The peace of the night is welcome.");
+                dialogue.Add("Oh, me? I do not sleep, it is part of my nature.");
             }
 
             int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
@@ -98,58 +98,45 @@ namespace CalamityMod.NPCs.TownNPCs
             int lilBitch = NPC.FindFirstNPC(NPCID.Angler);
             if (lilBitch != -1)
             {
-                dialogue.Add("Meet me at " + Main.npc[lilBitch].GivenName + "'s house at night. We're going to throw him to the Trashers.");
+                dialogue.Add("Meet me at " + Main.npc[lilBitch].GivenName + "'s house at night. We will throw him to the Trashers.");
                 dialogue.Add("Not sure how " + Main.npc[lilBitch].GivenName + " has not been roasted and digested by now, hanging around the sulphuric seas for so long. Perhaps it got to his head.");
             }
 
+
             int cirrus = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrus != -1)
+						{
                 dialogue.Add("Rumor has it " + Main.npc[cirrus].GivenName + " drinks to forget her troubled past.");
+						}
+
+						int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+						if (witch != -1)
+						{
+								dialogue.Add("I must admit, the Witch's presence is unsettling to me. But so many years have passed, and she too has suffered much.");
+						}
 
             if (Main.bloodMoon)
             {
-                dialogue.Add("I'm never keen on these nights. They're so violent.");
-            }
-
-            /*
-            int yharim = NPC.FindFirstNPC(NPCID.Yharim);
-            if (yharim != -1)
-            {
-                dialogue.Add("Oh, Yharim... did he ever realize what he was doing? He seems so...calm, as if his rage had been satiated.");
-            }*/
-
-            if (Main.player[Main.myPlayer].Calamity().sirenPet)
-            {
-                dialogue.Add("Ah, nice duds, my child!");
-            }
-
-            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
-            {
-                dialogue.Add("Shouldn't you be wearing a clam bra?");
+                dialogue.Add("Since ancient times people have said that deities cause celestial events. Which one then, is the cause for these?");
+                dialogue.Add("I've never been keen on these nights. Such violence.");
             }
 
             if (Main.hardMode)
             {
-                dialogue.Add("The balance between light and dark is tipping. Stay strong, my child.");
-                dialogue.Add("Ah, you are starting to realize just how complicated this world is now. You are learning the story of what became of him.");
+                dialogue.Add("Your presence is now known to a great many things. It is unlikely that they will be as friendly towards you as I have been.");
+                dialogue.Add("Hm... The veil has fallen, and the world begins to show its true colors. I hope you will trek a righteous path, though even I am not sure what that may be.");
             }
 
             if (NPC.downedMoonlord)
             {
-                dialogue.Add("Do you ever get the feeling that something out there is watching you very carefully? Whatever it is, it's very small and sly, I think.");
-                dialogue.Add("I must admit, I am quite shaken up now. Never would I have imagined that I would see one of the dark gods again. Not in this lifetime anyhow.");
-                dialogue.Add("Times like this I wish my home was still in one piece instead of evaporated away. I don't blame the witch for anything, it's just...oh, never mind.");
+                dialogue.Add("These days, the night sky feels... just a little less oppressive now.");
+                dialogue.Add("Some of these beings I had thought previously to be only legends. To see them in all their glory... what a macabre privilege.");
             }
 
             if (CalamityWorld.downedDoG)
             {
-                dialogue.Add("I suppose that witch was mistaken. Defeating the Ceaseless Void and the Devourer has not caused our world to collapse... but I would not lower my guard if I were you.");
+                dialogue.Add("To see that Tyrant’s serpent free of its shackles. It gave me chills.");
             }
-
-            /*if (CalamityWorld.downedYharon)
-            {
-                dialogue.Add("I'm worried for Lord Yharim. He was not in a particular good mood once we found out you defeated his close friend.");
-            }*/
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
@@ -171,7 +158,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "Lord Yharim possesses god-like strength. He may not even fight you at full power which is fortunate for you. His attacks may just kill you in one hit, so be careful.";
 						break;
 					case 2f:
-						displayThisText = "Draedon's style of confrontation is very...alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.";
+						displayThisText = "Draedon's style of confrontation is very... alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.";
 						break;
 				}
             }
@@ -201,7 +188,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.";
 						break;
 					case 1f:
-						displayThisText = "Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.";
+						displayThisText = "Ah... I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.";
 						break;
 				}
             }
@@ -210,13 +197,13 @@ namespace CalamityMod.NPCs.TownNPCs
 				switch (npc.Calamity().newAI[0] % 3f)
 				{
 					case 0f:
-						displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.";
+						displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.";
 						break;
 					case 1f:
 						displayThisText = "Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.";
 						break;
 					case 2f:
-						displayThisText = "The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.";
+						displayThisText = "The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void... I would recommend searching there before taking on the Sentinels.";
 						break;
 				}
             }
@@ -276,7 +263,7 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.";
 						break;
 					case 4f:
-						displayThisText = "The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.";
+						displayThisText = "The Brimstone Crags... Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.";
 						break;
 					case 5f:
 						displayThisText = "If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!";

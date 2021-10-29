@@ -14,6 +14,18 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		public static readonly Color[] ExoPalette = new Color[]
+        {
+            new Color(250, 255, 112),
+            new Color(211, 235, 108),
+            new Color(166, 240, 105),
+            new Color(105, 240, 220),
+            new Color(64, 130, 145),
+            new Color(145, 96, 145),
+            new Color(242, 112, 73),
+            new Color(199, 62, 62),
+        };
+
 		#region Projectile Afterimages
 		/// <summary>
 		/// Draws a projectile as a series of afterimages. The first of these afterimages is centered on the center of the projectile's hitbox.<br />
@@ -457,14 +469,30 @@ namespace CalamityMod
 		}
 
 		// Cached for efficiency purposes.
-		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+		internal static readonly FieldInfo UImageFieldArmor = typeof(ArmorShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		/// <summary>
 		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
 		/// </summary>
 		/// <param name="shader">The shader to bind the texture to.</param>
 		/// <param name="texture">The texture to bind.</param>
-		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
+		public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Texture2D texture)
+		{
+			UImageFieldMisc.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="ArmorShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
+		public static ArmorShaderData SetShaderTexture(this ArmorShaderData shader, Texture2D texture)
+		{
+			UImageFieldArmor.SetValue(shader, new Ref<Texture2D>(texture));
+			return shader;
+		}
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{

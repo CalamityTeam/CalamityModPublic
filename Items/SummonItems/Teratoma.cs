@@ -34,17 +34,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 100)), (int)(player.position.Y - 150f), ModContent.NPCType<HiveMind>(), 1);
-				Main.npc[npc].timeLeft *= 20;
-				CalamityUtils.BossAwakenMessage(npc);
-            }
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<HiveMind>());
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

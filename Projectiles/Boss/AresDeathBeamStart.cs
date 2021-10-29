@@ -1,230 +1,220 @@
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class AresDeathBeamStart : ModProjectile
+    public class AresDeathBeamStart : BaseLaserbeamProjectile
     {
-		private const int maxFrames = 5;
-		private int frameDrawn = 0;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public int OwnerIndex
+        {
+            get => (int)projectile.ai[1];
+            set => projectile.ai[1] = value;
+        }
+        public override float MaxScale => 1f;
+        public override float MaxLaserLength => 3600f;
+        public override float Lifetime => AresBody.deathrayDuration;
+        public override Color LaserOverlayColor => new Color(250, 250, 250, 100);
+        public override Color LightCastColor => Color.White;
+        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresDeathBeamStart");
+        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamMiddle");
+        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamEnd");
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Death Beam");
-		}
+            // Ares' eight-pointed-star laser beams
+            DisplayName.SetDefault("Exo Overload Beam");
+            Main.projFrames[projectile.type] = 5;
+        }
 
         public override void SetDefaults()
         {
-			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
+            projectile.Calamity().canBreakPlayerDefense = true;
+            projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 600;
-			cooldownSlot = 1;
+            cooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-			writer.Write(frameDrawn);
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
-        }
+			writer.Write(projectile.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-			frameDrawn = reader.ReadInt32();
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
-        }
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
-        public override void AI()
+        public override void AttachToSomething()
         {
-			// Difficulty modes
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-			bool expertMode = Main.expertMode || malice;
-
-			Vector2? vector78 = null;
-
-			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-                projectile.velocity = -Vector2.UnitY;
-
-            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<AresBody>())
+            if (Main.npc[OwnerIndex].active && Main.npc[OwnerIndex].type == ModContent.NPCType<AresBody>())
             {
-				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X - 1f, Main.npc[(int)projectile.ai[1]].Center.Y + 23f) + Vector2.Normalize(projectile.velocity) * 35f;
-                projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
+                Vector2 fireFrom = new Vector2(Main.npc[OwnerIndex].Center.X - 1f, Main.npc[OwnerIndex].Center.Y + 23f);
+                fireFrom += projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(35f, 127f, projectile.scale * projectile.scale);
+                projectile.Center = fireFrom;
             }
-			else
-				projectile.Kill();
 
-			float num801 = 1f;
-			float duration = 600f;
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= duration)
+            // Die of the owner is invalid in some way..
+            else
             {
                 projectile.Kill();
                 return;
             }
 
-			projectile.scale = (float)Math.Sin(projectile.localAI[0] * (float)Math.PI / duration) * 10f * num801;
-            if (projectile.scale > num801)
-                projectile.scale = num801;
+            // Die if the owner is not performing Ares' deathray attack.
+            if (Main.npc[OwnerIndex].Calamity().newAI[0] != (float)AresBody.Phase.Deathrays)
+            {
+                projectile.Kill();
+                return;
+            }
 
-			float num804 = projectile.velocity.ToRotation();
-			float divisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
-			float rotationAmt = MathHelper.Lerp(0f, MathHelper.TwoPi / divisor, projectile.localAI[0] / duration);
-			num804 += rotationAmt;
-			projectile.rotation = num804 - MathHelper.PiOver2;
-			projectile.velocity = num804.ToRotationVector2();
-
-			float num805 = 3f; //3f
-			float num806 = projectile.width;
-
-			Vector2 samplingPoint = projectile.Center;
-			if (vector78.HasValue)
-				samplingPoint = vector78.Value;
-
-			float[] array3 = new float[(int)num805];
-			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
-			float num807 = 0f;
-			for (int num808 = 0; num808 < array3.Length; num808++)
-			{
-				num807 += array3[num808];
-			}
-			num807 /= num805;
-
-			// Fire laser through walls at max length if target cannot be seen
-			if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
-			{
-				num807 = 2400f;
-			}
-
-			float amount = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); // Length of laser, linear interpolation
-
-			// Spawn dust at the end of the beam
-			int dustType = 107;
-			Vector2 dustPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
-			for (int i = 0; i < 2; i++)
-			{
-				float dustRot = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
-				float dustVelMult = (float)Main.rand.NextDouble() * 2f + 2f;
-				Vector2 dustVel = new Vector2((float)Math.Cos(dustRot) * dustVelMult, (float)Math.Sin(dustRot) * dustVelMult);
-				int dust = Dust.NewDust(dustPos, 0, 0, dustType, dustVel.X, dustVel.Y, 0, new Color(0, 255, 255), 1f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].scale = 1.7f;
-			}
-
-			if (Main.rand.NextBool(5))
-			{
-				Vector2 dustRot = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				int dust = Dust.NewDust(dustPos + dustRot - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-				Main.dust[dust].velocity *= 0.5f;
-				Main.dust[dust].velocity.Y = -Math.Abs(Main.dust[dust].velocity.Y);
-			}
-
-			DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Time = Main.npc[OwnerIndex].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			if (projectile.velocity == Vector2.Zero)
-				return false;
-
-			Texture2D beamStart = Main.projectileTexture[projectile.type];
-			Texture2D beamMiddle = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamMiddle");
-			Texture2D beamEnd = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/AresDeathBeamEnd");
-
-			float drawLength = projectile.localAI[1];
-			Color color = new Color(250, 250, 250, 100);
-
-			if (projectile.localAI[0] % 5f == 0f)
-			{
-				frameDrawn++;
-				if (frameDrawn >= maxFrames)
-					frameDrawn = 0;
-			}
-
-			// Draw start of beam
-			Vector2 vector = projectile.Center - Main.screenPosition;
-			Rectangle? sourceRectangle = new Rectangle(0, beamStart.Height / maxFrames * frameDrawn, beamStart.Width, beamStart.Height / maxFrames);
-			spriteBatch.Draw(beamStart, vector, sourceRectangle, color, projectile.rotation, new Vector2(beamStart.Width, beamStart.Height / maxFrames) / 2f, projectile.scale, SpriteEffects.None, 0f);
-
-			// Draw middle of beam
-			drawLength -= (beamStart.Height / maxFrames / 2 + beamEnd.Height / maxFrames) * projectile.scale;
-			Vector2 center = projectile.Center;
-			center += projectile.velocity * projectile.scale * beamStart.Height / maxFrames / 2f;
-			if (drawLength > 0f)
-			{
-				float i = 0f;
-				int middleFrameDrawn = frameDrawn;
-				while (i + 1f < drawLength)
-				{
-					Rectangle rectangle = new Rectangle(0, beamMiddle.Height / maxFrames * middleFrameDrawn, beamMiddle.Width, beamMiddle.Height / maxFrames);
-
-					if (drawLength - i < rectangle.Height)
-						rectangle.Height = (int)(drawLength - i);
-
-					spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), projectile.scale, SpriteEffects.None, 0f);
-
-					middleFrameDrawn++;
-					if (middleFrameDrawn >= maxFrames)
-						middleFrameDrawn = 0;
-
-					i += rectangle.Height * projectile.scale;
-					center += projectile.velocity * rectangle.Height * projectile.scale;
-
-					rectangle.Y += beamMiddle.Height / maxFrames;
-					if (rectangle.Y + rectangle.Height > beamMiddle.Height / maxFrames)
-						rectangle.Y = 0;
-				}
-			}
-
-			// Draw end of beam
-			Vector2 vector2 = center - Main.screenPosition;
-			sourceRectangle = new Rectangle(0, beamEnd.Height / maxFrames * frameDrawn, beamEnd.Width, beamEnd.Height / maxFrames);
-			spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, projectile.rotation, new Vector2(beamEnd.Width, beamEnd.Height / maxFrames) / 2f, projectile.scale, SpriteEffects.None, 0f);
-
-			return false;
-		}
-
-		public override void CutTiles()
+        public override void UpdateLaserMotion()
         {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            // Declare difficulty modes.
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || malice;
+            bool revenge = CalamityWorld.revenge || malice;
+            bool expertMode = Main.expertMode || malice;
+
+            float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
+            float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;
+
+            // Update the direction and rotation of the laser.
+            projectile.velocity = projectile.velocity.RotatedBy(angularVelocity);
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override float DetermineLaserLength()
         {
-            if (projHitbox.Intersects(targetHitbox))
+            float[] sampledLengths = new float[10];
+            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.width * projectile.scale, MaxLaserLength, sampledLengths);
+
+            float newLaserLength = sampledLengths.Average();
+
+            // Fire laser through walls at max length if target is behind tiles.
+            if (!Collision.CanHitLine(Main.npc[OwnerIndex].Center, 1, 1, Main.player[Main.npc[OwnerIndex].target].Center, 1, 1))
+                newLaserLength = 3600f;
+
+            return newLaserLength;
+        }
+
+        public override void PostAI()
+        {
+            // Spawn dust at the end of the beam.
+            int dustType = 107;
+            Vector2 dustCreationPosition = projectile.Center + projectile.velocity * (LaserLength - 14f);
+            for (int i = 0; i < 2; i++)
             {
-                return true;
+                float dustRot = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
+                Vector2 dustVelocity = dustRot.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
+                Dust exoEnergy = Dust.NewDustDirect(dustCreationPosition, 0, 0, dustType, dustVelocity.X, dustVelocity.Y, 0, new Color(0, 255, 255), 1f);
+                exoEnergy.noGravity = true;
+                exoEnergy.scale = 1.7f;
             }
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref num6))
+
+            if (Main.rand.NextBool(5))
             {
-                return true;
+                Vector2 dustSpawnOffset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloatDirection() * projectile.width * 0.5f;
+                Dust exoEnergy = Dust.NewDustDirect(dustCreationPosition + dustSpawnOffset - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                exoEnergy.velocity *= 0.5f;
+
+                // Ensure that the dust always moves up.
+                exoEnergy.velocity.Y = -Math.Abs(exoEnergy.velocity.Y);
             }
+
+            // Determine frames.
+            projectile.frameCounter++;
+            if (projectile.frameCounter % 5f == 0f)
+                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            // This should never happen, but just in case-
+            if (projectile.velocity == Vector2.Zero)
+                return false;
+
+            Color beamColor = LaserOverlayColor;
+            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            // Start texture drawing.
+            spriteBatch.Draw(LaserBeginTexture,
+                             projectile.Center - Main.screenPosition,
+                             startFrameArea,
+                             beamColor,
+                             projectile.rotation,
+                             LaserBeginTexture.Size() / 2f,
+                             projectile.scale,
+                             SpriteEffects.None,
+                             0f);
+
+            // Prepare things for body drawing.
+            float laserBodyLength = LaserLength + middleFrameArea.Height;
+            Vector2 centerOnLaser = projectile.Center;
+
+            // Body drawing.
+            if (laserBodyLength > 0f)
+            {
+                float laserOffset = middleFrameArea.Height * projectile.scale;
+                float incrementalBodyLength = 0f;
+                while (incrementalBodyLength + 1f < laserBodyLength)
+                {
+                    spriteBatch.Draw(LaserMiddleTexture,
+                                     centerOnLaser - Main.screenPosition,
+                                     middleFrameArea,
+                                     beamColor,
+                                     projectile.rotation,
+                                     LaserMiddleTexture.Size() * 0.5f,
+                                     projectile.scale,
+                                     SpriteEffects.None,
+                                     0f);
+                    incrementalBodyLength += laserOffset;
+                    centerOnLaser += projectile.velocity * laserOffset;
+                    middleFrameArea.Y += LaserMiddleTexture.Height / Main.projFrames[projectile.type];
+                    if (middleFrameArea.Y + middleFrameArea.Height > LaserMiddleTexture.Height)
+                        middleFrameArea.Y = 0;
+                }
+            }
+
+            Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
+            spriteBatch.Draw(LaserEndTexture,
+                             laserEndCenter,
+                             endFrameArea,
+                             beamColor,
+                             projectile.rotation,
+                             LaserEndTexture.Size() * 0.5f,
+                             projectile.scale,
+                             SpriteEffects.None,
+                             0f);
             return false;
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            target.Calamity().lastProjectileHit = projectile;
+        }
     }
 }

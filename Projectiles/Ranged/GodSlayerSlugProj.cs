@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -13,6 +14,9 @@ namespace CalamityMod.Projectiles.Ranged
         private const int NoDrawFrames = 2;
         private const int BlueNoCollideFrames = 9;
         private const int TurnBlueFrameDelay = 7;
+        // Radius of the "circle of inaccuracy" surrounding the mouse. Blue bullets will aim at this circle.
+        private const float MouseAimDeviation = 13f;
+        private const int TextureHeight = 136;
 
         private bool BlueMode => projectile.ai[0] != 0f;
         public override string Texture => "CalamityMod/Projectiles/Ranged/GodSlayerSlugPurple";
@@ -43,8 +47,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.timeLeft = Lifetime;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.tileCollide);
         public override void ReceiveExtraAI(BinaryReader reader) => projectile.tileCollide = reader.ReadBoolean();
@@ -69,8 +73,9 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.numHits > 0 && CalamityUtils.FinalExtraUpdate(projectile) && !BlueMode)
                 ++projectile.ai[1];
 
-            // If the bullet has struck at least one target but hasn't hit anything for ten frames, turn blue and warp.
-            if (projectile.ai[1] >= TurnBlueFrameDelay)
+            // If the bullet has struck at least one target but hasn't hit anything for several frames, turn blue and warp.
+            // Obviously if the bullet is already blue, it can't turn blue again.
+            if (!BlueMode && projectile.ai[1] >= TurnBlueFrameDelay)
                 TurnBlue(true);
 
             // When blue, ignore walls for the first several updates.
@@ -91,10 +96,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ai[1] = BlueNoCollideFrames;
             projectile.tileCollide = false;
 
-            // Reduce damage, but remove piercing
+            // Reduce damage, but remove piercing. Reset local iframes so the bullet, turned blue, may always strike again.
             projectile.damage = (int)(0.3f * projectile.damage);
             projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = false;
+            for (int i = 0; i < Main.maxNPCs; i++)
+                projectile.localNPCImmunity[i] = 0;
 
             // Reset projectile lifetime so it can fly again for its full possible range
             projectile.timeLeft = Lifetime - NoDrawFrames * projectile.MaxUpdates;
@@ -102,24 +108,38 @@ namespace CalamityMod.Projectiles.Ranged
             if (!setPosition || Main.myPlayer != projectile.owner)
                 return;
 
+            // The bullet disappears in a puff of dust.
+            ProduceWarpCrossDust(projectile.Center, (int)CalamityDusts.PurpleCosmilite);
+
             // The warp must be performed client side because it requires knowledge of the player's mouse position.
             projectile.netUpdate = true;
             projectile.tileCollide = false;
-            Vector2 mouseVec = CalamityUtils.SafeDirectionTo(Main.LocalPlayer, Main.MouseWorld, -Vector2.UnitY);
+
+            // Step 1 of the warp: Place the bullet behind the player, opposite the mouse cursor.
+            Vector2 playerToMouseVec = CalamityUtils.SafeDirectionTo(Main.LocalPlayer, Main.MouseWorld, -Vector2.UnitY);
             float warpDist = Main.rand.NextFloat(70f, 96f);
             float warpAngle = Main.rand.NextFloat(-MathHelper.Pi / 3f, MathHelper.Pi / 3f);
-            Vector2 warpOffset = -warpDist * mouseVec.RotatedBy(warpAngle);
+            Vector2 warpOffset = -warpDist * playerToMouseVec.RotatedBy(warpAngle);
             projectile.position = Main.LocalPlayer.MountedCenter + warpOffset;
 
-            // Set all old positions to the bullet's warp position so that there aren't weird afterimages
+            // Step 2 of the warp: Angle the bullet so that it is pointing at the mouse cursor.
+            // This intentionally has a slight inaccuracy.
+            Vector2 mouseTargetVec = Main.MouseWorld + Main.rand.NextVector2Circular(MouseAimDeviation, MouseAimDeviation);
+            Vector2 bulletToMouseVec = CalamityUtils.SafeDirectionTo(projectile, mouseTargetVec, -Vector2.UnitY);
+            projectile.velocity = bulletToMouseVec * projectile.localAI[0];
+
+            // Set all old positions to the bullet's warp position so that there aren't weird afterimages.
+            // If an old position is uninitialized (0,0 aka never used), then don't change it.
             for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; ++i)
-                projectile.oldPos[i] = projectile.position;
+            {
+                Vector2 oldPosElem = projectile.oldPos[i];
+                if (!(oldPosElem == Vector2.Zero))
+                    projectile.oldPos[i] = projectile.position;
+            }
 
-            // TODO -- when the bullet warps it should produce a tiny puff of dust
-            // this may require vector math so that the puff of dust is at the back of the bullet
-
-            // TODO -- the bullet should aim itself towards the mouse with about 26px square deviation
-            projectile.velocity = mouseVec * projectile.localAI[0];
+            // Now that the bullet has warped, produce a tiny puff of dust at its back for effect.
+            Vector2 warpInDustPos = projectile.Center - bulletToMouseVec * TextureHeight;
+            ProduceWarpCrossDust(warpInDustPos, (int)CalamityDusts.BlueCosmilite);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 140);
@@ -143,12 +163,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.Damage();
 
             // Create a fancy triangle of dust.
-            // TODO: This is too loose, it needs to be a tight triangular pattern.
-            int dustID = 180;
-            for (int i = 0; i < 9; ++i)
+            int dustID = (int)CalamityDusts.BlueCosmilite;
+            int numDust = 9;
+            float triangleAngle = Main.rand.NextFloat(MathHelper.TwoPi);
+            for (int i = 0; i < numDust; ++i)
             {
-                float speed = Main.rand.NextFloat(3f, 11.2f);
-                Vector2 dustVel = new Vector2(speed, 0f).RotatedByRandom(MathHelper.TwoPi);
+                float speed = MathHelper.Lerp(0.2f, 3.6f, i / (float)(numDust - 1));
+                Vector2 dustVel = Vector2.UnitX.RotatedBy(triangleAngle) * speed;
                 Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
                 d.position = projectile.Center;
                 d.velocity = dustVel;
@@ -171,6 +192,23 @@ namespace CalamityMod.Projectiles.Ranged
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             Main.PlaySound(SoundID.Dig, projectile.Center, 1);
             return true;
+        }
+
+        private void ProduceWarpCrossDust(Vector2 dustPos, int dustID)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                float speed = Main.rand.NextFloat(2.0f, 4.1f);
+                Vector2 dustVel = Vector2.UnitX * speed;
+                Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
+                d.position = dustPos;
+                d.velocity = dustVel;
+                d.noGravity = true;
+                d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
+                Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.PiOver2);
+                Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi);
+                Dust.CloneDust(d).velocity = dustVel.RotatedBy(-MathHelper.PiOver2);
+            }
         }
     }
 }

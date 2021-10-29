@@ -85,7 +85,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             Tile tile = Main.tile[i, j];
             if (tile.frameY == 18)
             {
-                CalamityUtils.DrawFlameSparks((int)CalamityDusts.PurpleCosmolite, 5, i, j);
+                CalamityUtils.DrawFlameSparks((int)CalamityDusts.PurpleCosmilite, 5, i, j);
             }
         }
     }

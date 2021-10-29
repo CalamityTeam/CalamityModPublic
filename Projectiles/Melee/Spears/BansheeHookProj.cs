@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
             projectile.alpha = 255;
-            //projectile.Calamity().trueMelee = true;
         }
 
         public override SpearType SpearAiType => SpearType.GhastlyGlaiveSpear;

@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
@@ -11,6 +12,11 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -52,6 +58,7 @@ namespace CalamityMod.World
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
+        public static bool IsWorldAfterDraedonUpdate = false;
 
         // Boss Rush
         public static int bossRushHostileProjKillCounter = 0;
@@ -155,6 +162,41 @@ namespace CalamityMod.World
         public static bool witchDoctorName = false;
         public static bool wizardName = false;
 
+        // Draedon Summoning stuff.
+        public static int DraedonSummonCountdown = 0;
+        public static ExoMech DraedonMechToSummon;
+        public static Vector2 DraedonSummonPosition = Vector2.Zero;
+        public static bool AbleToSummonDraedon
+        {
+            get
+            {
+                if (DraedonSummonCountdown > 0)
+                    return false;
+
+                if (NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
+                    return false;
+
+                if (NPC.AnyNPCs(ModContent.NPCType<ThanatosHead>()))
+                    return false;
+
+                if (NPC.AnyNPCs(ModContent.NPCType<AresBody>()))
+                    return false;
+
+                if (NPC.AnyNPCs(ModContent.NPCType<Artemis>()) || NPC.AnyNPCs(ModContent.NPCType<Apollo>()))
+                    return false;
+
+                return true;
+            }
+        }
+        public const int DraedonSummonCountdownMax = 260;
+
+        // Draedon Lab Locations.
+        public static Vector2 SunkenSeaLabCenter;
+        public static Vector2 PlanetoidLabCenter;
+        public static Vector2 JungleLabCenter;
+        public static Vector2 HellLabCenter;
+        public static Vector2 IceLabCenter;
+
         #region Downed Bools
         public static bool downedDesertScourge = false;
         public static bool downedCrabulon = false;
@@ -187,7 +229,12 @@ namespace CalamityMod.World
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedCLAMHardMode = false;
-        public static bool downedBetsy = false; //Betsy
+        public static bool downedBetsy = false; // Betsy
+
+		// These are purely used for loot drops, nothing else
+		public static bool downedAres = false;
+		public static bool downedThanatos = false;
+		public static bool downedArtemisAndApollo = false;
 
         public static bool downedEoCAcidRain = false;
         public static bool downedAquaticScourgeAcidRain = false;
@@ -198,8 +245,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (CalamityConfig.Instance.NerfExpertPillars)
-                NPC.LunarShieldPowerExpert = 100;
+            NPC.LunarShieldPowerExpert = 100;
 
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
@@ -284,6 +330,9 @@ namespace CalamityMod.World
             downedSentinel3 = false;
             downedYharon = false;
 			downedExoMechs = false;
+			downedAres = false;
+			downedThanatos = false;
+			downedArtemisAndApollo = false;
             downedSCal = false;
 			downedAdultEidolonWyrm = false;
             downedCLAM = false;
@@ -353,6 +402,12 @@ namespace CalamityMod.World
                 downed.Add("yharon");
 			if (downedExoMechs)
 				downed.Add("exoMechs");
+			if (downedAres)
+				downed.Add("ares");
+			if (downedThanatos)
+				downed.Add("thanatos");
+			if (downedArtemisAndApollo)
+				downed.Add("artemisAndApollo");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
 			if (downedAdultEidolonWyrm)
@@ -471,24 +526,23 @@ namespace CalamityMod.World
                 downed.Add("encounteredOldDuke");
             if (HasGeneratedLuminitePlanetoids)
                 downed.Add("HasGeneratedLuminitePlanetoids");
+            downed.AddWithCondition("IsWorldAfterDraedonUpdate", IsWorldAfterDraedonUpdate);
+
+            RecipeUnlockHandler.Save(downed);
 
             return new TagCompound
             {
-                {
-                    "downed", downed
-                },
-                {
-                    "abyssChasmBottom", abyssChasmBottom
-                },
-                {
-                    "acidRainPoints", acidRainPoints
-                },
-                {
-                    "Reforges", Reforges
-                },
-                {
-                    "MoneyStolenByBandit", MoneyStolenByBandit
-                }
+                ["downed"] = downed,
+                ["abyssChasmBottom"] = abyssChasmBottom,
+                ["acidRainPoints"] = acidRainPoints,
+                ["Reforges"] = Reforges,
+                ["MoneyStolenByBandit"] = MoneyStolenByBandit,
+
+                ["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
+                ["PlanetoidLabCenter"] = PlanetoidLabCenter,
+                ["JungleLabCenter"] = JungleLabCenter,
+                ["HellLabCenter"] = HellLabCenter,
+                ["IceLabCenter"] = IceLabCenter,
             };
         }
         #endregion
@@ -516,6 +570,9 @@ namespace CalamityMod.World
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
 			downedExoMechs = downed.Contains("exoMechs");
+			downedAres = downed.Contains("ares");
+			downedThanatos = downed.Contains("thanatos");
+			downedArtemisAndApollo = downed.Contains("artemisAndApollo");
             downedSCal = downed.Contains("supremeCalamitas");
 			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
@@ -578,11 +635,20 @@ namespace CalamityMod.World
             forcedDownpourWithTear = downed.Contains("forcedTear");
             encounteredOldDuke = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
+            IsWorldAfterDraedonUpdate = downed.Contains("IsWorldAfterDraedonUpdate");
+
+            RecipeUnlockHandler.Load(downed);
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
+
+            SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
+            PlanetoidLabCenter = tag.Get<Vector2>("PlanetoidLabCenter");
+            JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
+            HellLabCenter = tag.Get<Vector2>("HellLabCenter");
+            IceLabCenter = tag.Get<Vector2>("IceLabCenter");
         }
         #endregion
 
@@ -703,6 +769,9 @@ namespace CalamityMod.World
 				HasGeneratedLuminitePlanetoids = flags11[1];
 				downedAdultEidolonWyrm = flags11[2];
 				downedExoMechs = flags11[3];
+				downedAres = flags11[4];
+				downedThanatos = flags11[5];
+				downedArtemisAndApollo = flags11[6];
             }
             else
             {
@@ -820,6 +889,9 @@ namespace CalamityMod.World
 			flags11[1] = HasGeneratedLuminitePlanetoids;
 			flags11[2] = downedAdultEidolonWyrm;
 			flags11[3] = downedExoMechs;
+			flags11[4] = downedAres;
+			flags11[5] = downedThanatos;
+			flags11[6] = downedArtemisAndApollo;
 
 			writer.Write(flags);
             writer.Write(flags2);
@@ -832,10 +904,21 @@ namespace CalamityMod.World
             writer.Write(flags9);
             writer.Write(flags10);
             writer.Write(flags11);
+
+            RecipeUnlockHandler.SendData(writer);
+
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
+            writer.Write(DraedonSummonCountdown);
+            writer.Write((int)DraedonMechToSummon);
+            writer.WriteVector2(DraedonSummonPosition);
+            writer.WriteVector2(SunkenSeaLabCenter);
+            writer.WriteVector2(PlanetoidLabCenter);
+            writer.WriteVector2(JungleLabCenter);
+            writer.WriteVector2(HellLabCenter);
+            writer.WriteVector2(IceLabCenter);
         }
         #endregion
 
@@ -943,16 +1026,29 @@ namespace CalamityMod.World
             _ = flags10[6];
             _ = flags10[7];
 
+            RecipeUnlockHandler.ReceiveData(reader);
+
 			BitsByte flags11 = reader.ReadByte();
 			malice = flags11[0];
 			HasGeneratedLuminitePlanetoids = flags11[1];
 			downedAdultEidolonWyrm = flags11[2];
 			downedExoMechs = flags11[3];
+			downedAres = flags11[4];
+			downedThanatos = flags11[5];
+			downedArtemisAndApollo = flags11[6];
 
 			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
+            DraedonSummonCountdown = reader.ReadInt32();
+            DraedonMechToSummon = (ExoMech)reader.ReadInt32();
+            DraedonSummonPosition = reader.ReadVector2();
+            SunkenSeaLabCenter = reader.ReadVector2();
+            PlanetoidLabCenter = reader.ReadVector2();
+            JungleLabCenter = reader.ReadVector2();
+            HellLabCenter = reader.ReadVector2();
+            IceLabCenter = reader.ReadVector2();
         }
         #endregion
 
@@ -990,6 +1086,10 @@ namespace CalamityMod.World
         {
             numAbyssIslands = 0;
             roxShrinePlaced = false;
+
+            // This will only be applied at world-gen time to new worlds.
+            // Old worlds will never receive this marker naturally.
+            IsWorldAfterDraedonUpdate = true;
         }
         #endregion
 

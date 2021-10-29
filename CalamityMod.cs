@@ -84,6 +84,7 @@ namespace CalamityMod
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
 		public static ModHotKey GodSlayerDashHotKey;
+        public static ModHotKey ExoChairSpeedupHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -182,8 +183,9 @@ namespace CalamityMod
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
 			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
+            ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
 
-			if (!Main.dedServ)
+            if (!Main.dedServ)
                 LoadClient();
 
             ILChanges.Load();
@@ -266,6 +268,12 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
+            Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
+
+            Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
@@ -275,7 +283,14 @@ namespace CalamityMod
             RipperUI.Load();
             AstralArcanumUI.Load(this);
 
+            Apollo.LoadHeadIcons();
+            Artemis.LoadHeadIcons();
+            Polterghast.LoadHeadIcons();
             SupremeCalamitas.LoadHeadIcons();
+            ThanatosHead.LoadHeadIcons();
+            ThanatosBody1.LoadHeadIcons();
+            ThanatosBody2.LoadHeadIcons();
+            ThanatosTail.LoadHeadIcons();
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
@@ -544,10 +559,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMindP2>(), 5400 },
                 { ModContent.NPCType<PerforatorHive>(), 7200 },
                 { ModContent.NPCType<SlimeGodCore>(), 10800 },
-                { ModContent.NPCType<SlimeGod>(), 3600 },
-                { ModContent.NPCType<SlimeGodRun>(), 3600 },
-                { ModContent.NPCType<SlimeGodSplit>(), 3600 },
-                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
+                { ModContent.NPCType<SlimeGod>(), 5400 },
+                { ModContent.NPCType<SlimeGodRun>(), 5400 },
+                { ModContent.NPCType<SlimeGodSplit>(), 5400 },
+                { ModContent.NPCType<SlimeGodRunSplit>(), 5400 },
                 { ModContent.NPCType<Cryogen>(), 10800 },
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -821,13 +836,45 @@ namespace CalamityMod
                             priority = MusicPriority.BossMedium;
                         }
                     }
+
+                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
+                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
+                    /*
+                    if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
+                    {
+                        music = BossRushEvent.MusicToPlay;
+                        priority = MusicPriority.BossHigh;
+                    }
+                    */
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region Mod Support
-        public override void PostSetupContent() => WeakReferenceSupport.Setup();
+		#region Lighting Effects
+		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+		{
+            if (Main.gameMenu)
+                BossRushEvent.StartTimer = 0;
+
+            if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
+            {
+                backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+                tileColor = Color.Lerp(tileColor, Color.LightGray, BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime);
+            }
+            else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
+            {
+                float intensity = SkyManager.Instance["CalamityMod:ExoMechs"].Opacity;
+                backgroundColor = Color.Lerp(backgroundColor, Color.DarkGray, intensity * 0.9f);
+                backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
+                tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
+                tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
+            }
+        }
+		#endregion
+
+		#region Mod Support
+		public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
         #endregion
@@ -920,11 +967,26 @@ namespace CalamityMod
                     CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
+                
+                // Codebreaker UI.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
+                {
+                    CodebreakerUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
 
                 // Popup GUIs.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
                 {
                     PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Exo Mech selection.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Exo Mech Selection", () =>
+                {
+                    if (Main.LocalPlayer.Calamity().AbleToSelectExoMech)
+                        ExoMechSelectionUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
             }

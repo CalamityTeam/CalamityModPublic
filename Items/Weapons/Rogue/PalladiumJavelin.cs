@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 44;
-            item.damage = 50;
+            item.damage = 68;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PalladiumBar);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 20);
+            recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }
     }

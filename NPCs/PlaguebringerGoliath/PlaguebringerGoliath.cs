@@ -107,25 +107,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.width = npc.frame.Width / 2;
             npc.height = (int)(npc.frame.Height * (charging ? 1.5f : 1.8f));
 
+			// Mode variables
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			// Increase aggression if player is taking a long time to kill the boss
-			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
-				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			if (revenge)
+			{
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+			}
 
 			// Phases
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.25f;
 			bool phase5 = lifeRatio < 0.1f;
-
-			// Mode variables
-			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || malice;
-			bool revenge = CalamityWorld.revenge || malice;
-            bool expertMode = Main.expertMode || malice;
 
 			// Adjust slowing debuff immunity
 			bool immuneToSlowingDebuffs = npc.ai[0] == 0f || npc.ai[0] == 4f;
@@ -1245,9 +1248,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     DropHelper.WeightStack<InfectedRemote>(w),
                     DropHelper.WeightStack<TheSyringe>(w)
                 );
-
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

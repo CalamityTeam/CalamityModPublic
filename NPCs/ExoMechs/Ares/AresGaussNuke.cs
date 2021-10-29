@@ -1,5 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
-	//[AutoloadBossHead]
 	public class AresGaussNuke : ModNPC
     {
 		public enum Phase
@@ -27,6 +27,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			get => npc.Calamity().newAI[0];
 			set => npc.Calamity().newAI[0] = value;
 		}
+
+		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 9;
@@ -47,14 +49,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private const float defaultLifeRatio = 5f;
 
 		// Total duration of the gauss nuke telegraph
-		private const float gaussNukeTelegraphDuration = 360f;
+		private const float gaussNukeTelegraphDuration = 216f;
 
 		// Total duration of the gauss nuke firing phase
-		private const float gaussNukeReloadDuration = 600f;
+		private const float gaussNukeReloadDuration = 360f;
 
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("XF-09 Ares Gauss Nuke");
+			NPCID.Sets.TrailingMode[npc.type] = 3;
+			NPCID.Sets.TrailCacheLength[npc.type] = npc.oldPos.Length;
 		}
 
         public override void SetDefaults()
@@ -64,14 +68,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.width = 170;
             npc.height = 120;
             npc.defense = 80;
-			npc.DR_NERD(0.25f);
-			npc.LifeMaxNERB(1000000, 1150000, 500000);
+			npc.DR_NERD(0.35f);
+			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
             aiType = -1;
 			npc.Opacity = 0f;
             npc.knockBackResist = 0f;
+			npc.canGhostHeal = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -85,7 +90,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			writer.Write(frameX);
 			writer.Write(frameY);
-			writer.Write(npc.chaseable);
             writer.Write(npc.dontTakeDamage);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
@@ -95,15 +99,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
-			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
 			{
@@ -125,6 +130,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinsAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
@@ -133,8 +139,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+				{
 					otherExoMechsAlive++;
+					exoTwinsAlive = true;
+				}
 			}
+
+			// Used to nerf Ares if fighting alongside Artemis and Apollo, because otherwise it's too difficult
+			bool nerfedAttacks = false;
+			if (exoTwinsAlive)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[1] != (float)Apollo.Apollo.SecondaryPhase.PassiveAndImmune;
 
 			// Phases
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -149,43 +163,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (npc.life > Main.npc[(int)npc.ai[1]].life)
 				npc.life = Main.npc[(int)npc.ai[1]].life;
 
-			// Despawn if target is dead
-			bool targetDead = false;
-			if (player.dead)
-			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
-				if (player.dead)
-				{
-					targetDead = true;
-
-					AIState = (float)Phase.Nothing;
-					calamityGlobalNPC.newAI[1] = 0f;
-					calamityGlobalNPC.newAI[2] = 0f;
-
-					npc.velocity.Y -= 2f;
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-						npc.velocity.Y -= 2f;
-
-					if ((double)npc.position.Y < Main.topWorld + 16f)
-					{
-						for (int a = 0; a < Main.maxNPCs; a++)
-						{
-							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
-								Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
-								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() ||
-								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
-								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
-								Main.npc[a].active = false;
-						}
-					}
-				}
-			}
-
 			CalamityGlobalNPC calamityGlobalNPC_Body = Main.npc[(int)npc.ai[2]].Calamity();
 
 			// Passive phase check
 			bool passivePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.Passive;
+
+			// Enrage check
+			bool enraged = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes;
 
 			// Adjust opacity
 			bool invisiblePhase = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -205,6 +189,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Predictiveness
 			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			if (nerfedAttacks)
+				predictionAmt *= 0.5f;
 			if (passivePhase)
 				predictionAmt *= 0.5f;
 
@@ -243,16 +229,49 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Light
-			Lighting.AddLight(npc.Center, 0.2f, 0.25f, 0.05f);
+			if (enraged)
+				Lighting.AddLight(npc.Center, 0.5f * npc.Opacity, 0f, 0f);
+			else
+				Lighting.AddLight(npc.Center, 0.2f * npc.Opacity, 0.25f * npc.Opacity, 0.05f * npc.Opacity);
+
+			// Despawn if target is dead
+			if (player.dead)
+			{
+				player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechPrime].target];
+				if (player.dead)
+				{
+					AIState = (float)Phase.Nothing;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.dontTakeDamage = true;
+
+					npc.velocity.Y -= 1f;
+					if ((double)npc.position.Y < Main.topWorld + 16f)
+						npc.velocity.Y -= 1f;
+
+					if ((double)npc.position.Y < Main.topWorld + 16f)
+					{
+						for (int a = 0; a < Main.maxNPCs; a++)
+						{
+							if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+								Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
+								Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<Apollo.Apollo>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
+								Main.npc[a].type == ModContent.NPCType<ThanatosBody2>() || Main.npc[a].type == ModContent.NPCType<ThanatosTail>())
+								Main.npc[a].active = false;
+						}
+					}
+
+					return;
+				}
+			}
 
 			// Default vector to fly to
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
 
 			// Velocity and acceleration values
-			float baseVelocityMult = malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f;
-			float baseVelocity = 16f * baseVelocityMult;
-			if (berserk)
-				baseVelocity *= 1.5f;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
+			float baseVelocity = (enraged ? 30f : 22f) * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 
@@ -260,11 +279,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float movementDistanceGateValue = 50f;
 
 			// Gate values
-			float gaussNukePhaseGateValue = 600f;
-			if (lastMechAlive)
-				gaussNukePhaseGateValue *= 0.7f;
+			float gaussNukePhaseGateValue = 750f;
+			if (enraged)
+				gaussNukePhaseGateValue *= 0.05f;
+			else if (lastMechAlive)
+				gaussNukePhaseGateValue *= 0.1f;
 			else if (berserk)
-				gaussNukePhaseGateValue *= 0.85f;
+				gaussNukePhaseGateValue *= 0.45f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;
@@ -274,6 +295,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				calamityGlobalNPC.newAI[1] = 0f;
 				calamityGlobalNPC.newAI[2] = 0f;
 			}
+
+			// Emit steam while enraged
+			SmokeDrawer.ParticleSpawnRate = 9999999;
+			if (enraged)
+			{
+				SmokeDrawer.ParticleSpawnRate = AresBody.ventCloudSpawnRate;
+				SmokeDrawer.BaseMoveRotation = npc.rotation + MathHelper.Pi;
+				SmokeDrawer.SpawnAreaCompactness = 40f;
+
+				// Increase DR during enrage
+				npc.Calamity().DR = 0.85f;
+			}
+			else
+				npc.Calamity().DR = 0.35f;
+
+			SmokeDrawer.Update();
 
 			// Attacking phases
 			switch ((int)AIState)
@@ -293,59 +330,57 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Fire gauss nuke that emits a wave pounder stealth strike-size explosion on death
 				case (int)Phase.GaussNuke:
 
-					if (!targetDead)
+					calamityGlobalNPC.newAI[2] += 1f;
+					float telegraphDuration = enraged ? (gaussNukeTelegraphDuration * 0.5f) : gaussNukeTelegraphDuration;
+					if (calamityGlobalNPC.newAI[2] < telegraphDuration)
 					{
-						calamityGlobalNPC.newAI[2] += 1f;
-						if (calamityGlobalNPC.newAI[2] < gaussNukeTelegraphDuration)
+						// Set frames to gauss nuke charge up frames, which begin on frame 12
+						if (calamityGlobalNPC.newAI[2] == 1f)
 						{
-							// Set frames to gauss nuke charge up frames, which begin on frame 12
-							if (calamityGlobalNPC.newAI[2] == 1f)
-							{
-								// Reset the frame counter
-								npc.frameCounter = 0D;
-
-								// X = 1 sets to frame 12
-								frameX = 1;
-
-								// Y = 0 sets to frame 12
-								frameY = 0;
-							}
-
-							// Fire gauss nuke on frame 41
-							if ((frameX * maxFramesY) + frameY == 41 && calamityGlobalNPC.newAI[1] == 0f)
-							{
-								calamityGlobalNPC.newAI[1] = 1f;
-
-								if (Main.netMode != NetmodeID.MultiplayerClient)
-								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
-									Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
-									int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
-									int damage = npc.GetProjectileDamage(type);
-									float offset = 40f;
-									Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
-
-									// Recoil
-									npc.velocity -= gaussNukeVelocity;
-								}
-							}
-						}
-						else
-						{
-							// Set frames to gauss nuke reload frames, which begin on frame 48
-							AIState = (float)Phase.Reload;
-							calamityGlobalNPC.newAI[1] = 0f;
-							calamityGlobalNPC.newAI[2] = 0f;
-
 							// Reset the frame counter
 							npc.frameCounter = 0D;
 
-							// X = 1 sets to frame 48
-							frameX = 4;
+							// X = 1 sets to frame 12
+							frameX = 1;
 
-							// Y = 0 sets to frame 48
+							// Y = 0 sets to frame 12
 							frameY = 0;
 						}
+
+						// Fire gauss nuke on frame 41
+						if ((frameX * maxFramesY) + frameY == 41 && calamityGlobalNPC.newAI[1] == 0f)
+						{
+							calamityGlobalNPC.newAI[1] = 1f;
+
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
+								Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
+								int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
+								int damage = npc.GetProjectileDamage(type);
+								float offset = 40f;
+								Projectile.NewProjectile(npc.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+
+								// Recoil
+								npc.velocity -= gaussNukeVelocity;
+							}
+						}
+					}
+					else
+					{
+						// Set frames to gauss nuke reload frames, which begin on frame 48
+						AIState = (float)Phase.Reload;
+						calamityGlobalNPC.newAI[1] = 0f;
+						calamityGlobalNPC.newAI[2] = 0f;
+
+						// Reset the frame counter
+						npc.frameCounter = 0D;
+
+						// X = 1 sets to frame 48
+						frameX = 4;
+
+						// Y = 0 sets to frame 48
+						frameY = 0;
 					}
 
 					break;
@@ -353,36 +388,33 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				case (int)Phase.Reload:
 
 					calamityGlobalNPC.newAI[2] += 1f;
-					if (calamityGlobalNPC.newAI[2] >= gaussNukeReloadDuration)
+					float reloadDuration = enraged ? (gaussNukeReloadDuration * 0.5f) : gaussNukeReloadDuration;
+					if (calamityGlobalNPC.newAI[2] >= reloadDuration)
 					{
 						AIState = (float)Phase.Nothing;
 						calamityGlobalNPC.newAI[2] = 0f;
-						npc.TargetClosest();
 					}
 
 					break;
 			}
 
 			// Movement
-			if (!targetDead)
-			{
-				// Inverse lerp returns the percentage of progress between A and B
-				float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+			// Inverse lerp returns the percentage of progress between A and B
+			float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
-				// Min velocity
-				float minVelocity = distanceFromDestination.Length();
-				float minVelocityCap = baseVelocity;
-				if (minVelocity > minVelocityCap)
-					minVelocity = minVelocityCap;
+			// Min velocity
+			float minVelocity = distanceFromDestination.Length();
+			float minVelocityCap = baseVelocity;
+			if (minVelocity > minVelocityCap)
+				minVelocity = minVelocityCap;
 
-				// Max velocity
-				Vector2 maxVelocity = distanceFromDestination / 24f;
-				float maxVelocityCap = minVelocityCap * 3f;
-				if (maxVelocity.Length() > maxVelocityCap)
-					maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+			// Max velocity
+			Vector2 maxVelocity = distanceFromDestination / 24f;
+			float maxVelocityCap = minVelocityCap * 3f;
+			if (maxVelocity.Length() > maxVelocityCap)
+				maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-				npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-			}
+			npc.velocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -393,9 +425,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			// Use telegraph frames when using gauss nuke
 			npc.frameCounter += 1D;
+			double frameTime = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes ? 3D : 6D;
 			if (AIState == (float)Phase.Nothing)
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= frameTime)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
@@ -417,7 +450,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 			else
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= frameTime)
 				{
 					// Reset frame counter
 					npc.frameCounter = 0D;
@@ -441,6 +474,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			// Draw the enrage smoke behind Ares
+			SmokeDrawer.DrawSet(npc.Center);
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -448,7 +484,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = Color.White;
+			Color afterimageBaseColor = Main.npc[(int)npc.ai[2]].localAI[1] == (float)AresBody.Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -460,9 +496,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, spriteEffects, 0f);
 				}
 			}
 
@@ -480,13 +516,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					afterimageColor = npc.GetAlpha(afterimageColor);
 					afterimageColor *= (numAfterimages - i) / 15f;
 					Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					afterimageCenter -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
 					afterimageCenter += vector * npc.scale + new Vector2(0f, npc.gfxOffY);
-					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.oldRot[i], vector, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

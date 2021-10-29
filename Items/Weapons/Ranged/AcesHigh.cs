@@ -51,12 +51,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Revolver);
             recipe.AddIngredient(ModContent.ItemType<ClaretCannon>());
-            recipe.AddIngredient(ModContent.ItemType<Spyker>());
-            recipe.AddIngredient(ModContent.ItemType<Fungicide>());
             recipe.AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 6);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

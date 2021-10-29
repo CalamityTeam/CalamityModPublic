@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Legs)]
+    [AutoloadEquip(EquipType.Legs)]
     public class AuricTeslaCuisses : ModItem
     {
         public override void SetStaticDefaults()
@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 14);
-			recipe.AddIngredient(ItemID.FlyingCarpet);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
+            recipe.AddIngredient(ItemID.FlyingCarpet);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

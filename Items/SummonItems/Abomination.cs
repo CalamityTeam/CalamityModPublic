@@ -13,19 +13,19 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne jungle abomination\n" +
-                "Summons the Plaguebringer Goliath");
+                "Summons the Plaguebringer Goliath\n" +
+                "Not consumable");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 18;
-            item.maxStack = 20;
             item.rare = ItemRarityID.Yellow;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -47,10 +47,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
-            recipe.AddIngredient(ItemID.IronBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20);
+            recipe.AddIngredient(ItemID.IronBar, 8);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Stinger, 2);
+            recipe.AddIngredient(ItemID.Stinger, 5);
             recipe.AddIngredient(ItemID.Obsidian, 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

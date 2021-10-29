@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 21;
 			projectile.frameCounter = 0;
-			//projectile.Calamity().trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

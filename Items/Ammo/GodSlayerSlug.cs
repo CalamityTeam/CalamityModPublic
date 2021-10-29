@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,10 +12,9 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Slug");
-            Tooltip.SetDefault("Pierces through unlimited targets\n" +
-                "After striking at least one enemy,\n" +
-                "if the bullet hits a wall or runs out of targets,\n" +
-                "it will warp backwards through space and explode on impact");
+            Tooltip.SetDefault("Heavy ammunition with unlimited piercing that tears through spacetime\n" +
+                "After a slug lands a hit, if it strikes a wall or runs out of targets to pierce,\n" +
+                "it warps backwards through space and supercharges, exploding on impact");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Ammo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }

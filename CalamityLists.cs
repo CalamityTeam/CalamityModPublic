@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -36,6 +37,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
@@ -75,7 +77,6 @@ namespace CalamityMod
     public class CalamityLists
     {
         public static IList<string> donatorList;
-        public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
         public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
@@ -152,14 +153,17 @@ namespace CalamityMod
         public static List<int> minibossList;
 		public static List<int> heartDropBlockList;
 		public static List<int> pierceResistList;
+		public static List<int> pierceResistExceptionList;
 
-        public static List<int> legOverrideList;
+		public static List<int> legOverrideList;
 
         public static List<int> kamiDebuffColorImmuneList;
 
         public static List<int> MinionsToNotResurrectList;
         public static List<int> ZeroMinionSlotExceptionList;
         public static List<int> DontCopyOriginalMinionAIList;
+
+        public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
         public static void LoadLists()
         {
@@ -510,73 +514,6 @@ namespace CalamityMod
 				"James"
 			};
 
-            trueMeleeProjectileList = new List<int>()
-            {
-                // Vanilla shit
-                ProjectileID.Spear,
-                ProjectileID.Trident,
-                ProjectileID.TheRottedFork,
-                ProjectileID.Swordfish,
-                ProjectileID.Arkhalis,
-                ProjectileID.DarkLance,
-                ProjectileID.CobaltNaginata,
-                ProjectileID.PalladiumPike,
-                ProjectileID.MythrilHalberd,
-                ProjectileID.OrichalcumHalberd,
-                ProjectileID.AdamantiteGlaive,
-                ProjectileID.TitaniumTrident,
-                ProjectileID.MushroomSpear,
-                ProjectileID.Gungnir,
-                ProjectileID.ObsidianSwordfish,
-                ProjectileID.MonkStaffT1,
-                ProjectileID.MonkStaffT2,
-
-                // Tools
-                ProjectileID.CobaltDrill,
-                ProjectileID.MythrilDrill,
-                ProjectileID.AdamantiteDrill,
-                ProjectileID.PalladiumDrill,
-                ProjectileID.OrichalcumDrill,
-                ProjectileID.TitaniumDrill,
-                ProjectileID.ChlorophyteDrill,
-                ProjectileID.CobaltChainsaw,
-                ProjectileID.MythrilChainsaw,
-                ProjectileID.AdamantiteChainsaw,
-                ProjectileID.PalladiumChainsaw,
-                ProjectileID.OrichalcumChainsaw,
-                ProjectileID.TitaniumChainsaw,
-                ProjectileID.ChlorophyteChainsaw,
-                ProjectileID.VortexDrill,
-                ProjectileID.VortexChainsaw,
-                ProjectileID.NebulaDrill,
-                ProjectileID.NebulaChainsaw,
-                ProjectileID.SolarFlareDrill,
-                ProjectileID.SolarFlareChainsaw,
-                ProjectileID.StardustDrill,
-                ProjectileID.StardustChainsaw,
-                ProjectileID.Hamdrax,
-                ProjectileID.ChlorophyteJackhammer,
-                ProjectileID.SawtoothShark,
-                ProjectileID.ButchersChainsaw,
-
-                // Calamity shit
-                ProjectileType<DevilsSunriseProj>(),
-                ProjectileType<MarniteObliteratorProj>(),
-                ProjectileType<MurasamaSlash>(),
-                ProjectileType<AstralPikeProj>(),
-                ProjectileType<BrimlanceProj>(),
-                ProjectileType<DiseasedPikeSpear>(),
-                ProjectileType<ExsanguinationLanceProjectile>(),
-                ProjectileType<FulgurationHalberdProj>(),
-                ProjectileType<GildedProboscisProj>(),
-                ProjectileType<MarniteSpearProjectile>(),
-                ProjectileType<SausageMakerSpear>(),
-                ProjectileType<YateveoBloomSpear>(),
-                ProjectileType<HydraulicVoltCrasherProjectile>(),
-                ProjectileType<DragonRageStaff>(),
-                ProjectileType<TaintedBladeSlasher>()
-            };
-
             rangedProjectileExceptionList = new List<int>()
             {
                 ProjectileID.Phantasm,
@@ -658,15 +595,23 @@ namespace CalamityMod
                 ProjectileType<FinalDawnHorizontalSlash>(),
                 ProjectileType<FinalDawnFireSlash>(),
 
-                //Some hostile boss projectiles
+                // Some hostile boss projectiles
+				ProjectileID.SaucerDeathray,
+				ProjectileID.PhantasmalDeathray,
+
                 ProjectileType<BrimstoneMonster>(),
                 ProjectileType<InfernadoRevenge>(),
                 ProjectileType<OverlyDramaticDukeSummoner>(),
                 ProjectileType<ProvidenceHolyRay>(),
                 ProjectileType<OldDukeVortex>(),
                 ProjectileType<BrimstoneRay>(),
-                ProjectileType<BrimstoneTargetRay>()
-            };
+				ProjectileType<AresDeathBeamStart>(),
+				ProjectileType<AresGaussNukeProjectileBoom>(),
+				ProjectileType<AresLaserBeamStart>(),
+				ProjectileType<ArtemisLaserBeamStart>(),
+				ProjectileType<BirbAura>(),
+				ProjectileType<ThanatosBeamStart>()
+			};
 
             projectileMinionList = new List<int>()
             {
@@ -2001,7 +1946,11 @@ namespace CalamityMod
                 NPCType<DevourerofGodsTailS>(),
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
-				NPCType<ThanatosTail>()
+				NPCType<ThanatosTail>(),
+				NPCType<AresLaserCannon>(),
+				NPCType<AresTeslaCannon>(),
+				NPCType<AresPlasmaFlamethrower>(),
+				NPCType<AresGaussNuke>()
 			};
 
             needsDebuffIconDisplayList = new List<int>()
@@ -2768,7 +2717,56 @@ namespace CalamityMod
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
 				NPCType<ThanatosTail>(),
-				NPCType<BrimstoneHeart>()
+				NPCType<BrimstoneHeart>(),
+				NPCType<AresBody>(),
+				NPCType<AresLaserCannon>(),
+				NPCType<AresTeslaCannon>(),
+				NPCType<AresPlasmaFlamethrower>(),
+				NPCType<AresGaussNuke>()
+			};
+
+			pierceResistExceptionList = new List<int>()
+			{
+				ProjectileID.FlyingKnife,
+				ProjectileID.Arkhalis,
+				ProjectileID.MonkStaffT3,
+				ProjectileType<FlakKrakenProj>(),
+				ProjectileType<MurasamaSlash>(),
+				ProjectileType<OmnibladeSwing>(),
+				ProjectileType<DragonRageStaff>(),
+				ProjectileType<YateveoBloomProj>(),
+				ProjectileType<UrchinBall>(),
+				ProjectileType<TyphonsGreedStaff>(),
+				ProjectileType<DevilsSunriseProj>(),
+				ProjectileType<DevilsSunriseCyclone>(),
+				ProjectileType<PhaseslayerProjectile>(),
+				ProjectileType<TaserHook>(),
+				ProjectileType<Snowflake>(),
+				ProjectileType<InsidiousHarpoon>(),
+				ProjectileType<PhotonRipperProjectile>(),
+				ProjectileType<AcidicSaxBubble>(),
+				ProjectileType<WaterLeechProj>(),
+				ProjectileType<BonebreakerProjectile>(),
+				ProjectileType<UrchinBallSpike>(),
+				ProjectileType<EmesisGore>(),
+				ProjectileType<ExoLightBurst>(),
+				ProjectileType<SulphuricAcidBubble2>(),
+				ProjectileType<EclipsesStealth>(),
+				ProjectileType<EradicatorProjectile>(),
+				ProjectileType<FantasyTalismanProj>(),
+				ProjectileType<FantasyTalismanStealth>(),
+				ProjectileType<GodsParanoiaProj>(),
+				ProjectileType<JawsProjectile>(),
+				ProjectileType<LeviathanTooth>(),
+				ProjectileType<LionfishProj>(),
+				ProjectileType<MetalShard>(),
+				ProjectileType<NastyChollaBol>(),
+				ProjectileType<SacrificeProjectile>(),
+				ProjectileType<SnapClamProj>(),
+				ProjectileType<SnapClamStealth>(),
+				ProjectileType<StickyBol>(),
+				ProjectileType<UrchinStingerProj>(),
+				ProjectileType<EyeOfNightCell>()
 			};
 
 			bossMinionList = new List<int>()
@@ -2910,12 +2908,19 @@ namespace CalamityMod
             {
                 ProjectileType<GammaHead>()
             };
+
+            EncryptedSchematicIDRelationship = new Dictionary<int, int>()
+            {
+                [1] = ItemType<EncryptedSchematicPlanetoid>(),
+                [2] = ItemType<EncryptedSchematicJungle>(),
+                [3] = ItemType<EncryptedSchematicHell>(),
+                [4] = ItemType<EncryptedSchematicIce>(),
+            };
         }
 
         public static void UnloadLists()
         {
             donatorList = null;
-            trueMeleeProjectileList = null;
             rangedProjectileExceptionList = null;
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
@@ -2992,14 +2997,17 @@ namespace CalamityMod
             minibossList = null;
 			heartDropBlockList = null;
 			pierceResistList = null;
+			pierceResistExceptionList = null;
 
-            legOverrideList = null;
+			legOverrideList = null;
 
             kamiDebuffColorImmuneList = null;
 
             MinionsToNotResurrectList = null;
             ZeroMinionSlotExceptionList = null;
             DontCopyOriginalMinionAIList = null;
+
+            EncryptedSchematicIDRelationship = null;
         }
     }
 }

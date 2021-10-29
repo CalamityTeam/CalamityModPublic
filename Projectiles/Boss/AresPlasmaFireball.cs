@@ -9,27 +9,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AresPlasmaFireball : ModProjectile
-    {
-		private const int timeLeft = 180;
+	public class AresPlasmaFireball : ModProjectile
+	{
+		private const int timeLeft = 120;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Plasma Fireball");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Volatile Plasma Blast");
+			Main.projFrames[projectile.type] = 6;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
-        public override void SetDefaults()
-        {
+		public override void SetDefaults()
+		{
 			projectile.Calamity().canBreakPlayerDefense = true;
 			projectile.width = 36;
-            projectile.height = 36;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
+			projectile.height = 36;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-            projectile.penetrate = -1;
+			projectile.penetrate = -1;
 			projectile.Opacity = 0f;
 			cooldownSlot = 1;
 			projectile.timeLeft = timeLeft;
@@ -47,10 +47,13 @@ namespace CalamityMod.Projectiles.Boss
 		}
 
 		public override void AI()
-        {
-			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-				projectile.tileCollide = true;
+		{
+			if (projectile.ai[0] != -1f)
+			{
+				Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+				if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+					projectile.tileCollide = true;
+			}
 
 			int fadeInTime = 3;
 			projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (timeLeft - fadeInTime)) / (float)fadeInTime), 0f, 1f);
@@ -58,15 +61,15 @@ namespace CalamityMod.Projectiles.Boss
 			Lighting.AddLight(projectile.Center, 0f, 0.6f * projectile.Opacity, 0f);
 
 			projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 5)
-                projectile.frame = 0;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 5)
+				projectile.frame = 0;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
 
 			if (projectile.localAI[0] == 0f)
 			{
@@ -121,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
 					dust = Main.dust[num56];
 				}
 			}
-        }
+		}
 
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
@@ -134,14 +137,14 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(BuffID.CursedInferno, 180);
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
 			lightColor.R = (byte)(255 * projectile.Opacity);
 			lightColor.G = (byte)(255 * projectile.Opacity);
 			lightColor.B = (byte)(255 * projectile.Opacity);
 			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
-            return false;
-        }
+			return false;
+		}
 
 		public override void Kill(int timeLeft)
 		{
@@ -157,9 +160,14 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				// Plasma bolts
 				int totalProjectiles = CalamityWorld.malice ? 12 : 8;
+
+				// Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
+				if (projectile.ai[0] == -1f)
+					totalProjectiles /= 2;
+
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int type = ModContent.ProjectileType<AresPlasmaBolt>();
-				float velocity = projectile.velocity.Length();
+				float velocity = 0.5f;
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));

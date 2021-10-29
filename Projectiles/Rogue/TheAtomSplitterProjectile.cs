@@ -1,4 +1,3 @@
-using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -12,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         // Atom splitting is cool and all, but actual thermonuclear meltdown levels of DPS is unacceptable.
         // DO NOT increase this unless you are ABSOLUTELY SURE you know what will happen.
         private const float NormalSplitMultiplier = 0.7f;
-        private const float StealthSplitMultiplier = 0.12f;
+        private const float StealthSplitMultiplier = 0.144f;
         
         public ref float HitTargetIndex => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];
@@ -87,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
             float dustVelocityArcOffset = 1.5f + (float)Math.Sin(MathHelper.TwoPi * projectile.timeLeft / 35f) * 0.25f;
 
             float colorInterpolant = (float)Math.Cos(MathHelper.TwoPi * projectile.timeLeft / 75f) * 0.5f + 0.5f;
-            Color dustColor = CalamityUtils.MulticolorLerp(colorInterpolant, CalamityGlobalItem.ExoPalette);
+            Color dustColor = CalamityUtils.MulticolorLerp(colorInterpolant, CalamityUtils.ExoPalette);
             Vector2 currentDirection = projectile.velocity.SafeNormalize(-Vector2.UnitY);
             Vector2 tipPosition = projectile.Center + currentDirection * (projectile.height * 0.67f - 3f);
             tipPosition += Main.rand.NextVector2CircularEdge(0.35f, 0.35f);
@@ -139,7 +138,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             for (float i = 0f; i < dustCount; i++)
             {
-                Color dustColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityGlobalItem.ExoPalette);
+                Color dustColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
                 Dust explosionDust = Dust.NewDustDirect(spawnPosition, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
                 explosionDust.position = spawnPosition;
                 explosionDust.velocity = baseDustVelocity.RotatedBy(MathHelper.TwoPi * i / dustCount) * outwardFireSpeedFactor * Main.rand.NextFloat(0.8f, 1.2f);

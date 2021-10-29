@@ -50,11 +50,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Vortexpopper>());
 			recipe.AddIngredient(ModContent.ItemType<GoldenEagle>());
 			recipe.AddIngredient(ModContent.ItemType<AMR>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

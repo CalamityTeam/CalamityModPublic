@@ -1,7 +1,9 @@
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			CalamityGlobalItem modItem = item.Calamity();
 
 			item.shootSpeed = 10f;
-			item.damage = 248;
+			item.damage = 310;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
@@ -80,13 +82,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return false;
 		}
 
+		public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 52);
+
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddTile(ModContent.TileType<CosmicAnvil>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

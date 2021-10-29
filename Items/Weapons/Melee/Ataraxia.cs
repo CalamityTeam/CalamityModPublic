@@ -136,10 +136,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 6);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.SetResult(this);
             r.AddRecipe();
         }

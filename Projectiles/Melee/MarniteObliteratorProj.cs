@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.hide = true;
             projectile.ownerHitCheck = true;
             projectile.melee = true;
-            //projectile.Calamity().trueMelee = true;
+            projectile.Calamity().trueMelee = true;
         }
     }
 }

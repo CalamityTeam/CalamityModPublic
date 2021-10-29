@@ -47,15 +47,17 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
             item.shootSpeed = 10f;
             item.summon = true;
+            item.Calamity().CannotBeEnchanted = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 40);
+            recipe.AddIngredient(ModContent.ItemType<Excelsus>());
             recipe.AddIngredient(ModContent.ItemType<CosmicViperEngine>());
             recipe.AddIngredient(ItemID.WingsVortex);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

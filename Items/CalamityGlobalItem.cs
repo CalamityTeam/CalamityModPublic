@@ -57,6 +57,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Enchantment Variables
+		public bool CannotBeEnchanted = false;
 		public Enchantment? AppliedEnchantment = null;
 		public float DischargeEnchantExhaustion = 0;
 		public float DischargeExhaustionRatio
@@ -80,18 +81,7 @@ namespace CalamityMod.Items
         public bool devItem = false;
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
-
-        public static readonly Color[] ExoPalette = new Color[]
-        {
-            new Color(250, 255, 112),
-            new Color(211, 235, 108),
-            new Color(166, 240, 105),
-            new Color(105, 240, 220),
-            new Color(64, 130, 145),
-            new Color(145, 96, 145),
-            new Color(242, 112, 73),
-            new Color(199, 62, 62),
-        };
+		public bool trueMelee = false;
 
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
@@ -144,6 +134,62 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
+				// Pickaxe speed boosts
+				case ItemID.CactusPickaxe:
+				case ItemID.CopperPickaxe:
+				case ItemID.TinPickaxe:
+					item.useTime = 13;
+					break;
+
+				case ItemID.IronPickaxe:
+				case ItemID.LeadPickaxe:
+					item.useTime = 12;
+					break;
+
+				case ItemID.SilverPickaxe:
+				case ItemID.TungstenPickaxe:
+					item.useTime = 11;
+					break;
+
+				case ItemID.GoldPickaxe:
+				case ItemID.PlatinumPickaxe:
+				case ItemID.CnadyCanePickaxe:
+				case ItemID.NightmarePickaxe:
+				case ItemID.DeathbringerPickaxe:
+				case ItemID.MoltenPickaxe:
+					item.useTime = 10;
+					break;
+
+				case ItemID.CobaltPickaxe:
+				case ItemID.PalladiumPickaxe:
+					item.useTime = 9;
+					break;
+
+				case ItemID.MythrilPickaxe:
+				case ItemID.OrichalcumPickaxe:
+				case ItemID.BonePickaxe: // Rare drop so it mines faster
+					item.useTime = 8;
+					break;
+
+				case ItemID.AdamantitePickaxe:
+				case ItemID.TitaniumPickaxe:
+				case ItemID.SpectrePickaxe: // Slightly less because it has more tile range
+					item.useTime = 7;
+					break;
+
+				case ItemID.PickaxeAxe:
+				case ItemID.ChlorophytePickaxe:
+					item.useTime = 6;
+					break;
+
+				case ItemID.Picksaw:
+				case ItemID.StardustPickaxe:
+				case ItemID.VortexPickaxe:
+				case ItemID.SolarFlarePickaxe:
+				case ItemID.NebulaPickaxe:
+					item.useTime = 5;
+					break;
+
 				// Point-blank shot weapons
 				case ItemID.WoodenBow:
 				case ItemID.BorealWoodBow:
@@ -214,6 +260,42 @@ namespace CalamityMod.Items
 				case ItemID.VortexBeater:
 				case ItemID.SDMG:
 					canFirePointBlankShots = true;
+					break;
+
+				// Set projectile true melee items to be true melee, this is so bosses know when the player is using a true melee projectile weapon
+				case ItemID.Spear:
+				case ItemID.Trident:
+				case ItemID.PalladiumPike:
+				case ItemID.ObsidianSwordfish:
+				case ItemID.CobaltDrill:
+				case ItemID.MythrilDrill:
+				case ItemID.AdamantiteDrill:
+				case ItemID.PalladiumDrill:
+				case ItemID.OrichalcumDrill:
+				case ItemID.TitaniumDrill:
+				case ItemID.ChlorophyteDrill:
+				case ItemID.CobaltChainsaw:
+				case ItemID.MythrilChainsaw:
+				case ItemID.AdamantiteChainsaw:
+				case ItemID.PalladiumChainsaw:
+				case ItemID.OrichalcumChainsaw:
+				case ItemID.TitaniumChainsaw:
+				case ItemID.ChlorophyteChainsaw:
+				case ItemID.VortexDrill:
+				case ItemID.VortexChainsaw:
+				case ItemID.NebulaDrill:
+				case ItemID.NebulaChainsaw:
+				case ItemID.SolarFlareDrill:
+				case ItemID.SolarFlareChainsaw:
+				case ItemID.StardustDrill:
+				case ItemID.StardustChainsaw:
+				case ItemID.Drax:
+				case ItemID.ChlorophyteJackhammer:
+				case ItemID.SawtoothShark:
+				case ItemID.Arkhalis:
+				case ItemID.ButchersChainsaw:
+				case ItemID.MonkStaffT2:
+					trueMelee = true;
 					break;
 
 				case ItemID.Dynamite:
@@ -325,6 +407,7 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.AdamantiteGlaive:
+					trueMelee = true;
 					item.damage = 65;
 					item.shootSpeed *= 1.25f;
 					break;
@@ -334,25 +417,30 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.CobaltNaginata:
+					trueMelee = true;
 					item.damage = 90;
 					break;
 
 				case ItemID.Gungnir:
+					trueMelee = true;
 					item.damage = 92;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.MythrilHalberd:
+					trueMelee = true;
 					item.damage = 95;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.OrichalcumHalberd:
+					trueMelee = true;
 					item.damage = 98;
 					item.shootSpeed *= 1.25f;
 					break;
 
 				case ItemID.TitaniumTrident:
+					trueMelee = true;
 					item.damage = 72;
 					item.shootSpeed *= 1.25f;
 					break;
@@ -362,18 +450,22 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.TheRottedFork:
+					trueMelee = true;
 					item.damage = 20;
 					break;
 
 				case ItemID.Swordfish:
+					trueMelee = true;
 					item.damage = 38;
 					break;
 
 				case ItemID.DarkLance:
+					trueMelee = true;
 					item.damage = 68;
 					break;
 
 				case ItemID.MushroomSpear:
+					trueMelee = true;
 					item.damage = 100;
 					break;
 
@@ -419,6 +511,7 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.MonkStaffT1:
+					trueMelee = true;
 					item.damage = 110;
 					break;
 
@@ -534,6 +627,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StarCannon:
 					item.UseSound = null;
+					break;
+
+				case ItemID.EoCShield:
+					CannotBeEnchanted = true;
 					break;
 			}
 
@@ -831,7 +928,7 @@ namespace CalamityMod.Items
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || canFirePointBlankShots || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -845,7 +942,8 @@ namespace CalamityMod.Items
 				["reforgeTier"] = reforgeTier,
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
 				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
-				["canFirePointBlankShots"] = canFirePointBlankShots
+				["canFirePointBlankShots"] = canFirePointBlankShots,
+				["trueMelee"] = trueMelee
 			};
         }
 
@@ -853,6 +951,7 @@ namespace CalamityMod.Items
         {
             rogue = tag.GetBool("rogue");
 			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
+			trueMelee = tag.GetBool("trueMelee");
 			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -886,6 +985,7 @@ namespace CalamityMod.Items
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
 				canFirePointBlankShots = flags[1];
+				trueMelee = flags[2];
 			}
             else
             {
@@ -898,6 +998,7 @@ namespace CalamityMod.Items
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
 			flags[1] = canFirePointBlankShots;
+			flags[2] = trueMelee;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -913,6 +1014,7 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
 			canFirePointBlankShots = flags[1];
+			trueMelee = flags[2];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
@@ -1159,7 +1261,7 @@ namespace CalamityMod.Items
 
                     // If you have enough charge, decrement charge on the spot because this hook runs exactly once every time you use an item.
                     // Mana has to be checked separately or you'll fail to use the weapon on a mana check later and still have consumed charge.
-                    if (player.CheckMana(item))
+                    if (player.CheckMana(item) && item.modItem.CanUseItem(player))
                         Charge -= chargeNeeded;
                 }
             }

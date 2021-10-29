@@ -1,7 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using System;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class HeliumFlash : ModItem
     {
+        internal const float ExplosionDamageMultiplier = 0.125f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helium Flash");
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.width = 76;
             item.height = 76;
             item.magic = true;
-            item.damage = 1111;
+            item.damage = 3875;
             item.knockBack = 9.5f;
             item.mana = 26;
             item.useAnimation = 37;
@@ -42,6 +43,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 15f;
         }
 
+        // TODO -- Fancy visual flare doesn't work with resprited Helium Flash, adjust dust positions
+        /*
         // Creates dust at the tip of the staff when used.
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -89,18 +92,19 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             return true;
         }
+        */
 
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(TileID.LunarCraftingStation);
             r.AddIngredient(ModContent.ItemType<VenusianTrident>());
             r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
             r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ItemID.FragmentSolar, 20);
             r.AddIngredient(ItemID.FragmentNebula, 5);
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            r.AddTile(ModContent.TileType<CosmicAnvil>());
             r.AddRecipe();
         }
     }

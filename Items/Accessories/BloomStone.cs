@@ -1,8 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,122 +11,118 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Bloom Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "I don't know what else this should do, pls help\n" +
-                "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt");
+                "You quickly regenerate life while on the ground\n" +
+                "This effect works best during daytime\n" +
+                "Flowers grow if you are standing on grass\n" +
+                "Random dye plants will grow while standing on grassless dirt");
         }
 
         public override void SetDefaults()
         {
             item.width = 38;
             item.height = 54;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
 
-			//Flower Boots code
+            // Provide life benefits if the player is standing on ground and has typical gravity.
+            int x = (int)player.Center.X / 16;
+            int y = (int)(player.Bottom.Y - 1f) / 16;
+            Tile groundTile = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
+            bool groundTileIsSolid = groundTile.nactive() && (Main.tileSolid[groundTile.type] || Main.tileSolidTop[groundTile.type]);
+            if (groundTileIsSolid && player.gravDir == 1f)
+                modPlayer.BloomStoneRegen = true;
+
+            // Flower boots effects.
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
-                int x = (int)player.Center.X / 16;
-                int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
-				Tile tile = Main.tile[x, y];
-                if (tile == null)
+                Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                if (!walkTile.active() && walkTile.liquid == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
                 {
-                    tile = new Tile();
-                }
-                if (!tile.active() && tile.liquid == 0 && Main.tile[x, y + 1] != null && WorldGen.SolidTile(x, y + 1))
-                {
-                    tile.frameY = 0;
-                    tile.slope(0);
-                    tile.halfBrick(false);
-					//On dirt blocks, there's a small chance to grow a dye plant
-                    if (Main.tile[x, y + 1].type == TileID.Dirt)
+                    walkTile.frameY = 0;
+                    walkTile.slope(0);
+                    walkTile.halfBrick(false);
+                    // On dirt blocks, there's a small chance to grow a dye plant.
+                    if (groundTile.type == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
                         {
-                            tile.active(true);
-                            tile.type = TileID.DyePlants;
-                            tile.frameX = (short)(34 * Main.rand.Next(1, 13));
-                            while (tile.frameX == 144)
-                            {
-                                tile.frameX = (short)(34 * Main.rand.Next(1, 13));
-                            }
+                            walkTile.active(true);
+                            walkTile.type = TileID.DyePlants;
+                            walkTile.frameX = (short)(34 * Main.rand.Next(1, 13));
+                            while (walkTile.frameX == 144)
+                                walkTile.frameX = (short)(34 * Main.rand.Next(1, 13));
                         }
+
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                        {
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
-                        }
                     }
-					//On grass, grow flowers
-                    if (Main.tile[x, y + 1].type == TileID.Grass)
+
+                    // On grass, grow flowers.
+                    if (groundTile.type == TileID.Grass)
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            tile.active(true);
-                            tile.type = TileID.Plants;
-                            tile.frameX = (short)(18 * Main.rand.Next(6, 11));
-                            while (tile.frameX == 144)
-                            {
-                                tile.frameX = (short)(18 * Main.rand.Next(6, 11));
-                            }
+                            walkTile.active(true);
+                            walkTile.type = TileID.Plants;
+                            walkTile.frameX = (short)(18 * Main.rand.Next(6, 11));
+
+                            while (walkTile.frameX == 144)
+                                walkTile.frameX = (short)(18 * Main.rand.Next(6, 11));
                         }
                         else
                         {
-                            tile.active(true);
-                            tile.type = TileID.Plants2;
-                            tile.frameX = (short)(18 * Main.rand.Next(6, 21));
-                            while (tile.frameX == 144)
-                            {
-                                tile.frameX = (short)(18 * Main.rand.Next(6, 21));
-                            }
+                            walkTile.active(true);
+                            walkTile.type = TileID.Plants2;
+                            walkTile.frameX = (short)(18 * Main.rand.Next(6, 21));
+
+                            while (walkTile.frameX == 144)
+                                walkTile.frameX = (short)(18 * Main.rand.Next(6, 21));
                         }
+
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                        {
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
-                        }
                     }
-					//On hallowed grass, grow hallowed flowers
-                    else if (Main.tile[x, y + 1].type == TileID.HallowedGrass)
+
+                    // On hallowed grass, grow hallowed flowers.
+                    else if (groundTile.type == TileID.HallowedGrass)
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            tile.active(true);
-                            tile.type = TileID.HallowedPlants;
-                            tile.frameX = (short)(18 * Main.rand.Next(4, 7));
-                            while (tile.frameX == 90)
-                            {
-                                tile.frameX = (short)(18 * Main.rand.Next(4, 7));
-                            }
+                            walkTile.active(true);
+                            walkTile.type = TileID.HallowedPlants;
+                            walkTile.frameX = (short)(18 * Main.rand.Next(4, 7));
+                            while (walkTile.frameX == 90)
+                                walkTile.frameX = (short)(18 * Main.rand.Next(4, 7));
                         }
                         else
                         {
-                            tile.active(true);
-                            tile.type = TileID.HallowedPlants2;
-                            tile.frameX = (short)(18 * Main.rand.Next(2, 8));
-                            while (tile.frameX == 90)
-                            {
-                                tile.frameX = (short)(18 * Main.rand.Next(2, 8));
-                            }
+                            walkTile.active(true);
+                            walkTile.type = TileID.HallowedPlants2;
+                            walkTile.frameX = (short)(18 * Main.rand.Next(2, 8));
+                            while (walkTile.frameX == 90)
+                                walkTile.frameX = (short)(18 * Main.rand.Next(2, 8));
                         }
+
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                        {
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
-                        }
                     }
-					//On jungle grass, grow jungle flowers
-                    else if (Main.tile[x, y + 1].type == TileID.JungleGrass)
+
+                    // On jungle grass, grow jungle flowers.
+                    else if (groundTile.type == TileID.JungleGrass)
                     {
-                        tile.active(true);
-                        tile.type = TileID.JunglePlants2;
-                        tile.frameX = (short)(18 * Main.rand.Next(9, 17));
+                        walkTile.active(true);
+                        walkTile.type = TileID.JunglePlants2;
+                        walkTile.frameX = (short)(18 * Main.rand.Next(9, 17));
+
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                        {
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
-                        }
                     }
                 }
             }

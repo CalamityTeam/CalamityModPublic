@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Cryo Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "Creates a rotating ice shield around you that damages enemies on contact");
+                "Creates a rotating ice shield around you that damages and slows down enemies on contact");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
         }
 
@@ -24,9 +24,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        /*public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            
-        }*/
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().CryoStone = true;
     }
 }

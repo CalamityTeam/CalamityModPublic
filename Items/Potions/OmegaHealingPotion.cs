@@ -27,16 +27,16 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.potion = true;
             item.value = Item.buyPrice(0, 7, 0, 0);
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.DarkBlue;
-		}
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SupremeHealingPotion>());
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -1,10 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -33,7 +32,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		// Whether the body is venting heat or not, it is vulnerable to damage during venting
 		private bool vulnerable = false;
+
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
+
+		// Timer to prevent Thanatos from dealing contact damage for a bit
+		private int noContactDamageTimer = 0;
+
+		private const float timeToOpenAndFireLasers = 36f;
+
+		private const float segmentCloseTimerDecrement = 0.2f;
 
 		public override void SetStaticDefaults()
         {
@@ -58,10 +65,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             aiType = -1;
             npc.knockBackResist = 0f;
 			npc.Opacity = 0f;
-            npc.behindTiles = true;
+			npc.canGhostHeal = false;
+			npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.dontCountMe = true;
@@ -72,7 +79,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void BossHeadSlot(ref int index)
 		{
-			if (vulnerable)
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune)
+				index = -1;
+			else if (vulnerable)
 				index = vulnerableIconIndex;
 			else
 				index = normalIconIndex;
@@ -87,6 +96,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		{
 			writer.Write(npc.chaseable);
 			writer.Write(npc.dontTakeDamage);
+			writer.Write(noContactDamageTimer);
 			writer.Write(vulnerable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
@@ -99,6 +109,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 		{
 			npc.chaseable = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
+			noContactDamageTimer = reader.ReadInt32();
 			vulnerable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
@@ -146,6 +157,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.HitEffect(0, 10.0);
 				npc.checkDead();
 				npc.active = false;
+				return;
 			}
 
 			// Set vulnerable to false by default
@@ -154,18 +166,29 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
-			npc.dontTakeDamage = invisiblePhase;
+			npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
 			if (!invisiblePhase)
 			{
 				if (Main.npc[(int)npc.ai[1]].Opacity > 0.5f)
 				{
+					if (noContactDamageTimer > 0)
+						noContactDamageTimer--;
+
 					npc.Opacity += 0.2f;
 					if (npc.Opacity > 1f)
 						npc.Opacity = 1f;
 				}
+				else
+				{
+					// Deal no contact damage for 3 seconds after becoming visible
+					noContactDamageTimer = 185;
+				}
 			}
 			else
 			{
+				// Deal no contact damage for 3 seconds after becoming visible
+				noContactDamageTimer = 185;
+
 				npc.Opacity -= 0.05f;
 				if (npc.Opacity < 0f)
 					npc.Opacity = 0f;
@@ -201,7 +224,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 
-			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage || berserk) && calamityGlobalNPC_Head.newAI[2] > 0f;
+			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -210,11 +233,15 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					if (npc.Calamity().newAI[0] == 0f)
 						npc.ai[3] += 1f;
 
-					double numSegmentsAbleToFire = malice ? 30D : death ? 20D : revenge ? 17.5 : expertMode ? 15D : 10D;
-					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge && !berserk)
+					double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
+					if (berserk)
+						numSegmentsAbleToFire *= 1.5;
+
+					float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
+
+					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
 						float divisor = 120f;
-						float segmentDivisor = (float)Math.Round(numSegments / numSegmentsAbleToFire);
 						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -223,7 +250,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -253,11 +280,14 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon").WithVolume(0.1f), npc.Center);
+										SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+										if (sound != null)
+											sound.Volume *= 0.1f;
+
 										for (int i = 0; i < numProjectiles; i++)
 										{
 											// Normal laser
-											int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+											int type = ModContent.ProjectileType<ThanatosLaser>();
 											int damage = npc.GetProjectileDamage(type);
 											Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 										}
@@ -266,7 +296,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -277,8 +307,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						// This is only used in deathray phase to prevent laser spam
-						float segmentDivisor = (float)Math.Round(numSegments / (berserk ? 5D : numSegmentsAbleToFire));
 						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
@@ -288,7 +316,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							if (npc.Calamity().newAI[1] == 0f)
 							{
 								npc.Calamity().newAI[0] += 1f;
-								if (npc.Calamity().newAI[0] >= 72f)
+								if (npc.Calamity().newAI[0] >= timeToOpenAndFireLasers)
 								{
 									npc.ai[3] = 0f;
 									npc.Calamity().newAI[1] = 1f;
@@ -319,7 +347,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										}
 
 										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
-										int type = ModContent.ProjectileType<ExoDestroyerLaser>();
+										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
 										for (int i = 0; i < numProjectiles; i++)
@@ -350,7 +378,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= 1f;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -376,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						npc.localAI[2] -= numSegments;
 				}
 
-				npc.Calamity().newAI[0] -= 1f;
+				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 				if (npc.Calamity().newAI[0] <= 0f)
 				{
 					npc.Calamity().newAI[0] = 0f;
@@ -389,6 +417,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				}
 			}
 
+			// Do not deal contact damage for 5 seconds after spawning
+			if (npc.Calamity().newAI[2] == 0f)
+				noContactDamageTimer = 300;
+
 			if (npc.Calamity().newAI[2] < ThanatosHead.immunityTime)
 				npc.Calamity().newAI[2] += 1f;
 
@@ -399,17 +431,24 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().DR = vulnerable ? 0f : 0.9999f;
 			npc.Calamity().unbreakableDR = !vulnerable;
 
+			// Increase overall damage taken while vulnerable
+			npc.takenDamageMultiplier = vulnerable ? 1.1f : 1f;
+
 			// Vent noise and steam
 			SmokeDrawer.ParticleSpawnRate = 9999999;
 			if (vulnerable)
 			{
 				// Light
-				Lighting.AddLight(npc.Center, 0.35f, 0.05f, 0.05f);
+				Lighting.AddLight(npc.Center, 0.35f * npc.Opacity, 0.05f * npc.Opacity, 0.05f * npc.Opacity);
 
 				// Noise
 				float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
 				if (npc.localAI[0] == 0f)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent").WithVolume(volume), npc.Center);
+				{
+					SoundEffectInstance sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThanatosVent"), npc.Center);
+					if (sound != null)
+						sound.Volume *= volume;
+				}
 
 				// Steam
 				npc.localAI[0] += 1f;
@@ -422,7 +461,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			else
 			{
 				// Light
-				Lighting.AddLight(npc.Center, 0.05f, 0.2f, 0.2f);
+				Lighting.AddLight(npc.Center, 0.05f * npc.Opacity, 0.2f * npc.Opacity, 0.2f * npc.Opacity);
 
 				npc.localAI[0] = 0f;
 			}
@@ -431,44 +470,44 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.draedonExoMechWorm].target];
 
-			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = player.position.X + (player.width / 2);
-            float num192 = player.position.Y + (player.height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
+			Vector2 npcCenter = npc.Center;
+			float targetCenterX = player.Center.X;
+			float targetCenterY = player.Center.Y;
+			targetCenterX = (int)(targetCenterX / 16f) * 16;
+			targetCenterY = (int)(targetCenterY / 16f) * 16;
+			npcCenter.X = (int)(npcCenter.X / 16f) * 16;
+			npcCenter.Y = (int)(npcCenter.Y / 16f) * 16;
+			targetCenterX -= npcCenter.X;
+			targetCenterY -= npcCenter.Y;
 
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
-            {
-                try
-                {
-                    vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num191 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-                } catch
-                {
-                }
+			float distanceFromTarget = (float)Math.Sqrt(targetCenterX * targetCenterX + targetCenterY * targetCenterY);
+			if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
+			{
+				try
+				{
+					npcCenter = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					targetCenterX = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;
+					targetCenterY = Main.npc[(int)npc.ai[1]].position.Y + (Main.npc[(int)npc.ai[1]].height / 2) - npcCenter.Y;
+				}
+				catch
+				{
+				}
 
-                npc.rotation = (float)Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = npc.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
-                npc.velocity = Vector2.Zero;
-                npc.position.X = npc.position.X + num191;
-                npc.position.Y = npc.position.Y + num192;
+				npc.rotation = (float)Math.Atan2(targetCenterY, targetCenterX) + MathHelper.PiOver2;
+				distanceFromTarget = (float)Math.Sqrt(targetCenterX * targetCenterX + targetCenterY * targetCenterY);
+				distanceFromTarget = (distanceFromTarget - npc.width) / distanceFromTarget;
+				targetCenterX *= distanceFromTarget;
+				targetCenterY *= distanceFromTarget;
+				npc.velocity = Vector2.Zero;
+				npc.position.X = npc.position.X + targetCenterX;
+				npc.position.Y = npc.position.Y + targetCenterY;
 
-                if (num191 < 0f)
-                    npc.spriteDirection = -1;
-                else if (num191 > 0f)
-                    npc.spriteDirection = 1;
-            }
-        }
+				if (targetCenterX < 0f)
+					npc.spriteDirection = -1;
+				else if (targetCenterX > 0f)
+					npc.spriteDirection = 1;
+			}
+		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
@@ -489,7 +528,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 50f && npc.Opacity == 1f;
+			return minDist <= 50f && npc.Opacity == 1f && noContactDamageTimer <= 0;
 		}
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -507,33 +546,20 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			npc.frameCounter += 1D;
-			if (shootLasers && !invisiblePhase)
+			if (npc.Calamity().newAI[0] > 0f)
 			{
-				if (npc.Calamity().newAI[1] == 0f && npc.Calamity().newAI[0] > 0f)
+				if (npc.frameCounter >= 6D)
 				{
-					if (npc.frameCounter >= 10D)
-					{
-						npc.frame.Y += frameHeight;
-						npc.frameCounter = 0D;
-					}
-					int finalFrame = Main.npcFrameCount[npc.type] - 1;
-					if (npc.frame.Y > frameHeight * finalFrame)
-						npc.frame.Y = frameHeight * finalFrame;
+					npc.frame.Y += frameHeight;
+					npc.frameCounter = 0D;
 				}
-				else
-				{
-					if (npc.frameCounter >= 10D)
-					{
-						npc.frame.Y -= frameHeight;
-						npc.frameCounter = 0D;
-					}
-					if (npc.frame.Y < 0)
-						npc.frame.Y = 0;
-				}
+				int finalFrame = Main.npcFrameCount[npc.type] - 1;
+				if (npc.frame.Y > frameHeight * finalFrame)
+					npc.frame.Y = frameHeight * finalFrame;
 			}
 			else
 			{
-				if (npc.frameCounter >= 10D)
+				if (npc.frameCounter >= 6D)
 				{
 					npc.frame.Y -= frameHeight;
 					npc.frameCounter = 0D;
@@ -571,6 +597,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			if (npc.soundDelay == 0)
+			{
+				npc.soundDelay = 8;
+
+				if (vulnerable)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
+				else
+					Main.PlaySound(SoundID.NPCHit4, npc.Center);
+			}
+
 			int baseDust = vulnerable ? 3 : 1;
 			for (int k = 0; k < baseDust; k++)
 				Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);

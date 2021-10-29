@@ -9,7 +9,7 @@ namespace CalamityMod.Items.LoreItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Mechanical Bosses");
+            DisplayName.SetDefault("The Mechanical Trio");
             Tooltip.SetDefault("I see you have awakened Draedon's old toys.\n" +
                 "Once useful tools turned into savage beasts when their AIs went rogue, a mistake that Draedon failed to rectify in time.");
         }

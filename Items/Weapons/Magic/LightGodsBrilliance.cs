@@ -54,9 +54,10 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<ShadecrystalTome>());
             recipe.AddIngredient(ModContent.ItemType<AbyssalTome>());
             recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ItemID.SoulofLight, 30);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

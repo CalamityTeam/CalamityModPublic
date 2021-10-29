@@ -12,7 +12,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Lunatic Cultist");
             Tooltip.SetDefault("The gifted one that terminated my grand summoning so long ago with his uncanny powers over the arcane.\n" +
-                "Someone I once held in such contempt for his actions is now...deceased, his sealing ritual undone...prepare for the end.\n" +
+                "Someone I once held in such contempt for his actions is now... deceased, his sealing ritual undone... prepare for the end.\n" +
                 "Your impending doom approaches...");
         }
 

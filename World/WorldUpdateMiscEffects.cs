@@ -11,12 +11,14 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.SunkenSea;
@@ -36,6 +38,16 @@ namespace CalamityMod.World
     {
         public static void PerformWorldUpdates()
         {
+            // Reset the exo mech to summon if Draedon is absent.
+            if (DraedonMechToSummon != ExoMech.None && CalamityGlobalNPC.draedon == -1)
+                DraedonMechToSummon = ExoMech.None;
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && DraedonSummonCountdown > 0)
+            {
+                DraedonSummonCountdown--;
+                HandleDraedonSummoning();
+            }
+
             // Sunken Sea Location...duh
             SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom, WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
 
@@ -89,6 +101,16 @@ namespace CalamityMod.World
             if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
                 CalamityUtils.StopSandstorm();
 
+            // Attempt to summon lab critters manually since they refuse to exist when using vanilla's spawn methods.
+            // This needs to check all players since the method only runs server-side.
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                if (!Main.player[i].active || Main.player[i].dead)
+                    continue;
+
+                CalamityGlobalNPC.AttemptToSpawnLabCritters(Main.player[i]);
+            }
+
             // Make the cultist countdown happen much more quickly.
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -100,6 +122,22 @@ namespace CalamityMod.World
                     CultistRitual.delay = 0;
             }
         }
+
+        #region Handle Draedon Summoning
+
+        public static void HandleDraedonSummoning()
+        {
+            Main.LocalPlayer.Calamity().MusicMuffleFactor = Utils.InverseLerp(DraedonSummonCountdownMax, 32f, DraedonSummonCountdown, true);
+            Main.LocalPlayer.Calamity().MusicMuffleFactor = (float)Math.Pow(Main.LocalPlayer.Calamity().MusicMuffleFactor, 0.1);
+
+            // Fire a giant laser into the sky.
+            if (DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
+                Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);
+
+            if (DraedonSummonCountdown == 0)
+                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
+        }
+        #endregion Handle Draedon Summoning
 
         #region Handle Tile Growing
 

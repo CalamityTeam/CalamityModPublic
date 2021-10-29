@@ -58,35 +58,33 @@ namespace CalamityMod.Localization
                 new [] { "SCalSepulcher2Text", "Once the dust has settled and only one remains, if it is you, what value will this have had?!" },
                 new [] { "SCalDesparationText1", "Just stop!" },
                 new [] { "SCalDesparationText2", "I have no future if I lose here." },
-                new [] { "SCalDesparationText3", "Once you have bested me, you too will only have one path forward." },
+                new [] { "SCalDesparationText3", "Once you have bested me, you will only have one path forward." },
                 new [] { "SCalDesparationText4", "And that path... also has no future." },
                 new [] { "SCalAcceptanceText1", "Even if he has thrown all else away, his power remains." },
                 new [] { "SCalAcceptanceText2", "I have no more energy left to resent him, or you..." },
                 new [] { "SCalAcceptanceText3", "It will all be in your hands now." },
 
-                // Some of these keys are incorrect in terms of their contents, but they remain as their bases + an addon at the end to make it 
+                // Some of these keys are incorrect in terms of their contents, but they remain as their bases + an addon at the end to make it
                 // easier to define them.
-                new [] { "SCalSummonTextRematch", "You called? If you're looking to get scorched, you've got the right person." },
-                new [] { "SCalStartTextRematch", "Ha! You saw it coming this time." },
-                new [] { "SCalBH2TextRematch", "Don't get cocky just because you've won once." },
-                new [] { "SCalBH3TextRematch", "You know, I was expecting a house call from the Tyrant at this point. Think he died?" },
-                new [] { "SCalBH3TextRematch2", "Haha, no way." },
-                new [] { "SCalBrothersTextRematch", "Would you like to meet my family? Horrible, isn't it?" },
-                new [] { "SCalBrothersTextRematch2", "I'm joking. They are but empty shells now. Did I frighten you?" },
+                new [] { "SCalSummonTextRematch", "If you’re looking for some fourth-degree burns, you’ve got the right person." },
+                new [] { "SCalStartTextRematch", "When the time comes, would you like to join my creation?" },
+                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory." },
+                new [] { "SCalBH3TextRematch", "I haven’t had such an interesting target dummy to test my magic on in a long time." },
+                new [] { "SCalBrothersTextRematch", "Empty shells of their former selves. I doubt even a scrap of their spirits remain." },
                 new [] { "SCalPhase2TextRematch", "Here we go again." },
-                new [] { "SCalBH4TextRematch", "Remember these? I bet you've seen them a few times since the last battle... in your nightmares." },
-                new [] { "SCalSeekerRingTextRematch", "It seems your skill hasn't faltered in the least." },
-                new [] { "SCalBH5TextRematch", "One last go." },
-                new [] { "SCalSepulcher2TextRematch", "And... you never cease to amaze." },
-                new [] { "SCalDesparationText1Rematch", "You may even have a proper chance now." },
-                new [] { "SCalDesparationText2Rematch", "I wonder if you've met his mechanic yet." },
+                new [] { "SCalBH4TextRematch", "I wonder if you’ve seen these in your nightmares since our first battle?" },
+                new [] { "SCalSeekerRingTextRematch", "Your skill hasn't faltered in the least." },
+                new [] { "SCalBH5TextRematch", "Isn't this exciting?" },
+                new [] { "SCalSepulcher2TextRematch", "Here comes the crawling tomb, one last time." },
+                new [] { "SCalDesparationText1Rematch", "A terrific display, I concede this match to you." },
+                new [] { "SCalDesparationText2Rematch", "No doubt you will face enemies stronger than I." },
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
-                new [] { "SCalDesparationText4Rematch", "Now... even I cannot see what your future holds." },
+                new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
 
                 new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
+                new [] { "EdgyBossText2", "You think... you can butcher... ME!?" },
                 new [] { "EdgyBossText3", "A fatal mistake!" },
                 new [] { "EdgyBossText4", "Good luck recovering from that!" },
                 new [] { "EdgyBossText5", "Delicious..." },
@@ -96,7 +94,7 @@ namespace CalamityMod.Localization
                 new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
                 new [] { "EdgyBossText10", "It's not over yet, kid!" },
                 new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -117,7 +115,15 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-				new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+                new [] { "DraedonIntroductionText1", "This is a meeting that has been a long time coming." },
+                new [] { "DraedonIntroductionText2", "The machine you constructed, deciphering and incercepting my channels of communication. It is no small feat of ingenuity." },
+                new [] { "DraedonIntroductionText3", "I must be upfront, as this is a unique opportunity. Your observations have not been one-sided, and I have grown " +
+                                                    "interested in your remarkable progression." },
+                new [] { "DraedonIntroductionText4", "Humor me, in a battle with the results of my tinkering." },
+                new [] { "DraedonIntroductionText5", "You may choose your first opponent." },
+				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+
+                new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
 				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
 				new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
 				new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
@@ -181,7 +187,7 @@ namespace CalamityMod.Localization
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
-                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }
+                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
             };
         }
 
