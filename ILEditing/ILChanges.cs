@@ -137,6 +137,7 @@ namespace CalamityMod.ILEditing
 			IL.Terraria.Main.DoDraw += DrawFusableParticles;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
+            IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
@@ -202,6 +203,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
+            IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
@@ -700,6 +702,29 @@ namespace CalamityMod.ILEditing
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
                 return initialColor;
             });
+        }
+
+        private static void DrawCustomLavafalls(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Search for the color and alter it based on the same conditions as the lava.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt(typeof(Color).GetConstructor(new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) }))))
+            {
+                LogFailure("Custom Lavafall Drawing", "Could not locate the waterfall color.");
+                return;
+            }
+
+            // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
+            // color properties as lava.
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
+            cursor.Emit(OpCodes.Stloc, 12);
+
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 51);
+            cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
+            cursor.Emit(OpCodes.Stloc, 51);
         }
 
         #endregion

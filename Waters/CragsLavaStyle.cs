@@ -1,7 +1,10 @@
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
+	public class CragsLavaflow : ModWaterfallStyle { }
+
 	public class CragsLavaStyle : CustomLavaStyle
 	{
 		public override string LavaTexturePath => "CalamityMod/Waters/CragsLava";
@@ -10,7 +13,7 @@ namespace CalamityMod.Waters
 
 		public override bool ChooseLavaStyle() => Main.LocalPlayer.Calamity().ZoneCalamity;
 
-		public override int ChooseWaterfallStyle() => 0;
+		public override int ChooseWaterfallStyle() => CalamityMod.Instance.GetWaterfallStyleSlot("CragsLavaflow");
 
 		public override int GetSplashDust() => 0;
 

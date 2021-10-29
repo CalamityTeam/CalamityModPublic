@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,40 @@ namespace CalamityMod.Waters
             CustomLavaStyles = null;
             LavaBlockTexture = null;
             LavaTexture = null;
+        }
+
+        internal static int SelectLavafallStyle(int initialLavafallStyle)
+        {
+            // Lava waterfall.
+            if (initialLavafallStyle != 1)
+                return initialLavafallStyle;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaStyles)
+            {
+                int waterfallStyle = lavaStyle.ChooseWaterfallStyle();
+                if (lavaStyle.ChooseLavaStyle() && waterfallStyle >= 0)
+                    return waterfallStyle;
+            }
+
+            return initialLavafallStyle;
+        }
+
+        internal static Color SelectLavafallColor(int initialLavafallStyle, Color initialLavafallColor)
+        {
+            // Lava waterfall.
+            if (initialLavafallStyle != 1)
+                return initialLavafallColor;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaStyles)
+            {
+                if (lavaStyle.ChooseLavaStyle())
+                {
+                    lavaStyle.SelectLightColor(ref initialLavafallColor);
+                    return initialLavafallColor;
+                }
+            }
+
+            return initialLavafallColor;
         }
     }
 }
