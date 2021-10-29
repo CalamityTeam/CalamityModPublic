@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 26;
-            projectile.height = 26;
+			projectile.width = 30;
+            projectile.height = 30;
             projectile.hostile = true;
             projectile.alpha = 100;
             projectile.penetrate = -1;
@@ -78,14 +78,25 @@ namespace CalamityMod.Projectiles.Boss
 			}
 		}
 
-        public override bool CanHitPlayer(Player target)
+		public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
-            {
-                return false;
-            }
-            return true;
-        }
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 12f && projectile.timeLeft <= 815 && projectile.timeLeft >= 85;
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 30;
-            projectile.height = 30;
+			projectile.width = 64;
+            projectile.height = 66;
             projectile.hostile = true;
             projectile.scale = 1.5f;
             projectile.ignoreWater = true;
@@ -41,24 +41,16 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
-            {
                 projectile.frame = 0;
-            }
 
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
-            {
                 projectile.alpha -= 25;
-            }
             if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
                 projectile.alpha = 128;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
 
 			if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
 				return;
@@ -147,6 +139,26 @@ namespace CalamityMod.Projectiles.Boss
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
             projectile.Damage();
         }
+
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 16f * projectile.scale;
+		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
