@@ -1301,7 +1301,7 @@ namespace CalamityMod.World
 							if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
 							{
 								chest.item[inventoryIndex].SetDefaults(ItemID.Lens);
-								chest.item[inventoryIndex].stack = Main.rand.Next(3);
+								chest.item[inventoryIndex].stack = 1 + Main.rand.Next(2);
 								break;
 							}
 						}

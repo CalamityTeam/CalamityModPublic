@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-            if (projectile.timeLeft % 30 == 0)
+            if (projectile.timeLeft % 15 == 0)
             {
-                if (projectile.Calamity().stealthStrike == true)
+                if (projectile.Calamity().stealthStrike)
                 {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GacruxianHome>(), (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner);
                 }
