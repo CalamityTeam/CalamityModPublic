@@ -654,6 +654,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
+            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
             cursor.Index += 3;
             cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
 
@@ -680,6 +682,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
+            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
             cursor.Index += 3;
             cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
             
