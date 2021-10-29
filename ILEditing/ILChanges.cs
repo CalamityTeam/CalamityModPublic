@@ -8,6 +8,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -19,7 +20,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Liquid;
 using Terraria.GameInput;
+using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -132,6 +135,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
 			IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            IL.Terraria.Main.DrawTiles += DrawCustomLava;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
@@ -195,9 +200,11 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
+            IL.Terraria.Main.DrawTiles -= DrawCustomLava;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
 
-			// Ravager platform fall fix
-			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            // Ravager platform fall fix
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
 
 			// Damage and health balance
 			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
@@ -633,6 +640,66 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
+        }
+
+        private static void DrawCustomLava(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                return;
+            }
+
+            cursor.Index += 3;
+            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
+
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(155)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
+            cursor.Emit(OpCodes.Ldloc, 151);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+        }
+
+        private static void DrawCustomLava2(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdfld<LiquidRenderer>("_liquidTextures")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                return;
+            }
+
+            cursor.Index += 3;
+            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
+            
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetField("_liquidTextures"));
+            cursor.Emit(OpCodes.Ldloc, 8);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, VertexColors>>((initialColor, initialTexture) =>
+            {
+                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor);
+                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor);
+                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor);
+                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
+                return initialColor;
+            });
         }
 
         #endregion
@@ -1278,6 +1345,39 @@ namespace CalamityMod.ILEditing
             // Play the door closing sound (lab doors do not use the door opening sound)
             Main.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
             return true;
+        }
+
+        private static Texture2D SelectLavaTexture(Texture2D initialTexture, bool blockTexture)
+        {
+            // Use the initial texture if it isn't lava.
+            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+                return initialTexture;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
+            {
+                if (lavaStyle.ChooseLavaStyle())
+                    return blockTexture ? lavaStyle.BlockTexture : lavaStyle.LavaTexture;
+            }
+
+            return initialTexture;
+        }
+
+        private static Color SelectLavaColor(Texture2D initialTexture, Color initialLightColor)
+        {
+            // Use the initial color if it isn't lava.
+            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+                return initialLightColor;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
+            {
+                if (lavaStyle.ChooseLavaStyle())
+                {
+                    lavaStyle.SelectLightColor(ref initialLightColor);
+                    return initialLightColor;
+                }
+            }
+
+            return initialLightColor;
         }
 
         public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());
