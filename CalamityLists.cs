@@ -2322,6 +2322,7 @@ namespace CalamityMod
                 ItemType<KnowledgeDevourerofGods>(),
                 ItemType<KnowledgeDukeFishron>(),
                 ItemType<KnowledgeEaterofWorlds>(),
+                ItemType<KnowledgeExoMechs>(),
                 ItemType<KnowledgeEyeofCthulhu>(),
                 ItemType<KnowledgeGolem>(),
                 ItemType<KnowledgeHiveMind>(),
