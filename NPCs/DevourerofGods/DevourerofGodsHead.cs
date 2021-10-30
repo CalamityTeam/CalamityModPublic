@@ -301,6 +301,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			else
 				npc.takenDamageMultiplier = 1.1f;
 
+			// Close DoG's HP bar if busy with sentinels or a P2 transition.
+			if (CalamityWorld.DoGSecondStageCountdown > 0)
+				npc.Calamity().ShouldCloseHPBar = true;
+
 			// Start sentinel phases, only run things that have to happen once in here
 			if (summonSentinels)
 			{
