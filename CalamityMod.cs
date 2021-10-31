@@ -63,6 +63,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
 using CalamityMod.Particles;
+using CalamityMod.Waters;
 
 namespace CalamityMod
 {
@@ -201,6 +202,7 @@ namespace CalamityMod
 
             CalamityLocalization.AddLocalizations();
             SchematicManager.Load();
+            CustomLavaManagement.Load();
         }
 
         private void LoadClient()
@@ -355,6 +357,7 @@ namespace CalamityMod
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
             SchematicManager.Unload();
+            CustomLavaManagement.Unload();
             BossHealthBarManager.Unload();
             DraedonStructures.Unload();
 

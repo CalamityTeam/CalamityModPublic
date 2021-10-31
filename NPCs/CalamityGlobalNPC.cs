@@ -150,6 +150,7 @@ namespace CalamityMod.NPCs
 		// Stuff used by the Boss Health UI
 		public bool SplittingWorm = false;
 		public bool CanHaveBossHealthBar = false;
+		public bool ShouldCloseHPBar = false;
 
 		// Timer for how long an NPC is immune to certain debuffs
 		public const int slowingDebuffResistanceMin = 1800;
@@ -763,6 +764,7 @@ namespace CalamityMod.NPCs
 			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
 			CurrentlyEnraged = false;
 			CanHaveBossHealthBar = false;
+			ShouldCloseHPBar = false;
 		}
         #endregion
 
