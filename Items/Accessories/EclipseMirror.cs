@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
                 "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
-                "Evading an attack grants full stealth but has a 75 second cooldown\n" +
+                "Evading an attack grants full stealth but has a 90 second cooldown\n" +
                 "This cooldown is shared with all other dodges and reflects");
         }
 

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "Significantly reduces enemy aggression, even in the abyss\n" +
                 "Stealth generates 30% faster when standing still and 20% faster while moving\n" +
                 "Grants the ability to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
-                "Evading an attack grants a lot of stealth but has a 75 second cooldown\n" +
+                "Evading an attack grants a lot of stealth but has a 90 second cooldown\n" +
                 "This cooldown is shared with all other dodges and reflects");
         }
 

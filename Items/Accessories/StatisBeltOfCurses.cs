@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
                 "Grants immunity to fall damage\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "The dodge has a 60 second cooldown\n" +
+                "The dodge has a 90 second cooldown\n" +
                 "This cooldown is shared with all other dodges and reflects\n" +
                 "Dashes leave homing scythes in your wake");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));

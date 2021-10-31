@@ -544,6 +544,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void FindFrame(int frameHeight) // 5 total frames
 		{
+			if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)
+				return;
+
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
