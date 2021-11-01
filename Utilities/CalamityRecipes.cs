@@ -109,6 +109,14 @@ namespace CalamityMod
             r.SetResult(ItemID.LifeFruit);
             r.AddRecipe();
 
+            // Ultrabright Torch
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Torch, 33);
+            r.AddIngredient(ModContent.ItemType<SeaPrism>());
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.UltrabrightTorch, 33);
+            r.AddRecipe();
+
             // Target Dummy Reverse Compatibility
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<SuperDummy>());
