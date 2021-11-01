@@ -7537,7 +7537,14 @@ namespace CalamityMod.CalPlayer
                 // Summon a portal if needed.
                 if (player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
                 {
-                    Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                    int tries = 0;
+                    Vector2 spawnPosition;
+                    do
+                    {
+                        spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+                        tries++;
+                    }
+                    while (Collision.SolidCollision(spawnPosition - Vector2.One * 48f, 24, 24) && tries < 100);
                     CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
                 }
 
