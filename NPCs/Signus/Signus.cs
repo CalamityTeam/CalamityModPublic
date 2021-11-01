@@ -639,12 +639,6 @@ namespace CalamityMod.NPCs.Signus
             }
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
-
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 1.0;
@@ -765,6 +759,8 @@ namespace CalamityMod.NPCs.Signus
 			bool fullStrength = !CalamityWorld.downedSentinel3 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
+				CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
 				DropHelper.DropBags(npc);
 
 				// Legendary drop for Signus
@@ -870,7 +866,30 @@ namespace CalamityMod.NPCs.Signus
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 60f;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
         }

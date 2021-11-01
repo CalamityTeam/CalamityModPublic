@@ -372,34 +372,22 @@ namespace CalamityMod.NPCs.TownNPCs
 			shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
 			nextSlot++;
-            if (CalamityWorld.downedDesertScourge)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DriedSeafood>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                nextSlot++;
-            }
             if (CalamityWorld.downedEoCAcidRain)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CausticTear>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(gold: 3);
                 nextSlot++;
             }
-            if (CalamityWorld.downedAquaticScourge)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Seafood>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
-                nextSlot++;
-            }
-            if (NPC.downedFishron && CalamityConfig.Instance.SellVanillaSummons)
+            if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
                 nextSlot++;
             }
             if (CalamityWorld.downedBoomerDuke)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(8, 0, 0, 0);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
         }

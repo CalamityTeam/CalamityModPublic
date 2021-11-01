@@ -100,35 +100,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 samplingPoint = projectile.Center;
 
             float[] samples = new float[3];
-
-            float determinedLength = 0f;
-            Collision.LaserScan(samplingPoint, projectile.velocity, projectile.width * projectile.scale, maximumLength, samples);
-            for (int i = 0; i < samples.Length; i++)
-            {
-                determinedLength += samples[i];
-            }
-            determinedLength /= samples.Length;
-
-            float lerpDelta = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength, lerpDelta);
-            Vector2 beamEndPosiiton = projectile.Center + projectile.velocity * (projectile.localAI[1] - 6f);
-            for (int i = 0; i < 4; i++)
-            {
-                float theta = projectile.velocity.ToRotation() + Main.rand.NextBool(2).ToDirectionInt() * MathHelper.PiOver2;
-                float speed = (float)Main.rand.NextDouble() * 2f + 2f;
-                Vector2 velocity = theta.ToRotationVector2() * speed;
-                Dust dust = Dust.NewDustDirect(beamEndPosiiton, 0, 0, 185, velocity.X, velocity.Y, 0, default, 1f);
-                dust.noGravity = true;
-                dust.scale = 1.7f;
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                Dust dust = Dust.NewDustPerfect(beamEndPosiiton, 185);
-                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.ToRadians(55f)).RotatedBy(projectile.rotation);
-                dust.noGravity = true;
-                dust.scale = 1.2f;
-            }
+            projectile.localAI[1] = body.ai[1];
 
             // Draw light blue light across the laser
             DelegateMethods.v3_1 = new Vector3(0.52f, 0.93f, 0.97f);

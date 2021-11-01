@@ -1,6 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.ExoMechs.Ares;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,18 +14,19 @@ namespace CalamityMod.Projectiles.Boss
 	{
 		public float TelegraphDelay
 		{
-			get => projectile.ai[0];
-			set => projectile.ai[0] = value;
+			get => projectile.localAI[1];
+			set => projectile.localAI[1] = value;
 		}
 
 		public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+
+		public ref float LaserVelocity => ref projectile.ai[0];
 
 		public Vector2 Destination;
 		public Vector2 Velocity;
 		public const float TelegraphTotalTime = 30f;
 		public const float TelegraphFadeTime = 15f;
 		public const float TelegraphWidth = 4200f;
-		public const float LaserVelocity = 10f;
 
 		public override void SetStaticDefaults()
 		{
@@ -52,12 +51,14 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
+			writer.Write(TelegraphDelay);
 			writer.WriteVector2(Destination);
 			writer.WriteVector2(Velocity);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
+			TelegraphDelay = reader.ReadSingle();
 			Destination = reader.ReadVector2();
 			Velocity = reader.ReadVector2();
 		}

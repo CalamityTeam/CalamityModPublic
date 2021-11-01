@@ -83,6 +83,8 @@ namespace CalamityMod.Items
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
 
+		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
+
         // See RogueWeapon.cs for rogue modifier shit
         #region Modifiers
         public CalamityGlobalItem()
@@ -134,8 +136,73 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
-				// Pickaxe speed boosts
-				case ItemID.CactusPickaxe:
+                // Vanilla summon weapons speed boosts and autouse
+
+                /* case ItemID.FlinxStaff:
+                case ItemID.BabyBirdStaff:
+                    item.useTime = item.useAnimation = 35;
+                    item.autoReuse = true;
+                */
+
+                case ItemID.SlimeStaff:
+                //case ItemID.VampireFrogStaff:
+                case ItemID.HornetStaff:
+                case ItemID.ImpStaff:
+                    item.useTime = item.useAnimation = 30;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.DD2LightningAuraT1Popper:
+                case ItemID.DD2ExplosiveTrapT1Popper:
+                case ItemID.DD2BallistraTowerT1Popper:
+                case ItemID.DD2FlameburstTowerT1Popper:
+                    item.useTime = item.useAnimation = 30;
+                    break;
+
+                case ItemID.SpiderStaff:
+                case ItemID.PirateStaff:
+                case ItemID.OpticStaff:
+                //case ItemID.SanguineStaff:
+                //case ItemID.Smolstar:
+                    item.useTime = item.useAnimation = 25;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.QueenSpiderStaff:
+                case ItemID.DD2LightningAuraT2Popper:
+                case ItemID.DD2ExplosiveTrapT2Popper:
+                case ItemID.DD2BallistraTowerT2Popper:
+                case ItemID.DD2FlameburstTowerT2Popper:
+                    item.useTime = item.useAnimation = 25;
+                    break;
+
+                case ItemID.PygmyStaff:
+                //case ItemID.StormTigerStaff:
+                case ItemID.DeadlySphereStaff:
+                case ItemID.RavenStaff:
+                case ItemID.XenoStaff:
+                case ItemID.TempestStaff:
+                //case ItemID.EmpressBlade
+                case ItemID.StardustCellStaff:
+                    item.useTime = item.useAnimation = 20;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.StaffoftheFrostHydra:
+                case ItemID.DD2LightningAuraT3Popper:
+                case ItemID.DD2ExplosiveTrapT3Popper:
+                case ItemID.DD2BallistraTowerT3Popper:
+                case ItemID.DD2FlameburstTowerT3Popper:
+                    item.useTime = item.useAnimation = 20;
+                    break;
+
+                case ItemID.MoonlordTurretStaff:
+                case ItemID.RainbowCrystalStaff:
+                    item.useTime = item.useAnimation = 15;
+                    break;
+
+                // Pickaxe speed boosts
+                case ItemID.CactusPickaxe:
 				case ItemID.CopperPickaxe:
 				case ItemID.TinPickaxe:
 					item.useTime = 13;
@@ -266,7 +333,6 @@ namespace CalamityMod.Items
 				case ItemID.Spear:
 				case ItemID.Trident:
 				case ItemID.PalladiumPike:
-				case ItemID.ObsidianSwordfish:
 				case ItemID.CobaltDrill:
 				case ItemID.MythrilDrill:
 				case ItemID.AdamantiteDrill:
@@ -321,12 +387,100 @@ namespace CalamityMod.Items
 					break;
 
 				// Set Celestial Sigil stack to 1 because it's not consumable anymore
+				case ItemID.SlimeCrown:
+				case ItemID.SuspiciousLookingEye:
+				case ItemID.WormFood:
+				case ItemID.BloodySpine:
+				case ItemID.Abeemination:
+				case ItemID.MechanicalEye:
+				case ItemID.MechanicalWorm:
+				case ItemID.MechanicalSkull:
 				case ItemID.CelestialSigil:
 					item.maxStack = 1;
 					item.consumable = false;
 					break;
 
 				// True melee weapon adjustments
+				case ItemID.BladedGlove:
+					item.damage = 15;
+					item.useTime = 7;
+					item.useAnimation = 7;
+					break;
+
+				case ItemID.IceBlade:
+					item.damage = 26;
+					item.useTime = 33;
+					break;
+
+				case ItemID.EnchantedSword:
+					item.damage = 42;
+					item.useAnimation = 20;
+					item.shootSpeed = 15f;
+					break;
+
+				case ItemID.Starfury:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.WoodYoyo:
+				case ItemID.Chik:
+				case ItemID.FormatC:
+				case ItemID.HelFire:
+				case ItemID.Amarok:
+				case ItemID.Gradient:
+				case ItemID.Code2:
+				case ItemID.Yelets:
+				case ItemID.RedsYoyo:
+				case ItemID.ValkyrieYoyo:
+				case ItemID.Kraken:
+				case ItemID.TheEyeOfCthulhu:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Rally:
+					item.damage = 20;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.JungleYoyo:
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CrimsonYoyo:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.CorruptYoyo:
+					item.damage = 27;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Code1:
+					item.damage = 25;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Valor:
+					item.damage = 32;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.ObsidianSwordfish:
+					item.damage = 45;
+					trueMelee = true;
+					break;
+
+				case ItemID.BloodyMachete:
+					item.damage = 30;
+					item.autoReuse = true;
+					break;
+
+				case ItemID.Cascade:
+					item.damage = 39;
+					item.autoReuse = true;
+					break;
+
 				case ItemID.SlapHand:
 					item.damage = 120;
 					break;
@@ -517,6 +671,7 @@ namespace CalamityMod.Items
 
 				case ItemID.Terrarian:
 					item.damage = 352;
+					item.autoReuse = true;
 					break;
 
 				case ItemID.RainbowRod:
@@ -534,7 +689,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
-					break;
+                    item.useTime = 19;
+                    item.useAnimation = 19;
+                    item.autoReuse = true;
+                    break;
 
 				case ItemID.MonkStaffT3:
 					item.damage = 225;
@@ -925,7 +1083,7 @@ namespace CalamityMod.Items
         }
 		#endregion
 
-		#region SavingAndLoading
+		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
             return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
@@ -1583,6 +1741,15 @@ namespace CalamityMod.Items
         {
 			switch (item.type)
 			{
+				case ItemID.MagicHat:
+					player.magicDamage -= 0.02f;
+					player.magicCrit -= 2;
+					break;
+
+				case ItemID.WizardHat:
+					player.magicDamage -= 0.1f;
+					break;
+
 				case ItemID.GladiatorHelmet:
 				case ItemID.ObsidianHelm:
 					player.Calamity().throwingDamage += 0.03f;
@@ -2184,7 +2351,7 @@ namespace CalamityMod.Items
 			{
 				Texture2D itemTexture = Main.itemTexture[item.type];
 				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
-				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				Vector2 itemOrigin = frame.Size() * 0.5f;
 				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
 			}
 
@@ -2197,7 +2364,10 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			position += frame.Size() * 0.25f;
+			// Adjust the offset of the position. This vector does not have any specific static member that can be referenced and it is not
+			// as simply computable as a texture.Size() * 0.5f.
+			position += new Vector2(14f, 16f) * Main.inventoryScale;
+
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
 			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
 

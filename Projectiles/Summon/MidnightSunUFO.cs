@@ -86,53 +86,39 @@ namespace CalamityMod.Projectiles.Summon
 
             if (potentialTarget != null)
             {
-                if (projectile.ai[0]++ % 360 < 180)
+                projectile.ai[0]++;
+                if (projectile.ai[0] % 360f < 180f)
                 {
                     projectile.rotation = projectile.rotation.AngleTowards(0f, 0.2f);
-                    if (projectile.ai[1] != 0f)
-                    {
-                        projectile.ai[1] = 0f;
-                    }
                     float angle = MathHelper.ToRadians(2f * projectile.ai[0] % 180f);
                     Vector2 destination = potentialTarget.Center - new Vector2((float)Math.Cos(angle) * potentialTarget.width * 0.65f, 250f);
                     projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 24f, 0.03f);
 
-                    if (projectile.ai[0] % 4f == 3f && potentialTarget.Top.Y > projectile.Bottom.Y)
+                    if (projectile.ai[0] % 8f == 7f && potentialTarget.Top.Y > projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
                         Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
 					projectile.MinionAntiClump(0.35f);
+                    projectile.ai[1] = 0f;
                 }
                 else
                 {
-                    const float framesUsedSpinning = MidnightSunBeam.TrueTimeLeft;
-                    float totalRadiansToSpin = MathHelper.ToRadians(120f);
-                    float totalRadiansNegativeRange = totalRadiansToSpin - (totalRadiansToSpin / 2);
-                    float radiansToSpinPerFrame = totalRadiansNegativeRange / framesUsedSpinning * 2f;
-                    if (projectile.ai[0] % 180 < 180 - framesUsedSpinning)
-                    {
-                        projectile.rotation = projectile.rotation.AngleLerp(projectile.AngleTo(potentialTarget.Center) - MathHelper.PiOver2 - totalRadiansNegativeRange, 0.15f);
+                    // Move very, very quickly above the target.
+                    Vector2 hoverDestination = potentialTarget.Top - Vector2.UnitY * 40f + (projectile.minionPos + projectile.ai[0] / 7f).ToRotationVector2() * 40f;
+                    projectile.Center = Vector2.Lerp(projectile.Center, hoverDestination, 0.1f).MoveTowards(hoverDestination, 20f);
+                    projectile.velocity = projectile.velocity.MoveTowards(Vector2.Zero, 4f);
+                    projectile.ai[1] = Math.Abs(hoverDestination.Y - potentialTarget.Bottom.Y) + MathHelper.Lerp(30f, 50f, projectile.identity % 7f / 7f);
 
-                        Vector2 spawnPosition = projectile.Center + Utils.NextVector2Unit(Main.rand).RotatedBy(projectile.rotation) * new Vector2(13f, 6f) / 2f;
-                        int idx = Dust.NewDust(spawnPosition - Vector2.One * 8f, 16, 16, 229, projectile.velocity.X / 2f, projectile.velocity.Y / 2f, 0, default, 1f);
-                        Main.dust[idx].velocity = Vector2.Normalize(projectile.Center - spawnPosition) * 2.6f;
-                        Main.dust[idx].noGravity = true;
-                        Main.dust[idx].scale = 0.9f;
-                    }
-                    else
+                    if (projectile.ai[0] % 360f == 240f)
                     {
-                        projectile.rotation += radiansToSpinPerFrame;
-                        if (projectile.ai[1] == 0f)
+                        if (Main.myPlayer == projectile.owner)
                         {
                             Main.PlaySound(SoundID.Item122, projectile.Center);
-                            Projectile.NewProjectile(projectile.Center, (projectile.velocity.ToRotation() + MathHelper.PiOver2).ToRotationVector2(),
-                                ModContent.ProjectileType<MidnightSunBeam>(), projectile.damage * 2, projectile.knockBack, projectile.owner,
-                                radiansToSpinPerFrame, projectile.whoAmI);
-                            projectile.ai[1] = 1f;
+                            Vector2 laserVelocity = projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
+                            Projectile.NewProjectile(projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, projectile.whoAmI);
                         }
                     }
-                    projectile.velocity *= 0.935f;
                 }
             }
             else

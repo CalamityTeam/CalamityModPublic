@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.Center = fireFrom;
             }
 
-            // Die of the owner is invalid in some way..
+            // Die of the owner is invalid in some way.
             else
             {
                 projectile.Kill();
@@ -126,8 +126,8 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 dustCreationPosition = projectile.Center + projectile.velocity * (LaserLength - 14f);
             for (int i = 0; i < 2; i++)
             {
-                float dustRot = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
-                Vector2 dustVelocity = dustRot.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
+                float dustDirection = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
+                Vector2 dustVelocity = dustDirection.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
                 Dust exoEnergy = Dust.NewDustDirect(dustCreationPosition, 0, 0, dustType, dustVelocity.X, dustVelocity.Y, 0, new Color(0, 255, 255), 1f);
                 exoEnergy.noGravity = true;
                 exoEnergy.scale = 1.7f;
@@ -212,7 +212,13 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 360);
+			target.AddBuff(BuffID.Frostburn, 360);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
             target.Calamity().lastProjectileHit = projectile;
         }

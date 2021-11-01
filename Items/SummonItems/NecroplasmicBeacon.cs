@@ -56,7 +56,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
+			recipe.AddIngredient(ItemID.SpookyWood, 25);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 50);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -81,6 +81,9 @@ namespace CalamityMod.NPCs
 
 		public int KillTime { get; set; } = 0;
 
+		public const int DoGPhase1KillTime = 5400;
+		public const int DoGPhase2KillTime = 9000;
+
 		public bool ShouldFallThroughPlatforms;
 
 		/// <summary>
@@ -147,6 +150,7 @@ namespace CalamityMod.NPCs
 		// Stuff used by the Boss Health UI
 		public bool SplittingWorm = false;
 		public bool CanHaveBossHealthBar = false;
+		public bool ShouldCloseHPBar = false;
 
 		// Timer for how long an NPC is immune to certain debuffs
 		public const int slowingDebuffResistanceMin = 1800;
@@ -356,10 +360,7 @@ namespace CalamityMod.NPCs
         {
             NPCType<DevourerofGodsHead>(),
             NPCType<DevourerofGodsBody>(),
-            NPCType<DevourerofGodsTail>(),
-            NPCType<DevourerofGodsHeadS>(),
-            NPCType<DevourerofGodsBodyS>(),
-            NPCType<DevourerofGodsTailS>()
+            NPCType<DevourerofGodsTail>()
         };
 
 		public static List<int> CosmicGuardianIDs = new List<int>
@@ -452,9 +453,9 @@ namespace CalamityMod.NPCs
 
 		public static List<int> StormWeaverIDs = new List<int>
 		{
-			NPCType<StormWeaverHeadNaked>(),
-			NPCType<StormWeaverBodyNaked>(),
-			NPCType<StormWeaverTailNaked>()
+			NPCType<StormWeaverHead>(),
+			NPCType<StormWeaverBody>(),
+			NPCType<StormWeaverTail>()
 		};
 
 		public static List<int> GrenadeResistIDs = new List<int>
@@ -744,7 +745,7 @@ namespace CalamityMod.NPCs
 			ResetSavedIndex(ref signus, NPCType<Signus.Signus>());
             ResetSavedIndex(ref ghostBossClone, NPCType<PolterPhantom>());
             ResetSavedIndex(ref ghostBoss, NPCType<Polterghast.Polterghast>());
-            ResetSavedIndex(ref DoGHead, NPCType<DevourerofGodsHead>(), NPCType<DevourerofGodsHeadS>());
+            ResetSavedIndex(ref DoGHead, NPCType<DevourerofGodsHead>());
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
@@ -763,6 +764,7 @@ namespace CalamityMod.NPCs
 			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
 			CurrentlyEnraged = false;
 			CanHaveBossHealthBar = false;
+			ShouldCloseHPBar = false;
 		}
         #endregion
 
@@ -1062,7 +1064,11 @@ namespace CalamityMod.NPCs
 				DR = newDR;
 			}
 
-			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			if (DevourerOfGodsIDs.Contains(npc.type))
+			{
+				KillTime = DoGPhase1KillTime;
+			}
+			else if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
 			{
 				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
 				KillTime = revKillTime;
@@ -1914,31 +1920,24 @@ namespace CalamityMod.NPCs
 			if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
 				damage += yellowCandleDamage;
 
+			// Boss that get higher timed DR than normal in specific circumstances
+			bool malice = CalamityWorld.malice;
+			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || malice);
+			bool prePlant_Destroyer = DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
+			bool prePlant_AS = AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
+			bool preML_Deus = AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || malice);
+			bool preDoG_SW = StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2);
+			bool malice_DS_Perfs = malice && (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type));
+			bool thanatos = ThanatosIDs.Contains(npc.type);
+
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (!GetDownedBossVariable(npc.type) || CalamityWorld.malice))
+			bool useTimedDR = !GetDownedBossVariable(npc.type) || malice || nightProvi || prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs || thanatos;
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && useTimedDR)
 			{
-                float DRScalar = CalamityWorld.malice ? 2f : 1.5f;
-
-				// Boost Providence timed DR during the night or in Malice Mode
-				if (npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice))
-                    DRScalar = 10f;
-
-				// Boost most worm boss timed DR to prevent speed killing
-				if ((DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
-					(AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || CalamityWorld.malice)) ||
-					(AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || CalamityWorld.malice)) ||
-					(StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || CalamityWorld.malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2)))
-					DRScalar = 5f;
-
-				// Boost Desert Scourge and Perforator Worm timed DR during Malice Mode to prevent speed killing
-				if (CalamityWorld.malice)
-				{
-					if (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type))
-						DRScalar = 5f;
-				}
-
-				if (ThanatosIDs.Contains(npc.type))
-					DRScalar = 2f;
+				bool tenTimes_TimedDR = nightProvi;
+				bool fiveTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
+				bool twoTimes_TimedDR = malice || thanatos;
+				float DRScalar = tenTimes_TimedDR ? 10f : fiveTimes_TimedDR ? 5f : twoTimes_TimedDR ? 2f : 1.5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -2087,7 +2086,8 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (npc.type != NPCType<Draedon>())
+				bool DoGSentinelPhase = DevourerOfGodsIDs.Contains(npc.type) && npc.life / (float)npc.lifeMax < 0.6f && CalamityWorld.DoGSecondStageCountdown > 60;
+				if (npc.type != NPCType<Draedon>() && !DoGSentinelPhase)
 				{
 					if (AITimer < KillTime)
 						AITimer++;
@@ -3498,12 +3498,34 @@ namespace CalamityMod.NPCs
 				// 25% resist to true melee.
 				if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.75);
+
+				// 20% resist to Eclipse's Fall stealth strike.
+				else if (projectile.type == ProjectileType<EclipsesSmol>())
+					damage = (int)(damage * 0.8);
+			}
+			else if (npc.type == NPCType<Artemis>() || npc.type == NPCType<Apollo>())
+			{
+				// 10% resist to Eclipse's Fall stealth strike.
+				if (projectile.type == ProjectileType<EclipsesSmol>())
+					damage = (int)(damage * 0.9);
 			}
 			else if (ThanatosIDs.Contains(npc.type))
 			{
+				// 75% resist to Celestus.
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
+					damage = (int)(damage * 0.25);
+
 				// 50% resist to true melee.
-				if (projectile.Calamity().trueMelee)
+				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.5);
+
+				// 40% resist to Wrathwing stealth strike.
+				else if (projectile.type == ProjectileType<WrathwingCinder>())
+					damage = (int)(damage * 0.6);
+
+				// 25% resist to Eradicator beams.
+				else if (projectile.type == ProjectileType<NebulaShot>())
+					damage = (int)(damage * 0.75);
 			}
 			else if (npc.type == NPCType<RavagerBody>())
 			{
@@ -3960,7 +3982,12 @@ namespace CalamityMod.NPCs
 			int spawnRate = 400;
 			int maxSpawnCount = (int)MaxSpawnsField.GetValue(null);
 			NPCLoader.EditSpawnRate(player, ref spawnRate, ref maxSpawnCount);
-			for (int i = 0; i < 18; i++)
+
+			// Enforce a limit on the amount of enemies that can appear.
+			if (player.activeNPCs >= maxSpawnCount)
+				return;
+
+			for (int i = 0; i < 8; i++)
 			{
 				int checkPositionX = (int)(player.Center.X / 16 + Main.rand.Next(30, 54) * Main.rand.NextBool(2).ToDirectionInt());
 				int checkPositionY = (int)(player.Center.Y / 16 + Main.rand.Next(24, 45) * Main.rand.NextBool(2).ToDirectionInt());
@@ -4108,9 +4135,7 @@ namespace CalamityMod.NPCs
 			}
 
             if (spawnInfo.player.Calamity().disableVoodooSpawns && pool.ContainsKey(NPCID.VoodooDemon))
-            {
                 pool.Remove(NPCID.VoodooDemon);
-            }
 		}
         #endregion
 
@@ -4975,7 +5000,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedCrabulon;
 			}
-			else if (type == NPCType<HiveMind.HiveMind>() || type == NPCType<HiveMind.HiveMindP2>())
+			else if (type == NPCType<HiveMind.HiveMind>())
 			{
 				return CalamityWorld.downedHiveMind;
 			}
@@ -5039,7 +5064,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedSentinel1;
 			}
-			else if (type == NPCType<StormWeaverHeadNaked>() || type == NPCType<StormWeaverBodyNaked>() || type == NPCType<StormWeaverTailNaked>())
+			else if (type == NPCType<StormWeaverHead>() || type == NPCType<StormWeaverBody>() || type == NPCType<StormWeaverTail>())
 			{
 				return CalamityWorld.downedSentinel2;
 			}
@@ -5055,7 +5080,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedBoomerDuke;
 			}
-			else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>() || type == NPCType<DevourerofGodsHeadS>() || type == NPCType<DevourerofGodsBodyS>() || type == NPCType<DevourerofGodsTailS>())
+			else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>())
 			{
 				return CalamityWorld.downedDoG;
 			}
@@ -5077,6 +5102,26 @@ namespace CalamityMod.NPCs
 			}
 
 			return true;
+		}
+		#endregion
+
+		#region Speedrun Display
+		public static void SetNewBossJustDowned(NPC npc)
+		{
+			if (!GetDownedBossVariable(npc.type))
+			{
+				CalamityLists.bossTypes.TryGetValue(npc.type, out int newBossTypeJustDowned);
+
+				for (int i = 0; i < Main.maxPlayers; i++)
+				{
+					Player player = Main.player[i];
+					if (!player.active)
+						continue;
+
+					player.Calamity().bossTypeJustDowned = newBossTypeJustDowned;
+					player.Calamity().bossTypeJustDownedTime = player.Calamity().speedrunTimer;
+				}
+			}
 		}
 		#endregion
 

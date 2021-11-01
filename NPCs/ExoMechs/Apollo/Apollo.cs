@@ -13,7 +13,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
 using System.Collections.Generic;
 using CalamityMod.Skies;
 
@@ -287,6 +286,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				exoPrimeWasFirst = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ai[3] == 1f;
 			bool otherExoMechWasFirst = exoWormWasFirst || exoPrimeWasFirst;
 
+			// Check for Draedon
+			bool draedonAlive = false;
+			if (CalamityGlobalNPC.draedon != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedon].active)
+					draedonAlive = true;
+			}
+
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
 				npc.ai[3] = 1f;
@@ -362,14 +369,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 10f : expertMode ? 8f : 4f;
+			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (int)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 300f : 480f;
+			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
@@ -377,15 +384,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeLocationDistanceGateValue = 20f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = (AIState == (int)Phase.LineUpChargeCombo ? 30f : 20f) * baseVelocityMult;
 
 			// Attack gate values
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Charge velocity
-			float chargeVelocity = malice ? 115f : death ? 100f : revenge ? 95f : expertMode ? 90f : 75f;
+			float chargeVelocity = malice ? 115f : death ? 105f : revenge ? 101.25f : expertMode ? 97.5f : 90f;
 
 			// Charge phase variables
 			double chargeDistance = Math.Sqrt(500D * 500D + 800D * 800D);
@@ -557,6 +564,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 							npc.TargetClosest();
 
+							// Draedon text for the start of phase 2
+							if (draedonAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 1f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+							}
+
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								// Spawn the fuckers
@@ -600,6 +614,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 								chargeLocations[i] = default;
 
 							npc.TargetClosest();
+
+							// Phase 6, when 1 mech goes berserk and the other one leaves
+							if (draedonAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 5f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+							}
 						}
 					}
 
@@ -643,6 +664,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 						// Never be passive if berserk
 						SecondaryAIState = (float)SecondaryPhase.Nothing;
+
+						// Phase 4, when 1 mech goes berserk and the other 2 leave
+						if (exoWormAlive && exoPrimeAlive)
+						{
+							if (draedonAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 3f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+							}
+						}
 					}
 
 					break;
@@ -668,6 +699,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							chargeLocations[i] = default;
 
 						npc.TargetClosest();
+
+						// Phase 3, when all 3 mechs attack at the same time
+						if (exoWormAlive && exoPrimeAlive)
+						{
+							if (draedonAlive)
+							{
+								Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 2f;
+								Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+							}
+						}
 					}
 
 					if (berserk)
@@ -727,7 +768,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = lastMechAlive ? 16 : nerfedAttacks ? 8 : 12;
+							int numPlasmaOrbs = nerfedAttacks ? 8 : lastMechAlive ? 10 : 12;
 							float divisor = attackPhaseGateValue / numPlasmaOrbs;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
@@ -1383,19 +1424,49 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 		public override void NPCLoot()
         {
 			// Check if the other exo mechs are alive
-			bool otherExoMechsAlive = false;
+			bool exoWormAlive = false;
+			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechWorm != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechWorm].active)
-					otherExoMechsAlive = true;
+					exoWormAlive = true;
 			}
 			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
-					otherExoMechsAlive = true;
+					exoPrimeAlive = true;
 			}
 
-			if (!otherExoMechsAlive)
+			// Check for Draedon
+			bool draedonAlive = false;
+			if (CalamityGlobalNPC.draedon != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedon].active)
+					draedonAlive = true;
+			}
+
+			// Phase 5, when 1 mech dies and the other 2 return to fight
+			if (exoWormAlive && exoPrimeAlive)
+			{
+				if (draedonAlive)
+				{
+					Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 4f;
+					Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+				}
+			}
+
+			// Phase 7, when 1 mech dies and the final one returns to the fight
+			else if (exoWormAlive || exoPrimeAlive)
+			{
+				if (draedonAlive)
+				{
+					Main.npc[CalamityGlobalNPC.draedon].localAI[0] = 6f;
+					Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
+				}
+			}
+
+			// Mark Exo Mechs as dead and drop loot
+			else
 				AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.ArtemisAndApollo);
 		}
 

@@ -2734,7 +2734,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Dust.QuickDustLine(npc.Center, initialRitualPosition, 500f, Color.Red);
             npc.Center = initialRitualPosition;
 
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for SCal
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);

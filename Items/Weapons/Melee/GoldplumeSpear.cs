@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 54;
-            item.damage = 23;
+            item.damage = 38;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 8f;
         }
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

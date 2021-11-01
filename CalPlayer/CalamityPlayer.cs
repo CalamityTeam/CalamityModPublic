@@ -140,11 +140,16 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-        public float MusicMuffleFactor;
-        #endregion
+		#endregion
 
-        #region Tile Entity Trackers
-        public int CurrentlyViewedFactoryID = -1;
+		#region Speedrun Timer
+		public int speedrunTimer = 0;
+		public int bossTypeJustDowned = -1;
+		public int bossTypeJustDownedTime = 0;
+		#endregion
+
+		#region Tile Entity Trackers
+		public int CurrentlyViewedFactoryID = -1;
         public int CurrentlyViewedChargerID = -1;
         public int CurrentlyViewedHologramID = -1;
         public string CurrentlyViewedHologramText;
@@ -254,8 +259,8 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
 
-        public const int BeltDodgeCooldown = 3600;
-        public const int MirrorDodgeCooldown = 4500;
+        public const int BeltDodgeCooldown = 5400;
+        public const int MirrorDodgeCooldown = 5400;
         public const int DaedalusReflectCooldown = 5400;
         public const int ArcanumReflectCooldown = 5400;
         public const int EvolutionReflectCooldown = 7200;
@@ -1098,7 +1103,7 @@ namespace CalamityMod.CalPlayer
 
         #endregion
 
-        #region SavingAndLoading
+        #region Saving And Loading
         public override void Initialize()
         {
             extraAccessoryML = false;
@@ -1220,8 +1225,11 @@ namespace CalamityMod.CalPlayer
                 { "itemTypeLastReforged", itemTypeLastReforged },
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
-                { "defenseDamage", defenseDamage }
-            };
+                { "defenseDamage", defenseDamage },
+				{ "speedrunTimer", speedrunTimer },
+				{ "bossTypeJustDowned", bossTypeJustDowned },
+				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
+			};
         }
 
         public override void Load(TagCompound tag)
@@ -1312,7 +1320,11 @@ namespace CalamityMod.CalPlayer
             moveSpeedStat = tag.GetInt("moveSpeedStat");
 
             defenseDamage = tag.GetInt("defenseDamage");
-        }
+
+			speedrunTimer = tag.GetInt("speedrunTimer");
+			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
+			bossTypeJustDownedTime = tag.GetInt("bossTypeJustDownedTime");
+		}
 
         public override void LoadLegacy(BinaryReader reader)
         {
@@ -1351,7 +1363,11 @@ namespace CalamityMod.CalPlayer
 
             defenseDamage = reader.ReadInt32();
 
-            if (loadVersion == 0)
+			speedrunTimer = reader.ReadInt32();
+			bossTypeJustDowned = reader.ReadInt32();
+			bossTypeJustDownedTime = reader.ReadInt32();
+
+			if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
                 extraAccessoryML = flags[0];
@@ -1480,8 +1496,6 @@ namespace CalamityMod.CalPlayer
             }
 
             ResetRogueStealth();
-
-            MusicMuffleFactor = 0f;
 
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
@@ -2573,10 +2587,7 @@ namespace CalamityMod.CalPlayer
             bool useNebula = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
             player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
 
-            bool useNebulaS = NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>());
-            player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
-
-            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+            bool useFlash = NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>());
             if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
             {
                 if (useFlash)
@@ -3888,10 +3899,17 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ProfanedCrystalBuff>(), 60, true);
             }
         }
-        #endregion
+		#endregion
 
-        #region PreUpdate
-        public override void PreUpdate()
+		#region Update Autopause
+		public override void UpdateAutopause()
+		{
+			speedrunTimer++;
+		}
+		#endregion
+
+		#region PreUpdate
+		public override void PreUpdate()
         {
             tailFrameUp++;
             if (tailFrameUp == 8)
@@ -3927,7 +3945,9 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-        }
+
+			speedrunTimer++;
+		}
         #endregion
 
         #region PreUpdateBuffs
@@ -5079,10 +5099,12 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.TheRottedFork:
 				case ProjectileID.TheMeatball:
+				case ProjectileID.CrimsonYoyo:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
 
 				case ProjectileID.BallOHurt:
+				case ProjectileID.CorruptYoyo:
 					target.AddBuff(BuffID.ShadowFlame, 60);
 					break;
 
@@ -5559,10 +5581,6 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
-            {
-                damage += Main.rand.Next(20, 31);
-            }
             if (plaguebringerPatronSummon)
             {
                 if (isSummon && proj.active && proj.friendly && !proj.npcProj && !proj.trap && proj.damage > 0)
@@ -5782,11 +5800,19 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
+                    double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
                     if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
+
+					if (areThereAnyDamnBosses)
+					{
+						int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+						if (damageToDefense < defenseDamageFloor)
+							damageToDefense = defenseDamageFloor;
+					}
+
                     defenseDamage += damageToDefense;
 
 					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
@@ -6229,12 +6255,20 @@ namespace CalamityMod.CalPlayer
                 }
                 if (!isImmune && !invincible && !lol)
                 {
-                    double defenseStatDamageMult = (CalamityWorld.death || CalamityWorld.malice) ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
-                    if (draedonsHeart)
+					double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
+					if (draedonsHeart)
                         defenseStatDamageMult *= 0.5;
 
                     int damageToDefense = (int)(damage * defenseStatDamageMult);
-                    defenseDamage += damageToDefense;
+
+					if (areThereAnyDamnBosses)
+					{
+						int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+						if (damageToDefense < defenseDamageFloor)
+							damageToDefense = defenseDamageFloor;
+					}
+
+					defenseDamage += damageToDefense;
 
 					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
 						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
@@ -6548,7 +6582,7 @@ namespace CalamityMod.CalPlayer
                     else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
                     {
                         if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
-                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
+                            reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
                     }
                     else if (proj.type == ProjectileID.SaucerScrap)
                     {
@@ -7468,23 +7502,6 @@ namespace CalamityMod.CalPlayer
                 rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
-            }
-
-            if (CalamityWorld.revenge)
-            {
-                // Apply custom damage in Revengeance Mode. All this actually does is provide a minimum damage
-                customDamage = true;
-
-                // Revengeance uses the same defense effectiveness as Expert, 75%.
-                double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
-                double newDamage = damage - (player.statDefense * defenseMultiplier);
-
-                double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-
-                if (newDamage < newDamageLimit)
-                    newDamage = newDamageLimit;
-
-                damage = (int)newDamage;
             }
 
             // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.

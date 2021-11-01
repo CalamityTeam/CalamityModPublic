@@ -37,7 +37,9 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
@@ -47,6 +49,8 @@ using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
@@ -62,7 +66,6 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -155,6 +158,8 @@ namespace CalamityMod
 		public static List<int> pierceResistList;
 		public static List<int> pierceResistExceptionList;
 
+		public static SortedDictionary<int, int> bossTypes;
+
 		public static List<int> legOverrideList;
 
         public static List<int> kamiDebuffColorImmuneList;
@@ -225,7 +230,7 @@ namespace CalamityMod
                 "Sandblast",
                 "ThomasThePencil",
                 "Aero (Aero#4599)",
-                "GlitchOut",
+                "Shirosity", // used to be GlitchOut
                 "Daawnz",
                 "CrabBar",
                 "Yatagarasu",
@@ -291,7 +296,7 @@ namespace CalamityMod
                 "Mendzey",
                 "GameRDheAsianSandwich",
                 "Tobias",
-                "Streakist .",
+                "Streakist",
                 "Eisaya",
                 "Xenocrona",
                 "RKMoon",
@@ -308,7 +313,7 @@ namespace CalamityMod
 				"dawn thunder",
 				"asdf935",
 				"GentSkeleton",
-				"Fizzlpoprock .",
+				"Fizzlpoprock",
 				"Pigeon",
 				"Aleksh",
 				"Just a random guy",
@@ -359,7 +364,7 @@ namespace CalamityMod
 				"Timon",
 				"F00d Demon",
 				"Olkothan",
-				"Vmar98 .",
+				"Vmar98",
 				"Dasdruid",
 				"Cinder",
 				"Brutzli",
@@ -414,7 +419,7 @@ namespace CalamityMod
 				"Arcadia",
 				"JensB__",
 				"Nuclei",
-				"Picasso’s Bean",
+				"Picasso's Bean",
 				"Corn M. Cobb",
 				"kgh8090",
 				"Luke",
@@ -509,7 +514,7 @@ namespace CalamityMod
 				"WillyDilly",
 				"xAqult",
 				"Himakaze",
-				"Face.",
+				"Face",
 				"Carboniferous",
 				"James"
 			};
@@ -579,6 +584,8 @@ namespace CalamityMod
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<GhastlyVisageProj>(),
                 ProjectileType<ApotheosisWorm>(),
+                ProjectileType<SpiritCongregation>(),
+                ProjectileType<RancorLaserbeam>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),
@@ -1168,6 +1175,13 @@ namespace CalamityMod
                 ItemID.SpiderStaff,
                 ItemID.Beenade,
                 ItemID.FrostDaggerfish,
+                ItemID.BubbleGun,
+                ItemID.Flairon,
+                ItemID.TempestStaff,
+                ItemID.RazorbladeTyphoon,
+                ItemID.Tsunami,
+                ItemType<DukesDecapitator>(),
+                ItemType<BrinyBaron>(),
                 ItemType<DepthBlade>(),
                 ItemType<AbyssBlade>(),
                 ItemType<NeptunesBounty>(),
@@ -1354,6 +1368,7 @@ namespace CalamityMod
 
             fiftySizeBuffList = new List<int>()
             {
+				ItemID.EnchantedSword,
                 ItemID.BreakerBlade,
                 ItemID.StylistKilLaKillScissorsIWish,
                 ItemID.NightsEdge,
@@ -1938,12 +1953,8 @@ namespace CalamityMod
                 NPCType<AstrumDeusTailSpectral>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
-                NPCType<StormWeaverBodyNaked>(),
-                NPCType<StormWeaverTailNaked>(),
                 NPCType<DevourerofGodsBody>(),
                 NPCType<DevourerofGodsTail>(),
-                NPCType<DevourerofGodsBodyS>(),
-                NPCType<DevourerofGodsTailS>(),
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
 				NPCType<ThanatosTail>(),
@@ -2318,6 +2329,7 @@ namespace CalamityMod
                 ItemType<KnowledgeDevourerofGods>(),
                 ItemType<KnowledgeDukeFishron>(),
                 ItemType<KnowledgeEaterofWorlds>(),
+                ItemType<KnowledgeExoMechs>(),
                 ItemType<KnowledgeEyeofCthulhu>(),
                 ItemType<KnowledgeGolem>(),
                 ItemType<KnowledgeHiveMind>(),
@@ -2701,18 +2713,15 @@ namespace CalamityMod
 				NPCType<AstrumDeusBodySpectral>(),
 				NPCType<AstrumDeusTailSpectral>(),
 				NPCType<DarkEnergy>(),
-				NPCType<StormWeaverHeadNaked>(),
-				NPCType<StormWeaverBodyNaked>(),
-				NPCType<StormWeaverTailNaked>(),
+				NPCType<StormWeaverHead>(),
+				NPCType<StormWeaverBody>(),
+				NPCType<StormWeaverTail>(),
 				NPCType<DevourerofGodsHead>(),
 				NPCType<DevourerofGodsBody>(),
 				NPCType<DevourerofGodsTail>(),
 				NPCType<DevourerofGodsHead2>(),
 				NPCType<DevourerofGodsBody2>(),
 				NPCType<DevourerofGodsTail2>(),
-				NPCType<DevourerofGodsHeadS>(),
-				NPCType<DevourerofGodsBodyS>(),
-				NPCType<DevourerofGodsTailS>(),
 				NPCType<ThanatosHead>(),
 				NPCType<ThanatosBody1>(),
 				NPCType<ThanatosBody2>(),
@@ -2767,6 +2776,61 @@ namespace CalamityMod
 				ProjectileType<StickyBol>(),
 				ProjectileType<UrchinStingerProj>(),
 				ProjectileType<EyeOfNightCell>()
+			};
+
+			bossTypes = new SortedDictionary<int, int>()
+			{
+				{ NPCID.KingSlime, 1 },
+				{ NPCType<DesertScourgeHead>(), 2 },
+				{ NPCID.EyeofCthulhu, 3 },
+				{ NPCType<CrabulonIdle>(), 4 },
+				{ NPCID.EaterofWorldsHead, 5 },
+				{ NPCID.EaterofWorldsBody, 5 },
+				{ NPCID.EaterofWorldsTail, 5 },
+				{ NPCID.BrainofCthulhu, 6 },
+				{ NPCType<HiveMind>(), 7 },
+				{ NPCType<PerforatorHive>(), 8 },
+				{ NPCID.QueenBee, 9 },
+				{ NPCID.SkeletronHead, 10 },
+				{ NPCType<SlimeGodCore>(), 11 },
+				{ NPCType<SlimeGodSplit>(), 11 },
+				{ NPCType<SlimeGodRunSplit>(), 11 },
+				{ NPCID.WallofFlesh, 12 },
+				{ NPCType<Cryogen>(), 13 },
+				{ NPCID.Retinazer, 14 },
+				{ NPCID.Spazmatism, 14 },
+				{ NPCType<AquaticScourgeHead>(), 15 },
+				{ NPCID.TheDestroyer, 16 },
+				{ NPCType<BrimstoneElemental>(), 17 },
+				{ NPCID.SkeletronPrime, 18 },
+				{ NPCType<CalamitasRun3>(), 19 },
+				{ NPCID.Plantera, 20 },
+				{ NPCType<Leviathan>(), 21 },
+				{ NPCType<Siren>(), 21 },
+				{ NPCType<AstrumAureus>(), 22 },
+				{ NPCID.Golem, 23 },
+				{ NPCType<PlaguebringerGoliath>(), 24 },
+				{ NPCID.DukeFishron, 25 },
+				{ NPCType<RavagerBody>(), 26 },
+				{ NPCID.CultistBoss, 27 },
+				{ NPCType<AstrumDeusHeadSpectral>(), 28 },
+				{ NPCID.MoonLordCore, 29 },
+				{ NPCType<ProfanedGuardianBoss>(), 30 },
+				{ NPCType<Bumblefuck>(), 31 },
+				{ NPCType<Providence>(), 32 },
+				{ NPCType<CeaselessVoid>(), 33 },
+				{ NPCType<StormWeaverHead>(), 34 },
+				{ NPCType<Signus>(), 35 },
+				{ NPCType<Polterghast>(), 36 },
+				{ NPCType<OldDuke>(), 37 },
+				{ NPCType<DevourerofGodsHead>(), 38 },
+				{ NPCType<Yharon>(), 39 },
+				{ NPCType<SupremeCalamitas>(), 40 },
+				{ NPCType<AresBody>(), 41 },
+				{ NPCType<ThanatosHead>(), 41 },
+				{ NPCType<Artemis>(), 41 },
+				{ NPCType<Apollo>(), 41 },
+				{ NPCType<EidolonWyrmHeadHuge>(), 42 }
 			};
 
 			bossMinionList = new List<int>()
@@ -2894,7 +2958,10 @@ namespace CalamityMod
                 ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
-                ProjectileType<EndoHydraHead>()
+                ProjectileType<EndoHydraHead>(),
+                ProjectileType<EndoHydraBody>(),
+                ProjectileType<SeekerSummonProj>(),
+                ProjectileType<SepulcherMinion>()
             };
 
             ZeroMinionSlotExceptionList = new List<int>()
@@ -2998,6 +3065,9 @@ namespace CalamityMod
 			heartDropBlockList = null;
 			pierceResistList = null;
 			pierceResistExceptionList = null;
+
+			bossTypes?.Clear();
+			bossTypes = null;
 
 			legOverrideList = null;
 

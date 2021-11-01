@@ -89,11 +89,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             CalamityAI.AstrumAureusAI(npc, mod);
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            return npc.alpha == 0 && npc.ai[0] > 1f;
-        }
-
         public override void FindFrame(int frameHeight)
         {
             if (npc.ai[0] == 3f || npc.ai[0] == 4f)
@@ -319,7 +314,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Astrum Aureus
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);
@@ -423,7 +420,74 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Vector2 npcCenter = new Vector2(npc.Center.X, npc.Center.Y + 8f);
+
+			// NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
+			// Width = 83, Height = 107
+			Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 2f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+			// Width = 166, Height = 214
+			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f)), npc.width / 2, npc.height);
+			// Width = 83, Height = 107
+			Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+
+			Vector2 leftHitboxCenter = new Vector2(leftHitbox.X + (leftHitbox.Width / 2), leftHitbox.Y + (leftHitbox.Height / 2));
+			Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
+			Vector2 rightHitboxCenter = new Vector2(rightHitbox.X + (rightHitbox.Width / 2), rightHitbox.Y + (rightHitbox.Height / 2));
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float leftDist1 = Vector2.Distance(leftHitboxCenter, targetHitbox.TopLeft());
+			float leftDist2 = Vector2.Distance(leftHitboxCenter, targetHitbox.TopRight());
+			float leftDist3 = Vector2.Distance(leftHitboxCenter, targetHitbox.BottomLeft());
+			float leftDist4 = Vector2.Distance(leftHitboxCenter, targetHitbox.BottomRight());
+
+			float minLeftDist = leftDist1;
+			if (leftDist2 < minLeftDist)
+				minLeftDist = leftDist2;
+			if (leftDist3 < minLeftDist)
+				minLeftDist = leftDist3;
+			if (leftDist4 < minLeftDist)
+				minLeftDist = leftDist4;
+
+			bool insideLeftHitbox = minLeftDist <= 55f;
+
+			float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
+			float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
+			float bodyDist3 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomLeft());
+			float bodyDist4 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomRight());
+
+			float minBodyDist = bodyDist1;
+			if (bodyDist2 < minBodyDist)
+				minBodyDist = bodyDist2;
+			if (bodyDist3 < minBodyDist)
+				minBodyDist = bodyDist3;
+			if (bodyDist4 < minBodyDist)
+				minBodyDist = bodyDist4;
+
+			bool insideBodyHitbox = minBodyDist <= 110f;
+
+			float rightDist1 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopLeft());
+			float rightDist2 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopRight());
+			float rightDist3 = Vector2.Distance(rightHitboxCenter, targetHitbox.BottomLeft());
+			float rightDist4 = Vector2.Distance(rightHitboxCenter, targetHitbox.BottomRight());
+
+			float minRightDist = rightDist1;
+			if (rightDist2 < minRightDist)
+				minRightDist = rightDist2;
+			if (rightDist3 < minRightDist)
+				minRightDist = rightDist3;
+			if (rightDist4 < minRightDist)
+				minRightDist = rightDist4;
+
+			bool insideRightHitbox = minRightDist <= 55f;
+
+			return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && npc.alpha == 0 && npc.ai[0] > 1f;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240, true);
         }

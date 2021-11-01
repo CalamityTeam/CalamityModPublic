@@ -280,11 +280,11 @@ namespace CalamityMod
                         Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
                         break;
 
-                    //
-                    // Default case: with no idea how long the packet is, we can't safely read data.
-                    // Throw an exception now instead of allowing the network stream to corrupt.
-                    //
-                    default:
+					//
+					// Default case: with no idea how long the packet is, we can't safely read data.
+					// Throw an exception now instead of allowing the network stream to corrupt.
+					//
+					default:
                         CalamityMod.Instance.Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         throw new Exception("Failed to parse Calamity packet: Invalid Calamity packet ID.");
                 }
@@ -399,6 +399,6 @@ namespace CalamityMod
 
         // Reforge syncs
         ItemTypeLastReforgedSync, // TODO -- there has to be a better way to do this, but I don't know what it is
-        ReforgeTierSafetySync,
-    }
+        ReforgeTierSafetySync
+	}
 }

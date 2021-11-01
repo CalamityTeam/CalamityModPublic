@@ -38,7 +38,25 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(200, 200, 200, projectile.alpha);
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.velocity.Length() >= projectile.ai[0];
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 12f && projectile.velocity.Length() >= projectile.ai[0];
+		}
 
 		public override void Kill(int timeLeft)
         {

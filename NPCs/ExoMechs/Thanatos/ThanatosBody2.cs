@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		internal static void LoadHeadIcons()
 		{
-			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody";
-			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody";
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody2";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody2";
 
 			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
 			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+										float predictionAmt = malice ? 30f : death ? 20f : revenge ? 17.5f : expertMode ? 15f : 10f;
 										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -432,7 +432,11 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.Calamity().unbreakableDR = !vulnerable;
 
 			// Increase overall damage taken while vulnerable
-			npc.takenDamageMultiplier = vulnerable ? 1.1f : 1f;
+			float damageMult = malice ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
+			if (berserk)
+				damageMult -= malice ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
+
+			npc.takenDamageMultiplier = vulnerable ? damageMult : 1f;
 
 			// Vent noise and steam
 			SmokeDrawer.ParticleSpawnRate = 9999999;
@@ -541,6 +545,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void FindFrame(int frameHeight) // 5 total frames
 		{
+			if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)
+				return;
+
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;

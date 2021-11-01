@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.value = Item.buyPrice(gold: 36);
             item.rare = ItemRarityID.Pink;
+            item.expert = true;
             item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;

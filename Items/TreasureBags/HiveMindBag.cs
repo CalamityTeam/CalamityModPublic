@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class HiveMindBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<HiveMindP2>();
+        public override int BossBagNPC => ModContent.NPCType<HiveMind>();
 
         public override void SetStaticDefaults()
         {

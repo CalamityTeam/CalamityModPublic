@@ -97,6 +97,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public ref float JawRotation => ref projectile.localAI[0];
         public ref float JawSnapTimer => ref projectile.localAI[1];
+        public const int HeartCreationRate = 420;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -222,7 +223,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Check if ready to enrage every so often.
             IdleTimer++;
-            if (IdleTimer % 600 == 599)
+            if (IdleTimer % HeartCreationRate == HeartCreationRate - 1f)
             {
                 int heartsAttachedToOwner = 0;
                 int heartType = ModContent.NPCType<ExhumedHeart>();
@@ -282,7 +283,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void HandleBuffs()
         {
-            // Maintain or remove the Mechworm buff from the owner.
+            // Maintain or remove the Sepulcher buff from the owner.
             Owner.AddBuff(ModContent.BuffType<SepulcherMinionBuff>(), 3600);
             if (Owner.dead)
                 Owner.Calamity().sepulcher = false;
@@ -627,9 +628,9 @@ namespace CalamityMod.Projectiles.Summon
 
             // Draw the head.
             if (afterimageOutwardness > 0f)
-			{
+            {
                 for (int i = 0; i < 4; i++)
-				{
+                {
                     Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * afterimageOutwardness;
                     spriteBatch.Draw(headTexture, drawPosition + drawOffset, null, backAfterimageColor, projectile.rotation, headTexture.Size() * 0.5f, projectile.scale * 1.25f, SpriteEffects.None, 0f);
                 }
@@ -638,9 +639,9 @@ namespace CalamityMod.Projectiles.Summon
 
             // Draw demonic eyes if enraged.
             if (afterimageOutwardness > 0f)
-			{
+            {
                 for (int i = 0; i < (int)(projectile.oldPos.Length * angerFactor); i++)
-				{
+                {
                     drawPosition = projectile.Center - Main.screenPosition - projectile.velocity.SafeNormalize(Vector2.Zero) * 3f * i;
                     Color fadeColor = Color.White * (1f - i / (float)projectile.oldPos.Length);
                     spriteBatch.Draw(eyesTexture, drawPosition, null, projectile.GetAlpha(fadeColor), projectile.oldRot[i], eyesTexture.Size() * 0.5f, projectile.scale * 1.25f, SpriteEffects.None, 0f);
@@ -671,20 +672,20 @@ namespace CalamityMod.Projectiles.Summon
             drawCacheProjsBehindProjectiles.Add(index);
         }
 
-		#endregion
+        #endregion
 
-		#region Damage Stuff
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
+        #region Damage Stuff
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
             damage = Main.rand.Next(80, 90);
-		}
+        }
 
         public override bool? CanHitNPC(NPC target)
-		{
+        {
             if (target.type == ModContent.NPCType<ExhumedHeart>())
                 return false;
             return null;
-		}
+        }
         #endregion
     }
 }

@@ -44,19 +44,19 @@ namespace CalamityMod.Items
 			// This is placed between vanilla tooltip edits and mod mechanics because it can apply to vanilla items.
 			StealthGenAccessoryTooltip(item, tooltips);
 
-			// If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
-			ElementTooltip(item, tooltips);
+            // Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
+            if (canFirePointBlankShots)
+            {
+                TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+                tooltips.Add(line);
+            }
+
+            // If an item has special tags (specifically Ice, Fire, and Nature), show that in the tooltip.
+            ElementTooltip(item, tooltips);
 
 			// If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
 			// tooltip list.
 			EnchantmentTooltips(item, tooltips);
-
-			// Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
-			if (canFirePointBlankShots)
-			{
-				TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
-				tooltips.Add(line);
-			}
 
 			// Everything below this line can only apply to modded items. If the item is vanilla, stop here for efficiency.
 			if (item.type < ItemID.Count)
@@ -355,7 +355,7 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
 			#endregion
 
-			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
+			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
 				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
@@ -410,10 +410,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
 				EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
 
-			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt)
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 
@@ -493,6 +493,19 @@ namespace CalamityMod.Items
 			// Rebalances to vanilla item stats
 			#region Vanilla Item Rebalance Tooltips
 
+			// Magic Power Potion nerf
+			if (item.type == ItemID.MagicPowerPotion)
+				EditTooltipByNum(0, (line) => line.text = "10% increased magic damage");
+
+			// Magic and Wizard Hat nerfs
+			// Magic Hat
+			if (item.type == ItemID.MagicHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage and critical strike chance");
+
+			// Wizard Hat
+			if (item.type == ItemID.WizardHat)
+				EditTooltipByNum(0, (line) => line.text = "5% increased magic damage");
+
 			// Reduce DD2 armor piece bonuses because they're overpowered
 			// Squire armor
 			if (item.type == ItemID.SquirePlating)
@@ -560,12 +573,20 @@ namespace CalamityMod.Items
 				string extraLine = "\n10% increased true melee damage";
 				if (CalamityWorld.death)
 					extraLine += "\nProvides heat and cold protection in Death Mode";
-				EditTooltipByNum(1, (line) => line.text = line.text.Replace("12%", "14%") + extraLine);
+				EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
 			}
 
 			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
 			if (item.type == ItemID.SpectreHood)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
+			#endregion
+
+			// Non-consumable boss summon items
+			#region Vanilla Boss Summon Non-consumable Tooltips
+			if (item.type == ItemID.SlimeCrown || item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.WormFood ||
+				item.type == ItemID.BloodySpine || item.type == ItemID.Abeemination || item.type == ItemID.MechanicalEye ||
+				item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull || item.type == ItemID.CelestialSigil)
+				EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
 			#endregion
 
 			// Items which provide immunity to either heat or cold in Death Mode, or interact with Lethal Lava

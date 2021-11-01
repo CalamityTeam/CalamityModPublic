@@ -21,7 +21,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class DevourerofGodsBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHeadS>();
+        public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHead>();
 
         public override void SetStaticDefaults()
         {

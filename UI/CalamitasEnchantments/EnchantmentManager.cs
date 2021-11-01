@@ -1,4 +1,5 @@
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
 using CalamityMod.Projectiles.Melee;
@@ -272,7 +273,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 						player.Calamity().lecherousOrbEnchant = true;
 
 						bool orbIsPresent = false;
-						int orbType = ModContent.NPCType<BrimstoneOrb>();
+						int orbType = ModContent.NPCType<LecherousOrb>();
 						for (int i = 0; i < Main.maxNPCs; i++)
 						{
 							if (Main.npc[i].type != orbType || Main.npc[i].target != player.whoAmI || !Main.npc[i].active)
@@ -306,7 +307,10 @@ namespace CalamityMod.UI.CalamitasEnchants
 			ItemUpgradeRelationship = new Dictionary<int, int>()
 			{
 				[ModContent.ItemType<TheCommunity>()] = ModContent.ItemType<ShatteredCommunity>(),
-				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<ExhumedVigilance>(),
+				[ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<CindersOfLament>(),
+				[ModContent.ItemType<StaffoftheMechworm>()] = ModContent.ItemType<Metastasis>(),
+				[ModContent.ItemType<GhastlyVisage>()] = ModContent.ItemType<GruesomeEminence>(),
+				[ModContent.ItemType<BurningSea>()] = ModContent.ItemType<Rancor>()
 			};
 		}
 

@@ -19,9 +19,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 170;
-            projectile.height = 170;
-            projectile.scale = 0.75f;
+			projectile.width = 172;
+            projectile.height = 172;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
@@ -45,14 +44,15 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.velocity *= 1.005f;
+
             projectile.rotation += 0.1f;
+
             if (visible && projectile.alpha > 0)
                 projectile.alpha -= 15;
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)
-            {
                 visible = true;
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -62,6 +62,26 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 80f;
+		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
@@ -70,7 +90,6 @@ namespace CalamityMod.Projectiles.Boss
 		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.Damage();
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);

@@ -70,7 +70,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            CalamityUtils.DrawFlameSparks(187, 5, i, j);
+            if (Main.tile[i, j].frameX < 66)
+				CalamityUtils.DrawFlameSparks(187, 5, i, j);
         }
 
         public override bool NewRightClick(int i, int j)

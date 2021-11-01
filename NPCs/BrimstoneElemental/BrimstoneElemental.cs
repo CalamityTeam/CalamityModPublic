@@ -67,7 +67,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
-            for (int i = 0; i < 4; i++)
+			writer.Write(npc.localAI[3]);
+			for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
         }
 
@@ -76,7 +77,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.chaseable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
-            for (int i = 0; i < 4; i++)
+			npc.localAI[3] = reader.ReadSingle();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
@@ -146,7 +148,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+			DropHelper.DropBags(npc);
 
 			// Legendary drop for Brimstone Elemental
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
@@ -181,12 +185,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				// Vanity
 				DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
-
-			//if brimmy hasn't been killed, you can mine charred ore
-            string key2 = "Mods.CalamityMod.BrimmyBossText";
-            Color messageColor2 = Color.Crimson;
-            if (!CalamityWorld.downedBrimstoneElemental)
-                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;

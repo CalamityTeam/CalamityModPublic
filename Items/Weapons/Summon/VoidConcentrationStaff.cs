@@ -28,11 +28,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.UseSound = SoundID.DD2_EtherianPortalOpen;
             item.summon = true;
-
             item.mana = 10;
             item.damage = 150;
             item.knockBack = 4f;
-            item.useTime = item.useAnimation = 10;
+            item.useTime = item.useAnimation = 15; // 14 because of useStyle 1
             item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();
             item.shootSpeed = 10f;
 

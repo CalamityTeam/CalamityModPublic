@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else if (projectile.Calamity().stealthStrike && hasHitEnemy)
             {
-                if (targetNPC >= 0)
+                if (targetNPC >= 0 && Main.npc[targetNPC].active)
                 {
                     Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
                     newVelocity.Normalize();

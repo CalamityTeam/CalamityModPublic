@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.Calamity().stealthStrike == true)
+			if (projectile.Calamity().stealthStrike)
 			{
 				target.AddBuff(BuffID.Webbed, 120);
 			}
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (projectile.Calamity().stealthStrike == true)
+			if (projectile.Calamity().stealthStrike)
 			{
 				target.AddBuff(BuffID.Webbed, 120);
 			}

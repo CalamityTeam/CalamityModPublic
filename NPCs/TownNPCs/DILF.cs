@@ -168,9 +168,6 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 			nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
-            nextSlot++;
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodRune>());

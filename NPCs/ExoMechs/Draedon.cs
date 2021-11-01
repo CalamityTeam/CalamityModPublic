@@ -31,6 +31,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public Player PlayerToFollow => Main.player[npc.target];
         public ref float TalkTimer => ref npc.ai[0];
         public ref float GeneralTimer => ref npc.ai[3];
+		public ref float DialogueType => ref npc.localAI[0];
         public static bool ExoMechIsPresent
         {
             get
@@ -54,17 +55,18 @@ namespace CalamityMod.NPCs.ExoMechs
         public const int DelayPerDialogLine = 130;
         public const int ExoMechChooseDelay = TalkDelay + DelayPerDialogLine * 4 + 10;
         public const int ExoMechShakeTime = 100;
-        public const int DelayBeforeDefeatStandup = 30;
+		public const int ExoMechPhaseDialogueTime = ExoMechChooseDelay + ExoMechShakeTime;
+		public const int DelayBeforeDefeatStandup = 30;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon");
-            Main.npcFrameCount[npc.type] = 15;
+            Main.npcFrameCount[npc.type] = 12;
         }
 
         public override void SetDefaults()
         {
             npc.damage = 0;
-            npc.width = npc.height = 34;
+            npc.width = npc.height = 86;
             npc.defense = 100;
             npc.lifeMax = 16000;
             npc.noGravity = true;
@@ -72,17 +74,20 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.dontTakeDamage = true;
             npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
+            npc.DeathSound = SoundID.NPCDeath14;
             npc.Calamity().DoesNotGenerateRage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(DialogueType);
             writer.Write(DefeatTimer);
             writer.Write(ShouldStartStandingUp);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			DialogueType = reader.ReadSingle();
             DefeatTimer = reader.ReadSingle();
             ShouldStartStandingUp = reader.ReadBoolean();
         }
@@ -127,6 +132,13 @@ namespace CalamityMod.NPCs.ExoMechs
             if (TalkTimer == TeleportFadeinTime + 5f)
                 ShouldStartStandingUp = true;
 
+            // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
+            if (CalamityWorld.TalkedToDraedon && TalkTimer > 70 && TalkTimer < TalkDelay * 4f - 25f)
+            {
+                TalkTimer = TalkDelay * 4f - 25f;
+                npc.netUpdate = true;
+            }
+
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay)
             {
                 CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText1", TextColor);
@@ -154,7 +166,18 @@ namespace CalamityMod.NPCs.ExoMechs
             // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
             {
-                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+                if (CalamityWorld.TalkedToDraedon)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
+                else
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
+
+                // Mark Draedon as talked to.
+                if (!CalamityWorld.TalkedToDraedon)
+                {
+                    CalamityWorld.TalkedToDraedon = true;
+                    CalamityNetcode.SyncWorld();
+                }
+
                 npc.netUpdate = true;
             }
 
@@ -165,10 +188,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 TalkTimer = ExoMechChooseDelay;
             }
 
-            // Disable music before talking.
-            if (TalkTimer <= 50f)
-                Main.LocalPlayer.Calamity().MusicMuffleFactor = 1f;
-
             // Fly around once the exo mechs have been spawned.
             if (ExoMechIsPresent || DefeatTimer > 0f)
             {
@@ -177,10 +196,10 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             // Make the screen rumble and summon the exo mechs.
-            if (TalkTimer > ExoMechChooseDelay + 8f && TalkTimer < ExoMechChooseDelay + ExoMechShakeTime)
+            if (TalkTimer > ExoMechChooseDelay + 8f && TalkTimer < ExoMechPhaseDialogueTime)
             {
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(4200f, 1400f, Main.LocalPlayer.Distance(PlayerToFollow.Center), true) * 18f;
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(ExoMechChooseDelay + 5f, ExoMechChooseDelay + ExoMechShakeTime, TalkTimer, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(ExoMechChooseDelay + 5f, ExoMechPhaseDialogueTime, TalkTimer, true);
             }
 
             // Summon the selected exo mech.
@@ -197,6 +216,112 @@ namespace CalamityMod.NPCs.ExoMechs
                         sound.Volume = MathHelper.Clamp(sound.Volume * 1.55f, 0f, 1f);
                 }
             }
+
+			// Dialogue lines depending on what phase the exo mechs are at.
+			switch ((int)DialogueType)
+			{
+				case 1:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase1Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase1Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 2:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 3:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 4:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase4Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 5:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase5Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 6:
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text1", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text2", TextColor);
+						npc.netUpdate = true;
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine * 2f)
+					{
+						CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text3", TextColor);
+						npc.netUpdate = true;
+					}
+
+					break;
+			}
 
             if (TalkTimer > ExoMechChooseDelay + 10f && !ExoMechIsPresent)
             {
@@ -303,7 +428,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Stand up in awe after a small amount of time has passed.
             if (DefeatTimer > DelayBeforeDefeatStandup)
                 ShouldStartStandingUp = true;
-            
+
             // TODO - This needs to be changed.
             if (DefeatTimer == DelayBeforeDefeatStandup + 10f)
                 Main.NewText("Wait, what? How?", TextColor);
@@ -326,15 +451,15 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Width = 102;
+            npc.frame.Width = 100;
 
             int xFrame = npc.frame.X / npc.frame.Width;
             int yFrame = npc.frame.Y / frameHeight;
             int frame = xFrame * Main.npcFrameCount[npc.type] + yFrame;
 
             // Prepare to stand up if called for and not already doing so.
-            if (ShouldStartStandingUp && frame < 23)
-                frame = 23;
+            if (ShouldStartStandingUp && frame > 23)
+                frame = 0;
 
             int frameChangeDelay = 7;
             bool shouldNotSitDown = DefeatTimer > DelayBeforeDefeatStandup;
@@ -344,14 +469,14 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 frame++;
 
-                if (!ShouldStartStandingUp && frame >= 23)
-                    frame = 0;
+                if (!ShouldStartStandingUp && (frame < 23 || frame > 47))
+                    frame = 23;
 
                 // Do the sit animation infinitely if Draedon should not sit down again.
-                if (shouldNotSitDown && frame >= 47)
-                    frame = 36;
+                if (shouldNotSitDown && frame >= 16)
+                    frame = 11;
 
-                if (frame >= 59)
+                if (frame >= 23 && ShouldStartStandingUp)
                 {
                     frame = 0;
                     ShouldStartStandingUp = false;
