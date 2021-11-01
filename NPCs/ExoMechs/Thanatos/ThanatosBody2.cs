@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		internal static void LoadHeadIcons()
 		{
-			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody";
-			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody";
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody2";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody2";
 
 			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
 			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
