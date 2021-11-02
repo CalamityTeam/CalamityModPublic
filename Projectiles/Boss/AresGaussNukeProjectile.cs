@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -107,12 +108,18 @@ namespace CalamityMod.Projectiles.Boss
 			// Light
 			Lighting.AddLight(projectile.Center, 0.2f, 0.25f, 0.05f);
 
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
 			// Get a target and calculate distance from it
-            int target = Player.FindClosest(projectile.Center, 1, 1);
+			int target = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
 
 			// Set AI to stop homing, start accelerating
-			float stopHomingDistance = 300f;
+			float stopHomingDistance = malice ? 260f : death ? 280f : revenge ? 290f : expertMode ? 300f : 320f;
             if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
             {
 				projectile.ai[0] = 1f;
@@ -125,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Home in on target
 			float scaleFactor = projectile.velocity.Length();
-			float inertia = 10f;
+			float inertia = malice ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
 			distanceFromTarget.Normalize();
 			distanceFromTarget *= scaleFactor;
 			projectile.velocity = (projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);

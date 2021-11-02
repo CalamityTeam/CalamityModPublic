@@ -396,7 +396,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
@@ -763,8 +764,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = nerfedAttacks ? 8 : 12;
-							float divisor = attackPhaseGateValue / numLasers;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 30f : 40f;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
 							{
@@ -825,8 +825,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										int type = ModContent.ProjectileType<ArtemisLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Vector2 laserVelocity = chargeVelocityNormalized * 10f;
-										int numLasersPerSpread = 6;
-										int spread = 21;
+										int numLasersPerSpread = malice ? 10 : death ? 8 : expertMode ? 6 : 4;
+										int spread = malice ? 30 : death ? 26 : expertMode ? 21 : 15;
 										float rotation = MathHelper.ToRadians(spread);
 										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
 										float setVelocityInAI = 10f;
@@ -930,8 +930,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 * normal = 16, 20, 24
 							 * nerfedAttacks = 12, 15, 18
 							 */
-							int numLasersPerSpread = (nerfedAttacks || nerfedLaserShotgun) ? 4 : lastMechAlive ? 8 : 6;
-							int baseSpread = (nerfedAttacks || nerfedLaserShotgun) ? 12 : lastMechAlive ? 20 : 16;
+							int numLasersAddedByDifficulty = malice ? 3 : death ? 2 : expertMode ? 1 : 0;
+							int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
+							int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 18 : 13) + numLasersAddedByDifficulty * 2;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
