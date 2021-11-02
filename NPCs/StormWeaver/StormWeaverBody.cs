@@ -127,6 +127,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;
 					npc.DeathSound = SoundID.NPCDeath13;
+					npc.frame = new Rectangle(0, 0, 54, 52);
 				}
 			}
 
