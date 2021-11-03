@@ -4958,6 +4958,9 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
+            if (flamingItemEnchant)
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+
             switch (item.type)
             {
                 case ItemID.CobaltSword:
