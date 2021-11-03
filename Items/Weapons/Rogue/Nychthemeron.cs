@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 						p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, (int)(orbDamage * 0.75f), knockBack, pID, player, true);
+                    CreateOrbs(position, (int)(orbDamage * 0.675f), knockBack, pID, player, true);
                 }
             }
             else

@@ -45,15 +45,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[item.shoot] < knifeLimit)
             {
-				int knifeAmt = knifeCount;
-				if ((player.ownedProjectileCounts[item.shoot] + knifeCount) >= knifeLimit)
-					knifeAmt = knifeLimit - player.ownedProjectileCounts[item.shoot];
-				if (knifeAmt <= 0)
-				{
+                damage = (int)(damage * 1.1f);
+
+                int knifeAmt = knifeCount;
+                if ((player.ownedProjectileCounts[item.shoot] + knifeCount) >= knifeLimit)
+                    knifeAmt = knifeLimit - player.ownedProjectileCounts[item.shoot];
+                if (knifeAmt <= 0)
+                {
                     int knife = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-					if (knife.WithinBounds(Main.maxProjectiles))
-						Main.projectile[knife].Calamity().stealthStrike = true;
-				}
+                    if (knife.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[knife].Calamity().stealthStrike = true;
+                }
 
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
@@ -61,9 +63,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                     speedX *= 0.9f;
                     Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                     int knife2 = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
-					if (knife2.WithinBounds(Main.maxProjectiles))
-						Main.projectile[knife2].Calamity().stealthStrike = true;
-					spread -= Main.rand.Next(1, 3);
+                    if (knife2.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[knife2].Calamity().stealthStrike = true;
+                    spread -= Main.rand.Next(1, 3);
                 }
                 return false;
             }
