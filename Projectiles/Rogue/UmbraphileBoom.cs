@@ -1,18 +1,18 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class UmbraphileBoom : ModProjectile
 	{
-        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Explosion");
+			DisplayName.SetDefault("Umbra Blast");
 		}
 
 		public override void SetDefaults()
@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 5;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = -1;
-			projectile.Calamity().rogue = true;
 		}
 
 		public override void Kill(int timeLeft)

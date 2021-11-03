@@ -32,7 +32,9 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
 		{
 			// Thanatos' mouth laser
-			DisplayName.SetDefault("Gamma Disintegration Beam");
+			DisplayName.SetDefault("T Hanos Beam");
+			// This is its serious name
+			// DisplayName.SetDefault("Gamma Disintegration Beam");
 			Main.projFrames[projectile.type] = 5;
 		}
 
