@@ -211,6 +211,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
@@ -229,7 +230,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
-						float divisor = 120f;
+						float divisor = lastMechAlive ? 60f : berserk ? 80f : 120f;
 						if ((npc.ai[3] % divisor == 0f && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -295,7 +296,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						float divisor = npc.ai[0] * 3f; // Ranges from 3 to 300
+						float divisor = npc.ai[0] * (lastMechAlive ? 1f : berserk ? 2f : 3f); // Ranges from 3 to 300
 						if ((npc.ai[3] == divisor && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -335,6 +336,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										}
 
 										float predictionAmt = malice ? 30f : death ? 20f : revenge ? 17.5f : expertMode ? 15f : 10f;
+										if (npc.ai[0] % 3f == 0f)
+											predictionAmt *= 0.5f;
+
 										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -349,7 +353,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											else
 											{
 												// Normal laser
-												if (malice && berserk)
+												if (berserk)
 													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
 												// Predictive laser
