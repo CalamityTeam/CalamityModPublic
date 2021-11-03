@@ -27,7 +27,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exothermal Artemis Beam");
+            DisplayName.SetDefault("Ohio Beam");
+            // This is its serious name
+            // DisplayName.SetDefault("Exothermal Artemis Beam");
         }
 
         public override void SetDefaults()

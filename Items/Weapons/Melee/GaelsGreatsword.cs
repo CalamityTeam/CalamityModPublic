@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
         // Weapon attribute constants
-        public static readonly int BaseDamage = 3900;
+        public static readonly int BaseDamage = 780;
         public static readonly float TrueMeleeBoost = 2.5f;
         public static readonly float GiantSkullDamageMultiplier = 1.5f;
 

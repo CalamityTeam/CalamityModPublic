@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
-            projectile.penetrate = 2;
+            projectile.penetrate = -1;
             cooldownSlot = 1;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
@@ -37,27 +37,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
-            {
-                projectile.Kill();
-            }
-            else
-            {
-                if (projectile.velocity.X != oldVelocity.X)
-                {
-                    projectile.velocity.X = -oldVelocity.X;
-                }
-                if (projectile.velocity.Y != oldVelocity.Y)
-                {
-                    projectile.velocity.Y = -oldVelocity.Y;
-                }
-            }
-            return false;
         }
 
         public override void AI()

@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -33,7 +32,9 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
 		{
 			// Thanatos' mouth laser
-			DisplayName.SetDefault("Gamma Disintegration Beam");
+			DisplayName.SetDefault("T Hanos Beam");
+			// This is its serious name
+			// DisplayName.SetDefault("Gamma Disintegration Beam");
 			Main.projFrames[projectile.type] = 5;
 		}
 
@@ -160,8 +161,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			// This should never happen, but just in case-
-			if (projectile.velocity == Vector2.Zero)
+			// This should never happen, but just in case.
+			if (projectile.velocity == Vector2.Zero || projectile.localAI[0] < 2f)
 				return false;
 
 			Color beamColor = LaserOverlayColor;
@@ -225,6 +226,8 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
 		}
+
+		public override bool CanHitPlayer(Player target) => projectile.localAI[0] >= 2f;
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
 		{

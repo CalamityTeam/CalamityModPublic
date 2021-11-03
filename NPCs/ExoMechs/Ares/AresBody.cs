@@ -645,7 +645,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[3] = 1f;
 						npc.velocity *= decelerationVelocityMult;
 
-						int totalProjectiles = malice ? 12 : expertMode ? 10 : 8;
+						int totalProjectiles = malice ? 12 : death ? 10 : revenge ? 9 : expertMode ? 8 : 6;
 						float radians = MathHelper.TwoPi / totalProjectiles;
 						Vector2 laserSpawnPoint = new Vector2(npc.Center.X, npc.Center.Y);
 						bool normalLaserRotation = npc.localAI[0] % 2f == 0f;

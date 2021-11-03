@@ -118,6 +118,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.takenDamageMultiplier = 1f;
 					npc.HitSound = SoundID.NPCHit13;
 					npc.DeathSound = SoundID.NPCDeath13;
+					npc.frame = new Rectangle(0, 0, 42, 68);
 				}
 			}
 

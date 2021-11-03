@@ -187,7 +187,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
-		public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) => lastMechAlive ? 640f : 800f;
+		public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) => 
+			(CalamityWorld.malice ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) - (lastMechAlive ? 160f : 0f);
 
 		public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
 		{

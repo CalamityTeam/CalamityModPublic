@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,8 +12,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ApolloRocket : ModProjectile
     {
-        private const int timeLeft = 180;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("High Explosive Plasma Rocket");
@@ -31,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             cooldownSlot = 1;
-            projectile.timeLeft = timeLeft;
+            projectile.timeLeft = 600;
             projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
@@ -118,15 +117,21 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-            // Light
-            Lighting.AddLight(projectile.Center, 0f, 0.6f, 0f);
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			// Light
+			Lighting.AddLight(projectile.Center, 0f, 0.6f, 0f);
 
             // Get a target and calculate distance from it
             int target = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
 
 			// Set AI to stop homing, start accelerating
-			float stopHomingDistance = 200f;
+			float stopHomingDistance = malice ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
             if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 1f;
@@ -139,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Home in on target
             float scaleFactor = projectile.velocity.Length();
-            float inertia = 10f;
+            float inertia = malice ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
             distanceFromTarget.Normalize();
             distanceFromTarget *= scaleFactor;
             projectile.velocity = (projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
@@ -147,7 +152,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity *= scaleFactor;
 
 			// Fly away from other rockets
-			float pushForce = 0.05f;
+			float pushForce = malice ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
+			float pushDistance = malice ? 120f : death ? 100f : revenge ? 90f : expertMode ? 80f : 60f;
 			for (int k = 0; k < Main.maxProjectiles; k++)
 			{
 				Projectile otherProj = Main.projectile[k];
@@ -158,7 +164,7 @@ namespace CalamityMod.Projectiles.Boss
 				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
 				bool sameProjType = otherProj.type == projectile.type;
 				float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
-				if (sameProjType && taxicabDist < 80f)
+				if (sameProjType && taxicabDist < pushDistance)
 				{
 					if (projectile.position.X < otherProj.position.X)
 						projectile.velocity.X -= pushForce;

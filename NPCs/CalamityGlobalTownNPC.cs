@@ -144,7 +144,10 @@ namespace CalamityMod.NPCs
 			"Stan Pines",
 		};
 		private const int TruffleVanillaNames = 12;
-		private static readonly string[] TruffleNames = null;
+		private static readonly string[] TruffleNames =
+		{
+			"Aldrimil", // <@!413719640238194689> (Thorioum#2475)
+		};
 		private const int WitchDoctorVanillaNames = 10;
 		private static readonly string[] WitchDoctorNames =
 		{

@@ -82,6 +82,7 @@ namespace CalamityMod.Items
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
+		public bool rogueClockworkWeapon = false;
 
 		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -845,7 +846,7 @@ namespace CalamityMod.Items
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
-                if (modPlayer.gloveOfRecklessness)
+                if (modPlayer.gloveOfRecklessness && !rogueClockworkWeapon)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
                     rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
@@ -909,7 +910,9 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareMageProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 190), 1f, player.whoAmI);
+						// Bloodflare Mage Bolt: 130%, soft cap starts at 2000 base damage
+						int bloodflareBoltDamage = CalamityUtils.DamageSoftCap(damage * 1.3, 2600);
+						Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), bloodflareBoltDamage, 1f, player.whoAmI);
                     }
                 }
             }
@@ -920,7 +923,10 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 115), 2f, player.whoAmI);
+						// Bloodflare Ranged Bloodsplosion: 80%, soft cap starts at 150 base damage
+						// This is intentionally extremely low because this effect can be grossly overpowered with sniper rifles and the like.
+						int bloodsplosionDamage = CalamityUtils.DamageSoftCap(damage * 0.8, 120);
+						Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), bloodsplosionDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -929,17 +935,20 @@ namespace CalamityMod.Items
                 if (modPlayer.tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
                 {
                     modPlayer.tarraCrits = 0;
-                    int leafAmt = 9 + Main.rand.Next(3);
-                    for (int l = 0; l < leafAmt; l++)
+					// Tarragon Mage Leaves: (8-10) x 20%, soft cap starts at 200 base damage
+					int leafAmt = 8 + Main.rand.Next(3); // 8, 9, or 10
+					int leafDamage = (int)(damage * 0.2);
+
+					for (int l = 0; l < leafAmt; l++)
                     {
                         float spreadMult = 0.025f * l;
-                        float hardar = speedX + Main.rand.Next(-25, 26) * spreadMult;
-                        float hordor = speedY + Main.rand.Next(-25, 26) * spreadMult;
-                        float num84 = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                        num84 = item.shootSpeed / num84;
-                        hardar *= num84;
-                        hordor *= num84;
-                        int projectile = Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
+                        float xDiff = speedX + Main.rand.Next(-25, 26) * spreadMult;
+                        float yDiff = speedY + Main.rand.Next(-25, 26) * spreadMult;
+                        float speed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
+                        speed = item.shootSpeed / speed;
+                        xDiff *= speed;
+                        yDiff *= speed;
+						int projectile = Projectile.NewProjectile(position, new Vector2(xDiff, yDiff), ProjectileID.Leaf, leafDamage, knockBack, player.whoAmI);
 						if (projectile.WithinBounds(Main.maxProjectiles))
 							Main.projectile[projectile].Calamity().forceTypeless = true;
 					}
@@ -952,7 +961,8 @@ namespace CalamityMod.Items
 					modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), CalamityUtils.DamageSoftCap(damage * 0.25, 50), 2f, player.whoAmI);
+						int ataxiaFlareDamage = (int)(damage * 0.25);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -963,7 +973,9 @@ namespace CalamityMod.Items
 					modPlayer.canFireGodSlayerRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 150), 2f, player.whoAmI);
+						// God Slayer Ranged Shrapnel: 100%, soft cap starts at 800 base damage
+						int shrapnelRoundDamage = CalamityUtils.DamageSoftCap(damage, 800);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), shrapnelRoundDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -972,6 +984,10 @@ namespace CalamityMod.Items
                 if (rogue)
                 {
 					modPlayer.canFireAtaxiaRogueProjectile = false;
+					int flareID = ModContent.ProjectileType<ChaosFlare2>();
+
+					// Ataxia Rogue Flares: 8 x 50%, soft cap starts at 200 base damage
+					int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 100);
 					if (player.whoAmI == Main.myPlayer)
                     {
                         Main.PlaySound(SoundID.Item20, player.Center);
@@ -982,19 +998,21 @@ namespace CalamityMod.Items
                         for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), flareID, flareDamage, 1f, player.whoAmI);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), flareID, flareDamage, 1f, player.whoAmI);
                         }
                     }
                 }
             }
             if (modPlayer.victideSet)
             {
-                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
+                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), CalamityUtils.DamageSoftCap(damage * 2, 60), 1f, player.whoAmI);
+						// Victide All-class Seashells: 200%, soft cap starts at 23 base damage
+						int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }
                 }
             }
@@ -1086,7 +1104,7 @@ namespace CalamityMod.Items
 		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || trueMelee || rogueClockworkWeapon || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -1101,7 +1119,8 @@ namespace CalamityMod.Items
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
 				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
 				["canFirePointBlankShots"] = canFirePointBlankShots,
-				["trueMelee"] = trueMelee
+				["trueMelee"] = trueMelee,
+				["rogueClockworkWeapon"] = rogueClockworkWeapon
 			};
         }
 
@@ -1110,6 +1129,7 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
 			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
 			trueMelee = tag.GetBool("trueMelee");
+			rogueClockworkWeapon = tag.GetBool("rogueClockworkWeapon");
 			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -1144,6 +1164,7 @@ namespace CalamityMod.Items
                 rogue = flags[0];
 				canFirePointBlankShots = flags[1];
 				trueMelee = flags[2];
+				rogueClockworkWeapon = flags[3];
 			}
             else
             {
@@ -1157,6 +1178,7 @@ namespace CalamityMod.Items
             flags[0] = rogue;
 			flags[1] = canFirePointBlankShots;
 			flags[2] = trueMelee;
+			flags[3] = rogueClockworkWeapon;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -1173,6 +1195,7 @@ namespace CalamityMod.Items
             rogue = flags[0];
 			canFirePointBlankShots = flags[1];
 			trueMelee = flags[2];
+			rogueClockworkWeapon = flags[3];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();

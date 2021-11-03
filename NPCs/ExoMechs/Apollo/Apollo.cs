@@ -376,7 +376,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
@@ -768,8 +769,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = nerfedAttacks ? 8 : lastMechAlive ? 10 : 12;
-							float divisor = attackPhaseGateValue / numPlasmaOrbs;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 36f : 40f;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
 							{

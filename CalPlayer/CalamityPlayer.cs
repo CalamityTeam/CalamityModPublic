@@ -259,8 +259,8 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
 
-        public const int BeltDodgeCooldown = 3600;
-        public const int MirrorDodgeCooldown = 4500;
+        public const int BeltDodgeCooldown = 5400;
+        public const int MirrorDodgeCooldown = 5400;
         public const int DaedalusReflectCooldown = 5400;
         public const int ArcanumReflectCooldown = 5400;
         public const int EvolutionReflectCooldown = 7200;

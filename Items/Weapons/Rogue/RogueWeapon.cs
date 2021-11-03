@@ -105,12 +105,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			float baseMultiplier = SafeSetUseTimeMultiplier(player);
 			float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
-			if (player.Calamity().gloveOfPrecision)
-				rogueAS -= 0.2f;
-			if (player.Calamity().gloveOfRecklessness)
-				rogueAS += 0.12f;
-			if (player.Calamity().titanHeartMantle)
-				rogueAS -= 0.15f;
+			if (!item.Calamity().rogueClockworkWeapon)
+			{
+				if (player.Calamity().gloveOfPrecision)
+					rogueAS -= 0.2f;
+				if (player.Calamity().gloveOfRecklessness)
+					rogueAS += 0.12f;
+				if (player.Calamity().titanHeartMantle)
+					rogueAS -= 0.15f;
+			}
 			return rogueAS;
 		}
 
