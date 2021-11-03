@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.timeLeft % 15 == 0)
             {
-                if (projectile.Calamity().stealthStrike == true)
+                if (projectile.Calamity().stealthStrike)
                 {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GacruxianHome>(), (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner);
                 }

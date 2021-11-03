@@ -387,7 +387,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 12.5f : expertMode ? 10f : 5f;
+			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 13.75f : expertMode ? 12.5f : 10f;
 			if (AIState == (float)Phase.LaserShotgun)
 				predictionAmt *= 1.5f;
 			if (nerfedAttacks)
@@ -396,7 +396,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
@@ -407,12 +408,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float movementDistanceGateValue = 100f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = (AIState == (int)Phase.Deathray ? 30f : 20f) * baseVelocityMult;
 			float decelerationVelocityMult = 0.85f;
 
 			// Charge variables
-			float chargeVelocity = nerfedAttacks ? 60f : malice ? 100f : death ? 85f : revenge ? 80f : expertMode ? 75f : 60f;
+			float chargeVelocity = nerfedAttacks ? 75f : malice ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
 			float chargeDistance = 2000f;
 			float chargeDuration = chargeDistance / chargeVelocity;
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
@@ -526,7 +527,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Duration of deathray spin to do a full circle
 			// Normal = 120, Expert = 104, Rev = 96, Death = 88, Malice = 72
-			float spinTime = 120f - 160f * (baseVelocityMult - 1.25f);
+			float spinTime = 120f - 320f * (baseVelocityMult - 1.25f);
 
 			// Set to transition to phase 2 if it hasn't happened yet
 			if (phase2 && npc.localAI[3] == 0f)
@@ -763,8 +764,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = nerfedAttacks ? 8 : 12;
-							float divisor = attackPhaseGateValue / numLasers;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 30f : 40f;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
 							{
@@ -777,7 +777,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 									Vector2 laserVelocity = Vector2.Normalize(aimedVector);
 									Vector2 projectileDestination = player.Center + predictionVector;
 									Vector2 offset = laserVelocity * 70f;
-									Projectile.NewProjectile(npc.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+									float setVelocityInAI = 10f;
+									Projectile.NewProjectile(npc.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, npc.whoAmI);
 								}
 							}
 						}
@@ -824,10 +825,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										int type = ModContent.ProjectileType<ArtemisLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Vector2 laserVelocity = chargeVelocityNormalized * 10f;
-										int numLasersPerSpread = 6;
-										int spread = 21;
+										int numLasersPerSpread = malice ? 10 : death ? 8 : expertMode ? 6 : 4;
+										int spread = malice ? 30 : death ? 26 : expertMode ? 21 : 15;
 										float rotation = MathHelper.ToRadians(spread);
 										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
+										float setVelocityInAI = 10f;
 
 										for (int i = 0; i < numLasersPerSpread + 1; i++)
 										{
@@ -837,7 +839,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 											Vector2 offset = normalizedPerturbedSpeed * 70f;
 											Vector2 newCenter = npc.Center + offset;
 
-											Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+											Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, npc.whoAmI);
 										}
 									}
 								}
@@ -928,11 +930,13 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 * normal = 16, 20, 24
 							 * nerfedAttacks = 12, 15, 18
 							 */
-							int numLasersPerSpread = (nerfedAttacks || nerfedLaserShotgun) ? 4 : lastMechAlive ? 8 : 6;
-							int baseSpread = (nerfedAttacks || nerfedLaserShotgun) ? 12 : lastMechAlive ? 20 : 16;
+							int numLasersAddedByDifficulty = malice ? 3 : death ? 2 : expertMode ? 1 : 0;
+							int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
+							int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 18 : 13) + numLasersAddedByDifficulty * 2;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
+							float setVelocityInAI = 8.5f;
 
 							for (int i = 0; i < numLasersPerSpread + 1; i++)
 							{
@@ -942,7 +946,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								Vector2 offset = normalizedPerturbedSpeed * 70f;
 								Vector2 newCenter = npc.Center + offset;
 
-								Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+								Projectile.NewProjectile(newCenter, newCenter + normalizedPerturbedSpeed * distanceFromTarget, type, damage, 0f, Main.myPlayer, setVelocityInAI, npc.whoAmI);
 							}
 						}
 					}

@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 40f : death ? 30f : revenge ? 25f : expertMode ? 20f : 10f;
+			float predictionAmt = malice ? 40f : death ? 30f : revenge ? 27.5f : expertMode ? 25f : 20f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (passivePhase)
@@ -270,8 +270,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 375f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 160f);
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = (enraged ? 30f : 22f) * baseVelocityMult;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = (enraged ? 33f : 25f) * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 

@@ -60,13 +60,13 @@ namespace CalamityMod.NPCs.ExoMechs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon");
-            Main.npcFrameCount[npc.type] = 15;
+            Main.npcFrameCount[npc.type] = 12;
         }
 
         public override void SetDefaults()
         {
             npc.damage = 0;
-            npc.width = npc.height = 34;
+            npc.width = npc.height = 86;
             npc.defense = 100;
             npc.lifeMax = 16000;
             npc.noGravity = true;
@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.ExoMechs
             npc.dontTakeDamage = true;
             npc.aiStyle = aiType = -1;
             npc.knockBackResist = 0f;
+            npc.DeathSound = SoundID.NPCDeath14;
             npc.Calamity().DoesNotGenerateRage = true;
         }
 
@@ -450,15 +451,15 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Width = 102;
+            npc.frame.Width = 100;
 
             int xFrame = npc.frame.X / npc.frame.Width;
             int yFrame = npc.frame.Y / frameHeight;
             int frame = xFrame * Main.npcFrameCount[npc.type] + yFrame;
 
             // Prepare to stand up if called for and not already doing so.
-            if (ShouldStartStandingUp && frame < 23)
-                frame = 23;
+            if (ShouldStartStandingUp && frame > 23)
+                frame = 0;
 
             int frameChangeDelay = 7;
             bool shouldNotSitDown = DefeatTimer > DelayBeforeDefeatStandup;
@@ -468,14 +469,14 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 frame++;
 
-                if (!ShouldStartStandingUp && frame >= 23)
-                    frame = 0;
+                if (!ShouldStartStandingUp && (frame < 23 || frame > 47))
+                    frame = 23;
 
                 // Do the sit animation infinitely if Draedon should not sit down again.
-                if (shouldNotSitDown && frame >= 47)
-                    frame = 36;
+                if (shouldNotSitDown && frame >= 16)
+                    frame = 11;
 
-                if (frame >= 59)
+                if (frame >= 23 && ShouldStartStandingUp)
                 {
                     frame = 0;
                     ShouldStartStandingUp = false;

@@ -121,14 +121,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 			{
 				phase2Started = true;
 
-				// 8.833 seconds before DoG spawns, start playing the phase 2 music and set new size
+				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
+					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+
+				// Once before DoG spawns, set new size
+				if (CalamityWorld.DoGSecondStageCountdown == 60)
 				{
 					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
 
 					npc.position = npc.Center;
 					npc.width = 80;
 					npc.height = 140;
+					npc.frame = new Rectangle(0, 0, 86, 148);
 					npc.position -= npc.Size * 0.5f;
 				}
 			}
@@ -197,7 +202,35 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 			else
-				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
+			{
+				if (Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.AttemptingToEnterPortal ?? false)
+				{
+					Projectile portal = Main.projectile[Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
+					float newOpacity = 1f - Utils.InverseLerp(200f, 130f, npc.Distance(portal.Center), true);
+					if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.Opacity > newOpacity)
+					{
+						npc.Opacity = newOpacity;
+
+						// Create dust at the portal position.
+						if (Vector2.Dot((npc.rotation - MathHelper.PiOver2).ToRotationVector2(), Main.npc[(int)npc.ai[2]].velocity) > 0f)
+						{
+							for (int i = 0; i < 2; i++)
+							{
+								Dust cosmicMagic = Dust.NewDustPerfect(portal.Center, Main.rand.NextBool() ? 180 : 173);
+								cosmicMagic.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 8f);
+								cosmicMagic.scale *= Main.rand.NextFloat(1f, 1.8f);
+								cosmicMagic.noGravity = true;
+							}
+						}
+						npc.netUpdate = true;
+					}
+
+					if (npc.Opacity < 0.2f)
+						npc.Opacity = 0f;
+				}
+				else
+					npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
+			}
 
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = player.position.X + (player.width / 2);

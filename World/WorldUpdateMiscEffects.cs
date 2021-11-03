@@ -346,6 +346,10 @@ namespace CalamityMod.World
         #region Handle Phase 2 DoG's Summoning
         public static void HandleDoGP2Countdown(Player player)
         {
+            // Reset the DoG P2 transition countdown if DoG is not present.
+            if (CalamityGlobalNPC.DoGHead == -1)
+                DoGSecondStageCountdown = 0;
+
             if (DoGSecondStageCountdown <= 0)
                 return;
 

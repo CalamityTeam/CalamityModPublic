@@ -355,7 +355,7 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
 			#endregion
 
-			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
+			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
 				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
@@ -573,7 +573,7 @@ namespace CalamityMod.Items
 				string extraLine = "\n10% increased true melee damage";
 				if (CalamityWorld.death)
 					extraLine += "\nProvides heat and cold protection in Death Mode";
-				EditTooltipByNum(1, (line) => line.text = line.text.Replace("12%", "14%") + extraLine);
+				EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
 			}
 
 			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%

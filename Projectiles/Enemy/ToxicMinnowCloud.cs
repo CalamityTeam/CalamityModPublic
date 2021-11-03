@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,14 +9,14 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cloud");
+            DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 52;
+            projectile.height = 48;
             projectile.hostile = true;
             projectile.friendly = true;
             projectile.alpha = 255;
@@ -34,25 +35,17 @@ namespace CalamityMod.Projectiles.Enemy
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
+
             if (Main.rand.NextBool(2))
-            {
                 projectile.velocity *= 0.95f;
-            }
             else if (Main.rand.NextBool(2))
-            {
                 projectile.velocity *= 0.9f;
-            }
             else if (Main.rand.NextBool(2))
-            {
                 projectile.velocity *= 0.85f;
-            }
             else
-            {
                 projectile.velocity *= 0.8f;
-            }
+
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 560f)
             {
@@ -60,37 +53,51 @@ namespace CalamityMod.Projectiles.Enemy
                 {
                     projectile.alpha += 5;
                     if (projectile.alpha > 255)
-                    {
                         projectile.alpha = 255;
-                    }
                 }
                 else if (projectile.owner == Main.myPlayer)
-                {
                     projectile.Kill();
-                }
             }
             else if (projectile.alpha > 80)
             {
                 projectile.alpha -= 30;
                 if (projectile.alpha < 80)
-                {
                     projectile.alpha = 80;
-                }
             }
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft > 40;
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 20f && projectile.alpha == 80;
+		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 120);
+			if (projectile.alpha == 80)
+				target.AddBuff(BuffID.Poisoned, 120);
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft > 40;
+		public override bool? CanHitNPC(NPC target) => projectile.alpha == 80;
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 120);
+			if (projectile.alpha == 80)
+				target.AddBuff(BuffID.Poisoned, 120);
         }
     }
 }

@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5); // mfw ingredient bloat
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -68,6 +69,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

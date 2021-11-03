@@ -34,8 +34,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
+			item.Calamity().rogueClockworkWeapon = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

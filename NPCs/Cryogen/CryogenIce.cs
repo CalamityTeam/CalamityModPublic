@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Cryogen
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
 			npc.GetNPCDamage();
-			npc.width = 190;
-            npc.height = 190;
+			npc.width = 216;
+            npc.height = 216;
 			npc.DR_NERD(0.4f);
             npc.lifeMax = 1400;
             if (BossRushEvent.BossRushActive)
@@ -62,12 +62,28 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            return npc.alpha == 0;
-        }
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Rectangle targetHitbox = target.Hitbox;
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 100f && npc.alpha == 0;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);

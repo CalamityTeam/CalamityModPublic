@@ -39,7 +39,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
             item.shootSpeed = 26f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.Calamity().rogueClockworkWeapon = true;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

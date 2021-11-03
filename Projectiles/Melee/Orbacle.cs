@@ -1,5 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Orbacle : ModProjectile
@@ -29,6 +31,18 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = -1;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            spriteBatch.SetBlendState(BlendState.Additive);
+
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = texture.Size() * 0.5f;
+            Color color = new Color(83, 137, 230); // Auric Blue but slightly more blue. (#5389e6)
+            spriteBatch.Draw(texture, drawPosition, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
+        }
         public override void AI()
         {
             // Produces golden dust while in flight

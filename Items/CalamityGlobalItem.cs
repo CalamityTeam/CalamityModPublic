@@ -82,6 +82,7 @@ namespace CalamityMod.Items
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
+		public bool rogueClockworkWeapon = false;
 
 		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -136,8 +137,73 @@ namespace CalamityMod.Items
 
 			switch (item.type)
 			{
-				// Pickaxe speed boosts
-				case ItemID.CactusPickaxe:
+                // Vanilla summon weapons speed boosts and autouse
+
+                /* case ItemID.FlinxStaff:
+                case ItemID.BabyBirdStaff:
+                    item.useTime = item.useAnimation = 35;
+                    item.autoReuse = true;
+                */
+
+                case ItemID.SlimeStaff:
+                //case ItemID.VampireFrogStaff:
+                case ItemID.HornetStaff:
+                case ItemID.ImpStaff:
+                    item.useTime = item.useAnimation = 30;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.DD2LightningAuraT1Popper:
+                case ItemID.DD2ExplosiveTrapT1Popper:
+                case ItemID.DD2BallistraTowerT1Popper:
+                case ItemID.DD2FlameburstTowerT1Popper:
+                    item.useTime = item.useAnimation = 30;
+                    break;
+
+                case ItemID.SpiderStaff:
+                case ItemID.PirateStaff:
+                case ItemID.OpticStaff:
+                //case ItemID.SanguineStaff:
+                //case ItemID.Smolstar:
+                    item.useTime = item.useAnimation = 25;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.QueenSpiderStaff:
+                case ItemID.DD2LightningAuraT2Popper:
+                case ItemID.DD2ExplosiveTrapT2Popper:
+                case ItemID.DD2BallistraTowerT2Popper:
+                case ItemID.DD2FlameburstTowerT2Popper:
+                    item.useTime = item.useAnimation = 25;
+                    break;
+
+                case ItemID.PygmyStaff:
+                //case ItemID.StormTigerStaff:
+                case ItemID.DeadlySphereStaff:
+                case ItemID.RavenStaff:
+                case ItemID.XenoStaff:
+                case ItemID.TempestStaff:
+                //case ItemID.EmpressBlade
+                case ItemID.StardustCellStaff:
+                    item.useTime = item.useAnimation = 20;
+                    item.autoReuse = true;
+                    break;
+
+                case ItemID.StaffoftheFrostHydra:
+                case ItemID.DD2LightningAuraT3Popper:
+                case ItemID.DD2ExplosiveTrapT3Popper:
+                case ItemID.DD2BallistraTowerT3Popper:
+                case ItemID.DD2FlameburstTowerT3Popper:
+                    item.useTime = item.useAnimation = 20;
+                    break;
+
+                case ItemID.MoonlordTurretStaff:
+                case ItemID.RainbowCrystalStaff:
+                    item.useTime = item.useAnimation = 15;
+                    break;
+
+                // Pickaxe speed boosts
+                case ItemID.CactusPickaxe:
 				case ItemID.CopperPickaxe:
 				case ItemID.TinPickaxe:
 					item.useTime = 13;
@@ -624,7 +690,10 @@ namespace CalamityMod.Items
 
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
-					break;
+                    item.useTime = 19;
+                    item.useAnimation = 19;
+                    item.autoReuse = true;
+                    break;
 
 				case ItemID.MonkStaffT3:
 					item.damage = 225;
@@ -777,7 +846,7 @@ namespace CalamityMod.Items
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
-                if (modPlayer.gloveOfRecklessness)
+                if (modPlayer.gloveOfRecklessness && !rogueClockworkWeapon)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
                     rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
@@ -1018,7 +1087,7 @@ namespace CalamityMod.Items
 		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || trueMelee || rogueClockworkWeapon || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -1033,7 +1102,8 @@ namespace CalamityMod.Items
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
 				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
 				["canFirePointBlankShots"] = canFirePointBlankShots,
-				["trueMelee"] = trueMelee
+				["trueMelee"] = trueMelee,
+				["rogueClockworkWeapon"] = rogueClockworkWeapon
 			};
         }
 
@@ -1042,6 +1112,7 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
 			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
 			trueMelee = tag.GetBool("trueMelee");
+			rogueClockworkWeapon = tag.GetBool("rogueClockworkWeapon");
 			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -1076,6 +1147,7 @@ namespace CalamityMod.Items
                 rogue = flags[0];
 				canFirePointBlankShots = flags[1];
 				trueMelee = flags[2];
+				rogueClockworkWeapon = flags[3];
 			}
             else
             {
@@ -1089,6 +1161,7 @@ namespace CalamityMod.Items
             flags[0] = rogue;
 			flags[1] = canFirePointBlankShots;
 			flags[2] = trueMelee;
+			flags[3] = rogueClockworkWeapon;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -1105,6 +1178,7 @@ namespace CalamityMod.Items
             rogue = flags[0];
 			canFirePointBlankShots = flags[1];
 			trueMelee = flags[2];
+			rogueClockworkWeapon = flags[3];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
@@ -2283,7 +2357,7 @@ namespace CalamityMod.Items
 			{
 				Texture2D itemTexture = Main.itemTexture[item.type];
 				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
-				Vector2 itemOrigin = itemFrame.Size() * 0.5f;
+				Vector2 itemOrigin = frame.Size() * 0.5f;
 				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
 			}
 
@@ -2296,7 +2370,10 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			position += frame.Size() * 0.25f;
+			// Adjust the offset of the position. This vector does not have any specific static member that can be referenced and it is not
+			// as simply computable as a texture.Size() * 0.5f.
+			position += new Vector2(14f, 16f) * Main.inventoryScale;
+
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
 			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
 

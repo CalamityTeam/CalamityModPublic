@@ -447,9 +447,6 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     Main.PlaySound(SoundID.Item14, npc.position);
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
-
 					int type = ModContent.ProjectileType<MushBombFall>();
 					int damage = npc.GetProjectileDamage(type);
 

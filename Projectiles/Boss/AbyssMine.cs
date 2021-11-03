@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 26;
-            projectile.height = 26;
+			projectile.width = 30;
+            projectile.height = 30;
             projectile.hostile = true;
             projectile.alpha = 60;
             projectile.penetrate = -1;
@@ -32,15 +32,15 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.velocity *= 0.97f;
+
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 33);
             }
+
             if (Main.rand.NextBool(6))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
-            }
         }
 
         public override void Kill(int timeLeft)
@@ -70,7 +70,27 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Damage();
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 12f;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Weak, 240);
         }

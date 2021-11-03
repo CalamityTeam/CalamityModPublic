@@ -66,6 +66,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private int laserWallType = 0;
 		private const float laserWallSpacingOffset = 16f;
 
+		// Continuously reset variables
+		public bool AttemptingToEnterPortal = false;
+		public int PortalIndex = -1;
+
 		// Spawn variables
 		private bool tail = false;
         private const int minLength = 100;
@@ -75,6 +79,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private bool spawnedGuardians = false;
         private bool spawnedGuardians2 = false;
         private int spawnDoGCountdown = 0;
+		private bool hasCreatedPhase1Portal = false;
 		private bool phase2Started = false;
 
 		// Phase 2 variables
@@ -170,9 +175,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(spawnedGuardians2);
 			writer.Write(spawnedGuardians3);
 			writer.Write(phase2Started);
+			writer.Write(hasCreatedPhase1Portal);
 			writer.Write(spawnDoGCountdown);
 			writer.Write(shotSpacing);
 			writer.Write(laserWallType);
+			writer.Write(PortalIndex);
             for (int i = 0; i < 4; i++)
                 writer.Write(npc.Calamity().newAI[i]);
 
@@ -198,10 +205,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 			spawnedGuardians2 = reader.ReadBoolean();
 			spawnedGuardians3 = reader.ReadBoolean();
 			phase2Started = reader.ReadBoolean();
+			hasCreatedPhase1Portal = reader.ReadBoolean();
 			spawnDoGCountdown = reader.ReadInt32();
 			shotSpacing = reader.ReadInt32();
 			laserWallType = reader.ReadInt32();
-            for (int i = 0; i < 4; i++)
+			PortalIndex = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
                 npc.Calamity().newAI[i] = reader.ReadSingle();
 
 			// Phase 2 syncs
@@ -259,8 +268,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 			bool phase6 = lifeRatio < 0.18f;
 			bool phase7 = lifeRatio < 0.09f;
 
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+			// Continuously reset certain things.
+			AttemptingToEnterPortal = false;
+
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             // Worm variable
             if (npc.ai[2] > 0f)
@@ -288,6 +300,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			}
 			else
 				npc.takenDamageMultiplier = 1.1f;
+
+			// Close DoG's HP bar if busy with sentinels or a P2 transition.
+			if (CalamityWorld.DoGSecondStageCountdown > 0)
+				npc.Calamity().ShouldCloseHPBar = true;
 
 			// Start sentinel phases, only run things that have to happen once in here
 			if (summonSentinels)
@@ -319,15 +335,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 					}
 				}
 
-				// 8.833 seconds before DoG spawns, start playing the phase 2 music and set new size
+				// Play music after the transiton BS
 				if (CalamityWorld.DoGSecondStageCountdown == 530)
-				{
 					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
 
+				// Once before DoG spawns, set new size and become visible again.
+				if (CalamityWorld.DoGSecondStageCountdown == 60)
+				{
 					npc.position = npc.Center;
 					npc.width = 186;
 					npc.height = 186;
 					npc.position -= npc.Size * 0.5f;
+					npc.frame = new Rectangle(0, 0, 134, 196);
+					npc.alpha = 0;
 				}
 
 				// Dialogue the moment the second phase starts 
@@ -348,52 +368,45 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Don't take damage
 					npc.dontTakeDamage = true;
 
-					// Go invisible
-					npc.alpha += 5;
-					if (npc.alpha > 255)
-						npc.alpha = 255;
+					// Adjust movement speed. Direction is unaltered unless DoG is close to the top of the world, in which case he moves horizontally.
+					// A portal will be created ahead of where DoG is moving that he will enter before Phase 2 begins.
+					float idealFlySpeed = 14f;
 
-					// Fly below the target
-					if (!player.dead)
+					float oldVelocity = npc.velocity.Length();
+					float horizontalInterpolant = Utils.InverseLerp(1200f, 600f, npc.Center.Y, true);
+					Vector2 idealDirection = npc.velocity.SafeNormalize(-Vector2.UnitY);
+					idealDirection = Vector2.Lerp(idealDirection, Vector2.UnitX * Math.Sign(idealDirection.X), horizontalInterpolant);
+					npc.velocity = idealDirection * MathHelper.Lerp(oldVelocity, idealFlySpeed, 0.1f);
+					npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+
+					if (PortalIndex != -1)
 					{
-						// Increase velocity if velocity is ever zero
-						if (npc.velocity == Vector2.Zero)
-							npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * 20f;
-
-						// Acceleration
-						Vector2 destination = new Vector2(player.Center.X, player.Center.Y + 800f);
-						if (!((destination - npc.Center).Length() < 400f))
+						Projectile portal = Main.projectile[PortalIndex];
+						float newOpacity = 1f - Utils.InverseLerp(200f, 130f, npc.Distance(portal.Center), true);
+						if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.Opacity > newOpacity)
 						{
-							float targetAngle = npc.AngleTo(destination);
-							float f = npc.velocity.ToRotation().AngleTowards(targetAngle, 2.5f);
-							npc.velocity = f.ToRotationVector2() * 20f;
+							npc.Opacity = newOpacity;
+							npc.netUpdate = true;
 						}
-					}
-					else
-					{
-						// Despawn
-						npc.velocity.Y -= 1f;
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-							npc.velocity.Y -= 1f;
 
-						int bodyType = ModContent.NPCType<DevourerofGodsBody>();
-						int tailType = ModContent.NPCType<DevourerofGodsTail>();
-						if ((double)npc.position.Y < Main.topWorld + 16f)
-						{
-							for (int a = 0; a < Main.maxNPCs; a++)
-							{
-								if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
-									continue;
+						if (npc.Opacity < 0.2f)
+							npc.Opacity = 0f;
 
-								Main.npc[a].active = false;
-								Main.npc[a].netUpdate = true;
-							}
-						}
+						// Ensure the portal is pointing in the direction of the head at first, to prevent direction offsets.
+						if (CalamityWorld.DoGSecondStageCountdown > 360f)
+							Main.projectile[PortalIndex].Center = npc.Center + npc.SafeDirectionTo(Main.projectile[PortalIndex].Center) * npc.Distance(Main.projectile[PortalIndex].Center);
 					}
 
-					// Velocity upper limit
-					if (npc.velocity.Length() > 20f)
-						npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * 20f;
+					if (Main.netMode != NetmodeID.MultiplayerClient && !hasCreatedPhase1Portal)
+					{
+						Vector2 portalSpawnPosition = npc.Center + npc.velocity.SafeNormalize(-Vector2.UnitY) * 1000f;
+						PortalIndex = Projectile.NewProjectile(portalSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DoGP1EndPortal>(), 0, 0f);
+
+						hasCreatedPhase1Portal = true;
+						npc.netUpdate = true;
+					}
+
+					AttemptingToEnterPortal = true;
 				}
 
 				// Phase 2
@@ -1956,6 +1969,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (teleportTimer > -1 || player.dead || !player.active)
 				return;
 
+			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int randomRange = 48;
@@ -1964,8 +1978,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 				Main.PlaySound(SoundID.Item109, player.Center);
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
-
-			teleportTimer = (CalamityWorld.death || CalamityWorld.malice) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 		}
 
 		private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase5)
@@ -2033,7 +2045,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 		{
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
-				if (Main.projectile[i].type == ModContent.ProjectileType<DoGTeleportRift>())
+				if (Main.projectile[i].type == ModContent.ProjectileType<DoGTeleportRift>() || Main.projectile[i].type == ModContent.ProjectileType<DoGP1EndPortal>())
 				{
 					if (!spawnDust)
 						Main.projectile[i].ai[0] = -1f;

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.sentry = true;
             item.width = 54;
             item.height = 56;
-            item.useTime = item.useAnimation = 15;
+            item.useTime = item.useAnimation = 14;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;

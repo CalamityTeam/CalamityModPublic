@@ -759,10 +759,17 @@ namespace CalamityMod.NPCs
 					int phase;
 					int random = phase2 ? 6 : 5;
 					do phase = Main.rand.Next(random);
-					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2);
+					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+
+					// Cocoon phase cooldown
+					if (npc.localAI[3] > 0f)
+						npc.localAI[3] -= 1f;
+					else if (phase == 4)
+						npc.localAI[3] = 3f;
+
 					npc.netUpdate = true;
 
 					// Prevent netUpdate from being blocked by the spam counter.

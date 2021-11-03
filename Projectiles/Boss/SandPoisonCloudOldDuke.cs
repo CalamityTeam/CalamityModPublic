@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -16,8 +17,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 52;
+            projectile.height = 48;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
@@ -63,11 +64,29 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 180;
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 20f && projectile.alpha == 30;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.timeLeft >= 180)
+			if (projectile.alpha == 30)
 				target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
 		}
 

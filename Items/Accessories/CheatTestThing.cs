@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("lul");
+            Tooltip.SetDefault("Instantly kills you...\n" +
+                "Unless...?"); //This is mainly for the wiki, blank tooltips on accessories is bad.
         }
 
         public override void SetDefaults()

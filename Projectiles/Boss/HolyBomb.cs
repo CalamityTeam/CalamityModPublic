@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
+            projectile.width = 40;
+            projectile.height = 80;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = 250;

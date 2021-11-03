@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetDefaults()
         {
 			projectile.Calamity().canBreakPlayerDefense = true;
-			projectile.width = 26;
-            projectile.height = 26;
+			projectile.width = 30;
+            projectile.height = 30;
             projectile.hostile = true;
             projectile.penetrate = 1;
 			projectile.alpha = 60;
@@ -37,12 +37,28 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             if (Main.rand.NextBool(2))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
-            }
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 60;
+		public override bool CanHitPlayer(Player target)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 12f && projectile.timeLeft >= 60;
+		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {

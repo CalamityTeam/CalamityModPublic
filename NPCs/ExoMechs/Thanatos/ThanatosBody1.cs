@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = malice ? 30f : death ? 25f : revenge ? 20f : expertMode ? 15f : 5f;
+										float predictionAmt = malice ? 30f : death ? 20f : revenge ? 17.5f : expertMode ? 15f : 10f;
 										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -544,6 +544,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void FindFrame(int frameHeight) // 5 total frames
 		{
+			if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)
+				return;
+
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;

@@ -369,14 +369,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 10f : expertMode ? 8f : 4f;
+			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (int)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
@@ -384,15 +385,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeLocationDistanceGateValue = 20f;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = 18f * baseVelocityMult;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = (AIState == (int)Phase.LineUpChargeCombo ? 30f : 20f) * baseVelocityMult;
 
 			// Attack gate values
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Charge velocity
-			float chargeVelocity = malice ? 115f : death ? 100f : revenge ? 95f : expertMode ? 90f : 75f;
+			float chargeVelocity = malice ? 115f : death ? 105f : revenge ? 101.25f : expertMode ? 97.5f : 90f;
 
 			// Charge phase variables
 			double chargeDistance = Math.Sqrt(500D * 500D + 800D * 800D);
@@ -768,8 +769,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = nerfedAttacks ? 8 : 12;
-							float divisor = attackPhaseGateValue / numPlasmaOrbs;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 36f : 40f;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
 							{

@@ -408,8 +408,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X, player.Center.Y - 800f) : AIState != (float)Phase.Deathrays ? new Vector2(player.Center.X, player.Center.Y - 425f) : player.Center;
 
 			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.3f : death ? 1.2f : revenge ? 1.15f : expertMode ? 1.1f : 1f);
-			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 26f : 18f) * baseVelocityMult;
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 28f : 20f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -644,7 +644,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						calamityGlobalNPC.newAI[3] = 1f;
 						npc.velocity *= decelerationVelocityMult;
 
-						int totalProjectiles = malice ? 12 : expertMode ? 10 : 8;
+						int totalProjectiles = malice ? 12 : death ? 10 : revenge ? 9 : expertMode ? 8 : 6;
 						float radians = MathHelper.TwoPi / totalProjectiles;
 						Vector2 laserSpawnPoint = new Vector2(npc.Center.X, npc.Center.Y);
 						bool normalLaserRotation = npc.localAI[0] % 2f == 0f;
