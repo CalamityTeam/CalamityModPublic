@@ -133,8 +133,8 @@ namespace CalamityMod.CalPlayer
         public bool disableHiveCystSpawns = false;
         public bool disableNaturalScourgeSpawns = false;
         public bool disableAnahitaSpawns = false;
-        public bool blazingMouseDamageEffects = false;
-        public bool ableToDrawBlazingMouse = false;
+        public bool blazingCursorDamage = false;
+        public bool blazingCursorVisuals = false;
         public float blazingMouseAuraFade = 0f;
         public float GeneralScreenShakePower = 0f;
         public bool GivenBrimstoneLocus = false;
@@ -1613,8 +1613,8 @@ namespace CalamityMod.CalPlayer
 
             noWings = false;
             blockAllDashes = false;
-            blazingMouseDamageEffects = false;
-            ableToDrawBlazingMouse = false;
+            blazingCursorDamage = false;
+            blazingCursorVisuals = false;
 
             luxorsGift = false;
             fungalSymbiote = false;
