@@ -331,7 +331,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			for (int i = 0; i < projectile.oldPos.Length; i++)
 			{
-				float hitboxRadius = CongregationDiameter * MathHelper.Lerp(0.45f, 0.17f, i / (float)projectile.oldPos.Length);
+				float hitboxRadius = CongregationDiameter * MathHelper.Lerp(0.45f, 0.17f, i / (float)projectile.oldPos.Length) * 1.4f;
 				Vector2 hitboxCircle = Vector2.One * hitboxRadius;
 				if (CalamityUtils.CircularHitboxCollision(projectile.oldPos[i] + hitboxCircle * 0.5f, hitboxRadius, targetHitbox))
 					return true;
