@@ -512,7 +512,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X - 1200f, player.Center.Y) : AIState == (float)Phase.Deathray ? new Vector2(player.Center.X, player.Center.Y - spinRadius) : new Vector2(player.Center.X - 750f, player.Center.Y);
+			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+			float destinationX = flyLeft ? -750f : 750f;
+			float destinationY = player.Center.Y;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? new Vector2(player.Center.X, destinationY - spinRadius) : new Vector2(player.Center.X + destinationX, destinationY);
 
 			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
 			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)
@@ -563,6 +566,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
 							npc.ai[1] = 0f;
 							npc.ai[2] = 0f;
 							npc.ai[3] = 1f;
@@ -605,6 +611,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (otherMechIsBerserk)
 						{
 							// Reset everything
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.ai[1] = 0f;
 							npc.ai[2] = 0f;
@@ -632,6 +641,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 					if (otherMechIsBerserk)
 					{
 						// Reset everything
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;

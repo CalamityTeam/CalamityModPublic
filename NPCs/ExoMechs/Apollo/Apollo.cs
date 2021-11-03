@@ -411,9 +411,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			int numRockets = lastMechAlive ? 4 : nerfedAttacks ? 2 : 3;
 
 			// Default vector to fly to
-			float chargeComboXOffset = -500f;
+			bool flyRight = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+			float destinationX = flyRight ? 750f : -750f;
+			float destinationY = player.Center.Y;
+			float chargeComboXOffset = flyRight ? -500f : 500f;
 			float chargeComboYOffset = npc.ai[2] == 0f ? 400f : -400f;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + 750f, player.Center.Y + chargeComboYOffset) : new Vector2(player.Center.X + 750f, player.Center.Y);
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) : new Vector2(player.Center.X + destinationX, destinationY);
 
 			// If Apollo can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
@@ -553,6 +556,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
 							npc.ai[3] = 1f;
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
@@ -605,6 +611,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (otherMechIsBerserk)
 						{
 							// Reset everything
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -637,6 +646,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					if (otherMechIsBerserk)
 					{
 						// Reset everything
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;

@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Set AI to stop homing, start accelerating
 			float stopHomingDistance = malice ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
-            if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
+            if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f || projectile.timeLeft < 480)
             {
                 projectile.ai[0] = 1f;
 

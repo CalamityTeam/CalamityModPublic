@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											else
 											{
 												// Normal laser
-												if (berserk)
+												if (berserk && npc.ai[0] % 3f == 0f)
 													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
 												// Predictive laser

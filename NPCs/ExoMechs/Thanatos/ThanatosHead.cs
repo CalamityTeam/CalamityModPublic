@@ -452,7 +452,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Laser Barrage variables
 			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 2f : baseDistance;
-			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
+			Vector2 laserBarrageLocation = new Vector2(0f, npc.ai[1] % 2f == 0f ? laserBarrageLocationBaseDistance : -laserBarrageLocationBaseDistance);
 			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
@@ -737,6 +737,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
+									npc.ai[1] += (berserk && revenge) ? 1f : 0f;
 									npc.localAI[0] = berserk ? 1f : 0f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
