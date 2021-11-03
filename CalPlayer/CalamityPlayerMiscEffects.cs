@@ -92,7 +92,7 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
 			// Hurt the nearest NPC to the mouse if using the burning mouse.
-			if (modPlayer.blazingMouseDamageEffects)
+			if (modPlayer.blazingCursorDamage)
 				HandleBlazingMouseEffects(player, modPlayer);
 
 			// Revengeance effects
@@ -414,28 +414,40 @@ namespace CalamityMod.CalPlayer
 
 		private static void HandleBlazingMouseEffects(Player player, CalamityPlayer modPlayer)
 		{
-			Rectangle auraRectangle = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
+			// The sigil's brightness slowly fades away every frame if not incinerating anything.
 			modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade - 0.025f, 0.25f, 1f);
+
+			// miscCounter is used to limit Calamity's hit rate.
+			int framesPerHit = 60 / Calamity.HitsPerSecond;
+			if (player.miscCounter % framesPerHit != 1)
+				return;
+
+			Rectangle sigilHitbox = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
+			int sigilDamage = (int)(player.AverageDamage() * Calamity.BaseDamage);
+			bool brightenedSigil = false;
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				if (!Main.npc[i].CanBeChasedBy() || !Main.npc[i].Hitbox.Intersects(auraRectangle) || !Main.rand.NextBool(2))
+				NPC target = Main.npc[i];
+				if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage)
 					continue;
 
-				harmNPC(Main.npc[i]);
-				modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade + 0.15f, 0.25f, 1f);
-			}
-
-			void harmNPC(NPC npc)
-			{
-				int damage = (int)(player.AverageDamage() * Main.rand.Next(550, 600));
-				npc.StrikeNPC(damage, 0f, 0);
-
-				player.addDPS(damage);
-				npc.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 900);
-
-				for (int i = 0; i < 4; i++)
+				// Brighten the sigil because it is dealing damage. This can only happen once per hit event.
+				if (!brightenedSigil)
 				{
-					Dust fire = Dust.NewDustDirect(npc.position, npc.width, npc.height, 267);
+					modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade + 0.2f, 0.25f, 1f);
+					brightenedSigil = true;
+				}
+
+				// Create a direct strike to hit this specific NPC.
+				Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, player.whoAmI, i);
+
+				// Incinerate the target with Vulnerability Hex.
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 20);
+
+				// Make some fancy dust to indicate damage is being done.
+				for (int j = 0; j < 12; j++)
+				{
+					Dust fire = Dust.NewDustDirect(target.position, target.width, target.height, 267);
 					fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.45f);
 					fire.scale = 1f + fire.velocity.Length() / 6f;
 					fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.85f));
@@ -447,12 +459,12 @@ namespace CalamityMod.CalPlayer
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
 			// Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
-			int blazingMouseItem = ModContent.ItemType<Calamity>();
+			int blazingCursorItem = ModContent.ItemType<Calamity>();
 			for (int i = 13; i < 18 + player.extraAccessorySlots; i++)
 			{
-				if (player.armor[i].type == blazingMouseItem)
+				if (player.armor[i].type == blazingCursorItem)
 				{
-					modPlayer.ableToDrawBlazingMouse = true;
+					modPlayer.blazingCursorVisuals = true;
 					break;
 				}
 			}

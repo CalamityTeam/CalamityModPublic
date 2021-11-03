@@ -523,7 +523,7 @@ namespace CalamityMod.ILEditing
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
             // Do nothing special if the player has a regular mouse or is on the menu.
-            if (Main.gameMenu || !Main.LocalPlayer.Calamity().ableToDrawBlazingMouse)
+            if (Main.gameMenu || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
@@ -559,7 +559,7 @@ namespace CalamityMod.ILEditing
                 Vector2 desaturatedDrawPosition = drawPosition + Vector2.One;
 
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
-                if (Main.LocalPlayer.Calamity().blazingMouseDamageEffects && !Main.mapFullscreen)
+                if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
                     Texture2D auraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamityAura");
                     Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTime * 12.3f) % 6);
