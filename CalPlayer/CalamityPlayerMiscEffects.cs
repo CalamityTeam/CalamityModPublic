@@ -3409,7 +3409,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.gArtifact)
 			{
-				player.maxMinions += 8;
+				player.maxMinions += 10;
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) == -1)
