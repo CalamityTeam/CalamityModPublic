@@ -759,8 +759,6 @@ namespace CalamityMod.NPCs
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
-			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
-
 			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
 			CurrentlyEnraged = false;
 			CanHaveBossHealthBar = false;
