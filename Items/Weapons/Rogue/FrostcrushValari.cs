@@ -54,7 +54,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, Math.Max(damage / 3, 1), knockBack / 3f, player.whoAmI, 0f, 1f);
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, Math.Max((int)(damage / 2.7272f), 1), knockBack / 3f, player.whoAmI, 0f, 1f);
 					if (proj.WithinBounds(Main.maxProjectiles))
 						Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= 10;
@@ -64,7 +64,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
                 for (int i = 0; i < icicleAmt; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread2));
-                    Projectile.NewProjectile(position, perturbedspeed, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), Math.Max(damage / 3, 1), 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position, perturbedspeed, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), Math.Max((int)(damage / 2.7272f), 1), 0f, player.whoAmI, 0f, 0f);
                     spread2 -= Main.rand.Next(1,4);
                 }
                 return false;

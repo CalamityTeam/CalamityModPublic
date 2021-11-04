@@ -71,30 +71,25 @@ Stealth strikes launch all 4 sphere types at once");
 				ProjectileType<SphereBlue>()
 			});
 
-			//Kinda ugly but idk how to make it cleaner
-			float SpeedX = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX2 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY2 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX3 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY3 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX4 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY4 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-
             if (player.Calamity().StealthStrikeAvailable())
 			{
-				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI);
-				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI);
-				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI);
-				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI);
-				if (stealth.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-				if (stealth2.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth2].Calamity().stealthStrike = true;
-				if (stealth3.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth3].Calamity().stealthStrike = true;
-				if (stealth4.WithinBounds(Main.maxProjectiles))
-					Main.projectile[stealth4].Calamity().stealthStrike = true;
+				// This is done to allow looping when creating projectiles, instead of having to create many projectile/velocity variables all at once,
+				// which this shoot code used to do.
+				int[] projectilesToShoot = new int[]
+				{
+					type,
+					ProjectileType<SphereBladed>(),
+					ProjectileType<SphereYellow>(),
+					ProjectileType<SphereBlue>()
+				};
+
+				foreach (int projectileType in projectilesToShoot)
+				{
+					Vector2 shootVelocity = new Vector2(speedX, speedY) + Main.rand.NextVector2Square(-1.5f, 1.5f);
+					int stealth = Projectile.NewProjectile(position, shootVelocity, projectileType, (int)(damage * 0.625f), knockBack, player.whoAmI);
+					if (stealth.WithinBounds(Main.maxProjectiles))
+						Main.projectile[stealth].Calamity().stealthStrike = true;
+				}
 			}
 			else
 			{

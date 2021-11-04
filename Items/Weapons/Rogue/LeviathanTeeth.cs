@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 teethCount = 3;
                 stealthStrike = true;
+                damage = (int)(damage * 1.3f);
             }
             else
             {

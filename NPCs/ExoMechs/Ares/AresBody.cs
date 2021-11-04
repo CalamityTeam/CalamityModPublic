@@ -365,10 +365,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Rotation
 			npc.rotation = npc.velocity.X * 0.003f;
 
-			// Light
+			// Light and enrage check
 			if (EnragedState == (float)Enraged.Yes)
 			{
 				Lighting.AddLight(npc.Center, 0.5f * npc.Opacity, 0f, 0f);
+				npc.Calamity().CurrentlyEnraged = true;
 			}
 			else
 			{

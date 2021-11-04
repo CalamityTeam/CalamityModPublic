@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Pets
         {
             DisplayName.SetDefault("Daawnlight");
             Main.projFrames[projectile.type] = 12;
-            Main.projPet[projectile.type] = true;
         }
 
         public override void SetDefaults()

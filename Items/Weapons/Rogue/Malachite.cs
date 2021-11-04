@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				for (float i = -6.5f; i <= 6.5f; i += 6.5f)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+					int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, damage * 2, knockBack, player.whoAmI);
 					if (stealth.WithinBounds(Main.maxProjectiles))
 						Main.projectile[stealth].Calamity().stealthStrike = true;
 				}

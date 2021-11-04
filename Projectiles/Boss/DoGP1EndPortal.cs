@@ -1,9 +1,9 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.ID;
+using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 60000;
+            projectile.hide = true;
 		}
 
         public override void AI()
@@ -44,24 +45,25 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.Kill();
         }
 
-        public override void Kill(int timeLeft)
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
-            if (Main.netMode != NetmodeID.Server && Filters.Scene["CalamityMod:DoGPortal"].IsActive())
-                Filters.Scene["CalamityMod:DoGPortal"].Deactivate();
+            drawCacheProjsOverWiresUI.Add(index);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            // Manage a screen shader that acts as the projectile.
-            if (Filters.Scene["CalamityMod:DoGPortal"].IsActive())
-                Filters.Scene["CalamityMod:DoGPortal"].Deactivate();
+            spriteBatch.EnterShaderRegion();
 
-            Filters.Scene.Activate("CalamityMod:DoGPortal", projectile.Center).GetShader().UseTargetPosition(projectile.Center);
-            Filters.Scene["CalamityMod:DoGPortal"].GetShader().UseImage("Images/Misc/Perlin");
-            Filters.Scene["CalamityMod:DoGPortal"].GetShader().UseColor(Color.Cyan);
-            Filters.Scene["CalamityMod:DoGPortal"].GetShader().UseSecondaryColor(Color.Fuchsia);
-            Filters.Scene["CalamityMod:DoGPortal"].GetShader().UseImage(ModContent.GetTexture("CalamityMod/ExtraTextures/VoronoiShapes"));
-            Filters.Scene["CalamityMod:DoGPortal"].GetShader().UseProgress(projectile.scale);
+            Texture2D noiseTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/VoronoiShapes");
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = noiseTexture.Size() * 0.5f;
+            GameShaders.Misc["CalamityMod:DoGPortal"].UseOpacity(projectile.scale);
+            GameShaders.Misc["CalamityMod:DoGPortal"].UseColor(Color.Cyan);
+            GameShaders.Misc["CalamityMod:DoGPortal"].UseSecondaryColor(Color.Fuchsia);
+            GameShaders.Misc["CalamityMod:DoGPortal"].Apply();
+
+            spriteBatch.Draw(noiseTexture, drawPosition, null, Color.White, 0f, origin, 3.5f, SpriteEffects.None, 0f);
+            spriteBatch.ExitShaderRegion();
 
             return false;
 		}

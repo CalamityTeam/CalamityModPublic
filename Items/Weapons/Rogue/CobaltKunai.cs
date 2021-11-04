@@ -38,17 +38,19 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
-			{
-				for (int i = -6; i <= 6; i += 6)
-				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<CobaltEnergy>(), damage, knockBack, player.whoAmI);
-					if (stealth.WithinBounds(Main.maxProjectiles))
-						Main.projectile[stealth].Calamity().stealthStrike = true;
-				}
-				return false;
-			}
-			return true;
+            {
+                damage = (int)(damage * 1.4f);
+
+                for (int i = -6; i <= 6; i += 6)
+                {
+                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<CobaltEnergy>(), damage, knockBack, player.whoAmI);
+                    if (stealth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[stealth].Calamity().stealthStrike = true;
+                }
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()

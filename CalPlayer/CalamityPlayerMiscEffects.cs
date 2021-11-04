@@ -1279,7 +1279,14 @@ namespace CalamityMod.CalPlayer
 				modPlayer.persecutedEnchantSummonTimer = 0;
 				if (Main.myPlayer == player.whoAmI && player.Calamity().persecutedEnchant && NPC.CountNPCS(ModContent.NPCType<DemonPortal>()) < 2)
 				{
-					Vector2 spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+					int tries = 0;
+					Vector2 spawnPosition;
+					do
+					{
+						spawnPosition = player.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(270f, 420f);
+						tries++;
+					}
+					while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
 					CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), player);
 				}
 			}
@@ -3421,7 +3428,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.gArtifact)
 			{
-				player.maxMinions += 8;
+				player.maxMinions += 10;
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) == -1)

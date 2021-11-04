@@ -1,8 +1,11 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
+    // TODO - Abstract away most of the direct vector math away in here into things like SafeDirectionTo calls.
     public class AtaraxiaHoming : ModProjectile
     {
         private static int NumAnimationFrames = 5;
@@ -106,10 +109,13 @@ namespace CalamityMod.Projectiles.Melee
                 dx *= homingFactor;
                 dy *= homingFactor;
 
-                // The projectile loses 1/6th of its current velocity and replaces it with homing power.
-                float homingStrength = 6f;
+                // The projectile loses 1/5th of its current velocity and replaces it with homing power.
+                float homingStrength = 5f;
                 projectile.velocity.X = (projectile.velocity.X * (homingStrength - 1f) + dx) / homingStrength;
                 projectile.velocity.Y = (projectile.velocity.Y * (homingStrength - 1f) + dy) / homingStrength;
+
+                // And then approaches the homing velocity by an increment of 0.3.
+                projectile.velocity = projectile.velocity.MoveTowards(new Vector2(dx, dy), 0.3f);
 
                 // Re-scale resulting velocity to the projectile's set maximum speed
                 projectile.velocity.Normalize();
