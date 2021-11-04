@@ -17,6 +17,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 {
 	[AutoloadBossHead]
 	public class AresBody : ModNPC
-    {
+	{
 		// Used for loot
 		public enum MechType
 		{
@@ -106,34 +107,38 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		// Max distance from the target before they are unable to hear sound telegraphs
 		private const float soundDistance = 4800f;
 
+		// Drawers for arm segments.
+		public static PrimitiveTrail LightningDrawer;
+		public static PrimitiveTrail LightningBackgroundDrawer;
+
 		public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("XF-09 Ares");
+		{
+			DisplayName.SetDefault("XF-09 Ares");
 			NPCID.Sets.TrailingMode[npc.type] = 3;
 			NPCID.Sets.TrailCacheLength[npc.type] = npc.oldPos.Length;
 		}
 
-        public override void SetDefaults()
-        {
+		public override void SetDefaults()
+		{
 			npc.npcSlots = 5f;
 			npc.damage = 100;
 			npc.width = 220;
-            npc.height = 252;
-            npc.defense = 100;
+			npc.height = 252;
+			npc.defense = 100;
 			npc.DR_NERD(0.35f);
 			npc.LifeMaxNERB(1300000, 1495000, 500000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
-            aiType = -1;
+			aiType = -1;
 			npc.Opacity = 0f;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(3, 33, 0, 0);
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
+			npc.knockBackResist = 0f;
+			npc.value = Item.buyPrice(3, 33, 0, 0);
+			npc.noGravity = true;
+			npc.noTileCollide = true;
+			npc.HitSound = SoundID.NPCHit4;
+			npc.DeathSound = SoundID.NPCDeath14;
+			npc.netAlways = true;
 			npc.boss = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
@@ -146,19 +151,19 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
-        {
+		{
 			writer.Write(frameX);
 			writer.Write(frameY);
 			writer.Write(armsSpawned);
-            writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
 			armsSpawned = reader.ReadBoolean();
@@ -169,8 +174,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			CalamityGlobalNPC.draedonExoMechPrime = npc.whoAmI;
@@ -787,10 +792,27 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Draw the enrage smoke behind Ares
 			SmokeDrawer.DrawSet(npc.Center);
 
+			// Draw arms.
+			int laserArm = NPC.FindFirstNPC(ModContent.NPCType<AresLaserCannon>());
+			int gaussArm = NPC.FindFirstNPC(ModContent.NPCType<AresGaussNuke>());
+			int teslaArm = NPC.FindFirstNPC(ModContent.NPCType<AresTeslaCannon>());
+			int plasmaArm = NPC.FindFirstNPC(ModContent.NPCType<AresPlasmaFlamethrower>());
+			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
+			Color armGlowmaskColor = afterimageBaseColor;
+			armGlowmaskColor.A = 184;
+
+			if (laserArm != -1)
+				DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, -1, true);
+			if (gaussArm != -1)
+				DrawArm(spriteBatch, Main.npc[gaussArm].Center, armGlowmaskColor, 1, true);
+			if (teslaArm != -1)
+				DrawArm(spriteBatch, Main.npc[teslaArm].Center, armGlowmaskColor, -1, false);
+			if (plasmaArm != -1)
+				DrawArm(spriteBatch, Main.npc[plasmaArm].Center, armGlowmaskColor, 1, false);
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -832,6 +854,95 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			return false;
 		}
+		internal float WidthFunction(float completionRatio)
+		{
+			return MathHelper.Lerp(0.5f, 1.3f, (float)Math.Sin(MathHelper.Pi * completionRatio)) * npc.scale;
+		}
+
+		internal Color ColorFunction(float completionRatio)
+		{
+			Color baseColor1 = EnragedState == (float)Enraged.Yes ? Color.Red : Color.Cyan;
+			Color baseColor2 = EnragedState == (float)Enraged.Yes ? Color.IndianRed : Color.Cyan;
+
+			float fadeToWhite = MathHelper.Lerp(0f, 0.65f, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f);
+			Color baseColor = Color.Lerp(baseColor1, Color.White, fadeToWhite);
+			Color color = Color.Lerp(baseColor, baseColor2, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f) * npc.Opacity;
+			color.A = 84;
+			return color;
+		}
+
+		internal float BackgroundWidthFunction(float completionRatio) => WidthFunction(completionRatio) * 4f;
+
+		public Color BackgroundColorFunction(float completionRatio)
+		{
+			Color backgroundColor = EnragedState == (float)Enraged.Yes ? Color.Crimson : Color.CornflowerBlue;
+			Color color = backgroundColor * npc.Opacity * 0.4f;
+			return color;
+		}
+
+		public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, Color glowmaskColor, int direction, bool backArm)
+		{
+			if (LightningDrawer is null)
+				LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
+			if (LightningBackgroundDrawer is null)
+				LightningBackgroundDrawer = new PrimitiveTrail(BackgroundWidthFunction, BackgroundColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
+
+			SpriteEffects spriteDirection = direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			float distanceFromHand = npc.Distance(handPosition);
+
+			Texture2D shoulderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopShoulder");
+			Texture2D armTexture1 = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopPart1");
+			Texture2D armSegmentTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopSegment");
+			Texture2D armTexture2 = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopPart2");
+
+			Texture2D shoulderGlowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopShoulderGlow");
+			Texture2D armSegmentGlowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopSegmentGlow");
+			Texture2D armGlowmask2 = ModContent.GetTexture("CalamityMod/ExtraTextures/AresArmTopPart2Glow");
+
+			Vector2 shoulderDrawPosition = npc.Center + new Vector2(direction * (backArm ? 176f : 232f), backArm ? -100f : -36f);
+			Vector2 arm1DrawPosition = shoulderDrawPosition + new Vector2(direction * (shoulderTexture.Width + 16f), 10f);
+			Vector2 armSegmentDrawPosition = arm1DrawPosition;
+
+			Vector2 arm1Origin = armTexture1.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
+			Vector2 arm2Origin = armTexture2.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
+
+			float arm1Rotation = MathHelper.Clamp(distanceFromHand * direction / 1200f, -0.12f, 0.12f);
+			float arm2Rotation = (handPosition - armSegmentDrawPosition).ToRotation();
+			if (direction == 1)
+				arm2Rotation += MathHelper.Pi;
+			float armSegmentRotation = arm1Rotation * 1.8f;
+
+			// Handle offsets for points.
+			armSegmentDrawPosition += arm1Rotation.ToRotationVector2() * direction * -2f;
+			Vector2 arm2DrawPosition = armSegmentDrawPosition;
+			arm2DrawPosition -= arm2Rotation.ToRotationVector2() * direction * 40f;
+			arm2DrawPosition += (arm2Rotation - MathHelper.PiOver2).ToRotationVector2() * 14f;
+
+			// Calculate colors.
+			Color shoulderLightColor = npc.GetAlpha(Lighting.GetColor((int)shoulderDrawPosition.X / 16, (int)shoulderDrawPosition.Y / 16));
+			Color arm1LightColor = npc.GetAlpha(Lighting.GetColor((int)arm1DrawPosition.X / 16, (int)arm1DrawPosition.Y / 16));
+			Color armSegmentLightColor = npc.GetAlpha(Lighting.GetColor((int)armSegmentDrawPosition.X / 16, (int)armSegmentDrawPosition.Y / 16));
+			Color arm2LightColor = npc.GetAlpha(Lighting.GetColor((int)arm2DrawPosition.X / 16, (int)arm2DrawPosition.Y / 16));
+			Color glowmaskAlphaColor = npc.GetAlpha(glowmaskColor);
+
+			// Draw electricity between arms.
+			List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
+			LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+			LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+
+			shoulderDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+			arm1DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+			armSegmentDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+			arm2DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+
+			spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+			spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, null, shoulderLightColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskAlphaColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, null, armSegmentLightColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskAlphaColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(armTexture2, arm2DrawPosition, null, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
+			spriteBatch.Draw(armGlowmask2, arm2DrawPosition, null, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
+		}
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
@@ -839,7 +950,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		}
 
 		public override void NPCLoot()
-        {
+		{
 			// Check if the other exo mechs are alive
 			bool exoWormAlive = false;
 			bool exoTwinsAlive = false;
@@ -1021,5 +1132,5 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-    }
+	}
 }
