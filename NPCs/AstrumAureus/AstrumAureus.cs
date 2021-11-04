@@ -423,7 +423,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			Vector2 npcCenter = new Vector2(npc.Center.X, npc.Center.Y + 8f);
+			/*Vector2 npcCenter = new Vector2(npc.Center.X, npc.Center.Y + 8f);
 
 			// NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
 			// Width = 83, Height = 107
@@ -482,9 +482,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (rightDist4 < minRightDist)
 				minRightDist = rightDist4;
 
-			bool insideRightHitbox = minRightDist <= 55f;
+			bool insideRightHitbox = minRightDist <= 55f;*/
 
-			return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && npc.alpha == 0 && npc.ai[0] > 1f;
+			return /*(insideLeftHitbox || insideBodyHitbox || insideRightHitbox) &&*/ npc.alpha == 0 && npc.ai[0] > 1f;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

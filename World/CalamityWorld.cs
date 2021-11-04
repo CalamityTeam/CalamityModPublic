@@ -1239,7 +1239,13 @@ namespace CalamityMod.World
                     progress.Message = "I Wanna Rock";
                     MiscWorldgenRoutines.PlaceRoxShrine();
                 }));
-            }
+
+				tasks.Insert(FinalIndex + 7, new PassLegacy("GoodGameDesignGemGen", delegate (GenerationProgress progress)
+				{
+					progress.Message = "Good Game Design Gem Gen";
+					MiscWorldgenRoutines.SmartGemGen();
+				}));
+			}
 
             tasks.Add(new PassLegacy("Planetoid Test", Planetoid.GenerateAllBasePlanetoids));
         }
