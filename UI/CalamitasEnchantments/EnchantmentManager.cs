@@ -254,7 +254,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().witheringWeaponEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && !item.summon),
 
-				new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you. If sufficiently damaged they are friendly; otherwise they attack you.",
+				new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you. If sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.",
 					1100,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Persecuted",
 					null,

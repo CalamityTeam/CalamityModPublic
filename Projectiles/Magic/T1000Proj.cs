@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 34;
+            projectile.width = 58;
+            projectile.height = 94;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -113,7 +113,8 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * 6f;
+            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * 8f;
+            projectile.position.Y -= 8f;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);

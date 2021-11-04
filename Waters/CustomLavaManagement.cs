@@ -41,7 +41,7 @@ namespace CalamityMod.Waters
         internal static void Unload()
         {
             foreach (CustomLavaStyle lavaStyle in CustomLavaStyles)
-                lavaStyle.Unload();
+                lavaStyle?.Unload();
 
             CustomLavaStyles = null;
             LavaBlockTexture = null;

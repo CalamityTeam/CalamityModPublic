@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Condenser");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            animationFrameHeight = 46;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

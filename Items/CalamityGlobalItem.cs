@@ -2370,13 +2370,9 @@ namespace CalamityMod.Items
 
 		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
-			void drawItemManually(Color color, float generalScale)
-			{
-				Texture2D itemTexture = Main.itemTexture[item.type];
-				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
-				Vector2 itemOrigin = frame.Size() * 0.5f;
-				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
-			}
+			// I want to strangle somebody.
+			Texture2D itemTexture = Main.itemTexture[item.type];
+			Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
 
 			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
 				return true;
@@ -2387,19 +2383,11 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			// Adjust the offset of the position. This vector does not have any specific static member that can be referenced and it is not
-			// as simply computable as a texture.Size() * 0.5f.
-			position += new Vector2(14f, 16f) * Main.inventoryScale;
+			Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
-			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
-
-			float pulse = Main.GlobalTime * 0.79f % 1f;
-			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
-			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
-			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
-			drawItemManually(pulseColor, pulseScale);
-			drawItemManually(drawColor, 1f);
+			EnchantmentEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
+			spriteBatch.Draw(itemTexture, position, itemFrame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
 
 			return false;
 		}

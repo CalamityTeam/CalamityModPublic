@@ -1033,7 +1033,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// A general factor for the aura.
 				// Used to cause fade-ins/outs as the attack starts/stops.
 				float auraGeneralPower = Utils.InverseLerp(0f, deathrayTelegraphDuration * 0.333f, npc.Calamity().newAI[2], true);
-				auraGeneralPower *= Utils.InverseLerp(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration - 40f, npc.Calamity().newAI[2], true);
+				auraGeneralPower *= Utils.InverseLerp(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration, npc.Calamity().newAI[2], true);
 
 				// Determine the characteristics of the aura. This requires intermediate computations to determine if Thanatos is in its final phase as well as for pulsing.
 				bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);

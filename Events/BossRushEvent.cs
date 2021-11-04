@@ -97,6 +97,7 @@ namespace CalamityMod.Events
         #region Loading and Unloading
         public static void Load()
         {
+            BossIDsAfterDeath = new Dictionary<int, int[]>();
             Bosses = new List<Boss>()
             {
                 new Boss(NPCID.QueenBee),

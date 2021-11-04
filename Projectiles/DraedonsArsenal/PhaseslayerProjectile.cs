@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			player.ChangeDir(projectile.direction);
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			player.itemRotation = projectile.rotation * projectile.direction;
+			player.itemRotation = CalamityUtils.WrapAngle90Degrees(projectile.rotation);
 		}
 
 		private void OnShrinkEffects()

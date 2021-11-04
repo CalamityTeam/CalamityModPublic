@@ -125,8 +125,6 @@ namespace CalamityMod.Items
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
 			if (item.type == ModContent.ItemType<RedSun>())
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
-			if (item.type == ModContent.ItemType<GaelsGreatsword>())
-				nameLine.overrideColor = new Color(146, 0, 0);
 			if (item.type == ModContent.ItemType<CrystylCrusher>())
 				nameLine.overrideColor = new Color(129, 29, 149);
 			if (item.type == ModContent.ItemType<Svantechnical>())
@@ -233,6 +231,8 @@ namespace CalamityMod.Items
 				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
 			if (item.type == ModContent.ItemType<TheCommunity>())
 				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+			if (item.type == ModContent.ItemType<GaelsGreatsword>())
+				legendaryColor = new Color(146, 0, 0);
 
 			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
 			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";

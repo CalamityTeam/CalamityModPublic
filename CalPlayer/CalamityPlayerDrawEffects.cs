@@ -427,6 +427,7 @@ namespace CalamityMod.CalPlayer
 
                 Texture2D extraPieceTexture = ModContent.GetTexture("CalamityMod/Items/Armor/Vanity/ApolloMask_Extra");
                 DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, drawPlayer.bodyFrame, drawInfo.eyeColor, 0f, origin, 1f, drawInfo.spriteEffects, 0);
+                pieceDrawData.shader = dyeShader;
                 Main.playerDrawData.Add(pieceDrawData);
             }
         });
@@ -456,6 +457,7 @@ namespace CalamityMod.CalPlayer
                 Rectangle headFrame = extraPieceTexture.Frame(1, 20, 0, headVerticalFrame);
 
                 DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, headFrame, drawInfo.eyeColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
+                pieceDrawData.shader = dyeShader;
                 Main.playerDrawData.Add(pieceDrawData);
             }
         });

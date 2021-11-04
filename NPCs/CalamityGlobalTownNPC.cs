@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Town NPC Names
-		public static void ResetTownNPCNameBools(NPC npc, Mod mod)
+		public static void ResetTownNPCNameBools()
 		{
 			void ResetName(int npcID, ref bool nameBool)
 			{

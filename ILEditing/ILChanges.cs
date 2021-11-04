@@ -137,6 +137,7 @@ namespace CalamityMod.ILEditing
 			IL.Terraria.Main.DoDraw += DrawFusableParticles;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
+            IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
 
             // Ravager platform fall fix
@@ -203,6 +204,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
+            IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
 
             // Ravager platform fall fix
@@ -706,6 +708,37 @@ namespace CalamityMod.ILEditing
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
                 return initialColor;
             });
+        }
+
+        private static void DrawCustomLava3(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Select the lava color.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Lighting>("get_NotRetro")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the retro style check.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
+            cursor.Emit(OpCodes.Ldloc, 15);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            cursor.Emit(OpCodes.Stloc, 13);
+
+            // Go back to the start and change textures as necessary.
+            cursor.Index = 0;
+
+            while (cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            {
+                // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+                // The order is load is texture array field -> load index -> load the reference to the texture at that index.
+                cursor.Index += 3;
+                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
+            }
         }
 
         private static void DrawCustomLavafalls(ILContext il)
