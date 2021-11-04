@@ -26,11 +26,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().donorItem = true;
-
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LightBead>();
