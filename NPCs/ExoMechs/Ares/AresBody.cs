@@ -797,20 +797,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			int gaussArm = NPC.FindFirstNPC(ModContent.NPCType<AresGaussNuke>());
 			int teslaArm = NPC.FindFirstNPC(ModContent.NPCType<AresTeslaCannon>());
 			int plasmaArm = NPC.FindFirstNPC(ModContent.NPCType<AresPlasmaFlamethrower>());
+			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
+			Color armGlowmaskColor = afterimageBaseColor;
+			armGlowmaskColor.A = 184;
 
 			if (laserArm != -1)
-				DrawArm(spriteBatch, Main.npc[laserArm].Center, -1, true);
+				DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, -1, true);
 			if (gaussArm != -1)
-				DrawArm(spriteBatch, Main.npc[gaussArm].Center, 1, true);
+				DrawArm(spriteBatch, Main.npc[gaussArm].Center, armGlowmaskColor, 1, true);
 			if (teslaArm != -1)
-				DrawArm(spriteBatch, Main.npc[teslaArm].Center, -1, false);
+				DrawArm(spriteBatch, Main.npc[teslaArm].Center, armGlowmaskColor, -1, false);
 			if (plasmaArm != -1)
-				DrawArm(spriteBatch, Main.npc[plasmaArm].Center, 1, false);
+				DrawArm(spriteBatch, Main.npc[plasmaArm].Center, armGlowmaskColor, 1, false);
 
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 			Vector2 vector = new Vector2(npc.width / 2, npc.height / 2);
-			Color afterimageBaseColor = EnragedState == (float)Enraged.Yes ? Color.Red : Color.White;
 			int numAfterimages = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
@@ -859,9 +861,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		internal Color ColorFunction(float completionRatio)
 		{
+			Color baseColor1 = EnragedState == (float)Enraged.Yes ? Color.Red : Color.Cyan;
+			Color baseColor2 = EnragedState == (float)Enraged.Yes ? Color.IndianRed : Color.Cyan;
+
 			float fadeToWhite = MathHelper.Lerp(0f, 0.65f, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f);
-			Color baseColor = Color.Lerp(Color.Cyan, Color.White, fadeToWhite);
-			Color color = Color.Lerp(baseColor, Color.LightBlue, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f) * npc.Opacity;
+			Color baseColor = Color.Lerp(baseColor1, Color.White, fadeToWhite);
+			Color color = Color.Lerp(baseColor, baseColor2, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f) * npc.Opacity;
 			color.A = 84;
 			return color;
 		}
@@ -870,11 +875,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 		public Color BackgroundColorFunction(float completionRatio)
 		{
-			Color color = Color.CornflowerBlue * npc.Opacity * 0.4f;
+			Color backgroundColor = EnragedState == (float)Enraged.Yes ? Color.Crimson : Color.CornflowerBlue;
+			Color color = backgroundColor * npc.Opacity * 0.4f;
 			return color;
 		}
 
-		public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, int direction, bool backArm)
+		public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, Color glowmaskColor, int direction, bool backArm)
 		{
 			if (LightningDrawer is null)
 				LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
@@ -917,7 +923,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Color arm1LightColor = npc.GetAlpha(Lighting.GetColor((int)arm1DrawPosition.X / 16, (int)arm1DrawPosition.Y / 16));
 			Color armSegmentLightColor = npc.GetAlpha(Lighting.GetColor((int)armSegmentDrawPosition.X / 16, (int)armSegmentDrawPosition.Y / 16));
 			Color arm2LightColor = npc.GetAlpha(Lighting.GetColor((int)arm2DrawPosition.X / 16, (int)arm2DrawPosition.Y / 16));
-			Color glowmaskColor = npc.GetAlpha(Color.White);
+			Color glowmaskAlphaColor = npc.GetAlpha(glowmaskColor);
 
 			// Draw electricity between arms.
 			List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
@@ -931,11 +937,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
 			spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, null, shoulderLightColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-			spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskAlphaColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
 			spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, null, armSegmentLightColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-			spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskAlphaColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
 			spriteBatch.Draw(armTexture2, arm2DrawPosition, null, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
-			spriteBatch.Draw(armGlowmask2, arm2DrawPosition, null, glowmaskColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
+			spriteBatch.Draw(armGlowmask2, arm2DrawPosition, null, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)
