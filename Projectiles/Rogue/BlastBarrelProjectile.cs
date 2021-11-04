@@ -46,8 +46,8 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.localAI[0] = 1f;
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
-            if (projectile.velocity.Y < 15f)
-                projectile.velocity.Y += 0.3f;
+            if (projectile.velocity.Y < 10f)
+                projectile.velocity.Y += 0.2f;
 
             if (CollideX && BounceEffectCooldown == 0)
             {

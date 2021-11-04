@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.ignoreWater = true;
             projectile.hide = true;
+            projectile.timeLeft = 90000;
         }
 
         public override void AI()

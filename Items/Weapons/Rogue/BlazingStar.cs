@@ -47,6 +47,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 if (item.stack != 1)
                 {
+                    damage = (int)(damage * 1.55f);
+
                     for (int i = 0; i < item.stack; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));

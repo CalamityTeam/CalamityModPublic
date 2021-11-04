@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
-            item.shootSpeed = 7.5f;
+            item.shootSpeed = 12.5f;
             item.Calamity().rogue = true;
         }
 

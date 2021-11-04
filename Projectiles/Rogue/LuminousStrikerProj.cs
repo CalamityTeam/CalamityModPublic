@@ -19,15 +19,17 @@ namespace CalamityMod.Projectiles.Rogue
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
+		public override void SetDefaults()
+		{
+			projectile.width = 30;
+			projectile.height = 30;
+			projectile.friendly = true;
 			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
-            projectile.timeLeft = 120;
-            projectile.Calamity().rogue = true;
+			projectile.penetrate = 4;
+			projectile.localNPCHitCooldown = 13;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.timeLeft = 120;
+			projectile.Calamity().rogue = true;
 		}
 
         public override void AI()

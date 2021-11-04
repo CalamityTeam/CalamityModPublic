@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            int baseUseTime = 35;
+            int baseUseTime = 38;
             int modifier = 3;
             bool timeToFire = false;
             if (projectile.ai[1] <= 0f)

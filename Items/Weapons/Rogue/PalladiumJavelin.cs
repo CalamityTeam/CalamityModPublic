@@ -38,7 +38,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable())
+                damage = (int)(damage * 1.425f);
+
+            int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (javelin.WithinBounds(Main.maxProjectiles))
 			{
 				Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

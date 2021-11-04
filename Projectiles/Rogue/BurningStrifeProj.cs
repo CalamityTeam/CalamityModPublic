@@ -60,6 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Main.PlaySound(SoundID.Item, projectile.Center, 103);
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.33), projectile.knockBack, projectile.owner);
+                Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
             }
@@ -72,6 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Main.PlaySound(SoundID.Item, projectile.Center, 103);
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.33), projectile.knockBack, projectile.owner);
+                Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
             }

@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
+				damage = (int)(damage * 1.75f);
 				type = ModContent.ProjectileType<CraniumSmasherStealth>();
 			}
 			else if (Main.rand.NextBool(5))
