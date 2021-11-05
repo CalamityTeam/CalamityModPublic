@@ -217,12 +217,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
+			bool exoTwinRedAlive = false;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
 				{
+					exoTwinRedAlive = true;
+
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
@@ -297,6 +300,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
 				npc.ai[3] = 1f;
+
+			// Decrement the timer used to stop Artemis from firing lasers
+			if (npc.ai[3] > 1f)
+				npc.ai[3] -= 1f;
 
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
@@ -1074,6 +1081,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						for (int i = 0; i < maxCharges; i++)
 							chargeLocations[i] = default;
 						ChargeComboFlash = 0f;
+
+						// Tell Apollo and Artemis to swap positions
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
+
+						// Tell Artemis to not fire lasers for a short time while swapping positions
+						npc.ai[3] = 61f;
 
 						npc.TargetClosest();
 					}
