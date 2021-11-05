@@ -3517,6 +3517,10 @@ namespace CalamityMod.NPCs
 				else if (projectile.Calamity().trueMelee)
 					damage = (int)(damage * 0.35);
 
+				// 50% resist to Chicken Cannon.
+				if (projectile.type == ProjectileType<ChickenExplosion>())
+					damage = (int)(damage * 0.5);
+
 				// 40% resist to Wrathwing stealth strike.
 				else if (projectile.type == ProjectileType<WrathwingCinder>())
 					damage = (int)(damage * 0.6);
@@ -3524,6 +3528,11 @@ namespace CalamityMod.NPCs
 				// 25% resist to Eradicator beams.
 				else if (projectile.type == ProjectileType<NebulaShot>())
 					damage = (int)(damage * 0.75);
+
+				// 15% resist to God Slayer Slugs and Luminite Bullets.
+				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>())
+					damage = (int)(damage * 0.85);
+
 			}
 			else if (npc.type == NPCType<RavagerBody>())
 			{
