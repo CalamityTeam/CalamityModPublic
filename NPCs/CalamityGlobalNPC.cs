@@ -3364,7 +3364,7 @@ namespace CalamityMod.NPCs
 				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
 				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || AresIDs.Contains(npc.type))
 			{
-				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : 0.5;
+				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
 			}
@@ -3493,9 +3493,9 @@ namespace CalamityMod.NPCs
 
 			if (AresIDs.Contains(npc.type))
 			{
-				// 25% resist to true melee.
+				// 25% resist to true melee and 50% resist to Murasama.
 				if (projectile.Calamity().trueMelee)
-					damage = (int)(damage * 0.75);
+					damage = (int)(damage * (projectile.type == ProjectileType<MurasamaSlash>() ? 0.5 : 0.75));
 
 				// 20% resist to Eclipse's Fall stealth strike.
 				else if (projectile.type == ProjectileType<EclipsesSmol>())
@@ -3513,9 +3513,9 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
 					damage = (int)(damage * 0.25);
 
-				// 50% resist to true melee.
+				// 65% resist to true melee.
 				else if (projectile.Calamity().trueMelee)
-					damage = (int)(damage * 0.5);
+					damage = (int)(damage * 0.35);
 
 				// 40% resist to Wrathwing stealth strike.
 				else if (projectile.type == ProjectileType<WrathwingCinder>())
