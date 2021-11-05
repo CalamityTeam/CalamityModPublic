@@ -506,8 +506,8 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("StormWeaver", out float order);
 				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>() };
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<StormWeaverBag>(), ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<LittleLight>(), ItemType<SupremeHealingPotion>() };
-				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<GodSlayerHornedHelm>(), ItemType<GodSlayerVisage>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>() };
+				List<int> loot = new List<int>() { ItemType<StormWeaverBag>(), ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<SupremeHealingPotion>() };
+				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<GodSlayerHornedHelm>(), ItemType<GodSlayerVisage>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>(), ItemType<LittleLight>() };
 				string instructions = $"Use a [i:{summon}] in Space";
 				string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
 				string bossLogTex = "CalamityMod/NPCs/StormWeaver/StormWeaver_BossChecklist";
@@ -556,7 +556,7 @@ namespace CalamityMod
 				int type = NPCType<DevourerofGodsHead>();
 				int summon = ItemType<CosmicWorm>();
 				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Skullmasher>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<OmegaHealingPotion>() };
-				List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<SilvaHornedHelm>(), ItemType<SilvaMask>(), ItemType<KnowledgeDevourerofGods>() };
+				List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<SilvaHelm>(), ItemType<SilvaHornedHelm>(), ItemType<SilvaMask>(), ItemType<KnowledgeDevourerofGods>() };
 				string instructions = $"Use a [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The Devourer of Gods has slain everyone and feasted on their essence.", new Color(0x00, 0xFF, 0xFF));
 				string bossLogTex = "CalamityMod/NPCs/DevourerofGods/DevourerofGods_BossChecklist";
