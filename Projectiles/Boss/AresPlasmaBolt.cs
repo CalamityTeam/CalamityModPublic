@@ -39,11 +39,11 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			// 23 frames starting at 0.5
-			// 18 frames starting at 1
+			// 22 frames starting at 0.5
+			// 17 frames starting at 1
 			if (projectile.velocity.Length() < maxVelocity)
 			{
-				projectile.velocity *= 1.15f;
+				projectile.velocity *= 1.075f;
 				if (projectile.velocity.Length() > maxVelocity)
 				{
 					projectile.velocity.Normalize();

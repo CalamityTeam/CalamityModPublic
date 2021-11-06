@@ -404,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeTime = (float)chargeDistance / chargeVelocity;
 
 			// Plasma and rocket projectile velocities
-			float projectileVelocity = 14f;
+			float projectileVelocity = 12f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)
@@ -865,7 +865,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int type = ModContent.ProjectileType<ApolloRocket>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(SoundID.Item36, npc.Center);
-							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
 							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
 							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 						}

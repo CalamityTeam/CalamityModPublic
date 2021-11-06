@@ -454,7 +454,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = 90f;
+			float laserShotgunDuration = lastMechAlive ? 120f : 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f && canFireLasers;
