@@ -4047,12 +4047,9 @@ namespace CalamityMod.CalPlayer
 					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
 					(sirenWaterBuff ? 0.15f : 0f) +
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-					(auricSet ? 0.1f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
-					(cTracers ? 0.1f : 0f) +
 					(silvaSet ? 0.05f : 0f) +
-					(eTracers ? 0.05f : 0f) +
 					(blueCandle ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
@@ -4064,12 +4061,9 @@ namespace CalamityMod.CalPlayer
 					((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
 					(sirenWaterBuff ? 0.15f : 0f) +
 					((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-					(auricSet ? 0.1f : 0f) +
 					(dragonScales ? 0.1f : 0f) +
 					(kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-					(cTracers ? 0.1f : 0f) +
 					(silvaSet ? 0.05f : 0f) +
-					(eTracers ? 0.05f : 0f) +
 					(planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
 					((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
 					(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);

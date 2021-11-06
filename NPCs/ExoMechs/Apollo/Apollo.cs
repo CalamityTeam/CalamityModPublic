@@ -217,15 +217,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Check if the other exo mechs are alive
 			int otherExoMechsAlive = 0;
-			bool exoTwinRedAlive = false;
 			bool exoWormAlive = false;
 			bool exoPrimeAlive = false;
 			if (CalamityGlobalNPC.draedonExoMechTwinRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].active)
 				{
-					exoTwinRedAlive = true;
-
 					// Link the HP of both twins
 					if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
 						npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
