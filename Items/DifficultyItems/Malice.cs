@@ -20,7 +20,7 @@ namespace CalamityMod.Items.DifficultyItems
                 // Overall description and warning lines
                 "[c/c01818:This mode is intentionally extremely hard. You should prepare as much as possible.]\n" +
                 "[c/c01818:You will need to master a boss inside and out to defeat it on-tier.]\n" +
-                "All Challenge Drops and Legendary Challenge Drops from this mode are 100% guaranteed.\n\n" +
+                "While enabled, bosses will drop Challenge and Legendary Challenge items.\n" +
 
                 // Misc lines
                 "Greatly nerfs the effectiveness of life steal.\n" +
