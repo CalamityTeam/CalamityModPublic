@@ -3513,8 +3513,8 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
 					damage = (int)(damage * 0.25);
 
-				// 65% resist to true melee.
-				else if (projectile.Calamity().trueMelee)
+				// 65% resist to true melee and Hadopelagic Echo.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>())
 					damage = (int)(damage * 0.35);
 
 				// 50% resist to Chicken Cannon.
