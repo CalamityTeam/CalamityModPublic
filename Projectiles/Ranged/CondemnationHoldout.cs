@@ -1,5 +1,5 @@
+using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +10,10 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public Player Owner => Main.player[projectile.owner];
         public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        public ref float ChargeUpTime => ref projectile.ai[0];
+        public ref float CurrentChargingFrames => ref projectile.ai[0];
+        public ref float ArrowsLoaded => ref projectile.ai[1];
+        public ref float FramesToLoadNextArrow => ref projectile.localAI[0];
+
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Condemnation";
         public override void SetStaticDefaults() => DisplayName.SetDefault("Condemnation");
 
@@ -28,38 +31,62 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-
             Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
-            if (ChargeUpTime < 20f)
-                ReleaseInitialChargeDust(tipPosition);
-            if (ChargeUpTime == 20f)
-                ReleaseInitialBurstDust(tipPosition);
 
-            // Release projectiles after done charging.
+            // Fire arrows if the owner stops channeling or otherwise cannot use the weapon.
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
-
-                // If killed prior to the charge being complete, don't bother spawning anything. Just die.
-                if (ChargeUpTime < 20f)
+                // No arrows left to shoot? The bow disappears.
+                if (ArrowsLoaded <= 0f)
+                {
+                    projectile.Kill();
                     return;
+                }
 
-                int totalProjectilesToShoot = (int)Math.Pow(ChargeUpTime * 0.15f, 0.71) + 1;
-                if (totalProjectilesToShoot > 32)
-                    totalProjectilesToShoot = 32;
-
-                for (int i = 0; i < totalProjectilesToShoot; i++)
-                    ShootProjectiles(tipPosition, MathHelper.Lerp(0.425f, 1f, i / (float)totalProjectilesToShoot));
-
+                // Fire one charged arrow every frame until you're out of arrows.
+                ShootProjectiles(tipPosition, 1f);
+                --ArrowsLoaded;
                 Main.PlaySound(SoundID.DD2_BallistaTowerShot);
+            }
+            else
+            {
+
+                // Frame 1 effects: Record how fast the Condemnation item being used is, to determine how fast to load arrows.
+                if (FramesToLoadNextArrow == 0f)
+                    FramesToLoadNextArrow = Owner.ActiveItem().useAnimation;
+
+                // Actually make progress towards loading more arrows.
+                ++CurrentChargingFrames;
+
+                // If no arrows are loaded, spawn a bit of dust to indicate it's not ready yet.
+                // Spawn the same dust if the max number of arrows have been loaded.
+                if (ArrowsLoaded <= 0f || ArrowsLoaded >= Condemnation.MaxLoadedArrows)
+                    SpawnCannotLoadArrowsDust(tipPosition);
+
+                // If it is time to load an arrow, produce a pulse of dust and add an arrow.
+                // Also accelerate charging, because it's fucking awesome.
+                if (CurrentChargingFrames >= FramesToLoadNextArrow && ArrowsLoaded < Condemnation.MaxLoadedArrows)
+                {
+                    SpawnArrowLoadedDust(tipPosition);
+                    CurrentChargingFrames = 0f;
+                    ++ArrowsLoaded;
+                    --FramesToLoadNextArrow;
+
+                    // Play a sound for additional notification that an arrow has been loaded.
+                    var loadSound = Main.PlaySound(SoundID.Item108);
+                    if (loadSound != null)
+                        loadSound.Volume *= 0.3f;
+
+                    if (ArrowsLoaded >= Condemnation.MaxLoadedArrows)
+                        Main.PlaySound(SoundID.MaxMana);
+                }
             }
 
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
-            ChargeUpTime++;
         }
 
-        public void ReleaseInitialBurstDust(Vector2 tipPosition)
+        public void SpawnArrowLoadedDust(Vector2 tipPosition)
         {
             if (Main.dedServ)
                 return;
@@ -74,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public void ReleaseInitialChargeDust(Vector2 tipPosition)
+        public void SpawnCannotLoadArrowsDust(Vector2 tipPosition)
         {
             if (Main.dedServ)
                 return;
@@ -90,24 +117,25 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public void ShootProjectiles(Vector2 tipPosition, float speedFactor)
-		{
+        {
             if (Main.myPlayer != projectile.owner)
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            int projectileType = ModContent.ProjectileType<CondemnationArrow>();
+            // calculate damage at the instant this arrow is fired
+            int arrowDamage = (int)(heldItem.damage * Owner.RangedDamage());
             float shootSpeed = heldItem.shootSpeed * speedFactor * 1.5f;
-            int damage = (int)(Owner.GetWeaponDamage(heldItem) * 1.45);
             float knockback = heldItem.knockBack;
 
             bool uselessFuckYou = OwnerCanShoot;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref damage, ref knockback, false);
+            int projectileType = 0;
+            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref arrowDamage, ref knockback, false);
             projectileType = ModContent.ProjectileType<CondemnationArrow>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
             Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
 
-            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, damage, knockback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, arrowDamage, knockback, projectile.owner, 0f, 0f);
         }
 
         public void UpdateProjectileHeldVariables(Vector2 armPosition)
@@ -133,7 +161,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public void ManipulatePlayerVariables()
-		{
+        {
             Owner.ChangeDir(projectile.direction);
             Owner.heldProj = projectile.whoAmI;
             Owner.itemTime = 2;

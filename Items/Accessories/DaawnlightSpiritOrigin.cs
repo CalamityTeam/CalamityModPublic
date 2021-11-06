@@ -11,17 +11,15 @@ namespace CalamityMod.Items.Accessories
 {
     public class DaawnlightSpiritOrigin : ModItem
     {
-        // Despite the seemingly insane numbers here, I think this item might actually be underpowered
-        // I left all the numbers easily accessible so it can be quickly rebalanced
-        // Regular crits can be intentionally weak; bullseyes should be doing all the work
-        // If the item is too weak, increase BullseyeCritRatio (originally 3.8f) until bullseyes are doing enough damage
-        // - Ozzatron
+        // "Despite the seemingly insane numbers here, I think this item might actually be underpowered"
+        // hindsight: the item was not underpowered. Ozzatron 05NOV2021
         //
-        private const float BullseyeCritRatio = 3.8f; // Bullseye crits deal x3.8 damage instead of x2.
-        private const float StoredCritConversionRatio = 0.02f; // Add +2% more damage to crits for every 1% critical chance the player would have had.
+        // Regular crits are intentionally weak; bullseyes should be doing all the work
+        private const float BullseyeCritRatio = 3.5f; // Bullseye crits deal x3.5 damage instead of x2.
+        private const float StoredCritConversionRatio = 0.01f; // Add +1% more damage to crits for every 1% critical chance the player would have had.
         private const float MinUseTimeForSlowBonus = 11f;
         private const float MaxSlowBonusUseTime = 72f;
-        private const float MaxSlowWeaponBonus = 0.96f; // Up to +96% more damage to crits for slower weapons.
+        private const float MaxSlowWeaponBonus = 0.33f; // Up to +33% more damage to crits for slower weapons.
 
         internal static float GetDamageMultiplier(Player p, CalamityPlayer mp, bool hitBullseye)
         {

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float Time => ref projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Condemnation Arrow");
+            DisplayName.SetDefault("Condemning Echo");
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
         }
