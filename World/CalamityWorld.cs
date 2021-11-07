@@ -1262,35 +1262,36 @@ namespace CalamityMod.World
                 AstralBiome.PlaceAstralMeteor();
             }));
         }
-		#endregion
+        #endregion
 
-		#region PostWorldGen
-		public override void PostWorldGen()
-		{
-			// Replace Suspicious Looking Eyes in Chests with Lenses
-			for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
-			{
-				Chest chest = Main.chest[chestIndex];
-				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
-				{
-					bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
-					bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
-					bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
-					if (isGoldChest || isIvyChest || isIceChest)
-					{
-						for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-						{
-							if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
-							{
-								chest.item[inventoryIndex].SetDefaults(ItemID.Lens);
-								chest.item[inventoryIndex].stack = 1 + Main.rand.Next(2);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
+        #region PostWorldGen
+        public override void PostWorldGen()
+        {
+            // Replace Suspicious Looking Eyes in Chests with Lenses
+            for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
+            {
+                Chest chest = Main.chest[chestIndex];
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
+                {
+                    bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
+                    bool isMahoganyChest = Main.tile[chest.x, chest.y].frameX == 8 * 36;
+                    bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
+                    bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
+                    if (isGoldChest || isMahoganyChest || isIvyChest || isIceChest)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ItemID.Lens);
+                                chest.item[inventoryIndex].stack = 1 + Main.rand.Next(2);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 		#endregion
 
 		#region PostUpdate
