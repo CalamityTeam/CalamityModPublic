@@ -2775,7 +2775,8 @@ namespace CalamityMod
 				ProjectileType<SnapClamStealth>(),
 				ProjectileType<StickyBol>(),
 				ProjectileType<UrchinStingerProj>(),
-				ProjectileType<EyeOfNightCell>()
+				ProjectileType<EyeOfNightCell>(),
+                ProjectileType<ViolenceThrownProjectile>(),
 			};
 
 			bossTypes = new SortedDictionary<int, int>()
