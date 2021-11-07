@@ -84,9 +84,10 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item74, projectile.position);
             if (Main.myPlayer == projectile.owner)
             {
-                int damage = (int)(Vehemenc.VehemenceSkullDamage * Owner.MagicDamage());
+                int skullID = ModContent.ProjectileType<VehemenceSkull>();
+                int damage = (int)(projectile.damage * Vehemenc.SkullRatio);
                 for (int i = 0; i < 18; i++)
-                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<VehemenceSkull>(), damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, projectile.knockBack, projectile.owner);
             }
 
             if (!Main.dedServ)
