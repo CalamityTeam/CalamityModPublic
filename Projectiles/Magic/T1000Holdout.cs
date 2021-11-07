@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
-    public class T1000Proj : ModProjectile
+    public class T1000Holdout : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Player player = Main.player[projectile.owner];
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == ModContent.ProjectileType<T1000Proj>())
+            if (projectile.type == ModContent.ProjectileType<T1000Holdout>())
             {
                 projectile.ai[0] += 1f;
                 int num2 = 0;
@@ -96,9 +96,9 @@ namespace CalamityMod.Projectiles.Magic
                         float randNum = 4f;
                         for (int j = 0; j < 4; j++)
                         {
-							spawnPos += new Vector2(Main.rand.NextFloat(-randNum, randNum), Main.rand.NextFloat(-randNum, randNum));
+                            spawnPos += new Vector2(Main.rand.NextFloat(-randNum, randNum), Main.rand.NextFloat(-randNum, randNum));
                             Vector2 spinningpoint = Vector2.Normalize(projectile.velocity) * velocityMult;
-							spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.2 - 0.1, default);
+                            spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.2 - 0.1, default);
                             if (float.IsNaN(spinningpoint.X) || float.IsNaN(spinningpoint.Y))
                             {
                                 spinningpoint = -Vector2.UnitY;

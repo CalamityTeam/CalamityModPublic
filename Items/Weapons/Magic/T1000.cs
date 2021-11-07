@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<T1000Proj>();
+            item.shoot = ModContent.ProjectileType<T1000Holdout>();
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<T1000Proj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<T1000Holdout>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

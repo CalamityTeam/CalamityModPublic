@@ -576,8 +576,8 @@ namespace CalamityMod
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
 
-                ProjectileType<PurgeProj>(),
-                ProjectileType<T1000Proj>(),
+                ProjectileType<NanoPurgeHoldout>(),
+                ProjectileType<T1000Holdout>(),
                 ProjectileType<YharimsCrystalPrism>(),
                 ProjectileType<DarkSparkPrism>(),
                 ProjectileType<YharimsCrystalBeam>(),

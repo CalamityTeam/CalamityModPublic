@@ -4,13 +4,13 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class PurgeLaser : ModProjectile
+    public class NanoPurgeLaser : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser");
+            DisplayName.SetDefault("Nano Beam");
         }
 
         public override void SetDefaults()
@@ -23,6 +23,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 2;
             projectile.timeLeft = 600;
             projectile.magic = true;
+
+            // hmmmm
+            projectile.scale = 0.5f;
         }
 
         public override void AI()
