@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.velocity *= 0.86f;
 
             // Spin chaotically given a pre-defined spin direction. Choose one initially at random.
-            float theta = 0.03f;
-            if (projectile.localAI[0] == 0f)
-                projectile.localAI[0] = Main.rand.NextBool() ? -theta : theta;
-            projectile.rotation += projectile.localAI[0];
+            float spinTheta = 0.11f;
+            if (projectile.localAI[1] == 0f)
+                projectile.localAI[1] = Main.rand.NextBool() ? -spinTheta : spinTheta;
+            projectile.rotation += projectile.localAI[1];
 
             // Animate the lightning orb.
             projectile.frameCounter++;
@@ -49,10 +49,10 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            ++projectile.ai[1];
             // Initial stagger in frames needs to be skipped over before it starts shooting,
             // but once it's past that then it can fire constantly
-            if (projectile.ai[1] > projectile.ai[0])
+            --projectile.ai[0];
+            if (projectile.ai[0] < 0f)
                 CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, Climax.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 

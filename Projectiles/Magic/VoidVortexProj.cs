@@ -1,16 +1,13 @@
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class VoidVortexProj : ModProjectile
     {
-        private double timeElapsed = 0.0;
-        private double circleSize = 1.0;
-        private double circleGrowth = 0.02;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Vortex");
@@ -23,29 +20,21 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 38;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.light = 0.5f;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 420;
+            projectile.timeLeft = 180;
             projectile.magic = true;
         }
 
         public override void AI()
         {
-            timeElapsed += 0.02;
-            projectile.velocity.X = (float)(Math.Sin(timeElapsed * (0.5f * projectile.ai[0])) * circleSize);
-            projectile.velocity.Y = (float)(Math.Cos(timeElapsed * (0.5f * projectile.ai[0])) * circleSize);
-            circleSize += circleGrowth;
+            // Spin chaotically given a pre-defined spin direction. Choose one initially at random.
+            float spinTheta = 0.11f;
+            if (projectile.localAI[1] == 0f)
+                projectile.localAI[1] = Main.rand.NextBool() ? -spinTheta : spinTheta;
+            projectile.rotation += projectile.localAI[1];
 
-            if (projectile.velocity.X > 0f)
-            {
-                projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
-            else
-            {
-                projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
-
+            // Animate the lightning orb.
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -57,7 +46,15 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 8f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+            // Spiral outwards in an increasingly chaotic fashion.
+            float revolutionTheta = 0.12f * projectile.ai[1];
+            projectile.velocity = projectile.velocity.RotatedBy(revolutionTheta) * 1.0092f;
+
+            // Initial stagger in frames needs to be skipped over before it starts shooting,
+            // but once it's past that then it can fire constantly
+            --projectile.ai[0];
+            if (projectile.ai[0] < 0f)
+                CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, VoidVortex.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

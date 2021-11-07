@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voltaic Climax");
-            Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the mouse");
+            Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the cursor");
             Item.staff[item.type] = true;
         }
 
