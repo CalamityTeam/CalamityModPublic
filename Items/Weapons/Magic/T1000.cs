@@ -10,32 +10,35 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class T1000 : ModItem
     {
+        public const int UseTime = 36;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("T1000");
-            Tooltip.SetDefault("Fires a spread of rainbow lasers");
+            Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain\n" +
+                "God rays pierce once without triggering pierce resistances");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 227;
             item.magic = true;
-            item.mana = 10;
-            item.width = 20;
-            item.height = 12;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.mana = 8;
+            item.width = 94;
+            item.height = 54;
+            item.useTime = item.useAnimation = UseTime;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<T1000Holdout>();
             item.shootSpeed = 24f;
+
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
@@ -44,7 +47,10 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Purge>());
+            recipe.AddIngredient(ModContent.ItemType<PurgeGuzzler>());
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 8);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -52,7 +58,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<T1000Holdout>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+            Projectile.NewProjectile(position, shootDirection, type, damage, knockBack, player.whoAmI);
             return false;
         }
     }
