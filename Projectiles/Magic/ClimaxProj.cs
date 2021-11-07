@@ -1,8 +1,9 @@
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class ClimaxProj : ModProjectile
@@ -18,27 +19,25 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 38;
             projectile.height = 38;
             projectile.friendly = true;
-            projectile.light = 0.5f;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 96;
+            projectile.timeLeft = 48;
             projectile.magic = true;
             projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.96f;
+            // Rapidly screech to a halt once spawned.
+            projectile.velocity *= 0.86f;
 
-            if (projectile.velocity.X > 0f)
-            {
-                projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
-            else
-            {
-                projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
+            // Spin chaotically given a pre-defined spin direction. Choose one initially at random.
+            float theta = 0.03f;
+            if (projectile.localAI[0] == 0f)
+                projectile.localAI[0] = Main.rand.NextBool() ? -theta : theta;
+            projectile.rotation += projectile.localAI[0];
 
+            // Animate the lightning orb.
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -50,8 +49,11 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            if (projectile.timeLeft % 4 == projectile.ai[0])
-                CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+            ++projectile.ai[1];
+            // Initial stagger in frames needs to be skipped over before it starts shooting,
+            // but once it's past that then it can fire constantly
+            if (projectile.ai[1] > projectile.ai[0])
+                CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, Climax.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

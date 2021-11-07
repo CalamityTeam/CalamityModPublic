@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,16 +10,18 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Climax : ModItem
     {
+        public const int OrbFireRate = 10;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voltaic Climax");
-            Tooltip.SetDefault("Fires a circular spread of magnetic orbs around the mouse cursor");
+            Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the mouse");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 105;
+            item.damage = 140;
             item.magic = true;
             item.mana = 30;
             item.width = 78;
@@ -46,34 +47,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
+            int numOrbs = 8;
+            Vector2 clickPos = Main.MouseWorld;
+            float orbSpeed = 14f;
+            Vector2 vel = Main.rand.NextVector2CircularEdge(orbSpeed, orbSpeed);
+            for (int i = 0; i < numOrbs; i++)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
-            vector2 += new Vector2(num78, num79);
-            float spread = 45f * 0.0174f;
-            double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            for (int i = 0; i < 4; i++)
-            {
-                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, 1f, 0f);
-                Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                // Choose random firing stagger values for each orb to create a desynchronized barrage of lasers
+                float timingStagger = Main.rand.Next(OrbFireRate);
+                Projectile.NewProjectile(clickPos, vel, type, damage, knockBack, player.whoAmI, ai0: timingStagger);
+
+                vel = vel.RotatedBy(MathHelper.TwoPi / numOrbs);
             }
             return false;
         }
