@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 9;
             projectile.magic = true;
         }
 

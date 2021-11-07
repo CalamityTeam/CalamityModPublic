@@ -113,16 +113,6 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            double lifeAmount = target.life;
-            double lifeMax = target.lifeMax;
-            double damageExponent = lifeAmount / lifeMax * 7;
-            damage = (int)Math.Pow(damage, damageExponent);
-            if (damage > 200000)
-                damage = 200000;
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.life == target.lifeMax)
