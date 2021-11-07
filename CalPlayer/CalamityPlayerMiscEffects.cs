@@ -3426,18 +3426,8 @@ namespace CalamityMod.CalPlayer
 				player.maxMinions += 2;
 			}
 
-			if (modPlayer.gArtifact)
-			{
-				player.maxMinions += 10;
-				if (player.whoAmI == Main.myPlayer)
-				{
-					if (player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) == -1)
-						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
-
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(AngryChickenStaff.Damage * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
-				}
-			}
+			if (modPlayer.gArtifact && player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) != -1)
+				player.maxMinions += player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()];
 
 			if (modPlayer.pArtifact)
 			{

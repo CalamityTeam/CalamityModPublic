@@ -14,18 +14,18 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Godly Soul Artifact");
             Tooltip.SetDefault("Loyalty\n" +
-                "Summons two Sons of Yharon to fight for you");
+                "For each Son of Yharon you have summoned, you gain 1 minion slot");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 28;
-			item.accessory = true;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-			item.value = CalamityGlobalItem.Rarity15BuyPrice;
-		}
+            item.accessory = true;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -36,10 +36,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<PlagueContainmentCells>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-			recipe.AddTile(TileID.DemonAltar);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<PlagueContainmentCells>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
