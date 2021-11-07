@@ -6,6 +6,9 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NanoPurgeLaser : ModProjectile
     {
+        private const float LaserLength = 40f;
+        private const float LaserLengthChangeRate = 1.5f;
+        
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetStaticDefaults()
@@ -27,38 +30,37 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            // Very rapidly fade into existence.
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 25;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0f, 0.7f, 0.1f);
-            float num55 = 100f;
-            float num56 = 3f;
+
+            // Emit light.
+            Lighting.AddLight(projectile.Center, 0f, 0.7f, 0.1f);
+
+            // Laser length shenanigans. If the laser is still growing, increase localAI 0 to indicate it is getting longer.
             if (projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
-                {
-                    projectile.localAI[0] = num55;
-                }
+                projectile.localAI[0] += LaserLengthChangeRate;
+
+                // Cap it at max length.
+                if (projectile.localAI[0] > LaserLength)
+                    projectile.localAI[0] = LaserLength;
             }
+
+            // Otherwise it's shrinking. Once it reaches zero length it dies for good.
             else
             {
-                projectile.localAI[0] -= num56;
+                projectile.localAI[0] -= LaserLengthChangeRate;
                 if (projectile.localAI[0] <= 0f)
-                {
                     projectile.Kill();
-                }
             }
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(96, 255, 96, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(40f, 2f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(LaserLength, 2f, lightColor);
 
         public override void Kill(int timeLeft)
         {

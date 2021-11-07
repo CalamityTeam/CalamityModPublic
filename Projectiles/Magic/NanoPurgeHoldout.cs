@@ -152,6 +152,6 @@ namespace CalamityMod.Projectiles.Magic
         public override bool CanDamage() => false;
 
         // prevents the item from appearing backwards frame 1
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.ai[0] > 0f;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => DeployedFrames > 0f;
     }
 }
