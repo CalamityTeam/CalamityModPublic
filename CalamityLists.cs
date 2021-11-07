@@ -577,7 +577,7 @@ namespace CalamityMod
                 ProjectileType<FlurrystormCannonShooting>(),
 
                 ProjectileType<NanoPurgeHoldout>(),
-                ProjectileType<T1000Holdout>(),
+                ProjectileType<AetherfluxCannonHoldout>(),
                 ProjectileType<YharimsCrystalPrism>(),
                 ProjectileType<DarkSparkPrism>(),
                 ProjectileType<YharimsCrystalBeam>(),

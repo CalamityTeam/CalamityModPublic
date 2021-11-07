@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("T1000");
+            DisplayName.SetDefault("Aetherflux Cannon");
             Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain\n" +
                 "God rays pierce once without triggering pierce resistances");
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.channel = true;
             item.knockBack = 4f;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<T1000Holdout>();
+            item.shoot = ModContent.ProjectileType<AetherfluxCannonHoldout>();
             item.shootSpeed = 24f;
 
             item.rare = ItemRarityID.Purple;

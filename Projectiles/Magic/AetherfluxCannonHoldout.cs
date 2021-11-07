@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class T1000Holdout : ModProjectile
+    public class AetherfluxCannonHoldout : ModProjectile
     {
         private const int FramesPerFireRateIncrease = 36;
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("T1000");
+            DisplayName.SetDefault("Aetherflux Cannon");
             Main.projFrames[projectile.type] = 8;
         }
 
@@ -57,11 +57,11 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
-            Item t1000Item = Owner.ActiveItem();
-            projectile.damage = (int)((t1000Item?.damage ?? 0) * Owner.MagicDamage());
+            Item weaponItem = Owner.ActiveItem();
+            projectile.damage = (int)((weaponItem?.damage ?? 0) * Owner.MagicDamage());
 
             // Get the original weapon's use time.
-            int itemUseTime = t1000Item?.useAnimation ?? T1000.UseTime;
+            int itemUseTime = weaponItem?.useAnimation ?? T1000.UseTime;
             // 36, base use time, will result in 5. Speed increasing reforges push it to 4.
             int framesPerShot = itemUseTime / 7;
 
@@ -90,8 +90,8 @@ namespace CalamityMod.Projectiles.Magic
                     if (actuallyShoot)
                         Main.PlaySound(SoundID.Item91, projectile.Center);
 
-                    int projID = ModContent.ProjectileType<T1000Laser>();
-                    float shootSpeed = t1000Item.shootSpeed;
+                    int projID = ModContent.ProjectileType<PhasedGodRay>();
+                    float shootSpeed = weaponItem.shootSpeed;
                     Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
                     float dustInaccuracy = 0.045f;
 

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class T1000Laser : ModProjectile
+    public class PhasedGodRay : ModProjectile
     {
         private const float LaserLength = 80f;
         private const float LaserLengthChangeRate = 2f;
