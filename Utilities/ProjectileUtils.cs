@@ -192,7 +192,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static bool DrawBeam(this Projectile projectile, float length, float width, Color lightColor, Texture2D texture = null)
+		public static bool DrawBeam(this Projectile projectile, float length, float spacer, Color lightColor, Texture2D texture = null, bool curve = false)
 		{
 			if (texture is null)
 				texture = Main.projectileTexture[projectile.type];
@@ -211,19 +211,30 @@ namespace CalamityMod
 				Vector2 drawPos = projectile.position - Main.screenPosition + origin;
 				drawPos.Y += projectile.gfxOffY;
 				float maxTrailPoints = length;
-				float wide = width;
+
 				if (projectile.ai[1] == 1f)
-				{
 					maxTrailPoints = (int)projectile.localAI[0];
-				}
+
+				Vector2 cumulativeOffset = Vector2.Zero;
 				for (int i = 1; i <= (int)projectile.localAI[0]; i++)
 				{
-					Vector2 offset = Vector2.Normalize(projectile.velocity) * (float)i * wide;
+					Vector2 velToUseThisIter = projectile.velocity;
+					if (curve)
+					{
+						float oldVelRatio = i / projectile.localAI[0];
+						int oldVelIndex = (int)(oldVelRatio * projectile.oldRot.Length);
+						if (oldVelIndex > 0)
+						{
+							float angleChange = projectile.oldRot[oldVelIndex - 1] - projectile.rotation;
+							velToUseThisIter = projectile.velocity.RotatedBy(angleChange);
+						}
+					}
+					cumulativeOffset += Vector2.Normalize(velToUseThisIter) * spacer;
 					Color color = projectile.GetAlpha(lightColor);
 					color *= (maxTrailPoints - (float)i) / maxTrailPoints;
 					color.A = 0;
 					float fixedRotation = projectile.rotation + MathHelper.PiOver2;
-					Main.spriteBatch.Draw(texture, drawPos - offset, null, color, fixedRotation, origin, projectile.scale, spriteEffects, 0f);
+					Main.spriteBatch.Draw(texture, drawPos - cumulativeOffset, null, color, fixedRotation, origin, projectile.scale, spriteEffects, 0f);
 				}
 			}
 			return false;
