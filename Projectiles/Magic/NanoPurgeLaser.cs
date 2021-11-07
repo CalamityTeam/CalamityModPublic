@@ -23,9 +23,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 2;
             projectile.timeLeft = 600;
             projectile.magic = true;
-
-            // hmmmm
-            projectile.scale = 0.5f;
         }
 
         public override void AI()
@@ -59,18 +56,20 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(100, 255, 100, 0);
+        public override Color? GetAlpha(Color lightColor) => new Color(96, 255, 96, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(100f, 3f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(40f, 2f, lightColor);
 
         public override void Kill(int timeLeft)
         {
+            int dustID = 107;
             int dustAmt = Main.rand.Next(3, 7);
-            for (int d = 0; d < dustAmt; d++)
+            Vector2 dustPos = projectile.Center - projectile.velocity / 2f;
+            for (int i = 0; i < dustAmt; ++i)
             {
-                int nano = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 107, 0f, 0f, 100, default, 2.1f);
-                Main.dust[nano].velocity *= 2f;
-                Main.dust[nano].noGravity = true;
+                Dust d = Dust.NewDustDirect(dustPos, 0, 0, dustID, 0f, 0f, Scale: 0.8f);
+                d.velocity *= 1.15f;
+                d.noGravity = true;
             }
         }
     }
