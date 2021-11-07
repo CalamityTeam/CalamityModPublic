@@ -11,9 +11,9 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/EidolicWailSoundwave";
 
-		private int echoCooldown = 0;
-		private bool playedSound = false;
-		private static int penetrationAmt = 50;
+        private int echoCooldown = 0;
+        private bool playedSound = false;
+        private static int penetrationAmt = 50;
 
         public override void SetStaticDefaults()
         {
@@ -35,20 +35,20 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
             projectile.timeLeft = 450;
-			projectile.Calamity().PierceResistHarshness = 0.06f;
-			projectile.Calamity().PierceResistCap = 0.4f;
-		}
+            projectile.Calamity().PierceResistHarshness = 0.06f;
+            projectile.Calamity().PierceResistCap = 0.4f;
+        }
 
         public override void AI()
         {
-			if (projectile.ai[0] == 0f || projectile.ai[0] == 4f)
-			{
-				if (!playedSound)
-				{
-					Main.PlaySound(Main.rand.NextBool(100) ? mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater") : mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)projectile.Center.X, (int)projectile.Center.Y);
-					playedSound = true;
-				}
-			}
+            if (projectile.ai[0] == 0f || projectile.ai[0] == 4f)
+            {
+                if (!playedSound)
+                {
+                    Main.PlaySound(Main.rand.NextBool(100) ? mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater") : mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)projectile.Center.X, (int)projectile.Center.Y);
+                    playedSound = true;
+                }
+            }
 
             if (projectile.localAI[0] < 1f)
             {
@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.height = 36;
             }
 
-			if (echoCooldown > 0)
-				echoCooldown--;
+            if (echoCooldown > 0)
+                echoCooldown--;
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
         }
@@ -97,28 +97,28 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Electrified, 600);
             projectile.velocity *= 0.85f;
 
-			if (echoCooldown <= 0)
-			{
-				echoCooldown = 60;
-				int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
-				int echoDamage = (int)(0.2f * projectile.damage);
-				float echoKB = projectile.knockBack / 3;
-				int echos = 5;
-				for (int i = 0; i < echos; ++i)
-				{
-					float startDist = Main.rand.NextFloat(260f, 270f);
-					Vector2 startDir = Main.rand.NextVector2Unit();
-					Vector2 startPoint = target.Center + (startDir * startDist);
+            if (echoCooldown <= 0)
+            {
+                echoCooldown = 60;
+                int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
+                int echoDamage = (int)(0.2f * projectile.damage);
+                float echoKB = projectile.knockBack / 3;
+                int echos = 5;
+                for (int i = 0; i < echos; ++i)
+                {
+                    float startDist = Main.rand.NextFloat(260f, 270f);
+                    Vector2 startDir = Main.rand.NextVector2Unit();
+                    Vector2 startPoint = target.Center + (startDir * startDist);
 
-					float echoSpeed = Main.rand.NextFloat(15f, 18f);
-					Vector2 velocity = startDir * (-echoSpeed);
+                    float echoSpeed = Main.rand.NextFloat(15f, 18f);
+                    Vector2 velocity = startDir * (-echoSpeed);
 
-					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, projectile.owner);
-					}
-				}
-			}
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, projectile.owner);
+                    }
+                }
+            }
         }
 
         public override Color? GetAlpha(Color lightColor)

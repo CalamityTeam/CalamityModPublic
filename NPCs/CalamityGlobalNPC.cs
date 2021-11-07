@@ -3514,7 +3514,7 @@ namespace CalamityMod.NPCs
 					damage = (int)(damage * 0.25);
 
 				// 65% resist to true melee and Hadopelagic Echo.
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>())
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
 					damage = (int)(damage * 0.35);
 
 				// 50% resist to Chicken Cannon.

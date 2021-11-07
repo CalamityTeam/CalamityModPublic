@@ -31,19 +31,19 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.timeLeft = 30;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
         {
             projectile.width = (int)(36f * projectile.scale);
-			projectile.height = (int)(36f * projectile.scale);
+            projectile.height = (int)(36f * projectile.scale);
 
             if (projectile.alpha > 100)
                 projectile.alpha -= 25;
-			if (projectile.alpha < 100)
-				projectile.alpha = 100;
+            if (projectile.alpha < 100)
+                projectile.alpha = 100;
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
         }
