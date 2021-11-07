@@ -15,13 +15,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aetherflux Cannon");
-            Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain\n" +
-                "God rays pierce once without triggering pierce resistances");
+            Tooltip.SetDefault("Fires a barrage of phased god rays that pass through terrain");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 227;
+            item.damage = 171;
             item.magic = true;
             item.mana = 8;
             item.width = 94;

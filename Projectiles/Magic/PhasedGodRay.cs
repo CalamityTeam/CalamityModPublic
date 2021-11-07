@@ -11,6 +11,13 @@ namespace CalamityMod.Projectiles.Magic
     {
         private const float LaserLength = 80f;
         private const float LaserLengthChangeRate = 2f;
+
+        // Do not change these unless you are absolutely sure you know how to fix the wave math.
+        // They are extremely carefully chosen and barely work as is!
+        private const float WaveTheta = 0.09f;
+        private const int WaveTwistFrames = 9;
+        private ref float WaveFrameState => ref projectile.localAI[1];
+
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetStaticDefaults()
@@ -26,9 +33,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 5;
             projectile.friendly = true;
             projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 300;
+            projectile.penetrate = 2;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 12;
+            projectile.MaxUpdates = 3;
+            projectile.timeLeft = 280;
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -42,35 +51,32 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.alpha < 0)
                 projectile.alpha = 0;
 
-            float theta = 0.09f;
-            float maxWaveFrames = 9f;
-            float waveSign = projectile.localAI[1] < 0f ? -1f : 1f;
+            float waveSign = WaveFrameState < 0f ? -1f : 1f;
 
-            // Choose a waving direction initially at random.
-            if (projectile.localAI[1] == 0f)
+            // Initialize waving. Setting localAI[1] to a number between -1 and 1 tells it which way to wave.
+            // Exactly 0 is a coinflip.
+            if (Math.Abs(WaveFrameState) < 1f)
             {
-                float coinflip = Main.rand.NextBool() ? -1f : 1f;
-                waveSign = -coinflip;
-                projectile.localAI[1] = coinflip * maxWaveFrames * 0.5f;
+                float dirToUse = WaveFrameState == 0f ? (Main.rand.NextBool() ? -1f : 1f) : waveSign;
+                waveSign = -dirToUse;
+                WaveFrameState = dirToUse * WaveTwistFrames * 0.5f;
 
                 // Backfill old rotations to prevent visual glitches.
-                float startingRotation = projectile.velocity.ToRotation();
+                float iterRotation = projectile.velocity.ToRotation();
                 for (int i = 0; i < projectile.oldRot.Length; ++i)
-                    projectile.oldRot[i] = startingRotation;
-
-                // Adjust initial position to prevent ugly splitting.
-                Vector2 perp = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.PiOver2);
-                float distance = Main.rand.NextFloat(13f, 30f);
-                projectile.position -= coinflip * distance * perp;
+                {
+                    projectile.oldRot[i] = iterRotation;
+                    iterRotation += waveSign * WaveTheta;
+                }
             }
             // Switch waving directions as necessary.
-            else if (Math.Abs(projectile.localAI[1]) > maxWaveFrames)
-                projectile.localAI[1] = -waveSign;
+            else if (Math.Abs(WaveFrameState) > WaveTwistFrames)
+                WaveFrameState = -waveSign;
             else
-                projectile.localAI[1] += waveSign;
+                WaveFrameState += waveSign;
 
             // Apply a constant, rapid wave to the laser's motion.
-            projectile.velocity = projectile.velocity.RotatedBy(waveSign * theta);
+            projectile.velocity = projectile.velocity.RotatedBy(waveSign * WaveTheta);
             projectile.rotation = projectile.velocity.ToRotation();
 
             // Emit light.
@@ -97,12 +103,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // Get an extra hit in despite not being officially piercing.
-            if (projectile.ai[0] == 0f)
-            {
-                ++projectile.penetrate;
-                projectile.ai[0] += 1f;
-            }
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(222, 166, 44, 0);

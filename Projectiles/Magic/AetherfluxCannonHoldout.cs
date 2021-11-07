@@ -92,16 +92,27 @@ namespace CalamityMod.Projectiles.Magic
 
                     int projID = ModContent.ProjectileType<PhasedGodRay>();
                     float shootSpeed = weaponItem.shootSpeed;
-                    Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
+                    Vector2 shootDirection = projectile.velocity.SafeNormalize(Vector2.UnitY);
+                    Vector2 shootVelocity = shootDirection * shootSpeed;
+
+                    // Waving beams need to start offset so they cross each other neatly.
+                    float waveSideOffset = Main.rand.NextFloat(18f, 28f);
+                    Vector2 perp = shootDirection.RotatedBy(-MathHelper.PiOver2) * waveSideOffset;
+
+                    // Dust chaotically sheds off the crystal while charging or firing.
                     float dustInaccuracy = 0.045f;
 
-                    for (int i = 0; i < 3; ++i)
+                    for (int i = -1; i <= 1 ; i += 2)
                     {
-                        Vector2 laserStartPos = gunBarrelPos + Main.rand.NextVector2CircularEdge(6f, 6f);
+                        Vector2 laserStartPos = gunBarrelPos + i * perp + Main.rand.NextVector2CircularEdge(6f, 6f);
                         Vector2 dustOnlySpread = Main.rand.NextVector2Circular(shootSpeed, shootSpeed);
                         Vector2 dustVelocity = shootVelocity + dustInaccuracy * dustOnlySpread;
                         if (actuallyShoot)
-                            Projectile.NewProjectile(laserStartPos, shootVelocity, projID, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        {
+                            Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, shootVelocity, projID, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            // Tell this Phased God Ray exactly which way it should be waving.
+                            godRay.localAI[1] = i * 0.5f;
+                        }
                         SpawnFiringDust(gunBarrelPos, dustVelocity);
                     }
                 }
