@@ -10919,7 +10919,7 @@ namespace CalamityMod.CalPlayer
         public override void OnConsumeMana(Item item, int manaConsumed)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (Main.rand.NextBool(4) && modPlayer.lifeManaEnchant)
+            if (Main.rand.NextBool(2) && modPlayer.lifeManaEnchant)
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
