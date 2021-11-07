@@ -3521,16 +3521,16 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<ChickenExplosion>())
 					damage = (int)(damage * 0.5);
 
-				// 40% resist to Wrathwing stealth strike.
-				else if (projectile.type == ProjectileType<WrathwingCinder>())
+				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
+				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
-				// 25% resist to Eradicator beams.
-				else if (projectile.type == ProjectileType<NebulaShot>())
-					damage = (int)(damage * 0.75);
+				// 20% resist to Eradicator beams and Voltaic Climax / Void Vortex hitscan.
+				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>())
+					damage = (int)(damage * 0.8);
 
-				// 15% resist to God Slayer Slugs and Luminite Bullets.
-				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>())
+				// 15% resist to God Slayer Slugs, Luminite Bullets, and Gruesome Eminence.
+				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>() || projectile.type == ProjectileType<SpiritCongregation>())
 					damage = (int)(damage * 0.85);
 
 			}
