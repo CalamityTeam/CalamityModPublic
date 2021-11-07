@@ -3517,6 +3517,10 @@ namespace CalamityMod.NPCs
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
 					damage = (int)(damage * 0.35);
 
+				// 50% resist to Vehemence skulls.
+				else if (projectile.type == ProjectileType<VehemenceSkull>())
+					damage = (int)(damage * 0.5);
+
 				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
 				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
