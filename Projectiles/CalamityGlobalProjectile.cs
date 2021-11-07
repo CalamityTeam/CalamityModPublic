@@ -2584,87 +2584,92 @@ namespace CalamityMod.Projectiles
 
         public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
         {
-            float maxDistance = distanceRequired;
-            bool homeIn = false;
-            int[] targetArray = new int[maxTargets];
-            int targetArrayIndex = 0;
+			// Only shoot once every N frames.
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > projectileTimer)
+			{
+				projectile.localAI[0] = 0f;
 
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                if (Main.npc[i].CanBeChasedBy(projectile, false))
-                {
-                    float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+				// Only search for targets if projectiles could be fired.
+				float maxDistance = distanceRequired;
+				bool homeIn = false;
+				int[] targetArray = new int[maxTargets];
+				int targetArrayIndex = 0;
 
-                    bool canHit = true;
-                    if (extraDistance < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (Main.npc[i].CanBeChasedBy(projectile, false))
+					{
+						float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
 
-                    if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
-                    {
-                        if (targetArrayIndex < maxTargets)
-                        {
-                            targetArray[targetArrayIndex] = i;
-                            targetArrayIndex++;
-                            homeIn = true;
-                        }
-                        else
-                            break;
-                    }
-                }
-            }
+						bool canHit = true;
+						if (extraDistance < maxDistance)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
 
-            if (homeIn)
-            {
-                int randomTarget = Main.rand.Next(targetArrayIndex);
-                randomTarget = targetArray[randomTarget];
+						if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
+						{
+							if (targetArrayIndex < maxTargets)
+							{
+								targetArray[targetArrayIndex] = i;
+								targetArrayIndex++;
+								homeIn = true;
+							}
+							else
+								break;
+						}
+					}
+				}
 
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > projectileTimer)
-                {
-                    projectile.localAI[0] = 0f;
-                    Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
-                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
+				// If there is anything to actually shoot at, pick targets at random and fire.
+				if (homeIn)
+				{
+					int randomTarget = Main.rand.Next(targetArrayIndex);
+					randomTarget = targetArray[randomTarget];
 
-                    if (attackMultiple)
-                    {
-                        for (int i = 0; i < targetArrayIndex; i++)
-                        {
-                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
+					projectile.localAI[0] = 0f;
+					Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
+					Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
 
-                            if (projectile.owner == Main.myPlayer)
-                            {
-                                int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+					if (attackMultiple)
+					{
+						for (int i = 0; i < targetArrayIndex; i++)
+						{
+							velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
 
-                                if (projectile.type == ProjectileType<EradicatorProjectile>())
+							if (projectile.owner == Main.myPlayer)
+							{
+								int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+								if (projectile.type == ProjectileType<EradicatorProjectile>())
 									if (projectile2.WithinBounds(Main.maxProjectiles))
 										Main.projectile[projectile2].Calamity().forceRogue = true;
-                            }
-                        }
+							}
+						}
 
-                        return;
-                    }
+						return;
+					}
 
-                    if (projectile.type == ProjectileType<GodsGambitYoyo>())
-                    {
-                        velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
-                        velocity.X += Main.rand.Next(-30, 31) * 0.05f;
-                    }
+					if (projectile.type == ProjectileType<GodsGambitYoyo>())
+					{
+						velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
+						velocity.X += Main.rand.Next(-30, 31) * 0.05f;
+					}
 
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+					if (projectile.owner == Main.myPlayer)
+					{
+						int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                        if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
-                            projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
+						if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
+							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
 							if (projectile2.WithinBounds(Main.maxProjectiles))
 								Main.projectile[projectile2].Calamity().forceMelee = true;
 
 						if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
 							if (projectile2.WithinBounds(Main.maxProjectiles))
 								Main.projectile[projectile2].Calamity().forceRogue = true;
-                    }
-                }
-            }
+					}
+				}
+			}
         }
 
         public static void ExpandHitboxBy(Projectile projectile, int width, int height)
