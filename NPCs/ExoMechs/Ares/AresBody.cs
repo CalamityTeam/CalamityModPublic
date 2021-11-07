@@ -902,7 +902,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Color baseColor = Color.Lerp(baseColor1, Color.White, fadeToWhite);
 			Color color = Color.Lerp(baseColor, baseColor2, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f) * npc.Opacity;
 			color.A = 84;
-			return color;
+			return color * npc.Opacity;
 		}
 
 		internal float BackgroundWidthFunction(float completionRatio) => WidthFunction(completionRatio) * 4f;
