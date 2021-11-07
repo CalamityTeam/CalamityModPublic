@@ -139,7 +139,7 @@ namespace CalamityMod
 		{
 			// If the incoming damage is less than the cap, don't do anything.
 			if (dmgInput < cap)
-				return (int)(dmgInput);
+				return (int)dmgInput;
 
 			// Ratio of how far over the cap you are.
 			// This is a value from 1.0 upwards to theoretically infinity.

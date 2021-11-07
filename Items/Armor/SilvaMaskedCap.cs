@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
                 "This effect only triggers once per life\n" +
-                "Magic projectiles have a 10% chance to cause a massive explosion on enemy hits";
+                "Magic projectiles which cannot pierce will occasionally set off potent blasts of nature energy";
         }
 
         public override void UpdateEquip(Player player)
