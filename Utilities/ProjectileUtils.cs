@@ -222,7 +222,8 @@ namespace CalamityMod
 					Color color = projectile.GetAlpha(lightColor);
 					color *= (maxTrailPoints - (float)i) / maxTrailPoints;
 					color.A = 0;
-					Main.spriteBatch.Draw(texture, drawPos - offset, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+					float fixedRotation = projectile.rotation + MathHelper.PiOver2;
+					Main.spriteBatch.Draw(texture, drawPos - offset, null, color, fixedRotation, origin, projectile.scale, spriteEffects, 0f);
 				}
 			}
 			return false;
