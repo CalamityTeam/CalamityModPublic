@@ -13,17 +13,15 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Vehemence");
             Tooltip.SetDefault("Casts an intense energy blast\n" +
-                               "Does far more damage the more HP an enemy has left\n" +
-                               "Max damage is capped at 200,000\n" +
                                "If an enemy has full HP it will inflict Demon Flames for an extremely long time");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 3;
+            item.damage = 1412;
             item.magic = true;
-            item.mana = 590;
+            item.mana = 200;
             item.width = 44;
             item.height = 44;
             item.useTime = item.useAnimation = 50;
