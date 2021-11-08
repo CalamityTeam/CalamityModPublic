@@ -944,10 +944,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float arm2Rotation = (handPosition - armSegmentDrawPosition).ToRotation();
 			if (direction == 1)
 				arm2Rotation += MathHelper.Pi;
-			float armSegmentRotation = arm1Rotation * 1.8f;
+			float armSegmentRotation = arm2Rotation;
 
 			// Handle offsets for points.
-			armSegmentDrawPosition += arm1Rotation.ToRotationVector2() * direction * -2f;
+			armSegmentDrawPosition += arm1Rotation.ToRotationVector2() * direction * -14f;
+			armSegmentDrawPosition -= arm2Rotation.ToRotationVector2() * direction * 20f;
 			Vector2 arm2DrawPosition = armSegmentDrawPosition;
 			arm2DrawPosition -= arm2Rotation.ToRotationVector2() * direction * 40f;
 			arm2DrawPosition += (arm2Rotation - MathHelper.PiOver2).ToRotationVector2() * 14f;
@@ -972,8 +973,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
 			spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, null, shoulderLightColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
 			spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskAlphaColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-			spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, null, armSegmentLightColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-			spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskAlphaColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+			spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, null, armSegmentLightColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+			spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskAlphaColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
 			spriteBatch.Draw(armTexture2, arm2DrawPosition, null, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
 			spriteBatch.Draw(armGlowmask2, arm2DrawPosition, null, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
 		}
