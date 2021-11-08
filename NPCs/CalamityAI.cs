@@ -787,7 +787,7 @@ namespace CalamityMod.NPCs
 					int phase;
 					int random = phase2 ? 6 : 5;
 					do phase = Main.rand.Next(random);
-					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
+					while (phase == npc.ai[1] || (phase == 0 && phase3 && revenge) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
@@ -1125,6 +1125,8 @@ namespace CalamityMod.NPCs
 			// Laser beam attack
 			else if (npc.ai[0] == 5f)
 			{
+				npc.chaseable = true;
+
 				npc.defense = npc.defDefense * 2;
 
 				Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
