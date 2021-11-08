@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			float baseMultiplier = SafeSetUseTimeMultiplier(player);
 			float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
-			if (!item.Calamity().rogueClockworkWeapon)
+			if (item.useTime == item.useAnimation)
 			{
 				if (player.Calamity().gloveOfPrecision)
 					rogueAS -= 0.2f;
