@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.Crabulon
 	[AutoloadBossHead]
     public class CrabulonIdle : ModNPC
     {
-        private int shotSpacing = 1000;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private int shotSpacing = 1000;
 
         public override void SetStaticDefaults()
         {
@@ -57,12 +58,14 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(biomeEnrageTimer);
 			writer.Write(npc.localAI[0]);
 			writer.Write(shotSpacing);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			biomeEnrageTimer = reader.ReadInt32();
 			npc.localAI[0] = reader.ReadSingle();
 			shotSpacing = reader.ReadInt32();
         }
@@ -138,13 +141,24 @@ namespace CalamityMod.NPCs.Crabulon
             else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
+			// Enrage
+			if ((!player.ZoneGlowshroom || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
-            if (!player.ZoneGlowshroom || malice)
+            if (biomeEnraged && (!player.ZoneGlowshroom || malice))
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;

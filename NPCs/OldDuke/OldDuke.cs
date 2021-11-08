@@ -63,6 +63,7 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
 			writer.Write(npc.rotation);
 			writer.Write(npc.spriteDirection);
 			for (int i = 0; i < 4; i++)
@@ -73,6 +74,7 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
 			npc.rotation = reader.ReadSingle();
 			npc.spriteDirection = reader.ReadInt32();
 			for (int i = 0; i < 4; i++)
