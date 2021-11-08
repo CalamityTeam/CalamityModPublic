@@ -3426,18 +3426,8 @@ namespace CalamityMod.CalPlayer
 				player.maxMinions += 2;
 			}
 
-			if (modPlayer.gArtifact)
-			{
-				player.maxMinions += 10;
-				if (player.whoAmI == Main.myPlayer)
-				{
-					if (player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) == -1)
-						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
-
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(AngryChickenStaff.Damage * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
-				}
-			}
+			if (modPlayer.gArtifact && player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) != -1)
+				player.maxMinions += player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()];
 
 			if (modPlayer.pArtifact)
 			{
@@ -3700,7 +3690,7 @@ namespace CalamityMod.CalPlayer
 					velocity.Y *= travelDist;
 					velocity.X += Main.rand.Next(-50, 51) * 0.02f;
 					velocity.Y += Main.rand.Next(-50, 51) * 0.02f;
-					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, 0f);
+					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, player.whoAmI, 0f, 0f);
 					Main.projectile[laser].localNPCHitCooldown = 5;
 					if (laser.WithinBounds(Main.maxProjectiles))
 						Main.projectile[laser].Calamity().forceTypeless = true;

@@ -446,6 +446,18 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				destination += new Vector2(0f, 2400f);
 			}
 
+			// Distance from target
+			float distanceFromTarget = Vector2.Distance(npc.Center, destination);
+
+			// Increase speed if too far from target
+			float increaseSpeedMult = 1f;
+			float increaseSpeedGateValue = 500f;
+			if (distanceFromTarget > increaseSpeedGateValue)
+			{
+				float distanceAmount = MathHelper.Clamp((distanceFromTarget - increaseSpeedGateValue) / (CalamityGlobalNPC.CatchUpDistance350Tiles - increaseSpeedGateValue), 0f, 1f);
+				increaseSpeedMult = MathHelper.Lerp(1f, 3.5f, distanceAmount);
+			}
+
 			// Charge variables
 			float turnDistance = baseTurnDistance;
 			float chargeLocationDistance = turnDistance * 0.2f;
@@ -462,6 +474,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Increase top velocity if target is dead or if Thanatos is uncoiling
 			if (targetDead || speedUp)
 				baseVelocity *= 4f;
+			else
+				baseVelocity *= increaseSpeedMult;
 
 			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
 
@@ -483,9 +497,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Scalar to use during laser barrage, passive and immune phases
 			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
-
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, destination);
 
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)

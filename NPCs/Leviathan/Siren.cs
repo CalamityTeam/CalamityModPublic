@@ -1,6 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -17,7 +15,8 @@ namespace CalamityMod.NPCs.Leviathan
     [AutoloadBossHead]
     public class Siren : ModNPC
     {
-        private bool spawnedLevi = false;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private bool spawnedLevi = false;
         private bool forceChargeFrames = false;
         private int frameUsed = 0;
 		public bool HasBegunSummoningLeviathan = false;
@@ -66,7 +65,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(spawnedLevi);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(spawnedLevi);
             writer.Write(forceChargeFrames);
             writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[2]);
@@ -79,7 +79,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            spawnedLevi = reader.ReadBoolean();
+			biomeEnrageTimer = reader.ReadInt32();
+			spawnedLevi = reader.ReadBoolean();
             forceChargeFrames = reader.ReadBoolean();
             npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
@@ -125,8 +126,19 @@ namespace CalamityMod.NPCs.Leviathan
             bool expertMode = Main.expertMode || malice;
 			bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
+			// Enrage
+			if (notOcean && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-			if (notOcean || malice)
+			if (biomeEnraged)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1.5f;

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float Time => ref projectile.ai[0];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Condemnation Arrow");
+            DisplayName.SetDefault("Condemning Arrow");
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
         }
@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 300;
-			projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
-		}
+            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+        }
 
         public override void AI()
         {

@@ -29,7 +29,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
     [AutoloadBossHead]
     public class PlaguebringerGoliath : ModNPC
     {
-        private const float MissileAngleSpread = 60;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private const float MissileAngleSpread = 60;
         private const int MissileProjectiles = 8;
         private int MissileCountdown = 0;
         private int despawnTimer = 120;
@@ -74,7 +75,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(halfLife);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(halfLife);
             writer.Write(canDespawn);
             writer.Write(flyingFrame2);
             writer.Write(MissileCountdown);
@@ -87,7 +89,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            halfLife = reader.ReadBoolean();
+			biomeEnrageTimer = reader.ReadInt32();
+			halfLife = reader.ReadBoolean();
             canDespawn = reader.ReadBoolean();
             flyingFrame2 = reader.ReadBoolean();
             MissileCountdown = reader.ReadInt32();
@@ -192,8 +195,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Vector2 distFromPlayer = player.Center - vectorCenter;
 
 			// Enrage
+			if (!player.ZoneJungle && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = death ? 0.5f : 0f;
-            if (!player.ZoneJungle || malice)
+            if (biomeEnraged)
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1.5f;

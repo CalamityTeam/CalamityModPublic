@@ -42,7 +42,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().rogue = true;
-			item.Calamity().rogueClockworkWeapon = true;
 		}
 
         // Terraria seems to really dislike high crit values in SetDefaults

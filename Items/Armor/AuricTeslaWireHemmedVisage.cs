@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
-            Tooltip.SetDefault("20% increased magic damage and critical strike chance, +100 max mana, and 20% reduced mana usage\n" +
+            Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage\n" +
                                "Not moving boosts all damage and critical strike chance");
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "Magic Tarragon, Bloodflare and Silva armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 10%";
+                "Max run speed and acceleration boosted by 5%";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMage = true;
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
             player.manaCost *= 0.8f;
-            player.magicDamage += 0.2f;
+            player.magicDamage += 0.3f;
             player.magicCrit += 20;
             player.statManaMax2 += 100;
         }

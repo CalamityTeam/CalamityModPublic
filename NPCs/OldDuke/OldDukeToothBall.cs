@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.OldDuke
             float num1372 = death ? 14f : revenge ? 13f : 12f;
 			if (expertMode || malice)
 			{
-				float speedUpMult = BossRushEvent.BossRushActive ? 0.02f : CalamityWorld.malice ? 0.015f : 0.01f;
+				float speedUpMult = BossRushEvent.BossRushActive ? 0.015f : CalamityWorld.malice ? 0.0125f : 0.01f;
 				num1372 += Vector2.Distance(player.Center, npc.Center) * speedUpMult;
 			}
 
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.OldDuke
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
 
-			float num1247 = CalamityWorld.malice ? 0.75f : 0.5f;
+			float num1247 = CalamityWorld.malice ? 0.65f : 0.5f;
 			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 			{
 				if (Main.npc[num1248].active)
@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.OldDuke
 				int damage = Main.expertMode ? 55 : 70;
 				for (int k = 0; k < totalProjectiles; k++)
 				{
-					float velocity = Main.rand.Next(7, 11);
+					float velocity = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? Main.rand.Next(6, 10) : Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
 					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;

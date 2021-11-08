@@ -298,6 +298,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			if (otherExoMechWasFirst)
 				npc.ai[3] = 1f;
 
+			// Decrement the timer used to stop Artemis from firing lasers
+			if (npc.ai[3] > 1f)
+				npc.ai[3] -= 1f;
+
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
 			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
@@ -400,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeTime = (float)chargeDistance / chargeVelocity;
 
 			// Plasma and rocket projectile velocities
-			float projectileVelocity = 14f;
+			float projectileVelocity = 12f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)
@@ -861,7 +865,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int type = ModContent.ProjectileType<ApolloRocket>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(SoundID.Item36, npc.Center);
-							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
 							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
 							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 						}
@@ -1074,6 +1078,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						for (int i = 0; i < maxCharges; i++)
 							chargeLocations[i] = default;
 						ChargeComboFlash = 0f;
+
+						// Tell Apollo and Artemis to swap positions
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
+
+						// Tell Artemis to not fire lasers for a short time while swapping positions
+						npc.ai[3] = 61f;
 
 						npc.TargetClosest();
 					}

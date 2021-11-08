@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace CalamityMod.Sounds.Custom
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {
             soundInstance = sound.CreateInstance();
-            soundInstance.Volume = volume * 1.25f;
+            soundInstance.Volume = MathHelper.Clamp(volume * 1.25f, 0f, 1f);
             soundInstance.Pan = pan;
             Main.PlaySoundInstance(soundInstance);
             return soundInstance;

@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			bool useOtherTextures = phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
 			Texture2D texture2D15 = useOtherTextures ? ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS") : Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+			Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;

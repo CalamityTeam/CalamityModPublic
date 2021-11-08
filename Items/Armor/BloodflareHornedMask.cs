@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Hydra Hood");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased magic damage and critical strike chance, +100 max mana, and 17% reduced mana usage");
+                "20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Armor
             player.manaCost *= 0.83f;
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.magicDamage += 0.1f;
+            player.magicDamage += 0.2f;
             player.magicCrit += 10;
             player.statManaMax2 += 100;
         }

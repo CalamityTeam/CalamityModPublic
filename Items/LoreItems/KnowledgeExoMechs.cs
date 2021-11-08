@@ -1,5 +1,8 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
@@ -23,17 +26,36 @@ namespace CalamityMod.Items.LoreItems
 
         public override bool CanUseItem(Player player) => false;
 
-        // Requires an Exo Mechs trophy.
-        /*
+
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<SupremeCalamitasTrophy>());
+            r.AddIngredient(ModContent.ItemType<ArtemisTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<ApolloTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<ThanatosTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<AresTrophy>());
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             r.AddRecipe();
         }
-        */
     }
 }

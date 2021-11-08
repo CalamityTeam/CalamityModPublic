@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
 			npc.boss = true;
+			npc.hide = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 		}
 
@@ -508,7 +509,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			return false;
 		}
-		
+
+		public override void DrawBehind(int index)
+		{
+			Main.instance.DrawCacheNPCProjectiles.Add(index);
+		}
+
 		public override bool PreNPCLoot() => false;
 
 		public override void HitEffect(int hitDirection, double damage)

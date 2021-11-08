@@ -5,6 +5,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,8 @@ namespace CalamityMod.NPCs.Perforator
 	[AutoloadBossHead]
     public class PerforatorHeadSmall : ModNPC
     {
-        private const int MsgType = 23;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private const int MsgType = 23;
 		private bool TailSpawned = false;
 
 		public override void SetStaticDefaults()
@@ -51,7 +53,17 @@ namespace CalamityMod.NPCs.Perforator
 				npc.scale = 1.1f;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(biomeEnrageTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			biomeEnrageTimer = reader.ReadInt32();
+		}
+
+		public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -61,10 +73,21 @@ namespace CalamityMod.NPCs.Perforator
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
+			// Enrage
+			if ((!Main.player[npc.target].ZoneCrimson || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+			if (biomeEnraged && (!Main.player[npc.target].ZoneCrimson || malice))
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson || malice)
+			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;

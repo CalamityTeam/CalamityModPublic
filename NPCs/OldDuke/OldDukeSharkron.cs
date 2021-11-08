@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.OldDuke
 				aiGateValue -= extraTime * 0.3f;
 			float explodeIntoGoreGateValue = aiGateValue + extraTime;
 			float fallDownGateValue = aiGateValue + extraTime * 0.5f;
-			float maxVelocity = malice ? 25f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
+			float maxVelocity = malice ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
 
 			if (npc.ai[0] == 0f)
 			{
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.OldDuke
 					Vector2 vector17 = Main.player[npc.target].Center - npc.Center;
 					vector17.Normalize();
 					vector17 *= scaleFactor2;
-					float inertia = malice ? 15f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
+					float inertia = malice ? 16f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
 					npc.velocity = (npc.velocity * (inertia - 1f) + vector17) / inertia;
 					npc.velocity.Normalize();
 					npc.velocity *= scaleFactor2;

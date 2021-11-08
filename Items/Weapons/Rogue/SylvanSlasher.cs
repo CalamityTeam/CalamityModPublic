@@ -20,7 +20,6 @@ Does not consume stealth and cannot stealth strike");
             item.width = 72;
             item.damage = 52;
             item.Calamity().rogue = true;
-			item.Calamity().rogueClockworkWeapon = true;
 			item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;

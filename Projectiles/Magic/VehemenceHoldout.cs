@@ -10,8 +10,8 @@ namespace CalamityMod.Projectiles.Magic
     {
         public Player Owner => Main.player[projectile.owner];
         public ref float Time => ref projectile.ai[0];
+        public ref float ChargeTime => ref projectile.ai[1];
 
-        public const int ChargeTime = 90;
         public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemenc";
         public override void SetStaticDefaults()
         {
@@ -25,12 +25,14 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = false;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.timeLeft = ChargeTime + 1;
+            projectile.timeLeft = 91;
         }
 
         public override void AI()
         {
             UpdatePlayerVisuals();
+            if (projectile.timeLeft > ChargeTime + 5)
+                projectile.timeLeft = (int)ChargeTime + 5;
             if (Time == ChargeTime)
                 ShootBolt();
             else if (Time < ChargeTime)
@@ -38,6 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Time++;
 
+            // If the player aborts the charge by releasing LMB, it cancels.
             if (Main.mouseLeftRelease && Time >= 5f && Time < ChargeTime)
                 projectile.Kill();
         }

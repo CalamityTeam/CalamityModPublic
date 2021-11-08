@@ -67,6 +67,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 		{
 			writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -75,6 +76,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 		{
 			npc.chaseable = reader.ReadBoolean();
 			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}

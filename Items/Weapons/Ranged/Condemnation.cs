@@ -8,20 +8,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Condemnation : ModItem
     {
+        public const int MaxLoadedArrows = 8;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Condemnation");
-            Tooltip.SetDefault("Left clicks allows you to charge the repeater and release more arrows the longer the charge lasts\n" +
-                "Right clicks release fast moving arrows");
+            Tooltip.SetDefault("Fires powerful scarlet bolts suffused with hateful magics\n" +
+                "Hold left click to load up to eight bolts for powerful burst fire\n" +
+                "Hold right click to use the repeater full auto");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 566;
+            item.damage = 1914;
             item.ranged = true;
             item.width = 130;
             item.height = 42;
-            item.useTime = item.useAnimation = 16;
+            item.useTime = item.useAnimation = 23;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
@@ -32,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<CondemnationArrow>();
             item.shootSpeed = 14.5f;
             item.useAmmo = AmmoID.Arrow;
-			item.Calamity().canFirePointBlankShots = true;
-		}
+            item.Calamity().canFirePointBlankShots = true;
+        }
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, 0f);
 
@@ -57,8 +60,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 0.7f : 1f;
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 shootVelocity = new Vector2(speedX, speedY);
@@ -73,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             // Charge-up. Done via a holdout projectile.
             else
-                Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<CondemnationHoldout>(), 0, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, shootDirection, ModContent.ProjectileType<CondemnationHoldout>(), 0, 0f, player.whoAmI);
             return false;
         }
     }

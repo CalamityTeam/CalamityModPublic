@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             aiType = -1;
             npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.95f;
             npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -157,6 +156,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (npc.life <= 0)
             {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);

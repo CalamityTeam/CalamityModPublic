@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Purge : ModItem
     {
+        public const int UseTime = 20;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nano Purge");
@@ -16,13 +18,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 73;
             item.magic = true;
             item.mana = 6;
-            item.width = 20;
-            item.height = 12;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.width = 62;
+            item.height = 34;
+            item.useTime = item.useAnimation = UseTime;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -31,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = ItemRarityID.Cyan;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PurgeProj>();
-            item.shootSpeed = 24f;
+            item.shoot = ModContent.ProjectileType<NanoPurgeHoldout>();
+            item.shootSpeed = 16f;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
@@ -40,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
             recipe.AddIngredient(ItemID.LaserMachinegun);
+            recipe.AddIngredient(ItemID.FragmentVortex, 20);
             recipe.AddIngredient(ItemID.Nanites, 100);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
@@ -50,7 +51,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PurgeProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+            Projectile.NewProjectile(position, shootDirection, type, damage, knockBack, player.whoAmI);
             return false;
         }
     }

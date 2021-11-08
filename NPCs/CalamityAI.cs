@@ -99,8 +99,22 @@ namespace CalamityMod.NPCs
 				player.position.Y > Main.worldSurface * 16.0 ||
 				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
 
+			// Enrage
+			if (head)
+			{
+				if (notOcean && !player.Calamity().ZoneSulphur && !BossRushEvent.BossRushActive)
+				{
+					if (npc.localAI[2] > 0f)
+						npc.localAI[2] -= 1f;
+				}
+				else
+					npc.localAI[2] = CalamityGlobalNPC.biomeEnrageTimerMax;
+			}
+
+			bool biomeEnraged = npc.localAI[2] <= 0f || malice;
+
 			float enrageScale = 0f;
-			if ((!player.Calamity().ZoneSulphur && notOcean) || malice)
+			if (biomeEnraged)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
@@ -689,10 +703,24 @@ namespace CalamityMod.NPCs
 			bool phase2 = lifeRatio < 0.5f && revenge;
 			bool phase3 = lifeRatio < 0.33f;
 
+			// Enrage
+			if ((!player.ZoneUnderworldHeight || !modPlayer.ZoneCalamity) && !BossRushEvent.BossRushActive)
+			{
+				if (calamityGlobalNPC.newAI[3] > 0f)
+					calamityGlobalNPC.newAI[3] -= 1f;
+			}
+			else
+				calamityGlobalNPC.newAI[3] = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = calamityGlobalNPC.newAI[3] <= 0f || malice;
+
 			float enrageScale = 0f;
-			if (!player.ZoneUnderworldHeight || malice)
+			if (biomeEnraged && (!player.ZoneUnderworldHeight || malice))
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
-			if (!modPlayer.ZoneCalamity || malice)
+			}
+			if (biomeEnraged && (!modPlayer.ZoneCalamity || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
@@ -759,7 +787,7 @@ namespace CalamityMod.NPCs
 					int phase;
 					int random = phase2 ? 6 : 5;
 					do phase = Main.rand.Next(random);
-					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
+					while (phase == npc.ai[1] || (phase == 0 && phase3 && revenge) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
@@ -1097,6 +1125,8 @@ namespace CalamityMod.NPCs
 			// Laser beam attack
 			else if (npc.ai[0] == 5f)
 			{
+				npc.chaseable = true;
+
 				npc.defense = npc.defDefense * 2;
 
 				Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
@@ -4594,17 +4624,14 @@ namespace CalamityMod.NPCs
 			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
 			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
-			// If target is outside the jungle for more than 3 seconds, enrage
+			// If target is outside the jungle for more than 5 seconds, enrage
 			if (!player.ZoneJungle)
 			{
-				if (npc.localAI[1] < 300f)
+				if (npc.localAI[1] < CalamityGlobalNPC.biomeEnrageTimerMax)
 					npc.localAI[1] += 1f;
 			}
 			else
-			{
-				if (npc.localAI[1] > 0f)
-					npc.localAI[1] -= 1f;
-			}
+				npc.localAI[1] = 0f;
 
 			// If dragonfolly is off screen, enrage for the next couple attacks
 			if (Vector2.Distance(player.Center, vector) > 1200f)
@@ -4612,7 +4639,7 @@ namespace CalamityMod.NPCs
 
 			// Enrage scale
 			float enrageScale = death ? 1.5f : 1f;
-			if (npc.localAI[1] >= 300f || malice)
+			if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || malice)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
@@ -5439,14 +5466,26 @@ namespace CalamityMod.NPCs
 			bool enrage = !BossRushEvent.BossRushActive &&
 				(player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
 				(player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
-			npc.Calamity().CurrentlyEnraged = enrage || enraged;
+
+			// Enrage
+			if (enrage)
+			{
+				if (npc.localAI[1] > 0f)
+					npc.localAI[1] -= 1f;
+			}
+			else
+				npc.localAI[1] = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = npc.localAI[1] <= 0f || malice;
+
+			npc.Calamity().CurrentlyEnraged = biomeEnraged || enraged;
 
 			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
 			if (!phase3AI)
 				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
-			if (enrage || enraged)
+			if (biomeEnraged || enraged)
 			{
 				toothBallBelchPhaseTimer = 30;
 				toothBallBelchPhaseDivisor = 6;

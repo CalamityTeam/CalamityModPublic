@@ -25,7 +25,8 @@ namespace CalamityMod.NPCs.DesertScourge
     [AutoloadBossHead]
     public class DesertScourgeHead : ModNPC
     {
-        private bool TailSpawned = false;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private bool TailSpawned = false;
 		public bool playRoarSound = false;
 
         public override void SetStaticDefaults()
@@ -69,14 +70,16 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(playRoarSound);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(playRoarSound);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            playRoarSound = reader.ReadBoolean();
+			biomeEnrageTimer = reader.ReadInt32();
+			playRoarSound = reader.ReadBoolean();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -101,8 +104,19 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			Player player = Main.player[npc.target];
 
+			// Enrage
+			if (!player.ZoneDesert && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-            if (!player.ZoneDesert || malice)
+            if (biomeEnraged)
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;

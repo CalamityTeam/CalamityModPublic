@@ -82,7 +82,6 @@ namespace CalamityMod.Items
 		public bool challengeDrop = false;
 		public bool canFirePointBlankShots = false;
 		public bool trueMelee = false;
-		public bool rogueClockworkWeapon = false;
 
 		public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -684,10 +683,6 @@ namespace CalamityMod.Items
 					item.mana = 7;
 					break;
 
-				case ItemID.LaserMachinegun:
-					item.damage = 39;
-					break;
-
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
                     item.useTime = 19;
@@ -846,7 +841,7 @@ namespace CalamityMod.Items
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
-                if (modPlayer.gloveOfRecklessness && !rogueClockworkWeapon)
+                if (modPlayer.gloveOfRecklessness && item.useTime == item.useAnimation)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
                     rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
@@ -1104,7 +1099,7 @@ namespace CalamityMod.Items
 		#region Saving And Loading
 		public override bool NeedsSaving(Item item)
         {
-            return rogue || canFirePointBlankShots || trueMelee || rogueClockworkWeapon || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
+            return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
         public override TagCompound Save(Item item)
@@ -1119,8 +1114,7 @@ namespace CalamityMod.Items
 				["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
 				["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
 				["canFirePointBlankShots"] = canFirePointBlankShots,
-				["trueMelee"] = trueMelee,
-				["rogueClockworkWeapon"] = rogueClockworkWeapon
+				["trueMelee"] = trueMelee
 			};
         }
 
@@ -1129,7 +1123,6 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
 			canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
 			trueMelee = tag.GetBool("trueMelee");
-			rogueClockworkWeapon = tag.GetBool("rogueClockworkWeapon");
 			timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -1164,7 +1157,6 @@ namespace CalamityMod.Items
                 rogue = flags[0];
 				canFirePointBlankShots = flags[1];
 				trueMelee = flags[2];
-				rogueClockworkWeapon = flags[3];
 			}
             else
             {
@@ -1178,7 +1170,6 @@ namespace CalamityMod.Items
             flags[0] = rogue;
 			flags[1] = canFirePointBlankShots;
 			flags[2] = trueMelee;
-			flags[3] = rogueClockworkWeapon;
 
 			writer.Write(flags);
             writer.Write((int)customRarity);
@@ -1195,7 +1186,6 @@ namespace CalamityMod.Items
             rogue = flags[0];
 			canFirePointBlankShots = flags[1];
 			trueMelee = flags[2];
-			rogueClockworkWeapon = flags[3];
 
 			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();

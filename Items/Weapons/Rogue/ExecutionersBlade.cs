@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
             item.shootSpeed = 26f;
             item.Calamity().rogue = true;
-			item.Calamity().rogueClockworkWeapon = true;
 			item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
