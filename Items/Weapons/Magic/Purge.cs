@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarityID.Cyan;
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PurgeProj>();
             item.shootSpeed = 24f;
