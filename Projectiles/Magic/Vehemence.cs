@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
         public Player Owner => Main.player[projectile.owner];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vehemence");
+            DisplayName.SetDefault("Blast of Vehemence");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.timeLeft = 300;
             projectile.magic = true;
         }
@@ -84,9 +84,10 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item74, projectile.position);
             if (Main.myPlayer == projectile.owner)
             {
-                int damage = (int)(Vehemenc.VehemenceSkullDamage * Owner.MagicDamage());
+                int skullID = ModContent.ProjectileType<VehemenceSkull>();
+                int damage = (int)(projectile.damage * Vehemenc.SkullRatio);
                 for (int i = 0; i < 18; i++)
-                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<VehemenceSkull>(), damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, projectile.knockBack, projectile.owner);
             }
 
             if (!Main.dedServ)
@@ -113,20 +114,9 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            double lifeAmount = target.life;
-            double lifeMax = target.lifeMax;
-            double damageExponent = lifeAmount / lifeMax * 7;
-            damage = (int)Math.Pow(damage, damageExponent);
-            if (damage > 200000)
-                damage = 200000;
-        }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.life == target.lifeMax)
-                target.AddBuff(ModContent.BuffType<DemonFlames>(), 18000);
+            target.AddBuff(ModContent.BuffType<DemonFlames>(), 1800);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

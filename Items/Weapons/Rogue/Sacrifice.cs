@@ -12,29 +12,30 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sacrifice");
-            Tooltip.SetDefault("Releases a dagger that sticks to enemies\n" +
-                "Right clicking causes all stuck daggers to fly back at you and give you life\n" +
+            Tooltip.SetDefault("Throws sacrificial daggers that lodge themselves in enemies\n" +
+                "Right click causes all stuck daggers to fly back at you and give you life\n" +
                 "Daggers stuck to enemies release bloodsplosions over time\n" +
                 "Stealth strikes provide much more life when returning to you");
         }
 
         public override void SafeSetDefaults()
         {
-            item.damage = 266;
+            item.damage = 215;
             item.width = item.height = 68;
-            item.useAnimation = item.useTime = 6;
+            item.useAnimation = item.useTime = 9;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
+
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 
         public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[item.shoot] > 0;

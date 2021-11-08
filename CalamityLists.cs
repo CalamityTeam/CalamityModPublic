@@ -576,8 +576,8 @@ namespace CalamityMod
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
 
-                ProjectileType<PurgeProj>(),
-                ProjectileType<T1000Proj>(),
+                ProjectileType<NanoPurgeHoldout>(),
+                ProjectileType<AetherfluxCannonHoldout>(),
                 ProjectileType<YharimsCrystalPrism>(),
                 ProjectileType<DarkSparkPrism>(),
                 ProjectileType<YharimsCrystalBeam>(),
@@ -2775,7 +2775,8 @@ namespace CalamityMod
 				ProjectileType<SnapClamStealth>(),
 				ProjectileType<StickyBol>(),
 				ProjectileType<UrchinStingerProj>(),
-				ProjectileType<EyeOfNightCell>()
+				ProjectileType<EyeOfNightCell>(),
+                ProjectileType<ViolenceThrownProjectile>(),
 			};
 
 			bossTypes = new SortedDictionary<int, int>()

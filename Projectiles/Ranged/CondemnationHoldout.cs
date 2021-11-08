@@ -8,11 +8,11 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class CondemnationHoldout : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        public ref float CurrentChargingFrames => ref projectile.ai[0];
-        public ref float ArrowsLoaded => ref projectile.ai[1];
-        public ref float FramesToLoadNextArrow => ref projectile.localAI[0];
+        private Player Owner => Main.player[projectile.owner];
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private ref float CurrentChargingFrames => ref projectile.ai[0];
+        private ref float ArrowsLoaded => ref projectile.ai[1];
+        private ref float FramesToLoadNextArrow => ref projectile.localAI[0];
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/Condemnation";
         public override void SetStaticDefaults() => DisplayName.SetDefault("Condemnation");
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 // Fire one charged arrow every frame until you're out of arrows.
-                ShootProjectiles(tipPosition, 1f);
+                ShootProjectiles(tipPosition);
                 --ArrowsLoaded;
                 Main.PlaySound(SoundID.DD2_BallistaTowerShot);
             }
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public void ShootProjectiles(Vector2 tipPosition, float speedFactor)
+        public void ShootProjectiles(Vector2 tipPosition)
         {
             if (Main.myPlayer != projectile.owner)
                 return;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Ranged
             Item heldItem = Owner.ActiveItem();
             // calculate damage at the instant this arrow is fired
             int arrowDamage = (int)(heldItem.damage * Owner.RangedDamage());
-            float shootSpeed = heldItem.shootSpeed * speedFactor * 1.5f;
+            float shootSpeed = heldItem.shootSpeed * 1.5f; // Loaded arrows move faster than normal.
             float knockback = heldItem.knockBack;
 
             bool uselessFuckYou = OwnerCanShoot;
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, arrowDamage, knockback, projectile.owner, 0f, 0f);
         }
 
-        public void UpdateProjectileHeldVariables(Vector2 armPosition)
+        private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
             if (Main.myPlayer == projectile.owner)
             {
@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 2;
         }
 
-        public void ManipulatePlayerVariables()
+        private void ManipulatePlayerVariables()
         {
             Owner.ChangeDir(projectile.direction);
             Owner.heldProj = projectile.whoAmI;

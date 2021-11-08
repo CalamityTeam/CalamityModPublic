@@ -3512,28 +3512,28 @@ namespace CalamityMod.NPCs
 			}
 			else if (ThanatosIDs.Contains(npc.type))
 			{
-				// 75% resist to Celestus.
-				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
+				// 75% resist to Celestus and Chicken Cannon.
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>() || projectile.type == ProjectileType<ChickenExplosion>())
 					damage = (int)(damage * 0.25);
 
 				// 65% resist to true melee and Hadopelagic Echo.
-				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>())
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
 					damage = (int)(damage * 0.35);
 
-				// 50% resist to Chicken Cannon.
-				if (projectile.type == ProjectileType<ChickenExplosion>())
+				// 50% resist to Vehemence skulls.
+				else if (projectile.type == ProjectileType<VehemenceSkull>())
 					damage = (int)(damage * 0.5);
 
-				// 40% resist to Wrathwing stealth strike.
-				else if (projectile.type == ProjectileType<WrathwingCinder>())
+				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
+				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
-				// 25% resist to Eradicator beams.
-				else if (projectile.type == ProjectileType<NebulaShot>())
-					damage = (int)(damage * 0.75);
+				// 20% resist to Eradicator beams and Voltaic Climax / Void Vortex hitscan.
+				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>())
+					damage = (int)(damage * 0.8);
 
-				// 15% resist to God Slayer Slugs and Luminite Bullets.
-				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>())
+				// 15% resist to God Slayer Slugs, Luminite Bullets, and Gruesome Eminence.
+				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>() || projectile.type == ProjectileType<SpiritCongregation>())
 					damage = (int)(damage * 0.85);
 
 			}

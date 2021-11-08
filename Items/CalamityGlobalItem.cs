@@ -684,10 +684,6 @@ namespace CalamityMod.Items
 					item.mana = 7;
 					break;
 
-				case ItemID.LaserMachinegun:
-					item.damage = 39;
-					break;
-
 				case ItemID.StardustDragonStaff:
 					item.damage = 20;
                     item.useTime = 19;

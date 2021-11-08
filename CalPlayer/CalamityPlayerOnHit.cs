@@ -86,8 +86,8 @@ namespace CalamityMod.CalPlayer
 					if (modPlayer.ataxiaGeyser && player.ownedProjectileCounts[ProjectileType<ChaosGeyser>()] < 3)
 					{
 						// Ataxia True Melee Geysers: 15%, softcap starts at 300 base damage
-						int cappedDamage = CalamityUtils.DamageSoftCap(damage * 0.15, 45);
-						Projectile.NewProjectile(position, Vector2.Zero, ProjectileType<ChaosGeyser>(), cappedDamage, 2f, player.whoAmI, 0f, 0f);
+						int geyserDamage = CalamityUtils.DamageSoftCap(damage * 0.15, 45);
+						Projectile.NewProjectile(position, Vector2.Zero, ProjectileType<ChaosGeyser>(), geyserDamage, 2f, player.whoAmI, 0f, 0f);
 					}
 					if (modPlayer.soaring)
 					{
@@ -211,8 +211,8 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.ataxiaGeyser && player.ownedProjectileCounts[ProjectileType<ChaosGeyser>()] < 3)
 				{
 					// Ataxia Melee Geysers: 15%, softcap starts at 240 base damage
-					int cappedDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
-					Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<ChaosGeyser>(), cappedDamage, 0f, player.whoAmI, 0f, 0f);
+					int geyserDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
+					Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<ChaosGeyser>(), geyserDamage, 0f, player.whoAmI, 0f, 0f);
 				}
                 if (modPlayer.bloodflareMelee && modProj.trueMelee)
                 {
@@ -294,8 +294,8 @@ namespace CalamityMod.CalPlayer
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 						// Bloodflare Mage Fireballs: 3 x 50%, softcap starts at 500 base damage to not overly punish slow weapons
-						int cappedDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.5, 250);
-						int fire = Projectile.NewProjectile(position, velocity, ProjectileID.BallofFire, cappedDamage, 0f, player.whoAmI);
+						int bloodflareFireballDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.5, 250);
+						int fire = Projectile.NewProjectile(position, velocity, ProjectileID.BallofFire, bloodflareFireballDamage, 0f, player.whoAmI);
 						if (fire.WithinBounds(Main.maxProjectiles))
 						{
 							Main.projectile[fire].Calamity().forceTypeless = true;
@@ -308,26 +308,9 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.silvaMageCooldown = 300;
 				Main.PlaySound(SoundID.Zombie, (int)proj.position.X, (int)proj.position.Y, 103);
-				CalamityGlobalProjectile.ExpandHitboxBy(proj, 96);
-				for (int d = 0; d < 3; d++)
-				{
-					Dust.NewDust(proj.position, proj.width, proj.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
-				}
-				for (int d = 0; d < 30; d++)
-				{
-					int explode = Dust.NewDust(proj.position, proj.width, proj.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 2.5f);
-					Main.dust[explode].noGravity = true;
-					Main.dust[explode].velocity *= 3f;
-					explode = Dust.NewDust(proj.position, proj.width, proj.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
-					Main.dust[explode].velocity *= 2f;
-					Main.dust[explode].noGravity = true;
-				}
-				// Silva Mage Blasts: 300%
-				proj.damage *= 3;
-				proj.localNPCHitCooldown = 10;
-				proj.usesLocalNPCImmunity = true;
-				proj.Damage();
-				proj.Kill();
+				// Silva Mage Blasts: 800 + 60%, softcap on the whole combined thing starts at 1400
+				int silvaBurstDamage = CalamityUtils.DamageSoftCap(800.0 + 0.6 * proj.damage, 1400);
+				Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<SilvaBurst>(), silvaBurstDamage, 8f, player.whoAmI);
 			}
 		}
 		#endregion
@@ -713,8 +696,8 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.umbraphileSet && ((modProj.stealthStrike && modProj.stealthStrikeHitCount < 5) || Main.rand.NextBool(4)))
                 {
 					// Umbraphile Rogue Blasts: 25%, softcap starts at 200 base damage
-					int blastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
-					Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), blastDamage, 0f, player.whoAmI);
+					int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
+					Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), umbraBlastDamage, 0f, player.whoAmI);
 				}
 
                 if (modPlayer.raiderTalisman && modPlayer.raiderStack < 150 && crit && modPlayer.raiderCooldown <= 0)
