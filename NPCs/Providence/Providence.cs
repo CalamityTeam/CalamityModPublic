@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Providence
         private int biomeType = 0;
         private int flightPath = 0;
         private int phaseChange = 0;
-        private int immuneTimer = 300;
+        private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private int frameUsed = 0;
         private int healTimer = 0;
         internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(useDefenseFrames);
             writer.Write(biomeType);
             writer.Write(phaseChange);
-            writer.Write(immuneTimer);
+            writer.Write(biomeEnrageTimer);
             writer.Write(frameUsed);
             writer.Write(healTimer);
             writer.Write(flightPath);
@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Providence
             useDefenseFrames = reader.ReadBoolean();
             biomeType = reader.ReadInt32();
             phaseChange = reader.ReadInt32();
-            immuneTimer = reader.ReadInt32();
+			biomeEnrageTimer = reader.ReadInt32();
             frameUsed = reader.ReadInt32();
             healTimer = reader.ReadInt32();
             flightPath = reader.ReadInt32();
@@ -215,7 +215,7 @@ namespace CalamityMod.NPCs.Providence
 			if (nightTime)
 				projectileDamageMult = 2;
 
-			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged;
+			npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || enraged || biomeEnrageTimer <= 0;
 
 			// Projectile damage values
 			int holyLaserDamage = npc.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -344,14 +344,15 @@ namespace CalamityMod.NPCs.Providence
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
-                if (immuneTimer > 0)
-                    immuneTimer--;
+                if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
             }
             else
-                immuneTimer = 300;
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
+			// Take damage or not
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+			npc.dontTakeDamage = biomeEnraged && !malice;
 
             // Heal
             if (healerAlive)
@@ -487,7 +488,7 @@ namespace CalamityMod.NPCs.Providence
 
 				// Velocity and acceleration
 				float speedIncreaseTimer = enraged ? 60f : nightTime ? 75f : death ? 120f : 150f;
-                bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
+                bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || biomeEnraged;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
@@ -505,8 +506,10 @@ namespace CalamityMod.NPCs.Providence
                 else if (increaseSpeed)
                 {
                     velocity += (calamityGlobalNPC.newAI[0] - speedIncreaseTimer) * 0.04f;
-                    if (velocity > 30f)
+                    if (velocity > 30f || biomeEnraged)
                         velocity = 30f;
+					if (biomeEnraged)
+						acceleration = 2f;
                 }
 
 				if (!targetDead)

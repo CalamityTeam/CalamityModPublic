@@ -84,6 +84,9 @@ namespace CalamityMod.NPCs
 		public const int DoGPhase1KillTime = 5400;
 		public const int DoGPhase2KillTime = 9000;
 
+		// Biome enrage timer max
+		public const int biomeEnrageTimerMax = 300;
+
 		public bool ShouldFallThroughPlatforms;
 
 		/// <summary>

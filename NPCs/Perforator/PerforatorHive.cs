@@ -18,6 +18,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +28,8 @@ namespace CalamityMod.NPCs.Perforator
     [AutoloadBossHead]
     public class PerforatorHive : ModNPC
     {
-        private bool small = false;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private bool small = false;
         private bool medium = false;
         private bool large = false;
 
@@ -68,6 +70,16 @@ namespace CalamityMod.NPCs.Perforator
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(biomeEnrageTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			biomeEnrageTimer = reader.ReadInt32();
+		}
 
 		public override void AI()
 		{
@@ -118,13 +130,24 @@ namespace CalamityMod.NPCs.Perforator
 			// Phases based on life percentage
 			bool phase2 = lifeRatio < 0.7f;
 
+			// Enrage
+			if ((!player.ZoneCrimson || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+			if (biomeEnraged && (!player.ZoneCrimson || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
-			if (!Main.player[npc.target].ZoneCrimson || malice)
+			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
@@ -153,6 +176,7 @@ namespace CalamityMod.NPCs.Perforator
 
 					if (npc.timeLeft > 60)
 						npc.timeLeft = 60;
+
 					return;
 				}
 			}

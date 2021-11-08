@@ -50,6 +50,7 @@ namespace CalamityMod.NPCs.HiveMind
 		}
 
 		// This block of values can be modified in SetDefaults() based on difficulty mode or something
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 		private int burrowTimer = 420;
 		private int minimumDriftTime = 300;
 		private int teleportRadius = 300;
@@ -157,6 +158,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(biomeEnrageTimer);
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.noTileCollide);
 			writer.Write(npc.noGravity);
@@ -178,6 +180,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			biomeEnrageTimer = reader.ReadInt32();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.noTileCollide = reader.ReadBoolean();
 			npc.noGravity = reader.ReadBoolean();
@@ -362,13 +365,24 @@ namespace CalamityMod.NPCs.HiveMind
 					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 			}
 
+			// Enrage
+			if ((!player.ZoneCorrupt || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+			if (biomeEnraged && (!player.ZoneCorrupt || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
 			}
-			if (!player.ZoneCorrupt || malice)
+			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;

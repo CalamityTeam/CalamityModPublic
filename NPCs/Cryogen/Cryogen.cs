@@ -27,7 +27,8 @@ namespace CalamityMod.NPCs.Cryogen
     [AutoloadBossHead]
     public class Cryogen : ModNPC
     {
-        private int time = 0;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private int time = 0;
         private int iceShard = 0;
         private int currentPhase = 1;
         private int teleportLocationX = 0;
@@ -66,7 +67,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(time);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(time);
             writer.Write(iceShard);
             writer.Write(teleportLocationX);
             writer.Write(npc.dontTakeDamage);
@@ -76,7 +78,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            time = reader.ReadInt32();
+			biomeEnrageTimer = reader.ReadInt32();
+			time = reader.ReadInt32();
             iceShard = reader.ReadInt32();
             teleportLocationX = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
@@ -106,8 +109,19 @@ namespace CalamityMod.NPCs.Cryogen
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
+			// Enrage
+			if (!player.ZoneSnow && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = death ? 0.5f : 0f;
-			if (!player.ZoneSnow || malice)
+			if (biomeEnraged)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;

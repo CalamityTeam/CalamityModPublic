@@ -26,9 +26,10 @@ namespace CalamityMod.NPCs.Leviathan
     [AutoloadBossHead]
     public class Leviathan : ModNPC
     {
-        int counter = 0;
-        bool initialised = false;
-		int soundDelay = 0;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private int counter = 0;
+        private bool initialised = false;
+		private int soundDelay = 0;
         public static Texture2D AttackTexture = null;
 
         public override void SetStaticDefaults()
@@ -68,14 +69,16 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(npc.dontTakeDamage);
             writer.Write(soundDelay);
             writer.Write(npc.Calamity().newAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
+			biomeEnrageTimer = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
             soundDelay = reader.ReadInt32();
             npc.Calamity().newAI[3] = reader.ReadSingle();
         }
@@ -158,8 +161,19 @@ namespace CalamityMod.NPCs.Leviathan
 
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
+			// Enrage
+			if (notOcean && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-            if (notOcean || malice)
+            if (biomeEnraged)
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 2f;

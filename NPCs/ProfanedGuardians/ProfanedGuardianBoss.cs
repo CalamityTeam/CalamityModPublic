@@ -24,9 +24,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     {
         private int spearType = 0;
         private int dustTimer = 3;
-        private int immuneTimer = 300;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Guardian");
             Main.npcFrameCount[npc.type] = 6;
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             writer.Write(spearType);
             writer.Write(dustTimer);
-            writer.Write(immuneTimer);
+            writer.Write(biomeEnrageTimer);
             writer.Write(npc.dontTakeDamage);
         }
 
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             spearType = reader.ReadInt32();
             dustTimer = reader.ReadInt32();
-            immuneTimer = reader.ReadInt32();
+			biomeEnrageTimer = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
@@ -155,19 +155,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			bool isHell = player.ZoneUnderworldHeight;
 			if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
-                if (immuneTimer > 0)
-                    immuneTimer--;
+                if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
                 else
                     npc.Calamity().CurrentlyEnraged = true;
             }
             else
-                immuneTimer = 300;
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
             if (enraged)
                 npc.Calamity().CurrentlyEnraged = true;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
+            npc.dontTakeDamage = biomeEnrageTimer <= 0 && !malice;
 
 			bool flag100 = false;
             for (int num569 = 0; num569 < Main.maxNPCs; num569++)

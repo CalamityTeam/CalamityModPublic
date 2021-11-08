@@ -4594,17 +4594,14 @@ namespace CalamityMod.NPCs
 			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
 			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
-			// If target is outside the jungle for more than 3 seconds, enrage
+			// If target is outside the jungle for more than 5 seconds, enrage
 			if (!player.ZoneJungle)
 			{
-				if (npc.localAI[1] < 300f)
+				if (npc.localAI[1] < CalamityGlobalNPC.biomeEnrageTimerMax)
 					npc.localAI[1] += 1f;
 			}
 			else
-			{
-				if (npc.localAI[1] > 0f)
-					npc.localAI[1] -= 1f;
-			}
+				npc.localAI[1] = 0f;
 
 			// If dragonfolly is off screen, enrage for the next couple attacks
 			if (Vector2.Distance(player.Center, vector) > 1200f)
@@ -4612,7 +4609,7 @@ namespace CalamityMod.NPCs
 
 			// Enrage scale
 			float enrageScale = death ? 1.5f : 1f;
-			if (npc.localAI[1] >= 300f || malice)
+			if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || malice)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;

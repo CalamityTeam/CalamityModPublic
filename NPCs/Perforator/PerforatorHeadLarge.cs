@@ -15,7 +15,8 @@ namespace CalamityMod.NPCs.Perforator
 	[AutoloadBossHead]
     public class PerforatorHeadLarge : ModNPC
     {
-        private bool TailSpawned = false;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
         {
@@ -54,12 +55,14 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
+			writer.Write(biomeEnrageTimer);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
+			biomeEnrageTimer = reader.ReadInt32();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -74,10 +77,21 @@ namespace CalamityMod.NPCs.Perforator
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
+			// Enrage
+			if ((!Main.player[npc.target].ZoneCrimson || (npc.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+			if (biomeEnraged && (!Main.player[npc.target].ZoneCrimson || malice))
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson || malice)
+			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 				enrageScale += 1f;
 			if (BossRushEvent.BossRushActive)
 				enrageScale += 1f;
