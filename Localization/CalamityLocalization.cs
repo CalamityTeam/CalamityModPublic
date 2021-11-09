@@ -131,7 +131,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase6Text1", "Absurd." },
                 new [] { "DraedonExoPhase6Text2", "I will no longer let my calculations impede my observation of this battle." },
                 new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
-				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+                new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
                 new [] { "DraedonResummonText", "Make your choice." },
                 new [] { "DraedonEndText1", "An unknown factor-a catalyst is what you are." },
                 new [] { "DraedonEndText2", "Nearly as alien as I, to this land and its history." },
@@ -160,11 +160,13 @@ namespace CalamityMod.Localization
                 new [] { "DeathText", "Death is active; enjoy the fun." },
                 new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
-				new [] { "MaliceText", "Malice is active; witness the horror!" },
-				new [] { "MaliceText2", "Malice is not active." },
+                new [] { "MaliceText", "Malice is active; witness the horror!" },
+                new [] { "MaliceText2", "Malice is not active." },
 
-				new [] { "ArmageddonText", "Bosses will now kill you instantly." },
+                new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
+                new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
+                new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
 
                 new [] { "DefiledText", "Your soul is mine..." },
                 new [] { "DefiledText2", "Your soul is yours once more..." },

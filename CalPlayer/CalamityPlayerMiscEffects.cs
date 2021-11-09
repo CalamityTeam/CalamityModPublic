@@ -1392,7 +1392,8 @@ namespace CalamityMod.CalPlayer
 			// Tarragon immunity effects
 			if (modPlayer.tarraThrowing)
 			{
-				if (modPlayer.tarragonImmunity)
+				// The iframes from the evasion are disabled by Armageddon.
+				if (modPlayer.tarragonImmunity && !modPlayer.disableAllDodges)
 				{
 					player.immune = true;
 					player.immuneTime = 2;
@@ -1404,7 +1405,7 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.tarraThrowingCrits >= 25)
 				{
 					modPlayer.tarraThrowingCrits = 0;
-					if (player.whoAmI == Main.myPlayer)
+					if (player.whoAmI == Main.myPlayer && !modPlayer.disableAllDodges)
 						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 180, false);
 				}
 

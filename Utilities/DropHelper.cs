@@ -246,24 +246,6 @@ namespace CalamityMod
 
         #region Extra Boss Bags
         /// <summary>
-        /// The number of extra loot bags bosses drop when Revengeance Mode is active.<br></br>
-        /// This is normally zero; Revengenace Mode provides no extra bags.
-        /// </summary>
-        public static int RevExtraBags = 0;
-
-        /// <summary>
-        /// The number of extra loot bags bosses drop when Death Mode is active.<br></br>
-        /// This is normally zero; Death Mode provides no extra bags.
-        /// </summary>
-        public static int DeathExtraBags = 0;
-
-        /// <summary>
-        /// The number of extra loot bags bosses drop when the Defiled Rune is active.<br></br>
-        /// This is normally zero; Defiled Rune provides no extra bags.
-        /// </summary>
-        public static int DefiledExtraBags = 0;
-
-        /// <summary>
         /// The number of extra loot bags bosses drop when Armageddon is active.<br></br>
         /// This is normally 5. Bosses drop 5 bags on normal, and 6 on Expert+.
         /// </summary>
@@ -294,24 +276,6 @@ namespace CalamityMod
             // Drop the 1 vanilla Expert Mode boss bag.
             theBoss.DropBossBags();
             bagsDropped++;
-
-            // If Rev is active, possibly drop extra bags.
-            if (CalamityWorld.revenge)
-            {
-                for (int i = 0; i < RevExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += RevExtraBags;
-            }
-
-            // If Death is active, possibly drop extra bags.
-            if (CalamityWorld.death)
-            {
-                for (int i = 0; i < DeathExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += DeathExtraBags;
-            }
 
             return bagsDropped;
         }

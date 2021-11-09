@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<HallowedRune>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
             recipe.AddTile(TileID.LunarCraftingStation);

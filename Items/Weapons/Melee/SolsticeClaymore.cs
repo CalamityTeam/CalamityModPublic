@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -41,10 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BeamSword);
             recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 20);
-            recipe.AddIngredient(ItemID.FragmentSolar, 5);
-            recipe.AddIngredient(ItemID.FragmentVortex, 5);
-            recipe.AddIngredient(ItemID.FragmentStardust, 5);
-            recipe.AddIngredient(ItemID.FragmentNebula, 5);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

@@ -27,13 +27,12 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.rare = ItemRarityID.Red;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FlowersOfMortalityPetal>();
             item.shootSpeed = 10f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 3; //If you already have all 3, no need to resummon

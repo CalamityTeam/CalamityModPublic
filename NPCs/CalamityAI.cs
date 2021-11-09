@@ -255,9 +255,6 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral && phase2)
 					{
 						npc.localAI[0] += 1f;
-						if (player.gravDir == -1f && expertMode)
-							npc.localAI[0] += 2f;
-
 						if (npc.localAI[0] >= (revenge ? 360f : 420f))
 						{
 							if (Vector2.Distance(player.Center, npc.Center) > 320f)
@@ -462,11 +459,6 @@ namespace CalamityMod.NPCs
 					{
 						num188 += 8f * (1f - lifeRatio);
 						num189 += 0.06f * (1f - lifeRatio);
-					}
-					if (player.gravDir == -1f && expertMode)
-					{
-						num188 = 21f;
-						num189 = 0.21f;
 					}
 					num188 += 3f * enrageScale;
 					num189 += 0.06f * enrageScale;
@@ -2617,8 +2609,6 @@ namespace CalamityMod.NPCs
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
-			npc.gfxOffY = -46;
-
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
@@ -3379,9 +3369,6 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[3] >= aiSwitchTimer)
 				calamityGlobalNPC.newAI[3] = 0f;
 
-			// Enrage variable if player is flying upside down
-			bool targetFloatingUp = player.gravDir == -1f && expertMode;
-
 			// Phase for flying at the player
 			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= (aiSwitchTimer * 0.5f) && startFlightPhase;
 
@@ -3648,8 +3635,8 @@ namespace CalamityMod.NPCs
 					if (head)
 					{
 						Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-						int num16 = targetFloatingUp ? 50 : 200;
-						int heightReduction = death ? (targetFloatingUp ? 180 : 130) : (int)((targetFloatingUp ? 180f : 130f) * (1f - lifeRatio));
+						int num16 = 200;
+						int heightReduction = death ? 130 : (int)(130f * (1f - lifeRatio));
 						int height = 400 - heightReduction;
 						bool flag3 = true;
 
@@ -3709,8 +3696,8 @@ namespace CalamityMod.NPCs
 				fallSpeed += 4f * enrageScale;
 
 				// Speed and movement
-				float speedBoost = death ? ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.26f : 0.13f) * (1f - lifeRatio));
-				float turnSpeedBoost = death ? ((targetFloatingUp ? 0.36f : 0.18f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.4f : 0.2f) * (1f - lifeRatio));
+				float speedBoost = death ? (0.1f * (1f - lifeRatio)) : (0.13f * (1f - lifeRatio));
+				float turnSpeedBoost = death ? (0.18f * (1f - lifeRatio)) : (0.2f * (1f - lifeRatio));
 				float speed = (death ? 0.18f : 0.13f) + speedBoost;
 				float turnSpeed = (death ? 0.25f : 0.2f) + turnSpeedBoost;
 				speed += 0.05f * enrageScale;
@@ -3912,7 +3899,7 @@ namespace CalamityMod.NPCs
 				// Shoot lasers
 				if (npc.type == ModContent.NPCType<AstrumDeusBodySpectral>() && Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int shootTime = ((doubleWormPhase && expertMode) || targetFloatingUp) ? 2 : 1;
+					int shootTime = (doubleWormPhase && expertMode) ? 2 : 1;
 					npc.localAI[0] += 1f;
 					float shootProjectile = 400 / shootTime;
 					float timer = npc.ai[0] + 15f;
@@ -3926,10 +3913,6 @@ namespace CalamityMod.NPCs
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
 								float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
-								if (targetFloatingUp)
-								{
-									num941 *= 2f;
-								}
 								Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 								float num942 = player.position.X + player.width * 0.5f - vector104.X;
 								float num943 = player.position.Y + player.height * 0.5f - vector104.Y;

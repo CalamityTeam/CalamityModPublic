@@ -28,9 +28,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shootSpeed = 12f;
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

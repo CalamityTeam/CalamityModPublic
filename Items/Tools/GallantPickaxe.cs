@@ -37,8 +37,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 2);
             recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

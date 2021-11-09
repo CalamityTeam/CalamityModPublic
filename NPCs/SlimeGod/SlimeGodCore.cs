@@ -539,11 +539,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = revenge ? 18f : expertMode ? 16f : 14f;
             }
-            if (player.gravDir == -1f)
-            {
-                num1372 = 22f;
-            }
-            if (enraged || player.gravDir == -1f)
+            if (enraged)
             {
                 num1372 += 8f;
             }

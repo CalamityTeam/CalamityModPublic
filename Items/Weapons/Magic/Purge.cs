@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 3f;
-            item.rare = ItemRarityID.Cyan;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<NanoPurgeHoldout>();
             item.shootSpeed = 16f;
