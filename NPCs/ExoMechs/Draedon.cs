@@ -32,6 +32,13 @@ namespace CalamityMod.NPCs.ExoMechs
         public ref float TalkTimer => ref npc.ai[0];
         public ref float GeneralTimer => ref npc.ai[3];
 		public ref float DialogueType => ref npc.localAI[0];
+        public ref float HologramEffectTimer => ref npc.localAI[1];
+        public bool HasBeenKilled
+		{
+            get => npc.localAI[2] == 1f;
+            set => npc.localAI[2] = value.ToInt();
+        }
+        public ref float KillReappearDelay => ref npc.localAI[3];
         public static bool ExoMechIsPresent
         {
             get
@@ -50,7 +57,7 @@ namespace CalamityMod.NPCs.ExoMechs
         }
         public static readonly Color TextColor = new Color(155, 255, 255);
         public static readonly Color TextColorEdgy = new Color(213, 4, 11);
-        public const int TeleportFadeinTime = 45;
+        public const int HologramFadeinTime = 45;
         public const int TalkDelay = 150;
         public const int DelayPerDialogLine = 130;
         public const int ExoMechChooseDelay = TalkDelay + DelayPerDialogLine * 4 + 10;
@@ -82,14 +89,20 @@ namespace CalamityMod.NPCs.ExoMechs
         {
 			writer.Write(DialogueType);
             writer.Write(DefeatTimer);
+            writer.Write(HologramEffectTimer);
+            writer.Write(KillReappearDelay);
             writer.Write(ShouldStartStandingUp);
+            writer.Write(HasBeenKilled);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			DialogueType = reader.ReadSingle();
             DefeatTimer = reader.ReadSingle();
+            HologramEffectTimer = reader.ReadSingle();
+            KillReappearDelay = reader.ReadSingle();
             ShouldStartStandingUp = reader.ReadBoolean();
+            HasBeenKilled = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -116,7 +129,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (PlayerToFollow.dead || !PlayerToFollow.active)
                 {
                     npc.life = 0;
-                    npc.checkDead();
                     npc.active = false;
                     return;
                 }
@@ -125,11 +137,28 @@ namespace CalamityMod.NPCs.ExoMechs
             // Stay within the world.
             npc.position.Y = MathHelper.Clamp(npc.position.Y, 150f, Main.maxTilesY * 16f - 150f);
 
-            npc.Opacity = Utils.InverseLerp(0f, 8f, TalkTimer, true);
             npc.spriteDirection = (PlayerToFollow.Center.X < npc.Center.X).ToDirectionInt();
 
+            // Handle delays when re-appearing after being killed.
+            if (KillReappearDelay > 0f)
+            {
+                npc.Opacity = 0f;
+                KillReappearDelay--;
+                if (KillReappearDelay <= 0f)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndKillAttemptText", TextColorEdgy);
+                return;
+            }
+
+            // Synchronize the hologram effect and talk timer at the beginning.
+            // Also calculate opacity.
+            if (TalkTimer <= HologramFadeinTime)
+            {
+                HologramEffectTimer = TalkTimer;
+                npc.Opacity = Utils.InverseLerp(0f, 8f, TalkTimer, true);
+            }
+
             // Play the stand up animation after teleportation.
-            if (TalkTimer == TeleportFadeinTime + 5f)
+            if (TalkTimer == HologramFadeinTime + 5f)
                 ShouldStartStandingUp = true;
 
             // Gloss over the arbitrary details and just get to the Exo Mech selection if Draedon has already been talked to.
@@ -422,19 +451,59 @@ namespace CalamityMod.NPCs.ExoMechs
         public void HandleDefeatStuff()
         {
             // Become vulnerable after being defeated after a certain point.
-            npc.dontTakeDamage = DefeatTimer < 250f;
+            npc.dontTakeDamage = DefeatTimer < TalkDelay * 2f + 50f || HasBeenKilled;
             npc.Calamity().CanHaveBossHealthBar = !npc.dontTakeDamage;
+            npc.Calamity().ShouldCloseHPBar = HasBeenKilled;
+
+            bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 7f + 200f;
+
+            // Fade away and disappear when leaving.
+            if (leaving)
+            {
+                HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - 1f, 0f, HologramFadeinTime);
+                if (HologramEffectTimer <= 0f)
+                    npc.active = false;
+            }
+
+            // Fade back in as a hologram if the player tried to kill Draedon.
+            else if (HasBeenKilled)
+                HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer + 1f, 0f, HologramFadeinTime - 5f);
+
+            // Adjust opacity.
+            npc.Opacity = HologramEffectTimer / HologramFadeinTime;
+            if (HasBeenKilled)
+                npc.Opacity *= 0.67f;
 
             // Stand up in awe after a small amount of time has passed.
-            if (DefeatTimer > DelayBeforeDefeatStandup)
+            if (DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 50f)
                 ShouldStartStandingUp = true;
 
-            // TODO - This needs to be changed.
-            if (DefeatTimer == DelayBeforeDefeatStandup + 10f)
-                Main.NewText("Wait, what? How?", TextColor);
+            if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText1", TextColor);
 
-            if (DefeatTimer == DelayBeforeDefeatStandup + 80f)
-                Main.NewText("No", TextColor);
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay + 50f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText2", TextColor);
+
+            // After this point Draedon becomes vulnerable.
+            // He sits back down as well as he thinks for a bit.
+            // Killing him will cause gore to appear but also for Draedon to come back as a hologram.
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 2f + 50f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText3", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 3f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText4", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 4f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText5", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 5f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText6", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 6f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText7", TextColor);
+
+            if (DefeatTimer == DelayBeforeDefeatStandup + TalkDelay * 7f + 165f)
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndText8", TextColor);
         }
 
         // Draedon should not manually despawn.
@@ -442,8 +511,8 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            float teleportFade = Utils.InverseLerp(0f, TeleportFadeinTime, TalkTimer, true);
-            Color color = Color.Lerp(drawColor, Color.Cyan, 1f - (float)Math.Pow(teleportFade, 3D));
+            float teleportFade = Utils.InverseLerp(0f, HologramFadeinTime, HologramEffectTimer, true);
+            Color color = Color.Lerp(drawColor, Color.Cyan, 1f - (float)Math.Pow(teleportFade, 5D));
             color.A = (byte)(int)(teleportFade * 255f);
 
             return color * npc.Opacity;
@@ -462,7 +531,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 frame = 0;
 
             int frameChangeDelay = 7;
-            bool shouldNotSitDown = DefeatTimer > DelayBeforeDefeatStandup;
+            bool shouldNotSitDown = DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 10f;
 
             npc.frameCounter++;
             if (npc.frameCounter >= frameChangeDelay)
@@ -511,8 +580,23 @@ namespace CalamityMod.NPCs.ExoMechs
             }
         }
 
-        // Always instantly kill Draedon when he's vulnerable
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+		public override bool CheckDead()
+		{
+            if (!HasBeenKilled)
+            {
+                HologramEffectTimer = 0f;
+                KillReappearDelay = 90f;
+                npc.dontTakeDamage = true;
+                HasBeenKilled = true;
+                npc.life = npc.lifeMax;
+                npc.active = true;
+                npc.netUpdate = true;
+            }
+            return false;
+		}
+
+		// Always instantly kill Draedon when he's vulnerable
+		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             damage *= 56D;
             if (damage < npc.lifeMax)
@@ -533,17 +617,17 @@ namespace CalamityMod.NPCs.ExoMechs
             Vector2 origin = frame.Size() * 0.5f;
             Color color = npc.GetAlpha(drawColor);
             SpriteEffects direction = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(MathHelper.Clamp(1f - TalkTimer / TeleportFadeinTime, 0f, 1f) * 0.38f);
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(MathHelper.Clamp(1f - HologramEffectTimer / HologramFadeinTime, 0f, 1f) * 0.38f);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(color);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(color.A / 255f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(new Vector2(2f, Main.npcFrameCount[npc.type]));
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(new Vector2(16f, Main.npcFrameCount[npc.type]));
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
 
             spriteBatch.Draw(texture, drawPosition, frame, drawColor * npc.Opacity, npc.rotation, origin, npc.scale, direction, 0f);
 
             spriteBatch.ExitShaderRegion();
 
-            if (TalkTimer > TeleportFadeinTime)
+            if (HologramEffectTimer >= HologramFadeinTime)
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, direction, 0f);
 
             return false;
