@@ -554,6 +554,34 @@ namespace CalamityMod
 		public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
 
 		/// <summary>
+		/// Gets whether the given item is classified as a rogue weapon.
+		/// </summary>
+		/// <param name="p">The item which is being checked.</param>
+		/// <returns>Whether the item is a rogue weapon.</returns>
+		public static bool IsRogue(Item it)
+		{
+			if (it is null || it.Calamity() is null)
+				return false;
+			CalamityGlobalItem cgi = it.Calamity();
+			return cgi.rogue;
+		}
+
+		/// <summary>
+		/// Sets whether the given item is classified as a rogue weapon.
+		/// </summary>
+		/// <param name="p">The item whose rogue classification is being toggled.</param>
+		/// <param name="isRogue">The value to apply.</param>
+		/// <returns>Whether the item is now a rogue weapon.</returns>
+		public static bool SetRogue(Item it, bool isRogue)
+		{
+			if (it is null || it.Calamity() is null)
+				return false;
+			CalamityGlobalItem cgi = it.Calamity();
+			cgi.rogue = isRogue;
+			return cgi.rogue;
+		}
+
+		/// <summary>
 		/// Gets whether the given projectile is classified as rogue.
 		/// </summary>
 		/// <param name="p">The projectile which is being checked.</param>
@@ -1472,6 +1500,7 @@ namespace CalamityMod
 		public static object Call(params object[] args)
 		{
 			bool isValidPlayerArg(object o) => o is int || o is Player;
+			bool isValidItemArg(object o) => o is int || o is Item;
 			bool isValidProjectileArg(object o) => o is int || o is Projectile;
 
 			Player castPlayer(object o)
@@ -1480,6 +1509,15 @@ namespace CalamityMod
 					return Main.player[i];
 				else if (o is Player p)
 					return p;
+				return null;
+			}
+
+			Item castItem(object o)
+			{
+				if (o is int i)
+					return Main.item[i];
+				else if (o is Item it)
+					return it;
 				return null;
 			}
 
@@ -1706,6 +1744,24 @@ namespace CalamityMod
 					if (!isValidPlayerArg(args[1]))
 						return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
 					return AddMaxStealth(castPlayer(args[1]), maxStealth);
+
+				case "IsItemRogue":
+					if (args.Length < 2)
+						return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array).");
+					if (!isValidItemArg(args[1]))
+						return new ArgumentException("ERROR: The first argument to \"IsItemRogue\" must be an Item or an int.");
+					return IsRogue(castItem(args[1]));
+
+				case "SetItemRogue":
+					if (args.Length < 2)
+						return new ArgumentNullException("ERROR: Must specify both an Item object (or int index of an Item in the Main.item array) and a bool.");
+					if (args.Length < 3)
+						return new ArgumentNullException("ERROR: Must specify rogue status as a bool.");
+					if (!(args[2] is bool isItemRogue))
+						return new ArgumentException("ERROR: The second argument to \"SetItemRogue\" must be a bool.");
+					if (!isValidItemArg(args[1]))
+						return new ArgumentException("ERROR: The first argument to \"SetItemRogue\" must be an Item or an int.");
+					return SetRogue(castItem(args[1]), isItemRogue);
 
 				case "IsRogue":
 				case "IsProjRogue":
