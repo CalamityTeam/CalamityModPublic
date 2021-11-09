@@ -605,6 +605,10 @@ namespace CalamityMod
 			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
 				return mp.snowRuffianSet;
 
+			// Sulphurous
+			if (setBonus == "sulfur" || setBonus == "sulphur" || setBonus == "sulfurous" || setBonus == "sulphurous")
+				return mp.sulfurSet;
+
 			// Victide
 			if (setBonus == "victide_summon" || setBonus == "victide summon")
 				return mp.urchin; // the bool set directly by VictideHelmet.UpdateArmorSet
@@ -626,6 +630,10 @@ namespace CalamityMod
 			// Mollusk
 			if (setBonus == "mollusk")
 				return mp.molluskSet;
+
+			// Titan Heart
+			if (setBonus == "titanheart" || setBonus == "titan heart")
+				return mp.titanHeartSet;
 
 			// Forbidden Circlet
 			if (setBonus == "forbidden_circlet" || setBonus == "forbidden circlet")
@@ -747,8 +755,8 @@ namespace CalamityMod
 			if (setBonus == "astral")
 				return mp.astralStarRain;
 
-			// Xeroc
-			if (setBonus == "xeroc")
+			// Empyrean (formerly Xeroc)
+			if (setBonus == "empyrean" || setBonus == "xeroc")
 				return mp.xerocSet;
 
 			// Tarragon
@@ -909,6 +917,14 @@ namespace CalamityMod
 				return true;
 			}
 
+			// Sulphurous
+			if (setBonus == "sulfur" || setBonus == "sulphur" || setBonus == "sulfurous" || setBonus == "sulphurous")
+			{
+				mp.sulfurSet = enabled;
+				mp.sulfurJump = enabled;
+				return true;
+			}
+
 			// Victide
 			if (setBonus == "victide_summon" || setBonus == "victide summon")
 			{
@@ -952,6 +968,16 @@ namespace CalamityMod
 			if (setBonus == "mollusk")
 			{
 				mp.molluskSet = enabled;
+				return true;
+			}
+
+			// Titan Heart
+			if (setBonus == "titanheart" || setBonus == "titan heart")
+			{
+				mp.titanHeartMask = enabled;
+				mp.titanHeartMantle = enabled;
+				mp.titanHeartBoots = enabled;
+				mp.titanHeartSet = enabled;
 				return true;
 			}
 
