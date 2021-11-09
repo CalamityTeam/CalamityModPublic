@@ -43,8 +43,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.npcSlots = 15f;
 			npc.GetNPCDamage();
 			npc.Calamity().canBreakPlayerDefense = true;
-			npc.width = 400;
-            npc.height = 280;
+			npc.width = 426;
+            npc.height = 374;
             npc.defense = 40;
 			npc.DR_NERD(0.15f);
             npc.LifeMaxNERB(NPC.downedMoonlord ? 230000 : 84000, NPC.downedMoonlord ? 292500 : 107000, 740000); // 30 seconds in boss rush
@@ -423,15 +423,12 @@ namespace CalamityMod.NPCs.AstrumAureus
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			/*Vector2 npcCenter = new Vector2(npc.Center.X, npc.Center.Y + 8f);
+			Vector2 npcCenter = npc.Center;
 
 			// NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
-			// Width = 83, Height = 107
-			Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 2f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
-			// Width = 166, Height = 214
-			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f)), npc.width / 2, npc.height);
-			// Width = 83, Height = 107
-			Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+			Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - 93f - 5f + 4f), (int)(npcCenter.Y + 33f - 5f), 10, 10);
+			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f) + 24f), npc.width / 2, npc.height);
+			Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + 93f - 5f - 4f), (int)(npcCenter.Y + 33f - 5f), 10, 10);
 
 			Vector2 leftHitboxCenter = new Vector2(leftHitbox.X + (leftHitbox.Width / 2), leftHitbox.Y + (leftHitbox.Height / 2));
 			Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
@@ -452,7 +449,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (leftDist4 < minLeftDist)
 				minLeftDist = leftDist4;
 
-			bool insideLeftHitbox = minLeftDist <= 55f;
+			bool insideLeftHitbox = minLeftDist <= 120f;
 
 			float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
 			float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -467,7 +464,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (bodyDist4 < minBodyDist)
 				minBodyDist = bodyDist4;
 
-			bool insideBodyHitbox = minBodyDist <= 110f;
+			bool insideBodyHitbox = minBodyDist <= 160f;
 
 			float rightDist1 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopLeft());
 			float rightDist2 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopRight());
@@ -482,9 +479,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (rightDist4 < minRightDist)
 				minRightDist = rightDist4;
 
-			bool insideRightHitbox = minRightDist <= 55f;*/
+			bool insideRightHitbox = minRightDist <= 120f;
 
-			return /*(insideLeftHitbox || insideBodyHitbox || insideRightHitbox) &&*/ npc.alpha == 0 && npc.ai[0] > 1f;
+			return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && npc.alpha == 0 && npc.ai[0] > 1f;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

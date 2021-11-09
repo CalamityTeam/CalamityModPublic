@@ -691,7 +691,7 @@ namespace CalamityMod.NPCs.Ravager
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			Vector2 npcCenter = new Vector2(npc.Center.X, npc.Center.Y);
+			Vector2 npcCenter = npc.Center;
 
 			// NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
 			// Width = 83, Height = 107

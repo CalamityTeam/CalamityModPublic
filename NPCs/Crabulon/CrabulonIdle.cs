@@ -37,8 +37,8 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 14f;
 			npc.GetNPCDamage();
-			npc.width = 280;
-            npc.height = 160;
+			npc.width = 312;
+            npc.height = 196;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 1100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -73,8 +73,6 @@ namespace CalamityMod.NPCs.Crabulon
         public override void AI()
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-			npc.gfxOffY = -16;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 
@@ -611,12 +609,71 @@ namespace CalamityMod.NPCs.Crabulon
             }
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            return npc.ai[0] > 1f;
-        }
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Vector2 npcCenter = npc.Center;
 
-        public override void FindFrame(int frameHeight)
+			// NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
+			Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 2f) + 6f), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+			Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (npc.width / 4f)), (int)(npcCenter.Y - (npc.height / 2f)), npc.width / 2, npc.height);
+			Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + (npc.width / 4f) - 6f), (int)(npcCenter.Y - (npc.height / 4f)), npc.width / 4, npc.height / 2);
+
+			Vector2 leftHitboxCenter = new Vector2(leftHitbox.X + (leftHitbox.Width / 2), leftHitbox.Y + (leftHitbox.Height / 2));
+			Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
+			Vector2 rightHitboxCenter = new Vector2(rightHitbox.X + (rightHitbox.Width / 2), rightHitbox.Y + (rightHitbox.Height / 2));
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float leftDist1 = Vector2.Distance(leftHitboxCenter, targetHitbox.TopLeft());
+			float leftDist2 = Vector2.Distance(leftHitboxCenter, targetHitbox.TopRight());
+			float leftDist3 = Vector2.Distance(leftHitboxCenter, targetHitbox.BottomLeft());
+			float leftDist4 = Vector2.Distance(leftHitboxCenter, targetHitbox.BottomRight());
+
+			float minLeftDist = leftDist1;
+			if (leftDist2 < minLeftDist)
+				minLeftDist = leftDist2;
+			if (leftDist3 < minLeftDist)
+				minLeftDist = leftDist3;
+			if (leftDist4 < minLeftDist)
+				minLeftDist = leftDist4;
+
+			bool insideLeftHitbox = minLeftDist <= 45f;
+
+			float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
+			float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
+			float bodyDist3 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomLeft());
+			float bodyDist4 = Vector2.Distance(bodyHitboxCenter, targetHitbox.BottomRight());
+
+			float minBodyDist = bodyDist1;
+			if (bodyDist2 < minBodyDist)
+				minBodyDist = bodyDist2;
+			if (bodyDist3 < minBodyDist)
+				minBodyDist = bodyDist3;
+			if (bodyDist4 < minBodyDist)
+				minBodyDist = bodyDist4;
+
+			bool insideBodyHitbox = minBodyDist <= 90f;
+
+			float rightDist1 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopLeft());
+			float rightDist2 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopRight());
+			float rightDist3 = Vector2.Distance(rightHitboxCenter, targetHitbox.BottomLeft());
+			float rightDist4 = Vector2.Distance(rightHitboxCenter, targetHitbox.BottomRight());
+
+			float minRightDist = rightDist1;
+			if (rightDist2 < minRightDist)
+				minRightDist = rightDist2;
+			if (rightDist3 < minRightDist)
+				minRightDist = rightDist3;
+			if (rightDist4 < minRightDist)
+				minRightDist = rightDist4;
+
+			bool insideRightHitbox = minRightDist <= 45f;
+
+			return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && npc.ai[0] > 1f;
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
