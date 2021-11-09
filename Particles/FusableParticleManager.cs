@@ -23,10 +23,28 @@ namespace CalamityMod.Particles
 		/// <summary>
 		/// Loads all render sets.
 		/// </summary>
-		internal static void LoadParticleRenderSets()
+		internal static void LoadParticleRenderSets(bool reload = false, int width = -1, int height = -1)
 		{
+			// Don't attempt to prepare anything serverside.
+			if (Main.netMode == NetmodeID.Server)
+				return;
+
+			// Use fallbacks for width and height based on the screen.
+			if (width == -1 || height == -1)
+			{
+				width = Main.screenWidth;
+				height = Main.screenHeight;
+			}
+
+			// Otherwise, if a width and height are defined, but they are the exact same as the screen bounds,
+			// do nothing. This indicates that the render targets 
+			else if (width == Main.screenWidth && height == Main.screenHeight)
+				return;
+
 			// Redefine the particle set list in case the mod was reloaded and this field was nullified during that.
-			ParticleSets = new List<FusableParticleRenderCollection>();
+			// This does not happen during reloads, as that would delete particles outside of load-time.
+			if (!reload)
+				ParticleSets = new List<FusableParticleRenderCollection>();
 
 			// Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
 			// If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
@@ -45,7 +63,7 @@ namespace CalamityMod.Particles
 					if (Main.netMode != NetmodeID.Server)
 					{
 						for (int i = 0; i < instance.LayerCount; i++)
-							backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, default, default, 0, RenderTargetUsage.PreserveContents));
+							backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, width, height, false, default, default, 0, RenderTargetUsage.PreserveContents));
 					}
 
 					FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, backgroundTargets);

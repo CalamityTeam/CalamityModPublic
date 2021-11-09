@@ -135,6 +135,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
@@ -202,6 +203,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
@@ -311,7 +313,8 @@ namespace CalamityMod.ILEditing
 
             // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
             // If your dodges are universally disabled by Armageddon, then they simply "never come off cooldown" and always have 1 frame left.
-            cursor.EmitDelegate<Func<Player, int>>((Player p) => {
+            cursor.EmitDelegate<Func<Player, int>>((Player p) =>
+            {
                 CalamityPlayer mp = p.Calamity();
                 return mp.disableAllDodges ? 1 : mp.dodgeCooldownTimer;
             });
@@ -650,6 +653,12 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
         }
 
+        private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
+        {
+            FusableParticleManager.LoadParticleRenderSets(true, width, height);
+            orig(width, height, fullscreen);
+        }
+
         private static void DrawCustomLava(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
@@ -692,7 +701,7 @@ namespace CalamityMod.ILEditing
             // The order is load is texture array field -> load index -> load the reference to the texture at that index.
             cursor.Index += 3;
             cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
-            
+
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
             {
                 LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
@@ -1367,7 +1376,7 @@ namespace CalamityMod.ILEditing
         {
             Tile t = Main.tile[i, j];
             int topY = j;
-            while(t != null && t.active() && t.type == rootTile.type)
+            while (t != null && t.active() && t.type == rootTile.type)
             {
                 // Immediately stop at the top of the world, if you got there somehow.
                 if (topY == 0)
@@ -1376,7 +1385,7 @@ namespace CalamityMod.ILEditing
                 --topY;
                 t = Main.tile[i, topY];
             }
-            
+
             // The above loop will have gone 1 past the top of the door. Correct for this.
             return ++topY;
         }
