@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MajesticGuard>());
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
+            recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

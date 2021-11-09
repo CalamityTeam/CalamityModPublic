@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 2f;
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 0, 1, 20);
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<LunarKunaiProj>();
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.shoot = ModContent.ProjectileType<LunarKunaiProj>();
             item.shootSpeed = 22f;
             item.Calamity().rogue = true;
 		}

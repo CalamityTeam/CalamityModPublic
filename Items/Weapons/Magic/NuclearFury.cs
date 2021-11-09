@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item84;
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.UseSound = SoundID.Item84;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<NuclearFuryProjectile>();
             item.shootSpeed = 16f;

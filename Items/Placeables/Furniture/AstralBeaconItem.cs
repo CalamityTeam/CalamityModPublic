@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
             recipe.AddIngredient(ModContent.ItemType<AstralStone>(), 30);
             recipe.AddTile(TileID.LunarCraftingStation);

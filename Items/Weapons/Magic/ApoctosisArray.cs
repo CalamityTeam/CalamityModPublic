@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.UseSound = SoundID.Item91;
 			item.autoReuse = true;
 			item.noMelee = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<IonBlast>();
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.shoot = ModContent.ProjectileType<IonBlast>();
 			item.shootSpeed = 8f;
 		}
 
