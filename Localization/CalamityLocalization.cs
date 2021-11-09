@@ -131,15 +131,15 @@ namespace CalamityMod.Localization
                 new [] { "DraedonExoPhase6Text1", "Absurd." },
                 new [] { "DraedonExoPhase6Text2", "I will no longer let my calculations impede my observation of this battle." },
                 new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
-				new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+                new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
                 new [] { "DraedonResummonText", "Make your choice." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
-				        new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
-				        new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
-				        new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
+                        new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
+                        new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
+                        new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
 
-		            new [] { "BloodMoonText", "The Blood Moon is rising..." },
+                    new [] { "BloodMoonText", "The Blood Moon is rising..." },
 
                 new [] { "DargonBossText", "The dark sun awaits." },
                 new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
@@ -150,11 +150,13 @@ namespace CalamityMod.Localization
                 new [] { "DeathText", "Death is active; enjoy the fun." },
                 new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
-				new [] { "MaliceText", "Malice is active; witness the horror!" },
-				new [] { "MaliceText2", "Malice is not active." },
+                new [] { "MaliceText", "Malice is active; witness the horror!" },
+                new [] { "MaliceText2", "Malice is not active." },
 
-				new [] { "ArmageddonText", "Bosses will now kill you instantly." },
+                new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
+                new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
+                new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
 
                 new [] { "DefiledText", "Your soul is mine..." },
                 new [] { "DefiledText2", "Your soul is yours once more..." },

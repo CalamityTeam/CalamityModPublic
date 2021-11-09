@@ -3,21 +3,24 @@ using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.DifficultyItems
 {
     public class Armageddon : ModItem
     {
+        private static readonly Color textColor = Color.Fuchsia;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Armageddon");
-            Tooltip.SetDefault("Makes any hit while a boss is alive instantly kill you\n" +
-                "Effect can be toggled on and off\n" +
-                "If a boss is defeated with this effect active it will drop 6 treasure bags, 5 in normal mode\n" +
-				"These extra bags will only drop if it's your first time killing the boss");
+            Tooltip.SetDefault("Enables/disables Armageddon, can be used in any other difficulty mode\n" +
+                "While active, any hit while a boss is alive will instantly kill you\n" +
+                "If you defeat a boss for the first time with this mode active, they will drop 5 extra treasure bags\n" +
+                "These extra bags will drop even if you are not in Expert Mode\n" +
+                "Right click with this item to toggle whether your dodges are disabled\n" +
+                "Dodges can be disabled independently of whether or not Armageddon is not enabled");
         }
 
         public override void SetDefaults()
@@ -32,26 +35,44 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
+        public override bool AltFunctionUse(Player player) => true;
+
         public override bool UseItem(Player player)
         {
+            // Dodge toggling code is per-player and doesn't need any fancy netcode hedging.
+            if (player.altFunctionUse == 2)
+            {
+                // You still aren't allowed to toggle it during fights though.
+                if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+                {
+                    string key = "Mods.CalamityMod.ChangingTheRules";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
+                    return true;
+                }
+
+                CalamityPlayer mp = player.Calamity();
+                mp.disableAllDodges = !mp.disableAllDodges;
+                string dodgeKey = mp.disableAllDodges ? "Mods.CalamityMod.ArmageddonDodgeDisable" : "Mods.CalamityMod.ArmageddonDodgeEnable";
+                CalamityUtils.DisplayLocalizedText(dodgeKey, textColor);
+                return true;
+            }
+            
             // This world syncing code should only be run by one entity- the server, to prevent a race condition
             // with the packets.
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return true;
 
-			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
-			{
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+            {
                 string key = "Mods.CalamityMod.ChangingTheRules";
-                Color messageColor = Color.Fuchsia;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
-				return true;
-			}
+                CalamityUtils.DisplayLocalizedText(key, textColor);
+                return true;
+            }
             CalamityWorld.armageddon = !CalamityWorld.armageddon;
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            string key2 = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
-            Color messageColor2 = Color.Fuchsia;
-            CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+            string toggleKey = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
+            CalamityUtils.DisplayLocalizedText(toggleKey, textColor);
 
             CalamityNetcode.SyncWorld();
 
