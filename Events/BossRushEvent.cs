@@ -51,6 +51,7 @@ namespace CalamityMod.Events
         {
             public int EntityID;
             public int SpecialSpawnCountdown;
+            public float DimnessFactor;
             public bool UsesSpecialSound;
             public TimeChangeContext ToChangeTimeTo;
             public OnSpawnContext SpawnContext;
@@ -58,7 +59,7 @@ namespace CalamityMod.Events
 
             public delegate void OnSpawnContext(int type);
 
-            public Boss(int id, TimeChangeContext toChangeTimeTo = TimeChangeContext.None, OnSpawnContext spawnContext = null, int specialSpawnCountdown = -1, bool usesSpecialSound = false, params int[] permittedNPCs)
+            public Boss(int id, TimeChangeContext toChangeTimeTo = TimeChangeContext.None, OnSpawnContext spawnContext = null, int specialSpawnCountdown = -1, bool usesSpecialSound = false, float dimnessFactor = 0f, params int[] permittedNPCs)
             {
                 // Default to a typical SpawnOnPlayer call for boss summoning if nothing else is inputted.
                 if (spawnContext is null)
@@ -69,6 +70,7 @@ namespace CalamityMod.Events
                 UsesSpecialSound = usesSpecialSound;
                 ToChangeTimeTo = toChangeTimeTo;
                 SpawnContext = spawnContext;
+                DimnessFactor = dimnessFactor;
                 HostileNPCsToNotDelete = permittedNPCs.ToList();
 
                 // Add the NPC type to delete blacklist list by default.
@@ -87,6 +89,7 @@ namespace CalamityMod.Events
         public static Dictionary<int, Action<NPC>> BossDeathEffects = new Dictionary<int, Action<NPC>>();
         public static int StartTimer;
         public static int EndTimer;
+        public static float WhiteDimness;
         public static readonly Color XerocTextColor = Color.LightCoral;
         public const int StartEffectTotalTime = 120;
         public const int EndVisualEffectTime = 340;
@@ -246,7 +249,7 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueBeeG>(), ModContent.NPCType<PlagueBeeLargeG>(), ModContent.NPCType<PlagueHomingMissile>(),
                     ModContent.NPCType<PlagueMine>(), ModContent.NPCType<PlaguebringerShade>() }),
 
-                new Boss(ModContent.NPCType<CalamitasRun3>(), TimeChangeContext.Night, specialSpawnCountdown: 420, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
+                new Boss(ModContent.NPCType<CalamitasRun3>(), TimeChangeContext.Night, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>(),
                     ModContent.NPCType<LifeSeeker>(), ModContent.NPCType<SoulSeeker>() }),
 
                 new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(), ModContent.NPCType<Parasea>(),
@@ -287,7 +290,7 @@ namespace CalamityMod.Events
                     }
                     Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
                     CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
-                }, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBody>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
+                }, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBody>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
 
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() }),
@@ -431,7 +434,7 @@ namespace CalamityMod.Events
                 if (BossRushSpawnCountdown > 0)
                     BossRushSpawnCountdown--;
 
-                // Cooldown and boss spawn
+                // Cooldown and boss spawn.
                 if (BossRushSpawnCountdown <= 0 && BossRushStage < Bosses.Count)
                 {
                     // Cooldown before next boss spawns.
@@ -456,6 +459,14 @@ namespace CalamityMod.Events
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
                 }
+            }
+
+            // Change dimness.
+            if (BossRushStage >= 0 && BossRushStage < Bosses.Count)
+			{
+                WhiteDimness = MathHelper.Lerp(WhiteDimness, Bosses[BossRushStage].DimnessFactor, 0.1f);
+                if (MathHelper.Distance(WhiteDimness, Bosses[BossRushStage].DimnessFactor) < 0.004f)
+                    WhiteDimness = Bosses[BossRushStage].DimnessFactor;
             }
 
             if (EndTimer > 0)

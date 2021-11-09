@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 
@@ -12,5 +13,10 @@ namespace CalamityMod.Events
             UseTargetPosition(Main.LocalPlayer.Center);
             base.Apply();
         }
-    }
+
+		public override void Update(GameTime gameTime)
+		{
+            UseColor(Color.Lerp(BossRushSky.GeneralColor, Color.Black, BossRushEvent.WhiteDimness));
+        }
+	}
 }
