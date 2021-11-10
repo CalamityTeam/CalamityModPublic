@@ -277,7 +277,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
                 float num1246 = revenge ? 5f : 4f;
-				num1246 += 2f * enrageScale;
+				num1246 += 4f * enrageScale;
 
                 num1245 = num1246 / num1245;
                 num1243 *= num1245;
@@ -489,7 +489,7 @@ namespace CalamityMod.NPCs.Cryogen
 					float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
 					float num1246 = revenge ? 7f : 6f;
-					num1246 += 2f * enrageScale;
+					num1246 += 4f * enrageScale;
 
 					num1245 = num1246 / num1245;
 					num1243 *= num1245;
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
                 float speed = revenge ? 5.5f : 5f;
-				speed += 1.5f * enrageScale;
+				speed += 3f * enrageScale;
 
                 num1245 = speed / num1245;
                 num1243 *= num1245;

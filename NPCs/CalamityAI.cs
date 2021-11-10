@@ -748,7 +748,7 @@ namespace CalamityMod.NPCs
 			float speed = death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f;
 			if (expertMode)
 				speed += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-			speed += 3f * enrageScale;
+			speed += 5f * enrageScale;
 
 			// Variables for target location relative to npc location
 			float xDistance = player.Center.X - vectorCenter.X;
