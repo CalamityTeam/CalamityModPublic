@@ -718,7 +718,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									for (int k = 0; k < totalProjectiles; k++)
 									{
 										Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-										Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, npc.ai[3] % 2f == 0f ? laserVelocity : -laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 									}
 								}
 							}
