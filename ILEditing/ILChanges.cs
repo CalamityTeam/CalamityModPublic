@@ -134,7 +134,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
-			IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            IL.Terraria.Main.DoDraw += DrawFusableParticles;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
@@ -149,14 +149,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-			// Movement speed balance
-			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
+            // Movement speed balance
+            IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
-			// Mana regen balance
-			IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
-			IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
+            // Mana regen balance
+            IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
+            IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
@@ -177,10 +177,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
-		/// <summary>
-		/// Unloads all IL Editing changes in the mod.
-		/// </summary>
-		internal static void Unload()
+        /// <summary>
+        /// Unloads all IL Editing changes in the mod.
+        /// </summary>
+        internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
@@ -210,23 +210,23 @@ namespace CalamityMod.ILEditing
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
 
-			// Damage and health balance
-			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
+            // Damage and health balance
+            IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-			// Movement speed balance
-			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
-			IL.Terraria.Player.Update -= RunSpeedAdjustments;
+            // Movement speed balance
+            IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+            IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
-			// Mana regen balance
-			IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
-			IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
+            // Mana regen balance
+            IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
+            IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
 
-			// World generation
-			IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
+            // World generation
+            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -310,7 +310,11 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
 
             // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
-            cursor.EmitDelegate<Func<Player, int>>((Player p) => p.Calamity().dodgeCooldownTimer);
+            // If your dodges are universally disabled by Armageddon, then they simply "never come off cooldown" and always have 1 frame left.
+            cursor.EmitDelegate<Func<Player, int>>((Player p) => {
+                CalamityPlayer mp = p.Calamity();
+                return mp.disableAllDodges ? 1 : mp.dodgeCooldownTimer;
+            });
 
             // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
             // The code path which calls NinjaDodge can ONLY occur if the result of this operation is zero,
@@ -371,14 +375,14 @@ namespace CalamityMod.ILEditing
             return orig(i, j, forced);
         }
 
-		private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
-		{
-			if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
-				self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
-				return true;
+        private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+        {
+            if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
+                self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
+                return true;
 
-			return orig(self);
-		}
+            return orig(self);
+        }
 
         private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
         {
@@ -843,24 +847,24 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-		#endregion
+        #endregion
 
-		#region Movement speed balance
-		private static void MaxRunSpeedAdjustment(ILContext il)
-		{
-			// Increase the base max run speed of the player to make early game less of a slog.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
-			{
-				LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
-		}
+        #region Movement speed balance
+        private static void MaxRunSpeedAdjustment(ILContext il)
+        {
+            // Increase the base max run speed of the player to make early game less of a slog.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
+            {
+                LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
+        }
 
-		private static void RunSpeedAdjustments(ILContext il)
-		{
+        private static void RunSpeedAdjustments(ILContext il)
+        {
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
@@ -1021,57 +1025,57 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-		#endregion
+        #endregion
 
-		#region Mana regen balance
-		private static void ManaRegenDelayAdjustment(ILContext il)
-		{
-			// Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
-			// Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
-			{
-				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
+        #region Mana regen balance
+        private static void ManaRegenDelayAdjustment(ILContext il)
+        {
+            // Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
+            // Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
+            {
+                LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
 
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
-			{
-				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
-		}
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
+            {
+                LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
+        }
 
-		private static void ManaRegenAdjustment(ILContext il)
-		{
-			// Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
-			{
-				LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
+        private static void ManaRegenAdjustment(ILContext il)
+        {
+            // Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
+            {
+                LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
 
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
-			{
-				LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
-		}
-		#endregion
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
+            {
+                LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
+        }
+        #endregion
 
-		#region World generation
+        #region World generation
 
-		// Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-		private static void ReplacePharaohSetInPyramids(ILContext il)
+        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+        private static void ReplacePharaohSetInPyramids(ILContext il)
         {
             var cursor = new ILCursor(il);
 

@@ -29,7 +29,6 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -47,11 +46,9 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -77,11 +74,9 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
-
 namespace CalamityMod.CalPlayer
 {
-    public partial class CalamityPlayer : ModPlayer
+	public partial class CalamityPlayer : ModPlayer
     {
         #region Variables
 
@@ -90,7 +85,6 @@ namespace CalamityMod.CalPlayer
         public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
         public bool shouldDrawSmallText = true;
-        private const int saveVersion = 0;
         public int dashMod;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -265,8 +259,9 @@ namespace CalamityMod.CalPlayer
         public const int ArcanumReflectCooldown = 5400;
         public const int EvolutionReflectCooldown = 7200;
         public int dodgeCooldownTimer = 0;
+        public bool disableAllDodges = false;
 
-		public bool canFireAtaxiaRangedProjectile = false;
+        public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;
         public bool canFireGodSlayerRangedProjectile = false;
         public bool canFireBloodflareMageProjectile = false;
@@ -1226,6 +1221,7 @@ namespace CalamityMod.CalPlayer
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
                 { "defenseDamage", defenseDamage },
+                { "disableAllDodges", disableAllDodges },
 				{ "speedrunTimer", speedrunTimer },
 				{ "bossTypeJustDowned", bossTypeJustDowned },
 				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
@@ -1318,8 +1314,8 @@ namespace CalamityMod.CalPlayer
             exactRogueLevel = tag.GetInt("exactRogueLevel");
 
             moveSpeedStat = tag.GetInt("moveSpeedStat");
-
             defenseDamage = tag.GetInt("defenseDamage");
+            disableAllDodges = tag.GetBool("disableAllDodges");
 
 			speedrunTimer = tag.GetInt("speedrunTimer");
 			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
@@ -4132,7 +4128,7 @@ namespace CalamityMod.CalPlayer
         #region Dodges
         private bool HandleDodges()
         {
-            if (player.whoAmI != Main.myPlayer)
+            if (player.whoAmI != Main.myPlayer || disableAllDodges)
                 return false;
 
             if (spectralVeil && spectralVeilImmunity > 0)
@@ -4150,7 +4146,7 @@ namespace CalamityMod.CalPlayer
 			}
             if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
             {
-                OnDodge();
+                CounterScarfDodge();
                 return true;
             }
 
@@ -4236,7 +4232,7 @@ namespace CalamityMod.CalPlayer
 			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
 		}
 
-        private void OnDodge()
+        private void CounterScarfDodge()
         {
             if (evasionScarf)
                 player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
@@ -6077,7 +6073,8 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (dodgeCooldownTimer == 0)
+				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
+                if (dodgeCooldownTimer == 0 && !disableAllDodges)
 				{
 					// The Evolution
                     if (projRefRare)
