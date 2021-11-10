@@ -41,7 +41,11 @@ namespace CalamityMod.Projectiles.Boss
                 SummonSCal();
 
             if (Time >= TotalRitualTime)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
+                    projectile.Kill();
                 return;
+            }
 
             int fireReleaseRate = Time > 150f ? 2 : 1;
             for (int i = 0; i < fireReleaseRate; i++)
