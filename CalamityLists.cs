@@ -97,9 +97,6 @@ namespace CalamityMod
         public static List<int> iceWeaponList;
         public static List<int> natureWeaponList;
         public static List<int> alcoholList;
-        public static List<int> useTurnList;
-        public static List<int> twentyUseTimeBuffList; //20% use time buff
-        public static List<int> fiftySizeBuffList; //50% size buff
         public static List<int> quadrupleDamageBuffList; //300% buff
         public static List<int> tripleDamageBuffList; //200% buff
         public static List<int> doubleDamageBuffList; //100% buff
@@ -109,7 +106,6 @@ namespace CalamityMod
         public static List<int> twentyFiveDamageBuffList; //25% buff
         public static List<int> twentyDamageBuffList; //20% buff
         public static List<int> tenDamageBuffList; //10% buff
-        public static List<int> weaponAutoreuseList;
         public static List<int> spearAutoreuseList;
         public static List<int> tenDamageNerfList; //10% nerf
         public static List<int> quarterDamageNerfList; //25% nerf
@@ -1291,125 +1287,6 @@ namespace CalamityMod
                 BuffType<WhiteWineBuff>()
             };
 
-            useTurnList = new List<int>()
-            {
-				ItemID.WoodenSword,
-				ItemID.RichMahoganySword,
-				ItemID.BorealWoodSword,
-				ItemID.EbonwoodSword,
-				ItemID.ShadewoodSword,
-				ItemID.CopperBroadsword,
-				ItemID.IronBroadsword,
-                ItemID.LeadBroadsword,
-                ItemID.SilverBroadsword,
-                ItemID.TungstenBroadsword,
-                ItemID.PlatinumBroadsword,
-                ItemID.GoldBroadsword,
-                ItemID.CactusSword,
-                ItemID.ZombieArm,
-                ItemID.StylistKilLaKillScissorsIWish,
-                ItemID.DyeTradersScimitar,
-                ItemID.PurpleClubberfish,
-                ItemID.LightsBane,
-                ItemID.BloodButcherer,
-                ItemID.BluePhaseblade,
-                ItemID.RedPhaseblade,
-                ItemID.GreenPhaseblade,
-                ItemID.WhitePhaseblade,
-                ItemID.YellowPhaseblade,
-                ItemID.PurplePhaseblade,
-                ItemID.BladeofGrass,
-                ItemID.FieryGreatsword,
-                ItemID.NightsEdge,
-                ItemID.FalconBlade,
-                ItemID.BreakerBlade,
-                ItemID.SlapHand,
-                ItemID.TaxCollectorsStickOfDoom,
-                ItemID.Bladetongue,
-                ItemID.CobaltSword,
-                ItemID.PalladiumSword,
-                ItemID.MythrilSword,
-                ItemID.OrichalcumSword,
-                ItemID.AdamantiteSword,
-                ItemID.TitaniumSword,
-                ItemID.Excalibur,
-                ItemID.TrueExcalibur,
-                ItemID.TrueNightsEdge,
-                ItemID.TheHorsemansBlade,
-                ItemID.Keybrand,
-				ItemID.PsychoKnife,
-				ItemID.BeeKeeper,
-				ItemID.ChristmasTreeSword,
-				ItemID.BoneSword
-            };
-
-            twentyUseTimeBuffList = new List<int>()
-            {
-                ItemID.CobaltSword,
-                ItemID.PalladiumSword,
-                ItemID.OrichalcumSword,
-                ItemID.AdamantiteSword,
-                ItemID.TitaniumSword,
-                ItemID.Excalibur,
-                ItemID.Bladetongue,
-                ItemID.Cutlass,
-                ItemID.TheHorsemansBlade,
-                ItemID.AdamantiteGlaive,
-                ItemID.ChlorophytePartisan,
-                ItemID.CobaltNaginata,
-                ItemID.Gungnir,
-                ItemID.MythrilHalberd,
-                ItemID.OrichalcumHalberd,
-                ItemID.PalladiumPike,
-                ItemID.TitaniumTrident,
-                ItemID.MushroomSpear,
-				ItemID.TaxCollectorsStickOfDoom
-            };
-
-            fiftySizeBuffList = new List<int>()
-            {
-				ItemID.EnchantedSword,
-                ItemID.BreakerBlade,
-                ItemID.StylistKilLaKillScissorsIWish,
-                ItemID.NightsEdge,
-                ItemID.CobaltSword,
-                ItemID.MythrilSword,
-                ItemID.AdamantiteSword,
-                ItemID.PalladiumSword,
-                ItemID.OrichalcumSword,
-                ItemID.TitaniumSword,
-                ItemID.Excalibur,
-                ItemID.TheHorsemansBlade,
-                ItemID.Keybrand,
-                ItemID.SlapHand,
-                ItemID.PlatinumBroadsword,
-                ItemID.GoldBroadsword,
-                ItemID.LightsBane,
-                ItemID.FalconBlade,
-                ItemID.BeeKeeper,
-                ItemID.ZombieArm,
-                ItemID.BladeofGrass,
-                ItemID.Muramasa,
-                ItemID.FieryGreatsword,
-                ItemID.BluePhasesaber,
-                ItemID.RedPhasesaber,
-                ItemID.GreenPhasesaber,
-                ItemID.WhitePhasesaber,
-                ItemID.YellowPhasesaber,
-                ItemID.PurplePhasesaber,
-                ItemID.BluePhaseblade,
-                ItemID.RedPhaseblade,
-                ItemID.GreenPhaseblade,
-                ItemID.WhitePhaseblade,
-                ItemID.YellowPhaseblade,
-                ItemID.PurplePhaseblade,
-                ItemID.AntlionClaw,
-                ItemID.DyeTradersScimitar,
-                ItemID.BoneSword,
-				ItemID.TaxCollectorsStickOfDoom,
-				ItemID.PurpleClubberfish
-            };
-
             quadrupleDamageBuffList = new List<int>()
             {
                 ItemID.PsychoKnife
@@ -1581,77 +1458,6 @@ namespace CalamityMod
                 ItemID.BatScepter,
 				ItemID.ElectrosphereLauncher
 			};
-
-            weaponAutoreuseList = new List<int>()
-            {
-				ItemID.WoodenSword,
-				ItemID.RichMahoganySword,
-				ItemID.BorealWoodSword,
-				ItemID.EbonwoodSword,
-				ItemID.ShadewoodSword,
-				ItemID.CopperShortsword,
-				ItemID.CopperBroadsword,
-                ItemID.IronShortsword,
-                ItemID.IronBroadsword,
-                ItemID.LeadShortsword,
-                ItemID.LeadBroadsword,
-                ItemID.SilverShortsword,
-                ItemID.SilverBroadsword,
-                ItemID.TungstenShortsword,
-                ItemID.TungstenBroadsword,
-                ItemID.PlatinumShortsword,
-                ItemID.PlatinumBroadsword,
-                ItemID.GoldShortsword,
-                ItemID.GoldBroadsword,
-				ItemID.CactusSword,
-                ItemID.ZombieArm,
-                ItemID.CandyCaneSword,
-                ItemID.BoneSword,
-                ItemID.LightsBane,
-                ItemID.BloodButcherer,
-                ItemID.DyeTradersScimitar,
-				ItemID.FieryGreatsword,
-                ItemID.NightsEdge,
-                ItemID.TrueNightsEdge,
-                ItemID.TrueExcalibur,
-				ItemID.BreakerBlade,
-                ItemID.PhoenixBlaster,
-                ItemID.VenusMagnum,
-                ItemID.MagicDagger,
-                ItemID.BeamSword,
-                ItemID.PaladinsHammer,
-                ItemID.PearlwoodSword,
-                ItemID.PearlwoodBow,
-                ItemID.TaxCollectorsStickOfDoom,
-                ItemID.StylistKilLaKillScissorsIWish,
-                ItemID.AdamantiteGlaive,
-                ItemID.ChlorophytePartisan,
-                ItemID.CobaltNaginata,
-                ItemID.DarkLance,
-                ItemID.MonkStaffT2,
-                ItemID.Gungnir,
-                ItemID.MushroomSpear,
-                ItemID.MythrilHalberd,
-                ItemID.NorthPole,
-                ItemID.ObsidianSwordfish,
-                ItemID.OrichalcumHalberd,
-                ItemID.PalladiumPike,
-                ItemID.Spear,
-                ItemID.Swordfish,
-                ItemID.TheRottedFork,
-                ItemID.TitaniumTrident,
-                ItemID.Trident,
-                ItemID.BluePhaseblade,
-                ItemID.RedPhaseblade,
-                ItemID.GreenPhaseblade,
-                ItemID.WhitePhaseblade,
-                ItemID.YellowPhaseblade,
-                ItemID.PurplePhaseblade,
-				ItemID.BladeofGrass,
-				ItemID.ChristmasTreeSword,
-				ItemID.ChainKnife
-                //ItemID.StormSpear
-            };
 
             spearAutoreuseList = new List<int>()
             {
@@ -3006,9 +2812,6 @@ namespace CalamityMod
             iceWeaponList = null;
             natureWeaponList = null;
             alcoholList = null;
-			useTurnList = null;
-			twentyUseTimeBuffList = null;
-			fiftySizeBuffList = null;
 			quadrupleDamageBuffList = null;
 			tripleDamageBuffList = null;
             doubleDamageBuffList = null;
@@ -3018,7 +2821,6 @@ namespace CalamityMod
             twentyFiveDamageBuffList = null;
 			twentyDamageBuffList = null;
             tenDamageBuffList = null;
-            weaponAutoreuseList = null;
 			spearAutoreuseList = null;
             tenDamageNerfList = null;
             quarterDamageNerfList = null;
