@@ -120,6 +120,23 @@ namespace CalamityMod.Items
 			if (item.maxStack == 99)
                 item.maxStack = 999;
 
+			// Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
+			// TODO -- there are better ways to do this. Just stop letting accessories be enchanted, even if they do have a damage value.
+			if (item.type == ItemID.EoCShield)
+				CannotBeEnchanted = true;
+
+			// Star Cannon no longer makes noise.
+			if (item.type == ItemID.StarCannon)
+				item.UseSound = null;
+
+			// Fix Suspicious Looking Tentacle not being marked as Expert
+			if (item.type == ItemID.SuspiciousLookingTentacle)
+				item.expert = true;
+
+			// Modified Pearlwood items are now Light Red
+			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
+				item.rare = ItemRarityID.LightRed;
+
 			SetDefaults_ApplyBalance(item);
 
 			if (CalamityLists.noGravityList.Contains(item.type))
