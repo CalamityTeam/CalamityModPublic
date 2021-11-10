@@ -17,44 +17,69 @@ namespace CalamityMod.Items
 			IBalanceRule[] pointBlank = Do(PointBlank);
 			IBalanceRule[] autoReuse = Do(AutoReuse);
 			IBalanceRule[] useTurn = Do(UseTurn);
-
+			IBalanceRule[] maxStack999 = Do(MaxStack(999));
 
 			// Please keep this strictly alphabetical. It's the only way to keep it sane. Thanks in advance.
 			// - Ozzatron
 			balance = new SortedDictionary<int, IBalanceRule[]>
 			{
+				{ ItemID.AdamantiteChainsaw, trueMelee },
+				{ ItemID.AdamantiteDrill, trueMelee },
 				{ ItemID.AdamantiteGlaive, Do(AutoReuse, UseRatio(0.8f)) },
 				{ ItemID.AdamantitePickaxe, Do(UseTimeExact(7)) },
+				{ ItemID.AdamantiteRepeater, pointBlank },
 				{ ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
 				{ ItemID.AntlionClaw, Do(ScaleRatio(1.5f)) },
+				{ ItemID.Arkhalis, trueMelee },
 				// { ItemID.BabyBirdStaff, Do(AutoReuse, UseExact(35)) },
 				{ ItemID.BeamSword, autoReuse },
 				{ ItemID.BeeKeeper, Do(UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.BeesKnees, pointBlank },
 				{ ItemID.BladeofGrass, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.Bladetongue, Do(UseTurn, UseRatio(0.8f)) },
 				{ ItemID.BloodButcherer, Do(AutoReuse, UseTurn) },
+				{ ItemID.Blowgun, pointBlank },
+				{ ItemID.Blowpipe, pointBlank },
 				{ ItemID.BluePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.BluePhasesaber, Do(ScaleRatio(1.5f)) },
 				{ ItemID.BonePickaxe, Do(UseTimeExact(8)) },
 				{ ItemID.BoneSword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.BorealWoodBow, pointBlank },
 				{ ItemID.BorealWoodSword, Do(AutoReuse, UseTurn) },
+				{ ItemID.Boomstick, pointBlank },
+				{ ItemID.BouncyBomb, maxStack999 },
+				{ ItemID.BouncyDynamite, maxStack999 },
 				{ ItemID.BreakerBlade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.ButchersChainsaw, trueMelee },
 				{ ItemID.CactusPickaxe, Do(UseTimeExact(13)) },
 				{ ItemID.CactusSword, Do(AutoReuse, UseTurn) },
 				{ ItemID.CandyCaneSword, autoReuse },
+				{ ItemID.CandyCornRifle, pointBlank },
+				{ ItemID.ChainGun, pointBlank },
 				{ ItemID.ChainKnife, autoReuse },
+				{ ItemID.ChlorophyteChainsaw, trueMelee },
+				{ ItemID.ChlorophyteDrill, trueMelee },
+				{ ItemID.ChlorophyteJackhammer, trueMelee },
 				{ ItemID.ChlorophytePartisan, Do(AutoReuse, UseRatio(0.8f)) },
 				{ ItemID.ChlorophytePickaxe, Do(UseTimeExact(6)) },
+				{ ItemID.ChlorophyteShotbow, pointBlank },
 				{ ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn) },
+				{ ItemID.ClockworkAssaultRifle, pointBlank },
 				{ ItemID.CnadyCanePickaxe, Do(UseTimeExact(10)) },
+				{ ItemID.CobaltChainsaw, trueMelee },
+				{ ItemID.CobaltDrill, trueMelee },
 				{ ItemID.CobaltNaginata, Do(AutoReuse, UseRatio(0.8f)) },
 				{ ItemID.CobaltPickaxe, Do(UseTimeExact(9)) },
+				{ ItemID.CobaltRepeater, pointBlank },
 				{ ItemID.CobaltSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
+				{ ItemID.CopperBow, pointBlank },
 				{ ItemID.CopperBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.CopperPickaxe, Do(UseTimeExact(13), TileBoostExact(0)) },
 				{ ItemID.CopperShortsword, autoReuse },
 				{ ItemID.Cutlass, Do(UseRatio(0.8f)) },
 				{ ItemID.DarkLance, autoReuse },
+				{ ItemID.DartPistol, pointBlank },
+				{ ItemID.DartRifle, pointBlank },
 				{ ItemID.DD2BallistraTowerT1Popper, Do(UseExact(30)) },
 				{ ItemID.DD2BallistraTowerT2Popper, Do(UseExact(25)) },
 				{ ItemID.DD2BallistraTowerT3Popper, Do(UseExact(20)) },
@@ -67,124 +92,194 @@ namespace CalamityMod.Items
 				{ ItemID.DD2LightningAuraT1Popper, Do(UseExact(30)) },
 				{ ItemID.DD2LightningAuraT2Popper, Do(UseExact(25)) },
 				{ ItemID.DD2LightningAuraT3Popper, Do(UseExact(20)) },
+				{ ItemID.DD2PhoenixBow, pointBlank },
 				{ ItemID.DeadlySphereStaff, Do(UseExact(20)) },
 				{ ItemID.DeathbringerPickaxe, Do(UseTimeExact(10)) },
+				{ ItemID.DemonBow, pointBlank },
+				{ ItemID.Drax, trueMelee },
 				{ ItemID.DyeTradersScimitar, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.Dynamite, maxStack999 },
+				{ ItemID.EbonwoodBow, pointBlank },
 				{ ItemID.EbonwoodSword, Do(AutoReuse, UseTurn) },
 				// { ItemID.EmpressBlade, Do(UseExact(20)) },
 				{ ItemID.EnchantedSword, Do(ScaleRatio(1.5f)) },
+				// { ItemID.Eventide, pointBlank },
 				{ ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
 				{ ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.FlareGun, pointBlank },
 				// { ItemID.FlinxStaff, Do(AutoReuse, UseExact(35)) },
+				{ ItemID.FlintlockPistol, pointBlank },
+				{ ItemID.Gatligator, pointBlank },
+				{ ItemID.GoldBow, pointBlank },
 				{ ItemID.GoldBroadsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.GoldPickaxe, Do(UseTimeExact(10)) },
 				{ ItemID.GoldShortsword, autoReuse },
 				{ ItemID.GreenPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f)) },
 				{ ItemID.Gungnir, Do(AutoReuse, UseRatio(0.8f)) },
+				{ ItemID.HallowedRepeater, pointBlank },
+				{ ItemID.Handgun, pointBlank },
+				{ ItemID.Harpoon, pointBlank },
+				{ ItemID.HellwingBow, pointBlank },
 				{ ItemID.HornetStaff, Do(AutoReuse, UseExact(30)) },
+				{ ItemID.IceBow, pointBlank },
 				{ ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
+				{ ItemID.IronBow, pointBlank },
 				{ ItemID.IronBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.IronPickaxe, Do(UseTimeExact(12)) },
 				{ ItemID.IronShortsword, autoReuse },
 				{ ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.LeadBow, pointBlank },
 				{ ItemID.LeadBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.LeadPickaxe, Do(UseTimeExact(12)) },
 				{ ItemID.LeadShortsword, autoReuse },
 				{ ItemID.LightsBane, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.MagicDagger, autoReuse },
+				{ ItemID.Marrow, pointBlank },
+				{ ItemID.Megashark, pointBlank },
+				{ ItemID.Minishark, pointBlank },
+				{ ItemID.MoltenFury, pointBlank },
 				{ ItemID.MoltenPickaxe, Do(UseTimeExact(10)) },
-				{ ItemID.MonkStaffT2, autoReuse },
+				{ ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee) },
 				{ ItemID.MoonlordTurretStaff, Do(UseExact(15)) },
 				{ ItemID.Muramasa, Do(ScaleRatio(1.5f)) },
 				{ ItemID.MushroomSpear, Do(AutoReuse, UseRatio(0.8f)) },
+				{ ItemID.Musket, pointBlank },
+				{ ItemID.MythrilChainsaw, trueMelee },
+				{ ItemID.MythrilDrill, trueMelee },
 				{ ItemID.MythrilHalberd, Do(AutoReuse, UseRatio(0.8f)) },
 				{ ItemID.MythrilPickaxe, Do(UseTimeExact(8)) },
+				{ ItemID.MythrilRepeater, pointBlank },
 				{ ItemID.MythrilSword, Do(UseTurn, ScaleRatio(1.5f)) },
+				{ ItemID.NebulaChainsaw, trueMelee },
+				{ ItemID.NebulaDrill, trueMelee },
 				{ ItemID.NebulaPickaxe, Do(UseTimeExact(5)) },
 				{ ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.NightmarePickaxe, Do(UseTimeExact(10)) },
 				{ ItemID.NorthPole, autoReuse },
 				{ ItemID.ObsidianSwordfish, autoReuse },
+				{ ItemID.OnyxBlaster, pointBlank },
 				{ ItemID.OpticStaff, Do(AutoReuse, UseExact(25)) },
+				{ ItemID.OrichalcumChainsaw, trueMelee },
+				{ ItemID.OrichalcumDrill, trueMelee },
 				{ ItemID.OrichalcumHalberd, Do(AutoReuse, UseRatio(0.8f)) },
 				{ ItemID.OrichalcumPickaxe, Do(UseTimeExact(8)) },
+				{ ItemID.OrichalcumRepeater, pointBlank },
 				{ ItemID.OrichalcumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
+				{ ItemID.PainterPaintballGun, pointBlank },
 				{ ItemID.PaladinsHammer, autoReuse },
+				{ ItemID.PalladiumChainsaw, trueMelee },
+				{ ItemID.PalladiumDrill, trueMelee },
 				{ ItemID.PalladiumPickaxe, Do(UseTimeExact(9)) },
-				{ ItemID.PalladiumPike, Do(AutoReuse, UseRatio(0.8f)) },
+				{ ItemID.PalladiumPike, Do(AutoReuse, UseRatio(0.8f), TrueMelee) },
+				{ ItemID.PalladiumRepeater, pointBlank },
 				{ ItemID.PalladiumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
+				{ ItemID.PalmWoodBow, pointBlank },
+				{ ItemID.PalmWoodSword, Do(AutoReuse, UseTurn) },
 				{ ItemID.PearlwoodBow, autoReuse },
 				{ ItemID.PearlwoodSword, autoReuse },
-				{ ItemID.PhoenixBlaster, autoReuse },
+				{ ItemID.Phantasm, pointBlank },
+				{ ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank) },
 				{ ItemID.PickaxeAxe, Do(UseTimeExact(6)) },
 				{ ItemID.Picksaw, Do(UseTimeExact(5)) },
 				{ ItemID.PirateStaff, Do(AutoReuse, UseExact(25)) },
+				{ ItemID.PlatinumBow, pointBlank },
 				{ ItemID.PlatinumBroadsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.PlatinumPickaxe, Do(UseTimeExact(10)) },
 				{ ItemID.PlatinumShortsword, autoReuse },
 				{ ItemID.PsychoKnife, useTurn },
+				{ ItemID.PulseBow, pointBlank },
 				{ ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f)) },
 				{ ItemID.PygmyStaff, Do(UseExact(20)) },
+				// { ItemID.QuadBarrelShotgun, pointBlank },
 				{ ItemID.QueenSpiderStaff, Do(UseExact(25)) },
 				{ ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
 				{ ItemID.RavenStaff, Do(UseExact(20)) },
 				{ ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.RedPhasesaber, Do(ScaleRatio(1.5f)) },
+				{ ItemID.RedRyder, pointBlank },
+				{ ItemID.Revolver, pointBlank },
+				{ ItemID.RichMahoganyBow, pointBlank },
 				{ ItemID.RichMahoganySword, Do(AutoReuse, UseTurn) },
+				{ ItemID.Sandgun, pointBlank },
+				{ ItemID.SawtoothShark, trueMelee },
+				{ ItemID.SDMG, pointBlank },
 				// { ItemID.SanguineStaff, Do(AutoReuse, UseExact(25)) },
+				{ ItemID.ShadewoodBow, pointBlank },
 				{ ItemID.ShadewoodSword, Do(AutoReuse, UseTurn) },
+				{ ItemID.ShadowFlameBow, pointBlank },
+				{ ItemID.Shotgun, pointBlank },
+				{ ItemID.SilverBow, pointBlank },
 				{ ItemID.SilverBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.SilverPickaxe, Do(UseTimeExact(11)) },
 				{ ItemID.SilverShortsword, autoReuse },
 				{ ItemID.SlapHand, Do(UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.SlimeStaff, Do(AutoReuse, UseExact(30)) },
 				// { ItemID.Smolstar, Do(AutoReuse, UseExact(25)) },
+				{ ItemID.SniperRifle, pointBlank },
+				{ ItemID.SnowballCannon, pointBlank },
+				{ ItemID.SolarFlareChainsaw, trueMelee },
+				{ ItemID.SolarFlareDrill, trueMelee },
 				{ ItemID.SolarFlarePickaxe, Do(UseTimeExact(5)) },
-				{ ItemID.Spear, autoReuse },
+				{ ItemID.Spear, Do(AutoReuse, TrueMelee) },
 				{ ItemID.SpectrePickaxe, Do(UseTimeExact(7)) },
 				{ ItemID.SpiderStaff, Do(AutoReuse, UseExact(25)) },
 				// { ItemID.StormSpear, autoReuse },
 				// { ItemID.StormTigerStaff, UseExact(20) },
 				{ ItemID.StaffoftheFrostHydra, Do(UseExact(20)) },
+				{ ItemID.StakeLauncher, pointBlank },
 				{ ItemID.StardustCellStaff, Do(UseExact(20)) },
+				{ ItemID.StardustChainsaw, trueMelee },
+				{ ItemID.StardustDrill, trueMelee },
 				{ ItemID.StardustPickaxe, Do(UseTimeExact(5)) },
+				{ ItemID.StickyBomb, maxStack999 },
+				{ ItemID.StickyDynamite, maxStack999 },
 				{ ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.Swordfish, autoReuse },
+				{ ItemID.TacticalShotgun, pointBlank },
 				{ ItemID.TaxCollectorsStickOfDoom, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
 				{ ItemID.TempestStaff, Do(UseExact(20)) },
+				{ ItemID.TendonBow, pointBlank },
+				{ ItemID.TheHorsemansBlade, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
+				{ ItemID.TheRottedFork, autoReuse },
+				{ ItemID.TheUndertaker, pointBlank },
+				{ ItemID.TinBow, pointBlank },
 				{ ItemID.TinBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.TinPickaxe, Do(UseTimeExact(13)) },
 				{ ItemID.TinShortsword, autoReuse },
-				{ ItemID.TheHorsemansBlade, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
-				{ ItemID.TheRottedFork, autoReuse },
+				{ ItemID.TitaniumChainsaw, trueMelee },
+				{ ItemID.TitaniumDrill, trueMelee },
 				{ ItemID.TitaniumPickaxe, Do(UseTimeExact(7)) },
+				{ ItemID.TitaniumRepeater, pointBlank },
 				{ ItemID.TitaniumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f)) },
 				{ ItemID.TitaniumTrident, Do(AutoReuse, UseRatio(0.8f)) },
-				{ ItemID.Trident, autoReuse },
+				{ ItemID.Trident, Do(AutoReuse, TrueMelee) },
 				{ ItemID.TrueExcalibur, Do(AutoReuse, UseTurn) },
 				{ ItemID.TrueNightsEdge, Do(AutoReuse, UseTurn) },
+				{ ItemID.Tsunami, pointBlank },
+				{ ItemID.TungstenBow, pointBlank },
 				{ ItemID.TungstenBroadsword, Do(AutoReuse, UseTurn) },
 				{ ItemID.TungstenPickaxe, Do(UseTimeExact(11)) },
 				{ ItemID.TungstenShortsword, autoReuse },
+				{ ItemID.Uzi, pointBlank },
 				// { ItemID.VampireFrogStaff, Do(AutoReuse, UseExact(30)) }
-				{ ItemID.VenusMagnum, autoReuse },
+				{ ItemID.VenusMagnum, Do(AutoReuse, PointBlank) },
+				{ ItemID.VortexBeater, pointBlank },
+				{ ItemID.VortexChainsaw, trueMelee },
+				{ ItemID.VortexDrill, trueMelee },
 				{ ItemID.VortexPickaxe, Do(UseTimeExact(5)) },
 				{ ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.WhitePhasesaber, Do(ScaleRatio(1.5f)) },
+				{ ItemID.WoodenBow, pointBlank },
 				{ ItemID.WoodenSword, Do(AutoReuse, UseTurn) },
 				{ ItemID.XenoStaff, Do(UseExact(20)) },
 				{ ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 				{ ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f)) },
 				{ ItemID.ZombieArm, Do(AutoReuse, UseTurn, ScaleRatio(1.5f)) },
 
-				{ ItemID.OrichalcumPickaxe, Do(UseTimeExact(8)) },
-				{ ItemID.Phantasm, pointBlank },
-				{ ItemID.Arkhalis, trueMelee },
-				{ ItemID.Dynamite, new IBalanceRule[] { MaxStack(999) } },
 				{ ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
 				{ ItemID.Bladetongue, Do(DamageExact(120), ScaleRatio(1.75f)) },
 				{ ItemID.Gungnir, Do(TrueMelee, DamageExact(92), ShootSpeedRatio(1.25f)) },
@@ -204,121 +299,6 @@ namespace CalamityMod.Items
 		{
 			switch (item.type)
 			{
-				// Point-blank shot weapons
-				case ItemID.WoodenBow:
-				case ItemID.BorealWoodBow:
-				case ItemID.PalmWoodBow:
-				case ItemID.RichMahoganyBow:
-				case ItemID.CopperBow:
-				case ItemID.TinBow:
-				case ItemID.ShadewoodBow:
-				case ItemID.EbonwoodBow:
-				case ItemID.IronBow:
-				case ItemID.LeadBow:
-				case ItemID.SilverBow:
-				case ItemID.TungstenBow:
-				case ItemID.GoldBow:
-				case ItemID.PlatinumBow:
-				case ItemID.DemonBow:
-				case ItemID.TendonBow:
-				case ItemID.MoltenFury:
-				case ItemID.BeesKnees:
-				case ItemID.HellwingBow:
-				case ItemID.FlareGun:
-				case ItemID.Minishark:
-				case ItemID.Blowpipe:
-				case ItemID.FlintlockPistol:
-				case ItemID.SnowballCannon:
-				case ItemID.Boomstick:
-				case ItemID.Revolver:
-				case ItemID.RedRyder:
-				case ItemID.Sandgun:
-				case ItemID.Musket:
-				case ItemID.TheUndertaker:
-				case ItemID.Blowgun:
-				//case ItemID.QuadBarrelShotgun:
-				case ItemID.Handgun:
-				case ItemID.PhoenixBlaster:
-				case ItemID.PainterPaintballGun:
-				case ItemID.Harpoon:
-				case ItemID.IceBow:
-				case ItemID.ShadowFlameBow:
-				case ItemID.Marrow:
-				case ItemID.PulseBow:
-				case ItemID.DD2PhoenixBow:
-				case ItemID.Tsunami:
-				//case ItemID.Eventide:
-				case ItemID.Phantasm:
-				case ItemID.CobaltRepeater:
-				case ItemID.PalladiumRepeater:
-				case ItemID.MythrilRepeater:
-				case ItemID.OrichalcumRepeater:
-				case ItemID.AdamantiteRepeater:
-				case ItemID.TitaniumRepeater:
-				case ItemID.HallowedRepeater:
-				case ItemID.ChlorophyteShotbow:
-				case ItemID.StakeLauncher:
-				case ItemID.ClockworkAssaultRifle:
-				case ItemID.Gatligator:
-				case ItemID.Shotgun:
-				case ItemID.OnyxBlaster:
-				case ItemID.Uzi:
-				case ItemID.DartRifle:
-				case ItemID.DartPistol:
-				case ItemID.Megashark:
-				case ItemID.VenusMagnum:
-				case ItemID.TacticalShotgun:
-				case ItemID.SniperRifle:
-				case ItemID.CandyCornRifle:
-				case ItemID.ChainGun:
-				case ItemID.VortexBeater:
-				case ItemID.SDMG:
-					canFirePointBlankShots = true;
-					break;
-
-				// Set projectile true melee items to be true melee, this is so bosses know when the player is using a true melee projectile weapon
-				case ItemID.Spear:
-				case ItemID.Trident:
-				case ItemID.PalladiumPike:
-				case ItemID.CobaltDrill:
-				case ItemID.MythrilDrill:
-				case ItemID.AdamantiteDrill:
-				case ItemID.PalladiumDrill:
-				case ItemID.OrichalcumDrill:
-				case ItemID.TitaniumDrill:
-				case ItemID.ChlorophyteDrill:
-				case ItemID.CobaltChainsaw:
-				case ItemID.MythrilChainsaw:
-				case ItemID.AdamantiteChainsaw:
-				case ItemID.PalladiumChainsaw:
-				case ItemID.OrichalcumChainsaw:
-				case ItemID.TitaniumChainsaw:
-				case ItemID.ChlorophyteChainsaw:
-				case ItemID.VortexDrill:
-				case ItemID.VortexChainsaw:
-				case ItemID.NebulaDrill:
-				case ItemID.NebulaChainsaw:
-				case ItemID.SolarFlareDrill:
-				case ItemID.SolarFlareChainsaw:
-				case ItemID.StardustDrill:
-				case ItemID.StardustChainsaw:
-				case ItemID.Drax:
-				case ItemID.ChlorophyteJackhammer:
-				case ItemID.SawtoothShark:
-				case ItemID.Arkhalis:
-				case ItemID.ButchersChainsaw:
-				case ItemID.MonkStaffT2:
-					trueMelee = true;
-					break;
-
-				case ItemID.Dynamite:
-				case ItemID.StickyDynamite:
-				case ItemID.BouncyDynamite:
-				case ItemID.StickyBomb:
-				case ItemID.BouncyBomb:
-					item.maxStack = 999;
-					break;
-
 				case ItemID.BlueSolution:
 				case ItemID.DarkBlueSolution:
 				case ItemID.GreenSolution:
