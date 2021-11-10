@@ -285,7 +285,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Phases
 			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
@@ -509,7 +512,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
-							npc.ai[3] = 1f;
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[2] = 0f;

@@ -322,7 +322,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
@@ -602,7 +605,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							// Reset everything
 							npc.ai[1] = 0f;
 							npc.ai[2] = 0f;
-							npc.ai[3] = 1f;
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;

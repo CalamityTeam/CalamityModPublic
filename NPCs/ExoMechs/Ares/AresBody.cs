@@ -296,7 +296,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Phases
 			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
@@ -462,7 +465,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
-							npc.ai[3] = 1f;
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.TargetClosest();
 
@@ -499,6 +504,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						if (otherMechIsBerserk)
 						{
 							// Reset everything
+							if (npc.ai[3] < 2f)
+								npc.ai[3] = 2f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.TargetClosest();
 
@@ -520,6 +528,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					if (otherMechIsBerserk)
 					{
 						// Reset everything
+						if (npc.ai[3] < 2f)
+							npc.ai[3] = 2f;
+
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 						npc.TargetClosest();
 					}
@@ -707,7 +718,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 									for (int k = 0; k < totalProjectiles; k++)
 									{
 										Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-										Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+										Projectile.NewProjectile(spawnPoint + Vector2.Normalize(laserVelocity) * 35f, npc.ai[3] % 2f == 0f ? laserVelocity : -laserVelocity, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 									}
 								}
 							}
@@ -718,8 +729,31 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							AIState = (float)Phase.Normal;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
+
+							/* Normal positions: Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+							 * 0 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+							 * 1 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
+							 * 2 = Laser = 3, Tesla = 2, Plasma = 1, Gauss = 0
+							 * 3 = Laser = 0, Tesla = 2, Plasma = 1, Gauss = 3
+							 * 4 = Laser = 0, Tesla = 1, Plasma = 2, Gauss = 3
+							 * 5 = Laser = 3, Tesla = 1, Plasma = 2, Gauss = 0
+							 */
+							if (revenge)
+							{
+								npc.ai[3] += 1f + Main.rand.Next(2);
+								if (npc.ai[3] > 5f)
+									npc.ai[3] -= 4f;
+							}
+							else if (expertMode)
+							{
+								npc.ai[3] += Main.rand.Next(2);
+								if (npc.ai[3] > 3f)
+									npc.ai[3] -= 2f;
+							}
+
 							npc.localAI[0] += 1f;
 							npc.TargetClosest();
+							npc.netUpdate = true;
 						}
 					}
 

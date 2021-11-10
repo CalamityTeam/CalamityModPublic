@@ -296,7 +296,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Decrement the timer used to stop Artemis from firing lasers
 			if (npc.ai[3] > 1f)
@@ -419,7 +422,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float destinationX = flyRight ? 750f : -750f;
 			float destinationY = player.Center.Y;
 			float chargeComboXOffset = flyRight ? -500f : 500f;
-			float chargeComboYOffset = npc.ai[2] == 0f ? 400f : -400f;
+			float chargeComboYOffset = npc.ai[2] % 2f == 0f ? 400f : -400f;
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) : new Vector2(player.Center.X + destinationX, destinationY);
 
 			// If Apollo can fire projectiles, cannot fire if too close to the target
@@ -563,7 +566,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							if (npc.ai[0] < 10f)
 								npc.ai[0] = 10f;
 							npc.ai[0] += 1f;
-							npc.ai[3] = 1f;
+
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -618,6 +624,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							if (npc.ai[0] < 10f)
 								npc.ai[0] = 10f;
 							npc.ai[0] += 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -653,6 +660,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (npc.ai[0] < 10f)
 							npc.ai[0] = 10f;
 						npc.ai[0] += 1f;
+
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
@@ -1084,10 +1092,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							npc.ai[0] = 10f;
 						npc.ai[0] += 1f;
 
+						// Change Y offset for the next charge combo
+						npc.ai[2] = Main.rand.Next(2);
+
 						// Tell Artemis to not fire lasers for a short time while swapping positions
 						npc.ai[3] = 61f;
 
 						npc.TargetClosest();
+						npc.netUpdate = true;
 					}
 
 					break;
