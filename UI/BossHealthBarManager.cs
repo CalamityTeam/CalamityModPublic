@@ -178,7 +178,6 @@ namespace CalamityMod.UI
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
-                NPCID.MoonLordCore,
                 NPCID.WyvernLegs,
                 NPCID.WyvernBody,
                 NPCID.WyvernBody2,
