@@ -43,8 +43,9 @@ namespace CalamityMod.Items.Weapons.Melee
 				ModContent.ProjectileType<EonBeam>(),
 				ModContent.ProjectileType<EonBeamV2>()
 			});
-            int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, Main.myPlayer, 1f);
+            int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, Main.myPlayer);
 			Main.projectile[beam].localNPCHitCooldown = 14;
+			Main.projectile[beam].penetrate = 2;
             int i = Main.myPlayer;
             float num72 = Main.rand.Next(18, 27);
             float num74 = knockBack;
