@@ -41,7 +41,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"));
         }
 
         public override bool CanRightClick() => true;
@@ -72,13 +72,13 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
-			if (Main.rand.NextBool(5))
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<SilvaHelm>());
-				DropHelper.DropItem(player, ModContent.ItemType<SilvaHornedHelm>());
-				DropHelper.DropItem(player, ModContent.ItemType<SilvaMask>());
-			}
-			DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
+            if (Main.rand.NextBool(5))
+            {
+                DropHelper.DropItem(player, ModContent.ItemType<SilvaHelm>());
+                DropHelper.DropItem(player, ModContent.ItemType<SilvaHornedHelm>());
+                DropHelper.DropItem(player, ModContent.ItemType<SilvaMask>());
+            }
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
         }
     }
 }
