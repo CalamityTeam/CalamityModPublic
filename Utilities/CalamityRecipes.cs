@@ -63,13 +63,6 @@ namespace CalamityMod
             r.SetResult(ItemID.BlackLens);
             r.AddRecipe();
 
-            // Ultrabright Torch
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.Torch, 10);
-            r.AddIngredient(ModContent.ItemType<SeaPrism>());
-            r.SetResult(ItemID.UltrabrightTorch, 10);
-            r.AddRecipe();
-
             // Fallen Star
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Stardust>(), 5);
