@@ -609,8 +609,8 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
 				int type = NPCType<EidolonWyrmHeadHuge>();
 				int summon = ItemID.RodofDiscord;
-				List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenite>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>() };
-				List<int> collection = new List<int>() { ItemType<HalibutCannon>() };
+				List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenite>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>(), ItemType<HalibutCannon>() };
+				List<int> collection = new List<int>() { };
 				string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
 				string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
 				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn);
