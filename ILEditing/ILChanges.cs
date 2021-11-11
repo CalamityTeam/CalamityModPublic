@@ -352,7 +352,7 @@ namespace CalamityMod.ILEditing
         {
             // Remove Shield of Cthulhu setting your iframes to an exact number and instead run Calamity's utility to safely provide iframes.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<bool>("immuneNoBlink")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
             {
                 LogFailure("Vanilla Shield Slam Fix", "Could not locate Shield of Cthulhu immunity blinking set.");
                 return;
@@ -392,7 +392,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Conv_I4); // the equivalent of (int)num4;
 
             // Move to the immunity frame setting code for the Solar Flare set bonus.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<bool>("immuneNoBlink")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
             {
                 LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
                 return;
@@ -413,7 +413,7 @@ namespace CalamityMod.ILEditing
         {
             // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<int>("eocDash"))) // Loading the remaining frames of the SoC dash
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("eocDash"))) // Loading the remaining frames of the SoC dash
             {
                 LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
                 return;
