@@ -10701,13 +10701,13 @@ namespace CalamityMod.CalPlayer
                 light += underwater ? 2 : 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
-            if (littleLightPet)
-                light += 3;
             if (sirenPet)
                 light += underwater ? 3 : 1;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)
+                light += 3;
+            if (littleLightPet)
                 light += 3;
             if (profanedCrystalBuffs && !ZoneAbyss)
                 light += Main.dayTime || player.lavaWet ? 2 : 1;
