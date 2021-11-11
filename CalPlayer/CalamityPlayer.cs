@@ -10882,7 +10882,7 @@ namespace CalamityMod.CalPlayer
             if (player.petFlagDD2Ghost)
                 light += 2;
             if (littleLightPet)
-                light += 2;
+                light += 3;
             if (sirenPet)
                 light += underwater ? 3 : 1;
             if (player.wisp)

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Pets
             DisplayName.SetDefault("Little Light");
             Tooltip.SetDefault("It's been looking for you for a long time.\n" +
                 "Summons a small construct that follows you and provides a great amount of light\n" +
-                "Provides a moderate amount of light in the abyss");
+                "Provides a large amount of light in the abyss");
         }
 
         public override void SetDefaults()
