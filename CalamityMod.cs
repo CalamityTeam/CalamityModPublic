@@ -4,6 +4,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
@@ -23,8 +24,8 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -40,12 +41,14 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,12 +65,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Particles;
-using CalamityMod.Waters;
 
 namespace CalamityMod
 {
-    public class CalamityMod : Mod
+	public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
@@ -146,6 +147,16 @@ namespace CalamityMod
         {
             Instance = this;
 
+            // Save vanilla textures.
+            heartOriginal2 = Main.heartTexture;
+            heartOriginal = Main.heart2Texture;
+            rainOriginal = Main.rainTexture;
+            manaOriginal = Main.manaTexture;
+            carpetOriginal = Main.flyingCarpetTexture;
+
+            // Apply IL edits instantly afterwards.
+            ILChanges.Load();
+
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = ModLoader.GetMod("CalamityModMusic");
             ancientsAwakened = ModLoader.GetMod("AAMod");
@@ -162,11 +173,13 @@ namespace CalamityMod
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
 
-            heartOriginal2 = Main.heartTexture;
-            heartOriginal = Main.heart2Texture;
-            rainOriginal = Main.rainTexture;
-            manaOriginal = Main.manaTexture;
-            carpetOriginal = Main.flyingCarpetTexture;
+            // Initialize Calamity Lists so they may be used elsewhere immediately
+            CalamityLists.LoadLists();
+
+            // Initialize Calamity Balance, since it is tightly coupled with the remaining lists
+            CalamityGlobalItem.LoadBalance();
+
+            // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
@@ -190,11 +203,9 @@ namespace CalamityMod
             if (!Main.dedServ)
                 LoadClient();
 
-            ILChanges.Load();
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
-            CalamityLists.LoadLists();
             EnchantmentManager.LoadAllEnchantments();
             SetupVanillaDR();
             SetupBossKillTimes();
@@ -352,6 +363,7 @@ namespace CalamityMod
             EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
+            CalamityGlobalItem.UnloadBalance();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
