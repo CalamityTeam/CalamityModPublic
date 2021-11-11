@@ -369,15 +369,14 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.ShieldOfCthulhuIFrames, false));
 
             // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(150f)))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
             {
                 LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
                 return;
             }
 
             // Replace vanilla's base damage of 150 with Calamity's custom base damage.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, CalamityPlayer.SolarFlareBaseDamage);
+            cursor.Next.Operand = CalamityPlayer.SolarFlareBaseDamage;
 
             // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
@@ -388,8 +387,8 @@ namespace CalamityMod.ILEditing
 
             // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with Calamity's calculation.
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc_S, 12);
-            cursor.Emit(OpCodes.Conv_I4); // the equivalent of (int)num4;
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Conv_I4);
 
             // Move to the immunity frame setting code for the Solar Flare set bonus.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
