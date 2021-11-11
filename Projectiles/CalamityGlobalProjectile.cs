@@ -933,7 +933,7 @@ namespace CalamityMod.Projectiles
 					if (defDamage == 0)
 					{
 						// Reduce mech boss projectile damage depending on the new ore progression changes
-						if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
 						{
 							if (!NPC.downedMechBossAny)
 								projectile.damage = (int)(projectile.damage * 0.8);
@@ -1749,7 +1749,7 @@ namespace CalamityMod.Projectiles
 					}
 
 					// Reduce mech boss projectile damage depending on the new ore progression changes
-					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
 					{
 						if (!NPC.downedMechBossAny)
 						{

@@ -1571,7 +1571,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Reduce mech boss HP and damage depending on the new ore progression changes
-			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
 			{
 				if (!NPC.downedMechBossAny)
 				{
