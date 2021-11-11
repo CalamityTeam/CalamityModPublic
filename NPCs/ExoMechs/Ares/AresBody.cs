@@ -835,14 +835,33 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Color armGlowmaskColor = afterimageBaseColor;
 			armGlowmaskColor.A = 184;
 
+			(int, bool)[] armProperties = new (int, bool)[]
+			{
+				// Laser arm.
+				(-1, true),
+
+				// Gauss arm.
+				(1, true),
+
+				// Telsa arm.
+				(-1, false),
+
+				// Plasma arm.
+				(1, false),
+			};
+
+			// Swap out arm positions as necessary.
+			if (AIState == (int)Phase.Deathrays)
+				CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
+
 			if (laserArm != -1)
-				DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, -1, true);
+				DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, armProperties[0].Item1, armProperties[0].Item2);
 			if (gaussArm != -1)
-				DrawArm(spriteBatch, Main.npc[gaussArm].Center, armGlowmaskColor, 1, true);
+				DrawArm(spriteBatch, Main.npc[gaussArm].Center, armGlowmaskColor, armProperties[1].Item1, armProperties[1].Item2);
 			if (teslaArm != -1)
-				DrawArm(spriteBatch, Main.npc[teslaArm].Center, armGlowmaskColor, -1, false);
+				DrawArm(spriteBatch, Main.npc[teslaArm].Center, armGlowmaskColor, armProperties[2].Item1, armProperties[2].Item2);
 			if (plasmaArm != -1)
-				DrawArm(spriteBatch, Main.npc[plasmaArm].Center, armGlowmaskColor, 1, false);
+				DrawArm(spriteBatch, Main.npc[plasmaArm].Center, armGlowmaskColor, armProperties[3].Item1, armProperties[3].Item2);
 
 			Texture2D texture = Main.npcTexture[npc.type];
 			Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
