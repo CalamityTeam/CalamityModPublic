@@ -686,6 +686,16 @@ namespace CalamityMod.NPCs
 			//NPCID.WanderingEyeFish,
 			//NPCID.ZombieMerman,
 		};
+
+		public static List<int> BoundNPCIDs = new List<int>
+		{
+			NPCID.BoundGoblin,
+			NPCID.BoundWizard,
+			NPCID.BoundMechanic,
+			NPCID.SleepingAngler,
+			NPCID.BartenderUnconscious,
+			//NPCID.GolferRescue
+		};
 		#endregion
 
 		#region Instance Per Entity
@@ -1098,6 +1108,8 @@ namespace CalamityMod.NPCs
                 RevDeathStatChanges(npc, mod);
 
             OtherStatChanges(npc);
+
+			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
         }
 		#endregion
 

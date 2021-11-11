@@ -38,16 +38,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(2))
-            {
-                case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
-                    break;
-                case 1:
-                    type = ProjectileID.EnchantedBeam;
-                    break;
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer, 1f);
+			type = Utils.SelectRandom(Main.rand, new int[]
+			{
+				ModContent.ProjectileType<EonBeam>(),
+				ProjectileID.EnchantedBeam
+			});
+            int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+			if (Main.projectile[beam].type == ModContent.ProjectileType<EonBeam>())
+				Main.projectile[beam].penetrate = 2;
             float num72 = Main.rand.Next(18, 25);
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

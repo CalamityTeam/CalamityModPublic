@@ -1148,6 +1148,15 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region NPC Stat Changes
+		public static void BoundNPCSafety(Mod mod, NPC npc)
+		{
+			// Make Bound Town NPCs take no damage
+			if (CalamityGlobalNPC.BoundNPCIDs.Contains(npc.type))
+			{
+				npc.dontTakeDamageFromHostiles = true;
+			}
+		}
+
 		public static void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref int damage)
 		{
 			if (npc.townNPC && projectile.hostile)

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 3; //If you already have all 3, no need to resummon
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 4; //If you already have all 4, no need to resummon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

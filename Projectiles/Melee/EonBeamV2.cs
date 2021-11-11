@@ -30,9 +30,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			if (projectile.ai[0] == 1f) //True Ark of the Ancients
-				projectile.penetrate = 2;
-
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.3f / 255f, (255 - projectile.alpha) * 0.4f / 255f, (255 - projectile.alpha) * 1f / 255f);
             if (projectile.localAI[1] > 7f)
             {

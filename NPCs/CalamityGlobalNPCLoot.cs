@@ -1132,6 +1132,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.RedDevil:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), Main.expertMode ? 1f : 0.5f);
                     break;
 

@@ -2720,24 +2720,6 @@ namespace CalamityMod.CalPlayer
             //Overriding 1.4's ass req boosts
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
-
-            Mod fargos = CalamityMod.Instance.fargos;
-            if (fargos != null)
-            {
-                //Fargo's fountain effects
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type)
-                {
-                    ZoneSunkenSea = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type)
-                {
-                    ZoneSulphur = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type)
-                {
-                    ZoneAstral = true;
-                }
-            }
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -2862,7 +2844,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
-                if (!player.chaosState)
+                if (!player.CCed && !player.chaosState)
                 {
                     Vector2 teleportLocation;
                     teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
@@ -10899,6 +10881,8 @@ namespace CalamityMod.CalPlayer
                 light += underwater ? 2 : 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
+            if (littleLightPet)
+                light += 3;
             if (sirenPet)
                 light += underwater ? 3 : 1;
             if (player.wisp)
