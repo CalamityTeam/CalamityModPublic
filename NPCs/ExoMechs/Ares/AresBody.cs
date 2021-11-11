@@ -852,7 +852,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Swap out arm positions as necessary.
 			// Normal Position: Laser, Tesla, Plasma, Laser
-			npc.ai[3] = 4f;
 			switch ((int)npc.ai[3])
 			{
 				case 0:
