@@ -123,6 +123,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement += FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport += DisableTeleporters; // only applies in boss rush
@@ -191,6 +193,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement -= FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport -= DisableTeleporters;
@@ -342,6 +346,90 @@ namespace CalamityMod.ILEditing
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     calPlayer.SyncDodgeCooldown(false);
             });
+        }
+
+        private static void FixVanillaShieldSlams(ILContext il)
+        {
+            // Remove Shield of Cthulhu setting your iframes to an exact number and instead run Calamity's utility to safely provide iframes.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<bool>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Shield of Cthulhu immunity blinking set.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.ShieldOfCthulhuIFrames, false));
+
+            // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(150f)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Replace vanilla's base damage of 150 with Calamity's custom base damage.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, CalamityPlayer.SolarFlareBaseDamage);
+
+            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
+                return;
+            }
+
+            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with Calamity's calculation.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc_S, 12);
+            cursor.Emit(OpCodes.Conv_I4); // the equivalent of (int)num4;
+
+            // Move to the immunity frame setting code for the Solar Flare set bonus.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<bool>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.SolarFlareIFrames, false));
+        }
+
+        private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
+        {
+            // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<int>("eocDash"))) // Loading the remaining frames of the SoC dash
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
+                return;
+            }
+
+            // Find the 0 this is normally compared to. We will be replacing this value.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0)))
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate the zero comparison.");
+                return;
+            }
+
+            // Remove the zero and replace it with a calculated value.
+            // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 10 - CalamityPlayer.ShieldOfCthulhuBonkNoCollideFrames);
         }
 
         private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)

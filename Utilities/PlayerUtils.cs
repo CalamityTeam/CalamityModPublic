@@ -87,10 +87,49 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Gives the player the specified number of immunity frames (or "iframes" for short).<br />If the player already has more iframes than you want to give them, this function does nothing.
+		/// </summary>
+		/// <param name="player">The player who should be given immunity frames.</param>
+		/// <param name="frames">The number of immunity frames to give.</param>
+		/// <param name="blink">Whether or not the player should be blinking during this time.</param>
+		/// <returns>Whether or not any immunity frames were given.</returns>
+		public static bool GiveIFrames(this Player player, int frames, bool blink = false)
+		{
+			// Check to see if there is any way for the player to get iframes from this operation.
+			bool anyIFramesWouldBeGiven = false;
+			for (int i = 0; i < player.hurtCooldowns.Length; ++i)
+				if (player.hurtCooldowns[i] < frames)
+					anyIFramesWouldBeGiven = true;
+
+			// If they would get nothing, don't do it.
+			if (!anyIFramesWouldBeGiven)
+				return false;
+
+			// Apply iframes thoroughly.
+			player.immune = true;
+			player.immuneNoBlink = !blink;
+			player.immuneTime = frames;
+			for (int i = 0; i < player.hurtCooldowns.Length; ++i)
+				if (player.hurtCooldowns[i] < frames)
+					player.hurtCooldowns[i] = frames;
+			return true;
+		}
+
+		public static void RemoveAllIFrames(this Player player)
+		{
+			player.immune = false;
+			player.immuneNoBlink = false;
+			player.immuneTime = 0;
+			for (int i = 0; i < player.hurtCooldowns.Length; ++i)
+				player.hurtCooldowns[i] = 0;
+		}
+
+
+		/// <summary>
 		/// Returns the damage multiplier Adrenaline Mode provides for the given player.
 		/// </summary>
-		/// <param name="mp"></param>
-		/// <returns></returns>
+		/// <param name="mp">The player whose Adrenaline damage should be calculated.</param>
+		/// <returns>Adrenaline damage multiplier. 1.0 would be no change.</returns>
 		public static double GetAdrenalineDamage(this CalamityPlayer mp)
 		{
 			double adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;

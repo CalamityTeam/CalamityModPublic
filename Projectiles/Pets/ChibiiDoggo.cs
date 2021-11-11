@@ -239,12 +239,7 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
                     }
-                    player.immune = false;
-                    player.immuneTime = 0;
-					for (int j = 0; j < player.hurtCooldowns.Length; j++)
-					{
-						player.hurtCooldowns[j] = player.immuneTime;
-					}
+                    player.RemoveAllIFrames();
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                         SpawnDoggo();

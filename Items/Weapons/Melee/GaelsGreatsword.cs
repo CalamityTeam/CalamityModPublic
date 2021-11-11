@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         // Weapon attribute constants
         public static readonly int BaseDamage = 780;
-        public static readonly float TrueMeleeBoost = 2.5f;
         public static readonly float GiantSkullDamageMultiplier = 1.5f;
 
         // Weapon projectile attribute constants
@@ -34,10 +33,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
                 "First swing fires homing skulls\n" +
                 "Second swing fires a giant, powerful skull\n" +
-                "Third swing deals massive damage\n" +
+                "Third swing has no projectiles\n" +
                 "Constantly generates rage when in use\n" +
                 "Swings leave behind exploding blood trails when below 50% health\n" +
-                "Right click to swipe the sword, reflecting projectiles at a 50% chance\n" +
                 "Replaces Rage Mode with an enormous barrage of skulls");
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
@@ -63,15 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
         
-        public override bool AltFunctionUse(Player player) => true;
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
-
-        public override float UseTimeMultiplier	(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                return (12f/46f);
-            return 1f;
-        }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -121,22 +111,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
             }
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            //True melee boost
-            if (player.Calamity().gaelSwipes % 3 == 2)
-            {
-                damage = (int)(TrueMeleeBoost * damage);
-            }
-        }
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            //True melee boost
-            if (player.Calamity().gaelSwipes % 3 == 2)
-            {
-                damage = (int)(TrueMeleeBoost * damage);
-            }
-        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)

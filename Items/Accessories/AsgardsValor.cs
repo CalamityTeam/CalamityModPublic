@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -11,11 +9,13 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class AsgardsValor : ModItem
     {
+        public const int ShieldSlamIFrames = 6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
-				"Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
+                "Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
                 "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
                 "Grants a holy dash which can be used to ram enemies");
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dashMod = 2;
             player.noKnockback = true;
             player.fireWalk = true;
-			modPlayer.abaddon = true;
+            modPlayer.abaddon = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;

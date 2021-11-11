@@ -599,10 +599,6 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
 
-			// Shield of Cthulhu immunity frame nerf, nerfed from 10 to 6
-			if (player.eocDash > 6 && player.dashDelay > 0)
-				player.eocDash = 6;
-
 			// Life Steal nerf
 			// Reduces Normal Mode life steal recovery rate from 0.6/s to 0.5/s
 			// Reduces Expert Mode life steal recovery rate from 0.5/s to 0.35/s
@@ -1394,13 +1390,8 @@ namespace CalamityMod.CalPlayer
 			{
 				// The iframes from the evasion are disabled by Armageddon.
 				if (modPlayer.tarragonImmunity && !modPlayer.disableAllDodges)
-				{
-					player.immune = true;
-					player.immuneTime = 2;
+					player.GiveIFrames(2, true);
 
-					for (int k = 0; k < player.hurtCooldowns.Length; k++)
-						player.hurtCooldowns[k] = player.immuneTime;
-				}
 
 				if (modPlayer.tarraThrowingCrits >= 25)
 				{

@@ -1,11 +1,9 @@
 ﻿using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
@@ -76,8 +74,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		internal void ReelBack()
 		{
-			Owner.immune = true;
-			Owner.immuneTime = 15;
+			Owner.GiveIFrames(PhosphorescentGauntlet.OnHitIFrames);
 
 			// Create some visual effects.
 			if (!Main.dedServ)
