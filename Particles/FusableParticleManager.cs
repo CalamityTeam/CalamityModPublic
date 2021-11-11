@@ -37,7 +37,7 @@ namespace CalamityMod.Particles
 			}
 
 			// Otherwise, if a width and height are defined, but they are the exact same as the screen bounds,
-			// do nothing. This indicates that the render targets 
+			// do nothing. This indicates that the render targets already have the correct size and re-initailizing would be unnecessary.
 			else if (width == Main.screenWidth && height == Main.screenHeight)
 				return;
 
