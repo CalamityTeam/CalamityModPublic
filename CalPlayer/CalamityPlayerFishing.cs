@@ -425,7 +425,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}
-					else if (sunkenFish <= 2 && sunkenFish >= 0) // 3%
+					else if (sunkenFish <= 2 && sunkenFish >= 0 && CalamityWorld.downedDesertScourge) // 3%
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
 					}
