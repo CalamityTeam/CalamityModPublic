@@ -428,7 +428,7 @@ namespace CalamityMod.CalPlayer
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC target = Main.npc[i];
-				if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage)
+				if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC)
 					continue;
 
 				// Brighten the sigil because it is dealing damage. This can only happen once per hit event.
