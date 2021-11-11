@@ -257,7 +257,7 @@ namespace CalamityMod.CalPlayer
         public const int ShieldOfCthulhuIFrames = 6;
         public const int ShieldOfCthulhuBonkNoCollideFrames = 6;
         public const int SolarFlareIFrames = 12;
-        public const float SolarFlareBaseDamage = 800f;
+        public const float SolarFlareBaseDamage = 400f;
 
         // Dodge stats
         public const int BeltDodgeCooldown = 5400;
