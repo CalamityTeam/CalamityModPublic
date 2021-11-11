@@ -613,7 +613,8 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { };
 				string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
 				string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
-				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn);
+				string bossLogTex = "CalamityMod/NPCs/Abyss/AdultEidolonWyrm_BossChecklist";
+				AddBoss(bossChecklist, calamity, "Adult Eidolon Wyrm", order, type, DownedAdultEidolonWyrm, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 		}
 		
