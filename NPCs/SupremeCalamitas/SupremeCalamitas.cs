@@ -610,6 +610,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 attackCastDelay--;
                 npc.velocity *= 0.94f;
+                npc.damage = 0;
                 npc.dontTakeDamage = true;
 
                 // Make a magic effect over time.
