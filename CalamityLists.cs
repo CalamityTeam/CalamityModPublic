@@ -2440,7 +2440,10 @@ namespace CalamityMod
 
             bossMinionList = new List<int>()
             {
-                NPCType<DesertNuisanceHead>(),
+				NPCType<DriedSeekerHead>(),
+				NPCType<DriedSeekerBody>(),
+				NPCType<DriedSeekerTail>(),
+				NPCType<DesertNuisanceHead>(),
                 NPCType<DesertNuisanceBody>(),
                 NPCType<DesertNuisanceTail>(),
                 NPCID.SlimeSpiked,

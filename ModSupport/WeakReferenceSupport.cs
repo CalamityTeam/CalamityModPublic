@@ -506,7 +506,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("StormWeaver", out float order);
 				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>() };
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<StormWeaverBag>(), ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<SupremeHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<StormWeaverBag>(), ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<Thunderstorm>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<GodSlayerHornedHelm>(), ItemType<GodSlayerVisage>(), ItemType<AncientGodSlayerHelm>(), ItemType<AncientGodSlayerChestplate>(), ItemType<AncientGodSlayerLeggings>(), ItemType<KnowledgeSentinels>(), ItemType<LittleLight>() };
 				string instructions = $"Use a [i:{summon}] in Space";
 				string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
@@ -584,7 +584,7 @@ namespace CalamityMod
 			{
 				BossDifficulty.TryGetValue("ExoMechs", out float order);
 				List<int> bosses = new List<int>() { NPCType<Apollo>(), NPCType<AresBody>(), NPCType<Artemis>(), NPCType<ThanatosHead>() };
-				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>() };
+				List<int> loot = new List<int>() { ItemType<DraedonTreasureBag>(), ItemType<ExoPrism>(), ItemType<SpineOfThanatos>(), ItemType<PhotonRipper>(), ItemType<SurgeDriver>(), ItemType<TheJailor>(), ItemType<RefractionRotor>(), ItemType<TheAtomSplitter>(), ItemType<DraedonsHeart>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<AresTrophy>(), ItemType<ThanatosTrophy>(), ItemType<ArtemisTrophy>(), ItemType<ApolloTrophy>(), ItemType<DraedonMask>(), ItemType<AresMask>(), ItemType<ThanatosMask>(), ItemType<ArtemisMask>(), ItemType<ApolloMask>(), ItemType<KnowledgeExoMechs>() };
 				string instructions = "By using a high-tech computer";
 				string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
