@@ -2844,7 +2844,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
-                if (!player.chaosState)
+                if (!player.CCed && !player.chaosState)
                 {
                     Vector2 teleportLocation;
                     teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
