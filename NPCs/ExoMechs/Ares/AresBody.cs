@@ -854,6 +854,25 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (AIState == (int)Phase.Deathrays)
 				CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
 
+			// Normal Position: Laser, Tesla, Plasma, Laser
+			switch ((int)npc.ai[3])
+			{
+				// Gauss, Tesla, Plasma, Laser
+				case 1:
+					CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+					break;
+				// Gauss, Plasma, Telsa, Laser
+				case 2:
+				case 5:
+					CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+					CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+					break;
+				// Laser, Plasma, Telsa, Gauss
+				case 3:
+					CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+					break;
+			}
+
 			if (laserArm != -1)
 				DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, armProperties[0].Item1, armProperties[0].Item2);
 			if (gaussArm != -1)
