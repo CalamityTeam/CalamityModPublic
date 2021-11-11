@@ -851,25 +851,47 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			};
 
 			// Swap out arm positions as necessary.
-			if (AIState == (int)Phase.Deathrays)
-				CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
-
 			// Normal Position: Laser, Tesla, Plasma, Laser
+			npc.ai[3] = 4f;
 			switch ((int)npc.ai[3])
 			{
-				// Gauss, Tesla, Plasma, Laser
+				case 0:
+					if (AIState == (int)Phase.Deathrays)
+						CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
+					CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+					break;
 				case 1:
 					CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+					if (AIState == (int)Phase.Deathrays)
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 3);
 					break;
-				// Gauss, Plasma, Telsa, Laser
 				case 2:
-				case 5:
-					CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
-					CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+					if (AIState != (int)Phase.Deathrays)
+					{
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+						CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+					}
+					else
+					{
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+						CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 2);
+					}
 					break;
-				// Laser, Plasma, Telsa, Gauss
 				case 3:
 					CalamityUtils.SwapArrayIndices(ref armProperties, 2, 3);
+					break;
+				case 4:
+					CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
+					break;
+				case 5:
+					if (AIState != (int)Phase.Deathrays)
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 1);
+					else
+					{
+						CalamityUtils.SwapArrayIndices(ref armProperties, 0, 3);
+						CalamityUtils.SwapArrayIndices(ref armProperties, 1, 3);
+					}
 					break;
 			}
 
