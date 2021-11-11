@@ -2720,24 +2720,6 @@ namespace CalamityMod.CalPlayer
             //Overriding 1.4's ass req boosts
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
-
-            Mod fargos = CalamityMod.Instance.fargos;
-            if (fargos != null)
-            {
-                //Fargo's fountain effects
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type)
-                {
-                    ZoneSunkenSea = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type)
-                {
-                    ZoneSulphur = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type)
-                {
-                    ZoneAstral = true;
-                }
-            }
         }
 
         public override bool CustomBiomesMatch(Player other)

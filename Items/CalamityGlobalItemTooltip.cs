@@ -62,9 +62,6 @@ namespace CalamityMod.Items
 			if (item.type < ItemID.Count)
 				return;
 
-			// Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
-			FargoFountainTooltip(item, tooltips);
-
 			// Adds a Current Charge tooltip to all items which use charge.
 			CalamityGlobalItem modItem = item.Calamity();
 			if (modItem?.UsesCharge ?? false)
@@ -520,8 +517,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.MonkShirt)
 				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
 			if (item.type == ItemID.MonkPants)
-				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
-				"20% increased movement speed");
+			{
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance");
+				EditTooltipByNum(1, (line) => line.text = "20% increased movement speed");
+			}
 
 			// Huntress armor
 			if (item.type == ItemID.HuntressJerkin)
@@ -1077,30 +1076,6 @@ namespace CalamityMod.Items
 			return true;
 		}
 		#endregion
-
-		#region Fargo Biome Fountain Tooltip
-		private void FargoFountainTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityMod.Instance.fargos is null)
-				return;
-
-			if (item.type == ModContent.ItemType<SunkenSeaFountain>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
-				tooltips.Add(line);
-			}
-			if (item.type == ModContent.ItemType<SulphurousFountainItem>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
-				tooltips.Add(line);
-			}
-			if (item.type == ModContent.ItemType<AstralFountainItem>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
-				tooltips.Add(line);
-			}
-		}
-        #endregion
 
         #region Schematic Knowledge Tooltip Utility
 		public static void InsertKnowledgeTooltip(List<TooltipLine> tooltips, int tier, bool allowOldWorlds = false)
