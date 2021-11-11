@@ -17,6 +17,7 @@ namespace CalamityMod.World
     public static class DraedonStructures
     {
         private static int[] otherModTilesToAvoid;
+        public const int HellVerticalAvoidance = 100;
 
         internal static void Load()
         {
@@ -393,7 +394,7 @@ namespace CalamityMod.World
             {
                 int underworldTop = Main.maxTilesY - 200;
                 int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
-                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
+                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop - HellVerticalAvoidance);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
@@ -471,7 +472,7 @@ namespace CalamityMod.World
             {
                 int underworldTop = Main.maxTilesY - 200;
                 int placementPositionX = WorldGen.genRand.Next(120, Main.maxTilesX - 120);
-                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
+                int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop - HellVerticalAvoidance);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
