@@ -537,6 +537,9 @@ namespace CalamityMod.NPCs.HiveMind
 				if (burrowTimer < -120)
 				{
 					burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 55;
+					if (burrowTimer < 30)
+						burrowTimer = 30;
+
 					npc.scale = 1f;
 					npc.alpha = 0;
 					npc.dontTakeDamage = false;
