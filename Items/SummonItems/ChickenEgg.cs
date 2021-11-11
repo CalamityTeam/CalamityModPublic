@@ -11,7 +11,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jungle Dragon Egg");
+            DisplayName.SetDefault("Dragon Egg");
             Tooltip.SetDefault("Summons the loyal guardian of the tyrant king\n" +
                                "It yearns for the jungle\n" +
                                "Not consumable");
