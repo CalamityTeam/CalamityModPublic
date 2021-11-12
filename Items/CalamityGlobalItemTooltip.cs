@@ -62,9 +62,6 @@ namespace CalamityMod.Items
 			if (item.type < ItemID.Count)
 				return;
 
-			// Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
-			FargoFountainTooltip(item, tooltips);
-
 			// Adds a Current Charge tooltip to all items which use charge.
 			CalamityGlobalItem modItem = item.Calamity();
 			if (modItem?.UsesCharge ?? false)
@@ -125,8 +122,6 @@ namespace CalamityMod.Items
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
 			if (item.type == ModContent.ItemType<RedSun>())
 				nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
-			if (item.type == ModContent.ItemType<GaelsGreatsword>())
-				nameLine.overrideColor = new Color(146, 0, 0);
 			if (item.type == ModContent.ItemType<CrystylCrusher>())
 				nameLine.overrideColor = new Color(129, 29, 149);
 			if (item.type == ModContent.ItemType<Svantechnical>())
@@ -233,6 +228,8 @@ namespace CalamityMod.Items
 				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
 			if (item.type == ModContent.ItemType<TheCommunity>())
 				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+			if (item.type == ModContent.ItemType<GaelsGreatsword>())
+				legendaryColor = new Color(146, 0, 0);
 
 			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
 			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop -";
@@ -355,7 +352,7 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
 			#endregion
 
-			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
+			// Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
 			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
 				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
@@ -520,8 +517,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.MonkShirt)
 				EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
 			if (item.type == ItemID.MonkPants)
-				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
-				"20% increased movement speed");
+			{
+				EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance");
+				EditTooltipByNum(1, (line) => line.text = "20% increased movement speed");
+			}
 
 			// Huntress armor
 			if (item.type == ItemID.HuntressJerkin)
@@ -1077,30 +1076,6 @@ namespace CalamityMod.Items
 			return true;
 		}
 		#endregion
-
-		#region Fargo Biome Fountain Tooltip
-		private void FargoFountainTooltip(Item item, IList<TooltipLine> tooltips)
-		{
-			if (CalamityMod.Instance.fargos is null)
-				return;
-
-			if (item.type == ModContent.ItemType<SunkenSeaFountain>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
-				tooltips.Add(line);
-			}
-			if (item.type == ModContent.ItemType<SulphurousFountainItem>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
-				tooltips.Add(line);
-			}
-			if (item.type == ModContent.ItemType<AstralFountainItem>())
-			{
-				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
-				tooltips.Add(line);
-			}
-		}
-        #endregion
 
         #region Schematic Knowledge Tooltip Utility
 		public static void InsertKnowledgeTooltip(List<TooltipLine> tooltips, int tier, bool allowOldWorlds = false)

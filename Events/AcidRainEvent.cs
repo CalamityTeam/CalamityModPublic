@@ -191,7 +191,7 @@ namespace CalamityMod.Events
             {
                 CalamityWorld.acidRainPoints = 0;
                 CalamityWorld.triedToSummonOldDuke = false;
-                AcidRainEvent.UpdateInvasion(false);
+                UpdateInvasion(false);
             }
             if (!CalamityWorld.startAcidicDownpour)
             {

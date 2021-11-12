@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.rare = ItemRarityID.Yellow;
 			item.Calamity().donorItem = true;
 			item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
-			item.shootSpeed = 5f;
+			item.shootSpeed = 8.5f;
 			item.Calamity().rogue = true;
 		}
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int dagger = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CorpusAvertorStealth>(), damage * 2, knockBack * 2f, player.whoAmI);
+				int dagger = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CorpusAvertorStealth>(), (int)(damage * 3.5f), knockBack * 2f, player.whoAmI);
 				if (dagger.WithinBounds(Main.maxProjectiles))
 					Main.projectile[dagger].Calamity().stealthStrike = true;
 				return false;

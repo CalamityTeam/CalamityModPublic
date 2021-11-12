@@ -35,14 +35,18 @@ namespace CalamityMod.Projectiles.Rogue
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             if (projectile.Calamity().stealthStrike)
             {
+				// Die early.
+				if (projectile.timeLeft < 240)
+					projectile.Kill();
+
 				projectile.localAI[0] += Main.rand.Next(0,3);
-                if (projectile.localAI[0] >= 10f)
-                {
+				if (projectile.localAI[0] >= 10f)
+				{
 					projectile.localAI[0] = 0f;
-					Projectile.NewProjectile(projectile.Center + new Vector2(Main.rand.NextFloat(-10f,10f), Main.rand.NextFloat(-10f,10f)),
-						(projectile.velocity).RotatedByRandom(0.1f) * 0.25f,
-						ModContent.ProjectileType<MangroveChakramFlower>(), projectile.damage / 4, 0f, projectile.owner);
-                }
+					Vector2 flowerSpawnPosition = projectile.Center + Main.rand.NextVector2Square(-10f, 10f);
+					Vector2 flowerShootVelocity = projectile.velocity.RotatedByRandom(0.1f) * 0.25f;
+					Projectile.NewProjectile(flowerSpawnPosition, flowerShootVelocity, ModContent.ProjectileType<MangroveChakramFlower>(), projectile.damage / 4, 0f, projectile.owner);
+				}
             }
 		}
 

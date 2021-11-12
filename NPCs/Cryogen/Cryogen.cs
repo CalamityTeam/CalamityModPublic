@@ -27,7 +27,8 @@ namespace CalamityMod.NPCs.Cryogen
     [AutoloadBossHead]
     public class Cryogen : ModNPC
     {
-        private int time = 0;
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+		private int time = 0;
         private int iceShard = 0;
         private int currentPhase = 1;
         private int teleportLocationX = 0;
@@ -66,7 +67,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(time);
+			writer.Write(biomeEnrageTimer);
+			writer.Write(time);
             writer.Write(iceShard);
             writer.Write(teleportLocationX);
             writer.Write(npc.dontTakeDamage);
@@ -76,7 +78,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            time = reader.ReadInt32();
+			biomeEnrageTimer = reader.ReadInt32();
+			time = reader.ReadInt32();
             iceShard = reader.ReadInt32();
             teleportLocationX = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
@@ -106,8 +109,19 @@ namespace CalamityMod.NPCs.Cryogen
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
+			// Enrage
+			if (!player.ZoneSnow && !BossRushEvent.BossRushActive)
+			{
+				if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
+			}
+			else
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+
 			float enrageScale = death ? 0.5f : 0f;
-			if (!player.ZoneSnow || malice)
+			if (biomeEnraged)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
@@ -263,7 +277,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
                 float num1246 = revenge ? 5f : 4f;
-				num1246 += 2f * enrageScale;
+				num1246 += 4f * enrageScale;
 
                 num1245 = num1246 / num1245;
                 num1243 *= num1245;
@@ -475,7 +489,7 @@ namespace CalamityMod.NPCs.Cryogen
 					float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
 					float num1246 = revenge ? 7f : 6f;
-					num1246 += 2f * enrageScale;
+					num1246 += 4f * enrageScale;
 
 					num1245 = num1246 / num1245;
 					num1243 *= num1245;
@@ -599,7 +613,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
 
                 float speed = revenge ? 5.5f : 5f;
-				speed += 1.5f * enrageScale;
+				speed += 3f * enrageScale;
 
                 num1245 = speed / num1245;
                 num1243 *= num1245;
@@ -1149,7 +1163,28 @@ namespace CalamityMod.NPCs.Cryogen
             CalamityNetcode.SyncWorld();
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 40f;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 120, true);
             player.AddBuff(BuffID.Chilled, 90, true);

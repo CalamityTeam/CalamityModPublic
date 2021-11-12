@@ -166,8 +166,6 @@ namespace CalamityMod.Projectiles.Environment
 			}
 		}
 
-        public override bool CanDamage() => false;
-
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);

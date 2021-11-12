@@ -83,6 +83,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
 			npc.boss = true;
+			npc.hide = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 		}
 
@@ -267,11 +268,30 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			}
 
 			// Default vector to fly to
-			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
+			float offsetX = 560f;
+			float offsetY = 0f;
+			float offsetX2 = 540f;
+			float offsetY2 = 540f;
+			switch ((int)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ai[3])
+			{
+				case 0:
+				case 3:
+				case 4:
+					break;
+
+				case 1:
+				case 2:
+				case 5:
+					offsetX *= -1f;
+					offsetX2 *= -1f;
+					offsetY2 *= -1f;
+					break;
+			}
+			Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX2, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY2) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY);
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-			float baseVelocity = (enraged ? 33f : 25f) * baseVelocityMult;
+			float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 
@@ -525,6 +545,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
+		}
+
+		public override void DrawBehind(int index)
+		{
+			Main.instance.DrawCacheNPCProjectiles.Add(index);
 		}
 
 		public override bool PreNPCLoot() => false;

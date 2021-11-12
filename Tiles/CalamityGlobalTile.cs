@@ -589,7 +589,8 @@ namespace CalamityMod.Tiles
 			{
 				ModContent.TileType<DraedonLabTurret>(),
 				ModContent.TileType<AstralBeacon>(),
-				ModContent.TileType<CodebreakerTile>()
+				ModContent.TileType<CodebreakerTile>(),
+				ModContent.TileType<SCalAltar>()
 			};
 
 			Tile checkTile = CalamityUtils.ParanoidTileRetrieval(x, y);

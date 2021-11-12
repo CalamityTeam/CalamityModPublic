@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 150;
+			item.damage = 260;
 			item.knockBack = 5f;
 			item.useAnimation = item.useTime = 25;
 			item.useStyle = ItemUseStyleID.SwingThrow;
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				// Directly nerf stealth strikes by 20%, but only stealth strikes.
-				int stealthDamage = (int)(damage * 0.8f);
+				// Directly nerf stealth strikes by 32%, but only stealth strikes.
+				int stealthDamage = (int)(damage * 0.72f);
 				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, stealthDamage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;

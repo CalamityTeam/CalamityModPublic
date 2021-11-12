@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Accessories
 	[AutoloadEquip(EquipType.Shield)]
 	public class OrnateShield : ModItem
     {
+        public const int ShieldSlamIFrames = 4;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ornate Shield");

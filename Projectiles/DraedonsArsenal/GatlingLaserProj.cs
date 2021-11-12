@@ -146,5 +146,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			player.itemAnimation = 2;
 			player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
 		}
+
+		public override bool CanDamage() => false;
 	}
 }

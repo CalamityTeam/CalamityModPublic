@@ -196,6 +196,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.chaseable = true;
 					npc.HitSound = SoundID.NPCHit13;
 					npc.DeathSound = SoundID.NPCDeath13;
+					npc.frame = new Rectangle(0, 0, 62, 86);
 				}
 			}
 
@@ -619,7 +620,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 			bool shedArmor = npc.life / (float)npc.lifeMax < 0.9f;
 			Texture2D texture2D15 = shedArmor ? ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked") : Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+			Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;

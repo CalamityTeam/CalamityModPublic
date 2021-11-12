@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Yharon's Kindle Staff");
             Tooltip.SetDefault("Summons the Son of Yharon to fight for you\n" +
-                               "Requires 4 minion slots to use");
+                               "Requires 5 minion slots to use");
         }
 
         public override void SetDefaults()

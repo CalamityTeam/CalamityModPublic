@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Prismatic Helmet");
-			Tooltip.SetDefault("8% increased magic damage and 12% increased magic crit\n" +
+			Tooltip.SetDefault("18% increased magic damage and 12% increased magic crit\n" +
 				"20% decreased non-magic damage\n" +
 				"Enemies with less than 500 max health deal no contact damage\n" +
 				"This does not occur while a boss is alive");
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor
 			player.Calamity().prismaticHelmet = true;
 			player.allDamage -= 0.2f;
 			player.magicDamage += 0.2f;
-			player.magicDamage += 0.08f;
+			player.magicDamage += 0.18f;
 			player.magicCrit += 12;
 		}
 

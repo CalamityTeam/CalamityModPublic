@@ -72,7 +72,14 @@ namespace CalamityMod.Projectiles.Magic
         }
 
 		// Cannot deal damage for the first several frames of existence.
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 110;
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.timeLeft >= 110)
+			{
+				return false;
+			}
+			return null;
+		}
 
 		public override bool CanHitPvp(Player target) => projectile.timeLeft < 110;
     }

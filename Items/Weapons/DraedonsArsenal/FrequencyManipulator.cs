@@ -56,6 +56,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			if (player.Calamity().StealthStrikeAvailable())
+				damage = (int)(damage * 0.9f);
+
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (proj.WithinBounds(Main.maxProjectiles))
 				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

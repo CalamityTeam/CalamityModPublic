@@ -12,7 +12,6 @@ namespace CalamityMod.Buffs.Pets
             DisplayName.SetDefault("Archer of Lunamoon");
             Description.SetDefault("You have a personal spotter");
             Main.buffNoTimeDisplay[Type] = true;
-            Main.lightPet[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

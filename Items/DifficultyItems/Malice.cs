@@ -17,21 +17,25 @@ namespace CalamityMod.Items.DifficultyItems
         {
             DisplayName.SetDefault("Malice");
             Tooltip.SetDefault("Enables/disables Malice Mode.\n" +
+                // Overall description and warning lines
+                "[c/c01818:This mode is intentionally extremely hard. You should prepare as much as possible.]\n" +
+                "[c/c01818:You will need to master a boss inside and out to defeat it on-tier.]\n" +
+                "While enabled, bosses will drop Challenge and Legendary Challenge items.\n" +
 
-				// Misc lines
-				"Greatly nerfs the effectiveness of life steal.\n" +
-				"Nerfs the effectiveness of the Titanium Armor set bonus, doesn't stack with Revengeance Mode.\n" +
-				"The Nurse no longer heals you while a boss is alive.\n" +
-				"Defense damage is 5% higher than Death Mode.\n" +
-				"Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
+                // Misc lines
+                "Greatly nerfs the effectiveness of life steal.\n" +
+                "Nerfs the effectiveness of the Titanium Armor set bonus, doesn't stack with Revengeance Mode.\n" +
+                "The Nurse no longer heals you while a boss is alive.\n" +
+                "Defense damage is 5% higher than Death Mode.\n" +
+                "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
 
-				// Boss lines
-				"All boss minions no longer drop hearts.\n" +
-				"Gives every boss a new enraged AI and allows them to drop special items.\n" +
-				"Bosses and their projectiles deal 35% more damage.\n" +
-				"Most bosses will enter later phases sooner if the fight has gone on for a long time.\n" +
-				"Increases the velocity of most boss projectiles by 25%, this is increased to 35% during Boss Rush.\n" +
-				"Boss reactive DR is always active outside of Boss Rush and is increased by 50%.");
+                // Boss lines
+                "All boss minions no longer drop hearts.\n" +
+                "Gives every boss a new enraged AI and allows them to drop special items.\n" +
+                "Bosses and their projectiles deal 35% more damage.\n" +
+                "Most bosses will enter later phases sooner if the fight has gone on for a long time.\n" +
+                "Increases the velocity of most boss projectiles by 25%, this is increased to 35% during Boss Rush.\n" +
+                "Boss reactive DR is always active outside of Boss Rush and is increased by 50%.");
         }
 
         public override void SetDefaults()

@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Lucrecia : ModItem
     {
+        public const int OnHitIFrames = 5;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lucrecia");
@@ -66,28 +67,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			bool isImmune = false;
-			for (int j = 0; j < player.hurtCooldowns.Length; j++)
-			{
-				if (player.hurtCooldowns[j] > 0)
-					isImmune = true;
-			}
-			if (!isImmune)
-            {
-                player.immune = true;
-                player.immuneTime = item.useTime / 5;
-            }
+            player.GiveIFrames(OnHitIFrames, false);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			bool isImmune = false;
-			for (int j = 0; j < player.hurtCooldowns.Length; j++)
-			{
-				if (player.hurtCooldowns[j] > 0)
-					isImmune = true;
-			}
-			if (!isImmune)
+            bool isImmune = false;
+            for (int j = 0; j < player.hurtCooldowns.Length; j++)
+            {
+                if (player.hurtCooldowns[j] > 0)
+                    isImmune = true;
+            }
+            if (!isImmune)
             {
                 player.immune = true;
                 player.immuneTime = item.useTime / 5;

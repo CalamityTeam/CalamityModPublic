@@ -1,16 +1,15 @@
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class MagicNebulaShot : BaseLaserbeamProjectile
+	public class DeathhailBeam : BaseLaserbeamProjectile
 	{
-        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+		public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
 		private Color startingColor = new Color(119, 210, 255);
 		private Color secondColor = new Color(247, 119, 255);
@@ -25,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Nebula Shot");
+			DisplayName.SetDefault("Deathhail");
 		}
 
 		public override void SetDefaults()
@@ -35,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
-			projectile.localNPCHitCooldown = 8;
+			projectile.localNPCHitCooldown = -1;
 			projectile.usesLocalNPCImmunity = true;
 		}
 

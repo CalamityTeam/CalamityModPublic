@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Masked Cap");
-            Tooltip.SetDefault("13% increased magic damage and critical strike chance\n" +
+            Tooltip.SetDefault("23% increased magic damage and 13% increased magic critical strike chance\n" +
                 "+100 max mana and 19% reduced mana usage");
         }
 
@@ -47,13 +47,13 @@ namespace CalamityMod.Items.Armor
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
                 "This effect only triggers once per life\n" +
-                "Magic projectiles have a 10% chance to cause a massive explosion on enemy hits";
+                "Magic projectiles which cannot pierce will occasionally set off potent blasts of nature energy";
         }
 
         public override void UpdateEquip(Player player)
         {
             player.manaCost *= 0.81f;
-            player.magicDamage += 0.13f;
+            player.magicDamage += 0.23f;
             player.magicCrit += 13;
             player.statManaMax2 += 100;
         }

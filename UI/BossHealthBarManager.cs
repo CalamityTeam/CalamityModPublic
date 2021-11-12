@@ -178,7 +178,6 @@ namespace CalamityMod.UI
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
-                NPCID.MoonLordCore,
                 NPCID.WyvernLegs,
                 NPCID.WyvernBody,
                 NPCID.WyvernBody2,
@@ -370,10 +369,7 @@ namespace CalamityMod.UI
                 return;
 
             // Do not attempt to create a new bar for an NPC that's already in the list of bars.
-            bool canAddBar = Main.npc[index].active && Main.npc[index].life > 0 && Bars.All(b => b.NPCIndex != index);
-            if (Bars.Count <= 0)
-                canAddBar = true;
-
+            bool canAddBar = Main.npc[index].active && Main.npc[index].life > 0 && Bars.All(b => b.NPCIndex != index) && !Main.npc[index].Calamity().ShouldCloseHPBar;
             if (canAddBar)
                 Bars.Add(new BossHPUI(index));
         }
@@ -554,7 +550,7 @@ namespace CalamityMod.UI
                     ComboDamageCountdown--;
 
                 // Update timers as necessary.
-                if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType)
+                if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType || AssociatedNPC.Calamity().ShouldCloseHPBar)
                 {
                     EnrageTimer = Utils.Clamp(EnrageTimer - 4, 0, EnrageAnimationTime);
                     CloseAnimationTimer = Utils.Clamp(CloseAnimationTimer + 1, 0, CloseAnimationTime);

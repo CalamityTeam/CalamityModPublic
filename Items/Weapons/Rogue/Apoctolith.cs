@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			//Check if stealth is full
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.25f), knockBack, player.whoAmI);
 				if (p.WithinBounds(Main.maxProjectiles))
 					Main.projectile[p].Calamity().stealthStrike = true;
 				return false;

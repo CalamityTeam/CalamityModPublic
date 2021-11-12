@@ -60,9 +60,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // Every so often, generate some lightning at a nearby enemy, if one exists.
             if (Time % LightningFireRate == 0f && Main.myPlayer == projectile.owner)
             {
+                int lightningDamage = projectile.damage;
+                int totalSystemBanes = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+
+                // Make the damage of the lightning have diminishing returns depending on how many systems are present.
+                lightningDamage = (int)Math.Ceiling(lightningDamage / Math.Pow(totalSystemBanes, 1D / 3D));
+
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(900f);
                 if (potentialTarget != null)
-                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), lightningDamage, projectile.knockBack, projectile.owner);
             }
 
             // Sometimes generate lightning from the outside of the energy field if the projectile was spawned by a stealth strike.

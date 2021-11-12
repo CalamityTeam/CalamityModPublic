@@ -99,6 +99,8 @@ namespace CalamityMod.Projectiles.Boss
 
             float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
             float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;
+			if (Main.npc[OwnerIndex].ai[3] % 2f == 0f)
+				angularVelocity *= -1f;
 
             // Update the direction and rotation of the laser.
             projectile.velocity = projectile.velocity.RotatedBy(angularVelocity);

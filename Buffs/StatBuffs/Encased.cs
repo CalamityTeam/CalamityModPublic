@@ -22,12 +22,8 @@ namespace CalamityMod.Buffs.StatBuffs
             if (player.buffTime[buffIndex] == 2)
             {
                 Main.PlaySound(SoundID.Item27, player.position);
-                player.immune = true;
-                player.immuneNoBlink = false;
-                player.immuneTime = 90;
-				for (int j = 0; j < player.hurtCooldowns.Length; j++)
-					player.hurtCooldowns[j] = player.immuneTime;
-			}
+                player.GiveIFrames(90, true);
+            }
         }
     }
 }

@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Summon
             cinder.scale = 1f + cinder.velocity.Length() * 0.17f;
             cinder.noGravity = true;
 
-            int shootRate = (int)MathHelper.Lerp(24f, 3f, Utils.InverseLerp(0f, 300f, AttackTime, true));
+            int shootRate = (int)MathHelper.Lerp(24f, 6f, Utils.InverseLerp(0f, 300f, AttackTime, true));
             AttackTimer++;
 
             if (AttackTimer < shootRate || Main.myPlayer != projectile.owner)

@@ -29,6 +29,23 @@ namespace CalamityMod
 				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
 		}
 
+		// Yes, this method has a use that Utils.Swap does not; You cannot use refs on array indices.
+		// The CLR will not allow that. As such, a custom method must be used to achieve this.
+
+		/// <summary>
+		/// Swaps two array indices based on a temporary variable.
+		/// </summary>
+		/// <typeparam name="T">The type of the array.</typeparam>
+		/// <param name="array">The array.</param>
+		/// <param name="index1">The first index to swap.</param>
+		/// <param name="index2">The second index to swap.</param>
+		public static void SwapArrayIndices<T>(ref T[] array, int index1, int index2)
+		{
+			T temp = array[index1];
+			array[index1] = array[index2];
+			array[index2] = temp;
+		}
+
 		public static T[] ShuffleArray<T>(T[] array, Random rand = null)
 		{
 			if (rand is null)

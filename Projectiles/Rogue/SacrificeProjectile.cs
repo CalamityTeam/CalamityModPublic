@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Sacrifice";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sacrifice");
+            DisplayName.SetDefault("Sacrificial Dagger");
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
         }
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 9;
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(AbleToHealOwner);

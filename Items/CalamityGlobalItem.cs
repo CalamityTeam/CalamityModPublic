@@ -116,704 +116,28 @@ namespace CalamityMod.Items
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
-            if (item.maxStack == 99)
+            // All items that stack to 99 now stack to 999 instead.
+			if (item.maxStack == 99)
                 item.maxStack = 999;
 
-			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
-				item.useTurn = true;
-
-            if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
-                item.autoReuse = true;
-
-			if (CalamityLists.fiftySizeBuffList?.Contains(item.type) ?? false)
-				item.scale = 1.5f;
-
-			if (CalamityLists.twentyUseTimeBuffList?.Contains(item.type) ?? false)
-			{
-				item.useTime = (int)(item.useTime * 0.8);
-				item.useAnimation = (int)(item.useAnimation * 0.8);
-			}
-
-			switch (item.type)
-			{
-                // Vanilla summon weapons speed boosts and autouse
-
-                /* case ItemID.FlinxStaff:
-                case ItemID.BabyBirdStaff:
-                    item.useTime = item.useAnimation = 35;
-                    item.autoReuse = true;
-                */
-
-                case ItemID.SlimeStaff:
-                //case ItemID.VampireFrogStaff:
-                case ItemID.HornetStaff:
-                case ItemID.ImpStaff:
-                    item.useTime = item.useAnimation = 30;
-                    item.autoReuse = true;
-                    break;
-
-                case ItemID.DD2LightningAuraT1Popper:
-                case ItemID.DD2ExplosiveTrapT1Popper:
-                case ItemID.DD2BallistraTowerT1Popper:
-                case ItemID.DD2FlameburstTowerT1Popper:
-                    item.useTime = item.useAnimation = 30;
-                    break;
-
-                case ItemID.SpiderStaff:
-                case ItemID.PirateStaff:
-                case ItemID.OpticStaff:
-                //case ItemID.SanguineStaff:
-                //case ItemID.Smolstar:
-                    item.useTime = item.useAnimation = 25;
-                    item.autoReuse = true;
-                    break;
-
-                case ItemID.QueenSpiderStaff:
-                case ItemID.DD2LightningAuraT2Popper:
-                case ItemID.DD2ExplosiveTrapT2Popper:
-                case ItemID.DD2BallistraTowerT2Popper:
-                case ItemID.DD2FlameburstTowerT2Popper:
-                    item.useTime = item.useAnimation = 25;
-                    break;
-
-                case ItemID.PygmyStaff:
-                //case ItemID.StormTigerStaff:
-                case ItemID.DeadlySphereStaff:
-                case ItemID.RavenStaff:
-                case ItemID.XenoStaff:
-                case ItemID.TempestStaff:
-                //case ItemID.EmpressBlade
-                case ItemID.StardustCellStaff:
-                    item.useTime = item.useAnimation = 20;
-                    item.autoReuse = true;
-                    break;
-
-                case ItemID.StaffoftheFrostHydra:
-                case ItemID.DD2LightningAuraT3Popper:
-                case ItemID.DD2ExplosiveTrapT3Popper:
-                case ItemID.DD2BallistraTowerT3Popper:
-                case ItemID.DD2FlameburstTowerT3Popper:
-                    item.useTime = item.useAnimation = 20;
-                    break;
-
-                case ItemID.MoonlordTurretStaff:
-                case ItemID.RainbowCrystalStaff:
-                    item.useTime = item.useAnimation = 15;
-                    break;
-
-                // Pickaxe speed boosts
-                case ItemID.CactusPickaxe:
-				case ItemID.CopperPickaxe:
-				case ItemID.TinPickaxe:
-					item.useTime = 13;
-					break;
-
-				case ItemID.IronPickaxe:
-				case ItemID.LeadPickaxe:
-					item.useTime = 12;
-					break;
-
-				case ItemID.SilverPickaxe:
-				case ItemID.TungstenPickaxe:
-					item.useTime = 11;
-					break;
-
-				case ItemID.GoldPickaxe:
-				case ItemID.PlatinumPickaxe:
-				case ItemID.CnadyCanePickaxe:
-				case ItemID.NightmarePickaxe:
-				case ItemID.DeathbringerPickaxe:
-				case ItemID.MoltenPickaxe:
-					item.useTime = 10;
-					break;
-
-				case ItemID.CobaltPickaxe:
-				case ItemID.PalladiumPickaxe:
-					item.useTime = 9;
-					break;
-
-				case ItemID.MythrilPickaxe:
-				case ItemID.OrichalcumPickaxe:
-				case ItemID.BonePickaxe: // Rare drop so it mines faster
-					item.useTime = 8;
-					break;
-
-				case ItemID.AdamantitePickaxe:
-				case ItemID.TitaniumPickaxe:
-				case ItemID.SpectrePickaxe: // Slightly less because it has more tile range
-					item.useTime = 7;
-					break;
-
-				case ItemID.PickaxeAxe:
-				case ItemID.ChlorophytePickaxe:
-					item.useTime = 6;
-					break;
-
-				case ItemID.Picksaw:
-				case ItemID.StardustPickaxe:
-				case ItemID.VortexPickaxe:
-				case ItemID.SolarFlarePickaxe:
-				case ItemID.NebulaPickaxe:
-					item.useTime = 5;
-					break;
-
-				// Point-blank shot weapons
-				case ItemID.WoodenBow:
-				case ItemID.BorealWoodBow:
-				case ItemID.PalmWoodBow:
-				case ItemID.RichMahoganyBow:
-				case ItemID.CopperBow:
-				case ItemID.TinBow:
-				case ItemID.ShadewoodBow:
-				case ItemID.EbonwoodBow:
-				case ItemID.IronBow:
-				case ItemID.LeadBow:
-				case ItemID.SilverBow:
-				case ItemID.TungstenBow:
-				case ItemID.GoldBow:
-				case ItemID.PlatinumBow:
-				case ItemID.DemonBow:
-				case ItemID.TendonBow:
-				case ItemID.MoltenFury:
-				case ItemID.BeesKnees:
-				case ItemID.HellwingBow:
-				case ItemID.FlareGun:
-				case ItemID.Minishark:
-				case ItemID.Blowpipe:
-				case ItemID.FlintlockPistol:
-				case ItemID.SnowballCannon:
-				case ItemID.Boomstick:
-				case ItemID.Revolver:
-				case ItemID.RedRyder:
-				case ItemID.Sandgun:
-				case ItemID.Musket:
-				case ItemID.TheUndertaker:
-				case ItemID.Blowgun:
-				//case ItemID.QuadBarrelShotgun:
-				case ItemID.Handgun:
-				case ItemID.PhoenixBlaster:
-				case ItemID.PainterPaintballGun:
-				case ItemID.Harpoon:
-				case ItemID.IceBow:
-				case ItemID.ShadowFlameBow:
-				case ItemID.Marrow:
-				case ItemID.PulseBow:
-				case ItemID.DD2PhoenixBow:
-				case ItemID.Tsunami:
-				//case ItemID.Eventide:
-				case ItemID.Phantasm:
-				case ItemID.CobaltRepeater:
-				case ItemID.PalladiumRepeater:
-				case ItemID.MythrilRepeater:
-				case ItemID.OrichalcumRepeater:
-				case ItemID.AdamantiteRepeater:
-				case ItemID.TitaniumRepeater:
-				case ItemID.HallowedRepeater:
-				case ItemID.ChlorophyteShotbow:
-				case ItemID.StakeLauncher:
-				case ItemID.ClockworkAssaultRifle:
-				case ItemID.Gatligator:
-				case ItemID.Shotgun:
-				case ItemID.OnyxBlaster:
-				case ItemID.Uzi:
-				case ItemID.DartRifle:
-				case ItemID.DartPistol:
-				case ItemID.Megashark:
-				case ItemID.VenusMagnum:
-				case ItemID.TacticalShotgun:
-				case ItemID.SniperRifle:
-				case ItemID.CandyCornRifle:
-				case ItemID.ChainGun:
-				case ItemID.VortexBeater:
-				case ItemID.SDMG:
-					canFirePointBlankShots = true;
-					break;
-
-				// Set projectile true melee items to be true melee, this is so bosses know when the player is using a true melee projectile weapon
-				case ItemID.Spear:
-				case ItemID.Trident:
-				case ItemID.PalladiumPike:
-				case ItemID.CobaltDrill:
-				case ItemID.MythrilDrill:
-				case ItemID.AdamantiteDrill:
-				case ItemID.PalladiumDrill:
-				case ItemID.OrichalcumDrill:
-				case ItemID.TitaniumDrill:
-				case ItemID.ChlorophyteDrill:
-				case ItemID.CobaltChainsaw:
-				case ItemID.MythrilChainsaw:
-				case ItemID.AdamantiteChainsaw:
-				case ItemID.PalladiumChainsaw:
-				case ItemID.OrichalcumChainsaw:
-				case ItemID.TitaniumChainsaw:
-				case ItemID.ChlorophyteChainsaw:
-				case ItemID.VortexDrill:
-				case ItemID.VortexChainsaw:
-				case ItemID.NebulaDrill:
-				case ItemID.NebulaChainsaw:
-				case ItemID.SolarFlareDrill:
-				case ItemID.SolarFlareChainsaw:
-				case ItemID.StardustDrill:
-				case ItemID.StardustChainsaw:
-				case ItemID.Drax:
-				case ItemID.ChlorophyteJackhammer:
-				case ItemID.SawtoothShark:
-				case ItemID.Arkhalis:
-				case ItemID.ButchersChainsaw:
-				case ItemID.MonkStaffT2:
-					trueMelee = true;
-					break;
-
-				case ItemID.Dynamite:
-				case ItemID.StickyDynamite:
-				case ItemID.BouncyDynamite:
-				case ItemID.StickyBomb:
-				case ItemID.BouncyBomb:
-					item.maxStack = 999;
-					break;
-
-				case ItemID.BlueSolution:
-				case ItemID.DarkBlueSolution:
-				case ItemID.GreenSolution:
-				case ItemID.PurpleSolution:
-				case ItemID.RedSolution:
-					item.value = Item.buyPrice(0, 0, 5, 0);
-					break;
-
-				// Increase Pirate Map and Snow Globe stacks to 20
-				case ItemID.PirateMap:
-				case ItemID.SnowGlobe:
-					item.maxStack = 20;
-					break;
-
-				// Set Celestial Sigil stack to 1 because it's not consumable anymore
-				case ItemID.SlimeCrown:
-				case ItemID.SuspiciousLookingEye:
-				case ItemID.WormFood:
-				case ItemID.BloodySpine:
-				case ItemID.Abeemination:
-				case ItemID.MechanicalEye:
-				case ItemID.MechanicalWorm:
-				case ItemID.MechanicalSkull:
-				case ItemID.CelestialSigil:
-					item.maxStack = 1;
-					item.consumable = false;
-					break;
-
-				// True melee weapon adjustments
-				case ItemID.BladedGlove:
-					item.damage = 15;
-					item.useTime = 7;
-					item.useAnimation = 7;
-					break;
-
-				case ItemID.IceBlade:
-					item.damage = 26;
-					item.useTime = 33;
-					break;
-
-				case ItemID.EnchantedSword:
-					item.damage = 42;
-					item.useAnimation = 20;
-					item.shootSpeed = 15f;
-					break;
-
-				case ItemID.Starfury:
-					item.autoReuse = true;
-					break;
-
-				case ItemID.WoodYoyo:
-				case ItemID.Chik:
-				case ItemID.FormatC:
-				case ItemID.HelFire:
-				case ItemID.Amarok:
-				case ItemID.Gradient:
-				case ItemID.Code2:
-				case ItemID.Yelets:
-				case ItemID.RedsYoyo:
-				case ItemID.ValkyrieYoyo:
-				case ItemID.Kraken:
-				case ItemID.TheEyeOfCthulhu:
-					item.autoReuse = true;
-					break;
-
-				case ItemID.Rally:
-					item.damage = 20;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.JungleYoyo:
-					item.autoReuse = true;
-					break;
-
-				case ItemID.CrimsonYoyo:
-					item.damage = 30;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.CorruptYoyo:
-					item.damage = 27;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.Code1:
-					item.damage = 25;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.Valor:
-					item.damage = 32;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.ObsidianSwordfish:
-					item.damage = 45;
-					trueMelee = true;
-					break;
-
-				case ItemID.BloodyMachete:
-					item.damage = 30;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.Cascade:
-					item.damage = 39;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.SlapHand:
-					item.damage = 120;
-					break;
-
-				case ItemID.TaxCollectorsStickOfDoom:
-					item.damage = 70;
-					break;
-
-				case ItemID.Anchor:
-					item.damage = 107;
-					break;
-
-				case ItemID.GolemFist:
-					item.damage = 150;
-					break;
-
-				case ItemID.BreakerBlade:
-					item.damage = 97;
-					break;
-
-				case ItemID.StylistKilLaKillScissorsIWish:
-					item.damage = 33;
-					break;
-
-				case ItemID.BladeofGrass:
-					item.damage = 65;
-					break;
-
-				case ItemID.FieryGreatsword:
-					item.damage = 98;
-					item.useTime = 45;
-					item.useAnimation = 45;
-					break;
-
-				case ItemID.CobaltSword:
-					item.damage = 80;
-					break;
-
-				case ItemID.MythrilSword:
-					item.damage = 100;
-					item.useTime = 25;
-					item.useAnimation = 25;
-					break;
-
-				case ItemID.AdamantiteSword:
-					item.damage = 77;
-					break;
-
-				case ItemID.PalladiumSword:
-					item.damage = 100;
-					break;
-
-				case ItemID.OrichalcumSword:
-					item.damage = 82;
-					break;
-
-				case ItemID.TitaniumSword:
-					item.damage = 77;
-					break;
-
-				case ItemID.Excalibur:
-					item.damage = 125;
-					break;
-
-				case ItemID.Bladetongue:
-					item.damage = 120;
-					item.scale = 1.75f;
-					break;
-
-				case ItemID.TheHorsemansBlade:
-					item.damage = 95;
-					break;
-
-				case ItemID.Keybrand:
-					item.damage = 184;
-					item.useTime = 18;
-					item.useAnimation = 18;
-					break;
-
-				case ItemID.AdamantiteGlaive:
-					trueMelee = true;
-					item.damage = 65;
-					item.shootSpeed *= 1.25f;
-					break;
-
-				case ItemID.ChlorophytePartisan:
-					item.damage = 100;
-					break;
-
-				case ItemID.CobaltNaginata:
-					trueMelee = true;
-					item.damage = 90;
-					break;
-
-				case ItemID.Gungnir:
-					trueMelee = true;
-					item.damage = 92;
-					item.shootSpeed *= 1.25f;
-					break;
-
-				case ItemID.MythrilHalberd:
-					trueMelee = true;
-					item.damage = 95;
-					item.shootSpeed *= 1.25f;
-					break;
-
-				case ItemID.OrichalcumHalberd:
-					trueMelee = true;
-					item.damage = 98;
-					item.shootSpeed *= 1.25f;
-					break;
-
-				case ItemID.TitaniumTrident:
-					trueMelee = true;
-					item.damage = 72;
-					item.shootSpeed *= 1.25f;
-					break;
-
-				case ItemID.DaoofPow:
-					item.damage = 160;
-					break;
-
-				case ItemID.TheRottedFork:
-					trueMelee = true;
-					item.damage = 20;
-					break;
-
-				case ItemID.Swordfish:
-					trueMelee = true;
-					item.damage = 38;
-					break;
-
-				case ItemID.DarkLance:
-					trueMelee = true;
-					item.damage = 68;
-					break;
-
-				case ItemID.MushroomSpear:
-					trueMelee = true;
-					item.damage = 100;
-					break;
-
-				case ItemID.BluePhasesaber:
-				case ItemID.RedPhasesaber:
-                case ItemID.GreenPhasesaber:
-                case ItemID.WhitePhasesaber:
-                case ItemID.YellowPhasesaber:
-                case ItemID.PurplePhasesaber:
-					item.damage = 72;
-					item.useTime = 20;
-					item.useAnimation = 20;
-					break;
-
-				case ItemID.PaladinsHammer:
-					item.damage = 100;
-					break;
-
-				case ItemID.Katana:
-					item.useTime = 15;
-					item.useAnimation = 15;
-					break;
-
-				case ItemID.FalconBlade:
-					item.damage = 40;
-					break;
-
-				case ItemID.ChainKnife:
-					item.damage = 14;
-					break;
-
-				case ItemID.DD2SquireDemonSword:
-					item.damage = 110;
-					break;
-
-				case ItemID.PurpleClubberfish:
-					item.damage = 45;
-					item.knockBack = 10f;
-					break;
-
-				case ItemID.ChristmasTreeSword:
-					item.damage = 155;
-					break;
-
-				case ItemID.MonkStaffT1:
-					trueMelee = true;
-					item.damage = 110;
-					break;
-
-				case ItemID.Terrarian:
-					item.damage = 352;
-					item.autoReuse = true;
-					break;
-
-				case ItemID.RainbowRod:
-					item.damage = 130;
-					break;
-
-				case ItemID.BlizzardStaff:
-					item.damage = 41;
-					item.mana = 7;
-					break;
-
-				case ItemID.LaserMachinegun:
-					item.damage = 39;
-					break;
-
-				case ItemID.StardustDragonStaff:
-					item.damage = 20;
-                    item.useTime = 19;
-                    item.useAnimation = 19;
-                    item.autoReuse = true;
-                    break;
-
-				case ItemID.MonkStaffT3:
-					item.damage = 225;
-					break;
-
-				case ItemID.BookStaff:
-					item.mana = 10;
-					break;
-
-				case ItemID.UnholyTrident:
-					item.mana = 14;
-					break;
-
-				case ItemID.FrostStaff:
-					item.mana = 9;
-					break;
-
-				case ItemID.BookofSkulls:
-					item.mana = 12;
-					break;
-
-				// Total defense pre-buff = 78, Total defense post-buff = 94
-				case ItemID.SolarFlareHelmet:
-					item.defense = 29; // 5 more defense
-					break;
-
-				case ItemID.SolarFlareBreastplate:
-					item.defense = 41; // 7 more defense
-					break;
-
-				case ItemID.SolarFlareLeggings:
-					item.defense = 24; // 4 more defense
-					break;
-
-				// Total defense pre-buff = 7, Total defense post-buff = 15
-				case ItemID.GladiatorHelmet:
-					item.defense = 3; // 1 more defense
-					break;
-
-				case ItemID.GladiatorBreastplate:
-					item.defense = 5; // 2 more defense
-					break;
-
-				case ItemID.GladiatorLeggings:
-					item.defense = 4; // 2 more defense
-					break;
-
-				// Total defense pre-buff = 31, 50, 35, Total defense post-buff = 36, 55, 40
-				case ItemID.HallowedPlateMail:
-					item.defense = 18; // 3 more defense
-					break;
-
-				case ItemID.HallowedGreaves:
-					item.defense = 13; // 2 more defense
-					break;
-
-				// Not Expert because ML drops it in Normal so that it can be used with the lore item
-				case ItemID.GravityGlobe:
-					item.expert = false;
-					item.rare = ItemRarityID.Red;
-					break;
-
-				case ItemID.SuspiciousLookingTentacle:
-					item.expert = true;
-					break;
-
-				case ItemID.PearlwoodHammer:
-					item.hammer += 35; // 80% hammer power
-					item.useAnimation = 20;
-					item.useTime = 15;
-					item.damage *= 4;
-					item.tileBoost += 1;
-					item.rare = ItemRarityID.LightRed;
-					break;
-
-				case ItemID.PearlwoodBow:
-					item.useAnimation += 8; // 35
-					item.useTime += 8; // 35
-					item.shootSpeed += 3.4f; // 10f
-					item.knockBack += 1f; // 1f
-					item.rare = ItemRarityID.LightRed;
-					item.damage = (int)(item.damage * 2.1);
-					canFirePointBlankShots = true;
-					break;
-
-				case ItemID.PearlwoodSword:
-					item.damage *= 4;
-					item.rare = ItemRarityID.LightRed;
-					break;
-
-				case ItemID.StarCannon:
-					item.UseSound = null;
-					break;
-
-				case ItemID.EoCShield:
-					CannotBeEnchanted = true;
-					break;
-			}
-
-			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
-				item.damage *= 4;
-			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
-				item.damage *= 3;
-			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
-				item.damage *= 2;
-			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.66);
-			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.5);
-			else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.33);
-			else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.25);
-			else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.2);
-			else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 1.1);
-			else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 0.9);
-			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
-				item.damage = (int)(item.damage * 0.75);
+			// Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
+			// TODO -- there are better ways to do this. Just stop letting accessories be enchanted, even if they do have a damage value.
+			if (item.type == ItemID.EoCShield)
+				CannotBeEnchanted = true;
+
+			// Star Cannon no longer makes noise.
+			if (item.type == ItemID.StarCannon)
+				item.UseSound = null;
+
+			// Fix Suspicious Looking Tentacle not being marked as Expert
+			if (item.type == ItemID.SuspiciousLookingTentacle)
+				item.expert = true;
+
+			// Modified Pearlwood items are now Light Red
+			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
+				item.rare = ItemRarityID.LightRed;
+
+			SetDefaults_ApplyBalance(item);
 
 			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
@@ -845,7 +169,7 @@ namespace CalamityMod.Items
             {
                 speedX *= modPlayer.throwingVelocity;
                 speedY *= modPlayer.throwingVelocity;
-                if (modPlayer.gloveOfRecklessness)
+                if (modPlayer.gloveOfRecklessness && item.useTime == item.useAnimation)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
                     rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
@@ -909,7 +233,9 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareMageProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 190), 1f, player.whoAmI);
+						// Bloodflare Mage Bolt: 130%, soft cap starts at 2000 base damage
+						int bloodflareBoltDamage = CalamityUtils.DamageSoftCap(damage * 1.3, 2600);
+						Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), bloodflareBoltDamage, 1f, player.whoAmI);
                     }
                 }
             }
@@ -920,7 +246,10 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 115), 2f, player.whoAmI);
+						// Bloodflare Ranged Bloodsplosion: 80%, soft cap starts at 150 base damage
+						// This is intentionally extremely low because this effect can be grossly overpowered with sniper rifles and the like.
+						int bloodsplosionDamage = CalamityUtils.DamageSoftCap(damage * 0.8, 120);
+						Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), bloodsplosionDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -929,17 +258,20 @@ namespace CalamityMod.Items
                 if (modPlayer.tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
                 {
                     modPlayer.tarraCrits = 0;
-                    int leafAmt = 9 + Main.rand.Next(3);
-                    for (int l = 0; l < leafAmt; l++)
+					// Tarragon Mage Leaves: (8-10) x 20%, soft cap starts at 200 base damage
+					int leafAmt = 8 + Main.rand.Next(3); // 8, 9, or 10
+					int leafDamage = (int)(damage * 0.2);
+
+					for (int l = 0; l < leafAmt; l++)
                     {
                         float spreadMult = 0.025f * l;
-                        float hardar = speedX + Main.rand.Next(-25, 26) * spreadMult;
-                        float hordor = speedY + Main.rand.Next(-25, 26) * spreadMult;
-                        float num84 = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                        num84 = item.shootSpeed / num84;
-                        hardar *= num84;
-                        hordor *= num84;
-                        int projectile = Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
+                        float xDiff = speedX + Main.rand.Next(-25, 26) * spreadMult;
+                        float yDiff = speedY + Main.rand.Next(-25, 26) * spreadMult;
+                        float speed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
+                        speed = item.shootSpeed / speed;
+                        xDiff *= speed;
+                        yDiff *= speed;
+						int projectile = Projectile.NewProjectile(position, new Vector2(xDiff, yDiff), ProjectileID.Leaf, leafDamage, knockBack, player.whoAmI);
 						if (projectile.WithinBounds(Main.maxProjectiles))
 							Main.projectile[projectile].Calamity().forceTypeless = true;
 					}
@@ -952,7 +284,8 @@ namespace CalamityMod.Items
 					modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), CalamityUtils.DamageSoftCap(damage * 0.25, 50), 2f, player.whoAmI);
+						int ataxiaFlareDamage = (int)(damage * 0.25);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -963,7 +296,9 @@ namespace CalamityMod.Items
 					modPlayer.canFireGodSlayerRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 150), 2f, player.whoAmI);
+						// God Slayer Ranged Shrapnel: 100%, soft cap starts at 800 base damage
+						int shrapnelRoundDamage = CalamityUtils.DamageSoftCap(damage, 800);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), shrapnelRoundDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -972,6 +307,10 @@ namespace CalamityMod.Items
                 if (rogue)
                 {
 					modPlayer.canFireAtaxiaRogueProjectile = false;
+					int flareID = ModContent.ProjectileType<ChaosFlare2>();
+
+					// Ataxia Rogue Flares: 8 x 50%, soft cap starts at 200 base damage
+					int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 100);
 					if (player.whoAmI == Main.myPlayer)
                     {
                         Main.PlaySound(SoundID.Item20, player.Center);
@@ -982,19 +321,21 @@ namespace CalamityMod.Items
                         for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), flareID, flareDamage, 1f, player.whoAmI);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), flareID, flareDamage, 1f, player.whoAmI);
                         }
                     }
                 }
             }
             if (modPlayer.victideSet)
             {
-                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
+                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), CalamityUtils.DamageSoftCap(damage * 2, 60), 1f, player.whoAmI);
+						// Victide All-class Seashells: 200%, soft cap starts at 23 base damage
+						int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
+						Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }
                 }
             }
@@ -2347,13 +1688,9 @@ namespace CalamityMod.Items
 
 		public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
-			void drawItemManually(Color color, float generalScale)
-			{
-				Texture2D itemTexture = Main.itemTexture[item.type];
-				Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
-				Vector2 itemOrigin = frame.Size() * 0.5f;
-				spriteBatch.Draw(itemTexture, position, itemFrame, color, 0f, itemOrigin, scale * generalScale, SpriteEffects.None, 0f);
-			}
+			// I want to strangle somebody.
+			Texture2D itemTexture = Main.itemTexture[item.type];
+			Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
 
 			if (!EnchantmentManager.ItemUpgradeRelationship.ContainsKey(item.type) || !Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()))
 				return true;
@@ -2364,19 +1701,11 @@ namespace CalamityMod.Items
 			if (calamitasNPCIndex != -1)
 				currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
-			// Adjust the offset of the position. This vector does not have any specific static member that can be referenced and it is not
-			// as simply computable as a texture.Size() * 0.5f.
-			position += new Vector2(14f, 16f) * Main.inventoryScale;
+			Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 
 			EnchantmentEnergyParticles.InterpolationSpeed = MathHelper.Lerp(0.035f, 0.1f, currentPower);
-			EnchantmentEnergyParticles.DrawSet(position + Main.screenPosition);
-
-			float pulse = Main.GlobalTime * 0.79f % 1f;
-			float pulseFade = Utils.InverseLerp(0.87f, 0.27f, pulse, true);
-			float pulseScale = scale * MathHelper.Lerp(1.6f, 1f, pulseFade) / scale;
-			Color pulseColor = Color.Lerp(drawColor, Color.BlueViolet, pulseFade) * pulseFade;
-			drawItemManually(pulseColor, pulseScale);
-			drawItemManually(drawColor, 1f);
+			EnchantmentEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
+			spriteBatch.Draw(itemTexture, position, itemFrame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
 
 			return false;
 		}

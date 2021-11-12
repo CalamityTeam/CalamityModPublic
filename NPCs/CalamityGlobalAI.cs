@@ -4631,9 +4631,6 @@ namespace CalamityMod.NPCs
                 enrageScale += 1f;
             }
 
-			// Enrage variable if player is flying upside down
-			bool targetFloatingUp = player.gravDir == -1f;
-
 			// Phase for flying at the player
 			bool flyAtTarget = (calamityGlobalNPC.newAI[3] >= 900f && startFlightPhase) || (calamityGlobalNPC.newAI[1] < 600f && calamityGlobalNPC.newAI[1] > 60f);
 
@@ -4685,7 +4682,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 // Enrage, fire more cyan lasers
-                if (targetFloatingUp || (enrageScale > 0f && !malice && !enraged))
+                if (enrageScale > 0f && !malice && !enraged)
                 {
                     if (calamityGlobalNPC.newAI[2] < 480f)
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -4833,8 +4830,8 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCID.TheDestroyer)
                 {
                     Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                    int num16 = targetFloatingUp ? 50 : 1000;
-					int heightReduction = death ? (targetFloatingUp ? 850 : 700) : (int)((targetFloatingUp ? 850f : 700f) * (1f - lifeRatio));
+                    int num16 = 1000;
+					int heightReduction = death ? 700 : (int)(700f * (1f - lifeRatio));
                     int height = 2000 - heightReduction;
                     bool flag3 = true;
 
@@ -4888,8 +4885,8 @@ namespace CalamityMod.NPCs
 			fallSpeed += 4f * enrageScale;
 
 			// Speed and movement
-			float speedBoost = death ? ((targetFloatingUp ? 0.28f : 0.14f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio));
-			float turnSpeedBoost = death ? ((targetFloatingUp ? 0.37f : 0.19f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
+			float speedBoost = death ? (0.14f * (1f - lifeRatio)) : (0.1f * (1f - lifeRatio));
+			float turnSpeedBoost = death ? (0.19f * (1f - lifeRatio)) : (0.15f * (1f - lifeRatio));
 			float speed = 0.1f + speedBoost;
             float turnSpeed = 0.15f + turnSpeedBoost;
 			speed += 0.04f * enrageScale;
@@ -5654,9 +5651,6 @@ namespace CalamityMod.NPCs
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
-			// Enrage variable if player is floating upside down
-			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
-
             // Easier to send info to Spazmatism
             CalamityGlobalNPC.laserEye = npc.whoAmI;
 
@@ -5880,7 +5874,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Enter phase 2 earlier
-                if (lifeRatio < 0.7f || targetFloatingUp)
+                if (lifeRatio < 0.7f)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -6014,14 +6008,6 @@ namespace CalamityMod.NPCs
                     }
 
                     npc.ai[2] += spazAlive ? 1f : 1.25f;
-
-                    // Enrage
-                    if (targetFloatingUp)
-                    {
-                        npc.ai[2] += 1f;
-                        npc.localAI[1] += 2f;
-                    }
-
                     if (npc.ai[2] >= 300f - (death ? 120f * (0.7f - lifeRatio) : 0f))
                     {
                         npc.ai[1] = 1f;
@@ -6128,13 +6114,6 @@ namespace CalamityMod.NPCs
                         num412 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector43.Y;
                         npc.rotation = (float)Math.Atan2(num412, num411) - MathHelper.PiOver2;
 
-                        // Enrage
-                        if (targetFloatingUp)
-                        {
-                            npc.ai[2] += 1f;
-                            npc.localAI[1] += 2f;
-                        }
-
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             npc.localAI[1] += 1f + (death ? 0.7f - lifeRatio : 0f);
@@ -6187,10 +6166,6 @@ namespace CalamityMod.NPCs
 						num450 += 10f * enrageScale;
 
 						if (!spazAlive)
-                            num450 += 2f;
-
-                        // Enrage
-                        if (targetFloatingUp)
                             num450 += 2f;
 
                         Vector2 vector47 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -6377,9 +6352,6 @@ namespace CalamityMod.NPCs
                 npc.Calamity().CurrentlyEnraged = true;
                 enrageScale += 0.5f;
             }
-
-            // Enrage variable if player is floating upside down
-            bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -6642,7 +6614,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Enter phase 2 earlier
-                if (lifeRatio < 0.7f || targetFloatingUp)
+                if (lifeRatio < 0.7f)
                 {
                     // Reset AI array and go to transition phase
                     npc.ai[0] = 1f;
@@ -6759,10 +6731,6 @@ namespace CalamityMod.NPCs
                     if (num445 > 400f)
                         num440 += 0.5f;
 
-                    // Enrage
-                    if (targetFloatingUp)
-                        num440 += 2f;
-
                     num445 = num440 / num445;
                     num443 *= num445;
                     num444 *= num445;
@@ -6867,10 +6835,6 @@ namespace CalamityMod.NPCs
                         float num450 = 16.75f + (death ? 5f * (0.7f - lifeRatio) : 0f);
 						num450 += 8f * enrageScale;
 
-						// Enrage
-						if (targetFloatingUp)
-                            num450 += 2f;
-
 						Vector2 distanceVector = Main.player[npc.target].Center - npc.Center;
 						npc.velocity = Vector2.Normalize(distanceVector) * num450;
                         npc.ai[1] = 2f;
@@ -6880,10 +6844,6 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] == 2f)
                     {
                         npc.ai[2] += retAlive ? 1f : 1.25f;
-
-                        // Enrage
-                        if (targetFloatingUp)
-                            npc.ai[2] += 0.25f;
 
                         float chargeTime = 50f - (death ? 12f * (0.7f - lifeRatio) : 0f);
 
@@ -7124,9 +7084,6 @@ namespace CalamityMod.NPCs
 			// Despawn safety, make sure to target another player if the current player target is too far away
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
-
-			// Enrage variable if player is floating upside down
-			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -7518,8 +7475,6 @@ namespace CalamityMod.NPCs
                         speed += 1f;
                     if (phase3)
                         speed += 1f;
-                    if (targetFloatingUp)
-                        speed += 5f;
 
 					if (num457 > 150f)
 					{

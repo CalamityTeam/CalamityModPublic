@@ -17,8 +17,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     [AutoloadBossHead]
     public class ProfanedGuardianBoss2 : ModNPC
     {
-        private int immuneTimer = 300;
-        public override void SetStaticDefaults()
+		private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Guardian");
             Main.npcFrameCount[npc.type] = 6;
@@ -51,13 +52,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(immuneTimer);
+            writer.Write(biomeEnrageTimer);
             writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            immuneTimer = reader.ReadInt32();
+			biomeEnrageTimer = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
@@ -92,16 +93,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
-                if (immuneTimer > 0)
-                    immuneTimer--;
+                if (biomeEnrageTimer > 0)
+					biomeEnrageTimer--;
                 else
                     npc.Calamity().CurrentlyEnraged = true;
             }
             else
-                immuneTimer = 300;
+				biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
             // Take damage or not
-            npc.dontTakeDamage = immuneTimer <= 0 && !malice;
+            npc.dontTakeDamage = biomeEnrageTimer <= 0 && !malice;
 
             Vector2 vectorCenter = npc.Center;
 

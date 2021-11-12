@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		internal static void LoadHeadIcons()
 		{
-			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody";
-			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody";
+			string normalIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosNormalBody2";
+			string vulnerableIconPath = "CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosVulnerableBody2";
 
 			CalamityMod.Instance.AddBossHeadTexture(normalIconPath, -1);
 			normalIconIndex = ModContent.GetModBossHeadSlot(normalIconPath);
@@ -99,8 +99,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			writer.Write(noContactDamageTimer);
 			writer.Write(vulnerable);
 			writer.Write(npc.localAI[0]);
-			writer.Write(npc.localAI[1]);
-			writer.Write(npc.localAI[2]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -112,8 +110,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			noContactDamageTimer = reader.ReadInt32();
 			vulnerable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
-			npc.localAI[1] = reader.ReadSingle();
-			npc.localAI[2] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -197,14 +193,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Number of body segments
 			int numSegments = ThanatosHead.minLength;
 
-			// Set timer to whoAmI so that segments don't all fire lasers at the same time
-			if (npc.localAI[2] == 0f)
-			{
-				npc.localAI[2] = npc.ai[0];
-				if (npc.localAI[2] > numSegments)
-					npc.localAI[2] -= numSegments;
-			}
-
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -223,6 +211,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Set the AI to become more aggressive if head is berserk
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
+			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
@@ -241,8 +230,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
-						float divisor = 120f;
-						if ((npc.ai[3] % divisor == 0f && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
+						float divisor = lastMechAlive ? 60f : berserk ? 80f : 120f;
+						if ((npc.ai[3] % divisor == 0f && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -307,8 +296,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 					else
 					{
-						float divisor = npc.localAI[2] * 3f; // Ranges from 3 to 300
-						if ((npc.ai[3] == divisor && npc.localAI[2] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
+						float divisor = npc.ai[0] * (lastMechAlive ? 1f : berserk ? 2f : 3f); // Ranges from 3 to 300
+						if ((npc.ai[3] == divisor && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
 							vulnerable = true;
@@ -347,6 +336,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 										}
 
 										float predictionAmt = malice ? 30f : death ? 20f : revenge ? 17.5f : expertMode ? 15f : 10f;
+										if (npc.ai[0] % 3f == 0f)
+											predictionAmt *= 0.5f;
+
 										int type = ModContent.ProjectileType<ThanatosLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
@@ -361,7 +353,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											else
 											{
 												// Normal laser
-												if (malice && berserk)
+												if (berserk && npc.ai[0] % 3f == 0f)
 													Projectile.NewProjectile(npc.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
 
 												// Predictive laser
@@ -393,16 +385,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			{
 				if (npc.ai[3] > 0f)
 					npc.ai[3] = 0f;
-
-				// Set alternating laser-firing body segments every 3 seconds
-				npc.localAI[1] += 1f;
-				if (npc.localAI[1] >= 180f)
-				{
-					npc.localAI[1] = 0f;
-					npc.localAI[2] += 1f;
-					if (npc.localAI[2] > numSegments)
-						npc.localAI[2] -= numSegments;
-				}
 
 				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
 				if (npc.Calamity().newAI[0] <= 0f)
@@ -545,6 +527,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 		public override void FindFrame(int frameHeight) // 5 total frames
 		{
+			if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)
+				return;
+
 			// Swap between venting and non-venting frames
 			CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)npc.ai[2]].Calamity();
 			bool invisiblePhase = calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;

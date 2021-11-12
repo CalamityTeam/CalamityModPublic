@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            speedY *= 0.7f; //since the barrel is heavy
+            speedY *= 0.85f;
             Vector2 initialVelocity = new Vector2(speedX, speedY);
 
-            //unitY additive is do it doesn't exploe initially
+            // A vertical offset is added to ensure that the barrel does not immediately collide with tiles and explode.
             int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockBack, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;

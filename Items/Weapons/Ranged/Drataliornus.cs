@@ -1,6 +1,4 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -12,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Drataliornus : ModItem
     {
+        private const double RightClickDamageRatio = 0.6;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");
@@ -24,7 +24,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void SetDefaults()
         {
-            item.damage = 80;
+            item.damage = 129;
             item.knockBack = 1f;
             item.shootSpeed = 18f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -61,10 +61,10 @@ Right click to fire two devastating barrages of five empowered fireballs.
             else
             {
                 item.noUseGraphic = true;
-				if (player.ownedProjectileCounts[item.shoot] > 0)
-				{
+                if (player.ownedProjectileCounts[item.shoot] > 0)
+                {
                     return false;
-				}
+                }
             }
             return base.CanUseItem(player);
         }
@@ -73,16 +73,19 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             if (player.altFunctionUse == 2) //tsunami
             {
+                int flameID = ModContent.ProjectileType<DrataliornusFlame>();
+                const int numFlames = 5;
+                int flameDamage = (int)(damage * RightClickDamageRatio);
+
                 const float num3 = 0.471238898f;
-                const int num4 = 5;
                 Vector2 spinningpoint = new Vector2(speedX, speedY);
                 spinningpoint.Normalize();
                 spinningpoint *= 36f;
-                for (int index1 = 0; index1 < num4; ++index1)
+                for (int index1 = 0; index1 < numFlames; ++index1)
                 {
-                    float num8 = index1 - (num4 - 1) / 2;
+                    float num8 = index1 - (numFlames - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), (int)(damage * 0.69), knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, flameID, flameDamage, knockBack, player.whoAmI, 1f, 0f);
                 }
             }
             else

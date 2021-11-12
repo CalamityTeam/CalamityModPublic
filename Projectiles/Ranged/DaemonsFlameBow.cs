@@ -164,5 +164,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DaemonsFlameBowGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 		}
+
+		public override bool CanDamage() => false;
 	}
 }

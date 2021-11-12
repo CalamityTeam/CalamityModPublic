@@ -144,7 +144,10 @@ namespace CalamityMod.NPCs
 			"Stan Pines",
 		};
 		private const int TruffleVanillaNames = 12;
-		private static readonly string[] TruffleNames = null;
+		private static readonly string[] TruffleNames =
+		{
+			"Aldrimil", // <@!413719640238194689> (Thorioum#2475)
+		};
 		private const int WitchDoctorVanillaNames = 10;
 		private static readonly string[] WitchDoctorNames =
 		{
@@ -167,7 +170,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Town NPC Names
-		public static void ResetTownNPCNameBools(NPC npc, Mod mod)
+		public static void ResetTownNPCNameBools()
 		{
 			void ResetName(int npcID, ref bool nameBool)
 			{
@@ -1145,6 +1148,15 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region NPC Stat Changes
+		public static void BoundNPCSafety(Mod mod, NPC npc)
+		{
+			// Make Bound Town NPCs take no damage
+			if (CalamityGlobalNPC.BoundNPCIDs.Contains(npc.type))
+			{
+				npc.dontTakeDamageFromHostiles = true;
+			}
+		}
+
 		public static void MakeTownNPCsTakeMoreDamage(NPC npc, Projectile projectile, Mod mod, ref int damage)
 		{
 			if (npc.townNPC && projectile.hostile)

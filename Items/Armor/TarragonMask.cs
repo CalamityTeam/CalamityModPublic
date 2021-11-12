@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Tarragon Mask");
             Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
-                "10% increased magic damage and critical strike chance\n" +
+                "20% increased magic damage and 10% increased magic critical strike chance\n" +
                 "5% increased damage reduction, +100 max mana, and 15% reduced mana usage");
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.manaCost *= 0.85f;
-            player.magicDamage += 0.1f;
+            player.magicDamage += 0.2f;
             player.magicCrit += 10;
             player.endurance += 0.05f;
             player.lavaMax += 240;

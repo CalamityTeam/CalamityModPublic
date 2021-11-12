@@ -43,13 +43,21 @@ namespace CalamityMod.Items.Weapons.Summon
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<BelladonnaSpiritStaff>());
+			recipe.AddIngredient(ModContent.ItemType<EyeOfNight>());
 			recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
 			recipe.AddIngredient(ItemID.OpticStaff);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-		}
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<FleshOfInfidelity>());
+            recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
+            recipe.AddIngredient(ItemID.OpticStaff);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

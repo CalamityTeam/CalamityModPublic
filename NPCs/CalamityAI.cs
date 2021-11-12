@@ -99,8 +99,22 @@ namespace CalamityMod.NPCs
 				player.position.Y > Main.worldSurface * 16.0 ||
 				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
 
+			// Enrage
+			if (head)
+			{
+				if (notOcean && !player.Calamity().ZoneSulphur && !BossRushEvent.BossRushActive)
+				{
+					if (npc.localAI[2] > 0f)
+						npc.localAI[2] -= 1f;
+				}
+				else
+					npc.localAI[2] = CalamityGlobalNPC.biomeEnrageTimerMax;
+			}
+
+			bool biomeEnraged = npc.localAI[2] <= 0f || malice;
+
 			float enrageScale = 0f;
-			if ((!player.Calamity().ZoneSulphur && notOcean) || malice)
+			if (biomeEnraged)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 2f;
@@ -241,9 +255,6 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral && phase2)
 					{
 						npc.localAI[0] += 1f;
-						if (player.gravDir == -1f && expertMode)
-							npc.localAI[0] += 2f;
-
 						if (npc.localAI[0] >= (revenge ? 360f : 420f))
 						{
 							if (Vector2.Distance(player.Center, npc.Center) > 320f)
@@ -448,11 +459,6 @@ namespace CalamityMod.NPCs
 					{
 						num188 += 8f * (1f - lifeRatio);
 						num189 += 0.06f * (1f - lifeRatio);
-					}
-					if (player.gravDir == -1f && expertMode)
-					{
-						num188 = 21f;
-						num189 = 0.21f;
 					}
 					num188 += 3f * enrageScale;
 					num189 += 0.06f * enrageScale;
@@ -689,10 +695,24 @@ namespace CalamityMod.NPCs
 			bool phase2 = lifeRatio < 0.5f && revenge;
 			bool phase3 = lifeRatio < 0.33f;
 
+			// Enrage
+			if ((!player.ZoneUnderworldHeight || !modPlayer.ZoneCalamity) && !BossRushEvent.BossRushActive)
+			{
+				if (calamityGlobalNPC.newAI[3] > 0f)
+					calamityGlobalNPC.newAI[3] -= 1f;
+			}
+			else
+				calamityGlobalNPC.newAI[3] = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = calamityGlobalNPC.newAI[3] <= 0f || malice;
+
 			float enrageScale = 0f;
-			if (!player.ZoneUnderworldHeight || malice)
+			if (biomeEnraged && (!player.ZoneUnderworldHeight || malice))
+			{
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
-			if (!modPlayer.ZoneCalamity || malice)
+			}
+			if (biomeEnraged && (!modPlayer.ZoneCalamity || malice))
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
@@ -728,7 +748,7 @@ namespace CalamityMod.NPCs
 			float speed = death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f;
 			if (expertMode)
 				speed += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-			speed += 3f * enrageScale;
+			speed += 5f * enrageScale;
 
 			// Variables for target location relative to npc location
 			float xDistance = player.Center.X - vectorCenter.X;
@@ -759,7 +779,7 @@ namespace CalamityMod.NPCs
 					int phase;
 					int random = phase2 ? 6 : 5;
 					do phase = Main.rand.Next(random);
-					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
+					while (phase == npc.ai[1] || (phase == 0 && phase3 && revenge) || phase == 1 || phase == 2 || (phase == 4 && npc.localAI[3] != 0f));
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
@@ -1097,6 +1117,8 @@ namespace CalamityMod.NPCs
 			// Laser beam attack
 			else if (npc.ai[0] == 5f)
 			{
+				npc.chaseable = true;
+
 				npc.defense = npc.defDefense * 2;
 
 				Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
@@ -2587,8 +2609,6 @@ namespace CalamityMod.NPCs
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
-			npc.gfxOffY = -46;
-
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
@@ -3349,9 +3369,6 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[3] >= aiSwitchTimer)
 				calamityGlobalNPC.newAI[3] = 0f;
 
-			// Enrage variable if player is flying upside down
-			bool targetFloatingUp = player.gravDir == -1f && expertMode;
-
 			// Phase for flying at the player
 			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= (aiSwitchTimer * 0.5f) && startFlightPhase;
 
@@ -3618,8 +3635,8 @@ namespace CalamityMod.NPCs
 					if (head)
 					{
 						Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-						int num16 = targetFloatingUp ? 50 : 200;
-						int heightReduction = death ? (targetFloatingUp ? 180 : 130) : (int)((targetFloatingUp ? 180f : 130f) * (1f - lifeRatio));
+						int num16 = 200;
+						int heightReduction = death ? 130 : (int)(130f * (1f - lifeRatio));
 						int height = 400 - heightReduction;
 						bool flag3 = true;
 
@@ -3679,8 +3696,8 @@ namespace CalamityMod.NPCs
 				fallSpeed += 4f * enrageScale;
 
 				// Speed and movement
-				float speedBoost = death ? ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.26f : 0.13f) * (1f - lifeRatio));
-				float turnSpeedBoost = death ? ((targetFloatingUp ? 0.36f : 0.18f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.4f : 0.2f) * (1f - lifeRatio));
+				float speedBoost = death ? (0.1f * (1f - lifeRatio)) : (0.13f * (1f - lifeRatio));
+				float turnSpeedBoost = death ? (0.18f * (1f - lifeRatio)) : (0.2f * (1f - lifeRatio));
 				float speed = (death ? 0.18f : 0.13f) + speedBoost;
 				float turnSpeed = (death ? 0.25f : 0.2f) + turnSpeedBoost;
 				speed += 0.05f * enrageScale;
@@ -3882,7 +3899,7 @@ namespace CalamityMod.NPCs
 				// Shoot lasers
 				if (npc.type == ModContent.NPCType<AstrumDeusBodySpectral>() && Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int shootTime = ((doubleWormPhase && expertMode) || targetFloatingUp) ? 2 : 1;
+					int shootTime = (doubleWormPhase && expertMode) ? 2 : 1;
 					npc.localAI[0] += 1f;
 					float shootProjectile = 400 / shootTime;
 					float timer = npc.ai[0] + 15f;
@@ -3896,10 +3913,6 @@ namespace CalamityMod.NPCs
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
 								float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
-								if (targetFloatingUp)
-								{
-									num941 *= 2f;
-								}
 								Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 								float num942 = player.position.X + player.width * 0.5f - vector104.X;
 								float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -4594,17 +4607,14 @@ namespace CalamityMod.NPCs
 			npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
 			npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
-			// If target is outside the jungle for more than 3 seconds, enrage
+			// If target is outside the jungle for more than 5 seconds, enrage
 			if (!player.ZoneJungle)
 			{
-				if (npc.localAI[1] < 300f)
+				if (npc.localAI[1] < CalamityGlobalNPC.biomeEnrageTimerMax)
 					npc.localAI[1] += 1f;
 			}
 			else
-			{
-				if (npc.localAI[1] > 0f)
-					npc.localAI[1] -= 1f;
-			}
+				npc.localAI[1] = 0f;
 
 			// If dragonfolly is off screen, enrage for the next couple attacks
 			if (Vector2.Distance(player.Center, vector) > 1200f)
@@ -4612,7 +4622,7 @@ namespace CalamityMod.NPCs
 
 			// Enrage scale
 			float enrageScale = death ? 1.5f : 1f;
-			if (npc.localAI[1] >= 300f || malice)
+			if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || malice)
 			{
 				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
 				enrageScale += 1f;
@@ -5439,14 +5449,26 @@ namespace CalamityMod.NPCs
 			bool enrage = !BossRushEvent.BossRushActive &&
 				(player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
 				(player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
-			npc.Calamity().CurrentlyEnraged = enrage || enraged;
+
+			// Enrage
+			if (enrage)
+			{
+				if (npc.localAI[1] > 0f)
+					npc.localAI[1] -= 1f;
+			}
+			else
+				npc.localAI[1] = CalamityGlobalNPC.biomeEnrageTimerMax;
+
+			bool biomeEnraged = npc.localAI[1] <= 0f || malice;
+
+			npc.Calamity().CurrentlyEnraged = biomeEnraged || enraged;
 
 			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
 			if (!phase3AI)
 				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
-			if (enrage || enraged)
+			if (biomeEnraged || enraged)
 			{
 				toothBallBelchPhaseTimer = 30;
 				toothBallBelchPhaseDivisor = 6;

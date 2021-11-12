@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.value = 10000;
 			item.rare = ItemRarityID.Cyan;
 			item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
-			item.shootSpeed = 16f;
+			item.shootSpeed = 24f;
 			item.Calamity().rogue = true;
 		}
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 1.5f), knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}

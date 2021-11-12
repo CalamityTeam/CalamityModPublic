@@ -555,7 +555,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBomb>()), new int[] { 32, 48, 60, 68, 90 } },
 				{ new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBombFall>()), new int[] { 32, 48, 60, 68, 90 } },
-				{ new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<Mushmash>()), new int[] { 40, 80, 96, 108, 144 } },
 
 				{ new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 32, 48, 60, 68, 90 } },
 

@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
 			npc.boss = true;
+			npc.hide = true;
 			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
 		}
 
@@ -188,12 +189,37 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Variable to fire normal lasers
 			bool fireNormalLasers = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 
+			// Default vector to fly to
+			float offsetX = -560f;
+			float offsetY = 0f;
+			float offsetX2 = -540f;
+			float offsetY2 = -540f;
+			bool flyLeft = true;
+			switch ((int)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].ai[3])
+			{
+				case 0:
+				case 3:
+				case 4:
+					break;
+
+				case 1:
+				case 2:
+				case 5:
+					offsetX *= -1f;
+					offsetX2 *= -1f;
+					offsetY2 *= -1f;
+					flyLeft = false;
+					break;
+			}
+			Vector2 destination = fireNormalLasers ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX2, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY2) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY);
+
 			// Rotate the cannon to look at the target while not firing the beam
 			// Rotate the cannon to look in the direction it will fire only while it's charging or while it's firing
 			// Rotation
 			bool horizontalLaserSweep = calamityGlobalNPC.newAI[3] == 0f;
 			float rateOfRotation = AIState == (int)Phase.Deathray ? 0.08f : 0.04f;
-			Vector2 lookAt = AIState == (int)Phase.Deathray && !fireNormalLasers ? (horizontalLaserSweep ? new Vector2(npc.Center.X, npc.Center.Y + 1000f) : new Vector2(npc.Center.X + 1000f, npc.Center.Y)) : player.Center;
+			float lookAtX = flyLeft ? 1000f : -1000f;
+			Vector2 lookAt = AIState == (int)Phase.Deathray && !fireNormalLasers ? (horizontalLaserSweep ? new Vector2(npc.Center.X, npc.Center.Y + 1000f) : new Vector2(npc.Center.X + lookAtX, npc.Center.Y)) : player.Center;
 
 			float rotation = (float)Math.Atan2(lookAt.Y - npc.Center.Y, lookAt.X - npc.Center.X);
 			if (npc.spriteDirection == 1)
@@ -255,12 +281,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 			}
 
-			// Default vector to fly to
-			Vector2 destination = fireNormalLasers ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 540f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y - 540f) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X - 560f, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y);
-
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-			float baseVelocity = (enraged ? 33f : 25f) * baseVelocityMult;
+			float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 
 			Vector2 distanceFromDestination = destination - npc.Center;
@@ -435,7 +458,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 								desiredVelocity.Y = 0f;
 
 							npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-							npc.velocity = horizontalLaserSweep ? new Vector2(deathrayPhaseVelocity, npc.velocity.Y) : new Vector2(npc.velocity.X, deathrayPhaseVelocity * 0.75f);
+							float velocityX = flyLeft ? deathrayPhaseVelocity : -deathrayPhaseVelocity;
+							npc.velocity = horizontalLaserSweep ? new Vector2(velocityX, npc.velocity.Y) : new Vector2(npc.velocity.X, deathrayPhaseVelocity * 0.75f);
 
 							// Fire deathray
 							if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration)
@@ -581,6 +605,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			spriteBatch.Draw(texture, center, frame, afterimageBaseColor * npc.Opacity, npc.rotation, vector, npc.scale, spriteEffects, 0f);
 
 			return false;
+		}
+
+		public override void DrawBehind(int index)
+		{
+			Main.instance.DrawCacheNPCProjectiles.Add(index);
 		}
 
 		public override bool PreNPCLoot() => false;

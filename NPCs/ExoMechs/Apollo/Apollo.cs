@@ -296,7 +296,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
+
+			// Decrement the timer used to stop Artemis from firing lasers
+			if (npc.ai[3] > 1f)
+				npc.ai[3] -= 1f;
 
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
@@ -376,7 +383,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
@@ -399,7 +407,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeTime = (float)chargeDistance / chargeVelocity;
 
 			// Plasma and rocket projectile velocities
-			float projectileVelocity = 14f;
+			float projectileVelocity = 12f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)
@@ -410,9 +418,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			int numRockets = lastMechAlive ? 4 : nerfedAttacks ? 2 : 3;
 
 			// Default vector to fly to
-			float chargeComboXOffset = -500f;
-			float chargeComboYOffset = npc.ai[2] == 0f ? 400f : -400f;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + 1200f, player.Center.Y) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + 750f, player.Center.Y + chargeComboYOffset) : new Vector2(player.Center.X + 750f, player.Center.Y);
+			bool flyRight = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+			float destinationX = flyRight ? 750f : -750f;
+			float destinationY = player.Center.Y;
+			float chargeComboXOffset = flyRight ? -500f : 500f;
+			float chargeComboYOffset = npc.ai[2] % 2f == 0f ? 400f : -400f;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) : new Vector2(player.Center.X + destinationX, destinationY);
 
 			// If Apollo can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
@@ -552,7 +563,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
-							npc.ai[3] = 1f;
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
+
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -604,6 +621,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (otherMechIsBerserk)
 						{
 							// Reset everything
+							if (npc.ai[0] < 10f)
+								npc.ai[0] = 10f;
+							npc.ai[0] += 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -636,6 +657,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					if (otherMechIsBerserk)
 					{
 						// Reset everything
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
+
 						SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 						npc.localAI[0] = 0f;
 						npc.localAI[1] = 0f;
@@ -768,8 +793,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							int numPlasmaOrbs = nerfedAttacks ? 8 : lastMechAlive ? 10 : 12;
-							float divisor = attackPhaseGateValue / numPlasmaOrbs;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 36f : 40f;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
 							{
@@ -849,7 +873,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							int type = ModContent.ProjectileType<ApolloRocket>();
 							int damage = npc.GetProjectileDamage(type);
 							Main.PlaySound(SoundID.Item36, npc.Center);
-							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
+							Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
 							Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
 							Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 						}
@@ -1063,7 +1087,19 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							chargeLocations[i] = default;
 						ChargeComboFlash = 0f;
 
+						// Tell Apollo and Artemis to swap positions
+						if (npc.ai[0] < 10f)
+							npc.ai[0] = 10f;
+						npc.ai[0] += 1f;
+
+						// Change Y offset for the next charge combo
+						npc.ai[2] = Main.rand.Next(2);
+
+						// Tell Artemis to not fire lasers for a short time while swapping positions
+						npc.ai[3] = 61f;
+
 						npc.TargetClosest();
+						npc.netUpdate = true;
 					}
 
 					break;

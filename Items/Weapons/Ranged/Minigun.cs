@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 390;
+            item.damage = 275;
             item.ranged = true;
             item.width = 72;
             item.height = 34;
@@ -50,12 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 80)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.8f;
 
         public override void AddRecipes()
         {

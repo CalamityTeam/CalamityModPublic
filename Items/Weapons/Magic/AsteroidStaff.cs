@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<Asteroid>();
             item.shootSpeed = 20f;
 
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = ItemRarityID.Red;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(2, 2);

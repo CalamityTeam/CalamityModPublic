@@ -64,11 +64,12 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				speedX *= 0.75f;
-				speedY *= 0.75f;
-			}
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                speedX *= 0.75f;
+                speedY *= 0.75f;
+                damage = (int)(damage * 0.9f);
+            }
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
 			{

@@ -297,10 +297,18 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Used to nerf Artemis laser shotgun if Apollo is in charging phase
 			bool nerfedLaserShotgun = false;
+			bool canFireLasers = true;
 			if (exoTwinGreenAlive)
 			{
 				nerfedLaserShotgun = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.LineUpChargeCombo ||
 					Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].Calamity().newAI[0] == (float)Apollo.Apollo.Phase.ChargeCombo;
+
+				// Can only fire lasers if cooldown is less than or equal to 1
+				canFireLasers = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].ai[3] <= 1f;
+
+				// Set movement according to Apollo
+				if (npc.ai[0] >= 10f)
+					npc.ai[0] = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].ai[0];
 			}
 
 			// Check if any of the other mechs were spawned first
@@ -314,7 +322,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Phases
 			bool phase2 = lifeRatio < 0.6f;
@@ -396,12 +407,39 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float attackPhaseGateValue = lastMechAlive ? 360f : 480f;
+			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
 			// Spin variables
 			float spinRadius = 500f;
 			float spinLocationDistance = 50f;
+			Vector2 spinLocation = player.Center;
+			switch ((int)npc.ai[3])
+			{
+				// Laser from top
+				case 0:
+				case 1:
+					spinLocation.Y -= spinRadius;
+					break;
+
+				// Laser from bottom
+				case 2:
+					spinLocation.Y += spinRadius;
+					break;
+
+				// Laser from left
+				case 3:
+					spinRadius *= 1.7f;
+					spinLocation.X -= spinRadius;
+					break;
+
+				// Laser from right
+				case 4:
+					spinRadius *= 1.7f;
+					spinLocation.X += spinRadius;
+					break;
+			}
 
 			// Distance where Artemis stops moving
 			float movementDistanceGateValue = 100f;
@@ -419,10 +457,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
 			// Laser shotgun variables
-			float laserShotgunDuration = 90f;
+			float laserShotgunDuration = lastMechAlive ? 120f : 90f;
 
 			// If Artemis can fire projectiles, cannot fire if too close to the target
-			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
+			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f && canFireLasers;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
@@ -511,7 +549,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 
 			// Default vector to fly to
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X - 1200f, player.Center.Y) : AIState == (float)Phase.Deathray ? new Vector2(player.Center.X, player.Center.Y - spinRadius) : new Vector2(player.Center.X - 750f, player.Center.Y);
+			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+			float destinationX = flyLeft ? -750f : 750f;
+			float destinationY = player.Center.Y;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? spinLocation : new Vector2(player.Center.X + destinationX, destinationY);
 
 			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
 			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)
@@ -564,7 +605,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							// Reset everything
 							npc.ai[1] = 0f;
 							npc.ai[2] = 0f;
-							npc.ai[3] = 1f;
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[1] = 0f;
@@ -763,8 +806,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							int numLasers = nerfedAttacks ? 8 : 12;
-							float divisor = attackPhaseGateValue / numLasers;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 30f : 40f;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
 							{
@@ -825,8 +867,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										int type = ModContent.ProjectileType<ArtemisLaser>();
 										int damage = npc.GetProjectileDamage(type);
 										Vector2 laserVelocity = chargeVelocityNormalized * 10f;
-										int numLasersPerSpread = 6;
-										int spread = 21;
+										int numLasersPerSpread = malice ? 10 : death ? 8 : expertMode ? 6 : 4;
+										int spread = malice ? 30 : death ? 26 : expertMode ? 21 : 15;
 										float rotation = MathHelper.ToRadians(spread);
 										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
 										float setVelocityInAI = 10f;
@@ -930,8 +972,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 * normal = 16, 20, 24
 							 * nerfedAttacks = 12, 15, 18
 							 */
-							int numLasersPerSpread = (nerfedAttacks || nerfedLaserShotgun) ? 4 : lastMechAlive ? 8 : 6;
-							int baseSpread = (nerfedAttacks || nerfedLaserShotgun) ? 12 : lastMechAlive ? 20 : 16;
+							int numLasersAddedByDifficulty = malice ? 3 : death ? 2 : expertMode ? 1 : 0;
+							int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
+							int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 18 : 13) + numLasersAddedByDifficulty * 2;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
@@ -973,9 +1016,34 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (calamityGlobalNPC.newAI[2] == 0f)
 						{
 							npc.velocity = Vector2.Zero;
-							spinningPoint = npc.Center + Vector2.UnitY * spinRadius;
+
+							switch ((int)npc.ai[3])
+							{
+								// Laser from top
+								case 0:
+								case 1:
+									spinningPoint = npc.Center + Vector2.UnitY * spinRadius;
+									break;
+
+								// Laser from bottom
+								case 2:
+									spinningPoint = npc.Center - Vector2.UnitY * spinRadius;
+									break;
+
+								// Laser from left
+								case 3:
+									spinningPoint = npc.Center + Vector2.UnitX * spinRadius;
+									break;
+
+								// Laser from right
+								case 4:
+									spinningPoint = npc.Center - Vector2.UnitX * spinRadius;
+									break;
+							}
+
 							npc.ai[1] = spinningPoint.X;
 							npc.ai[2] = spinningPoint.Y;
+
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								int type = ModContent.ProjectileType<ArtemisDeathrayTelegraph>();
@@ -984,6 +1052,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 								Vector2 offset = laserVelocity * 70f;
 								Projectile.NewProjectile(npc.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
 							}
+
 							npc.netUpdate = true;
 						}
 
@@ -993,16 +1062,49 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							if (rotationDirection == 0)
 							{
-								// Set spin direction
-								if (Main.player[npc.target].velocity.X > 0f)
-									rotationDirection = 1;
-								else if (Main.player[npc.target].velocity.X < 0f)
-									rotationDirection = -1;
-								else
-									rotationDirection = player.direction;
-
 								// Set spin velocity
 								spinVelocity.X = MathHelper.Pi * spinRadius / spinTime;
+
+								// Set spin direction
+								switch ((int)npc.ai[3])
+								{
+									// Laser from top
+									case 0:
+									case 1:
+										if (player.Center.X >= npc.Center.X)
+											rotationDirection = 1;
+										else
+											rotationDirection = -1;
+										break;
+
+									// Laser from bottom
+									case 2:
+										if (player.Center.X >= npc.Center.X)
+											rotationDirection = -1;
+										else
+											rotationDirection = 1;
+										spinVelocity = -spinVelocity;
+										break;
+
+									// Laser from left
+									case 3:
+										if (player.Center.Y >= npc.Center.Y)
+											rotationDirection = -1;
+										else
+											rotationDirection = 1;
+										spinVelocity = spinVelocity.RotatedBy(-MathHelper.PiOver2);
+										break;
+
+									// Laser from right
+									case 4:
+										if (player.Center.Y >= npc.Center.Y)
+											rotationDirection = 1;
+										else
+											rotationDirection = -1;
+										spinVelocity = spinVelocity.RotatedBy(MathHelper.PiOver2);
+										break;
+								}
+
 								spinVelocity *= -rotationDirection;
 								npc.netUpdate = true;
 
@@ -1074,8 +1176,36 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						AIState = (float)Phase.Normal;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						if (revenge)
+						{
+							// Can use all 4 types of lasers in rev+
+							switch ((int)npc.ai[3])
+							{
+								case 0:
+								case 1:
+									npc.ai[3] = 3f + Main.rand.Next(2);
+									break;
+								case 2:
+									npc.ai[3] = 3f + Main.rand.Next(2);
+									break;
+								case 3:
+									npc.ai[3] = 1f + Main.rand.Next(2);
+									break;
+								case 4:
+									npc.ai[3] = 1f + Main.rand.Next(2);
+									break;
+							}
+						}
+						else if (expertMode)
+						{
+							// Can only use the top and bottom lasers in expert
+							npc.ai[3] += 1f;
+							if (npc.ai[3] > 2f)
+								npc.ai[3] = 1f;
+						}
 						npc.localAI[2] = 0f;
 						calamityGlobalNPC.newAI[2] = 0f;
+						npc.netUpdate = true;
 					}
 
 					break;

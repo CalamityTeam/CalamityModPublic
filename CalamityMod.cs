@@ -4,6 +4,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
@@ -23,8 +24,8 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -40,12 +41,14 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,11 +65,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Particles;
 
 namespace CalamityMod
 {
-    public class CalamityMod : Mod
+	public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
@@ -84,7 +86,7 @@ namespace CalamityMod
         public static ModHotKey SpectralVeilHotKey;
         public static ModHotKey PlaguePackHotKey;
         public static ModHotKey AngelicAllianceHotKey;
-		public static ModHotKey GodSlayerDashHotKey;
+        public static ModHotKey GodSlayerDashHotKey;
         public static ModHotKey ExoChairSpeedupHotkey;
 
         // Boss Spawners
@@ -112,21 +114,21 @@ namespace CalamityMod
         public const float velocityScaleMin = 0.5f;
         public const float bitingEnemeyVelocityScale = 0.8f;
 
-		// Life steal cap
-		public const int lifeStealCap = 10;
+        // Life steal cap
+        public const int lifeStealCap = 10;
 
-		// Debuff immunities, these are used in the NPCDebuffs file
-		public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
-		public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
-		public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
-		public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
-		public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
-		public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
-		public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
-		public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
-		public static int[] holyEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
+        // Debuff immunities, these are used in the NPCDebuffs file
+        public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
+        public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+        public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
+        public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
+        public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
+        public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
+        public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
+        public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
+        public static int[] holyEnemyImmunities = new int[3] { BuffID.OnFire, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
 
-		internal static CalamityMod Instance;
+        internal static CalamityMod Instance;
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal bool MusicAvailable => !(musicMod is null);
         internal Mod ancientsAwakened = null;
@@ -145,6 +147,16 @@ namespace CalamityMod
         {
             Instance = this;
 
+            // Save vanilla textures.
+            heartOriginal2 = Main.heartTexture;
+            heartOriginal = Main.heart2Texture;
+            rainOriginal = Main.rainTexture;
+            manaOriginal = Main.manaTexture;
+            carpetOriginal = Main.flyingCarpetTexture;
+
+            // Apply IL edits instantly afterwards.
+            ILChanges.Load();
+
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = ModLoader.GetMod("CalamityModMusic");
             ancientsAwakened = ModLoader.GetMod("AAMod");
@@ -161,17 +173,19 @@ namespace CalamityMod
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
 
-            heartOriginal2 = Main.heartTexture;
-            heartOriginal = Main.heart2Texture;
-            rainOriginal = Main.rainTexture;
-            manaOriginal = Main.manaTexture;
-            carpetOriginal = Main.flyingCarpetTexture;
+            // Initialize Calamity Lists so they may be used elsewhere immediately
+            CalamityLists.LoadLists();
+
+            // Initialize Calamity Balance, since it is tightly coupled with the remaining lists
+            CalamityGlobalItem.LoadBalance();
+
+            // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
-			Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
-			Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-			NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
+            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -183,17 +197,15 @@ namespace CalamityMod
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
             AngelicAllianceHotKey = RegisterHotKey("Angelic Alliance Blessing", "G");
-			GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
+            GodSlayerDashHotKey = RegisterHotKey("God Slayer Dash", "H");
             ExoChairSpeedupHotkey = RegisterHotKey("Exo Chair Speed Up", "LeftShift");
 
             if (!Main.dedServ)
                 LoadClient();
 
-            ILChanges.Load();
             BossRushEvent.Load();
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
-            CalamityLists.LoadLists();
             EnchantmentManager.LoadAllEnchantments();
             SetupVanillaDR();
             SetupBossKillTimes();
@@ -201,6 +213,7 @@ namespace CalamityMod
 
             CalamityLocalization.AddLocalizations();
             SchematicManager.Load();
+            CustomLavaManagement.Load();
         }
 
         private void LoadClient()
@@ -260,13 +273,13 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-			Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
-			SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
+            Filters.Scene["CalamityMod:AdultEidolonWyrm"] = new Filter(new AEWScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.25f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:AdultEidolonWyrm"] = new AEWSky();
 
-			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
-            Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseColor(BossRushSky.GeneralColor).UseOpacity(0.75f), EffectPriority.VeryHigh);
+            Filters.Scene["CalamityMod:BossRush"] = new Filter(new BossRushScreenShader("FilterMiniTower").UseOpacity(0.75f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:BossRush"] = new BossRushSky();
 
             Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
@@ -285,13 +298,13 @@ namespace CalamityMod
 
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
-			DevourerofGodsHead.LoadHeadIcons();
-			DevourerofGodsBody.LoadHeadIcons();
-			DevourerofGodsTail.LoadHeadIcons();
-			HiveMind.LoadHeadIcons();
+            DevourerofGodsHead.LoadHeadIcons();
+            DevourerofGodsBody.LoadHeadIcons();
+            DevourerofGodsTail.LoadHeadIcons();
+            HiveMind.LoadHeadIcons();
             Polterghast.LoadHeadIcons();
-			StormWeaverHead.LoadHeadIcons();
-			SupremeCalamitas.LoadHeadIcons();
+            StormWeaverHead.LoadHeadIcons();
+            SupremeCalamitas.LoadHeadIcons();
             ThanatosHead.LoadHeadIcons();
             ThanatosBody1.LoadHeadIcons();
             ThanatosBody2.LoadHeadIcons();
@@ -333,8 +346,8 @@ namespace CalamityMod
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
-			AngelicAllianceHotKey = null;
-			GodSlayerDashHotKey = null;
+            AngelicAllianceHotKey = null;
+            GodSlayerDashHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;
@@ -350,11 +363,13 @@ namespace CalamityMod
             EnchantmentManager.UnloadAllEnchantments();
             CalamityLists.UnloadLists();
             NPCStats.Unload();
+            CalamityGlobalItem.UnloadBalance();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
             SchematicManager.Unload();
+            CustomLavaManagement.Unload();
             BossHealthBarManager.Unload();
             DraedonStructures.Unload();
 
@@ -376,10 +391,10 @@ namespace CalamityMod
             }
             Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
-			Mount.mounts[Mount.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
-			Mount.mounts[Mount.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[Mount.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[Mount.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-			heartOriginal2 = null;
+            heartOriginal2 = null;
             heartOriginal = null;
             rainOriginal = null;
             manaOriginal = null;
@@ -601,8 +616,8 @@ namespace CalamityMod
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
                 { ModContent.NPCType<Bumblefuck>(), 7200 },
                 { ModContent.NPCType<Providence>(), 14400 },
-				{ ModContent.NPCType<CeaselessVoid>(), 10800 },
-				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<CeaselessVoid>(), 10800 },
+                { ModContent.NPCType<DarkEnergy>(), 1200 },
                 { ModContent.NPCType<StormWeaverHead>(), 8100 },
                 { ModContent.NPCType<StormWeaverBody>(), 8100 },
                 { ModContent.NPCType<StormWeaverTail>(), 8100 },
@@ -614,19 +629,19 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsTail>(), 14400 },
                 { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 },
-				{ ModContent.NPCType<Apollo>(), 21600 },
-				{ ModContent.NPCType<Artemis>(), 21600 },
-				{ ModContent.NPCType<AresBody>(), 21600 },
-				{ ModContent.NPCType<AresGaussNuke>(), 21600 },
-				{ ModContent.NPCType<AresLaserCannon>(), 21600 },
-				{ ModContent.NPCType<AresPlasmaFlamethrower>(), 21600 },
-				{ ModContent.NPCType<AresTeslaCannon>(), 21600 },
-				{ ModContent.NPCType<ThanatosHead>(), 21600 },
-				{ ModContent.NPCType<ThanatosBody1>(), 21600 },
-				{ ModContent.NPCType<ThanatosBody2>(), 21600 },
-				{ ModContent.NPCType<ThanatosTail>(), 21600 },
-				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
-			};
+                { ModContent.NPCType<Apollo>(), 21600 },
+                { ModContent.NPCType<Artemis>(), 21600 },
+                { ModContent.NPCType<AresBody>(), 21600 },
+                { ModContent.NPCType<AresGaussNuke>(), 21600 },
+                { ModContent.NPCType<AresLaserCannon>(), 21600 },
+                { ModContent.NPCType<AresPlasmaFlamethrower>(), 21600 },
+                { ModContent.NPCType<AresTeslaCannon>(), 21600 },
+                { ModContent.NPCType<ThanatosHead>(), 21600 },
+                { ModContent.NPCType<ThanatosBody1>(), 21600 },
+                { ModContent.NPCType<ThanatosBody2>(), 21600 },
+                { ModContent.NPCType<ThanatosTail>(), 21600 },
+                { ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 }
+            };
         }
         #endregion
 
@@ -742,14 +757,14 @@ namespace CalamityMod
                 { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
-				{ ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
+                { ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
 				{ ModContent.NPCType<Artemis>(), velocityScaleMin },
-				{ ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
-				{ ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
-				{ ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-				{ ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
-			};
+                { ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
+                { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
+                { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
+                { ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+            };
         }
         #endregion
 
@@ -757,7 +772,7 @@ namespace CalamityMod
 
         // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
         public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? (int?)musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/" + songFilename) : null;
-        
+
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.musicVolume != 0)
@@ -852,11 +867,11 @@ namespace CalamityMod
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region Lighting Effects
-		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
-		{
+        #region Lighting Effects
+        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+        {
             if (Main.gameMenu)
                 BossRushEvent.StartTimer = 0;
 
@@ -874,10 +889,10 @@ namespace CalamityMod
                 tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
             }
         }
-		#endregion
+        #endregion
 
-		#region Mod Support
-		public override void PostSetupContent() => WeakReferenceSupport.Setup();
+        #region Mod Support
+        public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
         #endregion
@@ -970,7 +985,7 @@ namespace CalamityMod
                     CalamitasEnchantUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
-                
+
                 // Codebreaker UI.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
                 {
@@ -1547,7 +1562,12 @@ namespace CalamityMod
         #endregion
 
         #region Tile Entity Time Handler
-        public override void MidUpdateTimeWorld() =>  TileEntityTimeHandler.Update();
+        public override void MidUpdateTimeWorld() => TileEntityTimeHandler.Update();
+        #endregion
+
+        #region Post NPC Updating
+        // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.
+        public override void MidUpdateNPCGore() => CalamityGlobalTownNPC.ResetTownNPCNameBools();
         #endregion
     }
 }

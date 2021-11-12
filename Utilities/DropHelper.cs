@@ -1,5 +1,4 @@
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -10,6 +9,46 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
+    #region Weighted Item Stack Struct
+    // TODO -- DropHelper will need to be fully retooled in 1.4 to utilize this struct for all functions.
+    public struct WeightedItemStack
+    {
+        public const float DefaultWeight = 1f;
+        public const float MinisiculeWeight = 1E-6f;
+
+        internal int itemID;
+        internal float weight;
+        internal int minQuantity;
+        internal int maxQuantity;
+
+        internal WeightedItemStack(int id, float w)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = 1;
+            maxQuantity = 1;
+        }
+
+        internal WeightedItemStack(int id, float w, int quantity)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = quantity;
+            maxQuantity = quantity;
+        }
+
+        internal WeightedItemStack(int id, float w, int min, int max)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = min;
+            maxQuantity = max;
+        }
+
+        internal int ChooseQuantity() => Main.rand.Next(minQuantity, maxQuantity + 1);
+    }
+    #endregion
+
     public static class DropHelper
     {
         #region Global Drop Chances
@@ -50,60 +89,24 @@ namespace CalamityMod
         #endregion
 
         #region Weighted Item Sets
-        public const float DefaultWeight = 1f;
-        public const float MinisiculeWeight = 1E-6f;
-
-        // TODO -- DropHelper will need to be fully retooled in 1.4 to utilize this struct for all functions.
-        public struct WeightedItemStack
-        {
-            internal int itemID;
-            internal float weight;
-            internal int minQuantity;
-            internal int maxQuantity;
-
-            internal WeightedItemStack(int id, float w)
-            {
-                itemID = id;
-                weight = w;
-                minQuantity = 1;
-                maxQuantity = 1;
-            }
-
-            internal WeightedItemStack(int id, float w, int quantity)
-            {
-                itemID = id;
-                weight = w;
-                minQuantity = quantity;
-                maxQuantity = quantity;
-            }
-
-            internal WeightedItemStack(int id, float w, int min, int max)
-            {
-                itemID = id;
-                weight = w;
-                minQuantity = min;
-                maxQuantity = max;
-            }
-        }
-
         // int itemID --> WeightedItemStack
-        public static WeightedItemStack WeightStack(this int itemID) => WeightStack(itemID, DefaultWeight);
+        public static WeightedItemStack WeightStack(this int itemID) => WeightStack(itemID, WeightedItemStack.DefaultWeight);
         public static WeightedItemStack WeightStack(this int itemID, float weight) => new WeightedItemStack(itemID, weight);
-        public static WeightedItemStack WeightStack(this int itemID, int quantity) => WeightStack(itemID, DefaultWeight, quantity);
+        public static WeightedItemStack WeightStack(this int itemID, int quantity) => WeightStack(itemID, WeightedItemStack.DefaultWeight, quantity);
         public static WeightedItemStack WeightStack(this int itemID, float weight, int quantity) => new WeightedItemStack(itemID, weight, quantity);
-        public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, DefaultWeight, min, max);
+        public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, WeightedItemStack.DefaultWeight, min, max);
         public static WeightedItemStack WeightStack(this int itemID, float weight, int min, int max) => new WeightedItemStack(itemID, weight, min, max);
 
         // ModItem generic parameter --> WeightedItemStack
-        public static WeightedItemStack WeightStack<T>() where T : ModItem => WeightStack<T>(DefaultWeight);
+        public static WeightedItemStack WeightStack<T>() where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight);
         public static WeightedItemStack WeightStack<T>(float weight) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight);
-        public static WeightedItemStack WeightStack<T>(int quantity) where T : ModItem => WeightStack<T>(DefaultWeight, quantity);
+        public static WeightedItemStack WeightStack<T>(int quantity) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, quantity);
         public static WeightedItemStack WeightStack<T>(float weight, int quantity) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, quantity);
-        public static WeightedItemStack WeightStack<T>(int min, int max) where T : ModItem => WeightStack<T>(DefaultWeight, min, max);
+        public static WeightedItemStack WeightStack<T>(int min, int max) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, min, max);
         public static WeightedItemStack WeightStack<T>(float weight, int min, int max) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, min, max);
 
         // Separated implementation used so weighted random code isn't duplicated in two places.
-        private static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
+        public static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
         {
             int i;
             float[] breakpoints = new float[stacks.Length];
@@ -115,7 +118,7 @@ namespace CalamityMod
             {
                 float w = stacks[i].weight;
                 if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
-                    w = MinisiculeWeight;
+                    w = WeightedItemStack.MinisiculeWeight;
                 breakpoints[i] = totalWeight += w;
             }
 
@@ -246,24 +249,6 @@ namespace CalamityMod
 
         #region Extra Boss Bags
         /// <summary>
-        /// The number of extra loot bags bosses drop when Revengeance Mode is active.<br></br>
-        /// This is normally zero; Revengenace Mode provides no extra bags.
-        /// </summary>
-        public static int RevExtraBags = 0;
-
-        /// <summary>
-        /// The number of extra loot bags bosses drop when Death Mode is active.<br></br>
-        /// This is normally zero; Death Mode provides no extra bags.
-        /// </summary>
-        public static int DeathExtraBags = 0;
-
-        /// <summary>
-        /// The number of extra loot bags bosses drop when the Defiled Rune is active.<br></br>
-        /// This is normally zero; Defiled Rune provides no extra bags.
-        /// </summary>
-        public static int DefiledExtraBags = 0;
-
-        /// <summary>
         /// The number of extra loot bags bosses drop when Armageddon is active.<br></br>
         /// This is normally 5. Bosses drop 5 bags on normal, and 6 on Expert+.
         /// </summary>
@@ -294,24 +279,6 @@ namespace CalamityMod
             // Drop the 1 vanilla Expert Mode boss bag.
             theBoss.DropBossBags();
             bagsDropped++;
-
-            // If Rev is active, possibly drop extra bags.
-            if (CalamityWorld.revenge)
-            {
-                for (int i = 0; i < RevExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += RevExtraBags;
-            }
-
-            // If Death is active, possibly drop extra bags.
-            if (CalamityWorld.death)
-            {
-                for (int i = 0; i < DeathExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += DeathExtraBags;
-            }
 
             return bagsDropped;
         }

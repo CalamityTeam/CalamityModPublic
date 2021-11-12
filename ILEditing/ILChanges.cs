@@ -8,6 +8,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -19,7 +20,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Liquid;
 using Terraria.GameInput;
+using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -120,6 +123,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement += FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport += DisableTeleporters; // only applies in boss rush
@@ -131,7 +136,12 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
-			IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
+            IL.Terraria.Main.DrawTiles += DrawCustomLava;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
+            IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
+            IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
 
             // Ravager platform fall fix
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
@@ -142,14 +152,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-			// Movement speed balance
-			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
+            // Movement speed balance
+            IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
-			// Mana regen balance
-			IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
-			IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
+            // Mana regen balance
+            IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
+            IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
@@ -170,10 +180,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
         }
 
-		/// <summary>
-		/// Unloads all IL Editing changes in the mod.
-		/// </summary>
-		internal static void Unload()
+        /// <summary>
+        /// Unloads all IL Editing changes in the mod.
+        /// </summary>
+        internal static void Unload()
         {
             VanillaSpawnTownNPCs = null;
             labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
@@ -183,6 +193,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement -= FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport -= DisableTeleporters;
@@ -195,27 +207,32 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
+            IL.Terraria.Main.DrawTiles -= DrawCustomLava;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
+            IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
+            IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
 
-			// Ravager platform fall fix
-			On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            // Ravager platform fall fix
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
 
-			// Damage and health balance
-			IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
+            // Damage and health balance
+            IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
             IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-			// Movement speed balance
-			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
-			IL.Terraria.Player.Update -= RunSpeedAdjustments;
+            // Movement speed balance
+            IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+            IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
-			// Mana regen balance
-			IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
-			IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
+            // Mana regen balance
+            IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
+            IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
 
-			// World generation
-			IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
+            // World generation
+            IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
             IL.Terraria.WorldGen.MakeDungeon -= PreventDungeonHorizontalCollisions;
             IL.Terraria.WorldGen.DungeonHalls -= PreventDungeonHallCollisions;
             IL.Terraria.WorldGen.GrowLivingTree -= BlockLivingTreesNearOcean;
@@ -299,7 +316,12 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
 
             // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
-            cursor.EmitDelegate<Func<Player, int>>((Player p) => p.Calamity().dodgeCooldownTimer);
+            // If your dodges are universally disabled by Armageddon, then they simply "never come off cooldown" and always have 1 frame left.
+            cursor.EmitDelegate<Func<Player, int>>((Player p) =>
+            {
+                CalamityPlayer mp = p.Calamity();
+                return mp.disableAllDodges ? 1 : mp.dodgeCooldownTimer;
+            });
 
             // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
             // The code path which calls NinjaDodge can ONLY occur if the result of this operation is zero,
@@ -324,6 +346,89 @@ namespace CalamityMod.ILEditing
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     calPlayer.SyncDodgeCooldown(false);
             });
+        }
+
+        private static void FixVanillaShieldSlams(ILContext il)
+        {
+            // Remove Shield of Cthulhu setting your iframes to an exact number and instead run Calamity's utility to safely provide iframes.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Shield of Cthulhu immunity blinking set.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.ShieldOfCthulhuIFrames, false));
+
+            // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Replace vanilla's base damage of 150 with Calamity's custom base damage.
+            cursor.Next.Operand = CalamityPlayer.SolarFlareBaseDamage;
+
+            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
+                return;
+            }
+
+            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with Calamity's calculation.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Conv_I4);
+
+            // Move to the immunity frame setting code for the Solar Flare set bonus.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.SolarFlareIFrames, false));
+        }
+
+        private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
+        {
+            // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("eocDash"))) // Loading the remaining frames of the SoC dash
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
+                return;
+            }
+
+            // Find the 0 this is normally compared to. We will be replacing this value.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0)))
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate the zero comparison.");
+                return;
+            }
+
+            // Remove the zero and replace it with a calculated value.
+            // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 10 - CalamityPlayer.ShieldOfCthulhuBonkNoCollideFrames);
         }
 
         private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
@@ -360,14 +465,14 @@ namespace CalamityMod.ILEditing
             return orig(i, j, forced);
         }
 
-		private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
-		{
-			if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
-				self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
-				return true;
+        private static bool EnableCalamityBossPlatformCollision(On.Terraria.NPC.orig_Collision_DecideFallThroughPlatforms orig, NPC self)
+        {
+            if ((self.type == ModContent.NPCType<AstrumAureus>() || self.type == ModContent.NPCType<CrabulonIdle>() || self.type == ModContent.NPCType<RavagerBody>()) &&
+                self.target >= 0 && Main.player[self.target].position.Y > self.position.Y + self.height)
+                return true;
 
-			return orig(self);
-		}
+            return orig(self);
+        }
 
         private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
         {
@@ -514,7 +619,7 @@ namespace CalamityMod.ILEditing
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
             // Do nothing special if the player has a regular mouse or is on the menu.
-            if (Main.gameMenu || !Main.LocalPlayer.Calamity().ableToDrawBlazingMouse)
+            if (Main.gameMenu || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
@@ -550,7 +655,7 @@ namespace CalamityMod.ILEditing
                 Vector2 desaturatedDrawPosition = drawPosition + Vector2.One;
 
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
-                if (Main.LocalPlayer.Calamity().blazingMouseDamageEffects && !Main.mapFullscreen)
+                if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
                     Texture2D auraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamityAura");
                     Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTime * 12.3f) % 6);
@@ -635,6 +740,130 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
         }
 
+        private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
+        {
+            FusableParticleManager.LoadParticleRenderSets(true, width, height);
+            orig(width, height, fullscreen);
+        }
+
+        private static void DrawCustomLava(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                return;
+            }
+
+            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
+            cursor.Index += 3;
+            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
+
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(155)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
+            cursor.Emit(OpCodes.Ldloc, 151);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+        }
+
+        private static void DrawCustomLava2(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(c => c.MatchLdfld<LiquidRenderer>("_liquidTextures")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                return;
+            }
+
+            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
+            cursor.Index += 3;
+            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
+
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetField("_liquidTextures"));
+            cursor.Emit(OpCodes.Ldloc, 8);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, VertexColors>>((initialColor, initialTexture) =>
+            {
+                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor);
+                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor);
+                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor);
+                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
+                return initialColor;
+            });
+        }
+
+        private static void DrawCustomLava3(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Select the lava color.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Lighting>("get_NotRetro")))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the retro style check.");
+                return;
+            }
+
+            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
+            cursor.Emit(OpCodes.Ldloc, 15);
+            cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            cursor.Emit(OpCodes.Stloc, 13);
+
+            // Go back to the start and change textures as necessary.
+            cursor.Index = 0;
+
+            while (cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            {
+                // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+                // The order is load is texture array field -> load index -> load the reference to the texture at that index.
+                cursor.Index += 3;
+                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
+            }
+        }
+
+        private static void DrawCustomLavafalls(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            // Search for the color and alter it based on the same conditions as the lava.
+            if (!cursor.TryGotoNext(c => c.MatchCallOrCallvirt(typeof(Color).GetConstructor(new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) }))))
+            {
+                LogFailure("Custom Lavafall Drawing", "Could not locate the waterfall color.");
+                return;
+            }
+
+            // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
+            // color properties as lava.
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
+            cursor.Emit(OpCodes.Stloc, 12);
+
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 51);
+            cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
+            cursor.Emit(OpCodes.Stloc, 51);
+        }
+
         #endregion
 
         #region Damage and health balance
@@ -714,24 +943,24 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-		#endregion
+        #endregion
 
-		#region Movement speed balance
-		private static void MaxRunSpeedAdjustment(ILContext il)
-		{
-			// Increase the base max run speed of the player to make early game less of a slog.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
-			{
-				LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
-		}
+        #region Movement speed balance
+        private static void MaxRunSpeedAdjustment(ILContext il)
+        {
+            // Increase the base max run speed of the player to make early game less of a slog.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
+            {
+                LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
+        }
 
-		private static void RunSpeedAdjustments(ILContext il)
-		{
+        private static void RunSpeedAdjustments(ILContext il)
+        {
             var cursor = new ILCursor(il);
             float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
@@ -892,57 +1121,57 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-		#endregion
+        #endregion
 
-		#region Mana regen balance
-		private static void ManaRegenDelayAdjustment(ILContext il)
-		{
-			// Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
-			// Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
-			{
-				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
+        #region Mana regen balance
+        private static void ManaRegenDelayAdjustment(ILContext il)
+        {
+            // Decrease the max mana regen delay so that mage is less annoying to play without mana regen buffs.
+            // Decreases the max mana regen delay from a range of 31.5 - 199.5 to 4 - 52.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(45f))) // The flat amount added to max regen delay in the formula.
+            {
+                LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen flat variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 20f); // Decrease to 20f.
 
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
-			{
-				LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
-		}
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.7f))) // The multiplier for max mana regen delay.
+            {
+                LogFailure("Max Mana Regen Delay Reduction", "Could not locate the max mana regen delay multiplier variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Decrease to 0.2f.
+        }
 
-		private static void ManaRegenAdjustment(ILContext il)
-		{
-			// Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
-			var cursor = new ILCursor(il);
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
-			{
-				LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
+        private static void ManaRegenAdjustment(ILContext il)
+        {
+            // Increase the base mana regen so that mage is less annoying to play without mana regen buffs.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.8f))) // The multiplier for the mana regen formula: (float)statMana / (float)statManaMax2 * 0.8f + 0.2f.
+            {
+                LogFailure("Mana Regen Buff", "Could not locate the mana regen multiplier variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.25f); // Decrease to 0.25f.
 
-			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
-			{
-				LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
-				return;
-			}
-			cursor.Remove();
-			cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
-		}
-		#endregion
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.2f))) // The flat added mana regen amount.
+            {
+                LogFailure("Mana Regen Buff", "Could not locate the flat mana regen variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
+        }
+        #endregion
 
-		#region World generation
+        #region World generation
 
-		// Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
-		private static void ReplacePharaohSetInPyramids(ILContext il)
+        // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+        private static void ReplacePharaohSetInPyramids(ILContext il)
         {
             var cursor = new ILCursor(il);
 
@@ -1234,7 +1463,7 @@ namespace CalamityMod.ILEditing
         {
             Tile t = Main.tile[i, j];
             int topY = j;
-            while(t != null && t.active() && t.type == rootTile.type)
+            while (t != null && t.active() && t.type == rootTile.type)
             {
                 // Immediately stop at the top of the world, if you got there somehow.
                 if (topY == 0)
@@ -1243,7 +1472,7 @@ namespace CalamityMod.ILEditing
                 --topY;
                 t = Main.tile[i, topY];
             }
-            
+
             // The above loop will have gone 1 past the top of the door. Correct for this.
             return ++topY;
         }
@@ -1278,6 +1507,39 @@ namespace CalamityMod.ILEditing
             // Play the door closing sound (lab doors do not use the door opening sound)
             Main.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
             return true;
+        }
+
+        private static Texture2D SelectLavaTexture(Texture2D initialTexture, bool blockTexture)
+        {
+            // Use the initial texture if it isn't lava.
+            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+                return initialTexture;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
+            {
+                if (lavaStyle.ChooseLavaStyle())
+                    return blockTexture ? lavaStyle.BlockTexture : lavaStyle.LavaTexture;
+            }
+
+            return initialTexture;
+        }
+
+        private static Color SelectLavaColor(Texture2D initialTexture, Color initialLightColor)
+        {
+            // Use the initial color if it isn't lava.
+            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+                return initialLightColor;
+
+            foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
+            {
+                if (lavaStyle.ChooseLavaStyle())
+                {
+                    lavaStyle.SelectLightColor(ref initialLightColor);
+                    return initialLightColor;
+                }
+            }
+
+            return initialLightColor;
         }
 
         public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());

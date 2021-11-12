@@ -84,6 +84,9 @@ namespace CalamityMod.NPCs
 		public const int DoGPhase1KillTime = 5400;
 		public const int DoGPhase2KillTime = 9000;
 
+		// Biome enrage timer max
+		public const int biomeEnrageTimerMax = 300;
+
 		public bool ShouldFallThroughPlatforms;
 
 		/// <summary>
@@ -150,6 +153,7 @@ namespace CalamityMod.NPCs
 		// Stuff used by the Boss Health UI
 		public bool SplittingWorm = false;
 		public bool CanHaveBossHealthBar = false;
+		public bool ShouldCloseHPBar = false;
 
 		// Timer for how long an NPC is immune to certain debuffs
 		public const int slowingDebuffResistanceMin = 1800;
@@ -682,6 +686,16 @@ namespace CalamityMod.NPCs
 			//NPCID.WanderingEyeFish,
 			//NPCID.ZombieMerman,
 		};
+
+		public static List<int> BoundNPCIDs = new List<int>
+		{
+			NPCID.BoundGoblin,
+			NPCID.BoundWizard,
+			NPCID.BoundMechanic,
+			NPCID.SleepingAngler,
+			NPCID.BartenderUnconscious,
+			//NPCID.GolferRescue
+		};
 		#endregion
 
 		#region Instance Per Entity
@@ -758,11 +772,10 @@ namespace CalamityMod.NPCs
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 
-			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
-
 			// Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
 			CurrentlyEnraged = false;
 			CanHaveBossHealthBar = false;
+			ShouldCloseHPBar = false;
 		}
         #endregion
 
@@ -1010,7 +1023,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(pShred, 1500, 300, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
-			ApplyDPSDebuff(vulnerabilityHex, 6660, 666, ref npc.lifeRegen, ref damage);
+			ApplyDPSDebuff(vulnerabilityHex, VulnerabilityHex.DPS, VulnerabilityHex.TickNumber, ref npc.lifeRegen, ref damage);
 			ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
@@ -1095,6 +1108,8 @@ namespace CalamityMod.NPCs
                 RevDeathStatChanges(npc, mod);
 
             OtherStatChanges(npc);
+
+			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
         }
 		#endregion
 
@@ -1568,7 +1583,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Reduce mech boss HP and damage depending on the new ore progression changes
-			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
 			{
 				if (!NPC.downedMechBossAny)
 				{
@@ -3364,7 +3379,7 @@ namespace CalamityMod.NPCs
 				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
 				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || AresIDs.Contains(npc.type))
 			{
-				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : 0.5;
+				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
 			}
@@ -3493,9 +3508,9 @@ namespace CalamityMod.NPCs
 
 			if (AresIDs.Contains(npc.type))
 			{
-				// 25% resist to true melee.
+				// 25% resist to true melee and 50% resist to Murasama.
 				if (projectile.Calamity().trueMelee)
-					damage = (int)(damage * 0.75);
+					damage = (int)(damage * (projectile.type == ProjectileType<MurasamaSlash>() ? 0.5 : 0.75));
 
 				// 20% resist to Eclipse's Fall stealth strike.
 				else if (projectile.type == ProjectileType<EclipsesSmol>())
@@ -3509,21 +3524,30 @@ namespace CalamityMod.NPCs
 			}
 			else if (ThanatosIDs.Contains(npc.type))
 			{
-				// 75% resist to Celestus.
-				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
+				// 75% resist to Celestus and Chicken Cannon.
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>() || projectile.type == ProjectileType<ChickenExplosion>())
 					damage = (int)(damage * 0.25);
 
-				// 50% resist to true melee.
-				else if (projectile.Calamity().trueMelee)
+				// 65% resist to true melee and Hadopelagic Echo.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
+					damage = (int)(damage * 0.35);
+
+				// 50% resist to Vehemence skulls.
+				else if (projectile.type == ProjectileType<VehemenceSkull>())
 					damage = (int)(damage * 0.5);
 
-				// 40% resist to Wrathwing stealth strike.
-				else if (projectile.type == ProjectileType<WrathwingCinder>())
+				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
+				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
-				// 25% resist to Eradicator beams.
-				else if (projectile.type == ProjectileType<NebulaShot>())
-					damage = (int)(damage * 0.75);
+				// 20% resist to Eradicator beams and Voltaic Climax / Void Vortex hitscan.
+				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>())
+					damage = (int)(damage * 0.8);
+
+				// 15% resist to God Slayer Slugs, Luminite Bullets, and Gruesome Eminence.
+				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>() || projectile.type == ProjectileType<SpiritCongregation>())
+					damage = (int)(damage * 0.85);
+
 			}
 			else if (npc.type == NPCType<RavagerBody>())
 			{

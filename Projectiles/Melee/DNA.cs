@@ -1,8 +1,8 @@
-using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Melee;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.melee = true;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.CrystalVileShardHead;
+            projectile.ignoreWater = true;
+            aiType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()
@@ -89,20 +89,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.myPlayer == projectile.owner && !CalamityPlayer.areThereAnyDamnBosses)
-            {
-				bool isImmune = false;
-				for (int j = 0; j < Main.player[projectile.owner].hurtCooldowns.Length; j++)
-				{
-					if (Main.player[projectile.owner].hurtCooldowns[j] > 0)
-						isImmune = true;
-				}
-				if (!isImmune)
-                {
-                    Main.player[projectile.owner].immune = true;
-                    Main.player[projectile.owner].immuneTime = 5;
-                }
-            }
+            Main.player[projectile.owner].GiveIFrames(Lucrecia.OnHitIFrames);
             target.immune[projectile.owner] = 5;
         }
     }

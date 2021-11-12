@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
         {
 			projectile.width = 10;
 			projectile.height = 10;
-			projectile.penetrate = 2;
+			projectile.penetrate = -1;
 			projectile.hostile = true;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }

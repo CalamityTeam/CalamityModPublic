@@ -187,7 +187,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
-		public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) => lastMechAlive ? 640f : 800f;
+		public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) => 
+			(CalamityWorld.malice ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) - (lastMechAlive ? 160f : 0f);
 
 		public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
 		{
@@ -284,7 +285,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Prevent mechs from being respawned
 			if (otherExoMechWasFirst)
-				npc.ai[3] = 1f;
+			{
+				if (npc.ai[3] < 1f)
+					npc.ai[3] = 1f;
+			}
 
 			// Phases
 			bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
@@ -445,13 +449,25 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				destination += new Vector2(0f, 2400f);
 			}
 
+			// Distance from target
+			float distanceFromTarget = Vector2.Distance(npc.Center, destination);
+
+			// Increase speed if too far from target
+			float increaseSpeedMult = 1f;
+			float increaseSpeedGateValue = 500f;
+			if (distanceFromTarget > increaseSpeedGateValue)
+			{
+				float distanceAmount = MathHelper.Clamp((distanceFromTarget - increaseSpeedGateValue) / (CalamityGlobalNPC.CatchUpDistance350Tiles - increaseSpeedGateValue), 0f, 1f);
+				increaseSpeedMult = MathHelper.Lerp(1f, 3.5f, distanceAmount);
+			}
+
 			// Charge variables
 			float turnDistance = baseTurnDistance;
 			float chargeLocationDistance = turnDistance * 0.2f;
 
 			// Laser Barrage variables
 			float laserBarrageLocationBaseDistance = SecondaryAIState == (int)SecondaryPhase.PassiveAndImmune ? baseDistance * 2f : baseDistance;
-			Vector2 laserBarrageLocation = new Vector2(0f, laserBarrageLocationBaseDistance);
+			Vector2 laserBarrageLocation = new Vector2(0f, npc.ai[1] % 2f == 0f ? laserBarrageLocationBaseDistance : -laserBarrageLocationBaseDistance);
 			float laserBarrageLocationDistance = turnDistance * 3f;
 
 			// Velocity and turn speed values
@@ -461,6 +477,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			// Increase top velocity if target is dead or if Thanatos is uncoiling
 			if (targetDead || speedUp)
 				baseVelocity *= 4f;
+			else
+				baseVelocity *= increaseSpeedMult;
 
 			float turnDegrees = baseVelocity * 0.11f * (berserk ? 1.25f : 1f);
 
@@ -483,9 +501,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.01f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, destination);
-
 			// Passive and Immune phases
 			switch ((int)SecondaryAIState)
 			{
@@ -497,7 +512,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 						if (spawnOtherExoMechs)
 						{
 							// Reset everything
-							npc.ai[3] = 1f;
+							if (npc.ai[3] < 1f)
+								npc.ai[3] = 1f;
+
 							SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
 							npc.localAI[0] = 0f;
 							npc.localAI[2] = 0f;
@@ -736,6 +753,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 								calamityGlobalNPC.newAI[3] += 1f;
 								if (calamityGlobalNPC.newAI[3] >= velocityAdjustTime)
 								{
+									npc.ai[1] += (berserk && revenge) ? 1f : 0f;
 									npc.localAI[0] = berserk ? 1f : 0f;
 									AIState = (float)Phase.Charge;
 									calamityGlobalNPC.newAI[2] = 0f;
@@ -1031,7 +1049,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				// A general factor for the aura.
 				// Used to cause fade-ins/outs as the attack starts/stops.
 				float auraGeneralPower = Utils.InverseLerp(0f, deathrayTelegraphDuration * 0.333f, npc.Calamity().newAI[2], true);
-				auraGeneralPower *= Utils.InverseLerp(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration - 40f, npc.Calamity().newAI[2], true);
+				auraGeneralPower *= Utils.InverseLerp(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration, npc.Calamity().newAI[2], true);
 
 				// Determine the characteristics of the aura. This requires intermediate computations to determine if Thanatos is in its final phase as well as for pulsing.
 				bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);

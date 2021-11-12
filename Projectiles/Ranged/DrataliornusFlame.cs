@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             projectile.localAI[0]++;
-            if (projectile.localAI[0] > 30f) //dragon dust trail counter, but only empowered proj spawns it
+            if (projectile.localAI[0] > 60f) //dragon dust trail counter, but only empowered proj spawns it
             {
                 projectile.localAI[0] = 0f;
 
@@ -231,7 +231,7 @@ namespace CalamityMod.Projectiles.Ranged
                     vel.X += Main.rand.Next(-100, 101);
                     vel.Normalize();
                     vel *= 30f;
-                    Projectile.NewProjectile(pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage * 3, projectile.knockBack * 5f, projectile.owner);
+                    Projectile.NewProjectile(pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(projectile.damage * 1.5f), projectile.knockBack * 5f, projectile.owner);
                 }
             }
         }
