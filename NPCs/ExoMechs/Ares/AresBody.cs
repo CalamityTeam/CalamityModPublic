@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
 			npc.boss = true;
-			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 
