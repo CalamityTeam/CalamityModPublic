@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Weapons.Typeless;
@@ -12,6 +11,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]

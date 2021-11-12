@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -69,7 +70,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.alpha = 0;
         }
 
-        public float PrimitiveWidthFunction(float completionRatio)
+		public override void NPCLoot()
+		{
+			int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+			if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+		}
+
+		public float PrimitiveWidthFunction(float completionRatio)
         {
             float widthInterpolant = Utils.InverseLerp(0f, 0.16f, completionRatio, true) * Utils.InverseLerp(1f, 0.84f, completionRatio, true);
             widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);

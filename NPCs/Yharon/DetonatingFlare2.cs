@@ -72,7 +72,19 @@ namespace CalamityMod.NPCs.Yharon
             CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
         }
 
-        public override Color? GetAlpha(Color drawColor)
+		public override bool PreNPCLoot()
+		{
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
+
+			return false;
+		}
+
+		public override Color? GetAlpha(Color drawColor)
         {
             return new Color(255, Main.DiscoG, 53, 0);
         }

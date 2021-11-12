@@ -135,12 +135,16 @@ namespace CalamityMod.NPCs.Calamitas
             return npc.Calamity().newAI[0] == 1f;
         }
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CataclysmTrophy>(), 10);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 4 : 5);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 4 : 5);
-        }
+		public override void NPCLoot()
+		{
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<CataclysmTrophy>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 4 : 5);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 4 : 5);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

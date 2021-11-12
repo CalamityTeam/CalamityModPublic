@@ -276,6 +276,8 @@ namespace CalamityMod.NPCs.Ravager
             return true;
         }
 
+		public override bool PreNPCLoot() => false;
+
 		public override bool CheckActive()
 		{
 			return false;

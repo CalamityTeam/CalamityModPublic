@@ -150,7 +150,14 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-        public override bool CheckActive()
+		public override void NPCLoot()
+		{
+			int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+			if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+		}
+
+		public override bool CheckActive()
         {
             return false;
         }

@@ -1,7 +1,6 @@
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -268,12 +267,21 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-		public override void NPCLoot()
+		public override bool PreNPCLoot()
 		{
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
+
 			if (CalamityPlayer.areThereAnyDamnBosses)
-				return;
+				return false;
 
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
+
+			return false;
 		}
 
 		public override void FindFrame(int frameHeight)

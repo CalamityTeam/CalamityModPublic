@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -51,10 +52,19 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemChance(npc, ItemID.Blindfold, Main.expertMode ? 50 : 100);
-        }
+		public override bool PreNPCLoot()
+		{
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
+
+			DropHelper.DropItemChance(npc, ItemID.Blindfold, Main.expertMode ? 50 : 100);
+
+			return false;
+		}
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

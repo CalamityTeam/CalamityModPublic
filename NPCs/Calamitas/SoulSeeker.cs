@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
@@ -148,6 +146,13 @@ namespace CalamityMod.NPCs.Calamitas
                 }
             }
         }
+
+		public override void NPCLoot()
+		{
+			int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+			if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+		}
 
 		public override bool CheckActive() => false;
 

@@ -1,10 +1,8 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -120,6 +118,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             RotationalDegreeOffset += 0.5f;
             return false;
         }
+
+		public override void NPCLoot()
+		{
+			int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+			if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

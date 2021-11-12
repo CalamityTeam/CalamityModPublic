@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
@@ -424,11 +423,19 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override bool PreNPCLoot()
 		{
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
+
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == npc.type || Main.npc[i].type == ModContent.NPCType<PerforatorBodyMedium>() || Main.npc[i].type == ModContent.NPCType<PerforatorTailMedium>()))
 					return false;
 			}
+
 			return true;
 		}
 

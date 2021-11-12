@@ -570,7 +570,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void NPCLoot()
         {
-            bool otherSlimeGodsAlive =
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+
+			bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||

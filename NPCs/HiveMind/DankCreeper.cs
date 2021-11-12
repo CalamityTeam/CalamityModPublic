@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -7,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.HiveMind
 {
     public class DankCreeper : ModNPC
@@ -106,14 +106,23 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-        public override void NPCLoot()
-        {
-            if ((Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice) && Main.netMode != NetmodeID.MultiplayerClient)
-            {
+		public override bool PreNPCLoot()
+		{
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
+
+			if ((Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice) && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				int type = ModContent.ProjectileType<ShadeNimbusHostile>();
 				int damage = npc.GetProjectileDamage(type);
 				Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
-            }
-        }
+			}
+
+			return false;
+		}
     }
 }

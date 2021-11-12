@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Providence
 {
     [AutoloadBossHead]
@@ -188,6 +190,13 @@ namespace CalamityMod.NPCs.Providence
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
+		}
+
+		public override void NPCLoot()
+		{
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
 		}
 
 		public override bool CheckActive()

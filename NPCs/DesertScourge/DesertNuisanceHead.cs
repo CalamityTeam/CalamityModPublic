@@ -15,7 +15,6 @@ namespace CalamityMod.NPCs.DesertScourge
 		public int maxLength = 13;
 		bool TailSpawned = false;
 
-
 		public override void SetStaticDefaults() => DisplayName.SetDefault("A Desert Nuisance");
 
 		public override void SetDefaults()
@@ -373,9 +372,11 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 		}
 
-		public override bool PreNPCLoot()
+		public override void NPCLoot()
 		{
-			return false;
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

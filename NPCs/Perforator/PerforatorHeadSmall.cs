@@ -518,6 +518,10 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void NPCLoot()
         {
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+
 			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 2, 6);
 			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 1, 3);
 			DropHelper.DropItem(npc, ItemID.Vertebrae, 1, 2);

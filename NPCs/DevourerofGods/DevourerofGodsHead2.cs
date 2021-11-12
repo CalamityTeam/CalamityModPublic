@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.DevourerofGods
 {
     public class DevourerofGodsHead2 : ModNPC
@@ -332,12 +333,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 			return false;
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-        {
-            potionType = ItemID.None;
-        }
+		public override void NPCLoot()
+		{
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+		}
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
