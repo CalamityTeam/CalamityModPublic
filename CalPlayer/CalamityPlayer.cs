@@ -3153,7 +3153,7 @@ namespace CalamityMod.CalPlayer
                     // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
-					// Play Adrenaline Activation sound
+					// Play Rage Activation sound
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RageActivate"), player.position);
 
                     // TODO -- improve Rage activation visuals
