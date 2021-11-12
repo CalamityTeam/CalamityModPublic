@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
             int bodyWidth = 44;
             int bodyHeight = 42;
-			int baseBulletHellProjectileGateValue = enraged ? 6 : 8;
+			int baseBulletHellProjectileGateValue = enraged ? 6 : revenge ? 8 : expertMode ? 9 : 10;
 
 			Vector2 vectorCenter = npc.Center;
 
