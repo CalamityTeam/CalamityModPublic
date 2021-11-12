@@ -7064,8 +7064,11 @@ namespace CalamityMod.CalPlayer
                 bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
                 if (player.controlJump && falling)
                 {
-                    player.velocity.Y *= 0.9f;
-                    player.wingFrame = 3;
+					if (!player.mount.Active)
+					{
+						player.velocity.Y *= 0.9f;
+						player.wingFrame = 3;
+					}
                     player.noFallDmg = true;
                     player.fallStart = (int)(player.position.Y / 16f);
                 }
