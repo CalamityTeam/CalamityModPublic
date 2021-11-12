@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
 		private const float RotationIncrement = 0.09f;
 		private const int Lifetime = 350;
-		public const int StealthExtraLifetime = 60; // 2 extra updates means this is half a second
+		public const int StealthExtraLifetime = 240; // 1 extra update means this is double what you'd expect for 2 seconds
 		private const float ReboundTime = 40f;
 
 		private float randomLaserCharge = 0f;

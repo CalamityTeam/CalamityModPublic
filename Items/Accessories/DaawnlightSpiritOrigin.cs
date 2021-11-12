@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Accessories
                 "Explosions or large projectiles cannot strike bullseyes\n" +
                 "Converts all ranged critical strike chance boosts into extra critical strike damage\n" +
                 "All ranged weapons will deal even more critical strike damage the slower they are\n" +
+                "Summons a heroic spirit from another world if accessory visibility is enabled\n" +
                 "'A strand of a lost cosmos remains, waiting for its master'");
         }
 

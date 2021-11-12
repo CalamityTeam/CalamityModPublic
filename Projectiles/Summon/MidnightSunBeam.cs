@@ -13,9 +13,6 @@ namespace CalamityMod.Projectiles.Summon
         // How long this laser can exist before it is deleted.
         public const int TrueTimeLeft = 120;
 
-        // Pretty self explanatory
-        private const float maximumLength = 1600f;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -34,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.timeLeft = TrueTimeLeft;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            projectile.localNPCHitCooldown = 16;
         }
 
         // Netcode for sending and receiving shit

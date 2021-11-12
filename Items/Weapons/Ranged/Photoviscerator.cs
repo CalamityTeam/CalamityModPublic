@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Photoviscerator : ModItem
     {
-        public const int CooldownTime = 60 * 7; // 7 second cooldown.
-        public const double AltFireDamageMult = 1D;
+        public const float AmmoNotConsumeChance = 0.9f;
+        private const float AltFireShootSpeed = 17f;
         
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 71;
+            item.damage = 230;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -33,12 +33,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
-            item.shootSpeed = 6f;
+            item.shootSpeed = 18f;
             item.useAmmo = AmmoID.Gel;
+
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ModContent.ProjectileType<ExoLightBurst>();
+                item.shoot = ModContent.ProjectileType<ExoFlareCluster>();
                 item.useTime = item.useAnimation = 27;
             }
             else
@@ -66,43 +67,41 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            // Alt fire: Shoot an Exo Flare Cluster.
             if (player.altFunctionUse == 2)
             {
+                int projID = ModContent.ProjectileType<ExoFlareCluster>();
                 Vector2 velocity = new Vector2(speedX, speedY);
                 position += velocity.ToRotation().ToRotationVector2() * 80f;
-                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), (int)(damage * AltFireDamageMult), knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * AltFireShootSpeed, projID, damage, knockBack, player.whoAmI);
+                return false;
             }
-            else
+
+
+            // Left click: Exo Fire, with a chance of Exo Light Bombs.
+            for (int i = 0; i < 2; i++)
+            {
+                Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f) * Main.rand.NextFloat(0.97f, 1.03f);
+                Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            }
+            if (player.itemAnimation == 1)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f);
-                    Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                }
-                if (Main.rand.NextBool(10))
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Vector2 velocity = new Vector2(speedX, speedY) * 2f;
-                        position += velocity.ToRotation().ToRotationVector2() * 64f;
-                        int yDirection = (i == 0).ToDirectionInt();
-                        velocity = velocity.RotatedBy(0.2f * yDirection);
-                        Projectile lightBomb = Projectile.NewProjectileDirect(position, velocity, ModContent.ProjectileType<ExoLightBomb>(), damage, knockBack, player.whoAmI);
+                    Vector2 velocity = new Vector2(speedX, speedY) * 0.7f;
+                    position += velocity.ToRotation().ToRotationVector2() * 64f;
+                    int yDirection = (i == 0).ToDirectionInt();
+                    velocity = velocity.RotatedBy(0.2f * yDirection);
+                    Projectile lightBomb = Projectile.NewProjectileDirect(position, velocity, ModContent.ProjectileType<ExoLight>(), damage, knockBack, player.whoAmI);
 
-                        lightBomb.localAI[1] = yDirection;
-                        lightBomb.netUpdate = true;
-                    }
+                    lightBomb.localAI[1] = yDirection;
+                    lightBomb.netUpdate = true;
                 }
             }
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 90)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() > AmmoNotConsumeChance;
 
         public override void AddRecipes()
         {

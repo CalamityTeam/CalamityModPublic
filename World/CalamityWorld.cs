@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
@@ -51,10 +52,10 @@ namespace CalamityMod.World
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
         public static bool ironHeart = false; // Iron Heart Mode
-		public static bool malice = false; // Malice Mode
+        public static bool malice = false; // Malice Mode
 
-		// New Temple Altar
-		public static int newAltarX = 0;
+        // New Temple Altar
+        public static int newAltarX = 0;
         public static int newAltarY = 0;
 
         // Evil Islands
@@ -201,18 +202,18 @@ namespace CalamityMod.World
         public static bool downedDoG = false;
         public static bool downedBumble = false;
         public static bool downedYharon = false;
-		public static bool downedExoMechs = false;
+        public static bool downedExoMechs = false;
         public static bool downedSCal = false;
-		public static bool downedAdultEidolonWyrm = false;
+        public static bool downedAdultEidolonWyrm = false;
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedCLAMHardMode = false;
         public static bool downedBetsy = false; // Betsy
 
-		// These are purely used for loot drops, nothing else
-		public static bool downedAres = false;
-		public static bool downedThanatos = false;
-		public static bool downedArtemisAndApollo = false;
+        // These are purely used for loot drops, nothing else
+        public static bool downedAres = false;
+        public static bool downedThanatos = false;
+        public static bool downedArtemisAndApollo = false;
 
         public static bool downedEoCAcidRain = false;
         public static bool downedAquaticScourgeAcidRain = false;
@@ -242,11 +243,11 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
             CalamityGlobalNPC.signus = -1;
-			CalamityGlobalNPC.draedonExoMechPrime = -1;
-			CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
-			CalamityGlobalNPC.draedonExoMechTwinRed = -1;
-			CalamityGlobalNPC.draedonExoMechWorm = -1;
-			CalamityGlobalNPC.adultEidolonWyrmHead = -1;
+            CalamityGlobalNPC.draedonExoMechPrime = -1;
+            CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
+            CalamityGlobalNPC.draedonExoMechTwinRed = -1;
+            CalamityGlobalNPC.draedonExoMechWorm = -1;
+            CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
@@ -308,13 +309,13 @@ namespace CalamityMod.World
             downedSentinel2 = false;
             downedSentinel3 = false;
             downedYharon = false;
-			downedExoMechs = false;
-			downedAres = false;
-			downedThanatos = false;
-			downedArtemisAndApollo = false;
+            downedExoMechs = false;
+            downedAres = false;
+            downedThanatos = false;
+            downedArtemisAndApollo = false;
             TalkedToDraedon = false;
             downedSCal = false;
-			downedAdultEidolonWyrm = false;
+            downedAdultEidolonWyrm = false;
             downedCLAM = false;
             downedCLAMHardMode = false;
             downedBumble = false;
@@ -332,7 +333,7 @@ namespace CalamityMod.World
             death = false;
             armageddon = false;
             ironHeart = false;
-			malice = false;
+            malice = false;
             rainingAcid = false;
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
@@ -380,20 +381,20 @@ namespace CalamityMod.World
                 downed.Add("secondSentinels");
             if (downedYharon)
                 downed.Add("yharon");
-			if (downedExoMechs)
-				downed.Add("exoMechs");
-			if (downedAres)
-				downed.Add("ares");
-			if (downedThanatos)
-				downed.Add("thanatos");
-			if (downedArtemisAndApollo)
-				downed.Add("artemisAndApollo");
+            if (downedExoMechs)
+                downed.Add("exoMechs");
+            if (downedAres)
+                downed.Add("ares");
+            if (downedThanatos)
+                downed.Add("thanatos");
+            if (downedArtemisAndApollo)
+                downed.Add("artemisAndApollo");
             if (TalkedToDraedon)
                 downed.Add("TalkedToDraedon");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
-			if (downedAdultEidolonWyrm)
-				downed.Add("adultEidolonWyrm");
+            if (downedAdultEidolonWyrm)
+                downed.Add("adultEidolonWyrm");
             if (downedBumble)
                 downed.Add("bumblebirb");
             if (downedCrabulon)
@@ -424,8 +425,8 @@ namespace CalamityMod.World
                 downed.Add("armageddon");
             if (ironHeart)
                 downed.Add("ironHeart");
-			if (malice)
-				downed.Add("malice");
+            if (malice)
+                downed.Add("malice");
             if (abyssSide)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
@@ -522,12 +523,12 @@ namespace CalamityMod.World
                 ["Reforges"] = Reforges,
                 ["MoneyStolenByBandit"] = MoneyStolenByBandit,
 
-				["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
+                ["SunkenSeaLabCenter"] = SunkenSeaLabCenter,
                 ["PlanetoidLabCenter"] = PlanetoidLabCenter,
                 ["JungleLabCenter"] = JungleLabCenter,
                 ["HellLabCenter"] = HellLabCenter,
                 ["IceLabCenter"] = IceLabCenter
-			};
+            };
         }
         #endregion
 
@@ -553,13 +554,13 @@ namespace CalamityMod.World
             downedSentinel3 = downed.Contains("signus");
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
-			downedExoMechs = downed.Contains("exoMechs");
-			downedAres = downed.Contains("ares");
-			downedThanatos = downed.Contains("thanatos");
-			downedArtemisAndApollo = downed.Contains("artemisAndApollo");
+            downedExoMechs = downed.Contains("exoMechs");
+            downedAres = downed.Contains("ares");
+            downedThanatos = downed.Contains("thanatos");
+            downedArtemisAndApollo = downed.Contains("artemisAndApollo");
             TalkedToDraedon = downed.Contains("TalkedToDraedon");
             downedSCal = downed.Contains("supremeCalamitas");
-			downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
+            downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
             downedBumble = downed.Contains("bumblebirb");
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
@@ -575,7 +576,7 @@ namespace CalamityMod.World
             death = downed.Contains("death");
             armageddon = downed.Contains("armageddon");
             ironHeart = downed.Contains("ironHeart");
-			malice = downed.Contains("malice");
+            malice = downed.Contains("malice");
             abyssSide = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
@@ -630,7 +631,7 @@ namespace CalamityMod.World
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
 
-			SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
+            SunkenSeaLabCenter = tag.Get<Vector2>("SunkenSeaLabCenter");
             PlanetoidLabCenter = tag.Get<Vector2>("PlanetoidLabCenter");
             JungleLabCenter = tag.Get<Vector2>("JungleLabCenter");
             HellLabCenter = tag.Get<Vector2>("HellLabCenter");
@@ -647,7 +648,7 @@ namespace CalamityMod.World
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
 
-			if (loadVersion == 0)
+            if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
                 downedDesertScourge = flags[0];
@@ -750,14 +751,14 @@ namespace CalamityMod.World
                 _ = flags10[6];
                 _ = flags10[7];
 
-				BitsByte flags11 = reader.ReadByte();
-				malice = flags11[0];
-				HasGeneratedLuminitePlanetoids = flags11[1];
-				downedAdultEidolonWyrm = flags11[2];
-				downedExoMechs = flags11[3];
-				downedAres = flags11[4];
-				downedThanatos = flags11[5];
-				downedArtemisAndApollo = flags11[6];
+                BitsByte flags11 = reader.ReadByte();
+                malice = flags11[0];
+                HasGeneratedLuminitePlanetoids = flags11[1];
+                downedAdultEidolonWyrm = flags11[2];
+                downedExoMechs = flags11[3];
+                downedAres = flags11[4];
+                downedThanatos = flags11[5];
+                downedArtemisAndApollo = flags11[6];
             }
             else
             {
@@ -870,14 +871,14 @@ namespace CalamityMod.World
             flags10[6] = false;
             flags10[7] = false;
 
-			BitsByte flags11 = new BitsByte();
-			flags11[0] = malice;
-			flags11[1] = HasGeneratedLuminitePlanetoids;
-			flags11[2] = downedAdultEidolonWyrm;
-			flags11[3] = downedExoMechs;
-			flags11[4] = downedAres;
-			flags11[5] = downedThanatos;
-			flags11[6] = downedArtemisAndApollo;
+            BitsByte flags11 = new BitsByte();
+            flags11[0] = malice;
+            flags11[1] = HasGeneratedLuminitePlanetoids;
+            flags11[2] = downedAdultEidolonWyrm;
+            flags11[3] = downedExoMechs;
+            flags11[4] = downedAres;
+            flags11[5] = downedThanatos;
+            flags11[6] = downedArtemisAndApollo;
             flags11[7] = TalkedToDraedon;
 
             writer.Write(flags);
@@ -1015,21 +1016,21 @@ namespace CalamityMod.World
 
             RecipeUnlockHandler.ReceiveData(reader);
 
-			BitsByte flags11 = reader.ReadByte();
-			malice = flags11[0];
-			HasGeneratedLuminitePlanetoids = flags11[1];
-			downedAdultEidolonWyrm = flags11[2];
-			downedExoMechs = flags11[3];
-			downedAres = flags11[4];
-			downedThanatos = flags11[5];
-			downedArtemisAndApollo = flags11[6];
+            BitsByte flags11 = reader.ReadByte();
+            malice = flags11[0];
+            HasGeneratedLuminitePlanetoids = flags11[1];
+            downedAdultEidolonWyrm = flags11[2];
+            downedExoMechs = flags11[3];
+            downedAres = flags11[4];
+            downedThanatos = flags11[5];
+            downedArtemisAndApollo = flags11[6];
             TalkedToDraedon = flags11[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
-			DraedonSummonCountdown = reader.ReadInt32();
+            DraedonSummonCountdown = reader.ReadInt32();
             DraedonMechToSummon = (ExoMech)reader.ReadInt32();
             DraedonSummonPosition = reader.ReadVector2();
             SunkenSeaLabCenter = reader.ReadVector2();
@@ -1079,10 +1080,10 @@ namespace CalamityMod.World
             // Old worlds will never receive this marker naturally.
             IsWorldAfterDraedonUpdate = true;
         }
-		#endregion
+        #endregion
 
-		#region ModifyWorldGenTasks
-		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+        #region ModifyWorldGenTasks
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int islandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Floating Island Houses"));
             if (islandIndex != -1)
@@ -1240,12 +1241,12 @@ namespace CalamityMod.World
                     MiscWorldgenRoutines.PlaceRoxShrine();
                 }));
 
-				tasks.Insert(FinalIndex + 7, new PassLegacy("GoodGameDesignGemGen", delegate (GenerationProgress progress)
-				{
-					progress.Message = "Good Game Design Gem Gen";
-					MiscWorldgenRoutines.SmartGemGen();
-				}));
-			}
+                tasks.Insert(FinalIndex + 7, new PassLegacy("GoodGameDesignGemGen", delegate (GenerationProgress progress)
+                {
+                    progress.Message = "Good Game Design Gem Gen";
+                    MiscWorldgenRoutines.SmartGemGen();
+                }));
+            }
 
             tasks.Add(new PassLegacy("Planetoid Test", Planetoid.GenerateAllBasePlanetoids));
         }
@@ -1262,39 +1263,51 @@ namespace CalamityMod.World
                 AstralBiome.PlaceAstralMeteor();
             }));
         }
-		#endregion
+        #endregion
 
-		#region PostWorldGen
-		public override void PostWorldGen()
-		{
-			// Replace Suspicious Looking Eyes in Chests with Lenses
-			for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
-			{
-				Chest chest = Main.chest[chestIndex];
-				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
-				{
-					bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
-					bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
-					bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
-					if (isGoldChest || isIvyChest || isIceChest)
-					{
-						for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-						{
-							if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
-							{
-								chest.item[inventoryIndex].SetDefaults(ItemID.Lens);
-								chest.item[inventoryIndex].stack = 1 + Main.rand.Next(2);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		#endregion
+        #region PostWorldGen
+        public override void PostWorldGen()
+        {
+            // 60% chance of 3-5 Mining Potions
+            // 20% chance of 2-3 Builder's Potions
+            // 20% chance of 5-9 Shine Potions
+            WeightedItemStack[] replacementPotions = new WeightedItemStack[]
+            {
+                DropHelper.WeightStack(ItemID.MiningPotion, 0.6f, 3, 5),
+                DropHelper.WeightStack(ItemID.BuilderPotion, 0.2f, 2, 3),
+                DropHelper.WeightStack(ItemID.ShinePotion, 0.2f, 5, 9),
+            };
 
-		#region PostUpdate
-		public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
+            // Replace Suspicious Looking Eyes in Chests with random useful early game potions.
+            for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
+            {
+                Chest chest = Main.chest[chestIndex];
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
+                {
+                    bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
+                    bool isMahoganyChest = Main.tile[chest.x, chest.y].frameX == 8 * 36;
+                    bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
+                    bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
+                    if (isGoldChest || isMahoganyChest || isIvyChest || isIceChest)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
+                            {
+                                WeightedItemStack replacement = DropHelper.RollWeightedRandom(replacementPotions);
+                                chest.item[inventoryIndex].SetDefaults(replacement.itemID);
+                                chest.item[inventoryIndex].stack = replacement.ChooseQuantity();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region PostUpdate
+        public override void PostUpdate() => WorldUpdateMiscEffects.PerformWorldUpdates();
         #endregion
     }
 }

@@ -686,6 +686,16 @@ namespace CalamityMod.NPCs
 			//NPCID.WanderingEyeFish,
 			//NPCID.ZombieMerman,
 		};
+
+		public static List<int> BoundNPCIDs = new List<int>
+		{
+			NPCID.BoundGoblin,
+			NPCID.BoundWizard,
+			NPCID.BoundMechanic,
+			NPCID.SleepingAngler,
+			NPCID.BartenderUnconscious,
+			//NPCID.GolferRescue
+		};
 		#endregion
 
 		#region Instance Per Entity
@@ -1098,6 +1108,8 @@ namespace CalamityMod.NPCs
                 RevDeathStatChanges(npc, mod);
 
             OtherStatChanges(npc);
+
+			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
         }
 		#endregion
 
@@ -3513,27 +3525,31 @@ namespace CalamityMod.NPCs
 			else if (ThanatosIDs.Contains(npc.type))
 			{
 				// 75% resist to Celestus and Chicken Cannon.
-				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>() || projectile.type == ProjectileType<ChickenExplosion>())
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
 					damage = (int)(damage * 0.25);
 
 				// 65% resist to true melee and Hadopelagic Echo.
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
 					damage = (int)(damage * 0.35);
 
-				// 50% resist to Vehemence skulls.
-				else if (projectile.type == ProjectileType<VehemenceSkull>())
+				// 50% resist to Chicken Cannon, Vehemence skulls and Prismatic Breaker. (why is this more than BOTH Rancor and Yharim's Crystal?)
+				else if (projectile.type == ProjectileType<ChickenExplosion>() || projectile.type == ProjectileType<VehemenceSkull>() || projectile.type == ProjectileType<PrismaticBeam>())
 					damage = (int)(damage * 0.5);
 
 				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
 				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
+				// 25% resist to God Slayer Slugs and Luminite Bullets.
+				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>())
+					damage = (int)(damage * 0.75);
+
 				// 20% resist to Eradicator beams and Voltaic Climax / Void Vortex hitscan.
 				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>())
 					damage = (int)(damage * 0.8);
 
-				// 15% resist to God Slayer Slugs, Luminite Bullets, and Gruesome Eminence.
-				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>() || projectile.type == ProjectileType<SpiritCongregation>())
+				// 15% resist to Gruesome Eminence.
+				else if (projectile.type == ProjectileType<SpiritCongregation>())
 					damage = (int)(damage * 0.85);
 
 			}
@@ -5128,8 +5144,9 @@ namespace CalamityMod.NPCs
 					if (!player.active)
 						continue;
 
-					player.Calamity().bossTypeJustDowned = newBossTypeJustDowned;
-					player.Calamity().bossTypeJustDownedTime = player.Calamity().speedrunTimer;
+					CalamityPlayer mp = player.Calamity();
+					mp.lastSplitType = newBossTypeJustDowned;
+					mp.lastSplit = mp.previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
 				}
 			}
 		}

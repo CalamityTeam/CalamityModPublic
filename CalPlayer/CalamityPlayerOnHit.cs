@@ -802,7 +802,11 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(BuffID.Venom, 240);
 				}
-            }
+				if (modPlayer.aWeapon)
+				{
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<AbyssalFlames>());
+				}
+			}
 			if (summon)
 			{
 				if (modPlayer.pArtifact && !modPlayer.profanedCrystal)
@@ -949,7 +953,11 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(BuffID.Venom, 240);
 				}
-            }
+				if (modPlayer.aWeapon)
+				{
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<AbyssalFlames>());
+				}
+			}
 			if (summon)
 			{
 				if (modPlayer.pArtifact && !modPlayer.profanedCrystal)

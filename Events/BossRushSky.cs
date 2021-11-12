@@ -15,7 +15,7 @@ namespace CalamityMod.Events
         public static float CurrentInterest = 0f;
         public static float IncrementalInterest = 0f;
         public static float CurrentInterestMin = 0f;
-        public static Color GeneralColor => Color.LightGray * 0.2f;
+        public static Color GeneralColor => Color.Lerp(Color.LightGray, Color.Black, BossRushEvent.WhiteDimness) * 0.2f;
 
         public override void Update(GameTime gameTime)
         {

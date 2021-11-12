@@ -428,7 +428,7 @@ namespace CalamityMod.CalPlayer
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC target = Main.npc[i];
-				if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage)
+				if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC)
 					continue;
 
 				// Brighten the sigil because it is dealing damage. This can only happen once per hit event.
@@ -598,10 +598,6 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.eCore ? 50 : 0) +
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
-
-			// Shield of Cthulhu immunity frame nerf, nerfed from 10 to 6
-			if (player.eocDash > 6 && player.dashDelay > 0)
-				player.eocDash = 6;
 
 			// Life Steal nerf
 			// Reduces Normal Mode life steal recovery rate from 0.6/s to 0.5/s
@@ -1394,13 +1390,8 @@ namespace CalamityMod.CalPlayer
 			{
 				// The iframes from the evasion are disabled by Armageddon.
 				if (modPlayer.tarragonImmunity && !modPlayer.disableAllDodges)
-				{
-					player.immune = true;
-					player.immuneTime = 2;
+					player.GiveIFrames(2, true);
 
-					for (int k = 0; k < player.hurtCooldowns.Length; k++)
-						player.hurtCooldowns[k] = player.immuneTime;
-				}
 
 				if (modPlayer.tarraThrowingCrits >= 25)
 				{

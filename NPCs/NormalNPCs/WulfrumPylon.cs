@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             aiType = -1;
             npc.aiStyle = -1;
-            npc.damage = 16;
+            npc.damage = 0;
             npc.width = 44;
             npc.height = 44;
             npc.defense = 4;

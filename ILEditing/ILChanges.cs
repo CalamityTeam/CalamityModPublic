@@ -123,6 +123,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement += FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport += DisableTeleporters; // only applies in boss rush
@@ -135,6 +137,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw += DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
@@ -190,6 +193,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.DashMovement -= FixVanillaShieldSlams;
+            IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
             On.Terraria.Wiring.Teleport -= DisableTeleporters;
@@ -202,6 +207,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             IL.Terraria.Main.DoDraw -= DrawFusableParticles;
+            On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.Main.DrawTiles -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
@@ -311,7 +317,8 @@ namespace CalamityMod.ILEditing
 
             // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
             // If your dodges are universally disabled by Armageddon, then they simply "never come off cooldown" and always have 1 frame left.
-            cursor.EmitDelegate<Func<Player, int>>((Player p) => {
+            cursor.EmitDelegate<Func<Player, int>>((Player p) =>
+            {
                 CalamityPlayer mp = p.Calamity();
                 return mp.disableAllDodges ? 1 : mp.dodgeCooldownTimer;
             });
@@ -339,6 +346,89 @@ namespace CalamityMod.ILEditing
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     calPlayer.SyncDodgeCooldown(false);
             });
+        }
+
+        private static void FixVanillaShieldSlams(ILContext il)
+        {
+            // Remove Shield of Cthulhu setting your iframes to an exact number and instead run Calamity's utility to safely provide iframes.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Shield of Cthulhu immunity blinking set.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.ShieldOfCthulhuIFrames, false));
+
+            // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Replace vanilla's base damage of 150 with Calamity's custom base damage.
+            cursor.Next.Operand = CalamityPlayer.SolarFlareBaseDamage;
+
+            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
+                return;
+            }
+
+            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with Calamity's calculation.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Conv_I4);
+
+            // Move to the immunity frame setting code for the Solar Flare set bonus.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+            {
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Destroy the entire operation which sets your iframes to exactly 4:
+            // ldarg.0 (load "this", aka the Player)
+            // ldc.i4.4 (load 4)
+            // stfld int32 Terraria.Player::immuneTime
+            cursor.RemoveRange(3);
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.SolarFlareIFrames, false));
+        }
+
+        private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
+        {
+            // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("eocDash"))) // Loading the remaining frames of the SoC dash
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
+                return;
+            }
+
+            // Find the 0 this is normally compared to. We will be replacing this value.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0)))
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate the zero comparison.");
+                return;
+            }
+
+            // Remove the zero and replace it with a calculated value.
+            // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 10 - CalamityPlayer.ShieldOfCthulhuBonkNoCollideFrames);
         }
 
         private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
@@ -650,6 +740,12 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action>(() => FusableParticleManager.RenderAllFusableParticles(FusableParticleRenderLayer.OverWater));
         }
 
+        private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
+        {
+            FusableParticleManager.LoadParticleRenderSets(true, width, height);
+            orig(width, height, fullscreen);
+        }
+
         private static void DrawCustomLava(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
@@ -692,7 +788,7 @@ namespace CalamityMod.ILEditing
             // The order is load is texture array field -> load index -> load the reference to the texture at that index.
             cursor.Index += 3;
             cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
-            
+
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
             {
                 LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
@@ -1367,7 +1463,7 @@ namespace CalamityMod.ILEditing
         {
             Tile t = Main.tile[i, j];
             int topY = j;
-            while(t != null && t.active() && t.type == rootTile.type)
+            while (t != null && t.active() && t.type == rootTile.type)
             {
                 // Immediately stop at the top of the world, if you got there somehow.
                 if (topY == 0)
@@ -1376,7 +1472,7 @@ namespace CalamityMod.ILEditing
                 --topY;
                 t = Main.tile[i, topY];
             }
-            
+
             // The above loop will have gone 1 past the top of the door. Correct for this.
             return ++topY;
         }

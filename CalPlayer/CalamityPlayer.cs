@@ -61,6 +61,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -134,12 +135,16 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-		#endregion
+        #endregion
 
-		#region Speedrun Timer
-		public int speedrunTimer = 0;
-		public int bossTypeJustDowned = -1;
-		public int bossTypeJustDownedTime = 0;
+        #region Speedrun Timer
+        // The Calamity Speedrun Timer uses the highest precision timing available to .NET and thus to the system hardware.
+        // Current session time is maintained by CalamityMod.SpeedrunTimer, which is a C# Stopwatch running constantly while a player is loaded.
+        // Total time is calculated on demand by adding the current stopwatch time to the previous session total.
+        // This allows time to be tracked accurately through multiple save and quits.
+        internal TimeSpan previousSessionTotal;
+		internal int lastSplitType = -1;
+        internal TimeSpan lastSplit;
 		#endregion
 
 		#region Tile Entity Trackers
@@ -253,6 +258,13 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
 
+        // Shield slam stats
+        public const int ShieldOfCthulhuIFrames = 6;
+        public const int ShieldOfCthulhuBonkNoCollideFrames = 6;
+        public const int SolarFlareIFrames = 12;
+        public const float SolarFlareBaseDamage = 400f;
+
+        // Dodge stats
         public const int BeltDodgeCooldown = 5400;
         public const int MirrorDodgeCooldown = 5400;
         public const int DaedalusReflectCooldown = 5400;
@@ -1195,6 +1207,9 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
+            // Calculate the new total time of all sessions at the instant of this player save.
+            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+
             return new TagCompound
             {
                 { "boost", boost },
@@ -1222,9 +1237,9 @@ namespace CalamityMod.CalPlayer
                 { "moveSpeedStat", moveSpeedStat },
                 { "defenseDamage", defenseDamage },
                 { "disableAllDodges", disableAllDodges },
-				{ "speedrunTimer", speedrunTimer },
-				{ "bossTypeJustDowned", bossTypeJustDowned },
-				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
+                { "totalSpeedrunTicks", newSessionTotal.Ticks },
+				{ "lastSplitType", lastSplitType },
+                { "lastSplitTicks", lastSplit.Ticks },
 			};
         }
 
@@ -1317,114 +1332,14 @@ namespace CalamityMod.CalPlayer
             defenseDamage = tag.GetInt("defenseDamage");
             disableAllDodges = tag.GetBool("disableAllDodges");
 
-			speedrunTimer = tag.GetInt("speedrunTimer");
-			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
-			bossTypeJustDownedTime = tag.GetInt("bossTypeJustDownedTime");
+            // Load the previous total elapsed time to know where to start the timer when it starts.
+            long ticks = tag.GetLong("totalSpeedrunTicks");
+            previousSessionTotal = new TimeSpan(ticks);
+            // Also load the last split, so it will show up.
+			lastSplitType = tag.GetInt("lastSplitType");
+            ticks = tag.GetLong("lastSplitTicks");
+            lastSplit = new TimeSpan(ticks);
 		}
-
-        public override void LoadLegacy(BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
-            rage = reader.ReadSingle();
-            adrenaline = reader.ReadSingle();
-            aquaticBoost = reader.ReadSingle();
-            sCalDeathCount = reader.ReadInt32();
-            sCalKillCount = reader.ReadInt32();
-            deathCount = reader.ReadInt32();
-
-            // These two variables are no longer used, as the code was moved into CalamityWorld.cs to support multiplayer.
-            // As a result, their values are simply fed into a discard.
-
-            _ = reader.ReadInt32(); // moneyStolenByBandit
-            _ = reader.ReadInt32(); // reforges
-
-            deathModeUnderworldTime = reader.ReadInt32();
-            deathModeBlizzardTime = reader.ReadInt32();
-
-            itemTypeLastReforged = reader.ReadInt32();
-            reforgeTierSafety = reader.ReadInt32();
-
-            meleeLevel = reader.ReadInt32();
-            rangedLevel = reader.ReadInt32();
-            magicLevel = reader.ReadInt32();
-            summonLevel = reader.ReadInt32();
-            rogueLevel = reader.ReadInt32();
-            exactMeleeLevel = reader.ReadInt32();
-            exactRangedLevel = reader.ReadInt32();
-            exactMagicLevel = reader.ReadInt32();
-            exactSummonLevel = reader.ReadInt32();
-            exactRogueLevel = reader.ReadInt32();
-
-            moveSpeedStat = reader.ReadInt32();
-
-            defenseDamage = reader.ReadInt32();
-
-			speedrunTimer = reader.ReadInt32();
-			bossTypeJustDowned = reader.ReadInt32();
-			bossTypeJustDownedTime = reader.ReadInt32();
-
-			if (loadVersion == 0)
-            {
-                BitsByte flags = reader.ReadByte();
-                extraAccessoryML = flags[0];
-                eCore = flags[1];
-                mFruit = flags[2];
-                bOrange = flags[3];
-                eBerry = flags[4];
-                dFruit = flags[5];
-                pHeart = flags[6];
-                cShard = flags[7];
-
-                BitsByte flags2 = reader.ReadByte();
-                revJamDrop = flags2[0];
-                rageBoostOne = flags2[1];
-                rageBoostTwo = flags2[2];
-                rageBoostThree = flags2[3];
-                adrenalineBoostOne = flags2[4];
-                adrenalineBoostTwo = flags2[5];
-                adrenalineBoostThree = flags2[6];
-                drawBossHPBar = flags2[7];
-
-                BitsByte flags3 = reader.ReadByte();
-                shouldDrawSmallText = flags3[0];
-                healToFull = flags3[1];
-                newMerchantInventory = flags3[2];
-                newPainterInventory = flags3[3];
-                newDyeTraderInventory = flags3[4];
-                newPartyGirlInventory = flags3[5];
-                newStylistInventory = flags3[6];
-                newDemolitionistInventory = flags3[7];
-
-                BitsByte flags4 = reader.ReadByte();
-                newDryadInventory = flags4[0];
-                newTavernkeepInventory = flags4[1];
-                newArmsDealerInventory = flags4[2];
-                newGoblinTinkererInventory = flags4[3];
-                newWitchDoctorInventory = flags4[4];
-                newClothierInventory = flags4[5];
-                newMechanicInventory = flags4[6];
-                newPirateInventory = flags4[7];
-
-                BitsByte flags5 = reader.ReadByte();
-                newTruffleInventory = flags5[0];
-                newWizardInventory = flags5[1];
-                newSteampunkerInventory = flags5[2];
-                newCyborgInventory = flags5[3];
-                newSkeletonMerchantInventory = flags5[4];
-                newPermafrostInventory = flags5[5];
-                newCirrusInventory = flags5[6];
-                newAmidiasInventory = flags5[7];
-
-                BitsByte flags6 = reader.ReadByte();
-                newBanditInventory = flags6[0];
-                finalTierAccessoryReforge = flags6[1];
-                newCalamitasInventory = flags6[2];
-            }
-            else
-            {
-                ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
-            }
-        }
         #endregion
 
         #region ResetEffects
@@ -2720,24 +2635,6 @@ namespace CalamityMod.CalPlayer
             //Overriding 1.4's ass req boosts
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
-
-            Mod fargos = CalamityMod.Instance.fargos;
-            if (fargos != null)
-            {
-                //Fargo's fountain effects
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type)
-                {
-                    ZoneSunkenSea = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type)
-                {
-                    ZoneSulphur = true;
-                }
-                if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type)
-                {
-                    ZoneAstral = true;
-                }
-            }
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -2862,7 +2759,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
-                if (!player.chaosState)
+                if (!player.CCed && !player.chaosState)
                 {
                     Vector2 teleportLocation;
                     teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
@@ -2977,11 +2874,9 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dustIndex].noLight = true;
                             }
 
-                            player.immune = true;
-                            player.immuneTime = 150;
-                            spectralVeilImmunity = 150;
-                            for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                player.hurtCooldowns[k] = player.immuneTime;
+                            int iframes = 150;
+                            player.GiveIFrames(iframes, true);
+                            spectralVeilImmunity = iframes;
                         }
                     }
                 }
@@ -3613,7 +3508,7 @@ namespace CalamityMod.CalPlayer
         public static void ModTeleport(Player player, Vector2 pos, bool syncData = false, bool convertFromTiles = false)
         {
             bool postImmune = player.immune;
-            int postImmunteTime = player.immuneTime;
+            int postImmuneTime = player.immuneTime;
             if (convertFromTiles)
             {
                 pos = new Vector2(pos.X * 16 + 8 - player.width / 2, pos.Y * 16 - player.height);
@@ -3630,7 +3525,7 @@ namespace CalamityMod.CalPlayer
             player.Teleport(pos, 2, 0);
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
-            player.immuneTime = postImmunteTime;
+            player.immuneTime = postImmuneTime;
             for (int index = 0; index < 100; ++index)
             {
                 Main.dust[Dust.NewDust(player.position, player.width, player.height, 164, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 150, Color.Cyan, 1.2f)].velocity *= 0.5f;
@@ -3897,13 +3792,6 @@ namespace CalamityMod.CalPlayer
         }
 		#endregion
 
-		#region Update Autopause
-		public override void UpdateAutopause()
-		{
-			speedrunTimer++;
-		}
-		#endregion
-
 		#region PreUpdate
 		public override void PreUpdate()
         {
@@ -3941,8 +3829,6 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-
-			speedrunTimer++;
 		}
         #endregion
 
@@ -4176,12 +4062,7 @@ namespace CalamityMod.CalPlayer
 
         private void SpectralVeilDodge()
         {
-            player.immune = true;
-            player.immuneTime = spectralVeilImmunity; //Set immunity before setting this variable to 0
-            for (int k = 0; k < player.hurtCooldowns.Length; k++)
-            {
-                player.hurtCooldowns[k] = player.immuneTime;
-            }
+            player.GiveIFrames(spectralVeilImmunity, true); //Set immunity before setting this variable to 0
             rogueStealth = rogueStealthMax;
             spectralVeilImmunity = 0;
 
@@ -4206,11 +4087,7 @@ namespace CalamityMod.CalPlayer
 
 		private void GodSlayerDodge()
 		{
-			player.immune = true;
-			player.immuneTime = player.longInvince ? 100 : 60;
-			for (int k = 0; k < player.hurtCooldowns.Length; k++)
-				player.hurtCooldowns[k] = player.immuneTime;
-
+            player.GiveIFrames(player.longInvince ? 100 : 60, true);
 			Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
 
 			for (int j = 0; j < 30; j++)
@@ -4239,10 +4116,7 @@ namespace CalamityMod.CalPlayer
             else
                 player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
 
-            player.immune = true;
-            player.immuneTime = player.longInvince ? 100 : 60;
-            for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                player.hurtCooldowns[k] = player.immuneTime;
+            player.GiveIFrames(player.longInvince ? 100 : 60, true);
 
             for (int j = 0; j < 100; j++)
             {
@@ -4269,16 +4143,12 @@ namespace CalamityMod.CalPlayer
             {
                 dodgeCooldownTimer = MirrorDodgeCooldown;
 				player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), dodgeCooldownTimer);
-                player.immune = true;
-                player.immuneTime = player.longInvince ? 100 : 60;
+
+                // TODO -- why is this here?
                 player.noKnockback = true;
+
+                player.GiveIFrames(player.longInvince ? 100 : 60, true);
                 rogueStealth += 0.5f;
-
-                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                {
-                    player.hurtCooldowns[k] = player.immuneTime;
-                }
-
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), player.Center);
 
                 for (int i = 0; i < 10; i++)
@@ -4308,17 +4178,14 @@ namespace CalamityMod.CalPlayer
             {
                 dodgeCooldownTimer = MirrorDodgeCooldown;
 				player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), dodgeCooldownTimer);
-                player.immune = true;
-                player.immuneTime = player.longInvince ? 100 : 60;
+
+                // TODO -- why is this here?
                 player.noKnockback = true;
+
+                player.GiveIFrames(player.longInvince ? 100 : 60, true);
                 rogueStealth = rogueStealthMax;
-
-                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                {
-                    player.hurtCooldowns[k] = player.immuneTime;
-                }
-
                 Main.PlaySound(SoundID.Item68, player.Center);
+
                 int eclipse = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(2750 * player.RogueDamage()), 0, player.whoAmI);
 				if (eclipse.WithinBounds(Main.maxProjectiles))
 					Main.projectile[eclipse].Calamity().forceTypeless = true;
@@ -6017,59 +5884,17 @@ namespace CalamityMod.CalPlayer
         {
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
-				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && player.altFunctionUse == 2 && Main.rand.NextBool(2))
-				{
-					for (int j = 0; j < 3; j++)
-					{
-						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
-						Main.dust[dustIndex].velocity *= 0.3f;
-					}
-					proj.hostile = false;
-					proj.friendly = true;
-					proj.velocity *= -1f;
-					proj.penetrate = 1;
-					bool isImmune = false;
-					for (int j = 0; j < player.hurtCooldowns.Length; j++)
-					{
-						if (player.hurtCooldowns[j] > 0)
-							isImmune = true;
-					}
-					if (!isImmune)
-					{
-						player.immune = true;
-						player.immuneNoBlink = true;
-						player.immuneTime += 4;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							player.hurtCooldowns[j] = player.immuneTime;
-					}
-					damage = 0;
-					return;
-				}
-
-				if (aSparkRare)
+				// The Transformer can reflect bullets
+                if (aSparkRare)
 				{
 					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
 					{
-						int damage2 = (int)(proj.damage * 8 * player.AverageDamage());
 						proj.hostile = false;
 						proj.friendly = true;
 						proj.velocity *= -1f;
-						proj.damage = damage2;
-						proj.penetrate = 1;
-						bool isImmune = false;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-						{
-							if (player.hurtCooldowns[j] > 0)
-								isImmune = true;
-						}
-						if (!isImmune)
-						{
-							player.immune = true;
-							player.immuneNoBlink = true;
-							player.immuneTime += 20;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-								player.hurtCooldowns[j] = player.immuneTime;
-						}
+						proj.damage = (int)(proj.damage * 8 * player.AverageDamage());
+                        proj.penetrate = 1;
+                        player.GiveIFrames(20, false);
 					}
 				}
 
@@ -6084,21 +5909,9 @@ namespace CalamityMod.CalPlayer
 						proj.velocity *= -2f;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
-						bool isImmune = false;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-						{
-							if (player.hurtCooldowns[j] > 0)
-								isImmune = true;
-						}
-						if (!isImmune)
-						{
-							player.immune = true;
-							player.immuneNoBlink = true;
-							player.immuneTime += 20;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-								player.hurtCooldowns[j] = player.immuneTime;
-						}
-						damage = 0;
+                        player.GiveIFrames(20, false);
+
+                        damage = 0;
 						projRefRareLifeRegenCounter = 300;
 						projTypeJustHitBy = proj.type;
 
@@ -6117,21 +5930,9 @@ namespace CalamityMod.CalPlayer
 						proj.velocity *= -1f;
 						proj.extraUpdates += 1;
 						proj.penetrate = 1;
-						bool isImmune = false;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-						{
-							if (player.hurtCooldowns[j] > 0)
-								isImmune = true;
-						}
-						if (!isImmune)
-						{
-							player.immune = true;
-							player.immuneNoBlink = true;
-							player.immuneTime += 20;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-								player.hurtCooldowns[j] = player.immuneTime;
-						}
-						damage = 0;
+                        player.GiveIFrames(20, false);
+
+                        damage = 0;
 
 						dodgeCooldownTimer = ArcanumReflectCooldown;
                         // Send a Calamity dodge cooldown packet.
@@ -6147,21 +5948,9 @@ namespace CalamityMod.CalPlayer
 						proj.friendly = true;
 						proj.velocity *= -1f;
 						proj.penetrate = 1;
-						bool isImmune = false;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-						{
-							if (player.hurtCooldowns[j] > 0)
-								isImmune = true;
-						}
-						if (!isImmune)
-						{
-							player.immune = true;
-							player.immuneNoBlink = true;
-							player.immuneTime += 20;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-								player.hurtCooldowns[j] = player.immuneTime;
-						}
-						damage /= 2;
+                        player.GiveIFrames(20, false);
+
+                        damage /= 2;
 
 						dodgeCooldownTimer = DaedalusReflectCooldown;
                         // Send a Calamity dodge cooldown packet.
@@ -7828,6 +7617,12 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                 }
 
+                // TODO -- good god what the fuck is this system
+                // Projectiles should be providing an index to a temporary variable in Player.OnHitByProjectile, not hardcoding it in their own OnHitPlayer
+                //
+                // To my best understanding the point of this system is to avoid giving the player type-0 iframes if they are hit by a type-1 projectile.
+                // Why did vanilla Moon Lord have to hate Slime Mount cheese so much to create a second type of iframes?
+                // WHY DID THEY NOT JUST FIX SLIME MOUNT?!
                 if (lastProjectileHit != null)
                 {
                     switch (lastProjectileHit.modProjectile.cooldownSlot)
@@ -7838,32 +7633,23 @@ namespace CalamityMod.CalPlayer
                             break;
                         case -1:
                         default:
-                            player.immune = true;
-                            player.immuneTime += iFramesToAdd;
-                            for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                player.hurtCooldowns[k] += iFramesToAdd;
+                            player.GiveIFrames(player.immuneTime + iFramesToAdd, true);
                             break;
                     }
                 }
+
+                // In the case that no projectile that hit the player was defined, just give them iframes normally
                 else
-                {
-                    player.immune = true;
-                    player.immuneTime += iFramesToAdd;
-                    for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                        player.hurtCooldowns[k] += iFramesToAdd;
-                }
+                    player.GiveIFrames(player.immuneTime + iFramesToAdd, true);
 
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + player.immuneTime;
 
-                if (damage > 25)
+                if (aeroSet && damage > 25)
                 {
-                    if (aeroSet)
+                    for (int n = 0; n < 4; n++)
                     {
-                        for (int n = 0; n < 4; n++)
-                        {
-                            CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI);
-                        }
+                        CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI);
                     }
                 }
                 if (aBulwark)
@@ -7920,188 +7706,188 @@ namespace CalamityMod.CalPlayer
 							Main.projectile[bee].Calamity().forceTypeless = true;
 					}
                 }
-            }
-            if (fCarapace)
-            {
-                if (damage > 0)
+                if (fCarapace)
                 {
-                    Main.PlaySound(SoundID.NPCHit, (int)player.position.X, (int)player.position.Y, 45);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int fDamage = (int)(70 * player.AverageDamage());
-                    if (player.whoAmI == Main.myPlayer)
+                    if (damage > 0)
                     {
-                        for (int i = 0; i < 4; i++)
+                        Main.PlaySound(SoundID.NPCHit, (int)player.position.X, (int)player.position.Y, 45);
+                        float spread = 45f * 0.0174f;
+                        double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
+                        double deltaAngle = spread / 8f;
+                        double offsetAngle;
+                        int fDamage = (int)(70 * player.AverageDamage());
+                        if (player.whoAmI == Main.myPlayer)
                         {
-                            float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
-                            Vector2 spawnPos = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int spore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            int spore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            Main.projectile[spore1].timeLeft = 300;
-                            Main.projectile[spore2].timeLeft = 300;
-                        }
-                    }
-                }
-            }
-            if (aSpark)
-            {
-                if (damage > 0)
-                {
-                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 93);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int sDamage = hardMode ? 36 : 6;
-                    if (aSparkRare)
-                        sDamage += hardMode ? 12 : 2;
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
-                            int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
-                            if (spark1.WithinBounds(Main.maxProjectiles))
+                            for (int i = 0; i < 4; i++)
                             {
-                                Main.projectile[spark1].timeLeft = 120;
-                                Main.projectile[spark1].Calamity().forceTypeless = true;
-                            }
-                            if (spark2.WithinBounds(Main.maxProjectiles))
-                            {
-                                Main.projectile[spark2].timeLeft = 120;
-                                Main.projectile[spark2].Calamity().forceTypeless = true;
+                                float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
+                                Vector2 spawnPos = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                                int spore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
+                                int spore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
+                                Main.projectile[spore1].timeLeft = 300;
+                                Main.projectile[spore2].timeLeft = 300;
                             }
                         }
                     }
                 }
-            }
-            if (inkBomb && !abyssalMirror && !eclipseMirror)
-            {
-                if (player.whoAmI == Main.myPlayer && !inkBombCooldown)
+                if (aSpark)
                 {
-                    player.AddBuff(ModContent.BuffType<InkBombCooldown>(), 1200);
-                    rogueStealth += 0.5f;
-                    for (int i = 0; i < 5; i++)
+                    if (damage > 0)
                     {
-                        Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
-                        int ink = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
-						if (ink.WithinBounds(Main.maxProjectiles))
-							Main.projectile[ink].Calamity().forceTypeless = true;
-					}
-                }
-            }
-            if (blazingCore)
-            {
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun2>()] < 1)
-                {
-                    for (int i = 0; i < 360; i += 3)
-                    {
-                        Vector2 BCDSpeed = new Vector2(5f, 5f).RotatedBy(MathHelper.ToRadians(i));
-                        Dust.NewDust(player.Center, 1, 1, 244, BCDSpeed.X, BCDSpeed.Y, 0, default, 1.1f);
-                    }
-                    Main.PlaySound(SoundID.Item14, player.Center);
-                    int blazingSun = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), (int)(1270 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
-                    Main.projectile[blazingSun].Center = player.Center;
-                    int blazingSun2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, player.whoAmI, 0f, 0f);
-                    Main.projectile[blazingSun2].Center = player.Center;
-                }
-            }
-            if (ataxiaBlaze)
-            {
-                if (damage > 0)
-                {
-                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
-                    int eDamage = (int)(100 * player.AverageDamage());
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, player.whoAmI, 0f, 0f);
-                    }
-                }
-            }
-            else if (daedalusShard)
-            {
-                if (damage > 0)
-                {
-                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int sDamage = (int)(27 * player.RangedDamage()); //daedalus ranged helm
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        for (int i = 0; i < 8; i++)
+                        Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 93);
+                        float spread = 45f * 0.0174f;
+                        double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
+                        double deltaAngle = spread / 8f;
+                        double offsetAngle;
+                        int sDamage = hardMode ? 36 : 6;
+                        if (aSparkRare)
+                            sDamage += hardMode ? 12 : 2;
+                        if (player.whoAmI == Main.myPlayer)
                         {
-                            float randomSpeed = Main.rand.Next(1, 7);
-                            float randomSpeed2 = Main.rand.Next(1, 7);
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            if (shard.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[shard].Calamity().forceTypeless = true;
-                            if (shard2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[shard2].Calamity().forceTypeless = true;
+                            for (int i = 0; i < 4; i++)
+                            {
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                                int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
+                                int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
+                                if (spark1.WithinBounds(Main.maxProjectiles))
+                                {
+                                    Main.projectile[spark1].timeLeft = 120;
+                                    Main.projectile[spark1].Calamity().forceTypeless = true;
+                                }
+                                if (spark2.WithinBounds(Main.maxProjectiles))
+                                {
+                                    Main.projectile[spark2].timeLeft = 120;
+                                    Main.projectile[spark2].Calamity().forceTypeless = true;
+                                }
+                            }
                         }
                     }
                 }
-            }
-            else if (reaverDefense) //Defense and DR Helm
-            {
-                if (damage > 0)
+                if (inkBomb && !abyssalMirror && !eclipseMirror)
                 {
-                    int rDamage = (int)(80 * player.AverageDamage());
-                    if (player.whoAmI == Main.myPlayer)
+                    if (player.whoAmI == Main.myPlayer && !inkBombCooldown)
                     {
-                        Projectile.NewProjectile(player.Center.X, player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ReaverThornBase>(), rDamage, 0f, player.whoAmI, 0f, 0f);
-                    }
-                }
-            }
-            else if (godSlayerDamage) //god slayer melee helm
-            {
-                if (damage > 80)
-                {
-                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 73);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        for (int i = 0; i < 4; i++)
+                        player.AddBuff(ModContent.BuffType<InkBombCooldown>(), 1200);
+                        rogueStealth += 0.5f;
+                        for (int i = 0; i < 5; i++)
                         {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
+                            Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
+                            int ink = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
+                            if (ink.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[ink].Calamity().forceTypeless = true;
                         }
                     }
                 }
-            }
-            else if (dsSetBonus)
-            {
-                if (player.whoAmI == Main.myPlayer)
+                if (blazingCore)
                 {
-                    for (int l = 0; l < 2; l++)
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun2>()] < 1)
                     {
-                        Projectile beam = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI);
-                        if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
+                        for (int i = 0; i < 360; i += 3)
                         {
-                            beam.Calamity().forceTypeless = true;
-                            beam.usesLocalNPCImmunity = true;
-                            beam.localNPCHitCooldown = 10;
+                            Vector2 BCDSpeed = new Vector2(5f, 5f).RotatedBy(MathHelper.ToRadians(i));
+                            Dust.NewDust(player.Center, 1, 1, 244, BCDSpeed.X, BCDSpeed.Y, 0, default, 1.1f);
+                        }
+                        Main.PlaySound(SoundID.Item14, player.Center);
+                        int blazingSun = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), (int)(1270 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun].Center = player.Center;
+                        int blazingSun2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, player.whoAmI, 0f, 0f);
+                        Main.projectile[blazingSun2].Center = player.Center;
+                    }
+                }
+                if (ataxiaBlaze)
+                {
+                    if (damage > 0)
+                    {
+                        Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
+                        int eDamage = (int)(100 * player.AverageDamage());
+                        if (player.whoAmI == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, player.whoAmI, 0f, 0f);
                         }
                     }
-                    for (int l = 0; l < 5; l++)
+                }
+                else if (daedalusShard)
+                {
+                    if (damage > 0)
                     {
-                        Projectile scythe = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI);
-                        if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
+                        Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
+                        float spread = 45f * 0.0174f;
+                        double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
+                        double deltaAngle = spread / 8f;
+                        double offsetAngle;
+                        int sDamage = (int)(27 * player.RangedDamage()); //daedalus ranged helm
+                        if (player.whoAmI == Main.myPlayer)
                         {
-                            scythe.Calamity().forceTypeless = true;
-                            scythe.usesLocalNPCImmunity = true;
-                            scythe.localNPCHitCooldown = 10;
+                            for (int i = 0; i < 8; i++)
+                            {
+                                float randomSpeed = Main.rand.Next(1, 7);
+                                float randomSpeed2 = Main.rand.Next(1, 7);
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                                int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
+                                int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
+                                if (shard.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[shard].Calamity().forceTypeless = true;
+                                if (shard2.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[shard2].Calamity().forceTypeless = true;
+                            }
+                        }
+                    }
+                }
+                else if (reaverDefense) //Defense and DR Helm
+                {
+                    if (damage > 0)
+                    {
+                        int rDamage = (int)(80 * player.AverageDamage());
+                        if (player.whoAmI == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(player.Center.X, player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ReaverThornBase>(), rDamage, 0f, player.whoAmI, 0f, 0f);
+                        }
+                    }
+                }
+                else if (godSlayerDamage) //god slayer melee helm
+                {
+                    if (damage > 80)
+                    {
+                        Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 73);
+                        float spread = 45f * 0.0174f;
+                        double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
+                        double deltaAngle = spread / 8f;
+                        double offsetAngle;
+                        if (player.whoAmI == Main.myPlayer)
+                        {
+                            for (int i = 0; i < 4; i++)
+                            {
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
+                            }
+                        }
+                    }
+                }
+                else if (dsSetBonus)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        for (int l = 0; l < 2; l++)
+                        {
+                            Projectile beam = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI);
+                            if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
+                            {
+                                beam.Calamity().forceTypeless = true;
+                                beam.usesLocalNPCImmunity = true;
+                                beam.localNPCHitCooldown = 10;
+                            }
+                        }
+                        for (int l = 0; l < 5; l++)
+                        {
+                            Projectile scythe = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI);
+                            if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
+                            {
+                                scythe.Calamity().forceTypeless = true;
+                                scythe.usesLocalNPCImmunity = true;
+                                scythe.localNPCHitCooldown = 10;
+                            }
                         }
                     }
                 }
@@ -8309,20 +8095,8 @@ namespace CalamityMod.CalPlayer
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
+
+                            player.GiveIFrames(AsgardianAegis.ShieldSlamIFrames, false);
 						}
                     }
                 }
@@ -8367,21 +8141,9 @@ namespace CalamityMod.CalPlayer
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(80 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
-						}
+
+                            player.GiveIFrames(ElysianAegis.ShieldSlamIFrames, false);
+                        }
                     }
                 }
             }
@@ -8424,21 +8186,9 @@ namespace CalamityMod.CalPlayer
 							Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
-						}
+
+                            player.GiveIFrames(AsgardsValor.ShieldSlamIFrames, false);
+                        }
                     }
                 }
             }
@@ -8481,21 +8231,9 @@ namespace CalamityMod.CalPlayer
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
-						}
+
+                            player.GiveIFrames(OrnateShield.ShieldSlamIFrames, false);
+                        }
 					}
 				}
 			}
@@ -8526,20 +8264,8 @@ namespace CalamityMod.CalPlayer
                             if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
-                            bool isImmune = false;
-                            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                            {
-                                if (player.hurtCooldowns[j] > 0)
-                                    isImmune = true;
-                            }
-                            if (!isImmune)
-                            {
-                                player.immune = true;
-                                player.immuneNoBlink = true;
-                                player.immuneTime += 4;
-                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                                    player.hurtCooldowns[k] = player.immuneTime;
-                            }
+
+                            player.GiveIFrames(PlaguebringerVisor.PlagueDashIFrames, false);
                         }
                     }
                 }
@@ -8598,21 +8324,9 @@ namespace CalamityMod.CalPlayer
 							if (npc.Calamity().dashImmunityTime[player.whoAmI] < 6)
 								npc.Calamity().dashImmunityTime[player.whoAmI] = 6;
 							npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
-							bool isImmune = false;
-							for (int j = 0; j < player.hurtCooldowns.Length; j++)
-							{
-								if (player.hurtCooldowns[j] > 0)
-									isImmune = true;
-							}
-							if (!isImmune)
-							{
-								player.immune = true;
-								player.immuneNoBlink = true;
-								player.immuneTime += 4;
-								for (int k = 0; k < player.hurtCooldowns.Length; k++)
-									player.hurtCooldowns[k] = player.immuneTime;
-							}
-						}
+
+                            player.GiveIFrames(GodSlayerChestplate.DashIFrames, false);
+                        }
 					}
 				}
 			}
@@ -9447,20 +9161,7 @@ namespace CalamityMod.CalPlayer
                             player.ApplyDamageToNPC(nPC, (int)Damage, Knockback, direction, false);
                         }
 						nPC.Calamity().dashImmunityTime[player.whoAmI] = NPCImmuneTime;
-                        bool isImmune = false;
-                        for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                        {
-                            if (player.hurtCooldowns[j] > 0)
-                                isImmune = true;
-                        }
-                        if (!isImmune)
-                        {
-                            player.immune = true;
-                            player.immuneNoBlink = true;
-                            player.immuneTime += PlayerImmuneTime;
-                            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-                                player.hurtCooldowns[j] = player.immuneTime;
-                        }
+                        player.GiveIFrames(PlayerImmuneTime, false);
                         num++;
                         break;
                     }
@@ -10814,10 +10515,17 @@ namespace CalamityMod.CalPlayer
         #region Misc Stuff
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
+        // It also starts the speedrun timer if applicable.
         public override void OnEnterWorld(Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EnterWorldSync();
+
+            // Enabling the config while a player is loaded will show the timer immediately.
+            // But it won't start running until you save and quit and re-enter a world.
+            CalamityMod.SpeedrunTimer = new Stopwatch();
+            if (CalamityConfig.Instance.SpeedrunTimer)
+                CalamityMod.SpeedrunTimer.Start();
         }
 
         /// <summary>
@@ -10904,6 +10612,8 @@ namespace CalamityMod.CalPlayer
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)
+                light += 3;
+            if (littleLightPet)
                 light += 3;
             if (profanedCrystalBuffs && !ZoneAbyss)
                 light += Main.dayTime || player.lavaWet ? 2 : 1;

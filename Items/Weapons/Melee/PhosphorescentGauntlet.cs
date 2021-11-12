@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
 	public class PhosphorescentGauntlet : ModItem
 	{
+		public const int OnHitIFrames = 15;
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phosphorescent Gauntlet");

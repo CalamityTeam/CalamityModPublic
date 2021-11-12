@@ -64,6 +64,9 @@ namespace CalamityMod.World
                 CalamityNetcode.SyncWorld();
             }
 
+            // Check to see if a natural Acid Rain event should start.
+            AcidRainEvent.TryToStartEventNaturally();
+
             // Handle Acid Rain update logic.
             if (rainingAcid)
                 AcidRainEvent.Update();

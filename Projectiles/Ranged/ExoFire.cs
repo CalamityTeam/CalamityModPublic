@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
+    // Photoviscerator left click main projectile (the flamethrower itself)
     public class ExoFire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -13,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            DisplayName.SetDefault("Exo Flames");
         }
 
         public override void SetDefaults()
@@ -24,84 +23,61 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.ranged = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.MaxUpdates = 3;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
-            float speedX = 1f;
-            float speedY = 1f;
-            if (!ProducedAcceleration)
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] <= 3f)
+                return;
+
+            float dustScale = 1f;
+            if (projectile.ai[0] == 8f)
             {
-                speedX = Main.rand.NextBool(2) ? 1.03f : 0.97f;
-                projectile.velocity *= Utils.RandomVector2(Main.rand, 0.97f, 1.03f);
-                ProducedAcceleration = true;
+                dustScale = 0.25f;
             }
-            projectile.velocity.X *= speedX;
-            projectile.velocity.X *= speedY;
-            if (projectile.ai[0] > 7f)
+            else if (projectile.ai[0] == 9f)
             {
-                float num296 = 1f;
-                if (projectile.ai[0] == 8f)
+                dustScale = 0.5f;
+            }
+            else if (projectile.ai[0] == 10f)
+            {
+                dustScale = 0.75f;
+            }
+
+            int dustID = Main.rand.NextBool() ? 107 : 234;
+            if (Main.rand.NextBool(4))
+                dustID = 269;
+
+            if (Main.rand.NextBool())
+            {
+                for (int i = 0; i < 2; i++)
                 {
-                    num296 = 0.25f;
-                }
-                else if (projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                projectile.ai[0] += 1f;
-                int num297 = Main.rand.NextBool(2) ? 107 : 234;
-                if (Main.rand.NextBool(4))
-                {
-                    num297 = 269;
-                }
-                if (Main.rand.NextBool(2))
-                {
-                    for (int num298 = 0; num298 < 2; num298++)
+                    Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustID, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.6f);
+                    if (Main.rand.NextBool(3))
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.6f);
-                        Dust dust = Main.dust[num299];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.scale *= 1.5f;
-                            dust.velocity.X *= 1.2f;
-                            dust.velocity.Y *= 1.2f;
-                        }
-                        else
-                        {
-                            dust.scale *= 0.75f;
-                        }
-                        dust.noGravity = true;
-                        dust.velocity.X *= 0.8f;
-                        dust.velocity.Y *= 0.8f;
-                        dust.scale *= num296;
-                        dust.velocity += projectile.velocity;
+                        d.scale *= 1.5f;
+                        d.velocity.X *= 1.2f;
+                        d.velocity.Y *= 1.2f;
                     }
+                    else
+                        d.scale *= 0.75f;
+
+                    d.noGravity = true;
+                    d.velocity.X *= 0.8f;
+                    d.velocity.Y *= 0.8f;
+                    d.scale *= dustScale;
+                    d.velocity += projectile.velocity;
                 }
             }
-            else
-            {
-                projectile.ai[0] += 1f;
-            }
-            projectile.rotation += 0.3f * (float)projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			target.ExoDebuffs();
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-			target.ExoDebuffs();
-        }
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.ExoDebuffs();
     }
 }

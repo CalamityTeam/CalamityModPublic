@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.height = item.width = 142;
-            item.damage = 204;
+            item.damage = 404;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;

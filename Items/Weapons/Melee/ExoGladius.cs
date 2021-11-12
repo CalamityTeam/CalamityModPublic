@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class ExoGladius : ModItem
     {
+        public const int OnHitIFrames = 3;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Gladius");
@@ -77,22 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void OnHitEffects(Player player)
         {
-            bool isImmune = false;
-            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-            {
-                if (player.hurtCooldowns[j] > 0)
-                    isImmune = true;
-            }
-            if (!isImmune)
-            {
-                player.immune = true;
-                if (player.immuneTime < item.useTime)
-                    player.immuneTime = item.useTime;
-                if (player.hurtCooldowns[0] < item.useTime)
-                    player.hurtCooldowns[0] = item.useTime;
-                if (player.hurtCooldowns[1] < item.useTime)
-                    player.hurtCooldowns[1] = item.useTime;
-            }
+            player.GiveIFrames(OnHitIFrames, false);
 
             if (player.whoAmI == Main.myPlayer)
             {

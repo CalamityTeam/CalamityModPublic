@@ -10,11 +10,13 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class ElysianAegis : ModItem
     {
+        public const int ShieldSlamIFrames = 6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
-							   "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
+                               "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
                                "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
@@ -48,7 +50,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.dashMod = 3;
+            modPlayer.dashMod = 3;
             modPlayer.elysianAegis = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;

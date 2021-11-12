@@ -178,7 +178,6 @@ namespace CalamityMod.UI
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
-                NPCID.MoonLordCore,
                 NPCID.WyvernLegs,
                 NPCID.WyvernBody,
                 NPCID.WyvernBody2,
@@ -301,7 +300,7 @@ namespace CalamityMod.UI
                 // What this is doing is checking if the next segment agrees with the fact that the previous segment is what it is attaching to.
                 // If it doesn't, that means that we have reached the end of the worm.
                 int failsafeCounter = 0;
-                while (Main.npc[(int)currentSegment.ai[0]].ai[1] == currentSegment.whoAmI)
+                while (Main.npc.IndexInRange((int)currentSegment.ai[0]) && Main.npc[(int)currentSegment.ai[0]].ai[1] == currentSegment.whoAmI)
                 {
                     // If a segment is not active for some reason, don't go any further.
                     if (!currentSegment.active)

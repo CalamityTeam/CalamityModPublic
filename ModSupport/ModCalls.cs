@@ -1955,14 +1955,15 @@ namespace CalamityMod
 
 				// In the following two mod calls, the first argument is the NPC type, the second is the time change context (-1 being night, 0 being nothing, and 1 being day),
 				// the third being the boss spawning function, the fourth being the overriding countdown to use, the fifth being whether the boss uses a special sound on spawning,
-				// and the sixth being the array of NPCs present in the battle that should not be deleted by the Boss Rush itself, and the seventh being the potential NPCs
-				// that will end up killing, assuming the initial boss isn't that (such as P1 Hive Mind turning into its second form and you being expected to kill that).
+				// the sixth being the dimness factor that Boss Rush should become once the boss is currently present, the seventh being the array of NPCs present in the battle that 
+				// should not be deleted by the Boss Rush itself, and the eight being the potential NPCs that will end up killing, assuming the initial boss isn't 
+				// that (such as P1 Hive Mind turning into its second form and you being expected to kill that).
 				case "GetBossRushEntries":
-					List<(int, int, Action<int>, int, bool, int[], int[])> entries = new List<(int, int, Action<int>, int, bool, int[], int[])>();
+					var entries = new List<(int, int, Action<int>, int, bool, float, int[], int[])>();
 					foreach (BossRushEvent.Boss boss in BossRushEvent.Bosses)
 					{
 						int[] deathEntries = BossRushEvent.BossIDsAfterDeath.ContainsKey(boss.EntityID) ? BossRushEvent.BossIDsAfterDeath[boss.EntityID] : null;
-						entries.Add((boss.EntityID, (int)boss.ToChangeTimeTo, new Action<int>(boss.SpawnContext), boss.SpecialSpawnCountdown, boss.UsesSpecialSound, boss.HostileNPCsToNotDelete.ToArray(), deathEntries));
+						entries.Add((boss.EntityID, (int)boss.ToChangeTimeTo, new Action<int>(boss.SpawnContext), boss.SpecialSpawnCountdown, boss.UsesSpecialSound, boss.DimnessFactor, boss.HostileNPCsToNotDelete.ToArray(), deathEntries));
 					}
 
 					return entries;
@@ -1970,16 +1971,16 @@ namespace CalamityMod
 				case "SetBossRushEntries":
 					if (args.Length != 2)
 						return new ArgumentNullException("ERROR: Must specify a list of bosses as a List<(int, int, Action<int>, int, bool, int[], int[])>.");
-					if (!(args[1] is List<(int, int, Action<int>, int, bool, int[], int[])> entries2))
+					if (!(args[1] is List<(int, int, Action<int>, int, bool, float, int[], int[])> entries2))
 						return new ArgumentException("ERROR: The first argument to \"SetBossRushEntries\" must be a List<(int, int, Action<int>, int, bool, int[], int[])>.");
 
 					BossRushEvent.Bosses.Clear();
 					BossRushEvent.BossIDsAfterDeath.Clear();
 					foreach (var entry in entries2)
 					{
-						if (entry.Item7 != null)
-							BossRushEvent.BossIDsAfterDeath[entry.Item1] = entry.Item7;
-						BossRushEvent.Bosses.Add(new BossRushEvent.Boss(entry.Item1, (BossRushEvent.TimeChangeContext)entry.Item2, new BossRushEvent.Boss.OnSpawnContext(entry.Item3), entry.Item4, entry.Item5, entry.Item6));
+						if (entry.Item8 != null)
+							BossRushEvent.BossIDsAfterDeath[entry.Item1] = entry.Item8;
+						BossRushEvent.Bosses.Add(new BossRushEvent.Boss(entry.Item1, (BossRushEvent.TimeChangeContext)entry.Item2, new BossRushEvent.Boss.OnSpawnContext(entry.Item3), entry.Item4, entry.Item5, entry.Item6, entry.Item7));
 					}
 
 					return null;

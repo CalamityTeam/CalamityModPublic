@@ -143,8 +143,8 @@ namespace CalamityMod.CalPlayer
             Player drawPlayer = drawInfo.drawPlayer;
             Item currentlyHeldItem = drawPlayer.ActiveItem();
 
-			// Kamei trail/afterimage effect.
-			if (drawPlayer.Calamity().kamiBoost)
+            // Kamei trail/afterimage effect.
+            if (drawPlayer.Calamity().kamiBoost)
             {
                 for (int i = drawPlayer.Calamity().KameiOldPositions.Length - 1; i > 0; i--)
                 {
@@ -353,49 +353,49 @@ namespace CalamityMod.CalPlayer
             }
         });
 
-		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, drawInfo =>
+        public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, drawInfo =>
         {
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead)
-				return;
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead)
+                return;
 
             Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
 
             Rectangle frame = texture.Frame(1, 4, 0, modPlayer.tailFrame);
-			if (modPlayer.fathomSwarmerTail)
-			{
-				int frameSizeY = texture.Height / 4;
+            if (modPlayer.fathomSwarmerTail)
+            {
+                int frameSizeY = texture.Height / 4;
                 int centerX = (int)(drawInfo.position.X + drawPlayer.width / 2f);
                 int centerY = (int)(drawInfo.position.Y + drawPlayer.height / 2f);
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
-				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
+                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
                 Color color = Lighting.GetColor(centerX, centerY);
-				DrawData tailDrawData = new DrawData(texture, new Vector2(drawX, drawY), frame, color, 0f, new Vector2(texture.Width / 2f, frameSizeY / 2f), 1f, drawInfo.spriteEffects, 0);
-				Main.playerDrawData.Add(tailDrawData);
-			}
-		});
+                DrawData tailDrawData = new DrawData(texture, new Vector2(drawX, drawY), frame, color, 0f, new Vector2(texture.Width / 2f, frameSizeY / 2f), 1f, drawInfo.spriteEffects, 0);
+                Main.playerDrawData.Add(tailDrawData);
+            }
+        });
 
-		public static readonly PlayerLayer DrawRancorBookManually = new PlayerLayer("CalamityMod", "RancorBook", PlayerLayer.Arms, drawInfo =>
-		{
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead)
-				return;
+        public static readonly PlayerLayer DrawRancorBookManually = new PlayerLayer("CalamityMod", "RancorBook", PlayerLayer.Arms, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead)
+                return;
 
-			int bookType = ModContent.ProjectileType<RancorHoldout>();
-			Texture2D bookTexture = Main.projectileTexture[bookType];
-			Projectile book = Main.projectile[drawPlayer.heldProj];
-			Rectangle frame = bookTexture.Frame(1, Main.projFrames[bookType], 0, book.frame);
-			Vector2 origin = frame.Size() * 0.5f;
-			Vector2 drawPosition = drawPlayer.Center + Vector2.UnitX * drawPlayer.direction * 8f - Main.screenPosition;
-			Color drawColor = book.GetAlpha(Color.White);
-			SpriteEffects direction = book.spriteDirection == 1f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			DrawData bookDrawData = new DrawData(bookTexture, drawPosition, frame, drawColor, book.rotation, origin, book.scale, direction, 0);
-			Main.playerDrawData.Add(bookDrawData);
-		});
+            int bookType = ModContent.ProjectileType<RancorHoldout>();
+            Texture2D bookTexture = Main.projectileTexture[bookType];
+            Projectile book = Main.projectile[drawPlayer.heldProj];
+            Rectangle frame = bookTexture.Frame(1, Main.projFrames[bookType], 0, book.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = drawPlayer.Center + Vector2.UnitX * drawPlayer.direction * 8f - Main.screenPosition;
+            Color drawColor = book.GetAlpha(Color.White);
+            SpriteEffects direction = book.spriteDirection == 1f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            DrawData bookDrawData = new DrawData(bookTexture, drawPosition, frame, drawColor, book.rotation, origin, book.scale, direction, 0);
+            Main.playerDrawData.Add(bookDrawData);
+        });
 
-		public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
+        public static readonly PlayerLayer ArtemisAndApolloMaskPieces = new PlayerLayer("CalamityMod", "ArtemisApolloMaskPieces", PlayerLayer.Head, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
@@ -464,13 +464,13 @@ namespace CalamityMod.CalPlayer
 
         public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, drawInfo =>
         {
-			DrawData drawData = new DrawData();
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.forbiddenCirclet)
-				return;
+            DrawData drawData = new DrawData();
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.forbiddenCirclet)
+                return;
 
-			SpriteEffects spriteEffects;
+            SpriteEffects spriteEffects;
             if (drawPlayer.direction == 1)
                 spriteEffects = SpriteEffects.None;
             else spriteEffects = SpriteEffects.FlipHorizontally;
@@ -479,19 +479,19 @@ namespace CalamityMod.CalPlayer
                 spriteEffects |= SpriteEffects.FlipVertically;
 
             int dyeShader = 0;
-			if (drawPlayer.dye[1] != null)
-				dyeShader = drawPlayer.dye[1].dye;
+            if (drawPlayer.dye[1] != null)
+                dyeShader = drawPlayer.dye[1].dye;
 
             Color baseColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawInfo.position.X + drawPlayer.width * 0.5f) / 16, (int)(drawInfo.position.Y + drawPlayer.height * 0.5f) / 16, Color.White), drawInfo.shadow);
             Color color = Color.Lerp(baseColor, Color.White, 0.7f);
-			Texture2D texture = Main.extraTexture[ExtrasID.ForbiddenSign];
-			Texture2D glowmask = Main.glowMaskTexture[GlowMaskID.ForbiddenSign];
-			float offsetY = (float)Math.Sin(drawPlayer.miscCounter / 300f * MathHelper.TwoPi) * 6f;
-			float sinusoidalTime = (float)Math.Cos(drawPlayer.miscCounter / 75f * MathHelper.TwoPi);
+            Texture2D texture = Main.extraTexture[ExtrasID.ForbiddenSign];
+            Texture2D glowmask = Main.glowMaskTexture[GlowMaskID.ForbiddenSign];
+            float offsetY = (float)Math.Sin(drawPlayer.miscCounter / 300f * MathHelper.TwoPi) * 6f;
+            float sinusoidalTime = (float)Math.Cos(drawPlayer.miscCounter / 75f * MathHelper.TwoPi);
             Color afterimageColor = new Color(80, 70, 40, 0) * (sinusoidalTime * 0.5f + 0.5f) * 0.8f;
-			float gravCheckOffset = drawPlayer.gravDir != 1f ? -20f : 20f;
+            float gravCheckOffset = drawPlayer.gravDir != 1f ? -20f : 20f;
 
-			Vector2 position = new Vector2(drawInfo.position.X - drawPlayer.bodyFrame.Width / 2 + drawPlayer.width / 2, drawInfo.position.Y + drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.bodyPosition;
+            Vector2 position = new Vector2(drawInfo.position.X - drawPlayer.bodyFrame.Width / 2 + drawPlayer.width / 2, drawInfo.position.Y + drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.bodyPosition;
             position += new Vector2(drawPlayer.bodyFrame.Width / 2, drawPlayer.bodyFrame.Height / 2) + new Vector2(-drawPlayer.direction * 10, offsetY - gravCheckOffset);
             position -= Main.screenPosition;
 
@@ -503,13 +503,13 @@ namespace CalamityMod.CalPlayer
             Main.playerDrawData.Add(drawData);
 
             // And 4 semi-transparent copies.
-			for (float i = 0f; i < 4f; i++)
-			{
+            for (float i = 0f; i < 4f; i++)
+            {
                 float angle = MathHelper.TwoPi / 4f * i;
-				drawData = new DrawData(glowmask, position + angle.ToRotationVector2() * sinusoidalTime * 4f, null, afterimageColor, drawPlayer.bodyRotation, texture.Size() * 0.5f, 1f, spriteEffects, 0);
-				Main.playerDrawData.Add(drawData);
-			}
-		});
+                drawData = new DrawData(glowmask, position + angle.ToRotationVector2() * sinusoidalTime * 4f, null, afterimageColor, drawPlayer.bodyRotation, texture.Size() * 0.5f, 1f, spriteEffects, 0);
+                Main.playerDrawData.Add(drawData);
+            }
+        });
 
         public static readonly PlayerLayer ColdDivinityOverlay = new PlayerLayer("CalamityMod", "ColdDivinity", PlayerLayer.Skin, drawInfo =>
         {
@@ -552,12 +552,12 @@ namespace CalamityMod.CalPlayer
             if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
-				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
-				Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
-				Color color = Color.White * 0.625f;
-				Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f / 11f);
-				float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
-				SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
+                Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
+                Color color = Color.White * 0.625f;
+                Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f / 11f);
+                float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
+                SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
                 DrawData data = new DrawData(texture, drawPos, frame, color, 0f, origin, scale, spriteEffects, 0);
                 Main.playerDrawData.Add(data);
@@ -613,25 +613,25 @@ namespace CalamityMod.CalPlayer
             int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
             if (totalMoonlightDyes <= 0)
                 return;
-			CalamityUtils.DrawAuroras(drawPlayer, 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2, MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f), GetCurrentMoonlightDyeColor());
+            CalamityUtils.DrawAuroras(drawPlayer, 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2, MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f), GetCurrentMoonlightDyeColor());
         });
 
         public static readonly PlayerLayer AuralisAuroraEffects = new PlayerLayer("CalamityMod", "AuralisAurora", PlayerLayer.Body, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.auralisAuroraCounter < 300 || modPlayer.auralisAuroraCooldown > 0)
                 return;
-			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 3f));
+            CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 3f));
         });
 
         public static readonly PlayerLayer AngelicAllianceAurora = new PlayerLayer("CalamityMod", "AngelicAllianceAurora", PlayerLayer.Body, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (!modPlayer.divineBless)
                 return;
-			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(new Color(255, 163, 56), new Color(242, 48, 187), 3f));
+            CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(new Color(255, 163, 56), new Color(242, 48, 187), 3f));
         });
 
         public static readonly PlayerLayer IbanDevRobot = new PlayerLayer("CalamityMod", "IbanDevRobot", PlayerLayer.Body, drawInfo =>
@@ -771,20 +771,20 @@ namespace CalamityMod.CalPlayer
             if (player.Calamity().fab || player.Calamity().crysthamyr || player.Calamity().onyxExcavator)
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
 
-			if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
-				list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);
+            if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
+                list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);
 
-			if (player.Calamity().fathomSwarmerTail)
-			{
-				int skinIndex = list.IndexOf(PlayerLayer.Skin);
-				list.Insert(skinIndex - 1, Tail);
-			}
+            if (player.Calamity().fathomSwarmerTail)
+            {
+                int skinIndex = list.IndexOf(PlayerLayer.Skin);
+                list.Insert(skinIndex - 1, Tail);
+            }
 
-			if (player.Calamity().forbiddenCirclet)
-			{
-				int drawTheStupidSign = list.IndexOf(PlayerLayer.Skin);
-				list.Insert(drawTheStupidSign, ForbiddenCircletSign);
-			}
+            if (player.Calamity().forbiddenCirclet)
+            {
+                int drawTheStupidSign = list.IndexOf(PlayerLayer.Skin);
+                list.Insert(drawTheStupidSign, ForbiddenCircletSign);
+            }
 
             list.Add(ArtemisAndApolloMaskPieces);
             list.Add(DemonshadeHeadPiece);
@@ -802,318 +802,274 @@ namespace CalamityMod.CalPlayer
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
             CalamityPlayer calamityPlayer = player.Calamity();
+            if (Main.myPlayer == player.whoAmI && !Main.gameMenu && CalamityConfig.Instance.SpeedrunTimer)
+            {
+                string formatStr = @"hh\:mm\:ss\.ff";
+                string formatStrDays = @"d\:hh\:mm\:ss\.ff";
+                TimeSpan totalTime = CalamityMod.SpeedrunTimer.Elapsed.Add(calamityPlayer.previousSessionTotal);
+                string text = totalTime.ToString(totalTime.Days > 0 ? formatStrDays : formatStr);
+                float scale = 2f;
+                float xOffset = CalamityConfig.Instance.SpeedrunTimerPosX;
+                float yOffset = CalamityConfig.Instance.SpeedrunTimerPosY;
 
-			if (Main.myPlayer == player.whoAmI && !Main.gameMenu)
-			{
-				if (CalamityConfig.Instance.SpeedrunTimer)
-				{
-					double fractionsOfSeconds = calamityPlayer.speedrunTimer / 60D;
-					fractionsOfSeconds -= Math.Truncate(fractionsOfSeconds);
-					fractionsOfSeconds *= 1000D;
-					int milliseconds = (int)Math.Truncate(fractionsOfSeconds);
-					int seconds = calamityPlayer.speedrunTimer / 60;
-					int minutes = calamityPlayer.speedrunTimer / 3600;
-					int hours = calamityPlayer.speedrunTimer / 216000;
+                Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
 
-					seconds -= minutes * 60;
-					minutes -= hours * 60;
+                if (calamityPlayer.lastSplitType > -1)
+                {
+                    TimeSpan split = calamityPlayer.lastSplit;
+                    text = split.ToString(split.Days > 0 ? formatStrDays : formatStr);
+                    scale = 1f;
+                    yOffset += 44f;
 
-					if (hours > 99)
-					{
-						seconds = minutes = 59;
-						hours = 99;
-					}
+                    Texture2D texture = null;
+                    switch (calamityPlayer.lastSplitType)
+                    {
+                        // King Slime
+                        case 1:
+                            texture = Main.npcHeadBossTexture[7];
+                            break;
 
-					string fractionsOfSecondsText = milliseconds > 99 ? milliseconds.ToString() : "0" + milliseconds.ToString();
-					string secondsText = seconds > 9 ? seconds.ToString() : "0" + seconds.ToString();
-					string minutesText = minutes > 9 ? minutes.ToString() : "0" + minutes.ToString();
-					string hoursText = hours > 9 ? hours.ToString() : "0" + hours.ToString();
+                        case 2:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DesertScourgeHead>()]];
+                            break;
 
-					string text = hoursText + ":" + minutesText + ":" + secondsText + "." + fractionsOfSecondsText;
-					float scale = 2f;
-					float xOffset = CalamityConfig.Instance.SpeedrunTimerPosX;
-					float yOffset = CalamityConfig.Instance.SpeedrunTimerPosY;
+                        // Eye of Cthulhu
+                        case 3:
+                            texture = Main.npcHeadBossTexture[1];
+                            break;
 
-					Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+                        case 4:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CrabulonIdle>()]];
+                            break;
 
-					if (calamityPlayer.bossTypeJustDowned > -1)
-					{
-						fractionsOfSeconds = calamityPlayer.bossTypeJustDownedTime / 60D;
-						fractionsOfSeconds -= Math.Truncate(fractionsOfSeconds);
-						fractionsOfSeconds *= 1000D;
-						milliseconds = (int)Math.Truncate(fractionsOfSeconds);
-						seconds = calamityPlayer.bossTypeJustDownedTime / 60;
-						minutes = calamityPlayer.bossTypeJustDownedTime / 3600;
-						hours = calamityPlayer.bossTypeJustDownedTime / 216000;
+                        // Eater of Worlds
+                        case 5:
+                            texture = Main.npcHeadBossTexture[2];
+                            break;
 
-						seconds -= minutes * 60;
-						minutes -= hours * 60;
+                        // Brain of Cthulhu
+                        case 6:
+                            texture = Main.npcHeadBossTexture[23];
+                            break;
 
-						if (hours > 99)
-						{
-							seconds = minutes = 59;
-							hours = 99;
-						}
+                        case 7:
+                            texture = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss");
+                            break;
 
-						fractionsOfSecondsText = milliseconds > 99 ? milliseconds.ToString() : "0" + milliseconds.ToString();
-						secondsText = seconds > 9 ? seconds.ToString() : "0" + seconds.ToString();
-						minutesText = minutes > 9 ? minutes.ToString() : "0" + minutes.ToString();
-						hoursText = hours > 9 ? hours.ToString() : "0" + hours.ToString();
+                        case 8:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PerforatorHive>()]];
+                            break;
 
-						text = hoursText + ":" + minutesText + ":" + secondsText + "." + fractionsOfSecondsText;
-						scale = 1f;
-						yOffset += 44f;
+                        // Queen Bee
+                        case 9:
+                            texture = Main.npcHeadBossTexture[14];
+                            break;
 
-						Texture2D texture = null;
-						switch (calamityPlayer.bossTypeJustDowned)
-						{
-							// King Slime
-							case 1:
-								texture = Main.npcHeadBossTexture[7];
-								break;
+                        // Skeletron
+                        case 10:
+                            texture = Main.npcHeadBossTexture[19];
+                            break;
 
-							case 2:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DesertScourgeHead>()]];
-								break;
+                        case 11:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<SlimeGodCore>()]];
+                            break;
 
-							// Eye of Cthulhu
-							case 3:
-								texture = Main.npcHeadBossTexture[1];
-								break;
+                        // Wall of Flesh
+                        case 12:
+                            texture = Main.npcHeadBossTexture[22];
+                            break;
 
-							case 4:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CrabulonIdle>()]];
-								break;
+                        case 13:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Cryogen>()]];
+                            break;
 
-							// Eater of Worlds
-							case 5:
-								texture = Main.npcHeadBossTexture[2];
-								break;
+                        // The Twins
+                        case 14:
+                            texture = Main.npcHeadBossTexture[21];
+                            break;
 
-							// Brain of Cthulhu
-							case 6:
-								texture = Main.npcHeadBossTexture[23];
-								break;
+                        case 15:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AquaticScourgeHead>()]];
+                            break;
 
-							case 7:
-								texture = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss");
-								break;
+                        // The Destroyer
+                        case 16:
+                            texture = Main.npcHeadBossTexture[25];
+                            break;
 
-							case 8:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PerforatorHive>()]];
-								break;
+                        case 17:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<BrimstoneElemental>()]];
+                            break;
 
-							// Queen Bee
-							case 9:
-								texture = Main.npcHeadBossTexture[14];
-								break;
+                        // Skeletron Prime
+                        case 18:
+                            texture = Main.npcHeadBossTexture[18];
+                            break;
 
-							// Skeletron
-							case 10:
-								texture = Main.npcHeadBossTexture[19];
-								break;
+                        case 19:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasRun3>()]];
+                            break;
 
-							case 11:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<SlimeGodCore>()]];
-								break;
+                        // Plantera
+                        case 20:
+                            texture = Main.npcHeadBossTexture[12];
+                            break;
 
-							// Wall of Flesh
-							case 12:
-								texture = Main.npcHeadBossTexture[22];
-								break;
+                        case 21:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Leviathan>()]];
+                            break;
 
-							case 13:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Cryogen>()]];
-								break;
+                        case 22:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumAureus>()]];
+                            break;
 
-							// The Twins
-							case 14:
-								texture = Main.npcHeadBossTexture[21];
-								break;
+                        // Golem
+                        case 23:
+                            texture = Main.npcHeadBossTexture[5];
+                            break;
 
-							case 15:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AquaticScourgeHead>()]];
-								break;
+                        case 24:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PlaguebringerGoliath>()]];
+                            break;
 
-							// The Destroyer
-							case 16:
-								texture = Main.npcHeadBossTexture[25];
-								break;
+                        // Duke Fishron
+                        case 25:
+                            texture = Main.npcHeadBossTexture[4];
+                            break;
 
-							case 17:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<BrimstoneElemental>()]];
-								break;
+                        case 26:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<RavagerBody>()]];
+                            break;
 
-							// Skeletron Prime
-							case 18:
-								texture = Main.npcHeadBossTexture[18];
-								break;
+                        // Lunatic Cultist
+                        case 27:
+                            texture = Main.npcHeadBossTexture[31];
+                            break;
 
-							case 19:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasRun3>()]];
-								break;
+                        case 28:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHeadSpectral>()]];
+                            break;
 
-							// Plantera
-							case 20:
-								texture = Main.npcHeadBossTexture[12];
-								break;
+                        // Moon Lord
+                        case 29:
+                            texture = Main.npcHeadBossTexture[8];
+                            break;
 
-							case 21:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Leviathan>()]];
-								break;
+                        case 30:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]];
+                            break;
 
-							case 22:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumAureus>()]];
-								break;
+                        case 31:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]];
+                            break;
 
-							// Golem
-							case 23:
-								texture = Main.npcHeadBossTexture[5];
-								break;
+                        case 32:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Providence>()]];
+                            break;
 
-							case 24:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<PlaguebringerGoliath>()]];
-								break;
+                        case 33:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CeaselessVoid>()]];
+                            break;
 
-							// Duke Fishron
-							case 25:
-								texture = Main.npcHeadBossTexture[4];
-								break;
+                        case 34:
+                            texture = ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss");
+                            break;
 
-							case 26:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<RavagerBody>()]];
-								break;
+                        case 35:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Signus>()]];
+                            break;
 
-							// Lunatic Cultist
-							case 27:
-								texture = Main.npcHeadBossTexture[31];
-								break;
+                        case 36:
+                            texture = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss");
+                            break;
 
-							case 28:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHeadSpectral>()]];
-								break;
+                        case 37:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<OldDuke>()]];
+                            break;
 
-							// Moon Lord
-							case 29:
-								texture = Main.npcHeadBossTexture[8];
-								break;
+                        case 38:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DevourerofGodsHead>()]];
+                            break;
 
-							case 30:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]];
-								break;
+                        case 39:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Yharon>()]];
+                            break;
 
-							case 31:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]];
-								break;
+                        case 40:
+                            texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon");
+                            break;
 
-							case 32:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Providence>()]];
-								break;
+                        case 41:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AresBody>()]];
+                            break;
 
-							case 33:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CeaselessVoid>()]];
-								break;
+                        case 42:
+                            texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<EidolonWyrmHeadHuge>()]];
+                            break;
 
-							case 34:
-								texture = ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss");
-								break;
+                        default:
+                            break;
+                    }
 
-							case 35:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Signus>()]];
-								break;
+                    xOffset -= 58f;
 
-							case 36:
-								texture = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss");
-								break;
+                    if (texture != null)
+                        Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2f - xOffset - texture.Width - 4f, yOffset), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
 
-							case 37:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<OldDuke>()]];
-								break;
+                    Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
+                }
+            }
 
-							case 38:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DevourerofGodsHead>()]];
-								break;
-
-							case 39:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Yharon>()]];
-								break;
-
-							case 40:
-								texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon");
-								break;
-
-							case 41:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AresBody>()]];
-								break;
-
-							case 42:
-								texture = Main.npcHeadBossTexture[NPCID.Sets.BossHeadTextures[ModContent.NPCType<EidolonWyrmHeadHuge>()]];
-								break;
-
-							default:
-								break;
-						}
-
-						xOffset -= 58f;
-
-						if (texture != null)
-							Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2f - xOffset - texture.Width - 4f, yOffset), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
-
-						Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, Main.screenWidth / 2f - xOffset, yOffset, Color.White, Color.Black, default, scale);
-					}
-				}
-			}
-
-			// Dust modifications while high.
-			if (calamityPlayer.trippy)
-			{
-				if (Main.myPlayer == player.whoAmI)
-				{
-					Rectangle screenArea = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
-					int dustDrawn = 0;
-					float maxShroomDust = Main.maxDustToDraw / 2;
-					for (int i = 0; i < Main.maxDustToDraw; i++)
-					{
-						Dust dust = Main.dust[i];
-						if (dust.active)
-						{
+            // Dust modifications while high.
+            if (calamityPlayer.trippy)
+            {
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    Rectangle screenArea = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
+                    int dustDrawn = 0;
+                    float maxShroomDust = Main.maxDustToDraw / 2;
+                    for (int i = 0; i < Main.maxDustToDraw; i++)
+                    {
+                        Dust dust = Main.dust[i];
+                        if (dust.active)
+                        {
                             // Only draw dust near the screen, for performance reasons.
-							if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(screenArea))
-							{
-								dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-								for (int j = 0; j < 4; j++)
-								{
-									Vector2 dustDrawPosition = dust.position;
+                            if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(screenArea))
+                            {
+                                dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                                for (int j = 0; j < 4; j++)
+                                {
+                                    Vector2 dustDrawPosition = dust.position;
                                     Vector2 dustCenter = dustDrawPosition + new Vector2(4f);
 
                                     float distanceX = Math.Abs(dustCenter.X - player.Center.X);
-									float distanceY = Math.Abs(dustCenter.Y - player.Center.Y);
-									if (j == 0 || j == 2)
+                                    float distanceY = Math.Abs(dustCenter.Y - player.Center.Y);
+                                    if (j == 0 || j == 2)
                                         dustDrawPosition.X = player.Center.X + distanceX;
-									else dustDrawPosition.X = player.Center.X - distanceX;
+                                    else dustDrawPosition.X = player.Center.X - distanceX;
 
                                     dustDrawPosition.X -= 4f;
 
-									if (j == 0 || j == 1)
+                                    if (j == 0 || j == 1)
                                         dustDrawPosition.Y = player.Center.Y + distanceY;
 
-									else dustDrawPosition.Y = player.Center.Y - distanceY;
+                                    else dustDrawPosition.Y = player.Center.Y - distanceY;
 
                                     dustDrawPosition.Y -= 4f;
-									Main.spriteBatch.Draw(Main.dustTexture, dustDrawPosition - Main.screenPosition, dust.frame, dust.color, dust.rotation, new Vector2(4f), dust.scale, SpriteEffects.None, 0f);
-									dustDrawn++;
-								}
+                                    Main.spriteBatch.Draw(Main.dustTexture, dustDrawPosition - Main.screenPosition, dust.frame, dust.color, dust.rotation, new Vector2(4f), dust.scale, SpriteEffects.None, 0f);
+                                    dustDrawn++;
+                                }
 
-								// Break if too many dust clones have been drawn
-								if (dustDrawn > maxShroomDust)
-									break;
-							}
-						}
-					}
-				}
-			}
+                                // Break if too many dust clones have been drawn
+                                if (dustDrawn > maxShroomDust)
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
 
-			bool noRogueStealth = calamityPlayer.rogueStealth == 0f || player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
+            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
             if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisbility)
             {
                 // A translucent orchid color, the rogue class color
@@ -1552,118 +1508,118 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-			if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !player.loveStruck)
-			{
-				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
-				{
+            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !player.loveStruck)
+            {
+                if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
+                {
                     Vector2 velocity = Main.rand.NextVector2Unit();
                     velocity.X *= 0.66f;
                     velocity *= Main.rand.NextFloat(1f, 2f);
 
                     int heart = Gore.NewGore(drawInfo.position + new Vector2(Main.rand.Next(player.width + 1), Main.rand.Next(player.height + 1)), velocity, 331, Main.rand.NextFloat(0.4f, 1.2f));
-					Main.gore[heart].sticky = false;
-					Main.gore[heart].velocity *= 0.4f;
-					Main.gore[heart].velocity.Y -= 0.6f;
-					Main.playerDrawGore.Add(heart);
-				}
-			}
+                    Main.gore[heart].sticky = false;
+                    Main.gore[heart].velocity *= 0.4f;
+                    Main.gore[heart].velocity.Y -= 0.6f;
+                    Main.playerDrawGore.Add(heart);
+                }
+            }
         }
         #endregion
 
-		#region Tanks/Backpacks
-		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
-		{
-			if (drawInfo.shadow != 0f)
-				return;
+        #region Tanks/Backpacks
+        public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+        {
+            if (drawInfo.shadow != 0f)
+                return;
 
-			Player drawPlayer = drawInfo.drawPlayer;
-			Item item = drawPlayer.ActiveItem();
+            Player drawPlayer = drawInfo.drawPlayer;
+            Item item = drawPlayer.ActiveItem();
 
-			if (!drawPlayer.frozen &&
-				(item.IsAir || item.type > ItemID.None) &&
-				!drawPlayer.dead &&
-				(!drawPlayer.wet || !item.noWet) &&
-				(drawPlayer.wings == 0 || drawPlayer.velocity.Y == 0f))
-			{
-				//Make sure the lists are in the same order
-				List<int> tankItems = new List<int>()
-				{
-					ModContent.ItemType<FlurrystormCannon>(),
-					ModContent.ItemType<MepheticSprayer>(),
-					ModContent.ItemType<BrimstoneFlameblaster>(),
-					ModContent.ItemType<BrimstoneFlamesprayer>(),
-					ModContent.ItemType<SparkSpreader>(),
-					ModContent.ItemType<HalleysInferno>(),
-					ModContent.ItemType<CleansingBlaze>(),
-					ModContent.ItemType<ElementalEruption>(),
-					ModContent.ItemType<TheEmpyrean>(),
-					ModContent.ItemType<Meowthrower>(),
-					ModContent.ItemType<OverloadedBlaster>(),
-					ModContent.ItemType<TerraFlameburster>(),
-					ModContent.ItemType<Photoviscerator>(),
-					ModContent.ItemType<Shadethrower>(),
-					ModContent.ItemType<BloodBoiler>(),
-					ModContent.ItemType<PristineFury>(),
-					ModContent.ItemType<AuroraBlazer>()
-				};
-				List<Texture2D> tankTextures = new List<Texture2D>()
-				{
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury"),
-					ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer")
-				};
-				if (tankItems.Contains(item.type) || drawPlayer.Calamity().plaguebringerCarapace)
-				{
-					Texture2D thingToDraw = null;
-					if (tankItems.Contains(item.type))
-					{
-						for (int i = 0; i < tankItems.Count; i++)
-						{
-							if (item.type == tankItems[i])
-							{
-								thingToDraw = tankTextures[i];
-								break;
-							}
-						}
-					}
-					else if (drawPlayer.Calamity().plaguebringerCarapace)
-						thingToDraw = ModContent.GetTexture("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
+            if (!drawPlayer.frozen &&
+                (item.IsAir || item.type > ItemID.None) &&
+                !drawPlayer.dead &&
+                (!drawPlayer.wet || !item.noWet) &&
+                (drawPlayer.wings == 0 || drawPlayer.velocity.Y == 0f))
+            {
+                //Make sure the lists are in the same order
+                List<int> tankItems = new List<int>()
+                {
+                    ModContent.ItemType<FlurrystormCannon>(),
+                    ModContent.ItemType<MepheticSprayer>(),
+                    ModContent.ItemType<BrimstoneFlameblaster>(),
+                    ModContent.ItemType<BrimstoneFlamesprayer>(),
+                    ModContent.ItemType<SparkSpreader>(),
+                    ModContent.ItemType<HalleysInferno>(),
+                    ModContent.ItemType<CleansingBlaze>(),
+                    ModContent.ItemType<ElementalEruption>(),
+                    ModContent.ItemType<TheEmpyrean>(),
+                    ModContent.ItemType<Meowthrower>(),
+                    ModContent.ItemType<OverloadedBlaster>(),
+                    ModContent.ItemType<TerraFlameburster>(),
+                    ModContent.ItemType<Photoviscerator>(),
+                    ModContent.ItemType<Shadethrower>(),
+                    ModContent.ItemType<BloodBoiler>(),
+                    ModContent.ItemType<PristineFury>(),
+                    ModContent.ItemType<AuroraBlazer>()
+                };
+                List<Texture2D> tankTextures = new List<Texture2D>()
+                {
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury"),
+                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer")
+                };
+                if (tankItems.Contains(item.type) || drawPlayer.Calamity().plaguebringerCarapace)
+                {
+                    Texture2D thingToDraw = null;
+                    if (tankItems.Contains(item.type))
+                    {
+                        for (int i = 0; i < tankItems.Count; i++)
+                        {
+                            if (item.type == tankItems[i])
+                            {
+                                thingToDraw = tankTextures[i];
+                                break;
+                            }
+                        }
+                    }
+                    else if (drawPlayer.Calamity().plaguebringerCarapace)
+                        thingToDraw = ModContent.GetTexture("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
 
-					if (thingToDraw is null)
-						return;
+                    if (thingToDraw is null)
+                        return;
 
-					SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                    SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-					float num25 = -4f;
-					float num24 = -8f;
-					DrawData howDoIDrawThings = new DrawData(thingToDraw,
-						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
-						new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
-						drawInfo.middleArmorColor,
-						drawPlayer.bodyRotation,
-						new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
-						1f,
-						spriteEffects,
-						0);
-					howDoIDrawThings.shader = 0;
-					Main.playerDrawData.Add(howDoIDrawThings);
-				}
-			}
-		}
-		#endregion
+                    float num25 = -4f;
+                    float num24 = -8f;
+                    DrawData howDoIDrawThings = new DrawData(thingToDraw,
+                        new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+                        new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
+                        drawInfo.middleArmorColor,
+                        drawPlayer.bodyRotation,
+                        new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
+                        1f,
+                        spriteEffects,
+                        0);
+                    howDoIDrawThings.shader = 0;
+                    Main.playerDrawData.Add(howDoIDrawThings);
+                }
+            }
+        }
+        #endregion
     }
 }

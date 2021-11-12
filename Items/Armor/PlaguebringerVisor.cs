@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class PlaguebringerVisor : ModItem
     {
+        public const int PlagueDashIFrames = 4;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Visor");

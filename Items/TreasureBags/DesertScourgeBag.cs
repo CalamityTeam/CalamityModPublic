@@ -49,15 +49,13 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.WeightedItemStack[] weapons =
-            {
+            DropHelper.DropEntireWeightedSet(player,
                 DropHelper.WeightStack<AquaticDischarge>(w),
                 DropHelper.WeightStack<Barinade>(w),
                 DropHelper.WeightStack<StormSpray>(w),
                 DropHelper.WeightStack<SeaboundStaff>(w),
-                DropHelper.WeightStack<ScourgeoftheDesert>(w),
-            };
-            DropHelper.DropEntireWeightedSet(player, weapons);
+                DropHelper.WeightStack<ScourgeoftheDesert>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());

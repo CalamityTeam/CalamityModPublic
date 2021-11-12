@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class GodSlayerChestplate : ModItem
     {
+        public const int DashIFrames = 6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Chestplate");
