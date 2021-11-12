@@ -1,12 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
+    // Photoviscerator left click splitting homing projectile
     public class ExoSpark : ModProjectile
     {
         public static readonly int[] FrameToDustIDTable = new int[]
@@ -32,8 +30,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -68,15 +64,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.ExoDebuffs();
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ExoLightBurst : ModProjectile
+    // Photoviscerator right click main projectile (invisible flare cluster bomb)
+    public class ExoFlareCluster : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -13,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxDistanceFromTarget = 350f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exo Flare");
+            DisplayName.SetDefault("Exo Flare Cluster");
             ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
@@ -26,28 +27,29 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = -1;
             projectile.timeLeft = 180;
         }
+
         public override void AI()
         {
-            // localAI[0] is used by the sticky AI method.
+            // localAI[0] is used by the sticky AI method, so use localAI[1] to spawn the flares.
             if (projectile.localAI[1] == 0f)
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    for (int i = 0; i < 5; i++)
+                    int projID = ModContent.ProjectileType<ExoFlare>();
+                    int flareDamage = (int)(0.6f * projectile.damage);
+                    float flareKB = projectile.knockBack;
+                    for (int i = 0; i < 4; i++)
                     {
-                        Projectile.NewProjectileDirect(projectile.Center,
-                                                       Vector2.Zero,
-                                                       ModContent.ProjectileType<ExoLight>(),
-                                                       projectile.damage,
-                                                       projectile.knockBack,
-                                                       projectile.owner).localAI[1] = Projectile.GetByUUID(projectile.owner, projectile.whoAmI);
+                        Projectile p = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, projID, flareDamage, flareKB, projectile.owner);
+                        p.localAI[1] = Projectile.GetByUUID(projectile.owner, projectile.whoAmI);
                     }
                 }
                 projectile.localAI[1] = 1f;
             }
+
             if (projectile.ai[0] == 0f)
             {
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true, true);
@@ -65,10 +67,10 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(4, false);
+            projectile.ModifyHitNPCSticky(4, true);
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.width == 50)
             {
@@ -81,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs(2f);
+            target.ExoDebuffs(2f);
         }
     }
 }

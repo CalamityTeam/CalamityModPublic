@@ -80,7 +80,6 @@ namespace CalamityMod
     public class CalamityLists
     {
         public static IList<string> donatorList;
-        public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
         public static List<int> enemyImmunityList;
@@ -502,41 +501,6 @@ namespace CalamityMod
                 "Face",
                 "Carboniferous",
                 "James"
-            };
-
-            rangedProjectileExceptionList = new List<int>()
-            {
-                ProjectileID.Phantasm,
-                ProjectileID.VortexBeater,
-                ProjectileID.DD2PhoenixBow,
-                ProjectileID.IchorDart,
-                ProjectileID.PhantasmArrow,
-                ProjectileID.RainbowBack,
-                ProjectileType<PhangasmBow>(),
-                ProjectileType<ContagionBow>(),
-                ProjectileType<DaemonsFlameBow>(),
-                ProjectileType<ExoTornado>(),
-                ProjectileType<DrataliornusBow>(),
-                ProjectileType<FlakKrakenGun>(),
-                ProjectileType<ButcherGun>(),
-                ProjectileType<StarfleetMK2Gun>(),
-                ProjectileType<TerraBulletSplit>(),
-                ProjectileType<TerraArrowSplit>(),
-                ProjectileType<HyperiusSplit>(),
-                ProjectileType<NorfleetCannon>(),
-                ProjectileType<NorfleetComet>(),
-                ProjectileType<NorfleetExplosion>(),
-                ProjectileType<AetherBeam>(),
-                ProjectileType<FlurrystormCannonShooting>(),
-                ProjectileType<MagnomalyBeam>(),
-                ProjectileType<MagnomalyAura>(),
-                ProjectileType<RainbowTrail>(),
-                ProjectileType<PrismaticBeam>(),
-                ProjectileType<ExoLight>(),
-                ProjectileType<ExoLightBomb>(),
-                ProjectileType<UltimaBowProjectile>(),
-                ProjectileType<UltimaSpark>(), // Because of potential dust lag.
-                ProjectileType<UltimaRay>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -2362,7 +2326,7 @@ namespace CalamityMod
                 ProjectileType<BonebreakerProjectile>(),
                 ProjectileType<UrchinBallSpike>(),
                 ProjectileType<EmesisGore>(),
-                ProjectileType<ExoLightBurst>(),
+                ProjectileType<ExoFlareCluster>(),
                 ProjectileType<SulphuricAcidBubble2>(),
                 ProjectileType<EclipsesStealth>(),
                 ProjectileType<EradicatorProjectile>(),
@@ -2596,7 +2560,6 @@ namespace CalamityMod
         public static void UnloadLists()
         {
             donatorList = null;
-            rangedProjectileExceptionList = null;
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
             enemyImmunityList = null;
