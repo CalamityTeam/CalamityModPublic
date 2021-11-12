@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -8,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueBeeG : ModNPC
@@ -252,7 +254,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 		public override bool PreNPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if ((!CalamityWorld.malice && !CalamityWorld.revenge) || !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Leviathan
 {
     public class AquaticAberration : ModNPC
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override bool PreNPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if ((!CalamityWorld.malice && !CalamityWorld.revenge) || !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)

@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -142,7 +143,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override bool PreNPCLoot()
 		{
-			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			if ((!CalamityWorld.malice && !CalamityWorld.revenge) || !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
