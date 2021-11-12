@@ -1208,7 +1208,13 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             // Calculate the new total time of all sessions at the instant of this player save.
-            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+            TimeSpan newSessionTotal;
+            long totalTicks = 0L;
+            if (previousSessionTotal != null)
+            {
+                newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+                totalTicks = newSessionTotal.Ticks;
+            }
 
             return new TagCompound
             {
@@ -1237,7 +1243,7 @@ namespace CalamityMod.CalPlayer
                 { "moveSpeedStat", moveSpeedStat },
                 { "defenseDamage", defenseDamage },
                 { "disableAllDodges", disableAllDodges },
-                { "totalSpeedrunTicks", newSessionTotal.Ticks },
+                { "totalSpeedrunTicks", totalTicks },
 				{ "lastSplitType", lastSplitType },
                 { "lastSplitTicks", lastSplit.Ticks },
 			};
@@ -10526,9 +10532,8 @@ namespace CalamityMod.CalPlayer
 
             // Enabling the config while a player is loaded will show the timer immediately.
             // But it won't start running until you save and quit and re-enter a world.
-            CalamityMod.SpeedrunTimer = new Stopwatch();
             if (CalamityConfig.Instance.SpeedrunTimer)
-                CalamityMod.SpeedrunTimer.Start();
+                CalamityMod.SpeedrunTimer.Restart();
         }
 
         /// <summary>
