@@ -1062,6 +1062,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						{
 							if (rotationDirection == 0)
 							{
+								// Set spin velocity
+								spinVelocity.X = MathHelper.Pi * spinRadius / spinTime;
+
 								// Set spin direction
 								switch ((int)npc.ai[3])
 								{
@@ -1080,6 +1083,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 											rotationDirection = -1;
 										else
 											rotationDirection = 1;
+										spinVelocity = -spinVelocity;
 										break;
 
 									// Laser from left
@@ -1088,6 +1092,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 											rotationDirection = -1;
 										else
 											rotationDirection = 1;
+										spinVelocity = spinVelocity.RotatedBy(-MathHelper.PiOver2);
 										break;
 
 									// Laser from right
@@ -1096,11 +1101,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 											rotationDirection = 1;
 										else
 											rotationDirection = -1;
+										spinVelocity = spinVelocity.RotatedBy(MathHelper.PiOver2);
 										break;
 								}
 
-								// Set spin velocity
-								spinVelocity.X = MathHelper.Pi * spinRadius / spinTime;
 								spinVelocity *= -rotationDirection;
 								npc.netUpdate = true;
 
