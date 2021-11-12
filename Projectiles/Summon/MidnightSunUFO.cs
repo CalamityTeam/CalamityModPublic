@@ -1,14 +1,16 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MidnightSunUFO : ModProjectile
+    public class MidnightSunUFO : ModProjectile
     {
         public const float DistanceToCheck = 2600f;
         public override void SetStaticDefaults()
@@ -31,25 +33,28 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
             projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 9;
         }
+
+        public override bool CanDamage() => false;
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool(2).ToDirectionInt();
                 projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool(2).ToDirectionInt();
-                projectile.localAI[0] = 1f;
+
+                // This AI variable doubles as the random frame on which this UFO chooses to shoot its machine gun.
+                projectile.localAI[0] = Main.rand.Next(1, (int)MidnightSunBeacon.MachineGunRate);
             }
+
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
@@ -94,12 +99,12 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 destination = potentialTarget.Center - new Vector2((float)Math.Cos(angle) * potentialTarget.width * 0.65f, 250f);
                     projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 24f, 0.03f);
 
-                    if (projectile.ai[0] % 8f == 7f && potentialTarget.Top.Y > projectile.Bottom.Y)
+                    if (projectile.ai[0] % MidnightSunBeacon.MachineGunRate == projectile.localAI[0] && potentialTarget.Top.Y > projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
-                        Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
-					projectile.MinionAntiClump(0.35f);
+                    projectile.MinionAntiClump(0.35f);
                     projectile.ai[1] = 0f;
                 }
                 else
@@ -132,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.netUpdate = true;
                 }
 
-				projectile.MinionAntiClump(0.35f);
+                projectile.MinionAntiClump(0.35f);
                 projectile.rotation = projectile.velocity.X * 0.03f;
             }
         }

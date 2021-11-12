@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class MidnightSunBeacon : ModItem
     {
+        public const float MachineGunRate = 18f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Sun Beacon");
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 91;
+            item.damage = 191;
             item.mana = 10;
             item.width = item.height = 32;
             item.useTime = item.useAnimation = 10;

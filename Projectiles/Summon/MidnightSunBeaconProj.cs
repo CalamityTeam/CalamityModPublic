@@ -5,13 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class MidnightSunBeaconProj : ModProjectile
+    public class MidnightSunBeaconProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Summon/MidnightSunBeacon";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beacon");
+            DisplayName.SetDefault("Midnight Sun Beacon");
             ProjectileID.Sets.MinionShot[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
                 projectile.velocity *= 0.96f;
-		}
+        }
         public override bool CanDamage() => false;
     }
 }
