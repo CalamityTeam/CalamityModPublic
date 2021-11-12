@@ -983,6 +983,13 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
+                // Enchantment meters
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Enchantment Meters", () =>
+                {
+                    EnchantmentMetersUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
                 // Calamitas Enchantment UI
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Calamitas Enchantment", () =>
                 {
