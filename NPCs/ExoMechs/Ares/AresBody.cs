@@ -1027,14 +1027,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Color glowmaskAlphaColor = npc.GetAlpha(glowmaskColor);
 
 				// Draw electricity between arms.
-				List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
-				LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
-				LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+				if (npc.Opacity > 0f)
+				{
+					List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
+					LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+					LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
 
-				// Draw electricity between the final arm and the hand.
-				List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * direction * 100f, handPosition, 27182);
-				LightningBackgroundDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
-				LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+					// Draw electricity between the final arm and the hand.
+					List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * direction * 100f, handPosition, 27182);
+					LightningBackgroundDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+					LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+				}
 
 				shoulderDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 				arm1DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
@@ -1077,14 +1080,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Color glowmaskAlphaColor = npc.GetAlpha(glowmaskColor);
 
 				// Draw electricity between arms.
-				List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * 20f, 31416);
-				LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
-				LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+				if (npc.Opacity > 0f)
+				{
+					List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * 20f, 31416);
+					LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
+					LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
 
-				// Draw electricity between the final arm and the hand.
-				List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * 20f, handPosition, 27182);
-				LightningBackgroundDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
-				LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+					// Draw electricity between the final arm and the hand.
+					List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * 20f, handPosition, 27182);
+					LightningBackgroundDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+					LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
+				}
 
 				shoulderDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 				arm1DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
