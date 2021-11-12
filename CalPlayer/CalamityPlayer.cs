@@ -61,6 +61,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -134,12 +135,16 @@ namespace CalamityMod.CalPlayer
         public bool GivenBrimstoneLocus = false;
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
-		#endregion
+        #endregion
 
-		#region Speedrun Timer
-		public int speedrunTimer = 0;
-		public int bossTypeJustDowned = -1;
-		public int bossTypeJustDownedTime = 0;
+        #region Speedrun Timer
+        // The Calamity Speedrun Timer uses the highest precision timing available to .NET and thus to the system hardware.
+        // Current session time is maintained by CalamityMod.SpeedrunTimer, which is a C# Stopwatch running constantly while a player is loaded.
+        // Total time is calculated on demand by adding the current stopwatch time to the previous session total.
+        // This allows time to be tracked accurately through multiple save and quits.
+        internal TimeSpan previousSessionTotal;
+		internal int lastSplitType = -1;
+        internal TimeSpan lastSplit;
 		#endregion
 
 		#region Tile Entity Trackers
@@ -1202,6 +1207,9 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
+            // Calculate the new total time of all sessions at the instant of this player save.
+            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+
             return new TagCompound
             {
                 { "boost", boost },
@@ -1229,9 +1237,9 @@ namespace CalamityMod.CalPlayer
                 { "moveSpeedStat", moveSpeedStat },
                 { "defenseDamage", defenseDamage },
                 { "disableAllDodges", disableAllDodges },
-				{ "speedrunTimer", speedrunTimer },
-				{ "bossTypeJustDowned", bossTypeJustDowned },
-				{ "bossTypeJustDownedTime", bossTypeJustDownedTime }
+                { "totalSpeedrunTicks", newSessionTotal.Ticks },
+				{ "lastSplitType", lastSplitType },
+                { "lastSplitTicks", lastSplit.Ticks },
 			};
         }
 
@@ -1324,114 +1332,14 @@ namespace CalamityMod.CalPlayer
             defenseDamage = tag.GetInt("defenseDamage");
             disableAllDodges = tag.GetBool("disableAllDodges");
 
-			speedrunTimer = tag.GetInt("speedrunTimer");
-			bossTypeJustDowned = tag.GetInt("bossTypeJustDowned");
-			bossTypeJustDownedTime = tag.GetInt("bossTypeJustDownedTime");
+            // Load the previous total elapsed time to know where to start the timer when it starts.
+            long ticks = tag.GetLong("totalSpeedrunTicks");
+            previousSessionTotal = new TimeSpan(ticks);
+            // Also load the last split, so it will show up.
+			lastSplitType = tag.GetInt("lastSplitType");
+            ticks = tag.GetLong("lastSplitTicks");
+            lastSplit = new TimeSpan(ticks);
 		}
-
-        public override void LoadLegacy(BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
-            rage = reader.ReadSingle();
-            adrenaline = reader.ReadSingle();
-            aquaticBoost = reader.ReadSingle();
-            sCalDeathCount = reader.ReadInt32();
-            sCalKillCount = reader.ReadInt32();
-            deathCount = reader.ReadInt32();
-
-            // These two variables are no longer used, as the code was moved into CalamityWorld.cs to support multiplayer.
-            // As a result, their values are simply fed into a discard.
-
-            _ = reader.ReadInt32(); // moneyStolenByBandit
-            _ = reader.ReadInt32(); // reforges
-
-            deathModeUnderworldTime = reader.ReadInt32();
-            deathModeBlizzardTime = reader.ReadInt32();
-
-            itemTypeLastReforged = reader.ReadInt32();
-            reforgeTierSafety = reader.ReadInt32();
-
-            meleeLevel = reader.ReadInt32();
-            rangedLevel = reader.ReadInt32();
-            magicLevel = reader.ReadInt32();
-            summonLevel = reader.ReadInt32();
-            rogueLevel = reader.ReadInt32();
-            exactMeleeLevel = reader.ReadInt32();
-            exactRangedLevel = reader.ReadInt32();
-            exactMagicLevel = reader.ReadInt32();
-            exactSummonLevel = reader.ReadInt32();
-            exactRogueLevel = reader.ReadInt32();
-
-            moveSpeedStat = reader.ReadInt32();
-
-            defenseDamage = reader.ReadInt32();
-
-			speedrunTimer = reader.ReadInt32();
-			bossTypeJustDowned = reader.ReadInt32();
-			bossTypeJustDownedTime = reader.ReadInt32();
-
-			if (loadVersion == 0)
-            {
-                BitsByte flags = reader.ReadByte();
-                extraAccessoryML = flags[0];
-                eCore = flags[1];
-                mFruit = flags[2];
-                bOrange = flags[3];
-                eBerry = flags[4];
-                dFruit = flags[5];
-                pHeart = flags[6];
-                cShard = flags[7];
-
-                BitsByte flags2 = reader.ReadByte();
-                revJamDrop = flags2[0];
-                rageBoostOne = flags2[1];
-                rageBoostTwo = flags2[2];
-                rageBoostThree = flags2[3];
-                adrenalineBoostOne = flags2[4];
-                adrenalineBoostTwo = flags2[5];
-                adrenalineBoostThree = flags2[6];
-                drawBossHPBar = flags2[7];
-
-                BitsByte flags3 = reader.ReadByte();
-                shouldDrawSmallText = flags3[0];
-                healToFull = flags3[1];
-                newMerchantInventory = flags3[2];
-                newPainterInventory = flags3[3];
-                newDyeTraderInventory = flags3[4];
-                newPartyGirlInventory = flags3[5];
-                newStylistInventory = flags3[6];
-                newDemolitionistInventory = flags3[7];
-
-                BitsByte flags4 = reader.ReadByte();
-                newDryadInventory = flags4[0];
-                newTavernkeepInventory = flags4[1];
-                newArmsDealerInventory = flags4[2];
-                newGoblinTinkererInventory = flags4[3];
-                newWitchDoctorInventory = flags4[4];
-                newClothierInventory = flags4[5];
-                newMechanicInventory = flags4[6];
-                newPirateInventory = flags4[7];
-
-                BitsByte flags5 = reader.ReadByte();
-                newTruffleInventory = flags5[0];
-                newWizardInventory = flags5[1];
-                newSteampunkerInventory = flags5[2];
-                newCyborgInventory = flags5[3];
-                newSkeletonMerchantInventory = flags5[4];
-                newPermafrostInventory = flags5[5];
-                newCirrusInventory = flags5[6];
-                newAmidiasInventory = flags5[7];
-
-                BitsByte flags6 = reader.ReadByte();
-                newBanditInventory = flags6[0];
-                finalTierAccessoryReforge = flags6[1];
-                newCalamitasInventory = flags6[2];
-            }
-            else
-            {
-                ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
-            }
-        }
         #endregion
 
         #region ResetEffects
@@ -3884,13 +3792,6 @@ namespace CalamityMod.CalPlayer
         }
 		#endregion
 
-		#region Update Autopause
-		public override void UpdateAutopause()
-		{
-			speedrunTimer++;
-		}
-		#endregion
-
 		#region PreUpdate
 		public override void PreUpdate()
         {
@@ -3928,8 +3829,6 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
                 }
             }
-
-			speedrunTimer++;
 		}
         #endregion
 
@@ -10616,10 +10515,17 @@ namespace CalamityMod.CalPlayer
         #region Misc Stuff
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
+        // It also starts the speedrun timer if applicable.
         public override void OnEnterWorld(Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EnterWorldSync();
+
+            if (CalamityConfig.Instance.SpeedrunTimer)
+            {
+                CalamityMod.SpeedrunTimer = new Stopwatch();
+                CalamityMod.SpeedrunTimer.Start();
+            }
         }
 
         /// <summary>

@@ -5140,8 +5140,9 @@ namespace CalamityMod.NPCs
 					if (!player.active)
 						continue;
 
-					player.Calamity().bossTypeJustDowned = newBossTypeJustDowned;
-					player.Calamity().bossTypeJustDownedTime = player.Calamity().speedrunTimer;
+					CalamityPlayer mp = player.Calamity();
+					mp.lastSplitType = newBossTypeJustDowned;
+					mp.lastSplit = mp.previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
 				}
 			}
 		}

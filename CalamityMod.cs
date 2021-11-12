@@ -54,6 +54,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -68,7 +69,7 @@ using Terraria.UI;
 
 namespace CalamityMod
 {
-	public class CalamityMod : Mod
+    public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
         // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
@@ -116,6 +117,9 @@ namespace CalamityMod
 
         // Life steal cap
         public const int lifeStealCap = 10;
+
+        // Speedrun timer
+        internal static Stopwatch SpeedrunTimer = null;
 
         // Debuff immunities, these are used in the NPCDebuffs file
         public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
@@ -758,7 +762,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
                 { ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
-				{ ModContent.NPCType<Artemis>(), velocityScaleMin },
+                { ModContent.NPCType<Artemis>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
@@ -1568,6 +1572,10 @@ namespace CalamityMod
         #region Post NPC Updating
         // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.
         public override void MidUpdateNPCGore() => CalamityGlobalTownNPC.ResetTownNPCNameBools();
+        #endregion
+
+        #region Speedrun Timer Stopper
+        public override void PreSaveAndQuit() => SpeedrunTimer?.Stop();
         #endregion
     }
 }
