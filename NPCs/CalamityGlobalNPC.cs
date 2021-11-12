@@ -3525,15 +3525,15 @@ namespace CalamityMod.NPCs
 			else if (ThanatosIDs.Contains(npc.type))
 			{
 				// 75% resist to Celestus and Chicken Cannon.
-				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>() || projectile.type == ProjectileType<ChickenExplosion>())
+				if (projectile.type == ProjectileType<CelestusBoomerang>() || projectile.type == ProjectileType<Celestus2>())
 					damage = (int)(damage * 0.25);
 
 				// 65% resist to true melee and Hadopelagic Echo.
 				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<HadopelagicEchoSoundwave>() || projectile.type == ProjectileType<HadopelagicEcho2>())
 					damage = (int)(damage * 0.35);
 
-				// 50% resist to Vehemence skulls.
-				else if (projectile.type == ProjectileType<VehemenceSkull>())
+				// 50% resist to Chicken Cannon, Vehemence skulls and Prismatic Breaker. (why is this more than BOTH Rancor and Yharim's Crystal?)
+				else if (projectile.type == ProjectileType<ChickenExplosion>() || projectile.type == ProjectileType<VehemenceSkull>() || projectile.type == ProjectileType<PrismaticBeam>())
 					damage = (int)(damage * 0.5);
 
 				// 40% resist to Wrathwing stealth strike, Rancor, and Yharim's Crystal.
