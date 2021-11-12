@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Balloon)]
     public class SamuraiBadge : ModItem
     {
         public override void SetStaticDefaults()
