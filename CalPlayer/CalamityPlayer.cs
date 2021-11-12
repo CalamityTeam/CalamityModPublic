@@ -10521,11 +10521,11 @@ namespace CalamityMod.CalPlayer
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EnterWorldSync();
 
+            // Enabling the config while a player is loaded will show the timer immediately.
+            // But it won't start running until you save and quit and re-enter a world.
+            CalamityMod.SpeedrunTimer = new Stopwatch();
             if (CalamityConfig.Instance.SpeedrunTimer)
-            {
-                CalamityMod.SpeedrunTimer = new Stopwatch();
                 CalamityMod.SpeedrunTimer.Start();
-            }
         }
 
         /// <summary>
