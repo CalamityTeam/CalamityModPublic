@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -629,7 +628,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void NPCLoot()
         {
-			if (NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()))
+			int heartAmt = Main.rand.Next(3) + 3;
+			for (int i = 0; i < heartAmt; i++)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+
+			if (CalamityPlayer.areThereAnyDamnBosses)
 				return;
 
 			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
