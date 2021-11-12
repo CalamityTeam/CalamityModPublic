@@ -3153,8 +3153,8 @@ namespace CalamityMod.CalPlayer
                     // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
-                    // Moon Lord deathray sound. Should probably be replaced some day
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+					// Play Adrenaline Activation sound
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RageActivate"), player.position);
 
                     // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -3184,8 +3184,8 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
-                    // Moon Lord deathray sound. Should probably be replaced some day
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+					// Play Adrenaline Activation sound
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineActivate"), player.position);
 
                     // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
