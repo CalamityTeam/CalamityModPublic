@@ -128,8 +128,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Once before DoG spawns, set new size
 				if (CalamityWorld.DoGSecondStageCountdown == 60)
 				{
-					music = CalamityMod.Instance.GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
-
 					npc.position = npc.Center;
 					npc.width = 80;
 					npc.height = 140;

@@ -324,7 +324,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					calamityGlobalNPC.newAI[2] = 0f;
 
 					// Skip the sentinel phase entirely if DoG has already been killed
-					CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels) ? 600 : 21600;
+					CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
 
 					if (Main.netMode == NetmodeID.Server)
 					{
