@@ -175,6 +175,9 @@ namespace CalamityMod.NPCs.Abyss
 			bool targetDownDeep = player.Calamity().ZoneAbyssLayer4;
 			bool targetOnMount = player.mount.Active;
 
+			// Check whether enraged for the sake of the HP bar UI
+			npc.Calamity().CurrentlyEnraged = !targetDownDeep || npc.Calamity().enraged > 0 || CalamityWorld.malice;
+
 			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];
 
