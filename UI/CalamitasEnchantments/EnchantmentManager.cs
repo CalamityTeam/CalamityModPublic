@@ -247,7 +247,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && item.magic && item.mana > 0),
 
-				new Enchantment("Withering", "You heal when hurt based on damage you've dealt. After being hurt, the weapon rapidly drains your life to deal massive damage.",
+				new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%." +
+											"After this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.",
 					1000,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
 					null,
@@ -261,7 +262,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().persecutedEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None),
 
-				new Enchantment("Lecherous", "Spawns a resilient brimstone orb that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
+				new Enchantment("Lecherous", "Spawns a resilient brimstone monster that stays between you and your mouse that interferes with your homing weapons. It releases a bunch of hearts on death.",
 					1200,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Lecherous",
 					null,
