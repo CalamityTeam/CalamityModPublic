@@ -384,7 +384,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Gate values
 			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
-			float attackPhaseGateValue = (lastMechAlive ? 360f : 480f) - reducedTimeForGateValue;
+			float normalAttackTime = 480f;
+			float berserkAttackTime = lastMechAlive ? 180f : 240f;
+			float attackPhaseGateValue = (berserk ? berserkAttackTime : normalAttackTime) - reducedTimeForGateValue;
 			float timeToLineUpAttack = 30f;
 
 			// Distance where Apollo stops moving
