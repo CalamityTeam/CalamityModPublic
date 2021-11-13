@@ -192,8 +192,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
-			Vector2 scale = new Vector2(0.67f, 0.7f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
-			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 465, 10, out _))
+			Vector2 scale = new Vector2(0.8f, 0.825f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
+			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 16, out _))
 			{
 				if (string.IsNullOrEmpty(line))
 					continue;
@@ -259,17 +259,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 				itemScale = 36f / MathHelper.Max(itemFrame.Width, itemFrame.Height);
 
 			itemScale *= inventoryScale * baseScale;
-			drawPosition += Vector2.One * 23f * baseScale;
-
-			if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<BrimstoneLocus>()) && EnchantmentManager.ItemUpgradeRelationship.ContainsKey(CurrentlyHeldItem.type))
-				drawPosition -= itemFrame.Size() * 0.25f;
+			drawPosition += Vector2.One * 24f * baseScale;
 
 			// Draw the item.
-			if (hasMultipleFrames || ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
-			{
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
-			}
+			spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, itemFrame.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
 		}
 
 		public static void InteractWithItemSlot()
