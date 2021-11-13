@@ -1208,7 +1208,13 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             // Calculate the new total time of all sessions at the instant of this player save.
-            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+            TimeSpan newSessionTotal;
+            long totalTicks = 0L;
+            if (previousSessionTotal != null)
+            {
+                newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+                totalTicks = newSessionTotal.Ticks;
+            }
 
             return new TagCompound
             {
@@ -1237,7 +1243,7 @@ namespace CalamityMod.CalPlayer
                 { "moveSpeedStat", moveSpeedStat },
                 { "defenseDamage", defenseDamage },
                 { "disableAllDodges", disableAllDodges },
-                { "totalSpeedrunTicks", newSessionTotal.Ticks },
+                { "totalSpeedrunTicks", totalTicks },
 				{ "lastSplitType", lastSplitType },
                 { "lastSplitTicks", lastSplit.Ticks },
 			};
@@ -3153,8 +3159,8 @@ namespace CalamityMod.CalPlayer
                     // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
                     player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
-                    // Moon Lord deathray sound. Should probably be replaced some day
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+					// Play Rage Activation sound
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RageActivate"), player.position);
 
                     // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -3184,8 +3190,8 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
-                    // Moon Lord deathray sound. Should probably be replaced some day
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+					// Play Adrenaline Activation sound
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineActivate"), player.position);
 
                     // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -4816,7 +4822,7 @@ namespace CalamityMod.CalPlayer
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
             if (flamingItemEnchant)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
             switch (item.type)
             {
@@ -7064,8 +7070,11 @@ namespace CalamityMod.CalPlayer
                 bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
                 if (player.controlJump && falling)
                 {
-                    player.velocity.Y *= 0.9f;
-                    player.wingFrame = 3;
+					if (!player.mount.Active)
+					{
+						player.velocity.Y *= 0.9f;
+						player.wingFrame = 3;
+					}
                     player.noFallDmg = true;
                     player.fallStart = (int)(player.position.Y / 16f);
                 }
@@ -10523,9 +10532,8 @@ namespace CalamityMod.CalPlayer
 
             // Enabling the config while a player is loaded will show the timer immediately.
             // But it won't start running until you save and quit and re-enter a world.
-            CalamityMod.SpeedrunTimer = new Stopwatch();
             if (CalamityConfig.Instance.SpeedrunTimer)
-                CalamityMod.SpeedrunTimer.Start();
+                CalamityMod.SpeedrunTimer.Restart();
         }
 
         /// <summary>

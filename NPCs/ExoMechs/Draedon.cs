@@ -361,7 +361,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (!ExoMechIsPresent && DefeatTimer <= 0f)
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DraedonAmbience");
             if (ExoMechIsPresent)
-                music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+                music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 
             TalkTimer++;
         }

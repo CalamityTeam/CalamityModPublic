@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			npc.netAlways = true;
 			npc.boss = true;
 			npc.chaseable = false;
-			music = /*CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ??*/ MusicID.Boss3;
+			music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 			bossBag = ModContent.ItemType<DraedonTreasureBag>();
 		}
 

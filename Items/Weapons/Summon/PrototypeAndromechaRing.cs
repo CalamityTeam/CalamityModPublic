@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     player.Calamity().andromedaCripple = CrippleTime;
                     player.AddBuff(ModContent.BuffType<AndromedaCripple>(), player.Calamity().andromedaCripple);
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout1"), position);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AndromedaCripple"), position);
                 }
                 return false;
             }

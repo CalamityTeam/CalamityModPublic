@@ -150,9 +150,12 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// After everything, reset ranged crit if necessary.
+			// After everything else, if Daawnlight Spirit Origin is equipped, set ranged crit to the base 4%.
+			// Store all the crit so it can be used in damage calculations.
 			if (modPlayer.spiritOrigin)
 			{
+				// player.rangedCrit already contains the crit stat of the held item, no need to grab it separately.
+				// Don't store the base 4% because you're not removing it.
 				modPlayer.spiritOriginConvertedCrit = player.rangedCrit - 4;
 				player.rangedCrit = 4;
 			}
@@ -442,7 +445,7 @@ namespace CalamityMod.CalPlayer
 				Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, player.whoAmI, i);
 
 				// Incinerate the target with Vulnerability Hex.
-				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 20);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.CalamityDuration);
 
 				// Make some fancy dust to indicate damage is being done.
 				for (int j = 0; j < 12; j++)

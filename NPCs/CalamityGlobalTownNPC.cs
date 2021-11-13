@@ -126,6 +126,7 @@ namespace CalamityMod.NPCs
 		private static readonly string[] StylistNames =
 		{
 			"Amber", // <@!114677116473180169> (Mishiro Usui#1295)
+			"Faith", // <@!509050283871961123> (Toasty#1007)
 		};
 		private const int TavernkeepVanillaNames = 16;
 		private static readonly string[] TavernkeepNames =

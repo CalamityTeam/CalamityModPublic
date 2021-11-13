@@ -5,6 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Back)]
     public class GiantShell : ModItem
     {
         public override void SetStaticDefaults()

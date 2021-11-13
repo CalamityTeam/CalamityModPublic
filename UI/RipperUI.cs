@@ -18,9 +18,9 @@ namespace CalamityMod.UI
         public const float DefaultAdrenPosY = 30f;
 
         private const int RageAnimFrameDelay = 6;
-        private const int RageAnimFrames = 9;
+        private const int RageAnimFrames = 10;
         private const int AdrenAnimFrameDelay = 5;
-        private const int AdrenAnimFrames = 9;
+        private const int AdrenAnimFrames = 10;
         
         public static Vector2 rageDrawPos = new Vector2(DefaultRagePosX, DefaultRagePosY);
         public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
@@ -39,7 +39,7 @@ namespace CalamityMod.UI
 
         private static Texture2D rageBarTex, rageBorderTex, rageAnimTex;
         private static Texture2D mushroomPlasmaTex, infernalBloodTex, redLightningTex;
-        private static Texture2D adrenBarTex, adrenBorderTex, adrenAnimTex;
+        private static Texture2D adrenBarTex, adrenBorderTex, adrenBorderTexFull, adrenAnimTex;
         private static Texture2D electrolyteGelTex, starlightFuelTex, ectoheartTex;
 
         internal static void Load()
@@ -50,6 +50,7 @@ namespace CalamityMod.UI
 
             adrenBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBar");
             adrenBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
+            adrenBorderTexFull = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull");
             adrenAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
 
             mushroomPlasmaTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot");
@@ -72,7 +73,7 @@ namespace CalamityMod.UI
             Reset();
 
             rageBarTex = rageBorderTex = rageAnimTex = null;
-            adrenBarTex = adrenBorderTex = adrenAnimTex = null;
+            adrenBarTex = adrenBorderTex = adrenBorderTexFull = adrenAnimTex = null;
             mushroomPlasmaTex = infernalBloodTex = redLightningTex = null;
             electrolyteGelTex = starlightFuelTex = ectoheartTex = null;
             pearlOffsetLeft = pearlOffsetCenter = pearlOffsetRight = Vector2.Zero;
@@ -207,6 +208,9 @@ namespace CalamityMod.UI
 
             // Draw the border of the Adrenaline Bar first
             spriteBatch.Draw(adrenBorderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+			// Use a slightly different texture if Adrenaline is full or active
+			if (modPlayer.adrenaline >= modPlayer.adrenalineMax || modPlayer.adrenalineModeActive)
+				spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);				
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.
@@ -232,9 +236,10 @@ namespace CalamityMod.UI
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
             {
+				float animOffset = 5f;
                 float xOffset = (adrenBorderTex.Width - adrenAnimTex.Width) / 2f;
                 int frameHeight = (adrenAnimTex.Height / AdrenAnimFrames) - 1;
-                float yOffset = (adrenBorderTex.Height - frameHeight) / 2f;
+                float yOffset = (adrenBorderTex.Height - frameHeight) / 2f + animOffset;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
                 Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * adrenAnimFrame, adrenAnimTex.Width, frameHeight);
                 spriteBatch.Draw(adrenAnimTex, adrenDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);

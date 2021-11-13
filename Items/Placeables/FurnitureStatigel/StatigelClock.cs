@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 22;
+            item.width = 18;
+            item.height = 46;
             item.maxStack = 99;
             item.useTurn = true;
             item.autoReuse = true;

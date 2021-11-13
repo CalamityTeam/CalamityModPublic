@@ -119,7 +119,7 @@ namespace CalamityMod
         public const int lifeStealCap = 10;
 
         // Speedrun timer
-        internal static Stopwatch SpeedrunTimer = null;
+        internal static Stopwatch SpeedrunTimer = new Stopwatch();
 
         // Debuff immunities, these are used in the NPCDebuffs file
         public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
@@ -980,6 +980,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
                 {
                     ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Enchantment meters
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Enchantment Meters", () =>
+                {
+                    EnchantmentMetersUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
 

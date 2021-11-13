@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Sounds.Custom
 {
-    public class AdrenalineBurnout1 : ModSound
+    public class AndromedaCripple : ModSound
     {
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {
