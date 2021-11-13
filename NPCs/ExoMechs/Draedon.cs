@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 npc.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndKillAttemptText", TextColorEdgy);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndKillAttemptText", TextColor);
                 return;
             }
 
