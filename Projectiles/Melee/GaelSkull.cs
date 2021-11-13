@@ -42,11 +42,17 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (target != null)
                 {
-                    float homingSpeed = projectile.velocity.Length() * (projectile.Distance(target.Center) < 220f ? 1.3f : 1f);
+                    float distanceFromTarget = projectile.Distance(target.Center);
+                    float homingSpeed = projectile.velocity.Length() * (distanceFromTarget < 220f ? 1.25f : 1f);
+                    if (homingSpeed > 22f)
+                        homingSpeed = 22f;
+
                     Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center) * homingSpeed;
 
                     float inertia = projectile.Distance(target.Center) < 240f ? 4f : 13f;
-                    projectile.velocity = (projectile.velocity * inertia + idealVelocity) / (inertia + 0.4f);
+                    projectile.velocity = (projectile.velocity * inertia + idealVelocity) / (inertia + 1f);
+                    if (distanceFromTarget < 300f)
+                        projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, 2f);
                     projectile.velocity.Normalize();
                     projectile.velocity *= homingSpeed;
                 }
