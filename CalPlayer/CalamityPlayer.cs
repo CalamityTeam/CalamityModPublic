@@ -4822,7 +4822,7 @@ namespace CalamityMod.CalPlayer
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
             if (flamingItemEnchant)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
             switch (item.type)
             {

@@ -445,7 +445,7 @@ namespace CalamityMod.CalPlayer
 				Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, player.whoAmI, i);
 
 				// Incinerate the target with Vulnerability Hex.
-				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 20);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.CalamityDuration);
 
 				// Make some fancy dust to indicate damage is being done.
 				for (int j = 0; j < 12; j++)

@@ -2280,7 +2280,7 @@ namespace CalamityMod.Projectiles
             }
             
             if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
-                target.AddBuff(BuffType<VulnerabilityHex>(), 120);
+                target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
             if (modPlayer.farProximityRewardEnchant)
 			{
