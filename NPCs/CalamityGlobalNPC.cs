@@ -3411,8 +3411,12 @@ namespace CalamityMod.NPCs
 				if (Main.projectile[i].type != bullseyeType || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
 					continue;
 
-				bullseye = Main.projectile[i];
-				break;
+				// Only choose a bullseye if it is attached to the NPC that is being hit.
+				if (npc.whoAmI == (int)Main.projectile[i].ai[0])
+				{
+					bullseye = Main.projectile[i];
+					break;
+				}
 			}
 
 			// Don't allow large hitbox projectiles or explosions to "snipe" enemies.
@@ -3421,37 +3425,33 @@ namespace CalamityMod.NPCs
 			{
 				if (bullseye != null)
 				{
-					// Bullseyes are visually larger on bosses, so account for that.
-					float baseBullseyeRadius = npc.IsABoss() ? 116f : 54f;
-					bool hasCollidedWithBullseye;
+					// Bullseyes are visually different on bosses and thus have larger hitboxes.
+					float bullseyeRadius = npc.IsABoss() ? DaawnlightSpiritOrigin.BossBullseyeRadius : DaawnlightSpiritOrigin.RegularEnemyBullseyeRadius;
 
-					// Custom math to determine if a direction would hit a target if the hitbox would not delete the projectile before it can.
-					// This can be visualized as using the NPC center as an anchor point, determining the direction to the bullseye from that anchor point,
-					// calculating the maximum amount of angular error there can be before a hit would not happen, and checking if the projectile's direction
-					// to the bullseye is within that margin of error.
-					if (projectile.penetrate <= 1 && projectile.penetrate != -1)
-					{
-						// Directions to the bullseye relative to the NPC's center and the projectile that hit the NPC.
-						Vector2 directionToBullseye = projectile.SafeDirectionTo(bullseye.Center, Vector2.UnitY);
-						Vector2 bullseyeCenterOffsetDirection = npc.SafeDirectionTo(bullseye.Center);
+					// Do some geometry + trig to determine if the projectile WOULD hit the bullseye, even if it's about to be deleted on-hit.
+					// This is the equivalent of drawing a laser sight from the projectile along its velocity vector and seeing if it crosses the bullseye's hitbox.
+					// To do this more reliably, we back the projectile up quite a distance.
+					Vector2 normVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY);
+					Vector2 backedUpPosition = projectile.Center - 160f * normVelocity;
+					Vector2 directionToBullseyeCenter = (bullseye.Center - backedUpPosition).SafeNormalize(Vector2.UnitY);
+					Vector2 perp = directionToBullseyeCenter.RotatedBy(MathHelper.PiOver2);
+					// Double the radius is given so that the cosine break-even point is right at the edge of the hitbox.
+					Vector2 comparisonPointOne = bullseye.Center + perp * 2f * bullseyeRadius;
+					Vector2 comparisonPointTwo = bullseye.Center - perp * 2f * bullseyeRadius;
+					Vector2 dirToPointOne = (comparisonPointOne - backedUpPosition).SafeNormalize(-Vector2.UnitX);
+					Vector2 dirToPointTwo = (comparisonPointTwo - backedUpPosition).SafeNormalize(Vector2.UnitX);
 
-						// Use SOH-CAH-TOA to compute the angle which is needed to reach the edge of the bullseye from the center of the NPC.
-						// The length of the hypotenuse is the distance from the center of the NPC to the bullseye while the opposite side length is
-						// the circular hitbox radius of the bullseye. These are sufficient to calculate the angular margin of error.
-						// If an NPC has a tiny hitbox the arcsine will fail and return NaN, meaning any hit at all will cause a bullseye to be hit.
-						// In these cases, simply set the "limit" to an extremely large value.
-						float angularOffsetToEdgeOfBullseye = (float)Math.Asin(baseBullseyeRadius / npc.Distance(bullseye.Center));
-						if (float.IsNaN(angularOffsetToEdgeOfBullseye))
-							angularOffsetToEdgeOfBullseye = 1000f;
-						float orthogonalityToBullseye = directionToBullseye.AngleBetween(bullseyeCenterOffsetDirection);
+					// Law of cosines: (A dot B) = |A| * |B| * cos(theta)
+					// where theta is the angle between the two vectors A and B.
+					// cos(theta) approaches one as the angle approaches zero, so an angle is smaller if the cos is bigger.
+					// If the angle to the bullseye's center is smaller than the angle to both the comparison points, it's a hit.
+					float dotCenter = Vector2.Dot(normVelocity, directionToBullseyeCenter);
+					float dotOne = Vector2.Dot(normVelocity, dirToPointOne);
+					float dotTwo = Vector2.Dot(normVelocity, dirToPointTwo);
+					bool willStrikeBullseye = dotCenter > dotOne && dotCenter > dotTwo;
 
-						hasCollidedWithBullseye = orthogonalityToBullseye < angularOffsetToEdgeOfBullseye;
-					}
-					else
-						hasCollidedWithBullseye = projectile.WithinRange(bullseye.Center, bullseye.scale * baseBullseyeRadius);
-
-					// Do a very high amount of damage if hitting a bullseye.
-					if (hasCollidedWithBullseye && bullseye.ai[1] == 0f)
+					// If a bullseye is triggered, set it as hit.
+					if (willStrikeBullseye && bullseye.ai[1] == 0f)
 					{
 						crit = true;
 						hitBullseye = true;

@@ -21,6 +21,10 @@ namespace CalamityMod.Items.Accessories
         private const float MaxSlowBonusUseTime = 72f;
         private const float MaxSlowWeaponBonus = 0.33f; // Up to +33% more damage to crits for slower weapons.
 
+        // These were very carefully calculated, please don't change them.
+        internal const float RegularEnemyBullseyeRadius = 8f;
+        internal const float BossBullseyeRadius = 18f;
+
         internal static float GetDamageMultiplier(Player p, CalamityPlayer mp, bool hitBullseye)
         {
             float baseCritMult = 2f; // In vanilla Terraria, crits do +100% damage.

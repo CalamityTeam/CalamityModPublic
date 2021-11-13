@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Tiles.AstralDesert;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 2;
+            projectile.width = projectile.height = (int)(2 * DaawnlightSpiritOrigin.RegularEnemyBullseyeRadius);
             projectile.aiStyle = -1;
             projectile.friendly = false;
             projectile.hostile = false;
@@ -85,6 +86,8 @@ namespace CalamityMod.Projectiles.Typeless
                 bullseyeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/DaawnlightSpiritOriginBossBullseye");
                 frame = bullseyeTexture.Frame(1, 4, 0, (int)(Main.GlobalTime * 7f) % 4);
                 rotation = 0f;
+                drawPosition.Y -= 17;
+                drawPosition.X -= 1;
             }
 
             spriteBatch.Draw(bullseyeTexture, drawPosition, frame, Color.White * projectile.Opacity, rotation, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
