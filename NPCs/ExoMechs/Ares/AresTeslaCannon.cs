@@ -304,9 +304,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (enraged)
 				teslaOrbPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
-				teslaOrbPhaseGateValue *= 0.7f;
+				teslaOrbPhaseGateValue *= 0.4f;
 			else if (berserk)
-				teslaOrbPhaseGateValue *= 0.85f;
+				teslaOrbPhaseGateValue *= 0.7f;
 
 			// If Tesla Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;

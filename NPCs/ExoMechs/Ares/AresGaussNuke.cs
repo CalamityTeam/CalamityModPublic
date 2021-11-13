@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			else if (lastMechAlive)
 				gaussNukePhaseGateValue *= 0.1f;
 			else if (berserk)
-				gaussNukePhaseGateValue *= 0.45f;
+				gaussNukePhaseGateValue *= 0.15f;
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays || calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune;

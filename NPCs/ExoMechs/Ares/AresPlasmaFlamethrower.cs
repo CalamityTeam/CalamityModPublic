@@ -304,9 +304,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			if (enraged)
 				plasmaBoltPhaseGateValue *= 0.1f;
 			else if (lastMechAlive)
-				plasmaBoltPhaseGateValue *= 0.7f;
+				plasmaBoltPhaseGateValue *= 0.4f;
 			else if (berserk)
-				plasmaBoltPhaseGateValue *= 0.85f;
+				plasmaBoltPhaseGateValue *= 0.7f;
 
 			// If Plasma Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;

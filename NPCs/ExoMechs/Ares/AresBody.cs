@@ -431,12 +431,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float movementDistanceGateValue = 50f;
 
 			// Gate values
-			float deathrayPhaseGateValue = lastMechAlive ? 630f : 900f;
+			float deathrayPhaseGateValue = lastMechAlive ? 420f : 600f;
 			float deathrayDistanceGateValue = 480f;
 
 			// Enter deathray phase again more quickly if enraged
 			if (EnragedState == (float)Enraged.Yes)
-				deathrayPhaseGateValue *= 0.5f;
+				deathrayPhaseGateValue *= 0.75f;
 
 			// Emit steam while enraged
 			SmokeDrawer.ParticleSpawnRate = 9999999;
