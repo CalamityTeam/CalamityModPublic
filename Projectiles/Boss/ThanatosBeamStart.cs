@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
 		}
 
-		public override bool CanHitPlayer(Player target) => projectile.localAI[0] >= 2f;
+		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
 		{

@@ -19,9 +19,9 @@ namespace CalamityMod.Projectiles.Boss
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
         public Vector2 OldVelocity;
-        public const float TelegraphTotalTime = 240f;
+        public const float TelegraphTotalTime = 60f;
         public const float TelegraphFadeTime = 15f;
-        public const float TelegraphWidth = 3600f;
+        public const float TelegraphWidth = 2400f;
 
         public override void SetStaticDefaults()
         {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 240;
+            projectile.timeLeft = 60;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private bool armsSpawned = false;
 
 		// Total duration of the deathray telegraph
-		public const float deathrayTelegraphDuration = 240f;
+		public const float deathrayTelegraphDuration = 60f;
 
 		// Total duration of the deathrays
 		public const float deathrayDuration = 600f;

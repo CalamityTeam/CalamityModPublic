@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             set => projectile.ai[1] = value;
         }
         public override float MaxScale => 1f;
-        public override float MaxLaserLength => 3600f;
+        public override float MaxLaserLength => 2400f;
         public override float Lifetime => AresBody.deathrayDuration;
         public override Color LaserOverlayColor => new Color(250, 250, 250, 100);
         public override Color LightCastColor => Color.White;
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Fire laser through walls at max length if target is behind tiles.
             if (!Collision.CanHitLine(Main.npc[OwnerIndex].Center, 1, 1, Main.player[Main.npc[OwnerIndex].target].Center, 1, 1))
-                newLaserLength = 3600f;
+                newLaserLength = MaxLaserLength;
 
             return newLaserLength;
         }
@@ -219,6 +219,8 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(BuffID.OnFire, 360);
 			target.AddBuff(BuffID.Frostburn, 360);
 		}
+
+		public override bool CanHitPlayer(Player target) => projectile.scale >= 0.5f;
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
