@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Accessories
 			item.rare = ItemRarityID.Purple;
 			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
 			item.expert = true;
-			item.vanity = true;
 			item.accessory = true;
 		}
 

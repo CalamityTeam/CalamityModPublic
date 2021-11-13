@@ -1234,7 +1234,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				}
 
 				// Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ExoThrone>(), 5);
+				DropHelper.DropItem(npc, ModContent.ItemType<ExoThrone>());
 
 				// Vanity
 				// Higher chance due to how the drops work
