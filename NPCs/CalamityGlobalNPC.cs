@@ -3508,9 +3508,13 @@ namespace CalamityMod.NPCs
 
 			if (AresIDs.Contains(npc.type))
 			{
-				// 25% resist to true melee and 50% resist to Murasama.
-				if (projectile.Calamity().trueMelee)
-					damage = (int)(damage * (projectile.type == ProjectileType<MurasamaSlash>() ? 0.5 : 0.75));
+				// 50% resist to Dragon Rage projectiles and Murasama.
+				if (projectile.type == ProjectileType<MurasamaSlash>() || projectile.type == ProjectileType<DragonRageStaff>() || projectile.type == ProjectileType<DragonRageFireball>() || (projectile.type == ProjectileType<FuckYou>() && projectile.melee))
+					damage = (int)(damage * 0.5);
+
+				// 25% resist to true melee.
+				else if (projectile.Calamity().trueMelee)
+					damage = (int)(damage * 0.75);
 
 				// 20% resist to Eclipse's Fall stealth strike.
 				else if (projectile.type == ProjectileType<EclipsesSmol>())
