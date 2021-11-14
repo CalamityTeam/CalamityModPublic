@@ -1013,7 +1013,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Vector2 arm2Origin = arm2Frame.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
 
 				float arm1Rotation = MathHelper.Clamp(distanceFromHand * direction / 1200f, -0.12f, 0.12f);
-				float arm2Rotation = (handPosition - armSegmentDrawPosition).ToRotation();
+				float arm2Rotation = (handPosition - armSegmentDrawPosition - Vector2.UnitY * 12f).ToRotation();
 				if (direction == 1)
 					arm2Rotation += MathHelper.Pi;
 				float armSegmentRotation = arm2Rotation;
@@ -1069,7 +1069,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Texture2D armTexture1Glowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart1Glow");
 				Texture2D armTexture2Glowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart2Glow");
 
-				Vector2 shoulderDrawPosition = npc.Center + new Vector2(direction * 110f, -30f);
+				Vector2 shoulderDrawPosition = npc.Center + new Vector2(direction * 110f, -54f);
 				Vector2 connectorDrawPosition = shoulderDrawPosition + new Vector2(direction * 20f, 32f);
 				Vector2 arm1DrawPosition = shoulderDrawPosition + Vector2.UnitX * direction * 20f;
 
