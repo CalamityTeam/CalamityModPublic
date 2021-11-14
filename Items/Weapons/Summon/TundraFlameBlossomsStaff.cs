@@ -52,9 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CinderBlossomStaff>());
             recipe.AddIngredient(ModContent.ItemType<FrostBlossomStaff>());
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

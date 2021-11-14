@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodyWormTooth>());
             recipe.AddIngredient(ItemID.WormScarf);
+            recipe.AddIngredient(ItemID.SoulofNight, 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

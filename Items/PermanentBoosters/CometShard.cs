@@ -57,7 +57,7 @@ namespace CalamityMod.Items.PermanentBoosters
             recipe.AddIngredient(ItemID.MeteoriteBar, 10);
             recipe.AddIngredient(ItemID.FallenStar, 50);
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 150);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

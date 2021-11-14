@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Cinquedea>());
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
+            recipe.AddRecipeGroup("AnyMythrilBar", 6);
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.MythrilAnvil);

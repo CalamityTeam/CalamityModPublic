@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Tools
             recipe.AddIngredient(ItemID.PurificationPowder, 20);
             recipe.AddIngredient(ItemID.PixieDust, 20);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddRecipeGroup("AnyMythrilBar", 10);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

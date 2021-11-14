@@ -32,10 +32,12 @@ namespace CalamityMod
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditGoblinArmySummonRecipe();
+            EditEarlyHardmodeRecipes();
             EditMechBossSummonRecipes();
             EditWingRecipes();
             EditEvilBulletRecipes();
             EditPhasesaberRecipes();
+            EditOpticStaffRecipes();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -187,6 +189,15 @@ namespace CalamityMod
                 s.requiredItem[0].stack = 5;
             });
         }
+        private static void EditEarlyHardmodeRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.DaoofPow || x.createItem.type == ItemID.Chik || x.createItem.type == ItemID.MeteorStaff).ToList().ForEach(s =>
+            {
+                s.requiredTile[0] = TileID.Anvils;
+            });
+        }
+
         private static void EditMechBossSummonRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
@@ -199,7 +210,7 @@ namespace CalamityMod
         private static void EditWingRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
+            rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings || x.createItem.type == ItemID.FairyWings).ToList().ForEach(s =>
             {
                 s.requiredTile[0] = TileID.Anvils;
             });
@@ -223,6 +234,28 @@ namespace CalamityMod
             x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
             {
                 s.requiredItem[1].stack = 20;
+            });
+        }
+
+        // Remove Hallowed Bars from Optic Staff
+        private static void EditOpticStaffRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.OpticStaff).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.BlackLens, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.Lens, false);
+                s.requiredItem[1].stack = 2;
+                s.requiredItem[2].SetDefaults(ItemID.SoulofSight, false);
+                s.requiredItem[2].stack = 20;
+
+                s.createItem.SetDefaults(ItemID.OpticStaff, false);
+                s.createItem.stack = 1;
             });
         }
 
@@ -394,10 +427,10 @@ namespace CalamityMod
 
             // Rod of Discord
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.SoulofLight, 30);
+            r.AddIngredient(ItemID.SoulofLight, 30); // TODO: Make this recipe less garbage but harder to obtain. - Merkalto
             r.AddIngredient(ItemID.ChaosFish, 5);
             r.AddIngredient(ItemID.PixieDust, 50);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.RodofDiscord);
             r.AddRecipe();
 
@@ -563,13 +596,13 @@ namespace CalamityMod
             r.SetResult(ItemID.Starfury);
             r.AddRecipe();
 
-            // Enchanted Sword (requires Hardmode materials)
+            // Enchanted Sword
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddIngredient(ItemID.SoulofLight, 15);
-            r.AddIngredient(ItemID.UnicornHorn, 3);
-            r.AddIngredient(ItemID.LightShard);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddRecipeGroup("AnyGoldBar", 12);
+            r.AddIngredient(ItemID.Diamond);
+            r.AddIngredient(ItemID.Ruby);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.EnchantedSword);
             r.AddRecipe();
 
@@ -940,8 +973,8 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddRecipeGroup("AnyCobaltBar", 3);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.CelestialMagnet);
             r.AddRecipe();
 

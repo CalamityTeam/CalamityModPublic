@@ -44,7 +44,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<ManaJelly>());
             recipe.AddIngredient(ModContent.ItemType<LifeJelly>());
             recipe.AddIngredient(ModContent.ItemType<VitalJelly>());
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.SoulofLight, 2);
+            recipe.AddIngredient(ItemID.SoulofNight, 2);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

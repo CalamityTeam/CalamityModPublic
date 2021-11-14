@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.IceBoomerang);
             recipe.AddIngredient(ItemID.LightShard);
             recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
