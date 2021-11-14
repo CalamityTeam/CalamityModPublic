@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             else
             {
-                CurrentFrame = (int)Math.Round(MathHelper.Lerp(7f, 15f, slashInterpolant));
+                CurrentFrame = (int)Math.Round(MathHelper.Lerp(6f, 15f, slashInterpolant));
             }
 
             int xFrame = CurrentFrame / Main.npcFrameCount[npc.type];

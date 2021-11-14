@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
 
             SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture = Main.projectileTexture[projectile.type];
-            if (projectile.ai[1] == 1f)
+            if (projectile.ai[1] == 0f)
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SupremeCatastropheSlashAlt");
 
             Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
