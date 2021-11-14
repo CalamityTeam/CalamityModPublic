@@ -17,20 +17,23 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override void SetDefaults()
 		{
+			item.damage = 3725;
+			item.knockBack = 12f;
+			item.useTime = 5;
+			item.useAnimation = 25;
+			// In-game, the displayed axe power is 5x the value set here.
+			// This corrects for trees having 500% hardness internally.
+			// So that the axe power in the code looks like the axe power you see on screen, divide by 5.
+			item.axe = 3000 / 5;
+			// Photon Ripper's axe power is entirely for show. Its projectiles instantly one shot trees.
+
 			item.height = 134;
 			item.width = 54;
-			item.damage = 3725;
-
-			// Displayed axe% is 1/5th of axePower here because trees have 500% hardness. This corrects for that.
-			item.axe = 6000 / 5;
 			item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 5;
-			item.useAnimation = 25;
-			item.knockBack = 12f;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<PhotonRipperProjectile>();
 			item.shootSpeed = 1f;

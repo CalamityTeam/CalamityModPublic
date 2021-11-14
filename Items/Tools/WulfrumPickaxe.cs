@@ -15,20 +15,21 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 5;
+            item.knockBack = 2f;
+            item.useTime = 8;
+            item.useAnimation = 16;
+            item.pick = 40;
+            item.tileBoost += 1;
+
             item.melee = true;
             item.width = 46;
             item.height = 38;
-            item.useTime = 12;
-            item.useAnimation = 16;
             item.useTurn = true;
-            item.pick = 35;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2f;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 1;
         }
 
         public override void AddRecipes()

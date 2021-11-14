@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem
     {
-        private static int HammerPower = 200;
-        private static int AxePower = 50;
+        private const int HammerPower = 110;
+        private const int AxePower = 180 / 5;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grax");
@@ -19,21 +20,22 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
+            item.damage = 472;
+            item.knockBack = 8f;
+            item.useTime = 4;
+            item.useAnimation = 16;
+            item.hammer = HammerPower;
+            item.axe = AxePower;
+            item.tileBoost += 5;
+
             item.width = 62;
             item.height = 62;
             item.scale = 1.5f;
-            item.damage = 472;
             item.melee = true;
-            item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 4;
             item.useTurn = true;
-            item.axe = AxePower;
-            item.hammer = HammerPower;
-            item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 5;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;

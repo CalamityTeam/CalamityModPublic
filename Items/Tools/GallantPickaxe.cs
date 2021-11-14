@@ -16,22 +16,24 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
+            // These stats exactly match vanilla's Luminite pickaxes.
             item.damage = 80;
+            item.knockBack = 5.5f;
+            item.useTime = 6;
+            item.useAnimation = 12;
+            item.pick = 225;
+            item.tileBoost += 4;
+
             item.melee = true;
             item.width = 84;
             item.height = 80;
-            item.useTime = 5;
-            item.useAnimation = 14;
             item.useTurn = true;
-            item.pick = 225;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.5f;
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 6;
-			item.useTurn = true;
+            item.useTurn = true;
         }
 
         public override void AddRecipes()

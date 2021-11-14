@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
 {
 	public class CrystylCrusher : ModItem
 	{
-		private static int PickPower = 5000;
+		private static int PickPower = 500;
 		private static float LaserSpeed = 14f;
 
 		public override void SetStaticDefaults()
@@ -25,17 +25,20 @@ namespace CalamityMod.Items.Tools
 		public override void SetDefaults()
 		{
 			item.damage = 400;
+			item.knockBack = 9f;
+			item.useTime = 2;
+			item.useAnimation = 10;
+			item.pick = PickPower;
+			// tile boost intentionally missing, usually 50
+
 			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;
 			item.crit += 25;
 			item.width = 70;
 			item.height = 70;
-			item.useTime = item.useAnimation = 2;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 9f;
-			item.shootSpeed = 14f;
-			item.pick = PickPower;
+			item.shootSpeed = LaserSpeed;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 			item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 

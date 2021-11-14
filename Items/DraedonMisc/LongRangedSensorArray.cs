@@ -58,7 +58,7 @@ namespace CalamityMod.Items.DraedonMisc
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddRecipeGroup("AnyMythrilBar", 10);
             recipe.AddIngredient(ItemID.Wire, 50);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

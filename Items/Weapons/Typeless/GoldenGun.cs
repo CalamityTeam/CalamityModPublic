@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ichor, 15);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

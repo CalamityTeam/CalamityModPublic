@@ -1,9 +1,9 @@
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -38,8 +38,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.shootSpeed = Speed;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.Calamity().rogue = true;
-            //item.maxStack = 999; not consumable because imagine knowing how to fish up more than one of an item
-            //item.consumable = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

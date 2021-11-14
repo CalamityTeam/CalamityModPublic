@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
             mp.voidAuraDamage = true;
             if (owner.dead)
                 mp.voidAuraDamage = false;
-            if (!mp.voidAuraDamage)
+            if (!mp.voidAuraDamage || !mp.voidConcentrationAura && projectile.ai[0] == 1f)
             {
                 mp.voidAura = false;
                 projectile.Kill();
@@ -82,10 +82,11 @@ namespace CalamityMod.Projectiles.Summon
                     correctedVelocity *= 3f;
                     int perturbificator9000 = Main.rand.Next(-1, 2);
                     Vector2 perturbedspeed = new Vector2(correctedVelocity.X + perturbificator9000, correctedVelocity.Y + perturbificator9000).RotatedBy(MathHelper.ToRadians(Main.rand.Next(1, 3)));
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(projectile.damage * 0.75f), 0f, owner.whoAmI);
+                    Projectile.NewProjectile(projectile.Center, perturbedspeed, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(projectile.damage * 0.75f), 0f, owner.whoAmI);
                 }
                 timer = -1;
             }
+			projectile.ai[0] = 1f;
             if (timer > 50 && timer % 4 == 0)
                 return;
             timer++;

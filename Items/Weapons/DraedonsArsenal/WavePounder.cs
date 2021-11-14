@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             return false;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
+        public override void SafeModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
 
         public override void AddRecipes()
         {

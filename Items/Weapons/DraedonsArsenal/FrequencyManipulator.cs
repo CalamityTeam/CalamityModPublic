@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-		public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
+		public override void SafeModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -70,8 +70,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
-			recipe.AddIngredient(ItemID.HallowedBar, 10);
-			recipe.AddIngredient(ItemID.SoulofSight, 20);
+			recipe.AddRecipeGroup("AnyMythrilBar", 10);
+            recipe.AddIngredient(ItemID.SoulofSight, 20);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

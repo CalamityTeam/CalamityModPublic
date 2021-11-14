@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Tools
 {
     public class FlamebeakHampick : ModItem
     {
-        private static int PickPower = 210;
-        private static int HammerPower = 130;
+        private const int PickPower = 210;
+        private const int HammerPower = 95;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seismic Hampick");
@@ -21,21 +22,22 @@ Right click to use as a hammer");
         public override void SetDefaults()
         {
             item.damage = 58;
+            item.knockBack = 8f;
+            item.useTime = 6;
+            item.useAnimation = 15;
+            item.pick = PickPower;
+            item.hammer = HammerPower;
+            item.tileBoost += 2;
+
             item.melee = true;
             item.width = 52;
             item.height = 50;
-            item.useTime = 5;
-            item.useAnimation = 15;
             item.useTurn = true;
-            item.pick = PickPower;
-            item.hammer = HammerPower;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 2;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -48,12 +50,12 @@ Right click to use as a hammer");
             if (player.altFunctionUse == 2)
             {
                 item.pick = 0;
-				item.hammer = HammerPower;
+                item.hammer = HammerPower;
             }
             else
             {
                 item.pick = PickPower;
-				item.hammer = 0;
+                item.hammer = 0;
             }
             return base.CanUseItem(player);
         }
@@ -75,8 +77,8 @@ Right click to use as a hammer");
             }
             if (Main.rand.NextBool(5))
             {
-				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
-				Main.gore[smoke].behindTiles = true;
+                int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+                Main.gore[smoke].behindTiles = true;
             }
         }
 

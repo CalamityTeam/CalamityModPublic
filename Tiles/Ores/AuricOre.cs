@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.Ores
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);
             mineResist = 10f;
-            minPick = 275;
+            minPick = 250;
             soundType = SoundID.Tink;
         }
 

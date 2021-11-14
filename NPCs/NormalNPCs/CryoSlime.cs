@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !CalamityWorld.downedCryogen || spawnInfo.player.Calamity().ZoneAbyss ||
+            if (spawnInfo.playerSafe || !CalamityWorld.downedCryogen || (!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1) || spawnInfo.player.Calamity().ZoneAbyss ||
                 spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;

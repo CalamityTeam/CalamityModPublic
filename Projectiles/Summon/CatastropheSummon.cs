@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,12 +37,36 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
         }
 
-        public override void AI() => CataclysmSummon.Behavior(projectile, Main.player[projectile.owner], ref Time);
+        public override void AI()
+        {
+            if (LookingAtPlayer)
+                projectile.frame = (int)Math.Round(MathHelper.Lerp(0f, 6f, Time / 45f));
+            else
+            {
+                float slashInterpolant = ((Time - 45f) / 27f) % 1f;
+                projectile.frame = (int)Math.Round(MathHelper.Lerp(6f, 15f, slashInterpolant));
+            }
+            CataclysmSummon.Behavior(projectile, Main.player[projectile.owner], ref Time);
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], Color.Red, 1);
-            return true;
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Rectangle frame = texture.Frame(2, 8, projectile.frame / 8, projectile.frame % 8);
+            Vector2 origin = frame.Size() * 0.5f;
+            for (int i = 0; i < projectile.oldPos.Length; i++)
+            {
+                float afterimageRot = projectile.oldRot[i];
+                SpriteEffects sfxForThisAfterimage = projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+                Vector2 drawPos = projectile.oldPos[i] + projectile.Size * 0.5f - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / projectile.oldPos.Length);
+                spriteBatch.Draw(texture, drawPos, frame, color, afterimageRot, origin, projectile.scale, sfxForThisAfterimage, 0f);
+            }
+
+            SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, direction, 0f);
+            return false;
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;

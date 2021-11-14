@@ -89,7 +89,12 @@ namespace CalamityMod.Projectiles.Melee
 			}
 		}
 
-		public override bool? CanHitNPC(NPC target) => projectile.ai[0] > 42f;
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.ai[0] <= 42f)
+				return false;
+			return null;
+		}
 
 		public override bool CanHitPvp(Player target) => projectile.ai[0] > 42f;
 

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
-            recipe.AddIngredient(ItemID.HallowedBar, 4);
+            recipe.AddIngredient(ItemID.SoulofLight, 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

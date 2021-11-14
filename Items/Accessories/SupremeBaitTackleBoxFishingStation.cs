@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.MasterBait, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

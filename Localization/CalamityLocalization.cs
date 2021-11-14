@@ -142,7 +142,7 @@ namespace CalamityMod.Localization
                 new [] { "DraedonEndText7", "It is not a matter of spite, for I would wish nothing more than to observe such a conflict." },
                 new [] { "DraedonEndText7", "But you have managed before. You will find a way eventually." },
                 new [] { "DraedonEndText8", "I must acknowledge your triumph, but I will return now to my machinery." },
-                new [] { "DraedonEndKillAttemptText", "Quite unnecessary." },
+                new [] { "DraedonEndKillAttemptText", "...Quite unnecessary." },
 
                 new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
                 new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
