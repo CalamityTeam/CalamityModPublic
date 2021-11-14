@@ -119,6 +119,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public virtual float SafeSetUseTimeMultiplier(Player player) => -1f;
 
+		public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)
+		{
+		}
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
