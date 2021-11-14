@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Tools
             item.useTime = 6;
             item.useAnimation = 25;
             item.pick = 50;
-            item.axe = 50 / 5;
+            item.axe = 30 / 5;
 
             item.melee = true;
             item.width = 36;
