@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Tools
             item.useTime = 5;
             item.useAnimation = 20;
             item.hammer = 100;
-            item.axe = 150 / 5;
+            item.axe = 165 / 5;
             item.tileBoost += 3;
 
             item.crit += 25;

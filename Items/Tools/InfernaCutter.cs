@@ -20,16 +20,18 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 110;
-			item.crit += 10;
+            item.knockBack = 7f;
+            item.useTime = 8;
+            item.useAnimation = 12;
+            item.axe = 135 / 5;
+            item.tileBoost += 1;
+
+            item.crit += 10;
             item.melee = true;
             item.width = 62;
             item.height = 46;
-            item.useTime = 8;
-            item.useAnimation = 12;
             item.useTurn = true;
-            item.axe = 27;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
@@ -118,8 +120,8 @@ namespace CalamityMod.Items.Tools
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     int spark = Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI);
-					if (spark.WithinBounds(Main.maxProjectiles))
-						Main.projectile[spark].Calamity().forceMelee = true;
+                    if (spark.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[spark].Calamity().forceMelee = true;
                 }
             }
             if (Main.rand.NextBool(4))
@@ -132,10 +134,10 @@ namespace CalamityMod.Items.Tools
         {
             if (crit)
             {
-				damage /= 2;
+                damage /= 2;
                 int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (boom.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boom].Calamity().forceMelee = true;
+                if (boom.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boom].Calamity().forceMelee = true;
             }
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);

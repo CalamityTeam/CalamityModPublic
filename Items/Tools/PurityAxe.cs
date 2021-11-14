@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Tools
 {
     public class PurityAxe : ModItem
     {
-        private static int AxePower = 25;
+        private static int AxePower = 125 / 5;
         private static float PowderSpeed = 21f;
 
         public override void SetStaticDefaults()
@@ -20,15 +20,16 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 43;
+            item.knockBack = 5f;
+            item.useTime = 15;
+            item.useAnimation = 15;
+            item.axe = AxePower;
+
             item.melee = true;
             item.width = 58;
             item.height = 54;
-            item.useTime = 19;
-            item.useAnimation = 19;
             item.useTurn = true;
-            item.axe = AxePower;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;

@@ -15,17 +15,17 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 15;
+            item.knockBack = 6f;
             item.useTime = 11;
             item.useAnimation = 29;
             item.hammer = 69; // there it is folks
-            item.axe = 65 / 5;
+            item.axe = 55 / 5;
 
             item.melee = true;
             item.width = 44;
             item.height = 44;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
