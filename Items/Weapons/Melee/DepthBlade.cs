@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DepthBlade : ModItem
     {
-        private static int HammerPower = 50;
+        private const int HammerPower = 70;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Depth Crusher");
@@ -19,20 +20,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 50;
             item.damage = 36;
-            item.melee = true;
+            item.knockBack = 5.25f;
+            item.useTime = 17;
             item.useAnimation = 22;
-            item.useTime = 22;
+            item.hammer = HammerPower;
+
+            item.melee = true;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.25f;
+            item.width = 56;
+            item.height = 50;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
-            item.hammer = HammerPower;
         }
 
         public override bool AltFunctionUse(Player player) => true;

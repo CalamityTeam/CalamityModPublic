@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Tools
 {
     public class FlamebeakHampick : ModItem
     {
-        private static int PickPower = 210;
-        private static int HammerPower = 130;
+        private const int PickPower = 210;
+        private const int HammerPower = 95;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seismic Hampick");

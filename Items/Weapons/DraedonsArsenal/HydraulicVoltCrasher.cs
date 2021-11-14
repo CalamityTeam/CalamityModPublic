@@ -24,15 +24,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = item.Calamity();
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 16;
-            item.useTime = 4;
-            item.shootSpeed = 46f;
+            item.damage = 65;
             item.knockBack = 12f;
+            item.useTime = 4;
+            item.useAnimation = 16;
+            item.hammer = 100;
+
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.shootSpeed = 46f;
             item.width = 56;
             item.height = 24;
-            item.damage = 65;
-            item.hammer = 230;
             item.UseSound = SoundID.Item23;
 
             item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();

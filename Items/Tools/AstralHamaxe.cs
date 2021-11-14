@@ -17,22 +17,23 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 80;
+            item.knockBack = 5f;
+            item.useTime = 5;
+            item.useAnimation = 20;
+            item.hammer = 100;
+            item.axe = 150 / 5;
+            item.tileBoost += 3;
+
             item.crit += 25;
             item.melee = true;
             item.width = 60;
             item.height = 70;
-            item.useTime = 8;
-            item.useAnimation = 20;
             item.useTurn = true;
-            item.axe = 30;
-            item.hammer = 150;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 3;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
