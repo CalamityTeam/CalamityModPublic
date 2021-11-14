@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             // Decide frames.
             projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 4 % Main.projFrames[projectile.type];
+            projectile.frame = projectile.frameCounter / 7 % Main.projFrames[projectile.type];
 
             // Fade in and handle visuals.
             projectile.Opacity = Utils.InverseLerp(0f, 8f, projectile.timeLeft, true) * Utils.InverseLerp(1500f, 1492f, projectile.timeLeft, true);
