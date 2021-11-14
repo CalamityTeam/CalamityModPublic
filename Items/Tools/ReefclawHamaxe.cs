@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Tools
             item.knockBack = 6f;
             item.useTime = 11;
             item.useAnimation = 29;
-            item.hammer = 69; // there it is folks
+            item.hammer = 60;
             item.axe = 55 / 5;
 
             item.melee = true;
