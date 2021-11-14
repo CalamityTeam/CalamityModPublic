@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Energy Slash");
+            DisplayName.SetDefault("Resonance Slash");
             Main.projFrames[projectile.type] = 4;
         }
 
