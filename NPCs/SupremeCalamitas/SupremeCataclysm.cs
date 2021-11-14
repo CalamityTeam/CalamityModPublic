@@ -11,13 +11,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
     public class SupremeCataclysm : ModNPC
     {
-        public int VerticalHoverOffset = -375;
+        public int VerticalOffset = -375;
         public int CurrentFrame;
         public bool PunchingFromRight;
-        public const int HorizontalHoverDistance = 750;
+        public const int HorizontalOffset = 750;
         public const int PunchCounterLimit = 60;
         public const int DartBurstCounterLimit = 300;
         public Player Target => Main.player[npc.target];
@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             DisplayName.SetDefault("Cataclysm");
             Main.npcFrameCount[npc.type] = 9;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -39,10 +39,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 80;
-			npc.DR_NERD(0.25f, null, null, null, true);
-			CalamityGlobalNPC global = npc.Calamity();
+            npc.DR_NERD(0.25f, null, null, null, true);
+            CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(240000, 276000, 100000);
+            npc.LifeMaxNERB(240000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -56,12 +56,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(VerticalHoverOffset);
+            writer.Write(VerticalOffset);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            VerticalHoverOffset = reader.ReadInt32();
+            VerticalOffset = reader.ReadInt32();
         }
 
         public override void FindFrame(int frameHeight)
@@ -89,7 +89,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
+            // Set the whoAmI variable.
             CalamityGlobalNPC.SCalCataclysm = npc.whoAmI;
+
+            // Disappear if Supreme Calamitas is not present.
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.active = false;
@@ -97,54 +100,54 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
-			float totalLifeRatio = npc.life / (float)npc.lifeMax;
-			if (CalamityGlobalNPC.SCalCatastrophe != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.SCalCatastrophe].active)
-					totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCatastrophe].life / (float)Main.npc[CalamityGlobalNPC.SCalCatastrophe].lifeMax;
-			}
-			totalLifeRatio *= 0.5f;
+            float totalLifeRatio = npc.life / (float)npc.lifeMax;
+            if (CalamityGlobalNPC.SCalCatastrophe != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.SCalCatastrophe].active)
+                    totalLifeRatio += Main.npc[CalamityGlobalNPC.SCalCatastrophe].life / (float)Main.npc[CalamityGlobalNPC.SCalCatastrophe].lifeMax;
+            }
+            totalLifeRatio *= 0.5f;
 
-			// Get a target if no valid one has been found.
-			if (npc.target < 0 || npc.target == Main.maxPlayers || Target.dead || !Target.active)
-				npc.TargetClosest();
+            // Get a target if no valid one has been found.
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Target.dead || !Target.active)
+                npc.TargetClosest();
 
-			// Despawn safety, make sure to target another player if the current player target is too far away.
-			if (!npc.WithinRange(Target.Center, CalamityGlobalNPC.CatchUpDistance200Tiles))
-				npc.TargetClosest();
+            // Despawn safety, make sure to target another player if the current player target is too far away.
+            if (!npc.WithinRange(Target.Center, CalamityGlobalNPC.CatchUpDistance200Tiles))
+                npc.TargetClosest();
 
             float acceleration = 1.5f;
 
-			// Reduce acceleration if target is holding a true melee weapon.
-			Item targetSelectedItem = Target.inventory[Target.selectedItem];
-			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+            // Reduce acceleration if target is holding a true melee weapon.
+            Item targetSelectedItem = Target.inventory[Target.selectedItem];
+            if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                 acceleration *= 0.5f;
 
-			int verticalSpeed = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
+            int verticalSpeed = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
 
             // Move down.
-			if (ElapsedVerticalDistance < HorizontalHoverDistance)
-			{
+            if (ElapsedVerticalDistance < HorizontalOffset)
+            {
                 ElapsedVerticalDistance += verticalSpeed;
-				VerticalHoverOffset += verticalSpeed;
-			}
+                VerticalOffset += verticalSpeed;
+            }
 
             // Move up.
-			else if (ElapsedVerticalDistance < HorizontalHoverDistance * 2)
-			{
+            else if (ElapsedVerticalDistance < HorizontalOffset * 2)
+            {
                 ElapsedVerticalDistance += verticalSpeed;
-				VerticalHoverOffset -= verticalSpeed;
-			}
+                VerticalOffset -= verticalSpeed;
+            }
 
             // Reset the vertical distance once a single period has concluded.
-			else
+            else
                 ElapsedVerticalDistance = 0f;
 
             // Reset rotation to zero.
             npc.rotation = 0f;
 
             // Hover to the side of the target.
-            Vector2 idealVelocity = npc.SafeDirectionTo(Target.Center + new Vector2(HorizontalHoverDistance, VerticalHoverOffset)) * 60f;
+            Vector2 idealVelocity = npc.SafeDirectionTo(Target.Center + new Vector2(HorizontalOffset, VerticalOffset)) * 60f;
             npc.SimpleFlyMovement(idealVelocity, acceleration);
 
             // Have a small delay prior to shooting projectiles.
@@ -155,15 +158,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
             {
                 // Shoot fists.
-				float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+                float fireRate = CalamityWorld.malice ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
                 PunchCounter += fireRate;
-				if (PunchCounter >= PunchCounterLimit)
+                if (PunchCounter >= PunchCounterLimit)
                 {
                     PunchCounter = 0f;
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
-					int type = ModContent.ProjectileType<SupremeCataclysmFist>();
-					int damage = npc.GetProjectileDamage(type);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
+                    int type = ModContent.ProjectileType<SupremeCataclysmFist>();
+                    int damage = npc.GetProjectileDamage(type);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 fistSpawnPosition = npc.Center + Vector2.UnitX * -74f;
                         Projectile.NewProjectile(fistSpawnPosition, Vector2.UnitX * -8f, type, damage, 0f, Main.myPlayer, 0f, PunchingFromRight.ToInt());
@@ -173,7 +176,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // Shoot dart spreads.
-				fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+                fireRate = CalamityWorld.malice ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
                 DartBurstCounter += fireRate;
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
@@ -182,8 +185,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     // TODO: Consider changing this to use RotatedBy or ToRotationVector2.
                     float speed = 7f;
-					int type = ModContent.ProjectileType<BrimstoneBarrage>();
-					int damage = npc.GetProjectileDamage(type);
+                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    int damage = npc.GetProjectileDamage(type);
                     float spread = 45f * 0.0174f;
                     double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
@@ -209,57 +212,57 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture = Main.npcTexture[npc.type];
-			Vector2 origin = npc.frame.Size() * 0.5f;
-			int afterimageCount = 4;
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 origin = npc.frame.Size() * 0.5f;
+            int afterimageCount = 4;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int i = 1; i < afterimageCount; i += 2)
-				{
-					Color afterimageColor = npc.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * ((afterimageCount - i) / 15f);
-					Vector2 drawPosition = npc.oldPos[i] + npc.Size * 0.5f - Main.screenPosition;
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int i = 1; i < afterimageCount; i += 2)
+                {
+                    Color afterimageColor = npc.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * ((afterimageCount - i) / 15f);
+                    Vector2 drawPosition = npc.oldPos[i] + npc.Size * 0.5f - Main.screenPosition;
                     spriteBatch.Draw(texture, drawPosition, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
-				}
-			}
+                }
+            }
 
-			Vector2 mainDrawPosition = npc.Center - Main.screenPosition;
-			spriteBatch.Draw(texture, mainDrawPosition, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            Vector2 mainDrawPosition = npc.Center - Main.screenPosition;
+            spriteBatch.Draw(texture, mainDrawPosition, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
-			texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow");
-			Color baseGlowmaskColor = Color.Lerp(Color.White, Color.Red, 0.5f);
+            texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow");
+            Color baseGlowmaskColor = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int i = 1; i < afterimageCount; i++)
-				{
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int i = 1; i < afterimageCount; i++)
+                {
                     Color afterimageColor = Color.Lerp(baseGlowmaskColor, Color.White, 0.5f) * ((afterimageCount - i) / 15f);
                     Vector2 drawPosition = npc.oldPos[i] + npc.Size * 0.5f - Main.screenPosition;
-					spriteBatch.Draw(texture, drawPosition, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
-				}
-			}
+                    spriteBatch.Draw(texture, drawPosition, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+                }
+            }
 
-			spriteBatch.Draw(texture, mainDrawPosition, npc.frame, baseGlowmaskColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, mainDrawPosition, npc.frame, baseGlowmaskColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
-			return false;
-		}
+            return false;
+        }
 
-		public override void NPCLoot()
-		{
-			int heartAmt = Main.rand.Next(3) + 3;
-			for (int i = 0; i < heartAmt; i++)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-		}
+        public override void NPCLoot()
+        {
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+        }
 
-		public override bool CheckActive() => false;
+        public override bool CheckActive() => false;
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

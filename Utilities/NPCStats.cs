@@ -787,7 +787,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SoulSeekerSupreme>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<SupremeCataclysmFist>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
-				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } },
+				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<SupremeCatastropheSlash>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaserBeamStart>()), new int[] { 450, 676, 712, 732, 1068 } },
