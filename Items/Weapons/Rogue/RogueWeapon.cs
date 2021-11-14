@@ -125,6 +125,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
+			SafeModifyTooltips(tooltips);
+
 			TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
 			if (damageTooltip != null)
 			{
