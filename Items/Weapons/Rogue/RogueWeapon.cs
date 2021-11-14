@@ -125,8 +125,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			SafeModifyTooltips(tooltips);
-
 			TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
 			if (damageTooltip != null)
 			{
@@ -165,6 +163,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 					tooltips.Add(stealthTooltip);
 				}
 			}
+
+			SafeModifyTooltips(tooltips);
 		}
 
 		public override bool ConsumeItem(Player player) => Main.rand.NextFloat() <= player.Calamity().throwingAmmoCost;
