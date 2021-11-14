@@ -267,7 +267,7 @@ namespace CalamityMod.Items
 				{ ItemID.Phantasm, pointBlank },
 				{ ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank, DamageRatio(0.75f)) }, // Phoenix Blaster is nerfed to compensate for autofire
 				{ ItemID.PickaxeAxe, Do(PickPower(200), UseTimeExact(7), TileBoostExact(+1)) },
-				{ ItemID.Picksaw, Do(UseTimeExact(5)) },
+				{ ItemID.Picksaw, Do(PickPower(210), UseTimeExact(6), TileBoostExact(+1)) },
 				{ ItemID.PirateMap, Do(MaxStack(20)) },
 				{ ItemID.PirateStaff, Do(AutoReuse, UseExact(25)) },
 				{ ItemID.PlatinumBow, Do(PointBlank, DamageRatio(1.1f)) },
