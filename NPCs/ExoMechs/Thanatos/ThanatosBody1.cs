@@ -213,6 +213,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
 			bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
+			// Use to close the segments quicker in later phases
+			float fasterSegmentClosingVar = lastMechAlive ? 0.2f : berserk ? 0.1f : 0f;
+
 			bool shootLasers = (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge || calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.UndergroundLaserBarrage) && calamityGlobalNPC_Head.newAI[2] > 0f;
 			if (shootLasers && !invisiblePhase)
 			{
@@ -285,7 +288,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -370,7 +373,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 							}
 							else
 							{
-								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
+								npc.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
 								if (npc.Calamity().newAI[0] <= 0f)
 								{
 									npc.Calamity().newAI[0] = 0f;
@@ -386,7 +389,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 				if (npc.ai[3] > 0f)
 					npc.ai[3] = 0f;
 
-				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement;
+				npc.Calamity().newAI[0] -= segmentCloseTimerDecrement + fasterSegmentClosingVar;
 				if (npc.Calamity().newAI[0] <= 0f)
 				{
 					npc.Calamity().newAI[0] = 0f;
