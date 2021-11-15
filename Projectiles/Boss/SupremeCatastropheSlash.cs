@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.Calamity().canBreakPlayerDefense = true;
 
             // These never naturally use rotations, so this shouldn't be an issue.
-            projectile.width = 120;
+            projectile.width = 100;
             projectile.height = 60;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -51,15 +51,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor.R = (byte)(255 * projectile.Opacity);
-
             SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture = Main.projectileTexture[projectile.type];
             if (projectile.ai[1] == 0f)
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SupremeCatastropheSlashAlt");
 
             Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
-            drawPosition -= projectile.velocity.SafeNormalize(Vector2.UnitX) * 26f;
+            drawPosition -= projectile.velocity.SafeNormalize(Vector2.UnitX) * 38f;
             Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
             for (int i = 0; i < 3; i++)

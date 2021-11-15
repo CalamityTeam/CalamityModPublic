@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     [AutoloadBossHead]
     public class SupremeCataclysm : ModNPC
     {
-        public int VerticalOffset = -375;
+        public int VerticalOffset = 375;
         public int CurrentFrame;
         public bool PunchingFromRight;
         public const int HorizontalOffset = 750;
@@ -125,18 +125,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             int verticalSpeed = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
 
-            // Move down.
+            // Move up.
             if (ElapsedVerticalDistance < HorizontalOffset)
             {
                 ElapsedVerticalDistance += verticalSpeed;
-                VerticalOffset += verticalSpeed;
+                VerticalOffset -= verticalSpeed;
             }
 
-            // Move up.
+            // Move down.
             else if (ElapsedVerticalDistance < HorizontalOffset * 2)
             {
                 ElapsedVerticalDistance += verticalSpeed;
-                VerticalOffset -= verticalSpeed;
+                VerticalOffset += verticalSpeed;
             }
 
             // Reset the vertical distance once a single period has concluded.
