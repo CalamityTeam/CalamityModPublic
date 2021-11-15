@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 					if (calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge)
 					{
-						float divisor = lastMechAlive ? 60f : berserk ? 80f : 120f;
+						float divisor = lastMechAlive ? 45f : berserk ? 60f : 90f;
 						if ((npc.ai[3] % divisor == 0f && npc.ai[0] % segmentDivisor == 0f) || npc.Calamity().newAI[0] > 0f)
 						{
 							// Body is vulnerable while firing lasers
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 											}
 										}
 
-										float predictionAmt = malice ? 30f : death ? 20f : revenge ? 17.5f : expertMode ? 15f : 10f;
+										float predictionAmt = malice ? 24f : death ? 20f : revenge ? 18f : expertMode ? 16f : 12f;
 										if (npc.ai[0] % 3f == 0f)
 											predictionAmt *= 0.5f;
 

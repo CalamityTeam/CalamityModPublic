@@ -368,10 +368,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 			// Phase gate values
 			float velocityAdjustTime = 20f;
-			float speedUpTime = lastMechAlive ? 270f : berserk ? 360f : 480f;
-			float slowDownTime = lastMechAlive ? 60f : berserk ? 90f : 120f;
+			float speedUpTime = lastMechAlive ? 180f : berserk ? 240f : 360f;
+			float slowDownTime = lastMechAlive ? 30f : berserk ? 40f : 60f;
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
-			float laserBarrageDuration = lastMechAlive ? 285f : berserk ? 330f : 420f;
+			float laserBarrageDuration = lastMechAlive ? 270f : berserk ? 300f : 360f;
 
 			// Adjust opacity
 			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
@@ -498,7 +498,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float deathrayVelocityScalarIncrement = 1f / deathrayDuration;
 
 			// Scalar to use during laser barrage, passive and immune phases
-			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.01f;
+			float laserBarrageVelocityScalarIncrement = lastMechAlive ? 0.025f : berserk ? 0.02f : 0.015f;
 			float laserBarrageVelocityScalarDecrement = 1f / velocityAdjustTime;
 
 			// Passive and Immune phases
@@ -703,7 +703,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					turnDistance = chargeLocationDistance;
 
 					// Gradually turn slower if within 20 tiles of the target
-					float turnSlowerDistanceGateValue = lastMechAlive ? 160f : 320f;
+					float turnSlowerDistanceGateValue = lastMechAlive ? 160f : 240f;
 					if (distanceFromTarget < turnSlowerDistanceGateValue)
 						turnSpeed *= distanceFromTarget / turnSlowerDistanceGateValue;
 
