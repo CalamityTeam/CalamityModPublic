@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 32f : death ? 24f : revenge ? 22f : expertMode ? 20f : 16f;
+			float predictionAmt = malice ? 26f : death ? 22f : revenge ? 20f : expertMode ? 18f : 14f;
 			if (AIState == (float)Phase.LaserShotgun)
 				predictionAmt *= 1.5f;
 			if (nerfedAttacks)
