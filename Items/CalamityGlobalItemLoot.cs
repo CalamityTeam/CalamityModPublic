@@ -43,8 +43,8 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
-				case ItemID.EyeofCthulhuBossBag:
-					DropHelper.DropItem(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
+				case ItemID.EyeOfCthulhuBossBag:
+					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
 					break;
 
 				case ItemID.QueenBeeBossBag:
