@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Wyvern Helm");
-            Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava");
+            Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
+                "5% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Armor
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 					{
 						line2.text = "You can move freely through liquids and have temporary immunity to lava\n" +
 						"Provides heat protection in Death Mode";
@@ -56,7 +57,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareSummon = true;
-            player.setBonus = "55% increased minion damage and +3 max minions\n" +
+            player.setBonus = "50% increased minion damage and +3 max minions\n" +
                 "Greatly increases life regen\n" +
 				"Enemies below 50% life drop a heart when struck\n" +
 				"This effect has a 5 second cooldown\n" +
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Armor
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
-            player.minionDamage += 0.55f;
+            player.minionDamage += 0.5f;
 			player.maxMinions += 3;
 		}
 
@@ -73,6 +74,7 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
+            player.minionDamage += 0.05f;
         }
 
         public override void AddRecipes()
