@@ -26,6 +26,7 @@ Fire rate and range increase the longer it targets an enemy");
             item.useTime = item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
+            item.autoReuse = true;
             item.knockBack = 4f;
 
             item.value = CalamityGlobalItem.Rarity6BuyPrice;

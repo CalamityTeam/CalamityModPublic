@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useTime = item.useAnimation = 14;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
+            item.autoReuse = true;
             item.knockBack = 4f;
             item.UseSound = SoundID.NPCDeath13;
             item.shoot = ModContent.ProjectileType<OldDukeHeadCorpse>();

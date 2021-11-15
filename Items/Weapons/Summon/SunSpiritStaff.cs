@@ -32,6 +32,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
         }
 
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

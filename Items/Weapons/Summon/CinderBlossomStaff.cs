@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CinderBlossom>();
             item.shootSpeed = 10f;
             item.summon = true;
