@@ -63,6 +63,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			set => npc.Calamity().newAI[1] = value;
 		}
 
+		// Variable used to scale up velocity if too far from destination
+		private float velocityBoostMult = 0f;
+
 		// Number of frames on the X and Y axis
 		private const int maxFramesX = 10;
 		private const int maxFramesY = 9;
@@ -158,6 +161,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(velocityBoostMult);
 			writer.Write(frameX);
 			writer.Write(frameY);
 			writer.Write(pickNewLocation);
@@ -175,6 +179,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			velocityBoostMult = reader.ReadSingle();
 			frameX = reader.ReadInt32();
 			frameY = reader.ReadInt32();
 			pickNewLocation = reader.ReadBoolean();
@@ -431,6 +436,43 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float chargeComboYOffset = npc.ai[2] % 2f == 0f ? 400f : -400f;
 			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) : new Vector2(player.Center.X + destinationX, destinationY);
 
+			// Add some random distance to the destination after certain attacks
+			if (pickNewLocation)
+			{
+				pickNewLocation = false;
+
+				npc.localAI[0] = Main.rand.Next(-50, 51);
+				npc.localAI[1] = Main.rand.Next(-250, 251);
+				if (AIState == (float)Phase.RocketBarrage)
+				{
+					npc.localAI[0] *= 0.5f;
+					npc.localAI[1] *= 0.5f;
+				}
+
+				npc.netUpdate = true;
+			}
+
+			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
+			if (AIState == (float)Phase.Normal || AIState == (float)Phase.RocketBarrage || AIState == (float)Phase.PhaseTransition)
+			{
+				destination.X += npc.localAI[0];
+				destination.Y += npc.localAI[1];
+			}
+
+			// Scale up velocity over time if too far from destination
+			Vector2 distanceFromDestination = destination - npc.Center;
+			if (distanceFromDestination.Length() > movementDistanceGateValue && AIState != (float)Phase.ChargeCombo)
+			{
+				if (velocityBoostMult < 1f)
+					velocityBoostMult += 0.004f;
+			}
+			else
+			{
+				if (velocityBoostMult > 0f)
+					velocityBoostMult -= 0.004f;
+			}
+			baseVelocity += 20f * velocityBoostMult;
+
 			// If Apollo can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
 
@@ -504,29 +546,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				}
 			}
 
-			// Add some random distance to the destination after certain attacks
-			if (pickNewLocation)
-			{
-				pickNewLocation = false;
-
-				npc.localAI[0] = Main.rand.Next(-50, 51);
-				npc.localAI[1] = Main.rand.Next(-250, 251);
-				if (AIState == (float)Phase.RocketBarrage)
-				{
-					npc.localAI[0] *= 0.5f;
-					npc.localAI[1] *= 0.5f;
-				}
-
-				npc.netUpdate = true;
-			}
-
-			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
-			if (AIState == (float)Phase.Normal || AIState == (float)Phase.RocketBarrage || AIState == (float)Phase.PhaseTransition)
-			{
-				destination.X += npc.localAI[0];
-				destination.Y += npc.localAI[1];
-			}
-
 			// Cause the charge visual effects to begin while performing or preparing for a combo
 			if (AIState == (float)Phase.LineUpChargeCombo || AIState == (float)Phase.ChargeCombo)
 				ChargeComboFlash = MathHelper.Clamp(ChargeComboFlash + 0.08f, 0f, 1f);
@@ -535,8 +554,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			else
 				ChargeComboFlash = MathHelper.Clamp(ChargeComboFlash - 0.1f, 0f, 1f);
 
-			// Destination variables
-			Vector2 distanceFromDestination = destination - npc.Center;
+			// Velocity
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Set to transition to phase 2 if it hasn't happened yet
