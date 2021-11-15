@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AresGaussNukeProjectileSpark : ModProjectile
     {
-		private const int timeLeft = 360;
+		private const int timeLeft = 180;
 
 		public override void SetStaticDefaults()
         {

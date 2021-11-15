@@ -86,7 +86,17 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            Time = Main.npc[OwnerIndex].Calamity().newAI[2] - AresBody.deathrayTelegraphDuration;
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			// Telegraph duration for deathray spiral
+			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
+
+			Time = Main.npc[OwnerIndex].Calamity().newAI[2] - deathrayTelegraphDuration;
         }
 
         public override void UpdateLaserMotion()
