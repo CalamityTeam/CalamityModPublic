@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 6f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 3f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);
