@@ -441,7 +441,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
 				// Steam
 				npc.localAI[0] += 1f;
-				if (npc.localAI[0] < ThanatosHead.ventDuration)
+				float actualVentDuration = lastMechAlive ? 90f : berserk ? 120f : ThanatosHead.ventDuration;
+				if (npc.localAI[0] < actualVentDuration)
 				{
 					SmokeDrawer.BaseMoveRotation = npc.rotation - MathHelper.PiOver2;
 					SmokeDrawer.ParticleSpawnRate = ThanatosHead.ventCloudSpawnRate;
