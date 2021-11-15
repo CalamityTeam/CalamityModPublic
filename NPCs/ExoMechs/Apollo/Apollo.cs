@@ -471,7 +471,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 				if (velocityBoostMult > 0f)
 					velocityBoostMult -= 0.004f;
 			}
-			baseVelocity += 20f * velocityBoostMult;
+			baseVelocity *= 1f + velocityBoostMult;
 
 			// If Apollo can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;

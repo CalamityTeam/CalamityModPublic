@@ -449,7 +449,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				if (VelocityBoostMult > 0f)
 					VelocityBoostMult -= 0.004f;
 			}
-			baseVelocity += 20f * VelocityBoostMult;
+			baseVelocity *= 1f + VelocityBoostMult;
 
 			// Distance from target
 			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);

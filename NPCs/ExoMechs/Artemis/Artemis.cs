@@ -506,7 +506,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				if (velocityBoostMult > 0f)
 					velocityBoostMult -= 0.004f;
 			}
-			baseVelocity += 20f * velocityBoostMult;
+			baseVelocity *= 1f + velocityBoostMult;
 
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
