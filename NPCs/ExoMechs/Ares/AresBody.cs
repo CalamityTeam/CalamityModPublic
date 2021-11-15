@@ -993,6 +993,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			SpriteEffects spriteDirection = direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			float distanceFromHand = npc.Distance(handPosition);
+			float frameTime = Main.GlobalTime * 0.9f % 1f;
 
 			// Draw back arms.
 			if (backArm)
@@ -1010,11 +1011,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Vector2 arm1DrawPosition = shoulderDrawPosition + new Vector2(direction * (shoulderTexture.Width + 16f), 10f);
 				Vector2 armSegmentDrawPosition = arm1DrawPosition;
 
+				// Determine frames.
+				Rectangle shoulderFrame = shoulderTexture.Frame(1, 9, 0, (int)(frameTime * 9f));
+				Rectangle armSegmentFrame = armSegmentTexture.Frame(1, 9, 0, (int)(frameTime * 9f));
+				Rectangle arm2Frame = armTexture2.Frame(1, 9, 0, (int)(frameTime * 9f));
+
 				Vector2 arm1Origin = armTexture1.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
-				Vector2 arm2Origin = armTexture2.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
+				Vector2 arm2Origin = arm2Frame.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
 
 				float arm1Rotation = MathHelper.Clamp(distanceFromHand * direction / 1200f, -0.12f, 0.12f);
-				float arm2Rotation = (handPosition - armSegmentDrawPosition).ToRotation();
+				float arm2Rotation = (handPosition - armSegmentDrawPosition - Vector2.UnitY * 12f).ToRotation();
 				if (direction == 1)
 					arm2Rotation += MathHelper.Pi;
 				float armSegmentRotation = arm2Rotation;
@@ -1052,16 +1058,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				arm2DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 
 				spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, null, shoulderLightColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-				spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskAlphaColor, 0f, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection, 0f);
-				spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, null, armSegmentLightColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, null, glowmaskAlphaColor, armSegmentRotation, armSegmentTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armTexture2, arm2DrawPosition, null, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
-				spriteBatch.Draw(armGlowmask2, arm2DrawPosition, null, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
+				spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, shoulderFrame, shoulderLightColor, 0f, shoulderFrame.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+				spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, shoulderFrame, glowmaskAlphaColor, 0f, shoulderFrame.Size() * 0.5f, npc.scale, spriteDirection, 0f);
+				spriteBatch.Draw(armSegmentTexture, armSegmentDrawPosition, armSegmentFrame, armSegmentLightColor, armSegmentRotation, armSegmentFrame.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armSegmentGlowmask, armSegmentDrawPosition, armSegmentFrame, glowmaskAlphaColor, armSegmentRotation, armSegmentFrame.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armTexture2, arm2DrawPosition, arm2Frame, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
+				spriteBatch.Draw(armGlowmask2, arm2DrawPosition, arm2Frame, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipVertically, 0f);
 			}
 			else
 			{
 				Texture2D shoulderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmShoulder");
+				Texture2D connectorTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmConnector");
 				Texture2D armTexture1 = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart1");
 				Texture2D armTexture2 = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart2");
 
@@ -1069,18 +1076,26 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				Texture2D armTexture1Glowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart1Glow");
 				Texture2D armTexture2Glowmask = ModContent.GetTexture("CalamityMod/ExtraTextures/AresBottomArmPart2Glow");
 
-				Vector2 shoulderDrawPosition = npc.Center + new Vector2(direction * 110f, -30f);
-				Vector2 arm1DrawPosition = shoulderDrawPosition;
+				Vector2 shoulderDrawPosition = npc.Center + new Vector2(direction * 110f, -54f);
+				Vector2 connectorDrawPosition = shoulderDrawPosition + new Vector2(direction * 20f, 32f);
+				Vector2 arm1DrawPosition = shoulderDrawPosition + Vector2.UnitX * direction * 20f;
 
-				Vector2 arm1Origin = armTexture1.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
-				Vector2 arm2Origin = armTexture2.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
+				// Determine frames.
+				Rectangle arm1Frame = armTexture1.Frame(1, 9, 0, (int)(frameTime * 9f));
+				Rectangle shoulderFrame = shoulderTexture.Frame(1, 9, 0, (int)(frameTime * 9f));
+				Rectangle arm2Frame = armTexture2.Frame(1, 9, 0, (int)(frameTime * 9f));
+
+				Vector2 arm1Origin = arm1Frame.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
+				Vector2 arm2Origin = arm2Frame.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
 
 				float arm1Rotation = CalamityUtils.WrapAngle90Degrees((handPosition - shoulderDrawPosition).ToRotation()) * 0.5f;
+				connectorDrawPosition += arm1Rotation.ToRotationVector2() * direction * -26f;
 				arm1DrawPosition += arm1Rotation.ToRotationVector2() * direction * (armTexture1.Width - 14f);
 				float arm2Rotation = CalamityUtils.WrapAngle90Degrees((handPosition - arm1DrawPosition).ToRotation());
 
 				Vector2 arm2DrawPosition = arm1DrawPosition + arm2Rotation.ToRotationVector2() * direction * (armTexture2.Width + 16f) - Vector2.UnitY * 16f;
 
+				// Calculate colors.
 				Color shoulderLightColor = npc.GetAlpha(Lighting.GetColor((int)shoulderDrawPosition.X / 16, (int)shoulderDrawPosition.Y / 16));
 				Color arm1LightColor = npc.GetAlpha(Lighting.GetColor((int)arm1DrawPosition.X / 16, (int)arm1DrawPosition.Y / 16));
 				Color arm2LightColor = npc.GetAlpha(Lighting.GetColor((int)arm2DrawPosition.X / 16, (int)arm2DrawPosition.Y / 16));
@@ -1089,26 +1104,28 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				// Draw electricity between arms.
 				if (npc.Opacity > 0f)
 				{
-					List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * 20f, 31416);
+					List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * direction * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * direction * 20f, 31416);
 					LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
 					LightningDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
 
 					// Draw electricity between the final arm and the hand.
-					List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * 20f, handPosition, 27182);
+					List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * direction * 20f, handPosition, 27182);
 					LightningBackgroundDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
 					LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
 				}
 
 				shoulderDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+				connectorDrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 				arm1DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 				arm2DrawPosition += Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
 
-				spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, null, shoulderLightColor, arm1Rotation, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, null, glowmaskAlphaColor, arm1Rotation, shoulderTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armTexture1Glowmask, arm1DrawPosition, null, glowmaskAlphaColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armTexture2, arm2DrawPosition, null, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(armTexture2Glowmask, arm2DrawPosition, null, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, shoulderFrame, shoulderLightColor, arm1Rotation, shoulderFrame.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, shoulderFrame, glowmaskAlphaColor, arm1Rotation, shoulderFrame.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(connectorTexture, connectorDrawPosition, null, shoulderLightColor, 0f, connectorTexture.Size() * 0.5f, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armTexture1, arm1DrawPosition, arm1Frame, arm1LightColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armTexture1Glowmask, arm1DrawPosition, arm1Frame, glowmaskAlphaColor, arm1Rotation, arm1Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armTexture2, arm2DrawPosition, arm2Frame, arm2LightColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(armTexture2Glowmask, arm2DrawPosition, arm2Frame, glowmaskAlphaColor, arm2Rotation, arm2Origin, npc.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
 			}
 		}
 
