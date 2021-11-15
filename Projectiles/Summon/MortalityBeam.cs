@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -10,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MortalityBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public ref float Time => ref projectile.ai[0];
         public override void SetStaticDefaults()
         {
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+            target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
