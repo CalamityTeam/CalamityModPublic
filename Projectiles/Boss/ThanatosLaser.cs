@@ -249,6 +249,11 @@ namespace CalamityMod.Projectiles.Boss
 			target.Calamity().lastProjectileHit = projectile;
 		}
 
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			return CalamityUtils.CircularHitboxCollision(projHitbox.Center(), projectile.Size.Length() * 0.5f, targetHitbox);
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (TelegraphDelay >= TelegraphTotalTime)
@@ -256,7 +261,10 @@ namespace CalamityMod.Projectiles.Boss
 				lightColor.R = (byte)(255 * projectile.Opacity);
 				lightColor.G = (byte)(255 * projectile.Opacity);
 				lightColor.B = (byte)(255 * projectile.Opacity);
+				Vector2 drawOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * -30f;
+				projectile.Center += drawOffset;
 				CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+				projectile.Center -= drawOffset;
 				return false;
 			}
 

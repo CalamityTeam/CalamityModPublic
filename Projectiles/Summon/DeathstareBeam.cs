@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 drawScale = new Vector2(0.55f, projectile.velocity.Length() / beamTexture.Height * 20f);
             Color color = Color.White * 2.1f * projectile.Opacity;
 
-            if (Math.Abs(projectile.rotation - MathHelper.PiOver2) > 0.008f)
+            if (Math.Abs(projectile.rotation) > 0.008f)
                 spriteBatch.Draw(beamTexture, drawPosition, null, color, projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
             return false;
         }
