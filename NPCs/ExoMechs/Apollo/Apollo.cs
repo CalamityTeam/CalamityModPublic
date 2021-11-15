@@ -274,7 +274,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Used to nerf Artemis and Apollo if fighting alongside Ares, because otherwise it's too difficult
 			bool nerfedAttacks = false;
-			if (exoPrimeAlive)
+			if (exoWormAlive && !nerfedAttacks)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].Calamity().newAI[1] != (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
+			if (exoPrimeAlive && !nerfedAttacks)
 				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
 
 			// Check if any of the other mechs were spawned first
@@ -396,7 +398,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-			float baseVelocity = (AIState == (int)Phase.LineUpChargeCombo ? 30f : 20f) * baseVelocityMult;
+			float baseVelocity = (AIState == (int)Phase.LineUpChargeCombo ? 40f : 20f) * baseVelocityMult;
 
 			// Attack gate values
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
@@ -801,6 +803,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 							if (plasmaTimer % divisor == 0f && canFire)
 							{
 								pickNewLocation = true;
+								npc.ai[2] += 1f;
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int type = ModContent.ProjectileType<ApolloFireball>();

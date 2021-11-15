@@ -311,8 +311,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// If Laser Cannon can fire normal lasers, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || !fireNormalLasers;
 
+			// Telegraph duration for deathray spiral
+			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
+
 			// Variable to disable deathray firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers);
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers);
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;

@@ -245,6 +245,7 @@ namespace CalamityMod.NPCs
 		public static int draedonExoMechTwinRed = -1;
 		public static int draedonExoMechTwinGreen = -1;
 		public static int draedonExoMechPrime = -1;
+		public static int draedonExoMechPrimePlasmaCannon = -1;
 		public static int adultEidolonWyrmHead = -1;
 
 		// Drawing variables.
@@ -769,6 +770,7 @@ namespace CalamityMod.NPCs
 			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
 			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());
 			ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
+			ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
 
 			ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
 

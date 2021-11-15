@@ -198,7 +198,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 predictionVector = player.velocity * predictionAmt;
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
-			float projectileVelocity = passivePhase ? 7.2f : 9f;
+			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
+			float projectileVelocity = (passivePhase || fireMoreOrbs) ? 7.2f : 9f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)
@@ -299,7 +300,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float movementDistanceGateValue = 50f;
 
 			// Gate values
-			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
 			float teslaOrbPhaseGateValue = fireMoreOrbs ? 120f : 270f;
 			if (enraged)
 				teslaOrbPhaseGateValue *= 0.1f;
@@ -311,8 +311,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// If Tesla Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
+			// Telegraph duration for deathray spiral
+			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
+
 			// Variable to cancel tesla orb firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;

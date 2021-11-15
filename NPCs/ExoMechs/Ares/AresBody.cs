@@ -99,7 +99,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		private bool armsSpawned = false;
 
 		// Total duration of the deathray telegraph
-		public const float deathrayTelegraphDuration = 60f;
+		public const float deathrayTelegraphDuration_Normal = 150f;
+		public const float deathrayTelegraphDuration_Expert = 120f;
+		public const float deathrayTelegraphDuration_Rev = 105f;
+		public const float deathrayTelegraphDuration_Death = 90f;
+		public const float deathrayTelegraphDuration_Malice = 60f;
 
 		// Total duration of the deathrays
 		public const float deathrayDuration = 600f;
@@ -671,6 +675,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 						float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
 						Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 						spinningPoint.Normalize();
+
+						float deathrayTelegraphDuration = malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
+							revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal;
 
 						calamityGlobalNPC.newAI[2] += (EnragedState == (float)Enraged.Yes && calamityGlobalNPC.newAI[2] % 2f == 0f) ? 2f : 1f;
 						if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)

@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -155,6 +156,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (Main.myPlayer == projectile.owner)
 			{
+				bool splitNormal = true;
+				if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].active)
+						splitNormal = Main.npc[CalamityGlobalNPC.draedonExoMechTwinGreen].ai[2] % 2f == 0f;
+				}
+
 				// Plasma bolts
 				int totalProjectiles = CalamityWorld.malice ? 6 : 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
@@ -163,7 +171,7 @@ namespace CalamityMod.Projectiles.Boss
 				double angleA = radians * 0.5;
 				double angleB = MathHelper.ToRadians(90f) - angleA;
 				float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-				Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+				Vector2 spinningPoint = splitNormal ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
 				for (int k = 0; k < totalProjectiles; k++)
 				{
 					Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);

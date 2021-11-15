@@ -243,7 +243,8 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
             CalamityGlobalNPC.signus = -1;
-            CalamityGlobalNPC.draedonExoMechPrime = -1;
+			CalamityGlobalNPC.draedonExoMechPrimePlasmaCannon = -1;
+			CalamityGlobalNPC.draedonExoMechPrime = -1;
             CalamityGlobalNPC.draedonExoMechTwinGreen = -1;
             CalamityGlobalNPC.draedonExoMechTwinRed = -1;
             CalamityGlobalNPC.draedonExoMechWorm = -1;

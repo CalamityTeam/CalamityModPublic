@@ -292,7 +292,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 			// Used to nerf Artemis and Apollo if fighting alongside Ares, because otherwise it's too difficult
 			bool nerfedAttacks = false;
-			if (exoPrimeAlive)
+			if (exoWormAlive && !nerfedAttacks)
+				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechWorm].Calamity().newAI[1] != (float)ThanatosHead.SecondaryPhase.PassiveAndImmune;
+			if (exoPrimeAlive && !nerfedAttacks)
 				nerfedAttacks = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[1] != (float)AresBody.SecondaryPhase.PassiveAndImmune;
 
 			// Used to nerf Artemis laser shotgun if Apollo is in charging phase
@@ -398,7 +400,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			}
 
 			// Predictiveness
-			float predictionAmt = malice ? 20f : death ? 15f : revenge ? 13.75f : expertMode ? 12.5f : 10f;
+			float predictionAmt = malice ? 32f : death ? 24f : revenge ? 22f : expertMode ? 20f : 16f;
 			if (AIState == (float)Phase.LaserShotgun)
 				predictionAmt *= 1.5f;
 			if (nerfedAttacks)
@@ -447,17 +449,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// Distance where Artemis stops moving
 			float movementDistanceGateValue = 100f;
 
-			// Velocity and acceleration values
-			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-			float baseVelocity = (AIState == (int)Phase.Deathray ? 30f : 20f) * baseVelocityMult;
-			float decelerationVelocityMult = 0.85f;
-
 			// Charge variables
 			float chargeVelocity = nerfedAttacks ? 75f : malice ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
 			float chargeDistance = 2000f;
 			float chargeDuration = chargeDistance / chargeVelocity;
 			bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
 			bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
+
+			// Velocity and acceleration values
+			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+			float baseVelocity = ((AIState == (int)Phase.Deathray || lineUpAttack || AIState == (int)Phase.LaserShotgun) ? 40f : 20f) * baseVelocityMult;
+			float decelerationVelocityMult = 0.85f;
 
 			// Laser shotgun variables
 			float laserShotgunDuration = lastMechAlive ? 120f : 90f;

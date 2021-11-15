@@ -107,6 +107,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			CalamityGlobalNPC.draedonExoMechPrimePlasmaCannon = npc.whoAmI;
+
 			npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
 
 			if (CalamityGlobalNPC.draedonExoMechPrime < 0 || !Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
@@ -311,8 +313,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// If Plasma Cannon can fire projectiles, cannot fire if too close to the target and in deathray spiral phase
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
+			// Telegraph duration for deathray spiral
+			float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
+
 			// Variable to cancel plasma bolt firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= AresBody.deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;
@@ -378,6 +384,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 						if (calamityGlobalNPC.newAI[2] % divisor == 0f && canFire)
 						{
+							npc.ai[3] += 1f;
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), npc.Center);
