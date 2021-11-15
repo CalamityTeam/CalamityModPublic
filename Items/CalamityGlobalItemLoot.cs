@@ -110,8 +110,7 @@ namespace CalamityMod.Items
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun,
-						ItemID.PygmyStaff
+						ItemID.WaspGun
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);

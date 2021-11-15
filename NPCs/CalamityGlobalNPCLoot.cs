@@ -296,8 +296,7 @@ namespace CalamityMod.NPCs
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun,
-						ItemID.PygmyStaff
+						ItemID.WaspGun
 					};
 					DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);
