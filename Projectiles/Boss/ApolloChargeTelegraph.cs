@@ -1,3 +1,5 @@
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -15,7 +17,6 @@ namespace CalamityMod.Projectiles.Boss
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
 
         public PrimitiveTrail TelegraphDrawer = null;
-        public const float TelegraphTotalTime = 30f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 943.39811f; // a squared plus b squared equals c squared, dumbass
 
@@ -33,7 +34,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 30;
+
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			projectile.timeLeft = malice ? 30 : death ? 40 : revenge ? 45 : expertMode ? 50 : 60;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -66,8 +74,15 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            // Determine opacity
-            projectile.Opacity = Utils.InverseLerp(0f, 6f, projectile.timeLeft, true) * Utils.InverseLerp(30f, 24f, projectile.timeLeft, true);
+			// Difficulty modes
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool expertMode = Main.expertMode || malice;
+
+			// Determine opacity
+			float telegraphTotalTime = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
+			projectile.Opacity = Utils.InverseLerp(0f, 6f, projectile.timeLeft, true) * Utils.InverseLerp(telegraphTotalTime, telegraphTotalTime - 6f, projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -391,6 +391,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			float berserkAttackTime = lastMechAlive ? 180f - reducedTimeForGateValue_Berserk : 240f - reducedTimeForGateValue_Berserk;
 			float attackPhaseGateValue = berserk ? berserkAttackTime : normalAttackTime;
 			float timeToLineUpAttack = 30f;
+			float timeToLineUpCharge = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
 
 			// Distance where Apollo stops moving
 			float movementDistanceGateValue = 100f;
@@ -972,7 +973,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 						// Go to charge phase, create lightning bolts in the sky, and reset
 						calamityGlobalNPC.newAI[2] += 1f;
-						if (calamityGlobalNPC.newAI[2] >= timeToLineUpAttack)
+						if (calamityGlobalNPC.newAI[2] >= timeToLineUpCharge)
 						{
 							ExoMechsSky.CreateLightningBolt(10);
 
