@@ -685,6 +685,32 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 							// Fire deathray telegraph beams
 							if (calamityGlobalNPC.newAI[2] == 1f)
 							{
+								// Despawn stupid fucking dog shit to avoid screaming the word "cunt"
+								for (int x = 0; x < Main.maxProjectiles; x++)
+								{
+									Projectile projectile = Main.projectile[x];
+									if (projectile.active)
+									{
+										if (projectile.type == ModContent.ProjectileType<AresTeslaOrb>() || projectile.type == ModContent.ProjectileType<AresPlasmaFireball>() ||
+											projectile.type == ModContent.ProjectileType<AresPlasmaBolt>() || projectile.type == ModContent.ProjectileType<AresGaussNukeProjectile>() ||
+											projectile.type == ModContent.ProjectileType<AresGaussNukeProjectileSpark>())
+										{
+											if (projectile.timeLeft > 15)
+												projectile.timeLeft = 15;
+
+											if (projectile.type == ModContent.ProjectileType<AresPlasmaFireball>())
+											{
+												projectile.ai[0] = -1f;
+												projectile.ai[1] = -1f;
+											}
+											else if (projectile.type == ModContent.ProjectileType<AresGaussNukeProjectile>())
+												projectile.ai[0] = -1f;
+										}
+										else if (projectile.type == ModContent.ProjectileType<AresGaussNukeProjectileBoom>())
+											projectile.Kill();
+									}
+								}
+
 								// Set frames to deathray charge up frames, which begin on frame 12
 								// Reset the frame counter
 								npc.frameCounter = 0D;

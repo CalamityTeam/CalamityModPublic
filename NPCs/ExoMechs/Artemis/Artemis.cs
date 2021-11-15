@@ -876,7 +876,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 										int spread = malice ? 30 : death ? 26 : expertMode ? 21 : 15;
 										float rotation = MathHelper.ToRadians(spread);
 										float distanceFromTarget = Vector2.Distance(npc.Center, npc.Center + chargeVelocityNormalized * chargeDistance);
-										float setVelocityInAI = 10f;
+										float setVelocityInAI = 8f;
 
 										for (int i = 0; i < numLasersPerSpread + 1; i++)
 										{
@@ -983,7 +983,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
-							float setVelocityInAI = 8.5f;
+							float setVelocityInAI = 8f;
 
 							for (int i = 0; i < numLasersPerSpread + 1; i++)
 							{

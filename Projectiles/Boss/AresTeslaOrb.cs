@@ -54,7 +54,14 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if (projectile.velocity.Length() < 24f)
+			bool deathrayPhase = false;
+			if (CalamityGlobalNPC.draedonExoMechPrime != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.draedonExoMechPrime].active)
+					deathrayPhase = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Calamity().newAI[0] == (float)AresBody.Phase.Deathrays;
+			}
+
+			if (projectile.velocity.Length() < (deathrayPhase ? 12f : 24f))
 				projectile.velocity *= 1.01f;
 
 			int fadeOutTime = 15;

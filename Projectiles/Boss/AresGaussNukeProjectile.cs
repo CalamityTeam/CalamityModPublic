@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			// Set AI to stop homing, start accelerating
 			float stopHomingDistance = malice ? 260f : death ? 280f : revenge ? 290f : expertMode ? 300f : 320f;
-            if (distanceFromTarget.Length() < stopHomingDistance || projectile.ai[0] == 1f)
+            if ((distanceFromTarget.Length() < stopHomingDistance && projectile.ai[0] != -1f) || projectile.ai[0] == 1f)
             {
 				projectile.ai[0] = 1f;
 
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Boss
 			// Create a bunch of lightning bolts in the sky
 			ExoMechsSky.CreateLightningBolt(12);
 
-			if (Main.myPlayer == projectile.owner)
+			if (Main.myPlayer == projectile.owner && projectile.ai[0] != -1f)
 			{
 				// Explosion waves
 				for (int i = 0; i < 3; i++)

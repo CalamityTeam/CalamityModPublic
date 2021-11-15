@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			Main.PlaySound(SoundID.Item93, projectile.Center);
 
-			if (Main.myPlayer == projectile.owner)
+			if (Main.myPlayer == projectile.owner && projectile.ai[1] != -1f)
 			{
 				bool splitNormal = true;
 				if (CalamityGlobalNPC.draedonExoMechPrimePlasmaCannon != -1)
