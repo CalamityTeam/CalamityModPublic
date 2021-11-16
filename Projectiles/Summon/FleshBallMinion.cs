@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			HopTimer++;
 			SufferFromSeparationAnxiety();
-			NPC potentialTarget = projectile.Center.MinionHoming(950f, Owner);
+			NPC potentialTarget = projectile.Center.MinionHoming(950f, Owner, false);
 			if (potentialTarget is null)
 				GoNearOwner();
 			else

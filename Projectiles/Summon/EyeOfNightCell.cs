@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
                     Dust.NewDustDirect(projectile.position, 36, 36, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => projectile.ModifyHitNPCSticky(10, false);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => projectile.ModifyHitNPCSticky(10, true);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.CursedInferno, 120);
 

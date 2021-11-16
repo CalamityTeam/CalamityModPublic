@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.UseSound = SoundID.DD2_BetsySummon;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SepulcherMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
