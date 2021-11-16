@@ -695,6 +695,7 @@ namespace CalamityMod.NPCs
 			NPCID.BoundMechanic,
 			NPCID.SleepingAngler,
 			NPCID.BartenderUnconscious,
+			NPCID.WebbedStylist,
 			//NPCID.GolferRescue
 		};
 		#endregion
