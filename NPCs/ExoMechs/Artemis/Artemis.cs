@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
 			float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
 			float normalAttackTime = 360f - reducedTimeForGateValue;
-			float berserkAttackTime = lastMechAlive ? 180f - reducedTimeForGateValue_Berserk : 240f - reducedTimeForGateValue_Berserk;
+			float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
 			float attackPhaseGateValue = berserk ? berserkAttackTime : normalAttackTime;
 			float timeToLineUpAttack = phase2 ? 30f : 45f;
 
@@ -997,7 +997,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 							 */
 							int numLasersAddedByDifficulty = malice ? 3 : death ? 2 : expertMode ? 1 : 0;
 							int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
-							int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 18 : 13) + numLasersAddedByDifficulty * 2;
+							int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 20 : 15) + numLasersAddedByDifficulty * 2;
 							int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
 							float rotation = MathHelper.ToRadians(spread);
 							float distanceFromTarget = Vector2.Distance(npc.Center, player.Center + predictionVector);
