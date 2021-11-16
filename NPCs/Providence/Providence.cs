@@ -168,13 +168,13 @@ namespace CalamityMod.NPCs.Providence
 
 			// Night bool
 			bool malice = CalamityWorld.malice;
+			bool enraged = npc.Calamity().enraged > 0;
 			bool nightTime = !Main.dayTime || malice;
 
 			// Difficulty bools
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
-			bool enraged = npc.Calamity().enraged > 0;
 
 			// Target's current biome
 			bool isHoly = player.ZoneHoly;
@@ -242,15 +242,11 @@ namespace CalamityMod.NPCs.Providence
 
 			// Spear phase
 			float spearRateIncrease = 1f - lifeRatio;
-			float enragedSpearRateIncrease = 0.5f;
 			float bossRushSpearRateIncrease = 0.25f;
 			float baseSpearRate = 18f;
 			float spearRate = 1f + spearRateIncrease;
 
-			if (enraged)
-				spearRate += enragedSpearRateIncrease;
-
-			if (BossRushEvent.BossRushActive)
+			if (BossRushEvent.BossRushActive || enraged)
 				spearRate += bossRushSpearRateIncrease;
 
 			// Projectile fire rate multiplier
@@ -487,13 +483,13 @@ namespace CalamityMod.NPCs.Providence
                     flightPath = 0;
 
 				// Velocity and acceleration
-				float speedIncreaseTimer = enraged ? 60f : nightTime ? 75f : death ? 120f : 150f;
+				float speedIncreaseTimer = nightTime ? 75f : death ? 120f : 150f;
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer || biomeEnraged;
 				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
 				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || nightTime || enraged)
+                if (BossRushEvent.BossRushActive || enraged || nightTime)
                 {
                     acceleration = 1.5f;
                     velocity = 25f;
@@ -758,8 +754,6 @@ namespace CalamityMod.NPCs.Providence
 
 						int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
 						int num856 = (expertMode ? 24 : 26) - shootBoost;
-						if (enraged)
-							num856 = 20;
 
 						num856 = (int)(num856 * attackRateMult);
 
@@ -775,8 +769,6 @@ namespace CalamityMod.NPCs.Providence
 
 							float velocityBoost = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
 							float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-							if (enraged)
-								num860 = 12.75f;
 
 							if (revenge)
 								num860 *= 1.15f;
@@ -1082,8 +1074,6 @@ namespace CalamityMod.NPCs.Providence
 
 						int shootBoost = death ? (int)Math.Round(12f * (1f - lifeRatio)) : (int)Math.Round(10f * (1f - lifeRatio));
 						int num864 = (expertMode ? 73 : 77) - shootBoost;
-						if (enraged)
-							num864 = 63;
 
 						num864 = (int)(num864 * attackRateMult);
 

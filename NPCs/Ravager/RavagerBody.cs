@@ -95,11 +95,11 @@ namespace CalamityMod.NPCs.Ravager
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-			bool enraged = calamityGlobalNPC.enraged > 0;
 
             npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && malice) || enraged;
 
@@ -336,11 +336,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || enraged)
+						if (!rightClawActive && !leftClawActive)
                             npc.ai[1] += 1f;
-                        if (!headActive || enraged)
+                        if (!headActive)
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || enraged)
+                        if (!rightLegActive && !leftLegActive)
                             npc.ai[1] += 1f;
                     }
 
@@ -357,7 +357,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-						float velocityX = (enraged ? 8f : 4f) + velocityXBoost;
+						float velocityX = 4f + velocityXBoost;
 						velocityY = -16f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
@@ -556,8 +556,6 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
-						if (enraged)
-							velocityX += 3f;
 						if (!rightClawActive)
 							velocityX += 1f;
 						if (!leftClawActive)

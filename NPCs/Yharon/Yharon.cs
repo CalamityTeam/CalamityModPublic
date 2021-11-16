@@ -149,7 +149,8 @@ namespace CalamityMod.NPCs.Yharon
 			CalamityMod.StopRain();
 
 			// Variables
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool enraged2 = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged2;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -197,14 +198,7 @@ namespace CalamityMod.NPCs.Yharon
 			else if (phase1Change)
 				npc.dontTakeDamage = phase2Check;
 
-			if (calamityGlobalNPC.enraged > 0)
-            {
-				acceleration = 0.95f;
-				velocity = 15f;
-				phaseSwitchTimer = 25;
-				fastChargeTelegraphTime = 60;
-            }
-            else if (phase3Change)
+			if (phase3Change)
             {
 				acceleration = expertMode ? 0.85f : 0.8f;
 				velocity = expertMode ? 14f : 13f;
@@ -229,12 +223,7 @@ namespace CalamityMod.NPCs.Yharon
 			bool playFastChargeRoarSound = npc.localAI[1] == fastChargeTelegraphTime * 0.5f;
 			bool doFastCharge = npc.localAI[1] > fastChargeTelegraphTime;
 
-			if (calamityGlobalNPC.enraged > 0)
-            {
-                chargeTime = 30;
-                chargeSpeed = 40f;
-            }
-            else if (phase3Change)
+			if (phase3Change)
             {
                 chargeTime = 35;
                 chargeSpeed = 30f;
@@ -356,7 +345,7 @@ namespace CalamityMod.NPCs.Yharon
             else
             {
                 enraged = !player.Hitbox.Intersects(safeBox);
-                npc.Calamity().CurrentlyEnraged = enraged;
+                npc.Calamity().CurrentlyEnraged = enraged || enraged2;
                 if (enraged)
                 {
 					phaseSwitchTimer = 15;
@@ -1679,14 +1668,7 @@ namespace CalamityMod.NPCs.Yharon
 
 			float teleportPhaseTimer = 45f;
 
-			if (calamityGlobalNPC.enraged > 0)
-            {
-                acceleration = 1.2f;
-                velocity = 18f;
-				chargeTime = 25f;
-                chargeSpeed = 45f;
-            }
-			else if (revenge)
+			if (revenge)
 			{
 				float chargeTimeDecrease = malice ? 6f : death ? 4f : 2f;
 				float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;

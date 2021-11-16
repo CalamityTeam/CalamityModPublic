@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			Player player = Main.player[npc.target];
 			bool enraged = npc.Calamity().enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 			float burrowTimeGateValue = death ? 420f : 540f;
@@ -117,13 +117,13 @@ namespace CalamityMod.NPCs.DesertScourge
 						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
 						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
 						int projectileType = ModContent.ProjectileType<SandBlast>();
-						float num941 = enraged ? 12f : malice ? 9f : 6f;
+						float num941 = malice ? 9f : 6f;
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
-						if (Main.rand.NextBool(2) || enraged || malice)
+						if (Main.rand.NextBool(2) || malice)
 						{
 							Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, npc.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
 						}

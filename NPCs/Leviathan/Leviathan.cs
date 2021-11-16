@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Leviathan
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
             bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
@@ -172,18 +172,11 @@ namespace CalamityMod.NPCs.Leviathan
 
 			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (biomeEnraged)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
                 enrageScale += 2f;
-            }
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-            if (enraged)
-            {
-                npc.Calamity().CurrentlyEnraged = true;
-                enrageScale += 1f;
             }
 
 			npc.dontTakeDamage = spawnAnimation;

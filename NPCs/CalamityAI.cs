@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -113,18 +113,11 @@ namespace CalamityMod.NPCs
 
 			bool biomeEnraged = npc.localAI[2] <= 0f || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (biomeEnraged)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 2f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 1f;
 			}
 
 			Vector2 vectorCenter = npc.Center;
@@ -680,7 +673,7 @@ namespace CalamityMod.NPCs
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -706,22 +699,15 @@ namespace CalamityMod.NPCs
 
 			bool biomeEnraged = calamityGlobalNPC.newAI[3] <= 0f || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (biomeEnraged && (!player.ZoneUnderworldHeight || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1f;
 			}
 			if (biomeEnraged && (!modPlayer.ZoneCalamity || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
-				enrageScale += 1f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1f;
 			}
 
@@ -1236,7 +1222,7 @@ namespace CalamityMod.NPCs
 
 			// Variables for increasing difficulty
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
@@ -1406,18 +1392,11 @@ namespace CalamityMod.NPCs
 			// Target variable
 			Player player = Main.player[npc.target];
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (Main.dayTime || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 2f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 1f;
 			}
 
 			// Rotation
@@ -2025,7 +2004,7 @@ namespace CalamityMod.NPCs
 			CalamityGlobalNPC.cataclysm = npc.whoAmI;
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
@@ -2048,18 +2027,11 @@ namespace CalamityMod.NPCs
 
 			Player player = Main.player[npc.target];
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (Main.dayTime || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 2f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 1f;
 			}
 
 			float num840 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
@@ -2321,7 +2293,7 @@ namespace CalamityMod.NPCs
 			CalamityGlobalNPC.catastrophe = npc.whoAmI;
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
@@ -2344,18 +2316,11 @@ namespace CalamityMod.NPCs
 
 			Player player = Main.player[npc.target];
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (Main.dayTime || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 2f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 1f;
 			}
 
 			float num840 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
@@ -2619,7 +2584,7 @@ namespace CalamityMod.NPCs
 
 			// Variables
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -2635,18 +2600,11 @@ namespace CalamityMod.NPCs
 			if (expertMode)
 				shootTimer += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (Main.dayTime || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 2f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 1f;
 			}
 
 			// Get a target
@@ -3286,23 +3244,16 @@ namespace CalamityMod.NPCs
 
 			// Difficulty variables
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
 			if (Main.dayTime || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1.5f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 0.5f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
-				enrageScale += 0.5f;
 			}
 
 			// Deus cannot hit for 3 seconds or while invulnerable
@@ -3999,7 +3950,7 @@ namespace CalamityMod.NPCs
 
 			// Difficulty modes
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -4096,7 +4047,7 @@ namespace CalamityMod.NPCs
 				npc.timeLeft = 1800;
 
 			// Scale multiplier based on nearby active tiles
-			float tileEnrageMult = enraged ? 1.5f : BossRushEvent.BossRushActive ? 1.375f : malice  ? 1.25f : 1f;
+			float tileEnrageMult = (BossRushEvent.BossRushActive || enraged) ? 1.375f : malice  ? 1.25f : 1f;
 			npc.Calamity().CurrentlyEnraged = (tileEnrageMult > 1f && !BossRushEvent.BossRushActive) || enraged;
 
 			// Set AI variable to be used by Dark Energies
@@ -4587,7 +4538,7 @@ namespace CalamityMod.NPCs
 			float rotationMult = 3f;
 			float rotationAmt = 0.03f;
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -4624,14 +4575,11 @@ namespace CalamityMod.NPCs
 			float enrageScale = death ? 1.5f : 1f;
 			if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || malice)
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1f;
 			}
 			if (npc.localAI[2] > 0f || malice)
 				enrageScale += 1f;
-
-			if (enraged)
-				npc.Calamity().CurrentlyEnraged = true;
 
 			if (enrageScale > 3f)
 				enrageScale = 3f;
@@ -4690,7 +4638,7 @@ namespace CalamityMod.NPCs
 
 			npc.dontTakeDamage = phaseSwitchPhase;
 
-			calamityGlobalNPC.DR = (npc.ai[0] == 5f || (enrageScale == 3f && !malice && !enraged)) ? 0.75f : 0.1f;
+			calamityGlobalNPC.DR = (npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.75f : 0.1f;
 
 			if (phaseSwitchPhase)
 			{
@@ -4764,10 +4712,10 @@ namespace CalamityMod.NPCs
 			}
 
 			// Max spawn amount
-			int maxBirbs = enraged ? 5 : revenge ? 3 : 2;
+			int maxBirbs = revenge ? 3 : 2;
 
 			// Variable for charging
-			float chargeDistance = enraged ? 500f : 600f;
+			float chargeDistance = 600f;
 			if (phase2)
 				chargeDistance -= 50f;
 			if (phase3)
@@ -5275,7 +5223,7 @@ namespace CalamityMod.NPCs
 
 			// Variables
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -5468,7 +5416,7 @@ namespace CalamityMod.NPCs
 				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
-			if (biomeEnraged || enraged)
+			if (biomeEnraged)
 			{
 				toothBallBelchPhaseTimer = 30;
 				toothBallBelchPhaseDivisor = 6;
@@ -5484,12 +5432,8 @@ namespace CalamityMod.NPCs
 				chargeVelocity += 8f;
 				toothBallSpinPhaseDivisor = 6;
 				toothBallSpinToothBallVelocity = 15f;
-
-				if (!enraged)
-				{
-					npc.damage = npc.defDamage * 2;
-					npc.defense = npc.defDefense * 3;
-				}
+				npc.damage = npc.defDamage * 2;
+				npc.defense = npc.defDefense * 3;
 			}
 
 			// Set variables for spawn effects

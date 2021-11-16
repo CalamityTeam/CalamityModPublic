@@ -139,7 +139,8 @@ namespace CalamityMod.NPCs.Abyss
 			CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
 
 			// Difficulty modes
-			bool malice = CalamityWorld.malice;
+			bool enraged = calamityGlobalNPC.enraged > 0;
+			bool malice = CalamityWorld.malice || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool expertMode = Main.expertMode || malice;
@@ -176,7 +177,7 @@ namespace CalamityMod.NPCs.Abyss
 			bool targetOnMount = player.mount.Active;
 
 			// Check whether enraged for the sake of the HP bar UI
-			npc.Calamity().CurrentlyEnraged = !targetDownDeep || npc.Calamity().enraged > 0 || CalamityWorld.malice;
+			npc.Calamity().CurrentlyEnraged = !targetDownDeep || malice;
 
 			if (npc.ai[2] > 0f)
                 npc.realLife = (int)npc.ai[2];

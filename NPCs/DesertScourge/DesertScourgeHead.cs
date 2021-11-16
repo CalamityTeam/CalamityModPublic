@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.DesertScourge
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool enraged = calamityGlobalNPC.enraged > 0;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
             bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
             bool death = CalamityWorld.death || malice;
@@ -115,18 +115,11 @@ namespace CalamityMod.NPCs.DesertScourge
 
             bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
 
-            float enrageScale = 0f;
+            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (biomeEnraged)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
                 enrageScale += 2f;
-            }
-            if (BossRushEvent.BossRushActive)
-                enrageScale += 1f;
-            if (enraged)
-            {
-                npc.Calamity().CurrentlyEnraged = true;
-                enrageScale += 1f;
             }
 
             // Percent life remaining

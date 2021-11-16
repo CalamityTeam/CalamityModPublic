@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.SlimeGod
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
             bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float divisor = enraged ? 5f : malice ? 10f : 15f;
+								float divisor = malice ? 10f : 15f;
 								if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
@@ -474,7 +474,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % (enraged ? 20f : 40f) == 0f)
+						if (npc.ai[1] % 40f == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{
@@ -538,10 +538,6 @@ namespace CalamityMod.NPCs.SlimeGod
             if (phase2)
             {
                 num1372 = revenge ? 18f : expertMode ? 16f : 14f;
-            }
-            if (enraged)
-            {
-                num1372 += 8f;
             }
 			if (hyperMode || malice)
 			{

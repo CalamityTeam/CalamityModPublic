@@ -353,11 +353,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool enraged = npc.Calamity().enraged > 0;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
             bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
-			bool enraged = npc.Calamity().enraged > 0;
 
 			// Projectile damage values
 			int bulletHellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
             int bodyWidth = 44;
             int bodyHeight = 42;
-			int baseBulletHellProjectileGateValue = enraged ? 6 : revenge ? 8 : expertMode ? 9 : 10;
+			int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -544,7 +544,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 uDieLul = MathHelper.Clamp(uDieLul * 0.99f, 1f, 2f);
                 protectionBoost = false;
             }
-            npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox);
+            npc.Calamity().CurrentlyEnraged = !player.Hitbox.Intersects(safeBox) || enraged;
 
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = npc.Calamity();

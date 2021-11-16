@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Perforator
 				npc.TargetClosest();
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
@@ -141,22 +141,15 @@ namespace CalamityMod.NPCs.Perforator
 
 			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if (biomeEnraged && (!player.ZoneCrimson || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1f;
 			}
 			if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
 			{
-				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
-				enrageScale += 1f;
-			}
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
-			{
-				npc.Calamity().CurrentlyEnraged = true;
+				npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
 				enrageScale += 1f;
 			}
 

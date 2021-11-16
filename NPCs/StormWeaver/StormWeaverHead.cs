@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
@@ -256,7 +256,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				if (expertMode && !phase4)
 				{
-					npc.localAI[0] += enraged ? 2f : malice ? 1.5f : 1f;
+					npc.localAI[0] += malice ? 1.5f : 1f;
 					float spawnOrbGateValue = shedArmor ? 450f : 360f;
 					if (npc.localAI[0] >= spawnOrbGateValue)
 					{
@@ -341,8 +341,8 @@ namespace CalamityMod.NPCs.StormWeaver
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-            float num188 = (shedArmor ? 12f : 10f) + (enraged ? 5f : malice ? 3f : revenge ? 1.5f : expertMode ? 1f : 0f);
-            float num189 = (shedArmor ? 0.24f : 0.2f) + (enraged ? 0.18f : malice ? 0.12f : revenge ? 0.08f : expertMode ? 0.04f : 0f);
+            float num188 = (shedArmor ? 12f : 10f) + (malice ? 3f : revenge ? 1.5f : expertMode ? 1f : 0f);
+            float num189 = (shedArmor ? 0.24f : 0.2f) + (malice ? 0.12f : revenge ? 0.08f : expertMode ? 0.04f : 0f);
 
 			// Start charging at the player when in phase 2
 			if (phase2 && !phase4)
@@ -456,7 +456,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int speed2 = enraged ? 10 : revenge ? 8 : 7;
+						int speed2 = revenge ? 8 : 7;
 						float spawnX2 = npc.Center.X > Main.player[npc.target].Center.X ? 1000f : -1000f;
 						float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
 						Vector2 baseSpawn = new Vector2(spawnX2 + Main.player[npc.target].Center.X, spawnY2);

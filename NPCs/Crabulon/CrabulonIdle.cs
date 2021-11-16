@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.Crabulon
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool death = CalamityWorld.death || malice;
 			bool revenge = CalamityWorld.revenge || malice;
             bool expertMode = Main.expertMode || malice;
@@ -150,22 +150,15 @@ namespace CalamityMod.NPCs.Crabulon
 
 			bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (biomeEnraged && ((npc.position.Y / 16f) < Main.worldSurface || malice))
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
                 enrageScale += 1f;
             }
             if (biomeEnraged && (!player.ZoneGlowshroom || malice))
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
-                enrageScale += 1f;
-            }
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-            if (enraged)
-            {
-                npc.Calamity().CurrentlyEnraged = true;
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive || enraged;
                 enrageScale += 1f;
             }
 

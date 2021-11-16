@@ -57,19 +57,15 @@ namespace CalamityMod.NPCs.Perforator
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			bool enraged = calamityGlobalNPC.enraged > 0;
-			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
 			bool expertMode = Main.expertMode || malice;
 			bool revenge = CalamityWorld.revenge || malice;
 			bool death = CalamityWorld.death || malice;
 
-			float enrageScale = 0f;
+			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
 			if (!Main.player[npc.target].ZoneCrimson || malice)
-				enrageScale += 1f;
-			if (BossRushEvent.BossRushActive)
-				enrageScale += 1f;
-			if (enraged)
 				enrageScale += 1f;
 
 			// Percent life remaining
