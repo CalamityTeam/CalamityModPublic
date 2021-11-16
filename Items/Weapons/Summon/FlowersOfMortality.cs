@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = CalamityGlobalItem.Rarity11BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FlowersOfMortalityPetal>();
             item.shootSpeed = 10f;
         }

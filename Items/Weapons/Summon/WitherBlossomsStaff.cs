@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item46;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<WitherBlossom>();
             item.shootSpeed = 10f;
             item.summon = true;
