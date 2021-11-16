@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MortalityBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public Color ProjectileColor => Main.hslToRgb(projectile.localAI[0], 1f, 0.5f);
         public override void SetStaticDefaults()
         {
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+            target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

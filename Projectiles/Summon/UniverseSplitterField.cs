@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class UniverseSplitterField : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Timer
         {
             get => projectile.ai[0];

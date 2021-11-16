@@ -674,7 +674,7 @@ namespace CalamityMod
 
 			// Eye of Cthulhu
 			AddLoot(bossChecklist, "EyeofCthulhu",
-				new List<int>() { ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
+				new List<int>() { ItemType<DeathstareRod>(), ItemType<TeardropCleaver>(), ItemType<CounterScarf>() },
 				new List<int>() { ItemType<KnowledgeEyeofCthulhu>() }
 			);
 

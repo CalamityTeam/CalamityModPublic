@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 10;
             item.summon = true;
             item.sentry = true;
+            item.autoReuse = true;
             item.width = 46;
             item.height = 50;
             item.useTime = item.useAnimation = 20;

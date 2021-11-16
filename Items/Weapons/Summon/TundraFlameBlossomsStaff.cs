@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item46;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
             item.shootSpeed = 10f;
             item.summon = true;
