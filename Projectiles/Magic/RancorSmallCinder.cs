@@ -47,6 +47,9 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.scale *= MathHelper.Lerp(0.5f, 1f, projectile.identity % 6f / 6f);
             }
 
+            if (Time >= Lifetime)
+                projectile.Kill();
+
             Time++;
         }
 
