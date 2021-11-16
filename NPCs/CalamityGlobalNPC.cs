@@ -3551,12 +3551,16 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileType<WrathwingCinder>() || projectile.type == ProjectileType<RancorLaserbeam>() || projectile.type == ProjectileType<YharimsCrystalBeam>())
 					damage = (int)(damage * 0.6);
 
+				// 30% resist to Sirius.
+				else if (projectile.type == ProjectileType<SiriusExplosion>())
+					damage = (int)(damage * 0.7);
+
 				// 25% resist to God Slayer Slugs and Luminite Bullets.
 				else if (projectile.type == ProjectileID.MoonlordBullet || projectile.type == ProjectileType<GodSlayerSlugProj>())
 					damage = (int)(damage * 0.75);
 
-				// 20% resist to Eradicator beams and Voltaic Climax / Void Vortex hitscan.
-				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>())
+				// 20% resist to Eradicator beams, Voltaic Climax / Void Vortex hitscan and Blood Boiler fire.
+				else if (projectile.type == ProjectileType<NebulaShot>() || projectile.type == ProjectileType<ClimaxBeam>() || projectile.type == ProjectileType<BloodBoilerFire>())
 					damage = (int)(damage * 0.8);
 
 				// 15% resist to Gruesome Eminence.
