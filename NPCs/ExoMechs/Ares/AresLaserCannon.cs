@@ -317,7 +317,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
 			// Variable to disable deathray firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers);
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || 
+				(calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers) ||
+				(calamityGlobalNPC_Body.newAI[3] == 0f && fireNormalLasers);
+
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;

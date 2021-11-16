@@ -319,7 +319,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 				revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
 			// Variable to cancel plasma bolt firing
-			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || (calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
+			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || 
+				(calamityGlobalNPC_Body.newAI[2] >= deathrayTelegraphDuration + AresBody.deathrayDuration - 1 && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays) ||
+				(calamityGlobalNPC_Body.newAI[3] == 0f && calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays);
+
 			if (doNotFire)
 			{
 				AIState = (float)Phase.Nothing;

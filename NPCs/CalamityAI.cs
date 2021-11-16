@@ -5459,7 +5459,7 @@ namespace CalamityMod.NPCs
 			else
 				npc.localAI[1] = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-			bool biomeEnraged = npc.localAI[1] <= 0f || malice;
+			bool biomeEnraged = npc.localAI[1] <= 0f;
 
 			npc.Calamity().CurrentlyEnraged = biomeEnraged || enraged;
 
