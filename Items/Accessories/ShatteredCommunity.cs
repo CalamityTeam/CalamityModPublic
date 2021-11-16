@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Shattered Community");
 			Tooltip.SetDefault("Ruined by unknowable hatred, it still contains (most of) the power of The Community...\n" +
-				"Legendary Accessory\n" +
 				"You generate rage over time and rage does not fade away out of combat\n" +
 				"Taking damage gives rage, this effect is not hindered by your defensive stats\n" +
 				"While Rage Mode is active, taking damage gives only half as much rage\n" +
