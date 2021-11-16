@@ -1656,7 +1656,8 @@ namespace CalamityMod
                 ItemType<ProfanedPartisan>(),
                 ItemType<Turbulance>(),
                 ItemType<NightsGaze>(),
-                ItemType<FrequencyManipulator>()
+                ItemType<FrequencyManipulator>(),
+                ItemType<TheAtomSplitter>()
             };
 
             javelinProjList = new List<int>()
@@ -1681,7 +1682,8 @@ namespace CalamityMod
                 ProjectileType<AntumbraShardProjectile>(),
                 ProjectileType<TurbulanceProjectile>(),
                 ProjectileType<NightsGazeProjectile>(),
-                ProjectileType<FrequencyManipulatorProjectile>()
+                ProjectileType<FrequencyManipulatorProjectile>(),
+                ProjectileType<TheAtomSplitterProjectile>()
             };
 
             daggerList = new List<int>()
@@ -1717,7 +1719,8 @@ namespace CalamityMod
                 ItemType<ShinobiBlade>(),
                 ItemType<JawsOfOblivion>(),
                 ItemType<LeviathanTeeth>(),
-                ItemType<DeificThunderbolt>()
+                ItemType<DeificThunderbolt>(),
+                ItemType<Sacrifice>()
             };
 
             daggerProjList = new List<int>()
@@ -1764,7 +1767,8 @@ namespace CalamityMod
                 ProjectileType<ShinobiBladeProjectile>(),
                 ProjectileType<JawsProjectile>(),
                 ProjectileType<LeviathanTooth>(),
-                ProjectileType<DeificThunderboltProj>()
+                ProjectileType<DeificThunderboltProj>(),
+                ProjectileType<SacrificeProjectile>()
             };
 
             flaskBombList = new List<int>()
