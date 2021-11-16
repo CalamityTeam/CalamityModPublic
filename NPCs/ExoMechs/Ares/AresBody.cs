@@ -73,6 +73,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			set => npc.localAI[1] = value;
 		}
 
+		public float VelocityBoostMult
+		{
+			get => npc.localAI[2];
+			set => npc.localAI[2] = value;
+		}
+
 		public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
 
 		// Spawn rate for enrage steam
@@ -162,6 +168,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
 			for (int i = 0; i < 4; i++)
 				writer.Write(npc.Calamity().newAI[i]);
 		}
@@ -174,6 +181,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
 			for (int i = 0; i < 4; i++)
 				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
@@ -425,14 +433,26 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			float baseVelocity = (EnragedState == (float)Enraged.Yes ? 28f : 20f) * baseVelocityMult;
 			float baseAcceleration = berserk ? 1.25f : 1f;
 			float decelerationVelocityMult = 0.85f;
-			Vector2 distanceFromDestination = destination - npc.Center;
-			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
-
-			// Distance from target
-			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
 			// Distance where Ares stops moving
 			float movementDistanceGateValue = 50f;
+
+			// Scale up velocity over time if too far from destination
+			Vector2 distanceFromDestination = destination - npc.Center;
+			if (distanceFromDestination.Length() > movementDistanceGateValue && AIState != (float)Phase.Deathrays)
+			{
+				if (VelocityBoostMult < 1f)
+					VelocityBoostMult += 0.004f;
+			}
+			else
+			{
+				if (VelocityBoostMult > 0f)
+					VelocityBoostMult -= 0.004f;
+			}
+			baseVelocity *= 1f + VelocityBoostMult;
+
+			// Distance from target
+			float distanceFromTarget = Vector2.Distance(npc.Center, player.Center);
 
 			// Gate values
 			float deathrayPhaseGateValue = lastMechAlive ? 420f : 600f;

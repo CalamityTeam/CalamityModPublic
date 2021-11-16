@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 4;
             projectile.height = 4;
-            projectile.extraUpdates = 100;
+            projectile.extraUpdates = 200;
             projectile.friendly = true;
             projectile.timeLeft = 45;
             projectile.minion = true;

@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item28;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FrostBlossom>();
             item.shootSpeed = 10f;
             item.summon = true;

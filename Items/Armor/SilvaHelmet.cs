@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Horned Hood");
+            Tooltip.SetDefault("10% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
-            player.setBonus = "75% increased minion damage and +5 max minions\n" +
+            player.setBonus = "65% increased minion damage and +5 max minions\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 8 seconds\n" +
@@ -60,9 +61,11 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(600f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
                 }
             }
-            player.minionDamage += 0.75f;
+            player.minionDamage += 0.65f;
             player.maxMinions += 5;
         }
+
+        public override void UpdateEquip(Player player) => player.minionDamage += 0.1f;
 
         public override void AddRecipes()
         {

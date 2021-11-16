@@ -293,6 +293,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Velocity and acceleration values
 			float baseVelocityMult = (berserk ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
 			float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
+			baseVelocity *= 1f + Main.npc[(int)npc.ai[2]].localAI[2];
 
 			Vector2 distanceFromDestination = destination - npc.Center;
 

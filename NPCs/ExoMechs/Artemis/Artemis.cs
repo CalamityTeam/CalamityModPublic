@@ -61,6 +61,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			set => npc.Calamity().newAI[1] = value;
 		}
 
+		// Variable used to scale up velocity if too far from destination
+		private float velocityBoostMult = 0f;
+
 		// The vector used for charging
 		private Vector2 chargeVelocityNormalized = default;
 
@@ -168,6 +171,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
 		public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(velocityBoostMult);
 			writer.WriteVector2(spinVelocity);
 			writer.WriteVector2(chargeVelocityNormalized);
 			writer.Write(frameX);
@@ -186,6 +190,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			velocityBoostMult = reader.ReadSingle();
 			spinVelocity = reader.ReadVector2();
 			chargeVelocityNormalized = reader.ReadVector2();
 			frameX = reader.ReadInt32();
@@ -467,6 +472,42 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 			// If Artemis can fire projectiles, cannot fire if too close to the target
 			bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f && canFireLasers;
 
+			// Add some random distance to the destination after certain attacks
+			if (pickNewLocation)
+			{
+				pickNewLocation = false;
+				npc.localAI[0] = Main.rand.Next(-50, 51);
+				npc.localAI[1] = Main.rand.Next(-250, 251);
+				npc.netUpdate = true;
+			}
+
+			// Default vector to fly to
+			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+			float destinationX = flyLeft ? -750f : 750f;
+			float destinationY = player.Center.Y;
+			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? spinLocation : new Vector2(player.Center.X + destinationX, destinationY);
+
+			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
+			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)
+			{
+				destination.X += npc.localAI[0];
+				destination.Y += npc.localAI[1];
+			}
+
+			// Scale up velocity over time if too far from destination
+			Vector2 distanceFromDestination = destination - npc.Center;
+			if (distanceFromDestination.Length() > movementDistanceGateValue && AIState != (float)Phase.Charge)
+			{
+				if (velocityBoostMult < 1f)
+					velocityBoostMult += 0.004f;
+			}
+			else
+			{
+				if (velocityBoostMult > 0f)
+					velocityBoostMult -= 0.004f;
+			}
+			baseVelocity *= 1f + velocityBoostMult;
+
 			// Rotation
 			Vector2 predictionVector = AIState == (float)Phase.Deathray ? Vector2.Zero : player.velocity * predictionAmt;
 			Vector2 aimedVector = player.Center + predictionVector - npc.Center;
@@ -544,30 +585,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 				}
 			}
 
-			// Add some random distance to the destination after certain attacks
-			if (pickNewLocation)
-			{
-				pickNewLocation = false;
-				npc.localAI[0] = Main.rand.Next(-50, 51);
-				npc.localAI[1] = Main.rand.Next(-250, 251);
-				npc.netUpdate = true;
-			}
-
-			// Default vector to fly to
-			bool flyLeft = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
-			float destinationX = flyLeft ? -750f : 750f;
-			float destinationY = player.Center.Y;
-			Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) : AIState == (float)Phase.Deathray ? spinLocation : new Vector2(player.Center.X + destinationX, destinationY);
-
-			// Add a bit of randomness to the destination, but only in specific phases where it's necessary
-			if (AIState == (float)Phase.Normal || AIState == (float)Phase.LaserShotgun || AIState == (float)Phase.PhaseTransition)
-			{
-				destination.X += npc.localAI[0];
-				destination.Y += npc.localAI[1];
-			}
-
 			// Destination variables
-			Vector2 distanceFromDestination = destination - npc.Center;
 			Vector2 desiredVelocity = Vector2.Normalize(distanceFromDestination) * baseVelocity;
 
 			// Duration of deathray spin to do a full circle

@@ -43,6 +43,10 @@ namespace CalamityMod.Items
 
 			switch (itemID)
 			{
+				case ItemID.EyeOfCthulhuBossBag:
+					DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
+					break;
+
 				case ItemID.QueenBeeBossBag:
 					// Drop weapons Calamity style instead of mutually exclusive.
 					int[] queenBeeWeapons = new int[]
@@ -106,8 +110,7 @@ namespace CalamityMod.Items
 						ItemID.VenusMagnum,
 						ItemID.LeafBlower,
 						ItemID.NettleBurst,
-						ItemID.WaspGun,
-						ItemID.PygmyStaff
+						ItemID.WaspGun
 					};
 					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
 					DropHelper.BlockDrops(planteraWeapons);

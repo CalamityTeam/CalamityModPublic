@@ -1085,7 +1085,8 @@ namespace CalamityMod
                 ItemType<StarnightLance>(),
                 ItemType<DarkechoGreatbow>(),
                 ItemType<ShadecrystalTome>(),
-                ItemType<CrystalPiercer>()
+                ItemType<CrystalPiercer>(),
+                ItemType<DaedalusGolemStaff>()
             };
 
             natureWeaponList = new List<int>()
@@ -1199,6 +1200,7 @@ namespace CalamityMod
                 ItemType<SandDollar>(),
                 ItemType<MagicalConch>(),
                 ItemType<SnapClam>(),
+                ItemType<PolypLauncher>(),
                 ItemType<GacruxianMollusk>(),
                 ItemType<PolarisParrotfish>(),
                 ItemType<SparklingEmpress>(),
@@ -1210,11 +1212,13 @@ namespace CalamityMod
                 ItemType<TerraDisk>(),
                 ItemType<BelladonnaSpiritStaff>(),
                 ItemType<TenebreusTides>(),
+                ItemType<ViralSprout>(),
                 ItemType<Greentide>(),
                 ItemType<Leviatitan>(),
                 ItemType<BrackishFlask>(),
                 ItemType<LeviathanTeeth>(),
-                ItemType<GastricBelcherStaff>()
+                ItemType<GastricBelcherStaff>(),
+                ItemType<ViridVanguard>()
             };
 
             alcoholList = new List<int>()
