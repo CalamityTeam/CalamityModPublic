@@ -3382,7 +3382,7 @@ namespace CalamityMod.NPCs
 				AstrumDeusIDs.Contains(npc.type) || StormWeaverIDs.Contains(npc.type) || ThanatosIDs.Contains(npc.type) ||
 				npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || AresIDs.Contains(npc.type))
 			{
-				double damageMult = AresIDs.Contains(npc.type) ? 0.75 : ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
+				double damageMult = ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
 				if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
 					damage = (int)(damage * damageMult);
 			}
@@ -3511,13 +3511,17 @@ namespace CalamityMod.NPCs
 
 			if (AresIDs.Contains(npc.type))
 			{
-				// 50% resist to Dragon Rage projectiles and Murasama.
-				if (projectile.type == ProjectileType<MurasamaSlash>() || projectile.type == ProjectileType<DragonRageStaff>() || projectile.type == ProjectileType<DragonRageFireball>() || (projectile.type == ProjectileType<FuckYou>() && projectile.melee) || projectile.type == ProjectileType<EssenceFlame2>())
-					damage = (int)(damage * 0.5);
+				// 75% resist to Dragon Rage projectiles.
+				if (projectile.type == ProjectileType<DragonRageStaff>() || projectile.type == ProjectileType<DragonRageFireball>() || (projectile.type == ProjectileType<FuckYou>() && projectile.melee))
+					damage = (int)(damage * 0.25);
 
-				// 25% resist to true melee.
-				else if (projectile.Calamity().trueMelee)
-					damage = (int)(damage * 0.75);
+				// 60% resist to Murasama.
+				else if (projectile.type == ProjectileType<MurasamaSlash>())
+					damage = (int)(damage * 0.4);
+
+				// 50% resist to true melee and Enforcer projectiles.
+				else if (projectile.Calamity().trueMelee || projectile.type == ProjectileType<EssenceFlame2>())
+					damage = (int)(damage * 0.5);
 
 				// 20% resist to Eclipse's Fall stealth strike.
 				else if (projectile.type == ProjectileType<EclipsesSmol>())
