@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "TOOLTIP LINE HERE\n" +
                 "If you dodge something while invulnerable, you instantly gain full stealth\n" +
 				"Teleportation is disabled while Chaos State is active\n" +
-                "Provides 10% increaed movement speed\n" +
+                "Provides 10% increased movement speed\n" +
                 "Stealth generates 20% faster while moving");
         }
 

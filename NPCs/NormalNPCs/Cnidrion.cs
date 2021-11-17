@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.DR_NERD(0.05f);
-            npc.lifeMax = 400;
+            npc.lifeMax = 280;
             npc.knockBackResist = 0.05f;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 25, 0);

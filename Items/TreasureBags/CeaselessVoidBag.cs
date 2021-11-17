@@ -2,6 +2,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.CeaselessVoid;
 using Terraria;
 using Terraria.ID;
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
 			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), 3);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());
