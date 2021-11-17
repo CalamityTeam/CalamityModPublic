@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddRecipeGroup("AnyGoldBar", 7);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 9);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
