@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
                 "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
                 "Enemies you dash through take massive damage\n" +
                 "During the dash you are immune to most debuffs\n" +
-                "The dash has a 15 second cooldown\n" +
+                "The dash has a 35 second cooldown\n" +
                 "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
 
             if (modPlayer.godSlayerDashHotKeyPressed)
