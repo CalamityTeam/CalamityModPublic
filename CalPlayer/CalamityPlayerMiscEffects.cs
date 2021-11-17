@@ -169,8 +169,6 @@ namespace CalamityMod.CalPlayer
 			{
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.malice ? 30f : CalamityWorld.death ? 50f : 60f;
-				/*if (Main.masterMode)
-					lifeStealCap *= 0.75f;*/
 				if (player.lifeSteal > lifeStealCap)
 					player.lifeSteal = lifeStealCap;
 
@@ -609,8 +607,6 @@ namespace CalamityMod.CalPlayer
 			// Death Mode recovery rate is 0.25/s
 			// Malice Mode recovery rate is 0.2/s
 			float lifeStealCooldown = CalamityWorld.malice ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
-			/*if (Main.masterMode)
-				lifeStealCooldown *= 1.25f;*/
 			player.lifeSteal -= lifeStealCooldown;
 
 			// Nebula Armor nerf
