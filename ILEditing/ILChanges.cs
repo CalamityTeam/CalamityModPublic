@@ -152,8 +152,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage += RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
-            // Movement speed balance
-            IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
+			// Movement speed balance
+			IL.Terraria.Player.UpdateJumpHeight += BalloonAdjustment;
+			IL.Terraria.Player.Update += JumpSpeedAdjustment;
+			IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
 
@@ -222,8 +224,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.Damage -= RemoveAerialBaneDamageBoost;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
-            // Movement speed balance
-            IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
+			// Movement speed balance
+			IL.Terraria.Player.UpdateJumpHeight -= BalloonAdjustment;
+			IL.Terraria.Player.Update -= JumpSpeedAdjustment;
+			IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
 
@@ -943,10 +947,45 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion
+		#endregion
 
-        #region Movement speed balance
-        private static void MaxRunSpeedAdjustment(ILContext il)
+		#region Movement speed balance
+		private static void BalloonAdjustment(ILContext il)
+		{
+			// Remove the jump height boosts of balloons to make balancing them easier.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20))) // The jump height variable is set to this specific value by the balloons.
+			{
+				LogFailure("Balloon Jump Height Removal", "Could not locate the balloon jump height buff variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_I4, 15); // Reduce to base jump height.
+
+			// Decrease the jump speed given by balloons.
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(6.51f))) // The jumpSpeed variable is set to this specific value by the balloons.
+			{
+				LogFailure("Balloon Jump Speed Nerf", "Could not locate the balloon jump speed buff variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 6.26f); // Reduce by 5%.
+		}
+
+		private static void JumpSpeedAdjustment(ILContext il)
+		{
+			// Increase the base jump speed of the player to make early game less of a slog.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(5.01f))) // The jumpSpeed variable is set to this specific value before anything else occurs.
+			{
+				LogFailure("Base Jump Speed Buff", "Could not locate the jump speed variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_R4, 5.51f); // Increase by 10%.
+		}
+
+		private static void MaxRunSpeedAdjustment(ILContext il)
         {
             // Increase the base max run speed of the player to make early game less of a slog.
             var cursor = new ILCursor(il);
