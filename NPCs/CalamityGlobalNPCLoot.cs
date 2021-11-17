@@ -544,7 +544,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemChance(npc, ItemID.MoonCharm, 0.05f);
 				DropHelper.BlockDrops(ItemID.MoonCharm);
 			}
-			else if (npc.type == NPCID.Mimic)
+			else if (npc.type == NPCID.Mimic && !npc.SpawnedFromStatue)
 			{
 				float w = DropHelper.BagWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,

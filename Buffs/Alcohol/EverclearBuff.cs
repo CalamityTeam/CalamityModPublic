@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Everclear");
-            Description.SetDefault("25% increased damage, -10 life regen and -40 defense");
+            Description.SetDefault("Damage boosted, life regen and defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

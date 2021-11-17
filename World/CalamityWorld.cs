@@ -57,7 +57,7 @@ namespace CalamityMod.World
         // New Temple Altar
         public static int newAltarX = 0;
         public static int newAltarY = 0;
-
+		
         // Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;
@@ -746,7 +746,7 @@ namespace CalamityMod.World
                 anglerName = flags10[0];
                 clothierName = flags10[1];
                 encounteredOldDuke = flags10[2];
-                _ = flags10[3];
+                travelingMerchantName = flags10[3];
                 _ = flags10[4];
                 _ = flags10[5];
                 _ = flags10[6];
@@ -760,6 +760,7 @@ namespace CalamityMod.World
                 downedAres = flags11[4];
                 downedThanatos = flags11[5];
                 downedArtemisAndApollo = flags11[6];
+				TalkedToDraedon = flags11[7];
             }
             else
             {
@@ -1015,8 +1016,6 @@ namespace CalamityMod.World
             _ = flags10[6];
             _ = flags10[7];
 
-            RecipeUnlockHandler.ReceiveData(reader);
-
             BitsByte flags11 = reader.ReadByte();
             malice = flags11[0];
             HasGeneratedLuminitePlanetoids = flags11[1];
@@ -1027,7 +1026,9 @@ namespace CalamityMod.World
             downedArtemisAndApollo = flags11[6];
             TalkedToDraedon = flags11[7];
 
-            abyssChasmBottom = reader.ReadInt32();
+			RecipeUnlockHandler.ReceiveData(reader);
+
+			abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
