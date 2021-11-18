@@ -6,6 +6,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             dustType = 2;
+            AddMapEntry(new Color(41, 80, 65));
         }
 
         public override void KillWall(int i, int j, ref bool fail) => fail = true;
