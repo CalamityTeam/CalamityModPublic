@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs
 
             // Do not provide free hearts for certain boss NPCs in Rev+.
             if ((CalamityWorld.revenge || CalamityWorld.malice) && CalamityLists.heartDropBlockList.Contains(npc.type) && CalamityPlayer.areThereAnyDamnBosses)
-				DropHelper.BlockDrops(ItemID.Heart);
+				return false;
 
             //
             // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot
