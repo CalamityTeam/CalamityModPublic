@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder Blossom Staff");
-            Tooltip.SetDefault("Summons a really hot flower over your head");
+            Tooltip.SetDefault("Summons a really hot flower over your head\n" +
+				"There can only be one flower");
         }
 
         public override void SetDefaults()

@@ -16,8 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
 				"Summons a magic hat to hover above your head\n" +
 				"The hat will release a variety of objects to assault your foes\n" +
-				"Requires 5 minion slots to use\n" +
-				"There can only be one");
+				"Requires 5 minion slots to use and there can only be one hat");
 		}
 
 		public override void SetDefaults()

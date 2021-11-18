@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sun Spirit Staff");
-            Tooltip.SetDefault("Summons a solar spirit to protect you");
+            Tooltip.SetDefault("Summons a solar spirit to protect you\n" +
+				"There can only be one spirit");
         }
 
         public override void SetDefaults()
