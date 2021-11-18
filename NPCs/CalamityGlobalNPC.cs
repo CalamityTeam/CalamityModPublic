@@ -1419,23 +1419,11 @@ namespace CalamityMod.NPCs
         {
 			switch (npc.type)
 			{
-				case NPCID.ArmedZombie:
-				case NPCID.ArmedZombieCenx:
-				case NPCID.ArmedZombieEskimo:
-				case NPCID.ArmedZombiePincussion:
-				case NPCID.ArmedZombieSlimed:
-				case NPCID.ArmedZombieSwamp:
-				case NPCID.ArmedZombieTwiggy:
 				case NPCID.KingSlime:
 				case NPCID.EyeofCthulhu:
 				case NPCID.BrainofCthulhu:
 				case NPCID.QueenBee:
-				case NPCID.EaterofSouls:
-				case NPCID.Crimera:
-				case NPCID.BigCrimera:
-				case NPCID.LittleCrimera:
 				case NPCID.Corruptor:
-				case NPCID.DevourerHead:
 				case NPCID.Crawdad:
 				case NPCID.Crawdad2:
 				case NPCID.ManEater:
@@ -1457,7 +1445,6 @@ namespace CalamityMod.NPCs
 				case NPCID.SandsharkCorrupt:
 				case NPCID.SandsharkCrimson:
 				case NPCID.SandsharkHallow:
-				case NPCID.GoblinWarrior:
 				case NPCID.Butcher:
 				case NPCID.DeadlySphere:
 				case NPCID.Mothron:
@@ -1501,6 +1488,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce prehardmode desert enemy stats pre-Desert Scourge
 				case NPCID.WalkingAntlion:
+
 					if (!CalamityWorld.downedDesertScourge)
 					{
 						npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
@@ -1509,7 +1497,9 @@ namespace CalamityMod.NPCs
 						npc.defense /= 2;
 						npc.defDefense = npc.defense;
 					}
-					canBreakPlayerDefense = true;
+					else
+						canBreakPlayerDefense = true;
+
 					break;
 
 				case NPCID.Antlion:
@@ -1532,6 +1522,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce Tomb Crawler stats
 				case NPCID.TombCrawlerHead:
+
 					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
 					if (!CalamityWorld.downedDesertScourge)
 					{
@@ -1539,11 +1530,14 @@ namespace CalamityMod.NPCs
 						npc.defDamage = npc.damage;
 						// Tomb Crawler Head has 0 defense so there is no need to reduce it
 					}
-					canBreakPlayerDefense = true;
+					else
+						canBreakPlayerDefense = true;
+
 					break;
 
 				case NPCID.TombCrawlerBody:
 				case NPCID.TombCrawlerTail:
+
 					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
 					if (!CalamityWorld.downedDesertScourge)
 					{
@@ -1552,6 +1546,7 @@ namespace CalamityMod.NPCs
 						npc.defense /= 2;
 						npc.defDefense = npc.defense;
 					}
+
 					break;
 
 				// Fix Sharkron hitboxes
