@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float totalMinionSlots = 0f;
-            for (int i = 0; i < Main.projectile.Length; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 if (Main.projectile[i].active && Main.projectile[i].minion && Main.projectile[i].owner == player.whoAmI)
                 {
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                 int swordCount = 0;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 float angleVariance = MathHelper.TwoPi / swordCount;
                 float angle = 0f;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                     {
