@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls
 {
