@@ -801,7 +801,7 @@ namespace CalamityMod.NPCs
             }
 
             bool inAbyss = (npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX;
-            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[BuffType<CrushDepth>()];
+            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[BuffType<CrushDepth>()] && !CalamityLists.enemyImmunityList.Contains(npc.type);
             if (hurtByAbyss)
             {
                 npc.AddBuff(BuffType<CrushDepth>(), 2);
