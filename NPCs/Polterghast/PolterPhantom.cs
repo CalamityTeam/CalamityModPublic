@@ -46,6 +46,15 @@ namespace CalamityMod.NPCs.Polterghast
             npc.DeathSound = SoundID.NPCDeath39;
         }
 
+		public override void BossHeadRotation(ref float rotation)
+		{
+			bool polterHasTarget = CalamityGlobalNPC.ghostBoss.WithinBounds(Main.maxNPCs) && Main.npc[CalamityGlobalNPC.ghostBoss].active && Main.npc[CalamityGlobalNPC.ghostBoss].HasValidTarget;
+			if (polterHasTarget && npc.Calamity().newAI[3] == 0f)
+				rotation = (Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].Center - npc.Center).ToRotation() + MathHelper.PiOver2;
+			else
+				rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+		}
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
