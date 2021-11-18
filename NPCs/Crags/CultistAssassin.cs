@@ -61,10 +61,10 @@ namespace CalamityMod.NPCs.Crags
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), npc.scale);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), npc.scale);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), npc.scale);
                 }
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), npc.scale);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), npc.scale);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), npc.scale);
             }
         }
 
