@@ -262,10 +262,9 @@ namespace CalamityMod.Items
 		private static void BlockCrateDrops()
 		{
 			bool twoMechsDowned =
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && !NPC.downedMechBoss3) ||
-				(NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.downedMechBoss1) ||
-				(NPC.downedMechBoss3 && NPC.downedMechBoss1 && !NPC.downedMechBoss2) ||
-				(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3);
+				(NPC.downedMechBoss1 && NPC.downedMechBoss2) ||
+				(NPC.downedMechBoss2 && NPC.downedMechBoss3) ||
+				(NPC.downedMechBoss3 && NPC.downedMechBoss1);
 			int[] preMechBlockedDrops_Crate = new int[]
 			{
 				ItemID.MythrilOre,
