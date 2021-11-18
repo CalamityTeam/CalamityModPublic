@@ -332,6 +332,7 @@ namespace CalamityMod.CalPlayer
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
         public float throwingAmmoCost = 1f;
+        public float rogueUseSpeedFactor = 0f;
         #endregion
 
         #region Mount
@@ -1423,6 +1424,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost = 1f;
             accStealthGenBoost = 0f;
+			rogueUseSpeedFactor = 0f;
 
             trueMeleeDamage = 0D;
 			warBannerBonus = 0f;
@@ -2214,6 +2216,7 @@ namespace CalamityMod.CalPlayer
             throwingVelocity = 1f;
             throwingCrit = 0;
             throwingAmmoCost = 1f;
+			rogueUseSpeedFactor = 0f;
             #endregion
 
             #region UI

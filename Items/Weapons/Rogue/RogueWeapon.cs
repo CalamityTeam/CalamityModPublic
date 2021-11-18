@@ -107,12 +107,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
 			if (item.useTime == item.useAnimation)
 			{
-				if (player.Calamity().gloveOfPrecision)
-					rogueAS -= 0.2f;
-				if (player.Calamity().gloveOfRecklessness)
-					rogueAS += 0.12f;
-				if (player.Calamity().titanHeartMantle)
-					rogueAS -= 0.15f;
+				// If rogueUseSpeedFactor is -0.2, then shoot 20% slower.
+				rogueAS -= 1 - (1 / (1 - player.Calamity().rogueUseSpeedFactor));
 			}
 			return rogueAS;
 		}

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glove Of Precision");
-            Tooltip.SetDefault("Decreases rogue attack speed by 20% but increases damage and crit by 12% and velocity by 25%");
+            Tooltip.SetDefault("Decreases rogue attack speed by 25% but increases damage and crit by 12% and velocity by 25%");
         }
 
         public override void SetDefaults()
@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.throwingDamage += 0.12f;
             modPlayer.throwingCrit += 12;
             modPlayer.throwingVelocity += 0.25f;
+            modPlayer.rogueUseSpeedFactor -= 0.25f;
         }
     }
 }
