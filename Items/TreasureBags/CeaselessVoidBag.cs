@@ -38,8 +38,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 3, 4);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), 3);
+			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());
