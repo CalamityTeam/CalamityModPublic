@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
 		{
 			player.Calamity().titanHeartMantle = true;
 			player.Calamity().throwingAmmoCost *= 0.55f;
-            modPlayer.rogueUseSpeedFactor -= 0.15f;
+            player.Calamity().rogueUseSpeedFactor -= 0.15f;
 		}
 
 		public override void AddRecipes()
