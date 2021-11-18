@@ -59,13 +59,9 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            Tile tile = Main.tile[i, j];
-            if (tile.frameX < 54)
-            {
-                r = 0.5f;
-                g = 1f;
-                b = 1f;
-            }
+			r = 0.5f;
+			g = 1f;
+			b = 1f;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
