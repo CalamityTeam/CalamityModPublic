@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Fabsol's Vodka");
             Tooltip.SetDefault("Boosts all damage stats by 8% but lowers defense by 10%\n" +
-                               "Increases immune time after being struck");
+                               "Increases immune time after being struck\n" +
+							   "A highly sought after drink by those with a good taste in alcohol");
         }
 
         public override void SetDefaults()
