@@ -425,15 +425,6 @@ namespace CalamityMod
             r.SetResult(ItemID.ShadowKey);
             r.AddRecipe();
 
-            // Rod of Discord
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.SoulofLight, 30); // TODO: Make this recipe less garbage but harder to obtain. - Merkalto
-            r.AddIngredient(ItemID.ChaosFish, 5);
-            r.AddIngredient(ItemID.PixieDust, 50);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.RodofDiscord);
-            r.AddRecipe();
-
             // Sky Mill
             r = GetNewRecipe();
             r.AddIngredient(ItemID.SunplateBlock, 10);
