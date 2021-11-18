@@ -11,14 +11,9 @@ namespace CalamityMod.Walls
             Main.wallHouse[Type] = true;
             dustType = 96;
             drop = ModContent.ItemType<Items.Placeables.Walls.NavystoneWallSafe>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Navystone Wall Safe");
-            AddMapEntry(new Color(0, 50, 50), name);
+            AddMapEntry(new Color(0, 50, 50));
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

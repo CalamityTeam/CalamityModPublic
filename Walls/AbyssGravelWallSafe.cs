@@ -13,14 +13,9 @@ namespace CalamityMod.Walls
             AddMapEntry(new Color(41, 56, 80));
             dustType = 33;
         }
-        public override bool CanExplode(int i, int j)
-        {
-            return false;
-        }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override bool CanExplode(int i, int j) => false;
+
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

@@ -10,15 +10,10 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             drop = ModContent.ItemType<Items.Placeables.Walls.ChaoticBrickWall>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Chaotic Brick Wall");
-            AddMapEntry(new Color(255, 0, 0), name);
+            AddMapEntry(new Color(255, 0, 0));
             dustType = 105;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 2;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }
