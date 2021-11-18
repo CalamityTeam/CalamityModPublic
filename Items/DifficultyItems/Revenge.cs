@@ -67,7 +67,8 @@ namespace CalamityMod.Items.DifficultyItems
             }
         }
 
-        public override bool CanUseItem(Player player) => Main.expertMode;
+		// Can only be used in Expert worlds. The Revengeance check is a failsafe that allows you to disable rev in normal mode worlds if it gets enabled for whatever reason.
+        public override bool CanUseItem(Player player) => Main.expertMode || CalamityWorld.revenge;
 
         public override bool UseItem(Player player)
         {
