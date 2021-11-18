@@ -107,8 +107,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
 			if (item.useTime == item.useAnimation)
 			{
-				// If rogueUseSpeedFactor is -0.2, then shoot 20% slower.
-				rogueAS -= 1 - (1 / (1 - player.Calamity().rogueUseSpeedFactor));
+				rogueAS += player.Calamity().rogueUseSpeedFactor;
 			}
 			return rogueAS;
 		}
