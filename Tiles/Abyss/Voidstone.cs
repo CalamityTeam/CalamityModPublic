@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss
             mineResist = 10f;
             minPick = 180;
             drop = ModContent.ItemType<Items.Placeables.Voidstone>();
-            AddMapEntry(new Color(10, 10, 10));
+            AddMapEntry(new Color(15, 15, 15));
         }
         int animationFrameWidth = 288;
 

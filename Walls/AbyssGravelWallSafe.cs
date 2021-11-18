@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             drop = ModContent.ItemType<Items.Placeables.Walls.AbyssGravelWallItem>();
-            AddMapEntry(new Color(41, 56, 80));
+            AddMapEntry(new Color(6, 10, 54));
             dustType = 33;
         }
 
