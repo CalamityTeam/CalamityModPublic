@@ -365,29 +365,41 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.GillsPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            if (Main.LocalPlayer.discount)
+              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
 			shop.item[nextSlot].SetDefaults(ItemID.WaterWalkingPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            if (Main.LocalPlayer.discount)
+              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
 			shop.item[nextSlot].SetDefaults(ItemID.FlipperPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            if (Main.LocalPlayer.discount)
+              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
             if (CalamityWorld.downedEoCAcidRain)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CausticTear>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(gold: 3);
+				if (Main.LocalPlayer.discount)
+				  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
             if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+				if (Main.LocalPlayer.discount)
+				  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
             if (CalamityWorld.downedBoomerDuke)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+				if (Main.LocalPlayer.discount)
+				  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
         }

@@ -1384,7 +1384,7 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		public static void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
+		public static void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
 		{
 			if (condition)
 			{
@@ -1392,6 +1392,8 @@ namespace CalamityMod.NPCs
 				if (price != null)
 				{
 					shop.item[nextSlot].shopCustomPrice = price;
+					if (Main.LocalPlayer.discount && !ignoreDiscount)
+					  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 				}
 
 				nextSlot++;
