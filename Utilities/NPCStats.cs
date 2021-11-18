@@ -67,17 +67,16 @@ namespace CalamityMod
 				npc.damage = 1;
 
 			int normalDamage = contactDamage[0];
-			int expertDamage = (int)Math.Round(contactDamage[1] / damageAdjustment);
-			int revengeanceDamage = (int)Math.Round(contactDamage[2] / damageAdjustment);
-			int deathDamage = (int)Math.Round(contactDamage[3] / damageAdjustment);
-			int masterDamage = (int)Math.Round(contactDamage[4] / damageAdjustment);
+			int expertDamage = contactDamage[1] == -1 ? -1 : (int)Math.Round(contactDamage[1] / damageAdjustment);
+			int revengeanceDamage = contactDamage[2] == -1 ? -1 : (int)Math.Round(contactDamage[2] / damageAdjustment);
+			int deathDamage = contactDamage[3] == -1 ? -1 : (int)Math.Round(contactDamage[3] / damageAdjustment);
+			int masterDamage = contactDamage[4] == -1 ? -1 : (int)Math.Round(contactDamage[4] / damageAdjustment);
 
 			// If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
 			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-			if (CalamityWorld.malice)
+			if (CalamityWorld.malice && damageToUse != -1)
 				damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
-			// Less than zero means the assigned value was -1
-			if (damageToUse < 0)
+			if (damageToUse != -1)
 				npc.damage = damageToUse;
 		}
 
