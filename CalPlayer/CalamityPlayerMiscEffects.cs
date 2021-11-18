@@ -114,9 +114,6 @@ namespace CalamityMod.CalPlayer
 			// Stat Meter
 			UpdateStatMeter(player, modPlayer);
 
-			// Rogue Mirrors
-			RogueMirrors(player, modPlayer);
-
 			// Double Jumps
 			DoubleJumps(player, modPlayer);
 
@@ -4172,55 +4169,6 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.adrenalineBoostTwo ? 5 : 0) +
 				(modPlayer.adrenalineBoostThree ? 5 : 0);
 			modPlayer.adrenalineDRStat = 50 + extraAdrenalineDR;
-		}
-		#endregion
-
-		#region Rogue Mirrors
-		private static void RogueMirrors(Player player, CalamityPlayer modPlayer)
-		{
-			Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5f - 4f), (int)(player.position.Y + player.velocity.Y * 0.5f - 4f), player.width + 8, player.height + 8);
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				NPC npc = Main.npc[i];
-				if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
-				{
-					Rectangle rect = npc.getRect();
-					if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-					{
-						bool isImmune = false;
-						for (int j = 0; j < player.hurtCooldowns.Length; j++)
-						{
-							if (player.hurtCooldowns[j] > 0)
-								isImmune = true;
-						}
-
-						if (Main.rand.NextBool(10) && !isImmune)
-						{
-							modPlayer.AbyssMirrorEvade();
-							modPlayer.EclipseMirrorEvade();
-						}
-						break;
-					}
-				}
-			}
-
-			for (int i = 0; i < Main.maxProjectiles; i++)
-			{
-				Projectile proj = Main.projectile[i];
-				if (proj.active && proj.hostile && proj.damage > 0)
-				{
-					Rectangle rect = proj.getRect();
-					if (rectangle.Intersects(rect))
-					{
-						if (Main.rand.NextBool(10))
-						{
-							modPlayer.AbyssMirrorEvade();
-							modPlayer.EclipseMirrorEvade();
-						}
-						break;
-					}
-				}
-			}
 		}
 		#endregion
 

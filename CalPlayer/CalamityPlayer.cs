@@ -4034,13 +4034,13 @@ namespace CalamityMod.CalPlayer
                 return true;
             }
 
-            // Neither scarf can be used if either is on cooldown
             bool playerDashing = player.pulley || (player.grappling[0] == -1 && !player.tongued);
 			if (playerDashing && dashMod == 9 && player.dashDelay < 0)
 			{
 				GodSlayerDodge();
 				return true;
 			}
+            // Neither scarf can be used if either is on cooldown
             if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
             {
                 CounterScarfDodge();
@@ -4048,14 +4048,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Neither mirror can be used if either is on cooldown
-            bool isImmune = false;
-            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-            {
-                if (player.hurtCooldowns[j] > 0)
-                    isImmune = true;
-            }
-
-            if (dodgeCooldownTimer == 0 && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+            if (dodgeCooldownTimer == 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
             {
                 if (eclipseMirror)
                 {
