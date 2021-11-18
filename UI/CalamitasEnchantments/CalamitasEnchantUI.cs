@@ -173,6 +173,10 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 				cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
+			// Make it 20% cheaper if the player has the Discount Card or Greedy Ring
+			if (Main.LocalPlayer.discount)
+				cost = (int)(cost * 0.8);
+
 			// Draw the coin costs.
 			string costText = "Cost: ";
 			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
