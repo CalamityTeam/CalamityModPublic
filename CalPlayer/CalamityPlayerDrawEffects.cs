@@ -1434,7 +1434,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.eFreeze || calamityPlayer.silvaStun || calamityPlayer.gState || calamityPlayer.cDepth || calamityPlayer.eutrophication)
+            if (calamityPlayer.eFreeze || calamityPlayer.gState || calamityPlayer.cDepth || calamityPlayer.eutrophication)
             {
                 if (noRogueStealth)
                 {
