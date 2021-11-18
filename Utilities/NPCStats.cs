@@ -76,7 +76,8 @@ namespace CalamityMod
 			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 			if (CalamityWorld.malice)
 				damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
-			if (damageToUse != -1)
+			// Less than zero means the assigned value was -1
+			if (damageToUse < 0)
 				npc.damage = damageToUse;
 		}
 
