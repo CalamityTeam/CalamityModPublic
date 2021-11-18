@@ -51,8 +51,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
-                        (Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<MossyGravelWall>() ||
-                        Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<AbyssGravelWall>()) &&
+                        Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<AbyssGravelWall>() &&
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;
