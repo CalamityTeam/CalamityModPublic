@@ -3054,7 +3054,7 @@ namespace CalamityMod.CalPlayer
 					player.velocity.Y = 15f;
 			}
 
-			if (modPlayer.eFreeze || modPlayer.silvaStun || modPlayer.eutrophication)
+			if (modPlayer.eFreeze || modPlayer.eutrophication)
 				player.velocity = Vector2.Zero;
 
 			if (modPlayer.vaporfied || modPlayer.teslaFreeze)

@@ -796,7 +796,6 @@ namespace CalamityMod.CalPlayer
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eFreeze = false;
-        public bool silvaStun = false;
         public bool wCleave = false;
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
@@ -1808,7 +1807,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            silvaStun = false;
             wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
@@ -2191,7 +2189,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            silvaStun = false;
             wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
