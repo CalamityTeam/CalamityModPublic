@@ -15,7 +15,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Armageddon");
-            Tooltip.SetDefault("Enables/disables Armageddon, can be used in any other difficulty mode\n" +
+            Tooltip.SetDefault("Enables/disables Armageddon, can be used in any difficulty mode\n" +
                 "While active, any hit while a boss is alive will instantly kill you\n" +
                 "If you defeat a boss for the first time with this mode active, they will drop 5 extra treasure bags\n" +
                 "These extra bags will drop even if you are not in Expert Mode\n" +
