@@ -1472,17 +1472,77 @@ namespace CalamityMod.Items
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == PrefixID.Hard)
 			{
+				/* Prehardmode = 1
+				 * Hardmode = 1
+				 * Post-Golem = 2
+				 * Post-Moon Lord = 2
+				 * Post-Provi = 2
+				 * Post-Polter = 2
+				 * Post-DoG = 3
+				 */
+				
 				if (CalamityWorld.downedDoG)
-					player.statDefense += 3;
-				else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
 					player.statDefense += 2;
-				else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+				else if (NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
 					player.statDefense += 1;
 
 				player.endurance += 0.0025f;
 			}
 			if (item.prefix == PrefixID.Guarding)
 			{
+				/* Prehardmode = 2
+				 * Hardmode = 3
+				 * Post-Golem = 3
+				 * Post-Moon Lord = 4
+				 * Post-Provi = 4
+				 * Post-Polter = 5
+				 * Post-DoG = 5
+				 */
+				
+				if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
+					player.statDefense += 3;
+				else if (NPC.downedMoonlord || CalamityWorld.downedProvidence)
+					player.statDefense += 2;
+				else if (Main.hardMode || NPC.downedGolemBoss)
+					player.statDefense += 1;
+
+				player.endurance += 0.005f;
+			}
+			if (item.prefix == PrefixID.Armored)
+			{
+				/* Prehardmode = 3
+				 * Hardmode = 4
+				 * Post-Golem = 5
+				 * Post-Moon Lord = 5
+				 * Post-Provi = 6
+				 * Post-Polter = 7
+				 * Post-DoG = 8
+				 */
+				
+				if (CalamityWorld.downedDoG)
+					player.statDefense += 5;
+				else if (CalamityWorld.downedPolterghast)
+					player.statDefense += 4;
+				else if (CalamityWorld.downedProvidence)
+					player.statDefense += 3;
+				else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+					player.statDefense += 2;
+				else if (Main.hardMode)
+					player.statDefense += 1;
+
+				player.endurance += 0.0075f;
+			}
+			if (item.prefix == PrefixID.Warding)
+			{
+				/* Prehardmode = 4
+				 * Hardmode = 5
+				 * Post-Golem = 6
+				 * Post-Moon Lord = 7
+				 * Post-Provi = 8
+				 * Post-Polter = 9
+				 * Post-DoG = 10
+				 */
+				
 				if (CalamityWorld.downedDoG)
 					player.statDefense += 6;
 				else if (CalamityWorld.downedPolterghast)
@@ -1495,40 +1555,6 @@ namespace CalamityMod.Items
 					player.statDefense += 2;
 				else if (Main.hardMode)
 					player.statDefense += 1;
-
-				player.endurance += 0.005f;
-			}
-			if (item.prefix == PrefixID.Armored)
-			{
-				if (CalamityWorld.downedDoG)
-					player.statDefense += 9;
-				else if (CalamityWorld.downedPolterghast)
-					player.statDefense += 7;
-				else if (CalamityWorld.downedProvidence)
-					player.statDefense += 6;
-				else if (NPC.downedMoonlord)
-					player.statDefense += 4;
-				else if (NPC.downedGolemBoss)
-					player.statDefense += 3;
-				else if (Main.hardMode)
-					player.statDefense += 1;
-
-				player.endurance += 0.0075f;
-			}
-			if (item.prefix == PrefixID.Warding)
-			{
-				if (CalamityWorld.downedDoG)
-					player.statDefense += 12;
-				else if (CalamityWorld.downedPolterghast)
-					player.statDefense += 10;
-				else if (CalamityWorld.downedProvidence)
-					player.statDefense += 8;
-				else if (NPC.downedMoonlord)
-					player.statDefense += 6;
-				else if (NPC.downedGolemBoss)
-					player.statDefense += 4;
-				else if (Main.hardMode)
-					player.statDefense += 2;
 
 				player.endurance += 0.01f;
 			}
