@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class EutrophicSandWall : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Unsafe Eutrophic Sand Wall");
+        }
+
         public override void SetDefaults()
         {
             item.width = 12;
