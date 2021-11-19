@@ -197,7 +197,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
 			Vector2 scale = new Vector2(0.8f, 0.825f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
-			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 16, out _))
+
+			string unifiedDescription = SelectedEnchantment.Value.Description.Replace("\n", " ");
+			foreach (string line in Utils.WordwrapString(unifiedDescription, Main.fontMouseText, 400, 16, out _))
 			{
 				if (string.IsNullOrEmpty(line))
 					continue;
