@@ -1946,9 +1946,9 @@ namespace CalamityMod.NPCs
 			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && useTimedDR)
 			{
 				bool tenTimes_TimedDR = nightProvi;
-				bool fiveTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
+				bool threeTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
 				bool twoTimes_TimedDR = malice || thanatos;
-				float DRScalar = tenTimes_TimedDR ? 10f : fiveTimes_TimedDR ? 5f : twoTimes_TimedDR ? 2f : 1.5f;
+				float DRScalar = tenTimes_TimedDR ? 10f : threeTimes_TimedDR ? 3f : twoTimes_TimedDR ? 2f : 1.5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
