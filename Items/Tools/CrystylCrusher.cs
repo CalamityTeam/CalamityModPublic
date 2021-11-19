@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Tools
 			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;
-			item.crit += 25;
 			item.width = 70;
 			item.height = 70;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -53,6 +52,9 @@ namespace CalamityMod.Items.Tools
 				return null;
 			return new Vector2(10, 10);
 		}
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
 		public override bool AltFunctionUse(Player player) => true;
 
