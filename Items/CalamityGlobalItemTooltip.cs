@@ -580,7 +580,7 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
 
 			// Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
-			if (item.type == ItemID.YoyoBag || item.type == ItemID.YoyoGlove)
+			if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
 				EditTooltipByNum(0, (line) => line.text += "\nYoyos will do 34% less damage");
 			#endregion
 
