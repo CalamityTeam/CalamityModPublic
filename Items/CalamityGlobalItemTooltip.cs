@@ -581,7 +581,7 @@ namespace CalamityMod.Items
 
 			// Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
 			if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-				EditTooltipByNum(0, (line) => line.text += "\nYoyos will do 34% less damage");
+				EditTooltipByNum(0, (line) => line.text += "\nYoyos will do 33% less damage");
 			#endregion
 
 			// Non-consumable boss summon items
