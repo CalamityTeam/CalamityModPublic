@@ -120,7 +120,10 @@ namespace CalamityMod.CalPlayer
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.DefenseDamageSync);
             packet.Write(player.whoAmI);
-            packet.Write(defenseDamage);
+            packet.Write(totalDefenseDamage);
+            packet.Write(defenseDamageRecoveryFrames);
+            packet.Write(totalDefenseDamageRecoveryFrames);
+            packet.Write(defenseDamageDelayFrames);
             player.SendPacket(packet, server);
         }
 
@@ -306,7 +309,10 @@ namespace CalamityMod.CalPlayer
 
         internal void HandleDefenseDamage(BinaryReader reader)
         {
-            defenseDamage = reader.ReadInt32();
+            totalDefenseDamage = reader.ReadInt32();
+            defenseDamageRecoveryFrames = reader.ReadInt32();
+            totalDefenseDamageRecoveryFrames = reader.ReadInt32();
+            defenseDamageDelayFrames = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDefenseDamage(true);
         }
