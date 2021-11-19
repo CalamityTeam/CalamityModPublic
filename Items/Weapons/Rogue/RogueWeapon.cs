@@ -132,11 +132,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 				if (mp.rogueStealthMax > 0f)
 				{
 					int damageNumberSubstringIndex = text.IndexOf(' ');
-					string restOfTooltip = text.Substring(damageNumberSubstringIndex);
-					int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
+					if (damageNumberSubstringIndex >= 0)
+					{
+						string restOfTooltip = text.Substring(damageNumberSubstringIndex);
+						int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
 
-					int damageWithoutStealth = (int)(item.damage * (p.allDamage + p.thrownDamage + mp.throwingDamage - 2f));
-					text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
+						int damageWithoutStealth = (int)(item.damage * (p.allDamage + p.thrownDamage + mp.throwingDamage - 2f));
+						text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
+					}
 				}
 
 				damageTooltip.text = text;
