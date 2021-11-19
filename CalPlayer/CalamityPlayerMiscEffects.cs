@@ -3915,7 +3915,7 @@ namespace CalamityMod.CalPlayer
 				// This scales with current max player defense, so that it smoothly scales with smaller and larger defense values.
 				// This way, you won't be waiting a year to get defense back in early game, where it matters the most.
 				// This also avoids another issue, where late game players with high defense would regen their defense stat damage way too quickly.
-				int defenseDamageRecoveryRate = (int)MathHelper.Clamp(player.statDefense / modPlayer.defenseDamage, 1, 30);
+				int defenseDamageRecoveryRate = (int)MathHelper.Clamp(player.statDefense / modPlayer.defenseDamage, 3, 30);
 
 				// Set current max player defense stat as the cap
 				if (modPlayer.defenseDamage > player.statDefense)
