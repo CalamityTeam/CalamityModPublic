@@ -22,7 +22,7 @@ namespace CalamityMod.Items.LoreItems
             item.height = 20;
             item.rare = ItemRarityID.Red;
             item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanUseItem(Player player)
