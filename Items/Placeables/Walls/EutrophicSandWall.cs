@@ -24,5 +24,14 @@ namespace CalamityMod.Items.Placeables.Walls
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.EutrophicSandWall>();
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<EutrophicSand>());
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 4);
+            recipe.AddRecipe();
+        }
     }
 }
