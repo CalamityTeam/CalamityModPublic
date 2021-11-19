@@ -5386,8 +5386,8 @@ namespace CalamityMod.CalPlayer
                 damageMult += 1.25;
 
             // Calamity buffs Inferno Fork by 33%.
-	    // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
-	    if (proj.type == ProjectileID.InfernoFriendlyBlast)
+			// However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
+			if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
 
             if (brimflameFrenzy && brimflameSet)
@@ -5521,6 +5521,12 @@ namespace CalamityMod.CalPlayer
 
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
                 damage = (int)(damage * 0.7);
+
+            if (draedonsHeart)
+            {
+                if (player.StandingStill() && player.itemAnimation == 0)
+                    damage = (int)(damage * 0.5);
+            }
 
             #endregion
 
