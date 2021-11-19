@@ -225,7 +225,7 @@ namespace CalamityMod.UI
             ref Item playerHandItem = ref Main.mouseItem;
 
             // Handle mouse click interactions.
-            if (Main.mouseLeft && Main.mouseLeftRelease)
+            if (Main.mouseLeft && Main.mouseLeftRelease && codebreakerTileEntity.DecryptionCountdown <= 0)
             {
                 // If the player's hand item is empty and the codebreaker has a schematic, grab it.
                 // This doesn't work if the Codebreaker is busy decrypting the schematic in question.

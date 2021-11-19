@@ -246,8 +246,11 @@ namespace CalamityMod.Items
 		{
 			if (!item.IsAir && AppliedEnchantment.HasValue)
 			{
-				TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
-				tooltips.Add(descriptionLine);
+				foreach (string line in AppliedEnchantment.Value.Description.Split('\n'))
+				{
+					TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(line, Color.DarkRed));
+					tooltips.Add(descriptionLine);
+				}
 			}
 		}
 		#endregion
