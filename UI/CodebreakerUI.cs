@@ -241,7 +241,7 @@ namespace CalamityMod.UI
                 }
 
                 // Otherwise, if the player has an encrypted schematic and the Codebreaker doesn't, insert it into the machine.
-                else if (CalamityLists.EncryptedSchematicIDRelationship.ContainsValue(playerHandItem.type))
+                else if (CalamityLists.EncryptedSchematicIDRelationship.ContainsValue(playerHandItem.type) && codebreakerTileEntity.HeldSchematicID == 0)
                 {
                     codebreakerTileEntity.HeldSchematicID = CalamityLists.EncryptedSchematicIDRelationship.First(i => i.Value == Main.mouseItem.type).Key;
                     playerHandItem.TurnToAir();
@@ -249,6 +249,22 @@ namespace CalamityMod.UI
                     Main.PlaySound(SoundID.Grab);
 
                     AwaitingDecryptionTextClose = false;
+                }
+
+                // Lastly, if the player has an encrypted schematic but so does the Codebreaker, swap the two.
+                else if (CalamityLists.EncryptedSchematicIDRelationship.ContainsValue(playerHandItem.type) && codebreakerTileEntity.HeldSchematicID != 0)
+                {
+                    int previouslyHeldSchematic = CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID];
+
+                    // If the schematics are the same, don't actually do anything, just play the sound as an illusion, to prevent having to send a packet.
+                    Main.PlaySound(SoundID.Grab);
+                    if (playerHandItem.type != previouslyHeldSchematic)
+                    {
+                        codebreakerTileEntity.HeldSchematicID = CalamityLists.EncryptedSchematicIDRelationship.First(i => i.Value == Main.mouseItem.type).Key;
+                        playerHandItem.SetDefaults(previouslyHeldSchematic);
+                        codebreakerTileEntity.SyncContainedStuff();
+                        AwaitingDecryptionTextClose = false;
+                    }
                 }
             }
         }
