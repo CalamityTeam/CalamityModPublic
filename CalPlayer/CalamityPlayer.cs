@@ -1221,7 +1221,7 @@ namespace CalamityMod.CalPlayer
             {
                 { "boost", boost },
                 { "rage", rage },
-                { "stress", rage * 10000f },
+                { "stress", rage * (10000 / 100f) }, // Backwards compatibility -- save new rage as old stress.
                 { "adrenaline", adrenaline },
                 { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
@@ -1301,11 +1301,22 @@ namespace CalamityMod.CalPlayer
 
             // Load rage if it's there, which it will be for any players saved with 1.5.
             // Older players have "stress" instead, which will be ignored. This is intentional.
-            // Stress ranged from 0 to 10,000. Rage ranges from 0.0 to 1.0.
-            if (tag.ContainsKey("rage"))
-                rage = tag.GetFloat("rage");
+            // Stress ranged from 0 to 10,000. Rage ranges from 0.0 to 100.0.
+            rage = tag.ContainsKey("rage") ? tag.GetFloat("rage") : 0f;
 
-            adrenaline = tag.GetFloat("adrenaline");
+            if (tag.ContainsKey("adrenaline"))
+            {
+                bool failedToLoadFloatAdrenaline = false;
+                try
+                {
+                    adrenaline = tag.GetFloat("adrenaline");
+                }
+                catch (Exception _) { failedToLoadFloatAdrenaline = true; }
+
+                if (failedToLoadFloatAdrenaline)
+                    adrenaline = tag.GetInt("adrenaline") / (10000 / 100f);
+            }
+
             if (tag.ContainsKey("aquaticBoostPower"))
                 aquaticBoost = tag.GetFloat("aquaticBoostPower");
             sCalDeathCount = tag.GetInt("sCalDeathCount");
