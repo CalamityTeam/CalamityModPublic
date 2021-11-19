@@ -60,7 +60,6 @@ namespace CalamityMod.Items.DraedonMisc
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ItemID.Wire, 300); // Anything prior to Tier 2 (Post-Mechs) is fair game.
             recipe.AddRecipeGroup("AnyCopperBar", 10);
             recipe.AddIngredient(ItemID.Glass, 15);
             recipe.AddTile(TileID.Anvils);
