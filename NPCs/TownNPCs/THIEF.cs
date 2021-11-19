@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (cirrusIndex != -1)
             {
                 NPC cirrus = Main.npc[cirrusIndex]; //please help me I'm stuck in a children's video game - Fabsol
-                PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now so I'll go back to hiding.");
+                PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now, so I'll go back to hiding.");
             }
 
             int armsDealerIndex = NPC.FindFirstNPC(NPCID.ArmsDealer);
