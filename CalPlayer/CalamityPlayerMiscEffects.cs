@@ -108,6 +108,9 @@ namespace CalamityMod.CalPlayer
 			// Other buff effects
 			OtherBuffEffects(player, modPlayer);
 
+			// Defense manipulation (Mostly defense damage, but also Bloodflare Core and others)
+			DefenseEffects(player, modPlayer);
+
 			// Limits
 			Limits(player, modPlayer);
 
@@ -3907,51 +3910,130 @@ namespace CalamityMod.CalPlayer
 			// Endurance reductions
 			EnduranceReductions(player, modPlayer);
 
-			// Defense stat damage calcs
-			// This was not done to prevent facetanking, but to push players to not just stand completely fucking still taking 1 or 2 damage the entire time
-			if (modPlayer.defenseDamage > 0)
+			if (modPlayer.spectralVeilImmunity > 0)
 			{
-				// Set recovery rate before everything else happens.
-				// This scales with current max player defense, so that it smoothly scales with smaller and larger defense values.
-				// This way, you won't be waiting a year to get defense back in early game, where it matters the most.
-				// This also avoids another issue, where late game players with high defense would regen their defense stat damage way too quickly.
-				int defenseDamageRecoveryRate = (int)MathHelper.Clamp(player.statDefense / modPlayer.defenseDamage, 3, 30);
-
-				// Set current max player defense stat as the cap
-				if (modPlayer.defenseDamage > player.statDefense)
-					modPlayer.defenseDamage = player.statDefense;
-
-				// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-				if (player.statDefense > 0 && player.endurance > 0f)
-					player.endurance -= player.endurance * (modPlayer.defenseDamage / (float)player.statDefense);
-
-				// Reduce player defense based on defense stat damage accumulated
-				player.statDefense -= modPlayer.defenseDamage;
-
-				// Checks all immunity frame timers
-				bool isImmune = false;
-				for (int i = 0; i < player.hurtCooldowns.Length; i++)
+				int numDust = 2;
+				for (int i = 0; i < numDust; i++)
 				{
-					if (player.hurtCooldowns[i] > 0)
-						isImmune = true;
-				}
-
-				// Reduce defense stat damage over time, but only if the player doesn't have any active immunity frames and if the recovery timer is 0
-				if (!isImmune)
-				{
-					if (player.miscCounter % defenseDamageRecoveryRate == 0 && modPlayer.timeBeforeDefenseDamageRecovery == 0)
-						modPlayer.defenseDamage--;
-
-					if (modPlayer.timeBeforeDefenseDamageRecovery > 0)
-						modPlayer.timeBeforeDefenseDamageRecovery--;
+					int dustIndex = Dust.NewDust(player.position, player.width, player.height, 21, 0f, 0f);
+					Dust dust = Main.dust[dustIndex];
+					dust.position.X += Main.rand.Next(-5, 6);
+					dust.position.Y += Main.rand.Next(-5, 6);
+					dust.velocity *= 0.2f;
+					dust.noGravity = true;
+					dust.noLight = true;
 				}
 			}
+		}
+		#endregion
 
-			// Prevent negative defense values
+		#region Defense Effects
+		private static void DefenseEffects(Player player, CalamityPlayer modPlayer)
+		{
+			//
+			// Defense Damage
+			//
+			// Current defense damage can be calculated at any time using the accessor property CurrentDefenseDamage.
+			// However, it CANNOT be written to. You can only set the total defense damage.
+			// CalamityPlayer has a function called DealDefenseDamage to handle everything for you, when dealing defense damage.
+			//
+			// The player's current recovery through defense damage is tracked through two frame counts:
+			// defenseDamageRecoveryFrames = How many more frames the player will still be recovering from defense damage
+			// totalDefenseDamageRecoveryFrames = The total timer for defense damage recovery that the player is undergoing
+			//
+			// Defense damage heals over a fixed time (CalamityPlayer.DefenseDamageRecoveryTime).
+			// This is independent of how much defense the player started with, or how much they lost.
+			// If hit again while recovering from defense damage, that fixed time is ADDED to the current recovery timer
+			// (in addition to the player taking more defense damage, of course).
+			if (modPlayer.totalDefenseDamage > 0)
+			{
+				// Defense damage is capped at your maximum defense, no matter what.
+				if (modPlayer.totalDefenseDamage > player.statDefense)
+					modPlayer.totalDefenseDamage = player.statDefense;
+
+				// You cannot begin recovering from defense damage until your iframes wear off.
+				bool hasIFrames = false;
+				for (int i = 0; i < player.hurtCooldowns.Length; i++)
+					if (player.hurtCooldowns[i] > 0)
+						hasIFrames = true;
+
+				// Delay before defense damage recovery can start. While this delay is ticking down, defense damage doesn't recover at all.
+				if (!hasIFrames && modPlayer.defenseDamageDelayFrames > 0)
+					--modPlayer.defenseDamageDelayFrames;
+
+				// Once the delay is up, defense damage recovery occurs.
+				else if (modPlayer.defenseDamageDelayFrames <= 0)
+				{
+					// Make one frame's worth of progress towards recovery.
+					--modPlayer.defenseDamageRecoveryFrames;
+
+					// If completely recovered, reset defense damage to nothing.
+					if (modPlayer.defenseDamageRecoveryFrames <= 0)
+					{
+						modPlayer.totalDefenseDamage = 0;
+						modPlayer.defenseDamageRecoveryFrames = 0;
+						modPlayer.totalDefenseDamageRecoveryFrames = CalamityPlayer.DefenseDamageBaseRecoveryTime;
+						modPlayer.defenseDamageDelayFrames = 0;
+					}
+				}
+
+				// Get current amount of defense damage to apply this frame.
+				int currentDefenseDamage = modPlayer.CurrentDefenseDamage;
+
+				// Apply DR Damage.
+				//
+				// DR Damage is applied at exactly the same ratio as defense damage;
+				// if you lose half your defense to defense damage, you also lose half your DR.
+				// This is applied first because the math would be wrong if the player's defense was already reduced by defense damage.
+				if (player.statDefense > 0 && player.endurance > 0f)
+				{
+					float drDamageRatio = currentDefenseDamage / (float)player.statDefense;
+					player.endurance *= 1f - drDamageRatio;
+				}
+
+				// Apply defense damage
+				player.statDefense -= currentDefenseDamage;
+			}
+
+			// Bloodflare Core's defense reduction
+			// This is intentionally after defense damage.
+			// This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
+			// However, removing the item means you won't get healed as the defense comes back.
+			ref int lostDef = ref modPlayer.bloodflareCoreLostDefense;
+			if (lostDef > 0)
+			{
+				// Defense regeneration occurs every four frames while defense is missing
+				if (player.miscCounter % 4 == 0)
+				{
+					--lostDef;
+					if (modPlayer.bloodflareCore)
+					{
+						player.statLife += 1;
+						player.HealEffect(1, false);
+
+						// Produce an implosion of blood themed dust so it's obvious an effect is occurring
+						for (int i = 0; i < 3; ++i)
+						{
+							Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+							Vector2 dustPos = player.Center + offset;
+							Vector2 dustVel = offset * -0.08f;
+							Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+							d.velocity = dustVel;
+							d.noGravity = true;
+						}
+					}
+				}
+
+				// Actually apply Bloodflare Core defense reduction
+				player.statDefense -= lostDef;
+			}
+
+			// Defense can never be reduced below zero, no matter what
 			if (player.statDefense < 0)
 				player.statDefense = 0;
 
-			// Multiplicative defense reductions
+			// Multiplicative defense reductions.
+			// These are done last because they need to be after the defense lower cap at 0.
 			if (modPlayer.fabsolVodka)
 			{
 				if (player.statDefense > 0)
@@ -4026,53 +4108,6 @@ namespace CalamityMod.CalPlayer
 				if (player.statDefense > 0)
 					player.statDefense -= (int)(player.statDefense * 0.06);
 			}
-
-			// Intentionally at the end: Bloodflare Core's defense reduction (after all other boosting effects and whatnot)
-			// This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
-			// However, removing the item means you won't get healed as the defense comes back.
-			ref int lostDef = ref modPlayer.bloodflareCoreLostDefense;
-			if (lostDef > 0)
-			{
-				// Defense regeneration occurs every four frames while defense is missing
-				if (player.miscCounter % 4 == 0)
-				{
-					--lostDef;
-					if (modPlayer.bloodflareCore)
-					{
-						player.statLife += 1;
-						player.HealEffect(1, false);
-
-						// Produce an implosion of blood themed dust so it's obvious an effect is occurring
-						for (int i = 0; i < 3; ++i)
-						{
-							Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
-							Vector2 dustPos = player.Center + offset;
-							Vector2 dustVel = offset * -0.08f;
-							Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
-							d.velocity = dustVel;
-							d.noGravity = true;
-						}
-					} 
-				}
-
-				// Actually apply the defense reduction
-				player.statDefense -= lostDef;
-			}
-
-			if (modPlayer.spectralVeilImmunity > 0)
-			{
-				int numDust = 2;
-				for (int i = 0; i < numDust; i++)
-				{
-					int dustIndex = Dust.NewDust(player.position, player.width, player.height, 21, 0f, 0f);
-					Dust dust = Main.dust[dustIndex];
-					dust.position.X += Main.rand.Next(-5, 6);
-					dust.position.Y += Main.rand.Next(-5, 6);
-					dust.velocity *= 0.2f;
-					dust.noGravity = true;
-					dust.noLight = true;
-				}
-			}
 		}
 		#endregion
 
@@ -4142,7 +4177,8 @@ namespace CalamityMod.CalPlayer
 				(player.ammoCost75 ? 0.75f : 1f) *
 				modPlayer.rangedAmmoCost);
 			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
-			modPlayer.defenseStat = player.statDefense + modPlayer.defenseDamage;
+			// Cancel out defense damage for the purposes of the stat meter.
+			modPlayer.defenseStat = player.statDefense + modPlayer.CurrentDefenseDamage;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
 			modPlayer.manaCostStat = (int)(player.manaCost * 100f);

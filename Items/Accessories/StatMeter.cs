@@ -48,7 +48,8 @@ namespace CalamityMod.Items.Accessories
 
 		private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
 		{
-			int defense = modPlayer.defenseStat - modPlayer.defenseDamage;
+			// Un-cancel out defense damage for display in the stat meter. (why cancel it out in the first place then?)
+			int defense = modPlayer.defenseStat - modPlayer.CurrentDefenseDamage;
 			int DR = modPlayer.DRStat;
 			int meleeSpeed = modPlayer.meleeSpeedStat;
 			int manaCost = modPlayer.manaCostStat;

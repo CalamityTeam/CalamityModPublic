@@ -61,7 +61,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -118,9 +117,6 @@ namespace CalamityMod.CalPlayer
         public int itemTypeLastReforged = 0;
         public int reforgeTierSafety = 0;
 		public bool finalTierAccessoryReforge = false;
-        public int defenseDamage = 0;
-		public const int defaultTimeBeforeDefenseDamageRecovery = 15;
-		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -402,6 +398,28 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
         public static readonly double AdrenalineDamageBoost = 2.0D; // +200%
         public static readonly double AdrenalineDamagePerBooster = 0.15D; // +15%
+        #endregion
+
+        #region Defense Damage
+        // Ratio at which incoming damage (after mitigation) is converted into defense damage.
+        // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% malice
+        // It is now 15% on all difficulties because you already take less damage on lower difficulties.
+        public const double DefenseDamageRatio = 0.15;
+        public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
+        internal int totalDefenseDamage = 0;
+        // Defense damage from a single hit recovers in one second, no matter how big the hit was.
+        // If you get hit AGAIN before you have fully recovered, 60 more frames are added to your recovery timer!
+        internal const int DefenseDamageBaseRecoveryTime = 90;
+        // The maximum possible recovery time is 15 seconds. This is to prevent annoyance where godmode defense damage never goes away.
+        internal const int DefenseDamageMaxRecoveryTime = 900;
+        // How many frames the player will continue to be recovering from defense damage.
+        internal int defenseDamageRecoveryFrames = 0;
+        // The total timer of defense damage recovery that the player is currently suffering from.
+        internal int totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+        // Defense damage does not start recovering for a certain number of frames after iframes end.
+        internal const int DefenseDamageRecoveryDelay = 30;
+        // The current timer for how long the player must wait before defense damage begins recovering.
+        internal int defenseDamageDelayFrames = 0;
         #endregion
 
         #region Permanent Buff
@@ -1242,7 +1260,9 @@ namespace CalamityMod.CalPlayer
                 { "itemTypeLastReforged", itemTypeLastReforged },
                 { "reforgeTierSafety", reforgeTierSafety },
                 { "moveSpeedStat", moveSpeedStat },
-                { "defenseDamage", defenseDamage },
+                { "defenseDamage", totalDefenseDamage },
+                { "defenseDamageRecoveryFrames", defenseDamageRecoveryFrames },
+                { "totalDefenseDamageRecoveryFrames", totalDefenseDamageRecoveryFrames },
                 { "disableAllDodges", disableAllDodges },
                 { "totalSpeedrunTicks", totalTicks },
 				{ "lastSplitType", lastSplitType },
@@ -1347,7 +1367,13 @@ namespace CalamityMod.CalPlayer
             exactRogueLevel = tag.GetInt("exactRogueLevel");
 
             moveSpeedStat = tag.GetInt("moveSpeedStat");
-            defenseDamage = tag.GetInt("defenseDamage");
+            totalDefenseDamage = tag.GetInt("defenseDamage");
+            defenseDamageRecoveryFrames = tag.GetInt("defenseDamageRecoveryFrames");
+            if (defenseDamageRecoveryFrames < 0)
+                defenseDamageRecoveryFrames = 0;
+            totalDefenseDamageRecoveryFrames = tag.GetInt("totalDefenseDamageRecoveryFrames");
+            if (totalDefenseDamageRecoveryFrames <= 0)
+                totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
             disableAllDodges = tag.GetBool("disableAllDodges");
 
             // Load the previous total elapsed time to know where to start the timer when it starts.
@@ -2101,8 +2127,10 @@ namespace CalamityMod.CalPlayer
         {
 			#region Debuffs
 			dodgeCooldownTimer = 0;
-			defenseDamage = 0;
-			timeBeforeDefenseDamageRecovery = 0;
+			totalDefenseDamage = 0;
+            defenseDamageRecoveryFrames = 0;
+            totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+            defenseDamageDelayFrames = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
             heldGaelsLastFrame = false;
@@ -5667,48 +5695,16 @@ namespace CalamityMod.CalPlayer
                     damage = bossRushDamage;
             }
 
-            // Player takes defense stat damage
-            if (npc.Calamity().canBreakPlayerDefense)
-            {
-                // Checks all immunity frame timers
-                bool isImmune = false;
-                for (int i = 0; i < player.hurtCooldowns.Length; i++)
-                {
-                    if (player.hurtCooldowns[i] > 0)
-                        isImmune = true;
-                }
-                if (!isImmune && !invincible && !lol)
-                {
-                    double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
-                    if (draedonsHeart)
-                        defenseStatDamageMult *= 0.5;
+            // Check if the player has iframes for the sake of avoiding defense damage.
+            bool hasIFrames = false;
+            for (int i = 0; i < player.hurtCooldowns.Length; i++)
+                if (player.hurtCooldowns[i] > 0)
+                    hasIFrames = true;
 
-                    int damageToDefense = (int)(damage * defenseStatDamageMult);
-
-					if (areThereAnyDamnBosses)
-					{
-						int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
-						if (damageToDefense < defenseDamageFloor)
-							damageToDefense = defenseDamageFloor;
-					}
-
-                    defenseDamage += damageToDefense;
-
-					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
-						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
-
-					if (hurtSoundTimer == 0)
-                    {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
-                        hurtSoundTimer = 30;
-                    }
-
-					string text = (-damageToDefense).ToString();
-                    Color messageColor = Color.LightGray;
-                    Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
-                    CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-                }
-            }
+            // If this NPC deals defense damage with contact damage, then apply defense damage.
+            // Defense damage is not applied if the player has iframes, is otherwise invincible, or has Lul equipped.
+            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible && !lol)
+                DealDefenseDamage(damage);
 
             if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
             {
@@ -5842,20 +5838,16 @@ namespace CalamityMod.CalPlayer
                 if (wCleave)
                     contactDamageReduction *= 0.75;
 
-                if (defenseDamage > 0)
+                // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
+                if (totalDefenseDamage > 0 && defenseStat > 0)
                 {
-					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-					if (defenseStat > 0)
-					{
-						double defenseDamageReduction = defenseDamage / (double)defenseStat;
-						if (defenseDamageReduction > 1D)
-							defenseDamageReduction = 1D;
+					double drDamageRatio = CurrentDefenseDamage / (double)defenseStat;
+					if (drDamageRatio > 1D)
+						drDamageRatio = 1D;
 
-						contactDamageReduction -= contactDamageReduction * defenseDamageReduction;
-					}
-
-					if (contactDamageReduction < 0D)
-						contactDamageReduction = 0D;
+                    contactDamageReduction *= 1D - drDamageRatio;
+                    if (contactDamageReduction < 0D)
+                        contactDamageReduction = 0D;
 				}
 
                 // Scale with base damage reduction
@@ -6045,51 +6037,20 @@ namespace CalamityMod.CalPlayer
                     damage = bossRushDamage;
             }
 
-            // Player takes defense stat damage
-            if (proj.Calamity().canBreakPlayerDefense)
-            {
-                // Checks all immunity frame timers
-                bool isImmune = false;
-                for (int i = 0; i < player.hurtCooldowns.Length; i++)
-                {
-                    if (player.hurtCooldowns[i] > 0)
-                        isImmune = true;
-                }
-                if (!isImmune && !invincible && !lol)
-                {
-					double defenseStatDamageMult = CalamityWorld.malice ? 0.2 : CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.075;
-					if (draedonsHeart)
-                        defenseStatDamageMult *= 0.5;
+            // Check if the player has iframes for the sake of avoiding defense damage.
+            bool hasIFrames = false;
+            for (int i = 0; i < player.hurtCooldowns.Length; i++)
+                if (player.hurtCooldowns[i] > 0)
+                    hasIFrames = true;
 
-                    int damageToDefense = (int)(damage * defenseStatDamageMult);
-
-					if (areThereAnyDamnBosses)
-					{
-						int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
-						if (damageToDefense < defenseDamageFloor)
-							damageToDefense = defenseDamageFloor;
-					}
-
-					defenseDamage += damageToDefense;
-
-					if (timeBeforeDefenseDamageRecovery < defaultTimeBeforeDefenseDamageRecovery)
-						timeBeforeDefenseDamageRecovery = defaultTimeBeforeDefenseDamageRecovery;
-
-					if (hurtSoundTimer == 0)
-                    {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
-                        hurtSoundTimer = 30;
-                    }
-
-					string text = (-damageToDefense).ToString();
-                    Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI
-                    Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
-                    CombatText.NewText(location, messageColor, Language.GetTextValue(text));
-                }
-            }
+            // If this projectile is capable of dealing defense damage, then apply defense damage.
+            // Defense damage is not applied if the player has iframes, is otherwise invincible, or has Lul equipped.
+            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible && !lol)
+                DealDefenseDamage(damage);
 
             // Reduce projectile damage based on banner type
             // IMPORTANT NOTE: Rework this in 1.4!
+            // TODO -- 1.4 has a banner projectile source system. Rework this.
             Point point = player.Center.ToTileCoordinates();
             int buffScanAreaWidth = (Main.maxScreenW + 800) / 16 - 1;
             int buffScanAreaHeight = (Main.maxScreenH + 800) / 16 - 1;
@@ -6214,17 +6175,14 @@ namespace CalamityMod.CalPlayer
                 if (wCleave)
                     projectileDamageReduction *= 0.75;
 
-                if (defenseDamage > 0)
+                // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
+                if (totalDefenseDamage > 0 && defenseStat > 0)
                 {
-					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
-					if (defenseStat > 0)
-					{
-						double defenseDamageReduction = defenseDamage / (double)defenseStat;
-						if (defenseDamageReduction > 1D)
-							defenseDamageReduction = 1D;
+					double drDamageRatio = CurrentDefenseDamage / (double)defenseStat;
+					if (drDamageRatio > 1D)
+						drDamageRatio = 1D;
 
-						projectileDamageReduction -= projectileDamageReduction * defenseDamageReduction;
-					}
+					projectileDamageReduction *= 1D - drDamageRatio;
 
 					if (projectileDamageReduction < 0D)
 						projectileDamageReduction = 0D;
@@ -10667,6 +10625,59 @@ namespace CalamityMod.CalPlayer
                     life.noGravity = true;
                 }
             }
+        }
+        #endregion
+
+        #region Defense Damage Function
+        private void DealDefenseDamage(int damage)
+        {
+            double ratioToUse = DefenseDamageRatio;
+            if (draedonsHeart)
+                ratioToUse *= 0.5;
+
+            // Calculate the defense damage taken from this hit.
+            int defenseDamageTaken = (int)(damage * ratioToUse);
+
+            // There is a floor on defense damage based on difficulty; i.e. there is a minimum amount of defense damage from any hit that can deal defense damage.
+            // This floor is only applied if bosses are alive
+            if (areThereAnyDamnBosses)
+            {
+                int defenseDamageFloor = (CalamityWorld.malice ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+                if (defenseDamageTaken < defenseDamageFloor)
+                    defenseDamageTaken = defenseDamageFloor;
+            }
+
+            // Apply that defense damage on top of whatever defense damage the player currently has.
+            int previousDefenseDamage = CurrentDefenseDamage;
+            totalDefenseDamage = previousDefenseDamage + defenseDamageTaken;
+
+            // Safety check to prevent illegal recovery time
+            if (defenseDamageRecoveryFrames < 0)
+                defenseDamageRecoveryFrames = 0;
+
+            // DIRECTLY ADD the base defense damage recovery time to whatever recovery time the player already has.
+            totalDefenseDamageRecoveryFrames = defenseDamageRecoveryFrames + DefenseDamageBaseRecoveryTime;
+            if (totalDefenseDamageRecoveryFrames > DefenseDamageMaxRecoveryTime)
+                totalDefenseDamageRecoveryFrames = DefenseDamageMaxRecoveryTime;
+            // Reset any recovery progress they may have already made.
+            // They start the new recovery timer from the beginning.
+            defenseDamageRecoveryFrames = totalDefenseDamageRecoveryFrames;
+
+            // Reset the delay between iframes and being able to recover from defense damage.
+            defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
+
+            // Play a sound from taking defense damage.
+            if (hurtSoundTimer == 0)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                hurtSoundTimer = 30;
+            }
+
+            // Display text indicating that defense damage was taken.
+            string text = (-defenseDamageTaken).ToString();
+            Color messageColor = Color.LightGray;
+            Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
+            CombatText.NewText(location, messageColor, Language.GetTextValue(text));
         }
         #endregion
     }
