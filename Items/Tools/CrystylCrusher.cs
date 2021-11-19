@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
 {
 	public class CrystylCrusher : ModItem
 	{
-		private static int PickPower = 500;
+		private static int PickPower = 1000;
 		private static float LaserSpeed = 14f;
 
 		public override void SetStaticDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Tools
 			item.damage = 400;
 			item.knockBack = 9f;
 			item.useTime = 2;
-			item.useAnimation = 10;
+			item.useAnimation = 2;
 			item.pick = PickPower;
 			// tile boost intentionally missing, usually 50
 
