@@ -578,6 +578,10 @@ namespace CalamityMod.Items
 			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
 			if (item.type == ItemID.SpectreHood)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
+
+			// Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
+			if (item.type == ItemID.YoyoBag || item.type == ItemID.YoyoGlove)
+				EditTooltipByNum(0, (line) => line.text += "\nYoyos will do 34% less damage");
 			#endregion
 
 			// Non-consumable boss summon items
