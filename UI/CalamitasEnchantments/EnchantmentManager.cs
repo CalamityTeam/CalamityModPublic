@@ -247,7 +247,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && item.magic && item.mana > 0),
 
-				new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%." +
+				new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\n" +
 											"After this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.",
 					1000,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
