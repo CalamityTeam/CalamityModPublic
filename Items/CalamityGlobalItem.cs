@@ -133,6 +133,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.SuspiciousLookingTentacle)
 				item.expert = true;
 
+			// Fix Bones being attracted to the player when you have open ammo slots
+			if (item.type == ItemID.Bone)
+				item.notAmmo = true;
+
 			// Modified Pearlwood items are now Light Red
 			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
 				item.rare = ItemRarityID.LightRed;
