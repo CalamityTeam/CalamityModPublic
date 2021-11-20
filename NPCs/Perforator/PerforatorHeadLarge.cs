@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (revenge || lifeRatio < (expertMode ? 0.75f : 0.5f))
 				npc.Calamity().newAI[0] += 1f;
 
-			float burrowTimeGateValue = death ? 210f : 270f;
+			float burrowTimeGateValue = death ? 480f : 600f;
 			bool burrow = npc.Calamity().newAI[0] >= burrowTimeGateValue;
 			bool resetTime = npc.Calamity().newAI[0] >= burrowTimeGateValue + 600f;
 			bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;

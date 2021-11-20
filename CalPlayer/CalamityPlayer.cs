@@ -119,7 +119,7 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
 		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
-		public const int defaultTimeBeforeDefenseDamageRecovery = 5;
+		public const int defaultTimeBeforeDefenseDamageRecovery = 15;
 		public int timeBeforeDefenseDamageRecovery = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;

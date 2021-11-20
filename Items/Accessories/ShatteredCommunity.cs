@@ -27,7 +27,8 @@ namespace CalamityMod.Items.Accessories
 		private const long BaseLevelCost = 400000L;
 		private static long LevelCost(int level) => BaseLevelCost * level;
 		private static long CumulativeLevelCost(int level) => (BaseLevelCost / 2L) * level * (level + 1);
-		private const int MaxLevel = 60;
+		private const int MaxLevel = 25; // was 60.
+		private const float RageDamagePerLevel = 0.01f; // x1.35 --> x1.60 (used to be x1.95, jesus)
 
 		internal int level = 0;
 		internal long totalRageDamage = 0L;
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Accessories
 			player.moveSpeed += 0.2f;
 
 			// Shattered Community provides a stacking +1% Rage Mode damage per level.
-			modPlayer.RageDamageBoost += level * 0.01;
+			modPlayer.RageDamageBoost += level * RageDamagePerLevel;
 		}
 
 		// Community and Shattered Community are mutually exclusive
@@ -203,6 +204,9 @@ namespace CalamityMod.Items.Accessories
 		public override void Load(TagCompound tag)
 		{
 			level = tag.GetInt("level");
+			// Shattered Community's level cap was reduced from 60 to 25, so cap out ones that were made higher previously.
+			if (level > MaxLevel)
+				level = MaxLevel;
 			totalRageDamage = tag.GetLong("totalDamage");
 		}
 

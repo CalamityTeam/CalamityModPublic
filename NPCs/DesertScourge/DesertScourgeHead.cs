@@ -141,19 +141,19 @@ namespace CalamityMod.NPCs.DesertScourge
             bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;
             bool quickFall = npc.Calamity().newAI[1] == 2f;
 
-            float speed = 0.12f;
-            float turnSpeed = 0.08f;
+            float speed = 0.09f;
+            float turnSpeed = 0.06f;
 
             if (expertMode)
             {
-                float velocityScale = death ? 0.15f : 0.075f;
+                float velocityScale = death ? 0.12f : 0.06f;
                 speed += velocityScale * (1f - lifeRatio);
-                float accelerationScale = death ? 0.09f : 0.06f;
+                float accelerationScale = death ? 0.075f : 0.05f;
                 turnSpeed += accelerationScale * (1f - lifeRatio);
             }
 
-            speed += 0.08f * enrageScale;
-            turnSpeed += 0.04f * enrageScale;
+            speed += 0.12f * enrageScale;
+            turnSpeed += 0.06f * enrageScale;
 
             if (lungeUpward)
             {
