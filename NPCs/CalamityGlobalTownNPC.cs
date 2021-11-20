@@ -1352,7 +1352,8 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.WitchDoctor)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SummoningPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.RagePotion, true, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.WrathPotion, true, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoPotion, true, Item.buyPrice(0, 2, 0, 0));
