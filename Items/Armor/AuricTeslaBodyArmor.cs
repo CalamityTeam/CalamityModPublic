@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
             {
                 foreach (TooltipLine line2 in list)
                 {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
                     {
                         line2.text = "You will freeze enemies near you when you are struck\n" +
                         "Provides heat and cold protection in Death Mode";
