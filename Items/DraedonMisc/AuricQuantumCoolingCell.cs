@@ -74,9 +74,11 @@ namespace CalamityMod.Items.DraedonMisc
             // Old worlds can craft the cell immediately for the sake of being able to easily fight Draedon in endgame worlds.
             ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5, true);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 2);
-            recipe.AddIngredient(ItemID.Wire, 40);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 80);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 6);
+            recipe.AddIngredient(ItemID.WaterBucket);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
