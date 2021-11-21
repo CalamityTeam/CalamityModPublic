@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
 			recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 2);
-			recipe.AddTile(TileID.Hellforge);
+			recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
