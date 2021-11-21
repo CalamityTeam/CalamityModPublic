@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Materials
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CharredOre>(), 4);
             recipe.AddIngredient(ItemID.Hellstone, 4);
-            recipe.AddTile(TileID.AdamantiteForge);
+            recipe.AddTile(TileID.Hellforge);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
