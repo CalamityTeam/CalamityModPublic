@@ -78,7 +78,6 @@ namespace CalamityMod.Items.DraedonMisc
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 6);
-            recipe.AddIngredient(ItemID.WaterBucket);
             recipe.AddTile(ModContent.TileType<CosmicAnvil>());
             recipe.SetResult(this);
             recipe.AddRecipe();
