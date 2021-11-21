@@ -31,18 +31,6 @@ namespace CalamityMod.CustomRecipes
             boolTagContainer.AddWithCondition("HasFoundJungleSchematic", HasFoundJungleSchematic);
             boolTagContainer.AddWithCondition("HasFoundHellSchematic", HasFoundHellSchematic);
             boolTagContainer.AddWithCondition("HasFoundIceSchematic", HasFoundIceSchematic);
-
-            HasUnlockedT1ArsenalRecipes = false;
-            HasUnlockedT2ArsenalRecipes = false;
-            HasUnlockedT3ArsenalRecipes = false;
-            HasUnlockedT4ArsenalRecipes = false;
-            HasUnlockedT5ArsenalRecipes = false;
-
-            HasFoundSunkenSeaSchematic = false;
-            HasFoundPlanetoidSchematic = false;
-            HasFoundJungleSchematic = false;
-            HasFoundHellSchematic = false;
-            HasFoundIceSchematic = false;
         }
 
         public static void Load(IList<string> boolTagContainer)
