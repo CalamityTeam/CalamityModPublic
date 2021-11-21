@@ -180,9 +180,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), dropChance);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<VoidConcentrationStaff>(), dropChance);
 
-                    // Equipment
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ArcanumoftheVoid>(), 2);
-
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
 					if (Main.rand.NextBool(20))

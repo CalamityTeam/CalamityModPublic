@@ -5,6 +5,11 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class NavystoneWall : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Unsafe Navystone Wall");
+        }
+
         public override void SetDefaults()
         {
             item.width = 12;

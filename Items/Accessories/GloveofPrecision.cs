@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.throwingDamage += 0.12f;
             modPlayer.throwingCrit += 12;
             modPlayer.throwingVelocity += 0.25f;
+            modPlayer.rogueUseSpeedFactor -= 0.2f;
         }
     }
 }

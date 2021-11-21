@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Tools
 {
 	public class CrystylCrusher : ModItem
 	{
-		private static int PickPower = 500;
+		private static int PickPower = 1000;
 		private static float LaserSpeed = 14f;
 
 		public override void SetStaticDefaults()
@@ -27,14 +27,13 @@ namespace CalamityMod.Items.Tools
 			item.damage = 400;
 			item.knockBack = 9f;
 			item.useTime = 2;
-			item.useAnimation = 10;
+			item.useAnimation = 2;
 			item.pick = PickPower;
 			// tile boost intentionally missing, usually 50
 
 			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;
-			item.crit += 25;
 			item.width = 70;
 			item.height = 70;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -53,6 +52,9 @@ namespace CalamityMod.Items.Tools
 				return null;
 			return new Vector2(10, 10);
 		}
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
 		public override bool AltFunctionUse(Player player) => true;
 

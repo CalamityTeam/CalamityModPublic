@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathstare Rod");
-            Tooltip.SetDefault("Summons an eye above your head that watches you and shoots at enemies");
+            Tooltip.SetDefault("Summons an eye above your head that watches you and shoots at enemies\n" +
+			"There can only be one eye");
         }
 
         public override void SetDefaults()

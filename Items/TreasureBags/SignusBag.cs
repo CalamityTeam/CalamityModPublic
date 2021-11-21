@@ -38,8 +38,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<TwistingNether>(), 3, 4);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), 3);
-			DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), 3);
+			DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);
+			DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());

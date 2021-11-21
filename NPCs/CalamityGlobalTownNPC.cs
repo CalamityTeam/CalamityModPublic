@@ -1343,7 +1343,8 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
 				SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-				SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHoly, price: Item.buyPrice(24), true);
+                SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
@@ -1351,7 +1352,8 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.WitchDoctor)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SummoningPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.RagePotion, true, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.WrathPotion, true, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoPotion, true, Item.buyPrice(0, 2, 0, 0));
@@ -1384,7 +1386,7 @@ namespace CalamityMod.NPCs
 			}
 		}
 
-		public static void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
+		public static void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
 		{
 			if (condition)
 			{
@@ -1392,6 +1394,8 @@ namespace CalamityMod.NPCs
 				if (price != null)
 				{
 					shop.item[nextSlot].shopCustomPrice = price;
+					if (Main.LocalPlayer.discount && !ignoreDiscount)
+					  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 				}
 
 				nextSlot++;

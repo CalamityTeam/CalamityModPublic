@@ -296,7 +296,6 @@ namespace CalamityMod.NPCs.Abyss
 			npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
 			npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
 			npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
-			npc.buffImmune[ModContent.BuffType<SilvaStun>()] = immuneToSlowingDebuffs;
 			npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
 			npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
 			npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
@@ -1326,6 +1325,8 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void NPCLoot()
         {
+			CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
             DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
             DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
@@ -1334,6 +1335,10 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 50, 108);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 15, 27);
             DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+
+            // Mark Adult Eidolon Wyrm as defeated
+            CalamityWorld.downedAdultEidolonWyrm = true;
+            CalamityNetcode.SyncWorld();
         }
 
 		public override void HitEffect(int hitDirection, double damage)

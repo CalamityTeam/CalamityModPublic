@@ -35,11 +35,11 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 3, 4);
+            DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 4, 6);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), 3);
+			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());

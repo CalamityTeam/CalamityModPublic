@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfRecklessness = true;
             modPlayer.throwingDamage -= 0.1f;
+            modPlayer.rogueUseSpeedFactor += 0.12f;
         }
     }
 }

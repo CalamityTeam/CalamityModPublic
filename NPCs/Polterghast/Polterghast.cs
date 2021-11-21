@@ -96,6 +96,14 @@ namespace CalamityMod.NPCs.Polterghast
 				index = phase1IconIndex;
 		}
 
+		public override void BossHeadRotation(ref float rotation)
+		{
+			if (npc.HasValidTarget && npc.Calamity().newAI[3] == 0f)
+				rotation = (Main.player[npc.TranslatedTargetIndex].Center - npc.Center).ToRotation() + MathHelper.PiOver2;
+			else
+				rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+		}
+
 		public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);

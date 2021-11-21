@@ -166,7 +166,6 @@ namespace CalamityMod.NPCs
         public int tesla = 0;
         public int tSad = 0;
         public int eFreeze = 0;
-        public int silvaStun = 0;
         public int eutrophication = 0;
         public int webbed = 0;
         public int slowed = 0;
@@ -801,7 +800,7 @@ namespace CalamityMod.NPCs
             }
 
             bool inAbyss = (npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX;
-            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[BuffType<CrushDepth>()];
+            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[BuffType<CrushDepth>()] && !CalamityLists.enemyImmunityList.Contains(npc.type);
             if (hurtByAbyss)
             {
                 npc.AddBuff(BuffType<CrushDepth>(), 2);
@@ -3163,8 +3162,6 @@ namespace CalamityMod.NPCs
 				tSad--;
 			if (eFreeze > 0)
 				eFreeze--;
-			if (silvaStun > 0)
-				silvaStun--;
 			if (eutrophication > 0)
 				eutrophication--;
 			if (webbed > 0)
@@ -3251,7 +3248,7 @@ namespace CalamityMod.NPCs
 			{
 				if (eFreeze <= 0 && gState <= 0 && tSad <= 0)
 				{
-					if (silvaStun > 0 || eutrophication > 0)
+					if (eutrophication > 0)
 						npc.velocity *= 0.5f;
 					else if (timeSlow > 0 || webbed > 0)
 						npc.velocity *= 0.85f;
@@ -4568,8 +4565,6 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/PearlAura"));
                     if (relicOfResilienceWeakness > 0)
                         buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness"));
-                    if (silvaStun > 0)
-						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/SilvaStun"));
 					if (tSad > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/TemporalSadness"));
 					if (tesla > 0)

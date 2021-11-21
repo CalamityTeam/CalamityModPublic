@@ -654,7 +654,7 @@ namespace CalamityMod
 				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Key).ToList();
 				enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Key));
 				List<int> summons = new List<int>() { ItemType<CausticTear>(), ItemType<CausticTearNonConsumable>() };
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ModContent.ItemType<GammaHeart>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ModContent.ItemType<GammaHeart>(), ModContent.ItemType<PhosphorescentGauntlet>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{ItemType<CausticTear>()}] or [i:{ItemType<CausticTearNonConsumable>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
@@ -863,6 +863,7 @@ namespace CalamityMod
 				censusMod.Call("TownNPCCondition", NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
 				censusMod.Call("TownNPCCondition", NPCType<FAP>(), "Have [i:" + ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
 				censusMod.Call("TownNPCCondition", NPCType<DILF>(), "Defeat Cryogen");
+				censusMod.Call("TownNPCCondition", NPCType<WITCH>(), "Defeat Supreme Calamitas");
 			}
 		}
 

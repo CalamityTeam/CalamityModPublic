@@ -68,10 +68,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.rotation = (projectile.position.X - projectile.oldPosition.X) * 0.07f + Owner.velocity.X * 0.2f;
             projectile.rotation = Utils.Clamp(projectile.rotation, -0.4f, 0.4f);
 
-            if (projectile.localAI[0] == 0f)
+            if (projectile.ai[0] == 0f)
             {
                 Initialize(Owner);
-                projectile.localAI[0] = 1f;
+                projectile.ai[0] = 1f;
             }
             if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
