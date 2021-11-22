@@ -44,8 +44,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             aiType = -1;
-            npc.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }

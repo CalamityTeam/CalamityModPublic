@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -372,12 +373,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 		}
 
-		public override void NPCLoot()
-		{
-			int heartAmt = Main.rand.Next(3) + 3;
-			for (int i = 0; i < heartAmt; i++)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-		}
+		public override bool PreNPCLoot() => false;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

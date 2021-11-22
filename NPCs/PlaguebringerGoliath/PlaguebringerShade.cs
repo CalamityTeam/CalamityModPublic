@@ -6,6 +6,7 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.Accessories;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -628,12 +629,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void NPCLoot()
         {
-			int heartAmt = Main.rand.Next(3) + 3;
-			for (int i = 0; i < heartAmt; i++)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
-
 			if (CalamityPlayer.areThereAnyDamnBosses)
 				return;
+
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int heartAmt = Main.rand.Next(3) + 3;
+				for (int i = 0; i < heartAmt; i++)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
 
 			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
 			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);

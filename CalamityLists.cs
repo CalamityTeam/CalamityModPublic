@@ -2195,16 +2195,6 @@ namespace CalamityMod
 
             heartDropBlockList = new List<int>()
             {
-                NPCID.BlueSlime,
-                NPCID.YellowSlime,
-                NPCID.RedSlime,
-                NPCID.PurpleSlime,
-                NPCID.GreenSlime,
-                NPCID.IceSlime,
-                NPCID.SlimeSpiked,
-                NPCID.UmbrellaSlime,
-                NPCID.RainbowSlime,
-                NPCID.Pinky,
                 NPCID.ServantofCthulhu,
                 NPCID.EaterofWorldsHead,
                 NPCID.EaterofWorldsBody,
@@ -2220,35 +2210,7 @@ namespace CalamityMod
                 NPCID.PlanterasTentacle,
                 NPCID.Sharkron,
                 NPCID.Sharkron2,
-                NPCType<DesertNuisanceHead>(),
-				NPCType<HiveBlob>(),
-				NPCType<HiveBlob2>(),
-				NPCType<DarkHeart>(),
-                NPCID.DevourerHead,
-                NPCID.EaterofSouls,
-                NPCType<PerforatorHeadLarge>(),
-                NPCType<PerforatorHeadSmall>(),
-                NPCType<SlimeGod>(),
-                NPCType<SlimeGodRun>(),
-                NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRunSplit>(),
-				NPCType<Brimling>(),
-				NPCType<CalamitasRun>(),
-				NPCType<CalamitasRun2>(),
-				NPCType<LifeSeeker>(),
-				NPCType<SoulSeeker>(),
-                NPCType<PlaguebringerShade>(),
-				NPCType<ProfanedGuardianBoss2>(),
-				NPCType<ProfanedGuardianBoss3>(),
-				NPCType<ProvSpawnDefense>(),
-				NPCType<ProvSpawnHealer>(),
-				NPCType<ProvSpawnOffense>(),
-                NPCType<DarkEnergy>(),
-				NPCType<DevourerofGodsHead2>(),
-				NPCType<BrimstoneHeart>(),
-				NPCType<SoulSeekerSupreme>(),
-				NPCType<SupremeCataclysm>(),
-				NPCType<SupremeCatastrophe>()
+                NPCType<DarkEnergy>()
             };
 
             pierceResistList = new List<int>()

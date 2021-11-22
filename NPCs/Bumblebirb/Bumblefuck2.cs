@@ -269,15 +269,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override bool PreNPCLoot()
 		{
-			if ((!CalamityWorld.malice && !CalamityWorld.revenge) || !CalamityPlayer.areThereAnyDamnBosses)
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return false;
+
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
 			}
-
-			if (CalamityPlayer.areThereAnyDamnBosses)
-				return false;
 
 			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
 

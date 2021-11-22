@@ -137,9 +137,12 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void NPCLoot()
 		{
-			int heartAmt = Main.rand.Next(3) + 3;
-			for (int i = 0; i < heartAmt; i++)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
+			{
+				int heartAmt = Main.rand.Next(3) + 3;
+				for (int i = 0; i < heartAmt; i++)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+			}
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<CataclysmTrophy>(), 10);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 4 : 5);

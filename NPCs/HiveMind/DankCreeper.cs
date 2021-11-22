@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override bool PreNPCLoot()
 		{
-			if ((!CalamityWorld.malice && !CalamityWorld.revenge) || !CalamityPlayer.areThereAnyDamnBosses)
+			if (!CalamityWorld.malice && !CalamityWorld.revenge)
 			{
 				int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
 				if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
