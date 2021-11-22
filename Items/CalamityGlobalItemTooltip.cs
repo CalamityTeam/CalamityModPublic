@@ -328,6 +328,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.SwiftnessPotion)
 				EditTooltipByNum(0, (line) => line.text = "15% increased movement speed");
 
+			// Nerfed Endurance Potion tooltip
+			if (item.type == ItemID.EndurancePotion)
+				EditTooltipByNum(0, (line) => line.text = "Reduces damage taken by 5%");
+
 			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
 			if (item.type == ItemID.HandWarmer)
 			{

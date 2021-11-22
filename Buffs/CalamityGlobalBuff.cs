@@ -11,7 +11,11 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-			if (type == BuffID.MagicPower)
+			if (type == BuffID.Endurance)
+			{
+				player.endurance -= 0.05f;
+			}
+			else if (type == BuffID.MagicPower)
 			{
 				player.magicDamage -= 0.1f;
 			}
@@ -92,6 +96,10 @@ namespace CalamityMod.Buffs
 			// Vanilla buffs
             switch (type)
             {
+				case BuffID.Endurance:
+					tip = "5% reduced damage";
+					break;
+
 				case BuffID.MagicPower:
 					tip = "10% increased magic damage";
 					break;
