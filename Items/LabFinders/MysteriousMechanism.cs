@@ -10,8 +10,8 @@ namespace CalamityMod.Items.LabFinders
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mysterious Mechanism");
-            Tooltip.SetDefault("Used as a base for specialized homing technology");
+            DisplayName.SetDefault("Lab Seeking Mechanism");
+            Tooltip.SetDefault("A receptacle for technology which pinpoints the power cores of Draedon's Labs");
         }
 
         public override void SetDefaults()
