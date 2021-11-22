@@ -77,12 +77,13 @@ namespace CalamityMod.NPCs
     {
 		#region Variables
 
+		public float TimedDR { get; set; } = 0f;
+
 		public float DR { get; set; } = 0f;
 
 		public int KillTime { get; set; } = 0;
 
 		public const int DoGPhase1KillTime = 5400;
-		public const int DoGPhase2KillTime = 9000;
 
 		// Biome enrage timer max
 		public const int biomeEnrageTimerMax = 300;
@@ -1077,11 +1078,7 @@ namespace CalamityMod.NPCs
 				DR = newDR;
 			}
 
-			if (DevourerOfGodsIDs.Contains(npc.type))
-			{
-				KillTime = DoGPhase1KillTime;
-			}
-			else if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
 			{
 				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
 				KillTime = revKillTime;
