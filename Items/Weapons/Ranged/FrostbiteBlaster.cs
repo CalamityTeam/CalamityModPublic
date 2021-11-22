@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 31;
+            item.damage = 55;
             item.ranged = true;
             item.width = 56;
             item.height = 22;
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				else
 					Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockBack, player.whoAmI);
 			}
-            return true;
+            return false;
         }
     }
 }

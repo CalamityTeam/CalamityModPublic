@@ -61,8 +61,8 @@ namespace CalamityMod.Items.DraedonMisc
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

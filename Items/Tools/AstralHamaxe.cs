@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Tools
             item.axe = 165 / 5;
             item.tileBoost += 3;
 
-            item.crit += 25;
             item.melee = true;
             item.width = 60;
             item.height = 70;
@@ -35,6 +34,9 @@ namespace CalamityMod.Items.Tools
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

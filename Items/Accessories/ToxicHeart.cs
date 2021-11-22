@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Toxic Heart");
             Tooltip.SetDefault("Summons a plague aura around you that damages nearby enemies\n" +
-        "Reduces the damage caused by the Plague debuff and removes its blindness effect");
+        "Makes you immune to the Plague debuff ");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reducedPlagueDmg = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.05f, 1f, 0.1f);
             int num = ModContent.BuffType<Plague>();

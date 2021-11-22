@@ -173,6 +173,10 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (SelectedEnchantment.HasValue && SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
 				cost = (int)MathHelper.Min(cost, Item.buyPrice(5)) * 5;
 
+			// Make it 20% cheaper if the player has the Discount Card or Greedy Ring
+			if (Main.LocalPlayer.discount)
+				cost = (int)(cost * 0.8);
+
 			// Draw the coin costs.
 			string costText = "Cost: ";
 			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, costText, costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y + 45f * Main.UIScale, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, Main.UIScale);
@@ -193,7 +197,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
 			Vector2 scale = new Vector2(0.8f, 0.825f) * MathHelper.Clamp(ResolutionRatio, 0.825f, 1f) * Main.UIScale;
-			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 16, out _))
+
+			string unifiedDescription = SelectedEnchantment.Value.Description.Replace("\n", " ");
+			foreach (string line in Utils.WordwrapString(unifiedDescription, Main.fontMouseText, 400, 16, out _))
 			{
 				if (string.IsNullOrEmpty(line))
 					continue;

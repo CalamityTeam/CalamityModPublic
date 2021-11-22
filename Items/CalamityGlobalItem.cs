@@ -133,6 +133,10 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.SuspiciousLookingTentacle)
 				item.expert = true;
 
+			// Fix Bones being attracted to the player when you have open ammo slots
+			if (item.type == ItemID.Bone)
+				item.notAmmo = true;
+
 			// Modified Pearlwood items are now Light Red
 			if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
 				item.rare = ItemRarityID.LightRed;
@@ -599,10 +603,44 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
+            if (player.ActiveItem().type == ModContent.ItemType<ViridVanguard>())
+            {
+                int bladeCount = 0;
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].active &&
+                        Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() &&
+                        Main.projectile[i].owner == player.whoAmI &&
+                        (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime <= 0f)
+                    {
+                        bladeCount++;
+                    }
+                }
+                if (bladeCount > 0)
+                {
+                    int bladeIndex = 0;
+                    for (int i = 0; i < Main.maxProjectiles; i++)
+                    {
+                        if (Main.projectile[i].modProjectile is ViridVanguardBlade)
+                        {
+                            if ((Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime > 0f)
+                                continue;
+                        }
+                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() && Main.projectile[i].owner == player.whoAmI)
+                        {
+                            (Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime = 240f;
+                            (Main.projectile[i].modProjectile as ViridVanguardBlade).RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
+                            Main.projectile[i].netUpdate = true;
+                            bladeIndex++;
+                        }
+                    }
+                }
+                return false;
+            }
             if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                     {
@@ -612,7 +650,7 @@ namespace CalamityMod.Items
                 }
                 if (hasBlades)
                 {
-                    for (int i = 0; i < Main.projectile.Length; i++)
+                    for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].modProjectile is IgneousBlade)
                         {
@@ -635,7 +673,7 @@ namespace CalamityMod.Items
             }
             if (player.ActiveItem().type == ModContent.ItemType<VoidConcentrationStaff>() && player.ownedProjectileCounts[ModContent.ProjectileType<VoidConcentrationBlackhole>()] == 0)
             {
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].modProjectile is VoidConcentrationAura)
                     {

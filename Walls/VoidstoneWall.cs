@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
             Main.wallHouse[Type] = true;
 
             drop = ModContent.ItemType<Items.Placeables.Walls.VoidstoneWall>();
-            AddMapEntry(new Color(5, 5, 5));
+            AddMapEntry(new Color(0, 0, 0));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -20,9 +20,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

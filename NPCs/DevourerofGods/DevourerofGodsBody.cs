@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>()?.AttemptingToEnterPortal ?? false)
 				{
 					Projectile portal = Main.projectile[Main.npc[(int)npc.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
-					float newOpacity = 1f - Utils.InverseLerp(130f, 80f, npc.Distance(portal.Center), true);
+					float newOpacity = 1f - Utils.InverseLerp(270f, 100f, npc.Distance(portal.Center), true);
 					if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && npc.Opacity > newOpacity)
 					{
 						npc.Opacity = newOpacity;

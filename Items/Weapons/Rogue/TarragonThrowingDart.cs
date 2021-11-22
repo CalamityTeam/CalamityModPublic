@@ -31,7 +31,7 @@ Stealth strikes erupt into thorns on enemy hits");
             item.autoReuse = true;
             item.height = 34;
             item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 3);
+            item.value = Item.sellPrice(copper: 30);
             item.rare = ItemRarityID.Purple;
             item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             item.shootSpeed = 12f;

@@ -190,14 +190,14 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().closeProximityRewardEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.Calamity().trueMelee),
 
-				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use. Its damage returns naturally when not being used. It starts off with more damage than it normally would have.",
+				new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.",
 					600,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
 					null,
 					player => player.Calamity().dischargingItemEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && !item.summon),
 
-				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer. Once it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
+				new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
 					700,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Hellbound",
 					null,
@@ -247,7 +247,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().manaMonsterEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && item.magic && item.mana > 0),
 
-				new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%." +
+				new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\n" +
 											"After this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.",
 					1000,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
@@ -255,7 +255,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					player => player.Calamity().witheringWeaponEnchant = true,
 					item => item.IsEnchantable() && item.damage > 0 && !item.summon),
 
-				new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you. If sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.",
+				new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.",
 					1100,
 					"CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Persecuted",
 					null,

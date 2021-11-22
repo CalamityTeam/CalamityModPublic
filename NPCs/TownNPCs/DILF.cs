@@ -128,6 +128,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
 			shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+            if (Main.LocalPlayer.discount)
+              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
@@ -167,6 +169,8 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+            if (Main.LocalPlayer.discount)
+              shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
 			nextSlot++;
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<IceBarrage>()))
             {

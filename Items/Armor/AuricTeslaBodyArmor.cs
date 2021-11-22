@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
             {
                 foreach (TooltipLine line2 in list)
                 {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
                     {
                         line2.text = "You will freeze enemies near you when you are struck\n" +
                         "Provides heat and cold protection in Death Mode";
@@ -58,8 +58,17 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaArmor>());
             recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
+            recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
+            recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
+            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SilvaArmor>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
             recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);

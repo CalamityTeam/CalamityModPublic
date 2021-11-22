@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.text = "You can move freely through liquids and have temporary immunity to lava\n" +
+						line2.text = "5% increased minion damage\n" +
 						"Provides heat protection in Death Mode";
 					}
 				}

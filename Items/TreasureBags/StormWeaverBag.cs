@@ -39,8 +39,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<ArmoredShell>(), 7, 10);
 
             // Weapons
-			DropHelper.DropItemChance(player, ModContent.ItemType<TheStorm>(), 3);
-			DropHelper.DropItemChance(player, ModContent.ItemType<StormDragoon>(), 3);
+			DropHelper.DropItemChance(player, ModContent.ItemType<TheStorm>(), DropHelper.BagWeaponDropRateInt);
+			DropHelper.DropItemChance(player, ModContent.ItemType<StormDragoon>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment (None yet boohoo)
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.TreasureBags
 				DropHelper.DropItem(player, ModContent.ItemType<GodSlayerVisage>());
 			}
 
-            // Light pet.
+            // Light Pet
             DropHelper.DropItemChance(player, ModContent.ItemType<LittleLight>(), 8);
         }
     }

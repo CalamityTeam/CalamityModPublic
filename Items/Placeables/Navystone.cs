@@ -33,6 +33,11 @@ namespace CalamityMod.Items.Placeables
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<NavystoneWall>(), 4);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2);
             recipe.SetResult(this);

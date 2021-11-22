@@ -328,6 +328,7 @@ namespace CalamityMod.CalPlayer
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
         public float throwingAmmoCost = 1f;
+        public float rogueUseSpeedFactor = 0f;
         #endregion
 
         #region Mount
@@ -813,7 +814,6 @@ namespace CalamityMod.CalPlayer
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eFreeze = false;
-        public bool silvaStun = false;
         public bool wCleave = false;
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
@@ -1460,6 +1460,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost = 1f;
             accStealthGenBoost = 0f;
+			rogueUseSpeedFactor = 0f;
 
             trueMeleeDamage = 0D;
 			warBannerBonus = 0f;
@@ -1843,7 +1844,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            silvaStun = false;
             wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
@@ -2228,7 +2228,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            silvaStun = false;
             wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
@@ -2253,6 +2252,7 @@ namespace CalamityMod.CalPlayer
             throwingVelocity = 1f;
             throwingCrit = 0;
             throwingAmmoCost = 1f;
+			rogueUseSpeedFactor = 0f;
             #endregion
 
             #region UI
@@ -4070,13 +4070,13 @@ namespace CalamityMod.CalPlayer
                 return true;
             }
 
-            // Neither scarf can be used if either is on cooldown
             bool playerDashing = player.pulley || (player.grappling[0] == -1 && !player.tongued);
 			if (playerDashing && dashMod == 9 && player.dashDelay < 0)
 			{
 				GodSlayerDodge();
 				return true;
 			}
+            // Neither scarf can be used if either is on cooldown
             if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
             {
                 CounterScarfDodge();
@@ -4084,14 +4084,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Neither mirror can be used if either is on cooldown
-            bool isImmune = false;
-            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-            {
-                if (player.hurtCooldowns[j] > 0)
-                    isImmune = true;
-            }
-
-            if (dodgeCooldownTimer == 0 && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+            if (dodgeCooldownTimer == 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
             {
                 if (eclipseMirror)
                 {
@@ -5432,8 +5425,8 @@ namespace CalamityMod.CalPlayer
                 damageMult += 1.25;
 
             // Calamity buffs Inferno Fork by 33%.
-	    // However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
-	    if (proj.type == ProjectileID.InfernoFriendlyBlast)
+			// However, because the weapon is coded like spaghetti, you have to multiply the explosion's damage too.
+			if (proj.type == ProjectileID.InfernoFriendlyBlast)
                 damageMult += 0.33;
 
             if (brimflameFrenzy && brimflameSet)
@@ -5567,6 +5560,12 @@ namespace CalamityMod.CalPlayer
 
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
                 damage = (int)(damage * 0.7);
+
+            if (draedonsHeart)
+            {
+                if (player.StandingStill() && player.itemAnimation == 0)
+                    damage = (int)(damage * 0.5);
+            }
 
             #endregion
 

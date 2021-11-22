@@ -10,7 +10,8 @@ namespace CalamityMod.Items.TreasureBags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bleached Angling Kit");
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
+			"{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()
