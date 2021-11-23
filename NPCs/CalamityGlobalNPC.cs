@@ -2251,7 +2251,7 @@ namespace CalamityMod.NPCs
 						AITimer++;
 
 					// Separate timer for aggression to avoid entering later phases too quickly
-					int aggressionTimerCap = (int)(KillTime * 1.35);
+					int aggressionTimerCap = (int)(KillTime * 1.5);
 					if (AIIncreasedAggressionTimer < aggressionTimerCap)
 						AIIncreasedAggressionTimer++;
 
