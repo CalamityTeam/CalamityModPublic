@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ModContent.ItemType<BlueCosmicFlameDye>());
             recipe.AddIngredient(ModContent.ItemType<PinkCosmicFlameDye>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }
