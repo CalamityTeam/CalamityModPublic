@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,6 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 		public Player Owner => Main.player[projectile.owner];
 		public bool SittingOnGround => Math.Abs(projectile.velocity.X) < 1.55f && projectile.velocity.Y == 0f;
 		public ref float HopTimer => ref projectile.ai[0];
+		public ref float HopAmount => ref projectile.ai[1];
 		public const float Gravity = 0.25f;
 		public const float MaxFallSpeed = 12f;
 		public override void SetStaticDefaults()
@@ -35,6 +35,8 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.extraUpdates = 1;
 			projectile.tileCollide = false;
 			projectile.minion = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 60;
 		}
 
 		public override void AI()
@@ -127,19 +129,15 @@ namespace CalamityMod.Projectiles.Summon
 			if (SittingOnGround && HopTimer % 20f == 19f)
 			{
 				projectile.velocity = projectile.SafeDirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -7f);
+				HopAmount++;
 
 				// Release a bunch of blood.
-				if (Main.myPlayer == projectile.owner)
+				if (Main.myPlayer == projectile.owner && HopAmount % 3f == 2f)
 				{
-					for (int i = 0; i < Main.rand.Next(1, 4 + 1); i++)
+					for (int i = 0; i < 2; i++)
 					{
 						Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f) * Main.rand.NextFloat(6f, 11f);
-						int blood = Projectile.NewProjectile(projectile.Top, shootVelocity, ModContent.ProjectileType<Blood2>(), projectile.damage, projectile.knockBack, projectile.owner);
-						if (Main.projectile.IndexInRange(blood))
-						{
-							Main.projectile[blood].Calamity().forceMinion = true;
-							Main.projectile[blood].penetrate = 1;
-						}
+						int blood = Projectile.NewProjectile(projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}
 

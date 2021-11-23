@@ -1134,9 +1134,10 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 			{
+				// First Shadowflame is +1, Statis' Blessing is +2, Statis' Curse inherits both for +3
 				if (modPlayer.shadowMinions)
-					player.maxMinions += 3;
-				else if (modPlayer.holyMinions)
+					player.maxMinions ++;
+				if (modPlayer.holyMinions)
 					player.maxMinions += 2;
 
 				if (modPlayer.starTaintedGenerator)

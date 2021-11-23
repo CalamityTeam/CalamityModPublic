@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Crags
 
             soundType = SoundID.Tink;
             mineResist = 3f;
-            minPick = 180;
+            minPick = 100;
             drop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimlance");
-            Tooltip.SetDefault("Enemies killed by the spear explode into brimstone flames");
+            Tooltip.SetDefault("Creates brimstone explosions on enemy hits");
         }
 
         public override void SetDefaults()

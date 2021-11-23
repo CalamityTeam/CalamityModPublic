@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (RemainingSlices > 0)
+            if (RemainingSlices > 0 && FiringTime <= 80f)
             {
                 FiringTime = 10f;
                 RemainingSlices--;
