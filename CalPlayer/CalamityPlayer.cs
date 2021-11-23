@@ -10646,6 +10646,11 @@ namespace CalamityMod.CalPlayer
                     defenseDamageTaken = defenseDamageFloor;
             }
 
+            // There is also a cap on defense damage: 25% of the player's original defense.
+            int cap = player.statDefense / 4;
+            if (defenseDamageTaken > cap)
+                defenseDamageTaken = cap;
+
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;
             totalDefenseDamage = previousDefenseDamage + defenseDamageTaken;
