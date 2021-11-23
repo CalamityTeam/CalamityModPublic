@@ -2457,16 +2457,17 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice || enraged;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive || enraged;
+			bool death = CalamityWorld.death || malice;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
 
 			float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson)
+			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 2f;
 
 			// Creeper count, 0 to 20
