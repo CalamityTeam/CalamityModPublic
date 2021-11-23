@@ -496,11 +496,6 @@ namespace CalamityMod.NPCs.Abyss
 		public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
-			if (Main.rand.NextBool(10))
-			{
-				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
-				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
-			}
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);

@@ -77,7 +77,13 @@ namespace CalamityMod.NPCs
     {
 		#region Variables
 
-		public float TimedDR { get; set; } = 0f;
+		public float TimedDRScaleFactor { get; set; } = 0f;
+		private const float timedDR_Disabled = 0f;
+		private const float timedDR_Normal = 1.5f;
+		private const float timedDR_Malice = 2f;
+		private const float timedDR_Worm = 3f;
+		private const float timedDR_MaliceWorm = 4f;
+		private const float timedDR_NightProvi = 10f;
 
 		public float DR { get; set; } = 0f;
 
@@ -1108,6 +1114,8 @@ namespace CalamityMod.NPCs
 
             OtherStatChanges(npc);
 
+			TimedDRScaleFactors(npc);
+
 			CalamityGlobalTownNPC.BoundNPCSafety(mod, npc);
         }
 		#endregion
@@ -1408,10 +1416,154 @@ namespace CalamityMod.NPCs
                 npc.canGhostHeal = false;
             }
         }
-        #endregion
+		#endregion
 
-        #region Other Stat Changes
-        private void OtherStatChanges(NPC npc)
+		#region Timed DR Stats
+		private void TimedDRScaleFactors(NPC npc)
+		{
+			bool malice = CalamityWorld.malice;
+			bool bossHasBeenDowned = GetDownedBossVariable(npc.type);
+
+			// Every boss post-DoG has normal timed DR until it is downed
+			bool removePostDoGTimedDR = bossHasBeenDowned;
+
+			// Post-Provi Pre-DoG timed DR is removed when anything DoG and onward is defeated
+			bool removePostProviPreDoGTimedDR = removePostDoGTimedDR || CalamityWorld.downedAdultEidolonWyrm ||
+				CalamityWorld.downedSCal || CalamityWorld.downedExoMechs || CalamityWorld.downedYharon || CalamityWorld.downedDoG;
+
+			// Post-ML Pre-Provi timed DR is removed when anything Providence and onward is defeated
+			bool removePostMLPreProviTimedDR = removePostProviPreDoGTimedDR || CalamityWorld.downedBoomerDuke ||
+				CalamityWorld.downedPolterghast || CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 ||
+				CalamityWorld.downedSentinel3 || CalamityWorld.downedProvidence;
+
+			// Late Hardmode timed DR is removed when anything Moon Lord and onward is defeated
+			bool removeLateHardmodeTimedDR = removePostMLPreProviTimedDR || CalamityWorld.downedBumble ||
+				CalamityWorld.downedGuardians || NPC.downedMoonlord;
+
+			// Early Hardmode timed DR is removed when anything Plantera and onward is defeated
+			bool removeEarlyHardmodeTimedDR = removeLateHardmodeTimedDR || CalamityWorld.downedStarGod ||
+				NPC.downedAncientCultist || CalamityWorld.downedScavenger || NPC.downedFishron ||
+				CalamityWorld.downedPlaguebringer || NPC.downedGolemBoss || CalamityWorld.downedAstrageldon ||
+				CalamityWorld.downedLeviathan || NPC.downedPlantBoss;
+
+			// Pre Hardmode timed DR is removed when anything Wall of Flesh and onward is defeated
+			bool removePreHardmodeTimedDR = removeEarlyHardmodeTimedDR || CalamityWorld.downedCalamitas ||
+				NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3 || CalamityWorld.downedBrimstoneElemental ||
+				CalamityWorld.downedAquaticScourge || CalamityWorld.downedCryogen || Main.hardMode;
+
+			// Vanilla bosses
+			switch (npc.type)
+			{
+				// Pre Hardmode bosses
+				case NPCID.KingSlime:
+				case NPCID.EyeofCthulhu:
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsTail:
+				case NPCID.BrainofCthulhu:
+				case NPCID.Creeper:
+				case NPCID.QueenBee:
+				case NPCID.SkeletronHead:
+				case NPCID.WallofFlesh:
+				case NPCID.WallofFleshEye:
+
+					TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled :
+						malice ? timedDR_Malice : timedDR_Normal;
+
+					break;
+
+				// Early Hardmode bosses
+				case NPCID.Spazmatism:
+				case NPCID.Retinazer:
+				case NPCID.TheDestroyer:
+				case NPCID.TheDestroyerBody:
+				case NPCID.TheDestroyerTail:
+				case NPCID.SkeletronPrime:
+				case NPCID.Plantera:
+
+					TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled :
+						malice ? (DestroyerIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
+						(DestroyerIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+
+					break;
+
+				// Late Hardmode bosses
+				case NPCID.Golem:
+				case NPCID.GolemHead:
+				case NPCID.DukeFishron:
+				case NPCID.CultistBoss:
+				case NPCID.MoonLordCore:
+				case NPCID.MoonLordHead:
+				case NPCID.MoonLordHand:
+
+					TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled :
+						malice ? timedDR_Malice : timedDR_Normal;
+
+					break;
+			}
+
+			// Calamity bosses
+			bool preHardmodeCalamityBosses = DesertScourgeIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>() ||
+				npc.type == NPCType<HiveMind.HiveMind>() || npc.type == NPCType<PerforatorHive>() || npc.type == NPCType<SlimeGod.SlimeGod>() ||
+				npc.type == NPCType<SlimeGodRun>() || npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>() ||
+				npc.type == NPCType<SlimeGodCore>();
+
+			bool earlyHardmodeCalamityBosses = npc.type == NPCType<Cryogen.Cryogen>() || AquaticScourgeIDs.Contains(npc.type) ||
+				npc.type == NPCType<BrimstoneElemental.BrimstoneElemental>() || npc.type == NPCType<CalamitasRun3>();
+
+			bool lateHardmodeCalamityBosses = npc.type == NPCType<Siren>() || npc.type == NPCType<Leviathan.Leviathan>() ||
+				npc.type == NPCType<AstrumAureus.AstrumAureus>() || npc.type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() ||
+				npc.type == NPCType<RavagerBody>() || AstrumDeusIDs.Contains(npc.type);
+
+			bool postMLPreProviCalamityBosses = npc.type == NPCType<ProfanedGuardianBoss>() || npc.type == NPCType<Bumblefuck>() ||
+				npc.type == NPCType<Providence.Providence>();
+
+			bool postProviPreDoGCalamityBosses = npc.type == NPCType<CeaselessVoid.CeaselessVoid>() || npc.type == NPCType<DarkEnergy>() ||
+				StormWeaverIDs.Contains(npc.type) || npc.type == NPCType<Signus.Signus>() || npc.type == NPCType<Polterghast.Polterghast>() ||
+				npc.type == NPCType<OldDuke.OldDuke>() || DevourerOfGodsIDs.Contains(npc.type);
+
+			bool postDoGCalamityBosses = npc.type == NPCType<Yharon.Yharon>() || npc.type == NPCType<SupremeCalamitas.SupremeCalamitas>() ||
+				ThanatosIDs.Contains(npc.type) || npc.type == NPCType<Apollo>() || npc.type == NPCType<Artemis>() ||
+				AresIDs.Contains(npc.type) || npc.type == NPCType<EidolonWyrmHeadHuge>();
+
+			if (preHardmodeCalamityBosses)
+			{
+				TimedDRScaleFactor = removePreHardmodeTimedDR ? timedDR_Disabled :
+					malice ? (DesertScourgeIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
+					timedDR_Normal;
+			}
+			else if (earlyHardmodeCalamityBosses)
+			{
+				TimedDRScaleFactor = removeEarlyHardmodeTimedDR ? timedDR_Disabled :
+					malice ? (AquaticScourgeIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
+					(AquaticScourgeIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+			}
+			else if (lateHardmodeCalamityBosses)
+			{
+				TimedDRScaleFactor = removeLateHardmodeTimedDR ? timedDR_Disabled :
+					malice ? (AstrumDeusIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
+					(AstrumDeusIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+			}
+			else if (postMLPreProviCalamityBosses)
+			{
+				TimedDRScaleFactor = removePostMLPreProviTimedDR ? timedDR_Disabled : malice ? timedDR_Malice : timedDR_Normal;
+			}
+			else if (postProviPreDoGCalamityBosses)
+			{
+				TimedDRScaleFactor = removePostProviPreDoGTimedDR ? timedDR_Disabled :
+					malice ? (StormWeaverIDs.Contains(npc.type) ? timedDR_MaliceWorm : timedDR_Malice) :
+					(StormWeaverIDs.Contains(npc.type) ? timedDR_Worm : timedDR_Normal);
+			}
+			else if (postDoGCalamityBosses)
+			{
+				TimedDRScaleFactor = removePostDoGTimedDR ? timedDR_Disabled :
+					malice ? timedDR_Malice : (ThanatosIDs.Contains(npc.type) ? timedDR_Malice : timedDR_Normal);
+			}
+		}
+		#endregion
+
+		#region Other Stat Changes
+		private void OtherStatChanges(NPC npc)
         {
 			switch (npc.type)
 			{
@@ -1928,23 +2080,13 @@ namespace CalamityMod.NPCs
 				damage += yellowCandleDamage;
 
 			// Boss that get higher timed DR than normal in specific circumstances
-			bool malice = CalamityWorld.malice;
-			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || malice);
-			bool prePlant_Destroyer = DestroyerIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
-			bool prePlant_AS = AquaticScourgeIDs.Contains(npc.type) && (!NPC.downedPlantBoss || malice);
-			bool preML_Deus = AstrumDeusIDs.Contains(npc.type) && (!NPC.downedMoonlord || malice);
-			bool preDoG_SW = StormWeaverIDs.Contains(npc.type) && (!CalamityWorld.downedDoG || malice) && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2);
-			bool malice_DS_Perfs = malice && (DesertScourgeIDs.Contains(npc.type) || PerforatorIDs.Contains(npc.type));
-			bool thanatos = ThanatosIDs.Contains(npc.type);
+			bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice);
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			bool useTimedDR = !GetDownedBossVariable(npc.type) || malice || nightProvi || prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs || thanatos;
-			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && useTimedDR)
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (TimedDRScaleFactor > 0f || nightProvi))
 			{
-				bool tenTimes_TimedDR = nightProvi;
-				bool threeTimes_TimedDR = prePlant_Destroyer || prePlant_AS || preML_Deus || preDoG_SW || malice_DS_Perfs;
-				bool twoTimes_TimedDR = malice || thanatos;
-				float DRScalar = tenTimes_TimedDR ? 10f : threeTimes_TimedDR ? 3f : twoTimes_TimedDR ? 2f : 1.5f;
+				// Set the DR scaling factor
+				float DRScalar = nightProvi ? timedDR_NightProvi : TimedDRScaleFactor;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -4977,6 +5119,7 @@ namespace CalamityMod.NPCs
 				case NPCID.EaterofWorldsBody:
 				case NPCID.EaterofWorldsTail:
 				case NPCID.BrainofCthulhu:
+				case NPCID.Creeper:
 					return NPC.downedBoss2;
 
 				case NPCID.QueenBee:

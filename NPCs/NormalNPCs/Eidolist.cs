@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0.05f;
             }
-            return spawnInfo.player.ZoneDungeon ? 0.04f : 0f;
+			return 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
