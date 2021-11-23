@@ -1135,7 +1135,7 @@ namespace CalamityMod.CalPlayer
 			else
 			{
 				if (modPlayer.shadowMinions)
-					player.maxMinions += 3;
+					player.maxMinions ++;
 				else if (modPlayer.holyMinions)
 					player.maxMinions += 2;
 

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("The First Shadowflame");
             Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire.\n" +
                 "If that were true, then it is surely the demons of hell that would have risen from below to do the same.\n" +
-                "Minions inflict shadowflame on enemy hits.");
+                "Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies.");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
