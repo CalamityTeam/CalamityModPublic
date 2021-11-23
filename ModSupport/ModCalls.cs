@@ -1896,6 +1896,16 @@ namespace CalamityMod
 					EnchantmentManager.ConstructFromModcall(args.Skip(1));
 					return null;
 
+				case "MakeItemExhumable":
+					if (args.Length != 3)
+						return new ArgumentNullException("ERROR: Must specify two Item types as an int.");
+					if (!castID(args[1], out int toExhume))
+						return new ArgumentException("ERROR: The first argument to \"DeclareMiniboss\" must be an int or short ID.");
+					if (!castID(args[2], out int result))
+						return new ArgumentException("ERROR: The second argument to \"DeclareMiniboss\" must be an int or short ID.");
+					EnchantmentManager.ItemUpgradeRelationship[toExhume] = result;
+					return null;
+
 				case "DeclareMiniboss":
 				case "DeclareMinibossForHealthBar":
 					if (args.Length != 2)
