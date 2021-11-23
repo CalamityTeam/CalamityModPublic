@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SupremeCataclysmFistAlt");
 
             Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
-            drawPosition -= projectile.velocity * 3.3f;
+            drawPosition.X -= Math.Sign(projectile.velocity.X) * 40f;
             Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
             return false;
