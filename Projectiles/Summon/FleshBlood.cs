@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.minion = true;
             projectile.penetrate = 1;
-            projectile.LifeTime = 150;
+            projectile.timeLeft = LifeTime;
         }
 
 		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(projectile);
