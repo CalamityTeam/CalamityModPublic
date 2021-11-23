@@ -2493,6 +2493,7 @@ namespace CalamityMod
                 ProjectileID.StardustDragon2,
                 ProjectileID.StardustDragon3,
                 ProjectileID.StardustDragon4,
+                ProjectileType<DeathstareEyeball>(),
                 ProjectileType<MechwormHead>(),
                 ProjectileType<MechwormBody>(),
                 ProjectileType<MechwormTail>(),
