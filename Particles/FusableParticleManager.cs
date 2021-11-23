@@ -92,13 +92,13 @@ namespace CalamityMod.Particles
 		/// </summary>
 		internal static void PrepareFusableParticleTargets()
 		{
-			// Don't attempt to prepare anything serverside or if the particle sets are unloaded.
-			if (Main.netMode == NetmodeID.Server || ParticleSets is null)
+			// Don't attempt to prepare anything serverside, if the particle sets are unloaded, or if on the menu.
+			if (Main.netMode == NetmodeID.Server || ParticleSets is null || Main.gameMenu)
 				return;
 
 			// Prepare the render target for all fusable particles.
-			foreach (FusableParticleRenderCollection particleSet in ParticleSets)
-				particleSet.ParticleSet.PrepareRenderTargetForDrawing();
+			for (int i = 0; i < ParticleSets.Count; i++)
+				ParticleSets[i].ParticleSet.PrepareRenderTargetForDrawing();
 		}
 
 		/// <summary>
@@ -106,13 +106,13 @@ namespace CalamityMod.Particles
 		/// </summary>
 		internal static void RenderAllFusableParticles(FusableParticleRenderLayer renderLayer)
 		{
-			// Don't attempt to render anything serverside.
-			if (Main.netMode == NetmodeID.Server)
+			// Don't attempt to render anything serverside or on the menu.
+			if (Main.netMode == NetmodeID.Server || Main.gameMenu)
 				return;
 
-			foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
+			for (int i = 0; i < ParticleSets.Count; i++)
 			{
-				BaseFusableParticleSet particleSet = particleRenderSet.ParticleSet;
+				BaseFusableParticleSet particleSet = ParticleSets[i].ParticleSet;
 
 				// Don't bother rendering if the set has no particles to render at the moment, for the sake of optimization.
 				if (particleSet.Particles.Count <= 0)
@@ -132,10 +132,10 @@ namespace CalamityMod.Particles
 				// Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-				for (int i = 0; i < particleSet.LayerCount; i++)
+				for (int j = 0; j < particleSet.LayerCount; j++)
 				{
-					Effect shader = particleSet.BackgroundShaders[i];
-					Texture2D backgroundTexture = particleSet.BackgroundTextures[i];
+					Effect shader = particleSet.BackgroundShaders[j];
+					Texture2D backgroundTexture = particleSet.BackgroundTextures[j];
 
 					// Draw the current target with the specified shader.
 					shader.Parameters["edgeBorderSize"].SetValue(particleSet.BorderSize);
@@ -144,7 +144,7 @@ namespace CalamityMod.Particles
 					shader.Parameters["screenArea"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / Main.GameViewMatrix.Zoom);
 					shader.Parameters["screenMoveOffset"].SetValue(Main.screenPosition - Main.screenLastPosition);
 					shader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
-					shader.Parameters["renderTargetArea"].SetValue(new Vector2(backgroundTargets[i].Width, backgroundTargets[i].Height));
+					shader.Parameters["renderTargetArea"].SetValue(new Vector2(backgroundTargets[j].Width, backgroundTargets[j].Height));
 					shader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
 					shader.Parameters["upscaleFactor"].SetValue(Vector2.One);
 					shader.Parameters["generalBackgroundOffset"].SetValue(Vector2.Zero);
@@ -154,13 +154,13 @@ namespace CalamityMod.Particles
 					shader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
 
 					// Do any optional shader operations prior to applying the shader.
-					particleSet.PrepareOptionalShaderData(shader, i);
+					particleSet.PrepareOptionalShaderData(shader, j);
 
 					// Apply the shader. This is what is used to connect separated blobs together.
 					shader.CurrentTechnique.Passes[0].Apply();
 
 					// And draw the particle set's render target with said shader.
-					Main.spriteBatch.Draw(backgroundTargets[i], Vector2.Zero, Color.White);
+					Main.spriteBatch.Draw(backgroundTargets[j], Vector2.Zero, Color.White);
 				}
 
 				Main.spriteBatch.End();
