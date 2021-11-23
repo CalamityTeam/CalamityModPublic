@@ -732,9 +732,6 @@ namespace CalamityMod.Items
 			// 1) Chest and Legs only give 1 minion slot each instead of 2 each.
 			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace('2', '1'));
-			// 2) Set bonus gives 2 minions instead of 0.
-			if (item.type == ItemID.StardustHelmet || item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-				EditTooltipByName("SetBonus", (line) => line.text += "\nIncreases your max number of minions by 2");
 			#endregion
 
 			// Provide the full stats of every vanilla set of wings

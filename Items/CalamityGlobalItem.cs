@@ -960,6 +960,22 @@ namespace CalamityMod.Items
 				return "Meteor";
 			if (head.type == ItemID.PearlwoodHelmet && body.type == ItemID.PearlwoodBreastplate && legs.type == ItemID.PearlwoodGreaves)
 				return "Pearlwood";
+			if (head.type == ItemID.MonkBrows && body.type == ItemID.MonkShirt && legs.type == ItemID.MonkPants)
+				return "MonkTier2";
+			if (head.type == ItemID.SquireGreatHelm && body.type == ItemID.SquirePlating && legs.type == ItemID.SquireGreaves)
+				return "SquireTier2";
+			if (head.type == ItemID.HuntressWig && body.type == ItemID.HuntressJerkin && legs.type == ItemID.HuntressPants)
+				return "HuntressTier2";
+			if (head.type == ItemID.ApprenticeHat && body.type == ItemID.ApprenticeRobe && legs.type == ItemID.ApprenticeTrousers)
+				return "ApprenticeTier2";
+			if (head.type == ItemID.MonkAltHead && body.type == ItemID.MonkAltShirt && legs.type == ItemID.MonkAltPants)
+				return "MonkTier3";
+			if (head.type == ItemID.SquireAltHead && body.type == ItemID.SquireAltShirt && legs.type == ItemID.SquireAltPants)
+				return "SquireTier3";
+			if (head.type == ItemID.HuntressAltHead && body.type == ItemID.HuntressAltShirt && legs.type == ItemID.HuntressAltPants)
+				return "HuntressTier3";
+			if (head.type == ItemID.ApprenticeAltHead && body.type == ItemID.ApprenticeAltShirt && legs.type == ItemID.ApprenticeAltPants)
+				return "ApprenticeTier3";
             return "";
         }
 
@@ -986,8 +1002,8 @@ namespace CalamityMod.Items
             {
                 modPlayer.rogueStealthMax += 0.7f;
                 modPlayer.wearingRogueArmor = true;
-                player.Calamity().throwingDamage += 0.05f;
-                player.Calamity().throwingVelocity += 0.1f;
+                modPlayer.throwingDamage += 0.05f;
+                modPlayer.throwingVelocity += 0.1f;
                 player.statDefense += 3;
                 player.setBonus = "+3 defense\n" +
                             "5% increased rogue damage and 10% increased velocity\n" +
@@ -1000,8 +1016,8 @@ namespace CalamityMod.Items
             {
                 modPlayer.rogueStealthMax += 0.8f;
                 modPlayer.wearingRogueArmor = true;
-                player.Calamity().throwingDamage += 0.05f;
-                player.Calamity().throwingCrit += 5;
+                modPlayer.throwingDamage += 0.05f;
+                modPlayer.throwingCrit += 5;
                 player.statDefense += 2;
                 player.fireWalk = true;
                 player.lavaMax += 180;
@@ -1107,10 +1123,6 @@ namespace CalamityMod.Items
 				player.setBonus = "Increases your max number of sentries\n" +
 							"Greatly enhances Flameburst effectiveness\n" +
 							"10% increased minion damage and 15% increased magic critical strike chance";
-			}
-			else if (set == "Stardust")
-			{
-				player.maxMinions += 2;
 			}
         }
         #endregion
