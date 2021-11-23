@@ -48,6 +48,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 12, 0, 0);
             npc.behindTiles = true;
+			npc.chaseable = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;

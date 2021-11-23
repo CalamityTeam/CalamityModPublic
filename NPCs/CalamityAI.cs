@@ -43,22 +43,16 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || malice;
 
 			// Adjust hostility and stats
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive ||
-				Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
+			if ((npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive) && calamityGlobalNPC.newAI[0] == 0f)
 			{
 				// Kiss my motherfucking ass you piece of shit game
-				if (npc.damage == 0)
-					npc.timeLeft *= 20;
+				npc.timeLeft *= 20;
 
 				calamityGlobalNPC.newAI[0] = 1f;
-				Main.npc[(int)npc.ai[1]].Calamity().newAI[0] = 1f;
-				Main.npc[(int)npc.ai[2]].Calamity().newAI[0] = 1f;
-
 				npc.damage = npc.defDamage;
 				npc.boss = head;
+				npc.chaseable = true;
 				npc.netUpdate = true;
-				Main.npc[(int)npc.ai[1]].netUpdate = true;
-				Main.npc[(int)npc.ai[2]].netUpdate = true;
 			}
 			else
 				npc.damage = 0;
@@ -77,13 +71,15 @@ namespace CalamityMod.NPCs
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
 
-			// Homing only works if the boss is hostile
-			if (head)
-				npc.chaseable = calamityGlobalNPC.newAI[0] == 1f;
-
 			// Set worm variable
 			if (npc.ai[2] > 0f)
 				npc.realLife = (int)npc.ai[2];
+
+			if (!head)
+			{
+				if (npc.life > Main.npc[(int)npc.ai[1]].life)
+					npc.life = Main.npc[(int)npc.ai[1]].life;
+			}
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -380,6 +376,11 @@ namespace CalamityMod.NPCs
 					npc.checkDead();
 					npc.active = false;
 				}
+			}
+			else
+			{
+				if (npc.life > Main.npc[(int)npc.ai[0]].life)
+					npc.life = Main.npc[(int)npc.ai[0]].life;
 			}
 
 			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 12800f : 6400f;
