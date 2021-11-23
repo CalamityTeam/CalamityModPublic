@@ -133,6 +133,24 @@ namespace CalamityMod.CalPlayer
         public float SmoothenedMinecartRotation;
         #endregion
 
+        #region IL Editing Constants
+        // These values are referenced by IL edits but don't fit into any other category.
+        public const float BalloonJumpSpeedBoost = 0.75f;
+
+        // Shield slam stats
+        public const int ShieldOfCthulhuIFrames = 6;
+        public const int ShieldOfCthulhuBonkNoCollideFrames = 6;
+        public const int SolarFlareIFrames = 12;
+        public const float SolarFlareBaseDamage = 400f;
+
+        // Dodge stats
+        public const int BeltDodgeCooldown = 5400;
+        public const int MirrorDodgeCooldown = 5400;
+        public const int DaedalusReflectCooldown = 5400;
+        public const int ArcanumReflectCooldown = 5400;
+        public const int EvolutionReflectCooldown = 7200;
+        #endregion
+
         #region Speedrun Timer
         // The Calamity Speedrun Timer uses the highest precision timing available to .NET and thus to the system hardware.
         // Current session time is maintained by CalamityMod.SpeedrunTimer, which is a C# Stopwatch running constantly while a player is loaded.
@@ -254,18 +272,7 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
 
-        // Shield slam stats
-        public const int ShieldOfCthulhuIFrames = 6;
-        public const int ShieldOfCthulhuBonkNoCollideFrames = 6;
-        public const int SolarFlareIFrames = 12;
-        public const float SolarFlareBaseDamage = 400f;
-
-        // Dodge stats
-        public const int BeltDodgeCooldown = 5400;
-        public const int MirrorDodgeCooldown = 5400;
-        public const int DaedalusReflectCooldown = 5400;
-        public const int ArcanumReflectCooldown = 5400;
-        public const int EvolutionReflectCooldown = 7200;
+        private const int DashDisableCooldown = 12;
         public int dodgeCooldownTimer = 0;
         public bool disableAllDodges = false;
 
@@ -7093,8 +7100,6 @@ namespace CalamityMod.CalPlayer
         {
             player.wingTimeMax = 0;
         }
-
-        private const int DashDisableCooldown = 12;
         private void DisableDashes()
         {
             // Set the player to have no registered dashes.
@@ -10645,6 +10650,11 @@ namespace CalamityMod.CalPlayer
                 if (defenseDamageTaken < defenseDamageFloor)
                     defenseDamageTaken = defenseDamageFloor;
             }
+
+            // There is also a cap on defense damage: 25% of the player's original defense.
+            int cap = player.statDefense / 4;
+            if (defenseDamageTaken > cap)
+                defenseDamageTaken = cap;
 
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;
