@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
 			// Variable to disable deathray firing
 			bool doNotFire = calamityGlobalNPC_Body.newAI[1] == (float)AresBody.SecondaryPhase.PassiveAndImmune || 
-				(calamityGlobalNPC_Body.newAI[2] >= deathraySpiralTelegraphDuration + AresBody.deathrayDuration - 1 && fireNormalLasers) ||
+				(calamityGlobalNPC_Body.newAI[2] >= deathraySpiralTelegraphDuration + AresBody.deathrayDuration - 10 && fireNormalLasers) ||
 				(calamityGlobalNPC_Body.newAI[3] == 0f && fireNormalLasers);
 
 			if (doNotFire)
