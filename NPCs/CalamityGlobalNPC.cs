@@ -1559,6 +1559,12 @@ namespace CalamityMod.NPCs
 				TimedDRScaleFactor = removePostDoGTimedDR ? timedDR_Disabled :
 					malice ? timedDR_Malice : (ThanatosIDs.Contains(npc.type) ? timedDR_Malice : timedDR_Normal);
 			}
+
+			// Reduce timed DR in lower difficulties
+			if (!Main.expertMode)
+				TimedDRScaleFactor *= 0.67f;
+			else if (!CalamityWorld.revenge)
+				TimedDRScaleFactor *= 0.85f;
 		}
 		#endregion
 
