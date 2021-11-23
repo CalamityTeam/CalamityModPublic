@@ -361,22 +361,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			// Berserk, final phase of Ares
 			// Phase 7 - 1, 2
 
-			// Adjust opacity
-			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
-			npc.dontTakeDamage = invisiblePhase;
-			if (!invisiblePhase)
-			{
-				npc.Opacity += 0.2f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
-			}
-			else
-			{
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
-
 			// Rotation
 			npc.rotation = npc.velocity.X * 0.003f;
 
@@ -613,6 +597,22 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 					}
 
 					break;
+			}
+
+			// Adjust opacity
+			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
+			npc.dontTakeDamage = invisiblePhase;
+			if (!invisiblePhase)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 1f)
+					npc.Opacity = 1f;
+			}
+			else
+			{
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
 			}
 
 			// Attacking phases
