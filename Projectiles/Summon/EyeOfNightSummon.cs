@@ -133,5 +133,7 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.velocity = (destination - projectile.Center).SafeNormalize(Vector2.Zero) * flySpeed;
         }
+
+		public override bool CanDamage() => false;
     }
 }

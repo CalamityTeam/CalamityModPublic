@@ -21,11 +21,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
+            projectile.penetrate = 2;
             projectile.timeLeft = 180;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 19;
+            projectile.localNPCHitCooldown = 90;
         }
 
         public override void AI()
@@ -37,15 +37,12 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 60);
-            projectile.Damage();
-
             if (!Main.dedServ)
                 for (int i = 0; i < 10; i++)
                     Dust.NewDustDirect(projectile.position, 36, 36, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => projectile.ModifyHitNPCSticky(10, true);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => projectile.ModifyHitNPCSticky(4, true);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.CursedInferno, 120);
 
