@@ -176,6 +176,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
+			IL.Terraria.NPC.HitEffect += RemoveLavaDropsFromExpertLavaSlimes;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
@@ -248,9 +249,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
+			IL.Terraria.NPC.HitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
 
-            // Fix vanilla bugs exposed by Calamity mechanics
-            On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
+			// Fix vanilla bugs exposed by Calamity mechanics
+			On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
         }
         #endregion
@@ -1460,10 +1462,28 @@ namespace CalamityMod.ILEditing
                 return NPCID.VoodooDemon;
             });
         }
-        #endregion
 
-        #region Vanilla bugs exposed by Calamity mechanics
-        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+		private static void RemoveLavaDropsFromExpertLavaSlimes(ILContext il)
+		{
+			// Prevent Lava Slimes from dropping lava.
+			var cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<WorldGen>("SquareTileFrame"))) // The only SquareTileFrame call in HitEffect.
+			{
+				LogFailure("Remove Lava Drops From Expert Lava Slimes", "Could not locate the SquareTileFrame function call.");
+				return;
+			}
+			if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdcI4(NPCID.LavaSlime))) // The ID of Lava Slimes.
+			{
+				LogFailure("Remove Lava Drops From Expert Lava Slimes", "Could not locate the Lava Slime ID variable.");
+				return;
+			}
+			cursor.Remove();
+			cursor.Emit(OpCodes.Ldc_I4, 1); // Change to an impossible scenario.
+		}
+		#endregion
+
+		#region Vanilla bugs exposed by Calamity mechanics
+		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)
