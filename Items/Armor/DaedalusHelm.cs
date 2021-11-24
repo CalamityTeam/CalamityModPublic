@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor
                 "Enemies are more likely to target you\n" +
                 "You reflect projectiles back at enemies\n" +
                 "Reflected projectiles deal 50% less damage to you\n" +
-                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects\n" +
-                "If you reflect a projectile you are also healed for 20% of that projectile's damage";
+                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
             player.meleeDamage += 0.05f;
