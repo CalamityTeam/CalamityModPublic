@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = item.Calamity();
 
-            item.damage = 20;
+            item.damage = 25;
             item.melee = true;
             item.width = 26;
             item.height = 26;
