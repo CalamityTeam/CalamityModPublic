@@ -17,9 +17,9 @@ namespace CalamityMod.Items.DifficultyItems
         {
             DisplayName.SetDefault("Malice");
             Tooltip.SetDefault("Enables/disables Malice Mode.\n" +
-                // Overall description and warning lines
-                "[c/c01818:This mode is intentionally extremely hard. You should prepare as much as possible.]\n" +
-                "[c/c01818:You will need to master a boss inside and out to defeat it on-tier.]\n" +
+				// Overall description and warning lines
+				"[c/c01818:This mode is subjective, play how you want, don't expect to live.]\n" +
+				"[c/c01818:This mode is intended as a boss rematch mode, however, bosses are still possible when fought on-tier.]\n" +
                 "While enabled, bosses will drop Challenge and Legendary Challenge items.\n" +
 
                 // Misc lines
