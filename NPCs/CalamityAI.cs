@@ -43,16 +43,18 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || malice;
 
 			// Adjust hostility and stats
-			if ((npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive) && calamityGlobalNPC.newAI[0] == 0f)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
 			{
-				// Kiss my motherfucking ass you piece of shit game
-				npc.timeLeft *= 20;
-
-				calamityGlobalNPC.newAI[0] = 1f;
+				if (calamityGlobalNPC.newAI[0] == 0f)
+				{
+					// Kiss my motherfucking ass you piece of shit game
+					npc.timeLeft *= 20;
+					calamityGlobalNPC.newAI[0] = 1f;
+					npc.boss = head;
+					npc.chaseable = true;
+					npc.netUpdate = true;
+				}
 				npc.damage = npc.defDamage;
-				npc.boss = head;
-				npc.chaseable = true;
-				npc.netUpdate = true;
 			}
 			else
 				npc.damage = 0;
