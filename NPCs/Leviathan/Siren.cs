@@ -178,6 +178,10 @@ namespace CalamityMod.NPCs.Leviathan
 					// Look towards the ocean.
 					npc.direction = (npc.Center.X < Main.maxTilesX * 8f).ToDirectionInt();
 
+					// Prevent Anahita from leaving the world when doing her dive.
+					// If she leaves the world entity summons will fail and Levi will simply not spawn.
+					npc.position.X = MathHelper.Clamp(npc.position.X, 150f, Main.maxTilesX - 150f);
+
 					if (npc.alpha <= 0)
 					{
 						float moveDirection = 1f;
