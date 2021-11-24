@@ -176,7 +176,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
-			IL.Terraria.NPC.HitEffect += RemoveLavaDropsFromExpertLavaSlimes;
+			IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
@@ -249,7 +249,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
-			IL.Terraria.NPC.HitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
+			IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
 
 			// Fix vanilla bugs exposed by Calamity mechanics
 			On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
