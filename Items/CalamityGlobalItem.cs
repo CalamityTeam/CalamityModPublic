@@ -1523,17 +1523,20 @@ namespace CalamityMod.Items
 			if (item.prefix == PrefixID.Hard)
 			{
 				/* Prehardmode = 1
-				 * Hardmode = 1
+				 * Hardmode = 2
 				 * Post-Golem = 2
 				 * Post-Moon Lord = 2
 				 * Post-Provi = 2
-				 * Post-Polter = 2
+				 * Post-Polter = 3
 				 * Post-DoG = 3
+				 * Post-Yharon = 4
 				 */
 				
-				if (CalamityWorld.downedDoG)
+				if (CalamityWorld.downedYharon)
+					player.statDefense += 3;
+				else if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
 					player.statDefense += 2;
-				else if (NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
+				else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence)
 					player.statDefense += 1;
 
 				player.endurance += 0.0025f;
@@ -1542,18 +1545,23 @@ namespace CalamityMod.Items
 			{
 				/* Prehardmode = 2
 				 * Hardmode = 3
-				 * Post-Golem = 3
+				 * Post-Golem = 4
 				 * Post-Moon Lord = 4
-				 * Post-Provi = 4
+				 * Post-Provi = 5
 				 * Post-Polter = 5
-				 * Post-DoG = 5
+				 * Post-DoG = 6
+				 * Post-Yharon = 8
 				 */
 				
-				if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
+				if (CalamityWorld.downedYharon)
+					player.statDefense += 6;
+				else if (CalamityWorld.downedDoG)
+					player.statDefense += 4;
+				else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
 					player.statDefense += 3;
-				else if (NPC.downedMoonlord || CalamityWorld.downedProvidence)
+				else if (NPC.downedGolemBoss || NPC.downedMoonlord)
 					player.statDefense += 2;
-				else if (Main.hardMode || NPC.downedGolemBoss)
+				else if (Main.hardMode)
 					player.statDefense += 1;
 
 				player.endurance += 0.005f;
@@ -1561,39 +1569,18 @@ namespace CalamityMod.Items
 			if (item.prefix == PrefixID.Armored)
 			{
 				/* Prehardmode = 3
-				 * Hardmode = 4
-				 * Post-Golem = 5
-				 * Post-Moon Lord = 5
-				 * Post-Provi = 6
-				 * Post-Polter = 7
-				 * Post-DoG = 8
-				 */
-				
-				if (CalamityWorld.downedDoG)
-					player.statDefense += 5;
-				else if (CalamityWorld.downedPolterghast)
-					player.statDefense += 4;
-				else if (CalamityWorld.downedProvidence)
-					player.statDefense += 3;
-				else if (NPC.downedGolemBoss || NPC.downedMoonlord)
-					player.statDefense += 2;
-				else if (Main.hardMode)
-					player.statDefense += 1;
-
-				player.endurance += 0.0075f;
-			}
-			if (item.prefix == PrefixID.Warding)
-			{
-				/* Prehardmode = 4
 				 * Hardmode = 5
-				 * Post-Golem = 6
-				 * Post-Moon Lord = 7
-				 * Post-Provi = 8
-				 * Post-Polter = 9
-				 * Post-DoG = 10
+				 * Post-Golem = 5
+				 * Post-Moon Lord = 6
+				 * Post-Provi = 7
+				 * Post-Polter = 8
+				 * Post-DoG = 9
+				 * Post-Yharon = 11
 				 */
 				
-				if (CalamityWorld.downedDoG)
+				if (CalamityWorld.downedYharon)
+					player.statDefense += 8;
+				else if (CalamityWorld.downedDoG)
 					player.statDefense += 6;
 				else if (CalamityWorld.downedPolterghast)
 					player.statDefense += 5;
@@ -1601,10 +1588,37 @@ namespace CalamityMod.Items
 					player.statDefense += 4;
 				else if (NPC.downedMoonlord)
 					player.statDefense += 3;
-				else if (NPC.downedGolemBoss)
+				else if (Main.hardMode || NPC.downedGolemBoss)
 					player.statDefense += 2;
+
+				player.endurance += 0.0075f;
+			}
+			if (item.prefix == PrefixID.Warding)
+			{
+				/* Prehardmode = 4
+				 * Hardmode = 6
+				 * Post-Golem = 7
+				 * Post-Moon Lord = 8
+				 * Post-Provi = 9
+				 * Post-Polter = 10
+				 * Post-DoG = 12
+				 * Post-Yharon = 15
+				 */
+				
+				if (CalamityWorld.downedYharon)
+					player.statDefense += 11;
+				else if (CalamityWorld.downedDoG)
+					player.statDefense += 8;
+				else if (CalamityWorld.downedPolterghast)
+					player.statDefense += 6;
+				else if (CalamityWorld.downedProvidence)
+					player.statDefense += 5;
+				else if (NPC.downedMoonlord)
+					player.statDefense += 4;
+				else if (NPC.downedGolemBoss)
+					player.statDefense += 3;
 				else if (Main.hardMode)
-					player.statDefense += 1;
+					player.statDefense += 2;
 
 				player.endurance += 0.01f;
 			}
