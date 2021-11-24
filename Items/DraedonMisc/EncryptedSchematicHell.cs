@@ -25,7 +25,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void UpdateInventory(Player player)
         {
-            if (Main.myPlayer == player.whoAmI && !RecipeUnlockHandler.HasFoundHellSchematic)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !RecipeUnlockHandler.HasFoundHellSchematic)
             {
                 RecipeUnlockHandler.HasFoundHellSchematic = true;
                 CalamityNetcode.SyncWorld();
