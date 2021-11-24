@@ -1993,6 +1993,7 @@ namespace CalamityMod
                 ItemType<KnowledgeOldDuke>(),
                 ItemType<VictoryShard>(),
                 ItemType<AeroStone>(),
+				ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
                 ItemType<SulphurousSand>(),
                 ItemType<MagnumRounds>(),
