@@ -182,17 +182,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= npc.lifeMax * 0.75f && NPC.CountNPCS(ModContent.NPCType<DriedSeekerHead>()) < 3)
-            {
-                if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<DriedSeekerHead>());
-                    if (Main.netMode == NetmodeID.Server && seeker < 200)
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
-                }
-            }
-
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
 

@@ -366,22 +366,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			// Berserk, final phase of Artemis and Apollo
 			// Phase 7 - 0, 1, 2
 
-			// Adjust opacity
-			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
-			npc.dontTakeDamage = invisiblePhase || AIState == (float)Phase.PhaseTransition;
-			if (!invisiblePhase)
-			{
-				npc.Opacity += 0.2f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
-			}
-			else
-			{
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
-
 			// Predictiveness
 			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
 			if (nerfedAttacks)
@@ -778,6 +762,22 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 					}
 
 					break;
+			}
+
+			// Adjust opacity
+			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
+			npc.dontTakeDamage = invisiblePhase || AIState == (float)Phase.PhaseTransition;
+			if (!invisiblePhase)
+			{
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 1f)
+					npc.Opacity = 1f;
+			}
+			else
+			{
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
 			}
 
 			// Attacking phases

@@ -574,7 +574,7 @@ namespace CalamityMod
                 { NPCID.BrainofCthulhu, 5400 },
                 { NPCID.Creeper, 1800 },
                 { NPCID.QueenBee, 7200 },
-                { NPCID.SkeletronHead, 9000 },
+                { NPCID.SkeletronHead, 7200 },
                 { NPCID.WallofFlesh, 7200 },
                 { NPCID.WallofFleshEye, 7200 },
                 { NPCID.Spazmatism, 10800 },

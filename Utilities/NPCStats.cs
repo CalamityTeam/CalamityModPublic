@@ -302,9 +302,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<DesertNuisanceHead>(), new int[] { 20, 44, 60, 70, 90 } },
 				{ ModContent.NPCType<DesertNuisanceBody>(), new int[] { 14, 28, 32, 36, 45 } },
 				{ ModContent.NPCType<DesertNuisanceTail>(), new int[] { 8, 16, 20, 24, 30 } },
-				{ ModContent.NPCType<DriedSeekerHead>(), new int[] { 14, 28, 36, 40, 51 } },
-				{ ModContent.NPCType<DriedSeekerBody>(), new int[] { 8, 16, 20, 24, 30 } },
-				{ ModContent.NPCType<DriedSeekerTail>(), new int[] { 6, 12, 16, 18, 24 } },
 
 				{ NPCID.EyeofCthulhu, new int[] {
 					15, // 23 in phase 2

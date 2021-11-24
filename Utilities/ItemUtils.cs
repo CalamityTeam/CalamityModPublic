@@ -82,41 +82,59 @@ namespace CalamityMod
 			{
 				default:
 					return 0;
+
 				case PrefixID.Hard:
-					return CalamityWorld.downedDoG ? 3 : NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast ? 2 : 1;
-				case PrefixID.Guarding:
-					if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
-						return 5;
-					else if (NPC.downedMoonlord || CalamityWorld.downedProvidence)
+					if (CalamityWorld.downedYharon)
 						return 4;
-					else if (Main.hardMode || NPC.downedGolemBoss)
+					else if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
+						return 3;
+					else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence)
+						return 2;
+					return 1;
+
+				case PrefixID.Guarding:
+					if (CalamityWorld.downedYharon)
+						return 8;
+					else if (CalamityWorld.downedDoG)
+						return 6;
+					else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
+						return 5;
+					else if (NPC.downedGolemBoss || NPC.downedMoonlord)
+						return 4;
+					else if (Main.hardMode)
 						return 3;
 					return 2;
+
 				case PrefixID.Armored:
-					if (CalamityWorld.downedDoG)
-						return 8;
-					else if (CalamityWorld.downedPolterghast)
-						return 7;
-					else if (CalamityWorld.downedProvidence)
-						return 6;
-					else if (NPC.downedGolemBoss || NPC.downedMoonlord)
-						return 5;
-					else if (Main.hardMode)
-						return 4;
-					return 3;
-				case PrefixID.Warding:
-					if (CalamityWorld.downedDoG)
-						return 10;
-					else if (CalamityWorld.downedPolterghast)
+					if (CalamityWorld.downedYharon)
+						return 11;
+					else if (CalamityWorld.downedDoG)
 						return 9;
-					else if (CalamityWorld.downedProvidence)
+					else if (CalamityWorld.downedPolterghast)
 						return 8;
-					else if (NPC.downedMoonlord)
+					else if (CalamityWorld.downedProvidence)
 						return 7;
-					else if (NPC.downedGolemBoss)
+					else if (NPC.downedMoonlord)
 						return 6;
-					else if (Main.hardMode)
+					else if (Main.hardMode || NPC.downedGolemBoss)
 						return 5;
+					return 3;
+
+				case PrefixID.Warding:
+					if (CalamityWorld.downedYharon)
+						return 15;
+					else if (CalamityWorld.downedDoG)
+						return 12;
+					else if (CalamityWorld.downedPolterghast)
+						return 10;
+					else if (CalamityWorld.downedProvidence)
+						return 9;
+					else if (NPC.downedMoonlord)
+						return 8;
+					else if (NPC.downedGolemBoss)
+						return 7;
+					else if (Main.hardMode)
+						return 6;
 					return 4;
 			}
 		}

@@ -373,28 +373,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 			float chargePhaseGateValue = speedUpTime + slowDownTime;
 			float laserBarrageDuration = lastMechAlive ? 270f : berserk ? 300f : 360f;
 
-			// Adjust opacity
-			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
-			npc.dontTakeDamage = invisiblePhase;
-			if (!invisiblePhase)
-			{
-				if (noContactDamageTimer > 0)
-					noContactDamageTimer--;
-
-				npc.Opacity += 0.2f;
-				if (npc.Opacity > 1f)
-					npc.Opacity = 1f;
-			}
-			else
-			{
-				// Deal no contact damage for 3 seconds after becoming visible
-				noContactDamageTimer = 185;
-
-				npc.Opacity -= 0.05f;
-				if (npc.Opacity < 0f)
-					npc.Opacity = 0f;
-			}
-
 			// Despawn if target is dead
 			bool targetDead = false;
 			if (player.dead)
@@ -673,6 +651,28 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 					}
 
 					break;
+			}
+
+			// Adjust opacity
+			bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
+			npc.dontTakeDamage = invisiblePhase;
+			if (!invisiblePhase)
+			{
+				if (noContactDamageTimer > 0)
+					noContactDamageTimer--;
+
+				npc.Opacity += 0.2f;
+				if (npc.Opacity > 1f)
+					npc.Opacity = 1f;
+			}
+			else
+			{
+				// Deal no contact damage for 3 seconds after becoming visible
+				noContactDamageTimer = 185;
+
+				npc.Opacity -= 0.05f;
+				if (npc.Opacity < 0f)
+					npc.Opacity = 0f;
 			}
 
 			// Attacking phases
