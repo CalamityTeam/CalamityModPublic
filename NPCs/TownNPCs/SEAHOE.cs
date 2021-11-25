@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else
             {
-				switch (npc.Calamity().newAI[0] % 11f)
+				switch (npc.Calamity().newAI[0] % 10f)
 				{
 					case 0f:
 						displayThisText = "There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.";
@@ -302,12 +302,9 @@ namespace CalamityMod.NPCs.TownNPCs
 						displayThisText = "I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.";
 						break;
 					case 8f:
-						displayThisText = "The dungeon is a dark place. None of us know of its true purpose, however, the ancient Eidolist cultists used it for worship before Lord Yharim took it over.";
-						break;
-					case 9f:
 						displayThisText = "The " + worldEvil + " used to be easily manageable and controlled by nature. However, the recent wars and pollution have tipped the balance out of favor.";
 						break;
-					case 10f:
+					case 9f:
 						displayThisText = "Throughout the world lie various structures left behind by Draedon. Archaic defenses may remain, but the goods inside may be worth your while.";
 						break;
 				}
