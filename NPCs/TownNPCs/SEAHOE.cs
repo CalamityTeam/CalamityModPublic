@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (CalamityWorld.downedDoG)
             {
-				switch (npc.Calamity().newAI[0] % 4f)
+				switch (npc.Calamity().newAI[0] % 3f)
 				{
 					case 0f:
 						displayThisText = "The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.";
@@ -174,9 +174,6 @@ namespace CalamityMod.NPCs.TownNPCs
 						break;
 					case 2f:
 						displayThisText = "The Devourer of Gods is extremely powerful. However, he is young, foolhardy, and very lazy. Perhaps if he had been given time to develop he would have turned into quite the threat.";
-						break;
-					case 3f:
-						displayThisText = "Ah, the dragon Yharon is fickle. You may find that he will refuse to use his full power unless you are strong enough to unleash the power of the Dark Sun.";
 						break;
 				}
             }
