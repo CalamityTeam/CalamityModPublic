@@ -5903,20 +5903,6 @@ namespace CalamityMod.CalPlayer
         {
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
 			{
-				// The Transformer can reflect bullets
-                if (aSparkRare)
-				{
-					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
-					{
-						proj.hostile = false;
-						proj.friendly = true;
-						proj.velocity *= -1f;
-						proj.damage = (int)(proj.damage * 8 * player.AverageDamage());
-                        proj.penetrate = 1;
-                        player.GiveIFrames(20, false);
-					}
-				}
-
 				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
                 if (dodgeCooldownTimer == 0 && !disableAllDodges)
 				{
@@ -5959,25 +5945,6 @@ namespace CalamityMod.CalPlayer
                             SyncDodgeCooldown(false);
                         return;
 					}
-
-                    // Daedalus Melee set bonus
-					else if (daedalusReflect)
-					{
-						proj.hostile = false;
-						proj.friendly = true;
-						proj.velocity *= -1f;
-						proj.penetrate = 1;
-                        player.GiveIFrames(20, false);
-
-                        damage /= 2;
-
-						dodgeCooldownTimer = DaedalusReflectCooldown;
-                        // Send a Calamity dodge cooldown packet.
-                        if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                            SyncDodgeCooldown(false);
-
-                        // No return because the projectile hit isn't canceled -- it only does half damage.
-                    }
 				}
 			}
 
@@ -6113,6 +6080,13 @@ namespace CalamityMod.CalPlayer
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
+			{
+                if (dodgeCooldownTimer == 0 && !disableAllDodges && daedalusReflect && !projRef && !projRefRare)
+				{
+					projectileDamageReduction += 0.5;
+				}
+			}
             
 
             if (beeResist)
@@ -6848,6 +6822,46 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
                 }
             }
+
+			// As these reflects do not cancel damage, they need to be in OnHit rather than ModifyHit
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x) && proj.active && !proj.friendly && proj.hostile && damage > 0)
+			{
+				// The Transformer can reflect bullets
+                if (aSparkRare)
+				{
+					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
+					{
+						proj.hostile = false;
+						proj.friendly = true;
+						proj.velocity *= -1f;
+						proj.damage = (int)(proj.damage * 8 * player.AverageDamage());
+                        proj.penetrate = 1;
+                        player.GiveIFrames(20, false);
+					}
+				}
+
+				// Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
+                if (dodgeCooldownTimer == 0 && !disableAllDodges)
+				{
+					if (daedalusReflect && !projRef && !projRefRare)
+					{
+						proj.hostile = false;
+						proj.friendly = true;
+						proj.velocity *= -1f;
+						proj.penetrate = 1;
+                        player.GiveIFrames(20, false);
+
+                        damage /= 2;
+
+						dodgeCooldownTimer = DaedalusReflectCooldown;
+                        // Send a Calamity dodge cooldown packet.
+                        if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                            SyncDodgeCooldown(false);
+
+                        // No return because the projectile hit isn't canceled -- it only does half damage.
+                    }
+				}
+			}
         }
         #endregion
 
