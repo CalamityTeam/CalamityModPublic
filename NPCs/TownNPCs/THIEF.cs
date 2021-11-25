@@ -152,8 +152,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("So many new things to steal, I can’t think of where to start!");
                 PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
             }
-            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()) ||
-                Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
+            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
             }
