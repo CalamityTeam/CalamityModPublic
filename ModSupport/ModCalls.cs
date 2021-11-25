@@ -1166,7 +1166,7 @@ namespace CalamityMod
 			}
 
 			// Xeroc
-			if (setBonus == "xeroc")
+			if (setBonus == "empyrean" || setBonus == "xeroc")
 			{
 				mp.xerocSet = enabled;
 				return true;
