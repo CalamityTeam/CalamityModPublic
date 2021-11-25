@@ -3920,7 +3920,7 @@ namespace CalamityMod.CalPlayer
                 else
                     player.velocity.X = 0f;
 
-                if (player.controlUp)
+                if (player.controlUp || player.controlJump)
                     player.velocity.Y = -speed;
 
                 else if (player.controlDown)
@@ -3932,7 +3932,7 @@ namespace CalamityMod.CalPlayer
                 else
                     player.velocity.Y = 0f;
 
-                if (player.controlJump)
+                if (CalamityMod.ExoChairSlowdownHotkey.Current)
                     player.velocity *= 0.5f;
             }
         }
