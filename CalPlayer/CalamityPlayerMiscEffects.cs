@@ -1914,6 +1914,13 @@ namespace CalamityMod.CalPlayer
 				int seconds = CalamityUtils.SecondsToFrames(60f);
 				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
 			}
+
+			// Armageddon's Dodge Disable feature puts Shadow Dodge/Holy Protection on permanent cooldown
+			if (modPlayer.disableAllDodges)
+			{
+				if (player.shadowDodgeTimer < 2)
+					player.shadowDodgeTimer = 2;
+			}
 		}
 		#endregion
 
