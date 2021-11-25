@@ -46,7 +46,16 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockBack, player.whoAmI);
+				int laserAmt = 3;
+				float SpeedX = speedX + Main.rand.NextFloat(-1f, 1f);
+				float SpeedY = speedY + Main.rand.NextFloat(-1f, 1f);
+				for (int i = 0; i < laserAmt; ++i)
+				{
+					int laser = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.15f, SpeedY * 1.15f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack * 0.4f, player.whoAmI);
+					Main.projectile[laser].timeLeft = 120;
+                    Main.projectile[laser].tileCollide = false;
+				}
             }
             else
             {
@@ -65,8 +74,8 @@ namespace CalamityMod.Items.Weapons.Magic
                     {
                         value9 -= vector7;
                     }
-                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 1.5f, speedY * 1.5f, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 1.5f, speedY * 1.5f, type, (int)(damage * 0.8), knockBack, player.whoAmI);
+                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), , knockBack * 0.4f, player.whoAmI);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }
