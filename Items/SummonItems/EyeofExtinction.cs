@@ -8,14 +8,14 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eye of Extinction");
+            DisplayName.SetDefault("Ceremonial Urn");
             Tooltip.SetDefault("Use at the Altar of the Accursed to summon Supreme Calamitas\n" + "Not consumable");
         }
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 42;
+            item.width = 34;
+            item.height = 54;
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
