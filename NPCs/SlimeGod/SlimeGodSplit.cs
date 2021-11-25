@@ -203,8 +203,8 @@ namespace CalamityMod.NPCs.SlimeGod
 							num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
 							num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
 							num183 = num179 / num183;
-							num180 += (float)Main.rand.Next(-20, 21);
-							num182 += (float)Main.rand.Next(-20, 21);
+							num180 += (float)Main.rand.Next(-30, 31);
+							num182 += (float)Main.rand.Next(-30, 31);
 							num180 *= num183;
 							num182 *= num183;
 							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);

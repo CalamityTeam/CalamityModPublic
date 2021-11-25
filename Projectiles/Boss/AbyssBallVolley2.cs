@@ -1,3 +1,5 @@
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,12 +23,18 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = 1;
 			projectile.alpha = 60;
 			projectile.tileCollide = false;
-            projectile.timeLeft = 300;
+			projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
 			projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
 		}
 
         public override void AI()
         {
+			if (projectile.velocity.Length() < 18f && (Main.expertMode || BossRushEvent.BossRushActive))
+			{
+				float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
+				projectile.velocity *= velocityMult;
+			}
+
 			if (projectile.timeLeft < 60)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 
