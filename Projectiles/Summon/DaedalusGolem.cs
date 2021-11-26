@@ -81,9 +81,16 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 destination;
             NPC potentialTarget = projectile.Center.MinionHoming(900f, Owner);
             if (potentialTarget is null)
-                destination = Owner.Center + Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f);
+                destination = Owner.Center - Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f) * Owner.direction;
 			else
-                destination = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+			{
+				Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+				Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+				if ((projectile.Center - destA).Length() < (projectile.Center - destB).Length())
+					destination = destA;
+				else
+					destination = destB;
+			}
 
             // Go upwards, and check down again to discover any height differences before deciding where to move.
             // There's a chance that this will encounter a null tile. If it us, just skip this step.
