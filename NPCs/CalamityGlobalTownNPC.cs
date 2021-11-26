@@ -1241,7 +1241,6 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.ArmsDealer)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
 				bool hasMagnum = Main.LocalPlayer.HasItem(ItemType<Magnum>()) || Main.LocalPlayer.HasItem(ItemType<LightningHawk>()) || Main.LocalPlayer.HasItem(ItemType<ElephantKiller>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<MagnumRounds>(), hasMagnum, Item.buyPrice(0, 3 * goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<GrenadeRounds>(), Main.LocalPlayer.HasItem(ItemType<Bazooka>()), Item.buyPrice(0, 5 * goldCost, 0, 0));
