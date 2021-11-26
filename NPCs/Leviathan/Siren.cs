@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					// Prevent Anahita from leaving the world when doing her dive.
 					// If she leaves the world entity summons will fail and Levi will simply not spawn.
-					npc.position.X = MathHelper.Clamp(npc.position.X, 150f, Main.maxTilesX - 150f);
+					npc.position.X = MathHelper.Clamp(npc.position.X, 150f, Main.maxTilesX * 16f - 150f);
 
 					if (npc.alpha <= 0)
 					{
