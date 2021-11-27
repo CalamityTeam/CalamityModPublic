@@ -31,7 +31,7 @@ namespace CalamityMod.Items.DifficultyItems
 
                 // Boss lines
                 "All boss minions no longer drop hearts.\n" +
-                "Gives every boss a new enraged AI and allows them to drop special items.\n" +
+                "Enrages all bosses and gives them new AI.\n" +
                 "Bosses and their projectiles deal 35% more damage.\n" +
                 "Most bosses will enter later phases sooner if the fight has gone on for a long time.\n" +
                 "Increases the velocity of most boss projectiles by 25%, this is increased to 35% during Boss Rush.\n" +

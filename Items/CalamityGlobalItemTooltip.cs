@@ -650,10 +650,10 @@ namespace CalamityMod.Items
 			// Add mentions of what Calamity ores vanilla pickaxes can mine
 			#region Pickaxe New Ore Tooltips
 			if (item.type == ItemID.Picksaw)
-				EditTooltipByNum(0, (line) => line.text += "\nCan mine Scoria Ore");
+				EditTooltipByNum(0, (line) => line.text += "\nCan mine Scoria Ore located in the Abyss");
 
 			if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
-				EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore");
+				EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore located in the Jungle");
 			#endregion
 
 			// Rebalances and information about vanilla set bonuses

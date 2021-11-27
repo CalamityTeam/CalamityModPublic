@@ -3563,8 +3563,11 @@ namespace CalamityMod.NPCs
 			}
 
 			// Don't allow large hitbox projectiles or explosions to "snipe" enemies.
+			// Hitbox criteria were changed to allow long one dimensional projectiles so that Condemnation would work.
 			bool hitBullseye = false;
-			if (bullseye != null && projectile.ranged && (projectile.width + projectile.height) / 2 <= 25 && projectile.velocity != Vector2.Zero)
+			bool acceptableVelocity = projectile.velocity != Vector2.Zero;
+			bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
+			if (bullseye != null && projectile.ranged && acceptableVelocity && acceptableHitbox)
 			{
 				if (bullseye != null)
 				{
