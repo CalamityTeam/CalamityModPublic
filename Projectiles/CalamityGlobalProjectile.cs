@@ -303,6 +303,15 @@ namespace CalamityMod.Projectiles
 					projectile.scale = 2f;
 					break;
 
+				case ProjectileID.EmeraldBolt:
+					projectile.penetrate = 1;
+					break;
+
+				case ProjectileID.Bee:
+				case ProjectileID.GiantBee:
+					projectile.penetrate = 2;
+					break;
+
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
 				case ProjectileID.FlowerPetal:
