@@ -150,8 +150,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             IdleTimer = reader.ReadInt32();
             PlayerAttackCountdown = reader.ReadInt32();
+            int armCount = reader.ReadInt32();
             Arms.Clear();
-            for (int i = 0; i < reader.ReadInt32(); i++)
+            for (int i = 0; i < armCount; i++)
             {
                 Arms.Add(new SepulcherArm(reader.ReadPackedVector2(), reader.ReadByte(), reader.ReadSingle(), reader.ReadBoolean(), reader.ReadBoolean()));
                 Arms.Last().Limbs[0] = SepulcherArm.SepulcherArmLimb.ReceiveData(reader);
