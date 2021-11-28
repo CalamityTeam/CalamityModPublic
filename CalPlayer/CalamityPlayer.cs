@@ -415,9 +415,9 @@ namespace CalamityMod.CalPlayer
         public const double DefenseDamageRatio = 0.15;
         public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
         internal int totalDefenseDamage = 0;
-        // Defense damage from a single hit recovers in one second, no matter how big the hit was.
-        // If you get hit AGAIN before you have fully recovered, 60 more frames are added to your recovery timer!
-        internal const int DefenseDamageBaseRecoveryTime = 70;
+        // Defense damage from a single hit recovers in 50 frames, no matter how big the hit was.
+        // If you get hit AGAIN before you have fully recovered, 50 more frames are added to your recovery timer!
+        internal const int DefenseDamageBaseRecoveryTime = 60;
         // The maximum possible recovery time is 15 seconds. This is to prevent annoyance where godmode defense damage never goes away.
         internal const int DefenseDamageMaxRecoveryTime = 900;
         // How many frames the player will continue to be recovering from defense damage.
