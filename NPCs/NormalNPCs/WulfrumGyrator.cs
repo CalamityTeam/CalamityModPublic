@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class WulfrumGyrator : ModNPC
@@ -15,19 +16,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => npc.ai[0];
             set => npc.ai[0] = value;
         }
+
         public float SuperchargeTimer
         {
             get => npc.ai[3];
             set => npc.ai[3] = value;
         }
+
         public bool Supercharged => SuperchargeTimer > 0;
 
         public const float PlayerTargetingThreshold = 90f;
         public const float PlayerSearchDistance = 500f;
         public const float StuckJumpPromptTime = 45f;
-        public const float MaxMovementSpeedX = 8f;
-        public const float JumpSpeed = -9f;
+        public const float MaxMovementSpeedX = 6f;
+        public const float JumpSpeed = -8f;
         public const float NPCGravity = 0.3f; // NPC.cs has this, but it's private, and there's no way in hell I'm using reflection.
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Gyrator");
@@ -69,16 +73,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             if (Supercharged)
             {
-                float chargeJumpSpeed = -14f;
-
+                float chargeJumpSpeed = -12f;
                 float maxHeight = chargeJumpSpeed * chargeJumpSpeed * (float)Math.Pow(Math.Sin(npc.AngleTo(player.Center)), 2) / (4f * NPCGravity);
                 bool jumpWouldHitPlayer = maxHeight > Math.Abs(player.Center.Y - npc.Center.Y) && maxHeight < Math.Abs(player.Center.Y - npc.Center.Y) + player.height;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient && jumpWouldHitPlayer && npc.collideY && npc.velocity.Y == 0f)
                 {
                     npc.velocity.Y = chargeJumpSpeed;
                     npc.netSpam = 0;
                     npc.netUpdate = true;
                 }
+
                 SuperchargeTimer--;
             }
 
@@ -89,6 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.netSpam = 0;
                 npc.netUpdate = true;
             }
+
             if (Collision.CanHitLine(player.position, player.width, player.height, npc.position, npc.width, npc.height) &&
                 Math.Abs(player.Center.X - npc.Center.X) < PlayerSearchDistance &&
                 Math.Abs(player.Center.X - npc.Center.X) > PlayerTargetingThreshold)
@@ -121,30 +127,29 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
                 TimeSpentStuck = 0f;
 
-            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction * (Supercharged ? 1.333f : 1f), Supercharged ? 0.025f : 0.015f);
+            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction * (Supercharged ? 1.25f : 1f), Supercharged ? 0.02f : 0.0125f);
             Vector4 adjustedVectors = Collision.WalkDownSlope(npc.position, npc.velocity, npc.width, npc.height, NPCGravity);
             npc.position = adjustedVectors.XY();
             npc.velocity = adjustedVectors.ZW();
         }
+
         private bool HoleAtPosition(float xPosition)
         {
             int tileWidth = npc.width / 16;
             xPosition = (int)(xPosition / 16f) - tileWidth;
             if (npc.velocity.X > 0)
-            {
                 xPosition += tileWidth;
-            }
+
             int tileY = (int)((npc.position.Y + npc.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = (int)xPosition; x < xPosition + tileWidth; x++)
                 {
                     if (Main.tile[x, y].active())
-                    {
                         return false;
-                    }
                 }
             }
+
             return true;
         }
 

@@ -19,35 +19,40 @@ namespace CalamityMod.NPCs.NormalNPCs
             Slowdown = 2,
             SwoopDownward = 3
         }
+
         public float StunTime;
+
         internal HovercraftAIState AIState
         {
             get => (HovercraftAIState)(int)npc.ai[0];
             set => npc.ai[0] = (int)value;
         }
+
         public float SubphaseTime
         {
             get => npc.ai[1];
             set => npc.ai[1] = value;
         }
+
         public float SearchDirection
         {
             get => npc.ai[2];
             set => npc.ai[2] = value;
         }
+
         public float SuperchargeTimer
         {
             get => npc.ai[3];
             set => npc.ai[3] = value;
         }
+
         public bool Supercharged => SuperchargeTimer > 0;
         public ref float FlyAwayTimer => ref npc.localAI[0];
 
         public const float StunTimeMax = 45f;
         public const float SearchXOffset = 345f;
-        public const float SearchSpeed = 7f;
-        public const float HoverSpeed = 5f;
         public const float TotalSubphaseTime = 110f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Hovercraft");
@@ -100,19 +105,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[npc.target];
 
-            bool farFromPlayer = npc.Distance(player.Center) > 920f;
+            bool farFromPlayer = npc.Distance(player.Center) > 960f;
             bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
 
             if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                farFromPlayer = npc.Distance(player.Center) > 920f;
+                farFromPlayer = npc.Distance(player.Center) > 960f;
                 obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    if (FlyAwayTimer > 150)
+                    if (FlyAwayTimer > 360)
                     {
                         npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
                         npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
@@ -163,15 +168,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                 npc.netUpdate = true;
             }
-            if (AIState == HovercraftAIState.Searching ||
-                AIState == HovercraftAIState.Hover)
+
+            if (AIState == HovercraftAIState.Searching || AIState == HovercraftAIState.Hover)
             {
                 Vector2 destination = player.Center + new Vector2(SearchXOffset * SearchDirection, -160f);
-                npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 8.5f : 6f);
+                npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 7f : 5f);
                 if (AIState == HovercraftAIState.Hover)
                 {
                     destination = player.Center + new Vector2(SearchXOffset * -SearchDirection, -160f);
-                    npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 7f : 5f);
+                    npc.velocity = npc.SafeDirectionTo(destination, Vector2.UnitY) * (Supercharged ? 5.5f : 4f);
                 }
 
                 npc.rotation = npc.velocity.X / 16f;
@@ -209,7 +214,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.rotation = 0f;
                 float swoopType = Supercharged ? TotalSubphaseTime - 40f : TotalSubphaseTime;
                 float swoopSlowdownTime = Supercharged ? 10f : 45f;
-                Vector2 swoopVelocity = Vector2.UnitY.RotatedBy(MathHelper.Pi * SubphaseTime / swoopType * -SearchDirection) * (Supercharged ? 13f : 10f);
+                Vector2 swoopVelocity = Vector2.UnitY.RotatedBy(MathHelper.Pi * SubphaseTime / swoopType * -SearchDirection) * (Supercharged ? 11f : 8.5f);
 
                 SubphaseTime++;
                 if (SubphaseTime < swoopSlowdownTime)
@@ -222,7 +227,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 swoopVelocity.Y *= 0.5f;
 
-                npc.velocity = Vector2.Lerp(npc.velocity, swoopVelocity, 0.25f);
+                npc.velocity = Vector2.Lerp(npc.velocity, swoopVelocity, 0.2f);
 
                 if (SubphaseTime >= swoopType)
                 {
@@ -231,8 +236,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                     SubphaseTime = 0f;
                     npc.netUpdate = true;
                 }
+
                 npc.rotation = npc.velocity.X / 12f;
             }
+
             npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
         }
 
@@ -241,6 +248,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
+
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.025f : 0.1f) * pylonMult;
         }
 

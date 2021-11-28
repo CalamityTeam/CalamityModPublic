@@ -367,14 +367,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 			// Phase 7 - 0, 1, 2
 
 			// Predictiveness
-			float predictionAmt = malice ? 16f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
+			float predictionAmt = malice ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
 			if (nerfedAttacks)
 				predictionAmt *= 0.5f;
 			if (SecondaryAIState == (int)SecondaryPhase.Passive)
 				predictionAmt *= 0.5f;
 
 			// Gate values
-			float reducedTimeForGateValue = malice ? 60f : death ? 40f : revenge ? 30f : expertMode ? 20f : 0f;
+			float reducedTimeForGateValue = malice ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
 			float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
 			float normalAttackTime = 360f - reducedTimeForGateValue;
 			float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
@@ -817,7 +817,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 36f : 40f;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 45f : 50f;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
 							{

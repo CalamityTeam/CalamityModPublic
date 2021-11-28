@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 			Vector2 rotationVector = player.Center + predictionVector - npc.Center;
 
 			bool fireMoreOrbs = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays;
-			float projectileVelocity = (passivePhase || fireMoreOrbs) ? 7.2f : 9f;
+			float projectileVelocity = (passivePhase || fireMoreOrbs) ? 6f : 9f;
 			if (lastMechAlive)
 				projectileVelocity *= 1.2f;
 			else if (berserk)

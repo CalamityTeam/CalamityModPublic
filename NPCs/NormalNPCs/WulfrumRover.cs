@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class WulfrumRover : ModNPC
@@ -16,10 +17,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => npc.ai[3];
             set => npc.ai[3] = value;
         }
+
         public const float PlayerTargetingThreshold = 90f;
         public const float PlayerSearchDistance = 500f;
         public const float StuckJumpPromptTime = 90f;
-        public const float MaxMovementSpeedX = 8f;
+        public const float MaxMovementSpeedX = 6f;
         public bool Supercharged => SuperchargeTimer > 0;
 
         public override void SetStaticDefaults()
@@ -88,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             npc.spriteDirection = -npc.direction;
-            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction, 0.015f);
+            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction, 0.0125f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
 using System.IO;
 
@@ -15,6 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         Searching = 0,
         Charging = 1
     }
+
     public class WulfrumDrone : ModNPC
     {
         internal DroneAIState AIState
@@ -22,16 +22,19 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => (DroneAIState)(int)npc.ai[0];
             set => npc.ai[0] = (int)value;
         }
+
         public float HorizontalChargeTime
         {
             get => npc.ai[1];
             set => npc.ai[1] = value;
         }
+
         public float Time
         {
             get => npc.ai[2];
             set => npc.ai[2] = value;
         }
+
         public float SuperchargeTimer
         {
             get => npc.ai[3];
@@ -40,8 +43,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public bool Supercharged => SuperchargeTimer > 0;
         public ref float FlyAwayTimer => ref npc.localAI[0];
-
         public const float TotalHorizontalChargeTime = 75f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Drone");
@@ -77,19 +80,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[npc.target];
 
-            bool farFromPlayer = npc.Distance(player.Center) > 920f;
+            bool farFromPlayer = npc.Distance(player.Center) > 960f;
             bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
 
             if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                farFromPlayer = npc.Distance(player.Center) > 920f;
+                farFromPlayer = npc.Distance(player.Center) > 960f;
                 obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    if (FlyAwayTimer > 480)
+                    if (FlyAwayTimer > 360)
 					{
                         npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
                         npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
@@ -120,7 +123,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.direction = 1;
 
                 Vector2 destination = player.Center + new Vector2(300f * npc.direction, -90f);
-                npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(destination) * 8f, 0.1f);
+                npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(destination) * 6f, 0.1f);
                 if (npc.Distance(destination) < 40f)
                 {
                     Time++;
@@ -135,7 +138,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
             {
                 if (HorizontalChargeTime < 25)
-                    npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(player.Center) * 8f, 0.1f);
+                    npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(player.Center) * 6f, 0.1f);
 
                 if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
                     Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
@@ -149,6 +152,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.netUpdate = true;
                 }
             }
+
             npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
             npc.rotation = npc.velocity.X / 25f;
 
