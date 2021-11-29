@@ -42,6 +42,7 @@ namespace CalamityMod.Items
 				{ ItemID.BallOHurt, Do(DamageRatio(2f)) },
 				{ ItemID.BatScepter, Do(DamageRatio(1.1f)) },
 				{ ItemID.BeamSword, autoReuse },
+				{ ItemID.BeeGun, Do(DamageExact(11)) },
 				{ ItemID.BeeKeeper, Do(UseTurn, ScaleRatio(1.5f), DamageRatio(2.5f)) },
 				{ ItemID.BeesKnees, Do(PointBlank, DamageRatio(1.1f)) },
 				{ ItemID.BladedGlove, Do(DamageExact(15), UseExact(7)) },
