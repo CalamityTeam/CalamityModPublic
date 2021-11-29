@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs
 			"Finchi",
 			"Heniek", // <@!363404700445442050> (Kazurgundu#3791)
 			"Fire", // <@!354362326947856384> (fire#0692)
-			"Barney", // <@!634462901431697410> (Potato Power#6578)
+			"Barney Calhoun", // <@!634462901431697410> (Potato Power#6578)
 		};
 		private const int ClothierVanillaNames = 25;
 		private static readonly string[] ClothierNames =
