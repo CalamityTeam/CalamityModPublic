@@ -286,7 +286,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
 				ApplyTooltipEdits(tooltips,
 					(i, l) => l.mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
-					(line) => line.text += "\nCannot be used while a boss is alive");
+					(line) => line.text += "\nCannot be used while you have the Boss Effects buff");
 
 			// Rod of Discord cannot be used multiple times to hurt yourself
 			if (item.type == ItemID.RodofDiscord)

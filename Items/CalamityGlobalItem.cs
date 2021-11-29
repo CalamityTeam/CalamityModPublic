@@ -833,7 +833,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !CalamityPlayer.areThereAnyDamnBosses;
+                return !player.Calamity().bossZen;
             }
             if (item.type == ItemID.RodofDiscord)
             {
