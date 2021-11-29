@@ -1,4 +1,5 @@
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -26,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Aquashard>();
@@ -64,7 +65,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
+			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
             recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
             recipe.AddTile(TileID.Anvils);
