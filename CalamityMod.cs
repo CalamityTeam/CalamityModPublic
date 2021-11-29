@@ -858,17 +858,22 @@ namespace CalamityMod
                                 music = GetMusicFromMusicMod("Sulphur") ?? MusicID.Desert;
                         }
                     }
+					if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
+					{
+						music = GetMusicFromMusicMod("UniversalCollapse") ?? MusicID.LunarBoss;
+						priority = MusicPriority.BossMedium;
+					}
 
-                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
-                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
-                    /*
+					// This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
+					// of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
+					/*
                     if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
                     {
                         music = BossRushEvent.MusicToPlay;
                         priority = MusicPriority.BossHigh;
                     }
                     */
-                }
+				}
             }
         }
         #endregion
