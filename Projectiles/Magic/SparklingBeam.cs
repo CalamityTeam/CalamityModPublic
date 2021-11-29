@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.life <= 0)
+            if (target.life <= 0 && target.lifeMax > 5)
             {
 				Player player = Main.player[projectile.owner];
 				int shardDamage = projectile.damage / 5;

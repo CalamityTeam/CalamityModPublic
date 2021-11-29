@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 10;
             item.width = 40;
             item.height = 40;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.5f;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlasmaRay>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 11f;
         }
 
         public override Vector2? HoldoutOrigin()

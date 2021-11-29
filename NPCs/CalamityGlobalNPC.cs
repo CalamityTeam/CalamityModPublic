@@ -3786,15 +3786,19 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.Creeper)
 			{
-				// 50% resist to true melee.
-				if (projectile.Calamity().trueMelee)
+				// 50% resist to true melee and Demon Scythe.
+				if (projectile.Calamity().trueMelee || projectile.type == ProjectileID.DemonScythe)
 					damage = (int)(damage * 0.5);
 			}
 			else if (EaterofWorldsIDs.Contains(npc.type))
 			{
-				// 50% resist to true melee.
-				if (projectile.Calamity().trueMelee)
+				// 50% resist to true melee and Demon Scythe.
+				if (projectile.Calamity().trueMelee || projectile.type == ProjectileID.DemonScythe)
 					damage = (int)(damage * 0.5);
+
+				// 40% resist to Sky Glaze.
+				else if (projectile.type == ProjectileType<StickyFeather>())
+					damage = (int)(damage * 0.6);
 			}
 			else if (DesertScourgeIDs.Contains(npc.type))
 			{
