@@ -20,8 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeSmoothTiles(Type);
 
             soundType = SoundID.Tink;
-            mineResist = 4f;
-            minPick = 225;
+            mineResist = 2f;
             drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.RunicProfanedBrick>();
             AddMapEntry(new Color(122, 66, 59));
             animationFrameHeight = 90;

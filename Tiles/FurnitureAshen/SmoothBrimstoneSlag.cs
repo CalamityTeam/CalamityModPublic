@@ -21,8 +21,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             CalamityUtils.MergeWithHell(Type);
 
             soundType = SoundID.Tink;
-            mineResist = 5f;
-            minPick = 180;
+            mineResist = 1f;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.SmoothBrimstoneSlag>();
             AddMapEntry(new Color(61, 40, 61));
         }

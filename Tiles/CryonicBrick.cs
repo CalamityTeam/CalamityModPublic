@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeDecorativeTiles(Type);
 
             soundType = SoundID.Tink;
-            minPick = 100;
             drop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));
         }
