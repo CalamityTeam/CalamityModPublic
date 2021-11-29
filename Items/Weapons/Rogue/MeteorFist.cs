@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<MeteorFistProj>();
-            item.shootSpeed = 10f;
+            item.shootSpeed = 5f;
             item.Calamity().rogue = true;
         }
 
