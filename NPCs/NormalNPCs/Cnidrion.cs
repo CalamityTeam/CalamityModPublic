@@ -42,11 +42,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
+            if (spawnInfo.playerSafe || !spawnInfo.player.ZoneDesert || !spawnInfo.player.ZoneOverworldHeight || NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
             {
                 return 0f;
             }
-            return SpawnCondition.DesertCave.Chance * 0.0175f;
+            return 0.25f;
         }
 
         public override void FindFrame(int frameHeight)
@@ -204,79 +204,64 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.ai[0] = 0f;
                 }
             }
+
             if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
-            {
                 flag51 = true;
-            }
+
             if (flag51)
             {
                 npc.velocity.X = npc.velocity.X * 0.9f;
                 if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-                {
                     npc.velocity.X = 0f;
-                }
             }
             else
             {
                 if (npc.direction > 0)
-                {
                     npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
-                }
+
                 if (npc.direction < 0)
-                {
                     npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
-                }
             }
+
             int num854 = 80;
             int num855 = 20;
             Vector2 position2 = new Vector2(npc.Center.X - (num854 / 2), npc.position.Y + npc.height - num855);
             bool flag52 = false;
             if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width && npc.position.Y + npc.height < Main.player[npc.target].position.Y + Main.player[npc.target].height - 16f)
-            {
                 flag52 = true;
-            }
+
             if (flag52)
             {
-                npc.velocity.Y += 0.25f;
-            }
+                npc.velocity.Y += 0.5f;
+				if (npc.velocity.Y > 10f)
+					npc.velocity.Y = 10f;
+			}
             else if (Collision.SolidCollision(position2, num854, num855))
             {
                 if (npc.velocity.Y > 0f)
-                {
                     npc.velocity.Y = 0f;
-                }
+
                 if (npc.velocity.Y > -0.2f)
-                {
                     npc.velocity.Y -= 0.025f;
-                }
                 else
-                {
                     npc.velocity.Y -= 0.2f;
-                }
+
                 if (npc.velocity.Y < -2f)
-                {
                     npc.velocity.Y = -2f;
-                }
             }
             else
             {
                 if (npc.velocity.Y < 0f)
-                {
                     npc.velocity.Y = 0f;
-                }
-                if (npc.velocity.Y < 0.1)
-                {
+
+                if (npc.velocity.Y < 0.5)
                     npc.velocity.Y += 0.025f;
-                }
                 else
-                {
-                    npc.velocity.Y += 0.5f;
-                }
-            }
-            if (npc.velocity.Y > 4f)
-            {
-                npc.velocity.Y = 4f;
-            }
+                    npc.velocity.Y += 0.25f;
+
+				if (npc.velocity.Y > 2f)
+					npc.velocity.Y = 2f;
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
