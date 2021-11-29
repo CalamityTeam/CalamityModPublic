@@ -1,6 +1,7 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class ShadeNimbusHostile : ModProjectile
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.CursedInferno, 90);
+			target.AddBuff(ModContent.BuffType<Shadowflame>(), 60);
 		}
 	}
 }

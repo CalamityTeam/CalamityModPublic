@@ -417,7 +417,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
 
-			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo)
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 

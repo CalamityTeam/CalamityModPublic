@@ -5007,6 +5007,8 @@ namespace CalamityMod.CalPlayer
                 case ProjectileID.TheRottedFork:
 				case ProjectileID.TheMeatball:
 				case ProjectileID.CrimsonYoyo:
+				case ProjectileID.BloodCloudRaining:
+				case ProjectileID.BloodRain:
                     target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
                     break;
 

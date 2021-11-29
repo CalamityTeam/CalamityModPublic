@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     public class BloodRay : ModProjectile
     {
         public const int Lifetime = 150;
-        public const float MaxExponentialDamageBoost = 4f;
+        public const float MaxExponentialDamageBoost = 3f;
         public static readonly float ExponentialDamageBoost = (float)Math.Pow(MaxExponentialDamageBoost, 1f / Lifetime);
         public ref float Time => ref projectile.ai[0];
         public ref float InitialDamage => ref projectile.ai[1];

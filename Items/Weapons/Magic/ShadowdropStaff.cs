@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 19;
+            item.damage = 20;
             item.magic = true;
-            item.mana = 13;
+            item.mana = 6;
             item.width = 44;
             item.height = 44;
             item.useTime = 9;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AuraRain>();
-            item.shootSpeed = 8f;
+            item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()

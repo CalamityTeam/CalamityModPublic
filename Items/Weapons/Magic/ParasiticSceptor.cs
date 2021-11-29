@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.damage = 12;
 			item.knockBack = 3f;
 			item.mana = 10;
-			item.useTime = item.useAnimation = 25;
+			item.useTime = item.useAnimation = 35;
 			item.autoReuse = true;
 			item.magic = true;
 			item.shootSpeed = 10f;

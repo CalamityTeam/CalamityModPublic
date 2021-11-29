@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.magic = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 1;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 90;
         }

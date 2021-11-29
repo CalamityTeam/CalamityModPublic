@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 62;
 			item.height = 22;
 			item.magic = true;
-			item.damage = 22;
+			item.damage = 21;
 			item.knockBack = 0f;
 			item.useTime = item.useAnimation = 20;
 			item.autoReuse = true;

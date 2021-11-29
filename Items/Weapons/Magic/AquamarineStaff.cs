@@ -18,13 +18,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 17;
             item.magic = true;
             item.mana = 3;
             item.width = 38;
             item.height = 38;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.5f;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AquamarineBolt>();
-            item.shootSpeed = 9f;
+            item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()
