@@ -479,7 +479,7 @@ namespace CalamityMod.Projectiles
                 RequiresManualResurrection = false;
             }
 
-			if (projectile.type == ProjectileID.Skull && !projectile.hostile && projectile.friendly)
+			if (projectile.type == ProjectileID.Skull && projectile.ai[0] == 0f)
 			{
 				if (projectile.alpha > 0)
 					projectile.alpha -= 75;
