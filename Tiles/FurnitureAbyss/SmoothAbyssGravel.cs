@@ -20,8 +20,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.MergeWithAbyss(Type);
 
             soundType = SoundID.Tink;
-            mineResist = 2f;
-            minPick = 65;
+            mineResist = 2.1f;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravel>();
             AddMapEntry(new Color(49, 56, 77));
         }

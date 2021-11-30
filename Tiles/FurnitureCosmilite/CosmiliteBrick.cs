@@ -14,8 +14,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             soundType = SoundID.Tink;
-            mineResist = 5f;
-            minPick = 250;
+            mineResist = 3f;
             drop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteBrick>();
             AddMapEntry(new Color(76, 79, 133));
         }
