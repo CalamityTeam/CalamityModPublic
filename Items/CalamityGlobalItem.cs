@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -833,7 +834,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !player.Calamity().bossZen;
+                return !player.HasBuff(ModContent.BuffType<BossZen>());
             }
             if (item.type == ItemID.RodofDiscord)
             {
