@@ -126,6 +126,12 @@ namespace CalamityMod.Tiles.Furniture
                 case 31:
                     item = ModContent.ItemType<ThanatosTrophy>();
                     break;
+                case 32:
+                    item = ModContent.ItemType<SupremeCatastropheTrophy>();
+                    break;
+                case 33:
+                    item = ModContent.ItemType<SupremeCataclysmTrophy>();
+                    break;
             }
             if (item > 0)
             {

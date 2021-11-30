@@ -1057,9 +1057,8 @@ namespace CalamityMod.Items
 				player.meleeDamage += 0.1f;
 				player.meleeSpeed += 0.1f;
 				player.meleeCrit += 10;
-				player.setBonus = "Increases your max number of sentries\n" +
-							"Lightning Aura can now crit and strikes faster\n" +
-							"10% increased melee speed, minion and melee damage";
+				player.setBonus += "\n10% increased melee speed, crit, and damage\n" +
+							"15% increased minion damage";
 			}
 			else if (set == "SquireTier2")
 			{

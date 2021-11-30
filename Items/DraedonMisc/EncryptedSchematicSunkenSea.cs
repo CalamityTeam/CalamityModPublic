@@ -32,7 +32,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             // Since no decrypting is necessary for this item simply placing it in your inventory is sufficient enough to "learn"
             // from it.
-            if (Main.myPlayer == player.whoAmI && (!RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes || !RecipeUnlockHandler.HasFoundSunkenSeaSchematic))
+            if (Main.netMode != NetmodeID.MultiplayerClient && (!RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes || !RecipeUnlockHandler.HasFoundSunkenSeaSchematic))
             {
                 RecipeUnlockHandler.HasFoundSunkenSeaSchematic = true;
                 RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes = true;

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Spear of Paleolith");
             Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
                 "Spears rain fossil shards as they travel\n" +
-                "Stealth Strikes travel slower but further, raining more fossil shards");
+                "Stealth strikes travel slower but further, raining more fossil shards");
         }
 
         public override void SafeSetDefaults()

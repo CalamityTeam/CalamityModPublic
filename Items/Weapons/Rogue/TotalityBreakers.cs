@@ -19,7 +19,7 @@ Stealth strikes leak tar as they fly");
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
+            item.width = 32;
             item.damage = 55;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -29,7 +29,7 @@ Stealth strikes leak tar as they fly");
             item.knockBack = 5f;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.height = 40;
+            item.height = 42;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<TotalityFlask>();

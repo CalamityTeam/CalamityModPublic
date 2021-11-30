@@ -1914,6 +1914,13 @@ namespace CalamityMod.CalPlayer
 				int seconds = CalamityUtils.SecondsToFrames(60f);
 				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
 			}
+
+			// Armageddon's Dodge Disable feature puts Shadow Dodge/Holy Protection on permanent cooldown
+			if (modPlayer.disableAllDodges)
+			{
+				if (player.shadowDodgeTimer < 2)
+					player.shadowDodgeTimer = 2;
+			}
 		}
 		#endregion
 
@@ -4225,8 +4232,10 @@ namespace CalamityMod.CalPlayer
 			bool carpetCheck = true;
 			if (player.carpet)
 				carpetCheck = player.carpetTime <= 0 && player.canCarpet;
+			bool wingCheck = player.wingTime == player.wingTimeMax || player.autoJump;
+			Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(player.Bottom.X / 16f), (int)(player.Bottom.Y / 16f));
 
-			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck && carpetCheck)
+			if (player.position.Y == player.oldPosition.Y && wingCheck && mountCheck && carpetCheck && tileBelow.IsTileSolidGround())
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;

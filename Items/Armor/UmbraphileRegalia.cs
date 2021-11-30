@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
         public override void SetDefaults()
         {
             item.width = 38;
-            item.height = 26;
+            item.height = 24;
             item.value = Item.buyPrice(0, 24, 0, 0);
             item.rare = ItemRarityID.Lime;
             item.defense = 16;

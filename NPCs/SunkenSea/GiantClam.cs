@@ -414,12 +414,16 @@ namespace CalamityMod.NPCs.SunkenSea
             DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(npc, Main.hardMode,
-                ModContent.ItemType<ClamCrusher>(),
-                ModContent.ItemType<ClamorRifle>(),
-                ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ShellfishStaff>()
-            );
+			if (Main.hardMode)
+			{
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<ClamCrusher>(w),
+                    DropHelper.WeightStack<ClamorRifle>(w),
+                    DropHelper.WeightStack<Poseidon>(w),
+                    DropHelper.WeightStack<ShellfishStaff>(w)
+                );
+			}
 
             // Equipment
             DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);

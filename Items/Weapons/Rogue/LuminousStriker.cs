@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			Tooltip.SetDefault("Send the stars back to where they belong\n"
 							  +"Throws a stardust javelin trailed by rising stardust shards\n"
                               +"Explodes into additional stardust shards upon hitting enemies\n"
-							  +"Stealth Strikes cause the stardust shards to fly alongside the javelin instead of rising");
+							  +"Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising");
         }
 
         public override void SafeSetDefaults()
