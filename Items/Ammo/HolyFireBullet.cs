@@ -6,6 +6,8 @@ namespace CalamityMod.Items.Ammo
 {
     public class HolyFireBullet : ModItem
     {
+        internal const float ExplosionMultiplier = 0.33f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire Bullet");
@@ -22,8 +24,8 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 2f;
             item.value = 2000;
-			item.rare = ItemRarityID.Purple;
-			item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
+            item.rare = ItemRarityID.Purple;
+            item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
             item.shootSpeed = 6f;
             item.ammo = AmmoID.Bullet;
         }
