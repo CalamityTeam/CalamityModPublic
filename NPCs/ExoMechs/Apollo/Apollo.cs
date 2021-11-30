@@ -410,7 +410,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
 			// Rocket phase variables
 			float rocketPhaseDuration = lastMechAlive ? 60f : 90f;
-			int numRockets = lastMechAlive ? 4 : nerfedAttacks ? 2 : 3;
+			int numRockets = nerfedAttacks ? 2 : 3;
 
 			// Default vector to fly to
 			bool flyRight = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
@@ -817,7 +817,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 						if (firingPlasma)
 						{
 							// Fire plasma
-							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 45f : 50f;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 40f : 45f;
 							float plasmaTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (plasmaTimer % divisor == 0f && canFire)
 							{

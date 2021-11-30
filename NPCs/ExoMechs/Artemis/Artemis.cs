@@ -829,7 +829,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 						if (firingLasers)
 						{
 							// Fire lasers
-							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 40f : 50f;
+							float divisor = nerfedAttacks ? 60f : lastMechAlive ? 35f : 45f;
 							float laserTimer = calamityGlobalNPC.newAI[3] - 2f;
 							if (laserTimer % divisor == 0f && canFire)
 							{
