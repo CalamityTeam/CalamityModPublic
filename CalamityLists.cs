@@ -2579,6 +2579,7 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
+			heartDropBlockList = null;
             pierceResistList = null;
             pierceResistExceptionList = null;
 
