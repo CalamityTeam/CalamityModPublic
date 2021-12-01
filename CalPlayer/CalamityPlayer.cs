@@ -5605,7 +5605,7 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             // Handle on-hit ranged effects for the gem tech armor set.
-            if (proj.ranged)
+            if (proj.ranged && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
                 GemTechState.RangedOnHitEffects(target, damage);
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && CalamityConfig.Instance.Proficiency)

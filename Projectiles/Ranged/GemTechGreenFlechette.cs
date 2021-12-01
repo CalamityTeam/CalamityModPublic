@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             DisplayName.SetDefault("Gem Tech Flechette");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
         }
 
         public override void SetDefaults()
@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            projectile.MaxUpdates = 3;
+            projectile.timeLeft = projectile.MaxUpdates * 180;
         }
 
         public override void AI()
@@ -67,9 +68,21 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor = Color.Lerp(lightColor, Color.White, 0.5f);
-            lightColor.A = 84;
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            int afterimageCount = ProjectileID.Sets.TrailCacheLength[projectile.type];
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 origin = texture.Size() * 0.5f;
+            for (int i = 0; i < afterimageCount; i++)
+			{
+                if (projectile.oldPos[i] == Vector2.Zero)
+                    continue;
+
+                float scaleFactor = MathHelper.Lerp(1f, 0.6f, i / (float)(afterimageCount - 1f));
+                Color drawColor = Color.Lerp(Color.LightGreen, Color.White, i / (float)(afterimageCount - 1f));
+                drawColor.A = (byte)(int)MathHelper.Lerp(105f, 0f, i / (float)(afterimageCount - 1f));
+                drawPosition -= projectile.velocity.SafeNormalize(Vector2.Zero) * scaleFactor * 4.5f;
+                spriteBatch.Draw(texture, drawPosition, null, drawColor, projectile.rotation, origin, projectile.scale * scaleFactor, SpriteEffects.None, 0f);
+			}
             return false;
         }
     }
