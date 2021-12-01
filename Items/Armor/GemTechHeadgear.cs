@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public const int GemBreakDamageLowerBound = 100;
         public const int GemDamage = 40000;
+        public const int GemDamageSoftcapThreshold = 100000;
         public const int GemRegenTime = 1800;
 
         public const int MeleeShardBaseDamage = 825;
