@@ -257,7 +257,7 @@ namespace CalamityMod.DataStructures
                 Vector2 gemPosition = CalculateGemPosition(GemThatShouldBeLost);
 
                 // Softcap the damage. This is done primarily to dampen stealth interactions.
-                gemDamage = CalamityUtils.DamageSoftCap(gemDamage, 100000);
+                gemDamage = CalamityUtils.DamageSoftCap(gemDamage, GemTechHeadgear.GemDamageSoftcapThreshold);
 
                 if (Main.myPlayer == OwnerIndex)
                     Projectile.NewProjectile(gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);
