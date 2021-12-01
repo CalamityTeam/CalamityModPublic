@@ -790,6 +790,18 @@ namespace CalamityMod.CalPlayer
         public bool daedalusCrystal = false;
         public bool chaosSpirit = false;
         public bool redDevil = false;
+        public bool GemTechSet = false;
+        private GemTechArmorState gemTechState;
+        public GemTechArmorState GemTechState
+		{
+			get
+			{
+                if (gemTechState is null || gemTechState.HasInvalidOwner)
+                    gemTechState = new GemTechArmorState(player.whoAmI);
+                return gemTechState;
+            }
+            set => gemTechState = value;
+        }
         #endregion
 
         #region Debuff
@@ -1550,6 +1562,8 @@ namespace CalamityMod.CalPlayer
 
             auricSet = false;
             auricBoost = false;
+
+            GemTechSet = false;
 
             omegaBlueChestplate = false;
             omegaBlueSet = false;
@@ -2393,6 +2407,7 @@ namespace CalamityMod.CalPlayer
             hasSilvaEffect = false;
             silvaCountdown = 480;
             auricSet = false;
+            GemTechSet = false;
             omegaBlueChestplate = false;
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
@@ -2487,6 +2502,7 @@ namespace CalamityMod.CalPlayer
             elysianFire = false;
             elysianAegis = false;
             elysianGuard = false;
+            GemTechState.OnDeathEffects();
             #endregion
 
             CurrentlyViewedFactoryID = -1;
@@ -3789,6 +3805,9 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
+            if (GemTechState.IsYellowGemActive)
+                meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
+
             player.meleeSpeed += meleeSpeedMult;
 
             if (player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
@@ -4859,6 +4878,9 @@ namespace CalamityMod.CalPlayer
             if (player.whoAmI != Main.myPlayer)
                 return;
 
+            // Handle on-hit melee effects for the gem tech armor set.
+            GemTechState.MeleeOnHitEffects(target);
+
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
@@ -4965,6 +4987,10 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI != Main.myPlayer)
                 return;
+
+            // Handle on-hit melee effects for the gem tech armor set.
+            if (proj.melee)
+                GemTechState.MeleeOnHitEffects(target);
 
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
@@ -5534,7 +5560,7 @@ namespace CalamityMod.CalPlayer
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
 
             bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
-            bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic);
+            bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic) || (GemTechSet && GemTechState.IsBlueGemActive);
 
             double summonNerfMult = reducedNerf ? 0.75 : 0.5;
             if (isSummon && !profanedCrystalBuffs)
@@ -5577,6 +5603,10 @@ namespace CalamityMod.CalPlayer
             }
 
             #endregion
+
+            // Handle on-hit ranged effects for the gem tech armor set.
+            if (proj.ranged)
+                GemTechState.RangedOnHitEffects(target, damage);
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && CalamityConfig.Instance.Proficiency)
             {
@@ -7576,6 +7606,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Handle hit effects from the gem tech armor set.
+            player.Calamity().GemTechState.PlayerOnHitEffects((int)damage);
+
             bool hardMode = Main.hardMode;
             if (player.whoAmI == Main.myPlayer)
             {
@@ -9299,6 +9332,10 @@ namespace CalamityMod.CalPlayer
             bool isChannelable = it.channel;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
+
+            // The Gem Tech armor's rogue crystal ensures that stealth is not consumed by non-rogue items.
+            if ((it.IsAir || !it.Calamity().rogue) && GemTechSet && GemTechState.IsRedGemActive)
+                playerUsingWeapon = false;
 
             // Animation check depends on whether the item is "clockwork", like Clockwork Assault Rifle.
             // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.

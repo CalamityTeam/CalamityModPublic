@@ -803,7 +803,10 @@ namespace CalamityMod.Items
                 }
             }
 
-            if (item.type == ItemID.MonkStaffT1 || CalamityLists.spearAutoreuseList.Contains(item.type))
+			// Handle general use-item effects for the Gem Tech Armor.
+			player.Calamity().GemTechState.OnItemUseEffects(item);
+
+			if (item.type == ItemID.MonkStaffT1 || CalamityLists.spearAutoreuseList.Contains(item.type))
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
             }
