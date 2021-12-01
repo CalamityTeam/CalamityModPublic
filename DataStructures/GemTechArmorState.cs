@@ -167,7 +167,7 @@ namespace CalamityMod.DataStructures
             do
             {
                 Vector2 spawnPosition = target.Center + flechetteSpawnOffset;
-                if (!Collision.SolidCollision(spawnPosition, 1, 1))
+                if (!Collision.SolidCollision(spawnPosition, 1, 1) && Collision.CanHit(spawnPosition, 1, 1, target.Center, 1, 1))
                 {
                     int damage = CalamityUtils.DamageSoftCap((int)(hitDamage * 0.32f), 400);
                     Vector2 shootVelocity = flechetteSpawnOffset.SafeNormalize(Vector2.UnitY) * -20f;
