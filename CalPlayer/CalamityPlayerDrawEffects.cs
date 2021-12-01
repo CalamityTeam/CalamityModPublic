@@ -136,6 +136,85 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer GemTechGems = new PlayerLayer("CalamityMod", "GemTechGems", PlayerLayer.Skin, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.GemTechSet || drawPlayer.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+                return;
+
+            for (int i = 5; i >= 0; i--)
+            {
+                Texture2D gemTexture;
+                float pulseFactor = 1.8f;
+                GemTechArmorGemType gemType;
+                switch (i)
+                {
+                    case 0:
+                    default:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
+                        gemType = GemTechArmorGemType.Rogue;
+                        break;
+                    case 1:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/YellowGem");
+                        gemType = GemTechArmorGemType.Melee;
+                        break;
+                    case 2:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
+                        gemType = GemTechArmorGemType.Ranged;
+                        break;
+                    case 3:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
+                        gemType = GemTechArmorGemType.Summoner;
+                        break;
+                    case 4:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
+                        gemType = GemTechArmorGemType.Magic;
+                        break;
+                    case 5:
+                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
+                        gemType = GemTechArmorGemType.Base;
+                        pulseFactor = 2.5f;
+                        break;
+                }
+
+                // Don't bother doing anything else if the gem is inactive.
+                if (!modPlayer.GemTechState.GemIsActive(gemType))
+                    continue;
+
+                float drawOffsetAngle = modPlayer.GemTechState.CalculateGemOffsetAngle(gemType);
+                float gemOpacity = MathHelper.Lerp(0.85f, 1.05f, (float)Math.Cos(Main.GlobalTime * 2.3f) * 0.5f + 0.5f);
+
+                // Incorporate a sinusoidal pulse into the pulse factor.
+                pulseFactor *= (float)Math.Cos(Main.GlobalTime * 0.61f + drawOffsetAngle);
+
+                // Somewhat unorthodox way of creating an illusion of gems being drawn behind the player via orbiting.
+                // Instead of actually messing with a Z position it simply fades away when the sine of the draw
+                // offset angle is in the low negatives.
+                gemOpacity *= Utils.InverseLerp(-0.75f, -0.51f, (float)Math.Sin(drawOffsetAngle), true);
+
+                Vector2 baseDrawPosition = modPlayer.GemTechState.CalculateGemPosition(gemType) - Main.screenPosition;
+
+                // Draw back afterimages.
+                for (int j = 0; j < 5; j++)
+                {
+                    Color backAfterimageColor = Main.hslToRgb((Main.GlobalTime * 0.47f + j / 5f) % 1f, 1f, 0.67f);
+                    backAfterimageColor = Color.Lerp(backAfterimageColor, Color.White, 0.64f) * gemOpacity * 0.24f;
+                    Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * j / 5f).ToRotationVector2() * pulseFactor;
+                    DrawData gemBackDrawData = new DrawData(gemTexture, drawPosition, null, backAfterimageColor, 0f, gemTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                    Main.playerDrawData.Add(gemBackDrawData);
+                }
+
+                // Draw the main gem.
+                Color baseGemColor = Main.hslToRgb(Main.GlobalTime * 0.51f % 1f, 1f, 0.67f);
+                baseGemColor = Color.Lerp(baseGemColor, Color.White, 0.56f);
+                baseGemColor.A = 105;
+                baseGemColor *= gemOpacity;
+                DrawData gemDrawData = new DrawData(gemTexture, baseDrawPosition, null, baseGemColor, 0f, gemTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                Main.playerDrawData.Add(gemDrawData);
+            }
+        });
+
         public static readonly PlayerLayer MiscEffects = new PlayerLayer("CalamityMod", "MiscEffects", PlayerLayer.MiscEffectsFront, drawInfo =>
         {
             if (drawInfo.shadow != 0f)
@@ -797,6 +876,7 @@ namespace CalamityMod.CalPlayer
             list.Add(AngelicAllianceAurora);
             list.Add(IbanDevRobot);
             list.Add(DyeInvisibilityFix);
+            list.Add(GemTechGems);
         }
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
