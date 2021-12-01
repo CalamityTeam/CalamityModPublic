@@ -227,7 +227,7 @@ namespace CalamityMod.DataStructures
                 }
 
                 // Destroy the summoner gem.
-                if (GemIsActive(GemTechArmorGemType.Ranged) && GemThatShouldBeLost == GemTechArmorGemType.Summoner)
+                if (GemIsActive(GemTechArmorGemType.Summoner) && GemThatShouldBeLost == GemTechArmorGemType.Summoner)
                 {
                     BlueGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
                     gemDamage = (int)(GemTechHeadgear.GemDamage * Owner.MinionDamage());
