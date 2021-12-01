@@ -143,9 +143,9 @@ namespace CalamityMod.DataStructures
                 return;
 
             int damage = (int)(GemTechHeadgear.MeleeShardBaseDamage * Owner.MeleeDamage());
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 14; i++)
             {
-                Vector2 shootVelocity = (MathHelper.TwoPi * i / 7f + Main.rand.NextFloatDirection() * 0.23f).ToRotationVector2() * 4.25f;
+                Vector2 shootVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 3.25f);
                 Projectile.NewProjectile(target.Center, shootVelocity, ModContent.ProjectileType<GemTechYellowShard>(), damage, 0f, OwnerIndex);
             }
 
@@ -158,26 +158,14 @@ namespace CalamityMod.DataStructures
             if (!Owner.Calamity().GemTechSet || !IsGreenGemActive || Main.myPlayer != OwnerIndex || hasReachedProjCountLimit)
                 return;
 
-            int tries = 0;
-            float spawnOffsetFactor = 150f;
-            Vector2 flechetteSpawnOffset = Main.rand.NextVector2CircularEdge(spawnOffsetFactor, spawnOffsetFactor);
+            int damage = CalamityUtils.DamageSoftCap((int)(hitDamage * 0.32f), 400);
+            Vector2 spawnPosition = Owner.Center + Main.rand.NextVector2Circular(Owner.width, Owner.height) * 1.35f;
+            Vector2 shootVelocity = (target.Center - spawnPosition) * 0.04f;
+            if (shootVelocity.Length() < 6f)
+                shootVelocity = shootVelocity.SafeNormalize(Vector2.UnitY) * 6f;
 
-            // Try to avoid spawning projectiles in tiles.
-            // If this is not possible, nothing is spawned.
-            do
-            {
-                Vector2 spawnPosition = target.Center + flechetteSpawnOffset;
-                if (!Collision.SolidCollision(spawnPosition, 1, 1) && Collision.CanHit(spawnPosition, 1, 1, target.Center, 1, 1))
-                {
-                    int damage = CalamityUtils.DamageSoftCap((int)(hitDamage * 0.32f), 400);
-                    Vector2 shootVelocity = flechetteSpawnOffset.SafeNormalize(Vector2.UnitY) * -20f;
-                    Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<GemTechGreenFlechette>(), damage, 0f, OwnerIndex);
-                    break;
-                }
-
-                tries++;
-            }
-            while (tries < 50);
+            spawnPosition -= shootVelocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(15f, 50f);
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<GemTechGreenFlechette>(), damage, 0f, OwnerIndex);
         }
 
         public void OnItemUseEffects(Item item)

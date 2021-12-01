@@ -21,9 +21,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 12;
             projectile.friendly = true;
             projectile.melee = true;
+            projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.MaxUpdates = 2;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 45;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
             projectile.ignoreWater = true;
         }
 
@@ -32,35 +35,34 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.FinalExtraUpdate())
                 Time++;
 
-            if (Time >= IntangibleFrames)
+            if (projectile.localAI[0] == 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(750f);
+                // Play a shatter sound.
+                Main.PlaySound(SoundID.Item27, projectile.Center);
 
-                if (potentialTarget != null)
-                    projectile.velocity = (projectile.velocity * 24f + projectile.SafeDirectionTo(potentialTarget.Center) * 9f) / 25f;
+                // Create a triangular puff of yellow dust.
+                Vector2 initialVelocity = (Main.rand.NextFloatDirection() * 0.11f).ToRotationVector2() * Main.rand.NextFloat(2f, 3.3f);
+                for (int i = 0; i < 4; i++)
+                {
+                    Dust crystalShard = Dust.NewDustPerfect(projectile.Center, 267);
+                    crystalShard.velocity = initialVelocity * i / 4f;
+                    crystalShard.scale = 1.225f;
+                    crystalShard.color = Color.Yellow;
+                    crystalShard.noGravity = true;
+
+                    Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * 0.666f) * i / 4f;
+                    Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * -0.666f) * i / 4f;
+                }
+                projectile.localAI[0] = 1f;
             }
 
+            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.Pi * 0.0005f);
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.Opacity = (float)System.Math.Sqrt(projectile.timeLeft / 45f);
         }
 
         public override void Kill(int timeLeft)
         {
-            // Play a shatter sound.
-            Main.PlaySound(SoundID.Item27, projectile.Center);
-
-            // Create a triangular puff of yellow dust.
-            Vector2 initialVelocity = Vector2.UnitX * Main.rand.NextFloat(2f, 3.3f);
-            for (int i = 0; i < 4; i++)
-            {
-                Dust crystalShard = Dust.NewDustPerfect(projectile.Center, 267);
-                crystalShard.velocity = initialVelocity * i / 4f;
-                crystalShard.scale = 1.225f;
-                crystalShard.color = Color.Yellow;
-                crystalShard.noGravity = true;
-
-                Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * 0.666f) * i / 4f;
-                Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * -0.666f) * i / 4f;
-            }
         }
 
         // Cannot deal damage for the first several frames of existence.
