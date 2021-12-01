@@ -238,7 +238,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Magic) && GemThatShouldBeLost == GemTechArmorGemType.Magic)
                 {
                     PurpleGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)(GemTechHeadgear.GemDamage * Owner.MinionDamage());
+                    gemDamage = (int)(GemTechHeadgear.GemDamage * Owner.MagicDamage());
                     gemWasLost = true;
                 }
 
