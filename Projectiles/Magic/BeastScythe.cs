@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 52;
+            projectile.width = 50;
+            projectile.height = 54;
             projectile.alpha = 255;
             projectile.friendly = true;
             projectile.ignoreWater = true;
