@@ -131,6 +131,9 @@ namespace CalamityMod.CalPlayer
 			// in the global classes. Attempting to update them there will cause multiple updates to one set for multiple items.
 			CalamityGlobalItem.UpdateAllParticleSets();
 
+			// Update the gem tech armor set.
+			modPlayer.GemTechState.Update();
+
 			// Regularly sync player stats during multiplayer
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
@@ -3929,6 +3932,9 @@ namespace CalamityMod.CalPlayer
 					dust.noLight = true;
 				}
 			}
+
+			// Gem Tech stats based on gems.
+			modPlayer.GemTechState.ProvideGemBoosts();
 		}
 		#endregion
 
