@@ -43,8 +43,6 @@ namespace CalamityMod.NPCs.Polterghast
 		}
 
 		private int despawnTimer = 600;
-		private const int chargeTelegraphTimerMax = 15;
-		private int chargeTelegraphTimer = chargeTelegraphTimerMax;
 		private bool reachedChargingPoint = false;
 
         public override void SetStaticDefaults()
@@ -107,7 +105,6 @@ namespace CalamityMod.NPCs.Polterghast
 		public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
-			writer.Write(chargeTelegraphTimer);
 			writer.Write(reachedChargingPoint);
 			CalamityGlobalNPC cgn = npc.Calamity();
 			writer.Write(cgn.newAI[0]);
@@ -119,7 +116,6 @@ namespace CalamityMod.NPCs.Polterghast
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
-			chargeTelegraphTimer = reader.ReadInt32();
 			reachedChargingPoint = reader.ReadBoolean();
 			CalamityGlobalNPC cgn = npc.Calamity();
 			cgn.newAI[0] = reader.ReadSingle();
@@ -205,7 +201,6 @@ namespace CalamityMod.NPCs.Polterghast
 					speedBoost = true;
 					despawnBoost = true;
 					reachedChargingPoint = false;
-					chargeTelegraphTimer = chargeTelegraphTimerMax;
 					npc.ai[1] = 0f;
 					calamityGlobalNPC.newAI[0] = 0f;
 					calamityGlobalNPC.newAI[1] = 0f;
@@ -371,8 +366,7 @@ namespace CalamityMod.NPCs.Polterghast
 				baseProjectileVelocity *= 1.25f;
 
 			// Predictiveness
-			float chargePredictionAmt = 5f + 20f * (tileEnrageMult - 1f);
-			Vector2 predictionVector = chargePhase && revenge ? player.velocity * chargePredictionAmt : Vector2.Zero;
+			Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
 			Vector2 lookAt = player.Center + predictionVector;
 			Vector2 rotationVector = lookAt - vector;
 
@@ -519,7 +513,6 @@ namespace CalamityMod.NPCs.Polterghast
 						// Reset and either go back to normal or charge again
 						if (calamityGlobalNPC.newAI[2] >= totalChargeTime)
 						{
-							chargeTelegraphTimer = chargeTelegraphTimerMax;
 							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
@@ -583,33 +576,25 @@ namespace CalamityMod.NPCs.Polterghast
 
 						if (clonePositionCheck)
 						{
-							// Pause for 15 frames before actually charging
-							if (chargeTelegraphTimer > 0)
-							{
-								chargeTelegraphTimer--;
-							}
-							else
-							{
-								// Initiate charge
-								calamityGlobalNPC.newAI[1] = 0f;
-								calamityGlobalNPC.newAI[2] = 0f;
-								calamityGlobalNPC.newAI[3] = 1f;
+							// Initiate charge
+							calamityGlobalNPC.newAI[1] = 0f;
+							calamityGlobalNPC.newAI[2] = 0f;
+							calamityGlobalNPC.newAI[3] = 1f;
 
-								// Tell clone to charge
-								if (cloneAlive)
-								{
-									Main.npc[CalamityGlobalNPC.ghostBossClone].ai[0] = 0f;
-									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
-									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
-									Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
+							// Tell clone to charge
+							if (cloneAlive)
+							{
+								Main.npc[CalamityGlobalNPC.ghostBossClone].ai[0] = 0f;
+								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
+								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
+								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
 
-									//
-									// CODE TWEAKED BY: OZZATRON
-									// September 21st, 2020
-									// reason: fixing Polter charge MP desync bug
-									//
-									// removed Polter syncing the clone's newAI array. The clone now auto syncs its own newAI every frame.
-								}
+								//
+								// CODE TWEAKED BY: OZZATRON
+								// September 21st, 2020
+								// reason: fixing Polter charge MP desync bug
+								//
+								// removed Polter syncing the clone's newAI array. The clone now auto syncs its own newAI every frame.
 							}
 						}
 					}
