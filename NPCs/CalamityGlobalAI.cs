@@ -4785,8 +4785,8 @@ namespace CalamityMod.NPCs
                 {
                     Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                     int num16 = 1000;
-					int heightReduction = death ? 700 : (int)(700f * (1f - lifeRatio));
-                    int height = 2000 - heightReduction;
+					int heightReduction = death ? 400 : (int)(400f * (1f - lifeRatio));
+                    int height = 1800 - heightReduction;
                     bool flag3 = true;
 
                     if (npc.position.Y > player.position.Y)
@@ -4848,7 +4848,7 @@ namespace CalamityMod.NPCs
 
 			if (flyAtTarget)
 			{
-				float speedMultiplier = phase5 ? 2f : phase4 ? 1.7f : 1.5f;
+				float speedMultiplier = phase5 ? 1.8f : phase4 ? 1.65f : 1.5f;
 				speed *= speedMultiplier;
 			}
 
