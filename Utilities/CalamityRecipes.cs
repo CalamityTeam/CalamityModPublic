@@ -32,6 +32,7 @@ namespace CalamityMod
             EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             EditGoblinArmySummonRecipe();
+            EditEvilBossSummonRecipes();
             EditEarlyHardmodeRecipes();
             EditMechBossSummonRecipes();
             EditWingRecipes();
@@ -187,6 +188,16 @@ namespace CalamityMod
             rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
             {
                 s.requiredItem[0].stack = 5;
+            });
+        }
+
+        private static void EditEvilBossSummonRecipes() // Evil Mushroom spawns are inconsistent and it bothers me. - Merkalto
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.BloodySpine || x.createItem.type == ItemID.WormFood).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].stack = 10;
             });
         }
         private static void EditEarlyHardmodeRecipes()
