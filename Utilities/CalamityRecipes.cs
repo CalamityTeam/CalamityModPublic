@@ -69,7 +69,7 @@ namespace CalamityMod
             // Fallen Star
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Stardust>(), 5);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
@@ -947,7 +947,7 @@ namespace CalamityMod
             // Megaphone (silence)
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Wire, 10);
-            r.AddIngredient(ItemID.HallowedBar, 5);
+            r.AddRecipeGroup("AnyCobaltBar", 5);
             r.AddIngredient(ItemID.Ruby, 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Megaphone);
